@@ -3237,6 +3237,7 @@ export const defaultMessages = {
   'architecture.project_too_big.body': "This project is too big and can't be displayed.",
   'architecture.page.deviations': 'Deviations',
   'architecture.page.coverage': 'Coverage',
+  'architecture.page.model': 'Intended architecture',
   'architecture.page.model.coverage.badge': 'Coverage: {percentage}%',
   'architecture.page.model.coverage.tooltip':
     'Percentage of leaf artifacts (classes and files) covered by the intended architecture',
@@ -3274,7 +3275,6 @@ export const defaultMessages = {
   'architecture.page.model.visual.sidebar.description': 'Drag nodes to create groups in the model',
   'architecture.page.model.visual.button.add_component.label': 'Add component',
   'architecture.page.model.visual.button.add_component': 'Component',
-  'architecture.page.model': 'Intended architecture',
   'architecture.page.model.navigation_guard.title': 'You have unsaved changes',
   'architecture.page.model.navigation_guard.message':
     'If you leave now, your progress will be lost. Are you sure you want to discard your changes?',
@@ -3302,11 +3302,8 @@ export const defaultMessages = {
     'Generate a draft from the top-level components and relationships or start from scratch.',
   'architecture.page.model.seed.action': 'Generate draft',
   'architecture.page.model.seed.start_from_scratch': 'Start from scratch',
-  'architecture.page.model.no_data': 'No model data',
   'architecture.page.model.no_architecture_available':
     "This project doesn't have an intended architecture defined. Architecture administrators are able to create it.",
-  'architecture.page.model.invalid_json': 'Invalid JSON format',
-  'architecture.page.model.label': 'Model',
   'architecture.page.model.invalid_groups':
     'Invalid {groupsCount, plural, one {group} other {groups}}: {groups}',
   'architecture.page.model.visual.detail_view.simple': 'Simple',
@@ -3359,12 +3356,8 @@ export const defaultMessages = {
   'architecture.page.model.modal.covered_by': 'covered by {pattern}',
   'architecture.page.model.modal.assigned': 'Assigned',
   'architecture.page.model.modal.unassigned': 'Unassigned',
-  'architecture.page.model.subtitle': 'Define your architecture model as code',
-  'architecture.page.model.description': 'You can define your architecture model as code below.',
   'architecture.page.model.link_description': 'of the project.',
   'architecture.page.model.loading_description': 'Intended architecture loading...',
-  'architecture.page.model.docs':
-    'Review the <link1>expected format</link1> or take a look at the <link2>documentation</link2> to learn more.',
   'architecture.page.model.visual.search.placeholder': 'Search...',
   'architecture.page.model.visual.no_components_available': 'No components can be added',
   'architecture.page.model.relationships.incoming.label': 'Has incoming relationships',
