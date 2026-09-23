@@ -36,6 +36,7 @@ import {
 import { isIssueCountHistoryDashboardMetric } from '../../utils/issueCountHistoryMetric';
 import {
   buildRichMetricIssueStatusSelectOptions,
+  getSeverityFilterLegacyRangeNotice,
   impactSeverityFilterValueForSelection,
 } from '../components/applyFilterAccordionHelpers';
 import type {
@@ -124,6 +125,46 @@ function getIssueResolutionStatistic(
   metric: DashboardMetric | null,
 ): IssueResolutionStatistic | undefined {
   return metric?.type === DashboardMetricType.IssueResolution ? metric.statistic : undefined;
+}
+
+function getShowSeverityFilter(
+  groupByFilterConflict: ReturnType<typeof lineChartGroupByConflictsWithMeasureFilter> | null,
+  filterCapability: MeasureFilterCapability,
+  measureFilters: MeasureFilters | undefined,
+  isIssueResolutionMetricSelected: boolean,
+  isIssueDensityMetricSelected: boolean,
+  isScaResolutionMetricSelected: boolean,
+): boolean {
+  return (
+    groupByFilterConflict !== 'impactSeverities' &&
+    Boolean(
+      filterCapability.supportsSeverityFilter &&
+      (isIssueResolutionMetricSelected ||
+        isIssueDensityMetricSelected ||
+        isScaResolutionMetricSelected ||
+        measureFilters?.impactSoftwareQuality),
+    )
+  );
+}
+
+function getMeasureFiltersFromMetricConfig(
+  isLineChart: boolean,
+  isCountWidget: boolean,
+  metricConfig: LineChartConfig | CountConfig | RatingBadgeConfig,
+): MeasureFilters | undefined {
+  if (!isLineChart && !isCountWidget) {
+    return undefined;
+  }
+  const { metric } = metricConfig as LineChartConfig | CountConfig;
+  if (
+    metric?.type === DashboardMetricType.Rich ||
+    metric?.type === DashboardMetricType.IssueResolution ||
+    metric?.type === DashboardMetricType.IssueDensity ||
+    metric?.type === DashboardMetricType.ScaResolution
+  ) {
+    return metric.measureFilters;
+  }
+  return undefined;
 }
 
 function getScopeHelpText({
@@ -235,21 +276,10 @@ export function useMetricWidgetApplyFiltersViewModel({
 
   const { scope } = metricConfig;
 
-  const measureFilters = useMemo((): MeasureFilters | undefined => {
-    if (!isLineChart && !isCountWidget) {
-      return undefined;
-    }
-    const { metric } = metricConfig as LineChartConfig | CountConfig;
-    if (
-      metric?.type === DashboardMetricType.Rich ||
-      metric?.type === DashboardMetricType.IssueResolution ||
-      metric?.type === DashboardMetricType.IssueDensity ||
-      metric?.type === DashboardMetricType.ScaResolution
-    ) {
-      return metric.measureFilters;
-    }
-    return undefined;
-  }, [isCountWidget, isLineChart, metricConfig]);
+  const measureFilters = useMemo(
+    () => getMeasureFiltersFromMetricConfig(isLineChart, isCountWidget, metricConfig),
+    [isCountWidget, isLineChart, metricConfig],
+  );
 
   const updateMeasureFilters = useCallback(
     (newMeasureFilters: MeasureFilters) => {
@@ -311,6 +341,12 @@ export function useMetricWidgetApplyFiltersViewModel({
     measureFilters?.impactSeverities,
   );
 
+  const severityFilterLegacyRangeNotice = getSeverityFilterLegacyRangeNotice(
+    formatMessage,
+    measureFilters?.impactSeverities,
+    metricPickerOptions.isStandardMode === true,
+  );
+
   const setScope = useCallback(
     (nextScope: CodeScope) => {
       dispatch({ scope: nextScope, type: 'SET_SCOPE' });
@@ -369,16 +405,16 @@ export function useMetricWidgetApplyFiltersViewModel({
           setIssueStatusFilter,
           setSeverityFilter,
           setSoftwareQualityFilter,
+          severityFilterLegacyRangeNotice,
           severityFilterValue,
-          showSeverityFilter:
-            groupByFilterConflict !== 'impactSeverities' &&
-            Boolean(
-              filterCapability.supportsSeverityFilter &&
-              (isIssueResolutionMetricSelected ||
-                isIssueDensityMetricSelected ||
-                isScaResolutionMetricSelected ||
-                measureFilters?.impactSoftwareQuality),
-            ),
+          showSeverityFilter: getShowSeverityFilter(
+            groupByFilterConflict,
+            filterCapability,
+            measureFilters,
+            isIssueResolutionMetricSelected,
+            isIssueDensityMetricSelected,
+            isScaResolutionMetricSelected,
+          ),
           softwareQualityFilterDisabledHelp: undefined,
           softwareQualityValue: measureFilters?.impactSoftwareQuality ?? '',
           statusFilterHelpText: undefined,

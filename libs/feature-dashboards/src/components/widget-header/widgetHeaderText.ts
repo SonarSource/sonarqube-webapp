@@ -330,12 +330,21 @@ function getMeasureFilterTitleParts(
       SoftwareImpactSeverity.High,
       SoftwareImpactSeverity.Blocker,
     ];
-    const lowestSeverity = severityOrder.find((severity) => severities.includes(severity));
-    if (lowestSeverity) {
+    if (severities.length === 1) {
+      const [severity] = severities;
       parts.push({
-        messageId: getIssueFilterSeverityValueMessageId(lowestSeverity, isStandardMode),
-        suffix: lowestSeverity === SoftwareImpactSeverity.Blocker ? undefined : '+',
+        messageId: getIssueFilterSeverityValueMessageId(severity, isStandardMode),
       });
+    } else {
+      // Multiple stored severities only occur on widgets saved before severity became
+      // single-select; keep the legacy "lowest +" display since these still represent a range.
+      const lowestSeverity = severityOrder.find((severity) => severities.includes(severity));
+      if (lowestSeverity) {
+        parts.push({
+          messageId: getIssueFilterSeverityValueMessageId(lowestSeverity, isStandardMode),
+          suffix: lowestSeverity === SoftwareImpactSeverity.Blocker ? undefined : '+',
+        });
+      }
     }
   }
 

@@ -4181,6 +4181,8 @@ export const defaultMessages = {
   'dashboard.add_widget_modal.customize_visualization.checkbox.show_trend_indicator.overall_code_only':
     '(Overall code only)',
   'dashboard.add_widget_modal.apply_filters_section.select.severity.label': 'Severity',
+  'dashboard.add_widget_modal.apply_filters_section.select.severity.legacy_range_notice':
+    'The {severity} setting is no longer available. Select a new severity.',
   'dashboard.add_widget_modal.apply_filters_section.select.severity.placeholder':
     'Select severities',
   'dashboard.add_widget_modal.apply_filters_section.select.software_quality.label':

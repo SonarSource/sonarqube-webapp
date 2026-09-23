@@ -33,6 +33,7 @@ import {
   applySeverityMeasureFilters,
   applySoftwareQualityMeasureFiltersPreservingSeverity,
   buildRichMetricIssueStatusSelectOptions,
+  getSeverityFilterLegacyRangeNotice,
   impactSeverityFilterValueForSelection,
 } from '../components/applyFilterAccordionHelpers';
 import type { TopListConfig, WidgetConfigAction } from '../state/widgetConfigTypes';
@@ -141,6 +142,11 @@ export function useTopListApplyFiltersViewModel({
     setIssueStatusFilter,
     setSeverityFilter,
     setSoftwareQualityFilter,
+    severityFilterLegacyRangeNotice: getSeverityFilterLegacyRangeNotice(
+      formatMessage,
+      measureFilters?.impactSeverities,
+      metricPickerOptions.isStandardMode === true,
+    ),
     severityFilterValue: impactSeverityFilterValueForSelection(measureFilters?.impactSeverities),
     showSeverityFilter: filterCapability.supportsSeverityFilter,
     softwareQualityFilterDisabledHelp: undefined,

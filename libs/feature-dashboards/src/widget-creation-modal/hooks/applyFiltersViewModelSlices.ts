@@ -66,6 +66,7 @@ export interface RichMeasureFiltersSlice {
   setIssueStatusFilter: (status: IssueStatus | '') => void;
   setSeverityFilter: (option: string) => void;
   setSoftwareQualityFilter: (quality: SoftwareQuality | '') => void;
+  severityFilterLegacyRangeNotice: string | undefined;
   severityFilterValue: string;
   showSeverityFilter: boolean;
   softwareQualityFilterDisabledHelp: string | undefined;

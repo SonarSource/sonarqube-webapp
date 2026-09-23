@@ -282,7 +282,7 @@ describe('useMetricWidgetApplyFiltersViewModel', () => {
     });
     expect(dispatch).toHaveBeenCalledWith({
       measureFilters: {
-        impactSeverities: [SoftwareImpactSeverity.High, SoftwareImpactSeverity.Blocker],
+        impactSeverities: [SoftwareImpactSeverity.High],
       },
       type: 'SET_COUNT_MEASURE_FILTERS',
     });

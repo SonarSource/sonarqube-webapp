@@ -663,11 +663,11 @@ describe('ApplyFilterAccordion', () => {
         selected: true,
       }),
     ).toBeInTheDocument();
-    await user.click(await screen.findByRole('option', { name: 'severity.HIGH +' }));
+    await user.click(await screen.findByRole('option', { name: 'severity.HIGH' }));
 
     expect(dispatch).toHaveBeenCalledWith({
       measureFilters: {
-        impactSeverities: [SoftwareImpactSeverity.High, SoftwareImpactSeverity.Blocker],
+        impactSeverities: [SoftwareImpactSeverity.High],
       },
       type: 'SET_LINE_CHART_MEASURE_FILTERS',
     });
@@ -808,6 +808,85 @@ describe('ApplyFilterAccordion', () => {
       },
       type: 'SET_COUNT_MEASURE_FILTERS',
     });
+  });
+
+  it('explains a legacy severity range regardless of software quality', () => {
+    const state: WidgetConfigState = {
+      configs: {
+        count: {
+          complete: true,
+          metric: {
+            // Legacy range saved before severity became single-select. Not scoped to any
+            // particular software quality — the notice applies to any widget with a severity
+            // filter and more than one stored severity.
+            measureFilters: {
+              impactSeverities: [SoftwareImpactSeverity.High, SoftwareImpactSeverity.Blocker],
+              impactSoftwareQuality: SoftwareQuality.Reliability,
+            },
+            metricKey: RichMetricKey.Issues,
+            type: DashboardMetricType.Rich,
+          },
+          scope: CodeScope.Overall,
+          showTrendIndicator: false,
+        },
+      },
+      selectedType: VisualizationType.Count,
+    };
+    renderWithRouter(
+      <ApplyFilterAccordion
+        Accordion={Accordion}
+        applyFiltersAccordionOpen
+        dispatch={jest.fn()}
+        isPortfolioWidgetConfigurator={false}
+        metricPickerOptions={metricPickerOptions}
+        setApplyFiltersAccordionOpen={jest.fn()}
+        state={state}
+      />,
+    );
+
+    expect(
+      screen.getByText(
+        'dashboard.add_widget_modal.apply_filters_section.select.severity.legacy_range_notice.severity.HIGH+',
+      ),
+    ).toBeInTheDocument();
+  });
+
+  it('does not explain a severity that is already single-select', () => {
+    const state: WidgetConfigState = {
+      configs: {
+        count: {
+          complete: true,
+          metric: {
+            measureFilters: {
+              impactSeverities: [SoftwareImpactSeverity.High],
+              impactSoftwareQuality: SoftwareQuality.Reliability,
+            },
+            metricKey: RichMetricKey.Issues,
+            type: DashboardMetricType.Rich,
+          },
+          scope: CodeScope.Overall,
+          showTrendIndicator: false,
+        },
+      },
+      selectedType: VisualizationType.Count,
+    };
+    renderWithRouter(
+      <ApplyFilterAccordion
+        Accordion={Accordion}
+        applyFiltersAccordionOpen
+        dispatch={jest.fn()}
+        isPortfolioWidgetConfigurator={false}
+        metricPickerOptions={metricPickerOptions}
+        setApplyFiltersAccordionOpen={jest.fn()}
+        state={state}
+      />,
+    );
+
+    expect(
+      screen.queryByText(
+        'dashboard.add_widget_modal.apply_filters_section.select.severity.legacy_range_notice.severity.HIGH+',
+      ),
+    ).not.toBeInTheDocument();
   });
 
   it('shows quality gate scope help instead of scope select for alert_status badge', () => {
@@ -1003,6 +1082,42 @@ describe('ApplyFilterAccordion', () => {
     });
   });
 
+  it('explains a legacy severity range for Top list too', () => {
+    const state: WidgetConfigState = {
+      configs: {
+        topList: {
+          complete: true,
+          limit: TopListLimit.Five,
+          measureFilters: {
+            impactSeverities: [SoftwareImpactSeverity.Low, SoftwareImpactSeverity.Medium],
+            impactSoftwareQuality: SoftwareQuality.Security,
+          },
+          metric: TopListMetric.IssueCount,
+          rankBy: TopListRankBy.Rule,
+          scope: CodeScope.Overall,
+        },
+      },
+      selectedType: VisualizationType.TopList,
+    };
+    renderWithRouter(
+      <ApplyFilterAccordion
+        Accordion={Accordion}
+        applyFiltersAccordionOpen
+        dispatch={jest.fn()}
+        isPortfolioWidgetConfigurator={false}
+        metricPickerOptions={metricPickerOptions}
+        setApplyFiltersAccordionOpen={jest.fn()}
+        state={state}
+      />,
+    );
+
+    expect(
+      screen.getByText(
+        'dashboard.add_widget_modal.apply_filters_section.select.severity.legacy_range_notice.severity.LOW+',
+      ),
+    ).toBeInTheDocument();
+  });
+
   it('shows apply filters warning when top list config is incomplete', () => {
     const state: WidgetConfigState = {
       configs: {
@@ -1066,12 +1181,12 @@ describe('ApplyFilterAccordion', () => {
         name: 'dashboard.add_widget_modal.apply_filters_section.select.severity.label',
       }),
     );
-    await user.click(await screen.findByRole('option', { name: 'severity.HIGH +' }));
+    await user.click(await screen.findByRole('option', { name: 'severity.HIGH' }));
 
     expect(dispatch).toHaveBeenCalledWith({
       measureFilters: {
         impactSoftwareQuality: SoftwareQuality.Reliability,
-        impactSeverities: [SoftwareImpactSeverity.High, SoftwareImpactSeverity.Blocker],
+        impactSeverities: [SoftwareImpactSeverity.High],
       },
       type: 'SET_TOP_LIST_MEASURE_FILTERS',
     });

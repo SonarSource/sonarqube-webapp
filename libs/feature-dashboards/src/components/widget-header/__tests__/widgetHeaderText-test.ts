@@ -62,8 +62,30 @@ describe('getDashboardMetricTitle', () => {
       },
     });
 
-    expect(title).toBe(`High+ ${MetricKey.issues} over time`);
+    expect(title).toBe(`High ${MetricKey.issues} over time`);
     expect(getLocalizedMetricName).toHaveBeenCalled();
+  });
+
+  it('formats a legacy multi-severity selection as a "lowest +" range, not an enumeration', () => {
+    const title = getDashboardMetricTitle({
+      formatMessage,
+      getLocalizedMetricName,
+      hasHistoryRange: false,
+      metric: {
+        type: DashboardMetricType.Rich,
+        metricKey: RichMetricKey.Issues,
+        measureFilters: {
+          impactSeverities: [
+            SoftwareImpactSeverity.Low,
+            SoftwareImpactSeverity.Medium,
+            SoftwareImpactSeverity.High,
+            SoftwareImpactSeverity.Blocker,
+          ],
+        },
+      },
+    });
+
+    expect(title).toBe(`severity.LOW+ ${MetricKey.issues}`);
   });
 
   it('formats issue resolution and issue density titles', () => {
@@ -220,7 +242,7 @@ describe('getMetricWidgetHeaderText', () => {
         'dashboard.add_widget_modal.apply_filters_section.select.software_quality.label: software_quality.SECURITY',
         'dashboard.add_widget_modal.apply_filters_section.select.severity.label: High',
       ],
-      title: `issue.status.OPEN High+ software_quality.SECURITY ${MetricKey.issues}`,
+      title: `issue.status.OPEN High software_quality.SECURITY ${MetricKey.issues}`,
     });
   });
 
@@ -247,7 +269,7 @@ describe('getMetricWidgetHeaderText', () => {
         'issues.facet.types: issue.type.VULNERABILITY.plural',
         'dashboard.add_widget_modal.apply_filters_section.select.severity.label: severity.CRITICAL',
       ],
-      title: 'severity.CRITICAL+ issue.type.VULNERABILITY.plural ' + MetricKey.issues,
+      title: 'severity.CRITICAL issue.type.VULNERABILITY.plural ' + MetricKey.issues,
     });
   });
 

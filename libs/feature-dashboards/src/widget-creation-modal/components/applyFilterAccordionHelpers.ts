@@ -34,13 +34,28 @@ import {
   getIssueFilterTypeValueMessageId,
 } from '../utils/issueFilterPresentation';
 
-const IMPACT_SEVERITY_CUMULATIVE_ORDER: readonly SoftwareImpactSeverity[] = [
+// Lowest → highest. Used to pick the value a stored severity selection maps back to in the
+// (single-select) dropdown, keeping legacy widgets that stored a cumulative range readable.
+const IMPACT_SEVERITY_ASCENDING_ORDER: readonly SoftwareImpactSeverity[] = [
   SoftwareImpactSeverity.Info,
   SoftwareImpactSeverity.Low,
   SoftwareImpactSeverity.Medium,
   SoftwareImpactSeverity.High,
   SoftwareImpactSeverity.Blocker,
 ];
+const VALID_IMPACT_SEVERITIES: ReadonlySet<SoftwareImpactSeverity> = new Set(
+  IMPACT_SEVERITY_ASCENDING_ORDER,
+);
+
+/** Lowest severity present in a stored selection, e.g. for describing a legacy cumulative range. */
+export function lowestImpactSeverity(
+  selected: SoftwareImpactSeverity[] | undefined,
+): SoftwareImpactSeverity | undefined {
+  if (!selected || selected.length === 0) {
+    return undefined;
+  }
+  return IMPACT_SEVERITY_ASCENDING_ORDER.find((severity) => selected.includes(severity));
+}
 
 export function severitiesForImpactFilterOption(
   severity: string,
@@ -48,11 +63,10 @@ export function severitiesForImpactFilterOption(
   if (severity === 'all') {
     return undefined;
   }
-  const startIndex = IMPACT_SEVERITY_CUMULATIVE_ORDER.indexOf(severity as SoftwareImpactSeverity);
-  if (startIndex < 0) {
+  if (!VALID_IMPACT_SEVERITIES.has(severity as SoftwareImpactSeverity)) {
     return undefined;
   }
-  return IMPACT_SEVERITY_CUMULATIVE_ORDER.slice(startIndex);
+  return [severity as SoftwareImpactSeverity];
 }
 
 export function impactSeverityFilterValueForSelection(
@@ -61,31 +75,39 @@ export function impactSeverityFilterValueForSelection(
   if (selected == null || selected.length === 0) {
     return 'all';
   }
-  const orderedIndices = selected
-    .map((severity) => IMPACT_SEVERITY_CUMULATIVE_ORDER.indexOf(severity))
-    .filter((index) => index >= 0)
-    .sort((a, b) => a - b);
-  if (orderedIndices.length !== selected.length) {
-    return 'all';
+  // Single-select semantics: a fresh selection stores exactly one severity. Legacy widgets may
+  // still hold a cumulative range (e.g. [High, Blocker]); surface those as their lowest severity
+  // so the dropdown stays meaningful. Only changing the severity dropdown narrows the stored value
+  // to a single severity; other edits leave the legacy range untouched.
+  return lowestImpactSeverity(selected) ?? 'all';
+}
+
+/**
+ * Explains why the severity select shows a single severity for a widget that was saved before
+ * severity became single-select — e.g. "The High+ setting is no longer available. Select a new
+ * severity." Returns undefined once the stored selection is down to a single severity.
+ */
+export function getSeverityFilterLegacyRangeNotice(
+  formatMessage: (descriptor: { id: string }, values?: Record<string, string>) => string,
+  impactSeverities: SoftwareImpactSeverity[] | undefined,
+  isStandardMode: boolean,
+): string | undefined {
+  if ((impactSeverities?.length ?? 0) <= 1) {
+    return undefined;
   }
-  const firstIndex = orderedIndices[0];
-  if (firstIndex === undefined) {
-    return 'all';
+  const lowestSeverity = lowestImpactSeverity(impactSeverities);
+  if (!lowestSeverity) {
+    return undefined;
   }
-  const startIndex = firstIndex;
-  const expectedSuffix = IMPACT_SEVERITY_CUMULATIVE_ORDER.slice(startIndex);
-  if (expectedSuffix.length !== selected.length) {
-    return 'all';
-  }
-  const selectedSet = new Set(selected);
-  if (!expectedSuffix.every((severity) => selectedSet.has(severity))) {
-    return 'all';
-  }
-  const severityAtStart = IMPACT_SEVERITY_CUMULATIVE_ORDER[startIndex];
-  if (severityAtStart === undefined) {
-    return 'all';
-  }
-  return severityAtStart;
+  const severityLabel = formatMessage({
+    id: getIssueFilterSeverityValueMessageId(lowestSeverity, isStandardMode),
+  });
+  const legacyThreshold =
+    lowestSeverity === SoftwareImpactSeverity.Blocker ? severityLabel : `${severityLabel}+`;
+  return formatMessage(
+    { id: 'dashboard.add_widget_modal.apply_filters_section.select.severity.legacy_range_notice' },
+    { severity: legacyThreshold },
+  );
 }
 
 export function applyIssueStatusMeasureFilters(
@@ -330,27 +352,27 @@ export function buildImpactSeveritySelectOptions(
       value: SoftwareImpactSeverity.Blocker,
     },
     {
-      label: `${formatMessage({
+      label: formatMessage({
         id: getIssueFilterSeverityValueMessageId(SoftwareImpactSeverity.High, isStandardMode),
-      })} +`,
+      }),
       value: SoftwareImpactSeverity.High,
     },
     {
-      label: `${formatMessage({
+      label: formatMessage({
         id: getIssueFilterSeverityValueMessageId(SoftwareImpactSeverity.Medium, isStandardMode),
-      })} +`,
+      }),
       value: SoftwareImpactSeverity.Medium,
     },
     {
-      label: `${formatMessage({
+      label: formatMessage({
         id: getIssueFilterSeverityValueMessageId(SoftwareImpactSeverity.Low, isStandardMode),
-      })} +`,
+      }),
       value: SoftwareImpactSeverity.Low,
     },
     {
-      label: `${formatMessage({
+      label: formatMessage({
         id: getIssueFilterSeverityValueMessageId(SoftwareImpactSeverity.Info, isStandardMode),
-      })} +`,
+      }),
       value: SoftwareImpactSeverity.Info,
     },
   ];

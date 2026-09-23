@@ -52,7 +52,7 @@ describe('getTopListWidgetTitle', () => {
     });
 
     expect(title).toBe(
-      'dashboard.top_list.widget_title.5.severity.HIGH+ dashboard.top_list.title.metric.issue_count.dashboard.top_list.title.rank_by.rule',
+      'dashboard.top_list.widget_title.5.severity.HIGH dashboard.top_list.title.metric.issue_count.dashboard.top_list.title.rank_by.rule',
     );
   });
 

@@ -55,11 +55,9 @@ describe('applyFilterAccordionHelpers', () => {
       expect(severitiesForImpactFilterOption('nope')).toBeUndefined();
     });
 
-    it('returns cumulative severities from the selected level upward', () => {
+    it('returns only the selected severity (single-select)', () => {
       expect(severitiesForImpactFilterOption(SoftwareImpactSeverity.Medium)).toEqual([
         SoftwareImpactSeverity.Medium,
-        SoftwareImpactSeverity.High,
-        SoftwareImpactSeverity.Blocker,
       ]);
     });
   });
@@ -123,11 +121,7 @@ describe('applyFilterAccordionHelpers', () => {
         ),
       ).toEqual({
         impactSoftwareQuality: SoftwareQuality.Security,
-        impactSeverities: [
-          SoftwareImpactSeverity.Medium,
-          SoftwareImpactSeverity.High,
-          SoftwareImpactSeverity.Blocker,
-        ],
+        impactSeverities: [SoftwareImpactSeverity.Medium],
         issueStatus: IssueStatus.Open,
       });
     });
@@ -190,16 +184,13 @@ describe('applyFilterAccordionHelpers', () => {
       expect(impactSeverityFilterValueForSelection([])).toBe('all');
     });
 
-    it('returns all when selection is not a strict cumulative suffix', () => {
-      expect(
-        impactSeverityFilterValueForSelection([
-          SoftwareImpactSeverity.Blocker,
-          SoftwareImpactSeverity.Low,
-        ]),
-      ).toBe('all');
+    it('returns the single selected severity', () => {
+      expect(impactSeverityFilterValueForSelection([SoftwareImpactSeverity.High])).toBe(
+        SoftwareImpactSeverity.High,
+      );
     });
 
-    it('returns the minimum severity when selection matches cumulative order', () => {
+    it('maps a legacy cumulative selection to its lowest severity', () => {
       expect(
         impactSeverityFilterValueForSelection([
           SoftwareImpactSeverity.Medium,
@@ -209,7 +200,16 @@ describe('applyFilterAccordionHelpers', () => {
       ).toBe(SoftwareImpactSeverity.Medium);
     });
 
-    it('returns all when an entry is not in the known order', () => {
+    it('maps any legacy multi-value selection to its lowest severity', () => {
+      expect(
+        impactSeverityFilterValueForSelection([
+          SoftwareImpactSeverity.Blocker,
+          SoftwareImpactSeverity.Low,
+        ]),
+      ).toBe(SoftwareImpactSeverity.Low);
+    });
+
+    it('returns all when no entry is in the known order', () => {
       expect(impactSeverityFilterValueForSelection(['x' as SoftwareImpactSeverity])).toBe('all');
     });
   });
@@ -324,10 +324,10 @@ describe('applyFilterAccordionHelpers', () => {
       expect(options.map((option) => option.label)).toEqual([
         'dashboard.add_widget_modal.apply_filters_section.software_quality.all',
         'severity.BLOCKER',
-        'severity.CRITICAL +',
-        'severity.MAJOR +',
-        'severity.MINOR +',
-        'severity.INFO +',
+        'severity.CRITICAL',
+        'severity.MAJOR',
+        'severity.MINOR',
+        'severity.INFO',
       ]);
     });
   });

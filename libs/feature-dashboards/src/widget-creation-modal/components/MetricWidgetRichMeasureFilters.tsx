@@ -47,6 +47,7 @@ export function MetricWidgetRichMeasureFilters({
     setIssueStatusFilter,
     setSeverityFilter,
     setSoftwareQualityFilter,
+    severityFilterLegacyRangeNotice,
     severityFilterValue,
     showSeverityFilter,
     softwareQualityFilterDisabledHelp,
@@ -87,6 +88,7 @@ export function MetricWidgetRichMeasureFilters({
       {showSeverityFilter && (
         <Select
           data={buildImpactSeveritySelectOptions(formatMessage, isStandardMode)}
+          helpText={severityFilterLegacyRangeNotice}
           label={formatMessage({
             id: 'dashboard.add_widget_modal.apply_filters_section.select.severity.label',
           })}
