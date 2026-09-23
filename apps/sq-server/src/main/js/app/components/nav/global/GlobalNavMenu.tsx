@@ -20,6 +20,7 @@
 
 import { Layout } from '@sonarsource/echoes-react';
 import { FormattedMessage } from 'react-intl';
+import { useMatch } from 'react-router-dom';
 import { ComponentQualifier } from '~shared/types/component';
 import { addons } from '~sq-server-addons/index';
 import { DEFAULT_ISSUES_QUERY } from '~sq-server-commons/components/shared/utils';
@@ -49,6 +50,7 @@ export function GlobalNavMenu({ currentUser }: Readonly<Props>) {
   /** License Profiles are only available to SCA enabled instances */
   const scaEnabled = useAvailableFeatures().hasFeature(Feature.Sca);
   const licenseProfileRoute = `/${addons.sca?.LICENSE_ROUTE_NAME}`;
+  const isAdminActive = Boolean(useMatch('/admin/*'));
 
   return (
     <Layout.GlobalNavigation.ItemsContainer id="it__global-navbar-menu">
@@ -84,6 +86,7 @@ export function GlobalNavMenu({ currentUser }: Readonly<Props>) {
         <Layout.GlobalNavigation.Item
           data-guiding-id="mode-tour-1"
           data-spotlight-id="design-and-architecture-tour"
+          isActive={isAdminActive}
           to="/admin/settings"
         >
           <FormattedMessage id="layout.settings" />

@@ -61,6 +61,36 @@ it('should show administration menu if the user has the rights', () => {
   expect(screen.getByText('layout.settings')).toBeInTheDocument();
 });
 
+it.each(['/admin', '/admin/settings', '/admin/users'])(
+  'should keep administration menu active on %s',
+  (navigateTo) => {
+    const appState = mockAppState({
+      canAdmin: true,
+      globalPages: [],
+      qualifiers: ['TRK'],
+    });
+
+    renderGlobalNavMenu({ appState, navigateTo });
+
+    expect(screen.getByRole('link', { name: 'layout.settings' })).toHaveAttribute(
+      'aria-current',
+      'page',
+    );
+  },
+);
+
+it('should not keep administration menu active outside admin routes', () => {
+  const appState = mockAppState({
+    canAdmin: true,
+    globalPages: [],
+    qualifiers: ['TRK'],
+  });
+
+  renderGlobalNavMenu({ appState, navigateTo: '/projects' });
+
+  expect(screen.getByRole('link', { name: 'layout.settings' })).not.toHaveAttribute('aria-current');
+});
+
 it('should show the Security Alerts menu when SCA is enabled', async () => {
   const user = userEvent.setup();
   const appState = mockAppState({ globalPages: [] });
@@ -91,14 +121,17 @@ function renderGlobalNavMenu({
   appState = mockAppState(),
   currentUser = mockCurrentUser(),
   featureList = [],
+  navigateTo = '/',
 }: {
   appState?: ReturnType<typeof mockAppState>;
   currentUser?: ReturnType<typeof mockCurrentUser>;
   featureList?: Feature[];
+  navigateTo?: string;
 }) {
-  renderApp('/', <GlobalNavMenu currentUser={currentUser} />, {
+  renderApp('*', <GlobalNavMenu currentUser={currentUser} />, {
     appState,
     currentUser,
     featureList,
+    navigateTo,
   });
 }
