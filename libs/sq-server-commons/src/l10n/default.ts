@@ -11134,6 +11134,10 @@ export const defaultMessages = {
   'license.callout.expired.title': 'Your license has expired',
   'license.callout.loc.suggestion':
     'In order to continue using the product, decrease the number of lines of code, or contact sales to add more',
+  'license.callout.loc.suggestion.increase_overage':
+    'To continue analyzing more lines of code, increase your overage limit or contact sales to upgrade your license.',
+  'license.callout.loc.suggestion.overage':
+    'To continue analyzing more lines of code, enable overage or contact sales to upgrade your license.',
   'license.callout.loc.title': "You've exceeded the limit on lines of code",
   'license.callout.non-official.link-text': 'an official SonarQube Server distribution',
   'license.callout.non-official.suggestion':
@@ -11169,14 +11173,16 @@ export const defaultMessages = {
   'license.loc_usage.purchased.title': 'Lines of code usage',
   'license.loc_usage.purchased.description': 'Included in your license',
   'license.loc_usage.purchased.analyzed_out_of': '{analyzed} lines analyzed out of {purchased}',
-  'license.loc_usage.overage.title': 'Overage',
-  'license.loc_usage.overage.tooltip.title': 'LOC overage',
+  'license.loc_usage.overage.title': 'Billed overage this month: {peak}',
+  'license.loc_usage.overage.tooltip.title': 'Billed overage',
   'license.loc_usage.overage.tooltip.description':
-    'Overage is calculated from your highest LOC peak this month. Upgrade your plan to unlock a higher LOC limit at a lower rate.',
+    'Overage is calculated from your highest LOC peak this month. Lines of code usage shows the additional lines of code needed for your new plan, which may differ from this overage amount.',
   'license.loc_usage.overage.tooltip.usage_title': 'Usage',
   'license.loc_usage.overage.tooltip.usage_limit': '{used} / {limit} overage limit',
-  'license.loc_usage.overage.tooltip.cost_title': 'Cost',
-  'license.loc_usage.overage.tooltip.cost': '{cost} plus taxes per month<br></br>(limit {limit})',
+  'license.loc_usage.overage.tooltip.cost_title': 'Cost this month',
+  'license.loc_usage.overage.tooltip.cost': '{cost} plus taxes',
+  'license.loc_usage.overage.tooltip.minimum_charge_note':
+    'A monthly minimum charge of {amount} plus applicable taxes applies (equivalent to {blockSize}). Your billed overage usage resets each month. Additional usage is billed in increments of {blockSize}.',
   'license.loc_usage.overage.tooltip.tax_note':
     'Taxes will be calculated based on tax rules in effect on the date the invoice is issued.',
   'license.loc_usage.overage.billable_marker.tooltip':
@@ -11405,13 +11411,13 @@ export const defaultMessages = {
   'license.products.usage_tip.base.warning.prompt.sales':
     'To avoid interruptions, talk to sales to activate overage to your organization.',
   'license.products.usage_tip.base.warning.prompt.self_serve':
-    'To avoid interruptions, activate overage to be billed monthly based on your usage.',
+    'To continue using the product, you can enable overage billed monthly or <salesLink>contact Sales</salesLink> to increase your annual commitment.',
   'license.products.usage_tip.base.warning.prompt.support':
     'Overage settings are incomplete. Contact SonarSource support to resolve this.',
   'license.products.usage_tip.base.reached.prompt.sales':
     'To keep using the product, talk to sales to activate overage to your organization.',
   'license.products.usage_tip.base.reached.prompt.self_serve':
-    'To keep using the product, activate overage to be billed monthly based on your usage.',
+    'To continue using the product, you can enable overage billed monthly or <salesLink>contact Sales</salesLink> to increase your annual commitment.',
   'license.products.usage_tip.base.reached.prompt.support':
     'Overage settings are incomplete. Contact SonarSource support to resolve this.',
   'license.products.usage_tip.base.reached_active.resets_on':
@@ -11449,13 +11455,21 @@ export const defaultMessages = {
   'license.products.usage_tip.overage.spent.usage_title': 'Usage',
   'license.products.usage_tip.overage.spent.usage_value':
     '{used} out of {limit} overage limit used',
+  'license.products.usage_tip.overage.spent.usage_value.hunterAgent':
+    '{used, number} of {limit, plural, one {# overage scan} other {# overage scans}} used',
+  'license.products.usage_tip.overage.spent.usage_value.remediationAgent':
+    '{used, number} of {limit, plural, one {# overage suggestion} other {# overage suggestions}} used',
+  'license.products.usage_tip.overage.spent.usage_value.vortex':
+    '{used, number} of {limit, plural, one {# overage tool} other {# overage tools}} used',
   'license.products.usage_tip.overage.spent.title': 'Spent',
+  'license.products.usage_tip.overage.spent.title.monthly': 'Cost this month',
   'license.products.usage_tip.overage.spent.value': '{amount} plus taxes',
-  'license.products.usage_tip.overage.spent.minimum_charge_note':
-    'The minimum charge equals the price of {count} {unit}, so you will pay for {count} {unit} even if you use fewer.',
+  'license.products.usage_tip.overage.spent.minimum_charge_note.monthly':
+    'A monthly minimum charge of {amount} plus applicable taxes applies (equivalent to {blockSize}). Your usage resets each month. Additional usage is billed in increments of {blockSize}.',
+  'license.products.usage_tip.overage.spent.minimum_charge_note.term':
+    'A monthly minimum charge of {amount} plus applicable taxes applies (equivalent to {blockSize}). Your usage resets only when the license term ends. Additional usage is billed in increments of {blockSize}.',
   'license.products.usage_tip.overage.spent.tax_note':
     'Taxes will be calculated based on tax rules in effect on the date the invoice is issued.',
-  'license.products.usage_tip.overage.spent.generic_unit': 'units',
   'license.products.valid_until': 'Valid until',
   'license.products.view_demo': 'View demo',
   'license.refresh_license': 'Refresh license',
