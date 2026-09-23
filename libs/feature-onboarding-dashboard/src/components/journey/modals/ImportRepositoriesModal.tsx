@@ -32,6 +32,7 @@ import { useIntl } from 'react-intl';
 import { OnboardingRepository } from '~shared/types/onboarding';
 import { RepositoriesTable, RepositoriesTableColumn } from '../../projects/RepositoriesTable';
 import { RepositoryCell } from '../../projects/RepositoryCell';
+import { usePlatformSelection } from '../../projects/usePlatformSelection';
 
 const PAGE_SIZE = 25;
 
@@ -49,8 +50,15 @@ const COLUMNS: RepositoriesTableColumn[] = [
 
 export function ImportRepositoriesModal({ children }: Readonly<PropsWithChildren>) {
   const { formatMessage } = useIntl();
+  const { hasListablePlatforms } = usePlatformSelection();
 
   const title = formatMessage({ id: 'onboarding_dashboard.journey.import.modal.title' });
+
+  // Nothing could be listed (e.g. GitHub-only SQ-Server): hide the trigger rather than open an
+  // empty modal. See SQRP-806.
+  if (!hasListablePlatforms) {
+    return null;
+  }
 
   return (
     <Modal

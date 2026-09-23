@@ -431,6 +431,14 @@ describe('SQ-Server platform selector', () => {
     expect(ui.platformOption(GITHUB_SETTING.key).query()).not.toBeInTheDocument();
   });
 
+  it('hides the trigger when only github is configured, as its repositories cannot be listed', () => {
+    mockServerSetup([GITHUB_SETTING]);
+
+    renderModal();
+
+    expect(ui.openButton.query()).not.toBeInTheDocument();
+  });
+
   it('shows the platform logo as a prefix on each option', async () => {
     mockServerSetup([GITLAB_SETTING, AZURE_SETTING]);
 

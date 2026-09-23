@@ -73,11 +73,16 @@ beforeAll(() => {
   // HTTP (SQ-Cloud resolves it client-side, so there the handler is simply never hit), and the
   // service mock for that endpoint lives in `libs/sq-server-commons`, out of reach from a shared
   // test — so the endpoint is stubbed here rather than the query hook, which stays real.
-  // Answering with no platform keeps the modal on its single-platform path and stops it asking for
-  // repositories, which would be a second product-specific request.
+  // A single listable (non-GitHub) platform is needed: with none, the view-all trigger is hidden.
+  // One platform keeps the modal on its single-platform path.
   server.use(
     http.get('*/api/v2/dop-translation/dop-settings', () =>
-      HttpResponse.json({ dopSettings: [], page: { pageIndex: 1, pageSize: 100, total: 0 } }),
+      HttpResponse.json({
+        dopSettings: [
+          { id: 'gl-1', key: 'GitLab Main', type: 'gitlab', url: 'https://gitlab.com' },
+        ],
+        page: { pageIndex: 1, pageSize: 100, total: 1 },
+      }),
     ),
   );
 });
@@ -86,7 +91,8 @@ it('opens the "import repositories" modal when clicking the view-all button', as
   const { user } = renderOnboardingDashboard();
 
   await user.click(await ui.stepperRepositories.find());
-  await user.click(ui.viewAllRepositoriesButton.get());
+  // The trigger only shows once the DevOps platforms are known to include a listable one.
+  await user.click(await ui.viewAllRepositoriesButton.find());
 
   expect(await ui.importModal.find()).toBeInTheDocument();
 });

@@ -79,10 +79,11 @@ jest.mock('~adapters/helpers/users', () => ({
 }));
 
 // The "View details" modal reads product-specific configurations and bound-project counts; this
-// panel test only asserts that the link opens it.
+// panel test only asserts that the link opens it. DOP settings answer `null`, as on SQ-Cloud: an
+// empty list means "no listable platform" and would hide the import-repositories modal triggers.
 jest.mock('~adapters/queries/onboarding', () => ({
   useOnboardingBoundProjectCountsQuery: jest.fn().mockReturnValue({ data: {}, isPending: false }),
-  useOnboardingDopSettingsQuery: jest.fn().mockReturnValue({ data: [], isPending: false }),
+  useOnboardingDopSettingsQuery: jest.fn().mockReturnValue({ data: null, isPending: false }),
 }));
 
 // Where a configuration's actions lead is product-specific, so the row menu is pinned to stubs here.

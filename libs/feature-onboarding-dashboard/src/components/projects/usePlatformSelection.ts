@@ -24,6 +24,13 @@ import { OnboardingDevopsPlatform, OnboardingDopSetting } from '~shared/types/on
 
 export interface PlatformSelectionResult {
   effectiveEntry: OnboardingDopSetting | undefined;
+  /**
+   * False once DOP settings have loaded (SQ-Server) and none of them can be listed — e.g. only
+   * GitHub is configured, which needs an organization selector the repositories list lacks.
+   * Also false while SQ-Server settings are pending or failed to load (`undefined`), so nothing
+   * is offered until listability is known. True on SQ-Cloud, where DOP settings resolve to `null`.
+   */
+  hasListablePlatforms: boolean;
   isLoading: boolean;
   platformEntries: OnboardingDopSetting[];
   selectedDopSettingId: string | undefined;
@@ -47,6 +54,7 @@ export function usePlatformSelection(): PlatformSelectionResult {
 
   return {
     effectiveEntry,
+    hasListablePlatforms: dopSettings === null || platformEntries.length > 0,
     isLoading,
     platformEntries,
     selectedDopSettingId,
