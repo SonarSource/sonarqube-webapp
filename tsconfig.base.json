@@ -37,6 +37,13 @@
       "~feature-sca/*": ["./private/libs/feature-sca/src/*"],
       "~feature-security-alerts/*": ["./private/libs/feature-security-alerts/src/*"],
       "~private-shared/*": ["./private/libs/shared/src/*"],
+      "~sq-cloud-openapi/types": ["./private/libs/sq-cloud-openapi/src/generated/types.gen.ts"],
+      "~sq-cloud-openapi/enterprises/api": [
+        "./private/libs/sq-cloud-openapi/src/generated/enterprises/api.gen.ts"
+      ],
+      "~sq-cloud-openapi/organizations/api": [
+        "./private/libs/sq-cloud-openapi/src/generated/organizations/api.gen.ts"
+      ],
       "~shared/*": ["./libs/shared/src/*"],
       "~sq-server-addons/*": ["./libs/sq-server-addons/src/*"],
       "~sq-server-commons/*": ["./libs/sq-server-commons/src/*"],

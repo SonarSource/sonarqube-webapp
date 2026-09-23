@@ -68,6 +68,12 @@ Used by `.github/scripts/report-bundle-metrics/send-bundle-metrics.js` to send m
 
 Required explicit dependency in ESLint v10 — provides `eslint:recommended` and other built-in rule configs. Was previously bundled inside the `eslint` package in v9 but is now a standalone package that must be declared explicitly.
 
+### @hey-api/openapi-ts
+
+Generates the checked-in SonarQube Cloud TypeScript types and Axios SDK from the merged OpenAPI contract.
+
+The `@hey-api/json-schema-ref-parser/js-yaml` resolution keeps its exact transitive dependency on the nearest complete vulnerability fix.
+
 ### eslint-plugin-jest-dom (patched)
 
 `eslint-plugin-jest-dom@5.5.0` uses the deprecated `context.getSourceCode()` API that was removed in ESLint v10, causing a hard crash at lint time. We apply a yarn patch (`config/patches/eslint-plugin-jest-dom-npm-5.5.0-2554d97d16.patch`) that replaces all `context.getSourceCode()` / `(0, _context.getSourceCode)(context)` calls with the ESLint 10-compatible `context.sourceCode` across every rule file. No upstream fix has been released yet.
@@ -143,6 +149,10 @@ Used in jest config files to improve the jest watch mode.
 Finds unused files, dependencies, and exports across the monorepo. Configured in `knip.json` with plugins for Nx, Vite, Jest, ESLint, Playwright, Tailwind, Babel, and MSW. Run via `yarn knip` for the full graph or `yarn knip:production` for production-only analysis. Production patterns end in `!`; test and mock-only files are explicitly excluded there, while Knip ignores `@internal` exports in production and preserves `@public` exports as API surface. Production runs also ignore exports used within their declaring file, since their implementation is live production code even when the export exists only for tests. Knip treats re-exports as internally referenced under this option as well, so unused re-exports in intermediate barrel files are a known production-report blind spot; the full-graph run continues to report unnecessary exports that have no external consumers. Install the recommended [Knip VS Code extension](https://marketplace.visualstudio.com/items?itemName=webpro.vscode-knip) (`webpro.vscode-knip`) for inline diagnostics while editing. Validate jobs run `yarn knip:report`, which writes a shared Sonar report at `build/reports/knip/external-issues.json` for import via `sonar.externalIssuesReportPaths` (each product scan imports only issues on files in its own `sonar.sources`). Run `yarn test-knip-report` for reporter unit tests.
 
 The Knip scripts prefix the command with `NX_DAEMON=false`. Knip loads tool configs (e.g. `jest.config.ts` via the Jest plugin), which can invoke Nx APIs and trip the background Nx daemon — often surfacing as `Daemon process terminated and closed the connection`. Disabling the daemon for read-only Knip runs is the [documented workaround](https://knip.dev/reference/known-issues#nx-daemon); it does not affect normal `yarn nx` usage.
+
+### openapi-merge-cli
+
+Combines the Enterprises and Organizations OpenAPI contracts, applying their gateway paths and stable conflict prefixes before client generation.
 
 ### msw
 

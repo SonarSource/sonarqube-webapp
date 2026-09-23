@@ -3,6 +3,7 @@
   "ignoreDependencies": [
     "@atlaskit/reduced-ui-pack",
     "@babel/preset-env",
+    "@hey-api/openapi-ts",
     "@nx/plugin",
     "@nx/web",
     "@typescript-eslint/types",
@@ -18,18 +19,33 @@
     "jest-environment-node",
     "jsonc-eslint-parser",
     "nyc",
+    "openapi-merge-cli",
     "regenerator-runtime",
     "ts-node",
     "typescript-eslint"
   ],
   "ignoreBinaries": ["cdxgen!"],
   "ignoreUnresolved": ["~sq-server-commons/design-system"],
+  "ignoreIssues": {
+    "**/generated/**": [
+      "duplicates",
+      "enumMembers",
+      "exports",
+      "files",
+      "namespaceMembers",
+      "nsExports",
+      "nsTypes",
+      "types"
+    ]
+  },
   "workspaces": {
     ".": {
       "entry": [
         "libs/**/src/index.{ts,tsx}!",
         "private/libs/**/src/index.{ts,tsx}!",
         "private/libs/sq-server-features/src/feature-*/index.{ts,tsx}!",
+        "private/libs/sq-cloud-openapi/generate-client.mjs",
+        "private/libs/sq-cloud-openapi/src/runtime.ts",
         ".github/scripts/**/*.{js,mjs}",
         "config/**/*.{js,mjs,ts,mts}",
         "eslint-local-rules/index.js"

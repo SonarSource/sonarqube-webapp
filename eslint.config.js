@@ -57,8 +57,8 @@ module.exports = [
       '**/build/**',
       '**/.nx/**',
 
-      // Project-specific build artifacts
-      'private/libs/feature-architecture/src/types/proto/generated/**',
+      // Generated source is validated by TypeScript, not handwritten-code lint rules.
+      '**/generated/**',
 
       // Tool configs that were previously in ignorePatterns of individual .eslintrc.js files
       'apps/sq-server/babel.config.js',
@@ -759,6 +759,19 @@ module.exports = [
       ],
       'testing-library/prefer-screen-queries': 'off',
       'no-await-in-loop': 'off',
+    },
+  },
+
+  // ─── Cloud OpenAPI module ───────────────────────────────────────────────
+  {
+    files: ['private/libs/sq-cloud-openapi/**/*.ts'],
+    rules: {
+      'import/extensions': [
+        'error',
+        'never',
+        { config: 'always', css: 'always', gen: 'always', json: 'always', md: 'always' },
+      ],
+      'local-rules/no-direct-axios-import': 'off',
     },
   },
 

@@ -101,19 +101,18 @@ export const setupAxiosClient: SetupAxiosClientFunc = async (
   return Promise.resolve(axiosInstance);
 };
 
-export const axiosClientResponseInterceptors: AxiosResponseInterceptor[] = [
-  [
-    (response) => response.data,
-    (error) => {
-      const { response } = error;
-      toast.error({
-        description: parseErrorResponse(response),
-        duration: 'short',
-      });
+export const axiosClientErrorInterceptor: NonNullable<AxiosResponseInterceptor[1]> = (error) => {
+  const { response } = error;
+  toast.error({
+    description: parseErrorResponse(response),
+    duration: 'short',
+  });
 
-      return Promise.reject(response);
-    },
-  ],
+  return Promise.reject(response);
+};
+
+export const axiosClientResponseInterceptors: AxiosResponseInterceptor[] = [
+  [(response) => response.data, axiosClientErrorInterceptor],
 ];
 
 export const axiosToCatchResponseInterceptors: AxiosResponseInterceptor[] = [

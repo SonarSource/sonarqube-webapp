@@ -19,9 +19,15 @@
  */
 
 const { existsSync } = require('fs');
+const { globSync } = require('glob');
+const path = require('path');
 const baseConfig = require('../../config/jest/jest.config.base');
 
 const isPrivateEdition = existsSync('private') && process.env['EDITION'] !== 'public';
+const sharedLibs = globSync(isPrivateEdition ? '{libs,private/libs}/*/' : 'libs/*/', {
+  cwd: path.join(__dirname, '../../'),
+  ignore: ['**/sq-cloud/**', '**/sq-cloud-*/**'],
+});
 
 // Shared configuration for the unit (jest.config.ut.js) and integration (jest.config.it.js)
 // Jest projects. Options that must live at the workspace (global) level — coverage reporters,
@@ -29,18 +35,14 @@ const isPrivateEdition = existsSync('private') && process.env['EDITION'] !== 'pu
 module.exports = {
   ...baseConfig.projectConfig,
   rootDir: '../../', // We need to run it from the workspace root to get coverage from libs
-  roots: [
-    '<rootDir>/apps/sq-server',
-    '<rootDir>/libs',
-    ...(isPrivateEdition ? ['<rootDir>/private/libs'] : []),
-  ],
+  roots: ['<rootDir>/apps/sq-server', ...sharedLibs],
   coverageDirectory: '<rootDir>/apps/sq-server/build/reports/coverage',
   collectCoverageFrom: [
     'apps/sq-server/src/**/*.{ts,tsx,js}',
-    'libs/**/*.{ts,tsx,js}',
-    'private/libs/**/*.{ts,tsx,js}',
+    ...sharedLibs.map((lib) => path.join(lib, 'src/**/*.{ts,tsx,js}')),
     '!helpers/{keycodes,testUtils}.{ts,tsx}',
     '!**/node_modules/**',
+    '!**/generated/**',
   ],
   moduleNameMapper: {
     ...baseConfig.projectConfig.moduleNameMapper,
