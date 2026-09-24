@@ -848,8 +848,6 @@ export const defaultMessages = {
   'ai_capabilities.llm_providers.form.provider.placeholder': 'Select provider',
   'ai_capabilities.llm_providers.form.name': 'Name',
   'ai_capabilities.llm_providers.form.name.placeholder': 'A name to identify this connection',
-  'ai_capabilities.llm_providers.form.secure_note':
-    'Your credentials are encrypted and stored securely.',
   'ai_capabilities.llm_providers.form.secret.placeholder':
     '{0} (leave blank to keep the current value)',
   'ai_capabilities.llm_providers.form.cancel': 'Cancel',
