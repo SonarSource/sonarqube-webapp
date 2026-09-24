@@ -3090,7 +3090,7 @@ export const defaultMessages = {
   'sca.container_images.count':
     '{count} {count, plural, one {container image} other {container images}}',
   'sca.container_images.risk_count': '{count} {count, plural, one {risk} other {risks}}',
-  'sca.container_images.highest_severity': 'Highest severity:',
+  'sca.container_images.most_severe': 'Most severe:',
   'sca.container_images.last_analysis': 'Last analysis: {date}',
   'sca.container_images.digest': 'Digest: {digest}',
   'sca.container_images.select_digest': 'Select image tag and digest',
