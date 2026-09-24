@@ -19,7 +19,7 @@
  */
 
 import { Layout, MessageCallout, Spinner, ToggleTip } from '@sonarsource/echoes-react';
-import { ComponentProps, useMemo } from 'react';
+import { useMemo } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import A11ySkipTarget from '~shared/components/a11y/A11ySkipTarget';
 import { isPortfolioLike } from '~shared/helpers/component';
@@ -36,6 +36,7 @@ import { fillBranchLike } from '~sq-server-commons/helpers/branch-like';
 import { useRuleDetailsQuery } from '~sq-server-commons/queries/rules';
 import { Feature } from '~sq-server-commons/types/features';
 import { Component, Issue } from '~sq-server-commons/types/types';
+import { useAdditionalIssueActions } from '../hooks/useAdditionalIssueActions';
 import SubnavigationIssuesList from '../issues-subnavigation/SubnavigationIssuesList';
 import IssueReviewHistoryAndComments from './IssueReviewHistoryAndComments';
 import { IssuesPageTemplate } from './IssuesPageTemplate';
@@ -81,30 +82,11 @@ export default function IssueDetails(props: Readonly<IssueDetailsProps>) {
   const intl = useIntl();
   const { hasFeature } = useAvailableFeatures();
 
-  const additionalIssueActions = useMemo(() => {
-    const additionalActions = [] as Required<
-      ComponentProps<typeof IssueTabViewer>
-    >['additionalIssueActions'];
-
-    if (
-      addons.remediationAgent?.IssueAssignToAgentButton !== undefined &&
-      remediationAgentProjectKey !== undefined
-    ) {
-      const AgentButton = addons.remediationAgent.IssueAssignToAgentButton;
-      additionalActions.push(({ issue }) => (
-        <AgentButton branch={branch} issue={issue} projectKey={remediationAgentProjectKey} />
-      ));
-    }
-
-    if (addons.jira !== undefined && component !== undefined) {
-      const { IssueJiraWorkItem } = addons.jira;
-      additionalActions.push(({ issue }) => (
-        <IssueJiraWorkItem component={component} issue={issue} />
-      ));
-    }
-
-    return additionalActions;
-  }, [branch, component, remediationAgentProjectKey]);
+  const additionalIssueActions = useAdditionalIssueActions({
+    branch,
+    component,
+    remediationAgentProjectKey,
+  });
 
   return (
     <IssuesPageTemplate

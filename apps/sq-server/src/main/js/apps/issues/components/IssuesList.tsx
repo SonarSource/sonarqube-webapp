@@ -20,10 +20,10 @@
 
 import { Spinner } from '@sonarsource/echoes-react';
 import * as React from 'react';
-import { addons } from '~sq-server-addons/index';
 import IssueItem from '~sq-server-commons/components/issue/Issue';
 import { BranchLike } from '~sq-server-commons/types/branch-like';
 import { Component, Issue } from '~sq-server-commons/types/types';
+import { useAdditionalIssueActions } from '../hooks/useAdditionalIssueActions';
 import ComponentBreadcrumbs from './ComponentBreadcrumbs';
 
 interface IssueGroup {
@@ -90,30 +90,11 @@ export default function IssuesList({
 
   const issueGroups = React.useMemo(() => groupConsecutiveIssuesByComponent(issues), [issues]);
 
-  const additionalIssueActions = React.useMemo(() => {
-    const additionalActions = [] as Required<
-      React.ComponentProps<typeof IssueItem>
-    >['additionalIssueActions'];
-
-    if (
-      addons.remediationAgent?.IssueAssignToAgentButton !== undefined &&
-      remediationAgentProjectKey !== undefined
-    ) {
-      const AgentButton = addons.remediationAgent.IssueAssignToAgentButton;
-      additionalActions.push(({ issue }) => (
-        <AgentButton branch={branch} issue={issue} projectKey={remediationAgentProjectKey} />
-      ));
-    }
-
-    if (addons.jira !== undefined && component !== undefined) {
-      const JiraWorkItemComponent = addons.jira.IssueJiraWorkItem;
-      additionalActions.push(({ issue }) => (
-        <JiraWorkItemComponent component={component} issue={issue} />
-      ));
-    }
-
-    return additionalActions;
-  }, [branch, component, remediationAgentProjectKey]);
+  const additionalIssueActions = useAdditionalIssueActions({
+    branch,
+    component,
+    remediationAgentProjectKey,
+  });
 
   React.useEffect(() => {
     if (issues.length > 0) {
