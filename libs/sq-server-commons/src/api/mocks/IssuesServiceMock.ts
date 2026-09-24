@@ -653,7 +653,7 @@ export default class IssuesServiceMock {
     return this.getActionsResponse({ type: data.type }, data.issue);
   };
 
-  handleSetIssueSeverity = (data: { impact?: string; issue: string; severity?: string }) => {
+  handleSetIssueSeverity = (data: { impact?: string; issue: string; severity?: IssueSeverity }) => {
     const issueDataSelected = this.list.find((l) => l.issue.key === data.issue);
 
     if (!issueDataSelected) {

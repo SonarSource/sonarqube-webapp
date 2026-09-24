@@ -27,7 +27,7 @@ import {
 import { ComponentQualifier } from '~shared/types/component';
 import { IssueSeverity } from '~shared/types/issues';
 import { MetricKey } from '~shared/types/metrics';
-import { RuleType } from '~shared/types/rules';
+import { RuleStatus, RuleType } from '~shared/types/rules';
 import { AlmKeys } from '../types/alm-settings';
 import { IssueScope, IssueStatus, IssueType } from '../types/issues';
 
@@ -154,7 +154,11 @@ export const SOURCE_SCOPES = [
 
 export const RULE_TYPES: RuleType[] = ['BUG', 'VULNERABILITY', 'CODE_SMELL', 'SECURITY_HOTSPOT'];
 
-export const RULE_STATUSES = ['READY', 'BETA', 'DEPRECATED'];
+export const RULE_STATUSES: RuleStatus[] = [
+  RuleStatus.Ready,
+  RuleStatus.Beta,
+  RuleStatus.Deprecated,
+];
 
 export const HIDDEN_METRICS = [
   MetricKey.open_issues,

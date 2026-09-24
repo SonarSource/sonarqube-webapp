@@ -24,7 +24,7 @@ import { axiosToCatch } from '~shared/helpers/axios-clients';
 import { isHunterAgentRuleKey } from '~shared/helpers/issues';
 import { CodeAttribute, SoftwareQualityImpact } from '~shared/types/clean-code-taxonomy';
 import { HttpStatus } from '~shared/types/request';
-import { RuleActivationAdvanced, RuleDetails, RuleType } from '~shared/types/rules';
+import { RuleActivationAdvanced, RuleDetails, RuleStatus, RuleType } from '~shared/types/rules';
 import { post, postJSON } from '../helpers/request';
 import { GetRulesAppResponse, SearchRulesResponse } from '../types/coding-rules';
 import { SearchRulesQuery } from '../types/rules';
@@ -40,7 +40,7 @@ export interface CreateRuleData {
   name: string;
   parameters?: Partial<RestRuleParameter>[];
   severity?: string;
-  status?: string;
+  status?: RuleStatus;
   templateKey: string;
   type?: RuleType;
 }

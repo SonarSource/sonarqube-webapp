@@ -28,7 +28,7 @@ import { Extension } from '~shared/types/common';
 import { ComponentBase, ComponentConfiguration, ComponentQualifier } from '~shared/types/component';
 import { IssueChangelogDiff } from '~shared/types/issue';
 import { Measure, MeasureEnhanced } from '~shared/types/measures';
-import { RuleDescriptionSection, RuleScope, RuleType } from '~shared/types/rules';
+import { RuleDescriptionSection, RuleScope, RuleStatus, RuleType } from '~shared/types/rules';
 import type { SourceLine } from '~shared/types/source';
 import { DocTitleKey } from '../helpers/doc-links';
 import { MessageFormatting, RawIssue } from './issues';
@@ -434,7 +434,7 @@ export interface RestRule {
   name: string;
   parameters?: RestRuleParameter[];
   severity: string;
-  status: string;
+  status: RuleStatus;
   systemTags?: string[];
   tags?: string[];
   template?: boolean;
@@ -453,7 +453,7 @@ export interface RulesUpdateRequest {
   remediation_fn_type?: string;
   remediation_fy_gap_multiplier?: string;
   severity?: string;
-  status?: string;
+  status?: RuleStatus;
   tags?: string;
   type?: RuleType;
 }

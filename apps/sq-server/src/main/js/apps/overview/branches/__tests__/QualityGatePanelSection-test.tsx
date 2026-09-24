@@ -22,6 +22,7 @@ import { screen, waitFor } from '@testing-library/react';
 import { byRole, byText } from '~shared/helpers/testSelector';
 import { SoftwareImpactSeverity, SoftwareQuality } from '~shared/types/clean-code-taxonomy';
 import { QGStatus } from '~shared/types/common';
+import { IssueSeverity } from '~shared/types/issues';
 import { MetricKey, MetricType } from '~shared/types/metrics';
 import IssuesServiceMock from '~sq-server-commons/api/mocks/IssuesServiceMock';
 import CurrentUserContextProvider from '~sq-server-commons/context/current-user/CurrentUserContextProvider';
@@ -288,7 +289,7 @@ describe('Issues from SonarQube update', () => {
       {
         issue: mockRawIssue(false, {
           type: IssueType.Vulnerability,
-          severity: 'CRITICAL',
+          severity: IssueSeverity.Critical,
           impacts: [
             {
               softwareQuality: SoftwareQuality.Security,

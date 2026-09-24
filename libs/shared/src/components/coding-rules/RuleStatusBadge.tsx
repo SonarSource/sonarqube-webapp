@@ -44,7 +44,7 @@ const RuleStatusVarieties: Partial<Record<RuleStatus, BadgeVariety>> = {
 
 interface RuleStatusBadgeProps {
   rule: {
-    status: string;
+    status: RuleStatus;
   };
 }
 

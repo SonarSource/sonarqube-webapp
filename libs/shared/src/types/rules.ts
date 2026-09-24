@@ -32,7 +32,7 @@ export interface Rule {
   params?: RuleParameter[];
   requiredEntitlements?: string[];
   severity: string;
-  status: string;
+  status: RuleStatus;
   sysTags?: string[];
   tags?: string[];
   type: RuleType;

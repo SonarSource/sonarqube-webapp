@@ -25,7 +25,7 @@ import {
   SoftwareQuality,
   SoftwareQualityImpact,
 } from '~shared/types/clean-code-taxonomy';
-import { IssueTransition } from '~shared/types/issues';
+import { IssueSeverity, IssueTransition } from '~shared/types/issues';
 import { Paging } from '~shared/types/paging';
 import { StandardsInformationKey } from '~shared/types/security';
 import { Issue, TextRange } from './types';
@@ -144,7 +144,7 @@ export interface RawIssue {
   ruleDescriptionContextKey?: string;
   ruleStatus?: string;
   scope: string;
-  severity: string;
+  severity: IssueSeverity;
   status: string;
   tags?: string[];
   textRange?: TextRange;

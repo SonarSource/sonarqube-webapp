@@ -63,7 +63,7 @@ it('should display removed badge with danger sentiment', () => {
 
 it('shoud not display badge unknown status', () => {
   setupWithProps({
-    rule: { status: 'UNKNOWN' },
+    rule: { status: 'UNKNOWN' as RuleStatus },
   });
   expect(screen.queryByText('rules.status.UNKNOWN')).not.toBeInTheDocument();
 });

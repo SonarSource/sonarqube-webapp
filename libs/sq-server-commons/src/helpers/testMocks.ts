@@ -40,6 +40,7 @@ import {
   RuleDescriptionSections,
   RuleDetails,
   RuleParameter,
+  RuleStatus,
 } from '~shared/types/rules';
 import { CompareResponse } from '../api/quality-profiles';
 import { AppState } from '../types/appstate';
@@ -635,7 +636,7 @@ export function mockRule(overrides: Partial<Rule> = {}): Rule {
     langName: 'JavaScript',
     name: 'Use foo',
     severity: 'MAJOR',
-    status: 'READY',
+    status: RuleStatus.Ready,
     sysTags: ['a', 'b'],
     tags: ['x'],
     type: 'CODE_SMELL',
@@ -680,7 +681,7 @@ export function mockRuleDetails(overrides: Partial<RuleDetails> = {}): RuleDetai
     htmlDesc: '',
     mdDesc: '',
     severity: 'MAJOR',
-    status: 'READY',
+    status: RuleStatus.Ready,
     isTemplate: false,
     impacts: [
       {

@@ -43,7 +43,7 @@ import {
   SoftwareQualityImpact,
 } from '~shared/types/clean-code-taxonomy';
 import { HttpStatus } from '~shared/types/request';
-import { RuleDetails, RuleParameter, RuleType } from '~shared/types/rules';
+import { RuleDetails, RuleParameter, RuleStatus, RuleType } from '~shared/types/rules';
 import IssueTypeIcon from '~sq-server-commons/components/icon-mappers/IssueTypeIcon';
 import { RULE_STATUSES, RULE_TYPES } from '~sq-server-commons/helpers/constants';
 import { csvEscape } from '~sq-server-commons/helpers/csv';
@@ -285,7 +285,7 @@ export default function CustomRuleFormModal(props: Readonly<Props>) {
         label={translate('coding_rules.filters.status')}
         onChange={(value) => {
           if (value) {
-            setStatus(value);
+            setStatus(value as RuleStatus);
           }
         }}
         value={statusesOptions.find((s) => s.value === status)?.value}
