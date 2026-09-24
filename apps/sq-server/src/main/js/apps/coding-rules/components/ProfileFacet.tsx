@@ -83,16 +83,6 @@ export default class ProfileFacet extends React.PureComponent<Props> {
     event.currentTarget.blur();
   };
 
-  getTextValue = () => {
-    const { referencedProfiles, value } = this.props;
-    if (value) {
-      const profile = referencedProfiles[value];
-      const name = (profile && `${profile.name} ${profile.languageName}`) || value;
-      return [name];
-    }
-    return [];
-  };
-
   getTooltip = (profile: BaseProfile) => {
     const base = `${profile.name} ${profile.languageName}`;
     return profile.isBuiltIn ? `${base} (${translate('quality_profiles.built_in')})` : base;

@@ -18,7 +18,6 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { uniq } from 'lodash';
 import * as React from 'react';
 import { highlightTerm } from '~shared/helpers/search';
 import { getRuleTags } from '~sq-server-commons/api/rules';
@@ -32,10 +31,6 @@ export default class TagFacet extends React.PureComponent<BasicProps> {
       paging: { pageIndex: 1, pageSize: tags.length, total: tags.length },
       results: tags,
     }));
-  };
-
-  handleSelect = (option: { value: string }) => {
-    this.props.onChange({ tags: uniq([...this.props.values, option.value]) });
   };
 
   getTagName = (tag: string) => {

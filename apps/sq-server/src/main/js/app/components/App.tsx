@@ -31,15 +31,8 @@ interface Props {
 }
 
 export class App extends React.PureComponent<Props> {
-  mounted = false;
-
   componentDidMount() {
-    this.mounted = true;
     this.setScrollbarWidth();
-  }
-
-  componentWillUnmount() {
-    this.mounted = false;
   }
 
   setScrollbarWidth = () => {
