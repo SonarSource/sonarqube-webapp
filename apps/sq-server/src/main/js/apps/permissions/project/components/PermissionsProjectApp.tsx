@@ -24,10 +24,9 @@ import * as React from 'react';
 import { IntlShape, useIntl } from 'react-intl';
 import A11ySkipTarget from '~shared/components/a11y/A11ySkipTarget';
 import { ProjectPageTemplate } from '~shared/components/pages/ProjectPageTemplate';
-import { ComponentQualifier, Visibility } from '~shared/types/component';
+import { Visibility } from '~shared/types/component';
 import { Paging } from '~shared/types/paging';
 import * as api from '~sq-server-commons/api/permissions';
-import { getComponents } from '~sq-server-commons/api/project-management';
 import AllHoldersList from '~sq-server-commons/components/permissions/AllHoldersList';
 import { FilterOption } from '~sq-server-commons/components/permissions/SearchForm';
 import { useAvailableFeatures } from '~sq-server-commons/context/available-features/withAvailableFeatures';
@@ -37,6 +36,8 @@ import {
   PERMISSIONS_ORDER_BY_QUALIFIER,
   removeArchitectureAdminPermission,
 } from '~sq-server-commons/helpers/permissions';
+import { useIsGitLabProjectQuery } from '~sq-server-commons/queries/devops-integration';
+import { useGitLabProvisioningEnabledQuery } from '~sq-server-commons/queries/identity-provider/gitlab';
 import { ComponentContextShape } from '~sq-server-commons/types/component';
 import { Feature } from '~sq-server-commons/types/features';
 import { Permissions } from '~sq-server-commons/types/permissions';
@@ -53,6 +54,7 @@ interface Props extends ComponentContextShape {
   component: Component;
   hasArchitectureFeature: boolean;
   intl: IntlShape;
+  isProjectManaged: boolean;
 }
 
 interface State {
@@ -60,7 +62,6 @@ interface State {
   filter: FilterOption;
   groups: PermissionGroup[];
   groupsPaging?: Paging;
-  isProjectManaged: boolean;
   loading: boolean;
   query: string;
   selectedPermission?: string;
@@ -80,14 +81,12 @@ class PermissionsProjectApp extends React.PureComponent<Props, State> {
       loading: true,
       query: '',
       users: [],
-      isProjectManaged: false,
     };
   }
 
   componentDidMount() {
     this.mounted = true;
     this.loadHolders();
-    this.getIsProjectManaged();
   }
 
   componentWillUnmount() {
@@ -135,21 +134,6 @@ class PermissionsProjectApp extends React.PureComponent<Props, State> {
         });
       }
     }, this.stopLoading);
-  };
-
-  getIsProjectManaged = () => {
-    if (this.props.component.qualifier === ComponentQualifier.Project) {
-      getComponents({ projects: this.props.component.key })
-        .then((response) => {
-          if (this.mounted) {
-            const { managed } = response.components[0];
-            this.setState({
-              isProjectManaged: !!managed,
-            });
-          }
-        })
-        .catch(noop);
-    }
   };
 
   handleLoadMore = () => {
@@ -351,7 +335,7 @@ class PermissionsProjectApp extends React.PureComponent<Props, State> {
   };
 
   render() {
-    const { component, intl } = this.props;
+    const { component, intl, isProjectManaged } = this.props;
     const {
       filter,
       groups,
@@ -362,7 +346,6 @@ class PermissionsProjectApp extends React.PureComponent<Props, State> {
       users,
       usersPaging,
       groupsPaging,
-      isProjectManaged,
     } = this.state;
 
     let order = PERMISSIONS_ORDER_BY_QUALIFIER[component.qualifier];
@@ -452,6 +435,8 @@ export default function PermissionsProjectAppContainer() {
   const { component, ...componentContext } = useComponent();
   const { hasFeature } = useAvailableFeatures();
   const intl = useIntl();
+  const { data: isGitLabProject } = useIsGitLabProjectQuery(component?.key);
+  const { data: gitlabProvisioningStatus } = useGitLabProvisioningEnabledQuery();
 
   if (!component) {
     return null;
@@ -462,6 +447,7 @@ export default function PermissionsProjectAppContainer() {
       component={component}
       hasArchitectureFeature={hasFeature(Feature.Architecture)}
       intl={intl}
+      isProjectManaged={!!isGitLabProject && !!gitlabProvisioningStatus}
       {...componentContext}
     />
   );

@@ -22,9 +22,12 @@ import userEvent from '@testing-library/user-event';
 import { ComponentQualifier, Visibility } from '~shared/types/component';
 import { mockComponent } from '~sq-server-commons/helpers/mocks/component';
 import { mockGitHubConfiguration } from '~sq-server-commons/helpers/mocks/dop-translation';
+import { mockLoggedInUser } from '~sq-server-commons/helpers/testMocks';
 import { AlmKeys } from '~sq-server-commons/types/alm-settings';
 import { Feature } from '~sq-server-commons/types/features';
+import { Permissions } from '~sq-server-commons/types/permissions';
 import { ProvisioningType } from '~sq-server-commons/types/provisioning';
+import { TaskStatuses } from '~sq-server-commons/types/tasks';
 import { Provider } from '~sq-server-commons/types/types';
 import { getPageObject } from '../../../test-utils';
 
@@ -35,6 +38,7 @@ import {
   expectPermissionsToRemainEditable,
   expectVisibilityChangeAllowed,
   expectVisibilityChangeBlocked,
+  githubHandler,
   renderPermissionsProjectApp,
   setupPermissionsProjectTests,
   systemHandler,
@@ -141,6 +145,93 @@ describe('GitHub provisioning', () => {
 
     await ui.appLoaded();
     await expectManagedPermissionsProject(ui, user, ui.githubExplanations, ui.githubLogo);
+  });
+
+  it('should show the GitHub synchronisation status for a managed GH Project', async () => {
+    const user = userEvent.setup();
+    const ui = getPageObject(user);
+
+    dopTranslationHandler.gitHubConfigurations.push(
+      mockGitHubConfiguration({ provisioningType: ProvisioningType.auto }),
+    );
+    githubHandler.addProvisioningTask({
+      status: TaskStatuses.Success,
+      executedAt: '2022-02-03T11:45:35+0200',
+    });
+
+    await almHandler.handleSetProjectBinding(AlmKeys.GitHub, {
+      almSetting: 'test',
+      repository: 'test',
+      monorepo: false,
+      project: 'my-project',
+    });
+
+    renderPermissionsProjectApp({}, { featureList: [Feature.GithubProvisioning] });
+    await ui.appLoaded();
+
+    expect(await ui.provisioningSyncSuccess.find()).toBeInTheDocument();
+  });
+
+  it('should hide the sync details link from a project admin without global admin rights', async () => {
+    const user = userEvent.setup();
+    const ui = getPageObject(user);
+
+    dopTranslationHandler.gitHubConfigurations.push(
+      mockGitHubConfiguration({ provisioningType: ProvisioningType.auto }),
+    );
+    githubHandler.addProvisioningTask({
+      status: TaskStatuses.Success,
+      executedAt: '2022-02-03T11:45:35+0200',
+      warnings: ['Some warning'],
+    });
+
+    await almHandler.handleSetProjectBinding(AlmKeys.GitHub, {
+      almSetting: 'test',
+      repository: 'test',
+      monorepo: false,
+      project: 'my-project',
+    });
+
+    renderPermissionsProjectApp({}, { featureList: [Feature.GithubProvisioning] });
+    await ui.appLoaded();
+
+    expect(await ui.provisioningSyncSuccess.find()).toBeInTheDocument();
+    expect(ui.provisioningSyncDetailsLink.query()).not.toBeInTheDocument();
+  });
+
+  it('should show the sync details link to a global admin', async () => {
+    const user = userEvent.setup();
+    const ui = getPageObject(user);
+
+    dopTranslationHandler.gitHubConfigurations.push(
+      mockGitHubConfiguration({ provisioningType: ProvisioningType.auto }),
+    );
+    githubHandler.addProvisioningTask({
+      status: TaskStatuses.Success,
+      executedAt: '2022-02-03T11:45:35+0200',
+      warnings: ['Some warning'],
+    });
+
+    await almHandler.handleSetProjectBinding(AlmKeys.GitHub, {
+      almSetting: 'test',
+      repository: 'test',
+      monorepo: false,
+      project: 'my-project',
+    });
+
+    renderPermissionsProjectApp(
+      {},
+      {
+        featureList: [Feature.GithubProvisioning],
+        currentUser: mockLoggedInUser({ permissions: { global: [Permissions.Admin] } }),
+      },
+    );
+    await ui.appLoaded();
+
+    expect(await ui.provisioningSyncDetailsLink.find()).toHaveAttribute(
+      'href',
+      '/admin/settings?category=authentication&tab=github',
+    );
   });
 
   it('should allow to change permissions for GH Project without auto-provisioning', async () => {

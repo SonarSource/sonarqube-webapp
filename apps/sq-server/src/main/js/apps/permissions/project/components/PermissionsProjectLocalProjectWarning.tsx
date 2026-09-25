@@ -32,15 +32,21 @@ interface Props {
 export function PermissionsProjectLocalProjectWarning(props: Readonly<Props>) {
   const { component, isProjectManaged } = props;
 
-  const { githubProvisioningStatus, isGitHubProject } = useProjectProvisionedStatus(
-    component,
-    isProjectManaged,
-  );
+  const { githubProvisioningStatus, gitlabProvisioningStatus, isGitHubProject, isGitLabProject } =
+    useProjectProvisionedStatus(component, isProjectManaged);
 
   if (githubProvisioningStatus && !isGitHubProject && isProject(component.qualifier)) {
     return (
       <MessageCallout className="sw-mb-2 sw-max-w-max" variety="warning">
         <FormattedMessage id="project_permission.local_project_with_github_provisioning" />
+      </MessageCallout>
+    );
+  }
+
+  if (gitlabProvisioningStatus && !isGitLabProject && isProject(component.qualifier)) {
+    return (
+      <MessageCallout className="sw-mb-2 sw-max-w-max" variety="warning">
+        <FormattedMessage id="project_permission.local_project_with_gitlab_provisioning" />
       </MessageCallout>
     );
   }

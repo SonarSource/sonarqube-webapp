@@ -22,15 +22,21 @@ import { IconCheck, IconWarning, Link, MessageCallout, Spinner } from '@sonarsou
 import { formatDistance } from 'date-fns';
 import * as React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
+import { useCurrentUser } from '~adapters/helpers/users';
+import { hasGlobalPermission } from '~sq-server-commons/helpers/users';
 import { AlmKeys } from '~sq-server-commons/types/alm-settings';
+import { Permissions } from '~sq-server-commons/types/permissions';
 import { AlmSyncStatus } from '~sq-server-commons/types/provisioning';
 import { TaskStatuses } from '~sq-server-commons/types/tasks';
+import { isLoggedIn } from '~sq-server-commons/types/users';
 
 interface SynchronisationWarningProps {
   data: AlmSyncStatus;
   provisionedBy: AlmKeys.GitHub | AlmKeys.GitLab;
   short?: boolean;
 }
+
+type LastSync = NonNullable<AlmSyncStatus['lastSync']>;
 
 interface LastSyncProps {
   info: AlmSyncStatus['lastSync'];
@@ -39,67 +45,79 @@ interface LastSyncProps {
 }
 
 function LastSyncAlert({ info, provisionedBy, short }: Readonly<LastSyncProps>) {
-  if (info === undefined) {
+  // GitLab's status endpoint (Jackson-serialized) sends explicit `null` for an absent
+  // lastSync, unlike GitHub's Gson-based one, which omits the field (`undefined`).
+  if (!info) {
     return null;
   }
 
-  const { finishedAt, errorMessage, status, summary, warningMessage } = info;
+  return short ? (
+    <ShortLastSyncAlert info={info} provisionedBy={provisionedBy} />
+  ) : (
+    <FullLastSyncAlert info={info} />
+  );
+}
 
+function ShortLastSyncAlert({
+  info,
+  provisionedBy,
+}: Readonly<{ info: LastSync; provisionedBy: AlmKeys.GitHub | AlmKeys.GitLab }>) {
+  const { currentUser } = useCurrentUser();
+  // The details link goes to the global admin settings page, which only global admins
+  // can reach - hide it for the project-admin-only audience that can see this in "short" mode.
+  const isGlobalAdmin =
+    isLoggedIn(currentUser) && hasGlobalPermission(currentUser, Permissions.Admin);
+
+  const { finishedAt, status, warningMessage } = info;
   const formattedDate = finishedAt ? formatDistance(new Date(finishedAt), new Date()) : '';
 
-  if (short) {
-    return status === TaskStatuses.Success ? (
-      <div>
-        <div className="sw-ml-2">
-          {warningMessage ? (
-            <IconWarning className="sw-mr-2" color="echoes-color-icon-warning" />
-          ) : (
-            <IconCheck className="sw-mr-2" color="echoes-color-icon-success" />
-          )}
-        </div>
+  const detailsLink = isGlobalAdmin ? (
+    <Link className="sw-ml-2" to={`/admin/settings?category=authentication&tab=${provisionedBy}`}>
+      <FormattedMessage id="settings.authentication.synchronization_details_link" />
+    </Link>
+  ) : (
+    ''
+  );
 
-        <i>
-          {warningMessage ? (
-            <FormattedMessage
-              id="settings.authentication.synchronization_successful.with_warning"
-              values={{
-                date: formattedDate,
-                details: (
-                  <Link
-                    className="sw-ml-2"
-                    to={`/admin/settings?category=authentication&tab=${provisionedBy}`}
-                  >
-                    <FormattedMessage id="settings.authentication.synchronization_details_link" />
-                  </Link>
-                ),
-              }}
-            />
-          ) : (
-            <FormattedMessage
-              id="settings.authentication.synchronization_successful"
-              values={{ '0': formattedDate }}
-            />
-          )}
-        </i>
-      </div>
-    ) : (
+  if (status !== TaskStatuses.Success) {
+    return (
       <MessageCallout variety="danger">
         <FormattedMessage
           id="settings.authentication.synchronization_failed_short"
-          values={{
-            details: (
-              <Link
-                className="sw-ml-2"
-                to={`/admin/settings?category=authentication&tab=${provisionedBy}`}
-              >
-                <FormattedMessage id="settings.authentication.synchronization_details_link" />
-              </Link>
-            ),
-          }}
+          values={{ details: detailsLink }}
         />
       </MessageCallout>
     );
   }
+
+  return (
+    <div className="sw-flex sw-items-center">
+      {warningMessage ? (
+        <IconWarning className="sw-mr-2" color="echoes-color-icon-warning" />
+      ) : (
+        <IconCheck className="sw-mr-2" color="echoes-color-icon-success" />
+      )}
+
+      <i>
+        {warningMessage ? (
+          <FormattedMessage
+            id="settings.authentication.synchronization_successful.with_warning"
+            values={{ date: formattedDate, details: detailsLink }}
+          />
+        ) : (
+          <FormattedMessage
+            id="settings.authentication.synchronization_successful"
+            values={{ '0': formattedDate }}
+          />
+        )}
+      </i>
+    </div>
+  );
+}
+
+function FullLastSyncAlert({ info }: Readonly<{ info: LastSync }>) {
+  const { finishedAt, errorMessage, status, summary, warningMessage } = info;
+  const formattedDate = finishedAt ? formatDistance(new Date(finishedAt), new Date()) : '';
 
   return (
     <>

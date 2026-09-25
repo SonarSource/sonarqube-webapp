@@ -42,6 +42,7 @@ import {
 import { renderApp } from '~sq-server-commons/helpers/testReactTestingUtils';
 import { USERS_PAGE_SIZE } from '~sq-server-commons/queries/users';
 import { Feature } from '~sq-server-commons/types/features';
+import { Permissions } from '~sq-server-commons/types/permissions';
 import { ProvisioningType } from '~sq-server-commons/types/provisioning';
 import { TaskStatuses } from '~sq-server-commons/types/tasks';
 import { Provider } from '~sq-server-commons/types/types';
@@ -711,7 +712,10 @@ describe('in manage mode', () => {
         executedAt: '2022-02-03T11:45:35+0200',
         errorMessage: 'Error Message',
       });
-      renderUsersApp([Feature.GithubProvisioning]);
+      renderUsersApp(
+        [Feature.GithubProvisioning],
+        mockLoggedInUser({ permissions: { global: [Permissions.Admin] } }),
+      );
       expect(await ui.githubProvisioningAlert.find()).toBeInTheDocument();
       expect(ui.githubProvisioningAlertDetailsLink.get()).toHaveAttribute(
         'href',
@@ -744,7 +748,10 @@ describe('in manage mode', () => {
         status: TaskStatuses.Success,
         warnings: [warningMessage],
       });
-      renderUsersApp([Feature.GithubProvisioning]);
+      renderUsersApp(
+        [Feature.GithubProvisioning],
+        mockLoggedInUser({ permissions: { global: [Permissions.Admin] } }),
+      );
       expect(await ui.githubProvisioningWarning.find()).toBeInTheDocument();
       // We don't want to display the full warning message.
       expect(screen.queryByText(warningMessage)).not.toBeInTheDocument();

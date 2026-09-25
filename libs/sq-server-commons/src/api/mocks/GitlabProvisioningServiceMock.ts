@@ -18,14 +18,16 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { cloneDeep, omit } from 'lodash';
+import { cloneDeep, omit, uniqueId } from 'lodash';
 import { mockGitlabConfiguration } from '../../helpers/mocks/alm-integrations';
+import { mockTask } from '../../helpers/mocks/tasks';
 import { mockPaging } from '../../helpers/testMocks';
 import {
   DevopsRolesMapping,
   GitlabConfiguration,
   ProvisioningType,
 } from '../../types/provisioning';
+import { Task, TaskStatuses, TaskTypes } from '../../types/tasks';
 import {
   addGitlabRolesMapping,
   createGitLabConfiguration,
@@ -34,6 +36,7 @@ import {
   fetchGitLabConfiguration,
   fetchGitLabConfigurations,
   fetchGitLabConfigurationsSummary,
+  fetchGitLabProvisioningStatus,
   fetchGitlabRolesMapping,
   updateGitLabConfiguration,
   updateGitlabRolesMapping,
@@ -86,10 +89,12 @@ const defaultMapping: DevopsRolesMapping[] = [
 export default class GitlabProvisioningServiceMock {
   gitlabConfigurations: GitlabConfiguration[];
   gitlabMapping: DevopsRolesMapping[];
+  tasks: Task[];
 
   constructor() {
     this.gitlabConfigurations = cloneDeep(defaultGitlabConfiguration);
     this.gitlabMapping = cloneDeep(defaultMapping);
+    this.tasks = [];
     jest.mocked(fetchGitLabConfigurations).mockImplementation(this.handleFetchGitLabConfigurations);
     jest
       .mocked(fetchGitLabConfigurationsSummary)
@@ -102,7 +107,50 @@ export default class GitlabProvisioningServiceMock {
     jest.mocked(updateGitlabRolesMapping).mockImplementation(this.handleUpdateGitlabRolesMapping);
     jest.mocked(addGitlabRolesMapping).mockImplementation(this.handleAddGitlabRolesMapping);
     jest.mocked(deleteGitlabRolesMapping).mockImplementation(this.handleDeleteGitlabRolesMapping);
+    jest
+      .mocked(fetchGitLabProvisioningStatus)
+      .mockImplementation(this.handleFetchGitLabProvisioningStatus);
   }
+
+  addProvisioningTask = (overrides: Partial<Omit<Task, 'type'>> = {}) => {
+    this.tasks.push(
+      mockTask({
+        id: uniqueId('gitlab-provisioning-task'),
+        type: TaskTypes.GitlabProvisioning,
+        ...overrides,
+      }),
+    );
+  };
+
+  handleFetchGitLabProvisioningStatus = () => {
+    const config = this.gitlabConfigurations[0];
+    if (config?.enabled !== true || config.provisioningType !== ProvisioningType.auto) {
+      return Promise.resolve({ enabled: false });
+    }
+
+    const nextSync = this.tasks.find((t: Task) =>
+      [TaskStatuses.InProgress, TaskStatuses.Pending].includes(t.status),
+    );
+    const lastSync = this.tasks.find(
+      (t: Task) => ![TaskStatuses.InProgress, TaskStatuses.Pending].includes(t.status),
+    );
+
+    return Promise.resolve({
+      enabled: true,
+      nextSync: nextSync ? { status: nextSync.status } : undefined,
+      lastSync: lastSync
+        ? {
+            status: lastSync.status,
+            finishedAt: lastSync.executedAt,
+            startedAt: lastSync.startedAt,
+            executionTimeMs: lastSync.executionTimeMs,
+            summary: lastSync.status === TaskStatuses.Success ? 'Test summary' : undefined,
+            errorMessage: lastSync.errorMessage,
+            warningMessage: lastSync.warnings?.join() ?? undefined,
+          }
+        : undefined,
+    });
+  };
 
   handleFetchGitLabConfigurations: typeof fetchGitLabConfigurations = () => {
     return Promise.resolve({
@@ -197,5 +245,6 @@ export default class GitlabProvisioningServiceMock {
   reset = () => {
     this.gitlabConfigurations = cloneDeep(defaultGitlabConfiguration);
     this.gitlabMapping = cloneDeep(defaultMapping);
+    this.tasks = [];
   };
 }

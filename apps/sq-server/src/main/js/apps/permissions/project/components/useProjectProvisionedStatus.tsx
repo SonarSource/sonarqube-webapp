@@ -23,12 +23,14 @@ import {
   useIsGitLabProjectQuery,
 } from '~sq-server-commons/queries/devops-integration';
 import { useGithubProvisioningEnabledQuery } from '~sq-server-commons/queries/identity-provider/github';
+import { useGitLabProvisioningEnabledQuery } from '~sq-server-commons/queries/identity-provider/gitlab';
 import { Component } from '~sq-server-commons/types/types';
 
 export function useProjectProvisionedStatus(component: Component, isProjectManaged: boolean) {
   const { data: isGitHubProject } = useIsGitHubProjectQuery(component.key);
   const { data: isGitLabProject } = useIsGitLabProjectQuery(component.key);
   const { data: githubProvisioningStatus } = useGithubProvisioningEnabledQuery();
+  const { data: gitlabProvisioningStatus } = useGitLabProvisioningEnabledQuery();
   // to know if we are provisioning with GitLab: managed + GitLab project
 
   const provisionedByGitHub = isGitHubProject && !!githubProvisioningStatus;
@@ -40,6 +42,7 @@ export function useProjectProvisionedStatus(component: Component, isProjectManag
   return {
     canApplyPermissionTemplate,
     githubProvisioningStatus,
+    gitlabProvisioningStatus,
     isGitHubProject,
     isGitLabProject,
     provisioned,

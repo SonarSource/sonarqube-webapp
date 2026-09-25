@@ -22,6 +22,7 @@ import { FormattedMessage } from 'react-intl';
 import { isApplication, isPortfolioLike } from '~shared/helpers/component';
 import { Component } from '~sq-server-commons/types/types';
 import GitHubSynchronisationWarning from '../../../../app/components/GitHubSynchronisationWarning';
+import GitLabSynchronisationWarning from '../../../../app/components/GitLabSynchronisationWarning';
 import { useProjectProvisionedStatus } from './useProjectProvisionedStatus';
 
 interface Props {
@@ -33,7 +34,7 @@ export function PermissionsProjectPageDescription(props: Readonly<Props>) {
   const { component, isProjectManaged } = props;
   const { qualifier } = component;
 
-  const { provisioned, provisionedByGitHub } = useProjectProvisionedStatus(
+  const { provisioned, provisionedByGitHub, provisionedByGitLab } = useProjectProvisionedStatus(
     component,
     isProjectManaged,
   );
@@ -58,6 +59,7 @@ export function PermissionsProjectPageDescription(props: Readonly<Props>) {
           </p>
           <div className="sw-mt-2">
             {provisionedByGitHub && <GitHubSynchronisationWarning short />}
+            {provisionedByGitLab && <GitLabSynchronisationWarning short />}
           </div>
         </>
       )}

@@ -21,7 +21,6 @@
 import { queryOptions, useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { isEqual, keyBy, partition, pick, unionBy } from 'lodash';
 import { StaleTime, createQueryHook, mapReactQueryResult } from '~shared/queries/common';
-import { getActivity } from '../../api/ce';
 import {
   addGitlabRolesMapping,
   createGitLabConfiguration,
@@ -29,6 +28,7 @@ import {
   deleteGitlabRolesMapping,
   fetchGitLabConfigurations,
   fetchGitLabConfigurationsSummary,
+  fetchGitLabProvisioningStatus,
   fetchGitlabRolesMapping,
   syncNowGitLabProvisioning,
   updateGitLabConfiguration,
@@ -37,12 +37,10 @@ import {
 import { addGlobalSuccessMessage } from '../../design-system';
 import { translate } from '../../helpers/l10n';
 import {
-  AlmSyncStatus,
   DevopsRolesMapping,
   GitlabConfiguration,
   ProvisioningType,
 } from '../../types/provisioning';
-import { TaskStatuses, TaskTypes } from '../../types/tasks';
 
 export function isGitLabComUrl(url: string | undefined): boolean {
   if (!url) {
@@ -166,63 +164,13 @@ export function useGitLabProvisioningEnabledQuery() {
   );
 }
 
-export const useGitLabSyncStatusQuery = createQueryHook(() => {
-  const getLastSync = async () => {
-    const lastSyncTasks = await getActivity({
-      type: TaskTypes.GitlabProvisioning,
-      p: 1,
-      ps: 1,
-      status: [TaskStatuses.Success, TaskStatuses.Failed, TaskStatuses.Canceled].join(','),
-    });
-    const lastSync = lastSyncTasks?.tasks[0];
-    if (!lastSync) {
-      return undefined;
-    }
-    const summary = lastSync.infoMessages ? lastSync.infoMessages?.join(', ') : '';
-    const errorMessage = lastSync.errorMessage ?? '';
-    return {
-      executionTimeMs: lastSync?.executionTimeMs ?? 0,
-      startedAt: +new Date(lastSync?.startedAt ?? 0),
-      finishedAt: +new Date(lastSync?.startedAt ?? 0) + (lastSync?.executionTimeMs ?? 0),
-      warningMessage:
-        lastSync.warnings && lastSync.warnings.length > 0
-          ? lastSync.warnings?.join(', ')
-          : undefined,
-      status: lastSync?.status as
-        TaskStatuses.Success | TaskStatuses.Failed | TaskStatuses.Canceled,
-      ...(lastSync.status === TaskStatuses.Success ? { summary } : {}),
-      ...(lastSync.status !== TaskStatuses.Success ? { errorMessage } : {}),
-    };
-  };
-
-  const getNextSync = async () => {
-    const nextSyncTasks = await getActivity({
-      type: TaskTypes.GitlabProvisioning,
-      p: 1,
-      ps: 1,
-      status: [TaskStatuses.Pending, TaskStatuses.InProgress].join(','),
-    });
-    const nextSync = nextSyncTasks?.tasks[0];
-    if (!nextSync) {
-      return undefined;
-    }
-    return {
-      status: nextSync.status as TaskStatuses.Pending | TaskStatuses.InProgress,
-    };
-  };
-
-  return queryOptions({
+export const useGitLabSyncStatusQuery = createQueryHook(() =>
+  queryOptions({
     queryKey: ['identity_provider', 'gitlab_sync', 'status'],
-    queryFn: async () => {
-      const [lastSync, nextSync] = await Promise.all([getLastSync(), getNextSync()]);
-      return {
-        lastSync,
-        nextSync,
-      } as AlmSyncStatus;
-    },
+    queryFn: fetchGitLabProvisioningStatus,
     refetchInterval: 10_000,
-  });
-});
+  }),
+);
 
 export function useSyncWithGitLabNow() {
   const queryClient = useQueryClient();

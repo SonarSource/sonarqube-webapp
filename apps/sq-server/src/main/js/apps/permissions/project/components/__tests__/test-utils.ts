@@ -38,7 +38,6 @@ import DopTranslationServiceMock from '~sq-server-commons/api/mocks/DopTranslati
 import GithubProvisioningServiceMock from '~sq-server-commons/api/mocks/GithubProvisioningServiceMock';
 import GitlabProvisioningServiceMock from '~sq-server-commons/api/mocks/GitlabProvisioningServiceMock';
 import PermissionsServiceMock from '~sq-server-commons/api/mocks/PermissionsServiceMock';
-import ProjectManagementServiceMock from '~sq-server-commons/api/mocks/ProjectsManagementServiceMock';
 import SettingsServiceMock from '~sq-server-commons/api/mocks/SettingsServiceMock';
 import SystemServiceMock from '~sq-server-commons/api/mocks/SystemServiceMock';
 import { mockComponent } from '~sq-server-commons/helpers/mocks/component';
@@ -68,7 +67,6 @@ const githubHandler = new GithubProvisioningServiceMock(dopTranslationHandler);
 const gitlabHandler = new GitlabProvisioningServiceMock();
 const almHandler = new AlmSettingsServiceMock();
 const settingsHandler = new SettingsServiceMock();
-const projectHandler = new ProjectManagementServiceMock(settingsHandler);
 const systemHandler = new SystemServiceMock();
 
 type PermissionsProjectPageObject = ReturnType<typeof getPageObject>;
@@ -207,7 +205,6 @@ function setupPermissionsProjectTests() {
     gitlabHandler.reset();
     almHandler.reset();
     settingsHandler.reset();
-    projectHandler.reset();
     systemHandler.reset();
   });
 }
@@ -244,8 +241,8 @@ export {
   expectPermissionsToRemainEditable,
   expectVisibilityChangeAllowed,
   expectVisibilityChangeBlocked,
+  githubHandler,
   gitlabHandler,
-  projectHandler,
   renderPermissionsProjectApp,
   serviceMock,
   setupPermissionsProjectTests,

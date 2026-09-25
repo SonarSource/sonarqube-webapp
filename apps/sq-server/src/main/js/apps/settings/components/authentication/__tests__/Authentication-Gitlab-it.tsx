@@ -21,7 +21,6 @@
 import { act, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { byRole, byText } from '~shared/helpers/testSelector';
-import ComputeEngineServiceMock from '~sq-server-commons/api/mocks/ComputeEngineServiceMock';
 import GitlabProvisioningServiceMock from '~sq-server-commons/api/mocks/GitlabProvisioningServiceMock';
 import SettingsServiceMock from '~sq-server-commons/api/mocks/SettingsServiceMock';
 import SystemServiceMock from '~sq-server-commons/api/mocks/SystemServiceMock';
@@ -32,26 +31,23 @@ import { renderComponent } from '~sq-server-commons/helpers/testReactTestingUtil
 import { AlmKeys } from '~sq-server-commons/types/alm-settings';
 import { Feature } from '~sq-server-commons/types/features';
 import { ProvisioningType } from '~sq-server-commons/types/provisioning';
-import { TaskStatuses, TaskTypes } from '~sq-server-commons/types/tasks';
+import { TaskStatuses } from '~sq-server-commons/types/tasks';
 import Authentication from '../Authentication';
 
 let handler: GitlabProvisioningServiceMock;
 let system: SystemServiceMock;
 let settingsHandler: SettingsServiceMock;
-let computeEngineHandler: ComputeEngineServiceMock;
 
 beforeEach(() => {
   handler = new GitlabProvisioningServiceMock();
   system = new SystemServiceMock();
   settingsHandler = new SettingsServiceMock();
-  computeEngineHandler = new ComputeEngineServiceMock();
 });
 
 afterEach(() => {
   handler.reset();
   settingsHandler.reset();
   system.reset();
-  computeEngineHandler.reset();
 });
 
 const glContainer = byRole('tabpanel', { name: 'gitlab GitLab' });
@@ -700,11 +696,10 @@ describe('Gitlab Provisioning', () => {
   });
 
   it('should display a success status when the synchronisation is a success', async () => {
-    computeEngineHandler.addTask({
+    handler.addProvisioningTask({
       status: TaskStatuses.Success,
       executedAt: '2022-02-03T11:45:35+0200',
       infoMessages: ['Test summary'],
-      type: TaskTypes.GitlabProvisioning,
     });
 
     renderAuthentication([Feature.GitlabProvisioning]);
@@ -713,15 +708,13 @@ describe('Gitlab Provisioning', () => {
   });
 
   it('should display a success status even when another task is pending', async () => {
-    computeEngineHandler.addTask({
+    handler.addProvisioningTask({
       status: TaskStatuses.Pending,
       executedAt: '2022-02-03T11:55:35+0200',
-      type: TaskTypes.GitlabProvisioning,
     });
-    computeEngineHandler.addTask({
+    handler.addProvisioningTask({
       status: TaskStatuses.Success,
       executedAt: '2022-02-03T11:45:35+0200',
-      type: TaskTypes.GitlabProvisioning,
     });
     renderAuthentication([Feature.GitlabProvisioning]);
     expect(await ui.gitlabProvisioningSuccess.find()).toBeInTheDocument();
@@ -729,11 +722,10 @@ describe('Gitlab Provisioning', () => {
   });
 
   it('should display an error alert when the synchronisation failed', async () => {
-    computeEngineHandler.addTask({
+    handler.addProvisioningTask({
       status: TaskStatuses.Failed,
       executedAt: '2022-02-03T11:45:35+0200',
       errorMessage: "T'es mauvais Jacques",
-      type: TaskTypes.GitlabProvisioning,
     });
     renderAuthentication([Feature.GitlabProvisioning]);
     expect(await ui.gitlabProvisioningAlert.find()).toBeInTheDocument();
@@ -742,16 +734,14 @@ describe('Gitlab Provisioning', () => {
   });
 
   it('should display an error alert even when another task is in progress', async () => {
-    computeEngineHandler.addTask({
+    handler.addProvisioningTask({
       status: TaskStatuses.InProgress,
       executedAt: '2022-02-03T11:55:35+0200',
-      type: TaskTypes.GitlabProvisioning,
     });
-    computeEngineHandler.addTask({
+    handler.addProvisioningTask({
       status: TaskStatuses.Failed,
       executedAt: '2022-02-03T11:45:35+0200',
       errorMessage: "T'es mauvais Jacques",
-      type: TaskTypes.GitlabProvisioning,
     });
     renderAuthentication([Feature.GitlabProvisioning]);
     expect(await ui.gitlabProvisioningAlert.find()).toBeInTheDocument();
@@ -761,11 +751,10 @@ describe('Gitlab Provisioning', () => {
   });
 
   it('should show warning', async () => {
-    computeEngineHandler.addTask({
+    handler.addProvisioningTask({
       status: TaskStatuses.Success,
       warnings: ['Warning'],
       infoMessages: ['Test summary'],
-      type: TaskTypes.GitlabProvisioning,
     });
     renderAuthentication([Feature.GitlabProvisioning]);
 

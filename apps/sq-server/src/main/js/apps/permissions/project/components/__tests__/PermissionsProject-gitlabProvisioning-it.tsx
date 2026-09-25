@@ -19,13 +19,15 @@
  */
 
 import userEvent from '@testing-library/user-event';
-import { Visibility } from '~shared/types/component';
+import { ComponentQualifier, Visibility } from '~shared/types/component';
 import { mockComponent } from '~sq-server-commons/helpers/mocks/component';
 import { mockGitHubConfiguration } from '~sq-server-commons/helpers/mocks/dop-translation';
-import { mockProject } from '~sq-server-commons/helpers/mocks/projects';
+import { mockLoggedInUser } from '~sq-server-commons/helpers/testMocks';
 import { AlmKeys } from '~sq-server-commons/types/alm-settings';
 import { Feature } from '~sq-server-commons/types/features';
+import { Permissions } from '~sq-server-commons/types/permissions';
 import { ProvisioningType } from '~sq-server-commons/types/provisioning';
+import { TaskStatuses } from '~sq-server-commons/types/tasks';
 import { Provider } from '~sq-server-commons/types/types';
 import { getPageObject } from '../../../test-utils';
 
@@ -37,7 +39,6 @@ import {
   expectVisibilityChangeAllowed,
   expectVisibilityChangeBlocked,
   gitlabHandler,
-  projectHandler,
   renderPermissionsProjectApp,
   setupPermissionsProjectTests,
   systemHandler,
@@ -59,14 +60,13 @@ describe('GitLab provisioning', () => {
       monorepo: false,
       project: 'my-project',
     });
-
-    projectHandler.setProjects([mockProject({ key: 'my-project', managed: true })]);
   });
 
   it('should not allow to change visibility for GitLab Project with auto-provisioning', async () => {
     expect.hasAssertions();
     const user = userEvent.setup();
     const ui = getPageObject(user);
+    gitlabHandler.setGitlabProvisioningEnabled(true);
 
     dopTranslationHandler.gitHubConfigurations.push(
       mockGitHubConfiguration({ provisioningType: ProvisioningType.jit }),
@@ -116,7 +116,6 @@ describe('GitLab provisioning', () => {
       project: 'my-project',
     });
 
-    projectHandler.setProjects([mockProject({ key: 'my-project', managed: false })]);
     renderPermissionsProjectApp({}, { featureList: [Feature.GitlabProvisioning] });
     await ui.appLoaded();
 
@@ -148,11 +147,87 @@ describe('GitLab provisioning', () => {
     await expectManagedPermissionsProject(ui, user, ui.gitlabExplanations, ui.gitlabLogo);
   });
 
+  it('should show the GitLab synchronisation status for a managed GitLab Project', async () => {
+    const user = userEvent.setup();
+    const ui = getPageObject(user);
+    gitlabHandler.setGitlabProvisioningEnabled(true);
+    gitlabHandler.addProvisioningTask({
+      status: TaskStatuses.Success,
+      executedAt: '2022-02-03T11:45:35+0200',
+    });
+
+    await almHandler.handleSetProjectBinding(AlmKeys.GitLab, {
+      almSetting: 'test',
+      repository: 'test',
+      monorepo: false,
+      project: 'my-project',
+    });
+
+    renderPermissionsProjectApp({}, { featureList: [Feature.GitlabProvisioning] });
+    await ui.appLoaded();
+
+    expect(await ui.provisioningSyncSuccess.find()).toBeInTheDocument();
+  });
+
+  it('should hide the sync details link from a project admin without global admin rights', async () => {
+    const user = userEvent.setup();
+    const ui = getPageObject(user);
+    gitlabHandler.setGitlabProvisioningEnabled(true);
+    gitlabHandler.addProvisioningTask({
+      status: TaskStatuses.Success,
+      executedAt: '2022-02-03T11:45:35+0200',
+      warnings: ['Some warning'],
+    });
+
+    await almHandler.handleSetProjectBinding(AlmKeys.GitLab, {
+      almSetting: 'test',
+      repository: 'test',
+      monorepo: false,
+      project: 'my-project',
+    });
+
+    renderPermissionsProjectApp({}, { featureList: [Feature.GitlabProvisioning] });
+    await ui.appLoaded();
+
+    expect(await ui.provisioningSyncSuccess.find()).toBeInTheDocument();
+    expect(ui.provisioningSyncDetailsLink.query()).not.toBeInTheDocument();
+  });
+
+  it('should show the sync details link to a global admin', async () => {
+    const user = userEvent.setup();
+    const ui = getPageObject(user);
+    gitlabHandler.setGitlabProvisioningEnabled(true);
+    gitlabHandler.addProvisioningTask({
+      status: TaskStatuses.Success,
+      executedAt: '2022-02-03T11:45:35+0200',
+      warnings: ['Some warning'],
+    });
+
+    await almHandler.handleSetProjectBinding(AlmKeys.GitLab, {
+      almSetting: 'test',
+      repository: 'test',
+      monorepo: false,
+      project: 'my-project',
+    });
+
+    renderPermissionsProjectApp(
+      {},
+      {
+        featureList: [Feature.GitlabProvisioning],
+        currentUser: mockLoggedInUser({ permissions: { global: [Permissions.Admin] } }),
+      },
+    );
+    await ui.appLoaded();
+
+    expect(await ui.provisioningSyncDetailsLink.find()).toHaveAttribute(
+      'href',
+      '/admin/settings?category=authentication&tab=gitlab',
+    );
+  });
+
   it('should allow to change permissions for GitLab Project without auto-provisioning', async () => {
     const user = userEvent.setup();
     const ui = getPageObject(user);
-
-    projectHandler.setProjects([mockProject({ key: 'my-project', managed: false })]);
 
     await almHandler.handleSetProjectBinding(AlmKeys.GitLab, {
       almSetting: 'test',
@@ -175,9 +250,8 @@ describe('GitLab provisioning', () => {
 
   it('should allow to change permissions for non-GitLab Project', async () => {
     const user = userEvent.setup();
-    projectHandler.reset();
-    projectHandler.setProjects([mockProject({ key: 'my-project', managed: false })]);
     almHandler.reset();
+    gitlabHandler.setGitlabProvisioningEnabled(true);
 
     await almHandler.handleSetProjectBinding(AlmKeys.BitbucketServer, {
       almSetting: 'test',
@@ -191,8 +265,33 @@ describe('GitLab provisioning', () => {
     renderPermissionsProjectApp({}, { featureList: [Feature.GitlabProvisioning] });
     await ui.appLoaded();
 
-    expect(ui.pageTitle.get()).toBeInTheDocument();
+    expect(await ui.pageTitle.find()).toBeInTheDocument();
+    expect(ui.nonGLProjectWarning.get()).toBeInTheDocument();
     expect(ui.pageTitle.byRole('img').query()).not.toBeInTheDocument();
     expectPermissionsToRemainEditable(ui);
   });
+
+  it.each([ComponentQualifier.Portfolio, ComponentQualifier.Application])(
+    'should not show sync warning for portfolio and applications',
+    async (qualifier) => {
+      const user = userEvent.setup();
+      almHandler.reset();
+      gitlabHandler.setGitlabProvisioningEnabled(true);
+
+      await almHandler.handleSetProjectBinding(AlmKeys.BitbucketServer, {
+        almSetting: 'test',
+        repository: 'test',
+        monorepo: false,
+        project: 'my-project',
+      });
+
+      const ui = getPageObject(user);
+
+      renderPermissionsProjectApp({ qualifier }, { featureList: [Feature.GitlabProvisioning] });
+      await ui.appLoaded();
+
+      expect(ui.pageTitle.get()).toBeInTheDocument();
+      expect(ui.nonGLProjectWarning.query()).not.toBeInTheDocument();
+    },
+  );
 });

@@ -24,6 +24,7 @@ import {
   DevopsRolesMapping,
   GitLabConfigurationCreateBody,
   GitLabConfigurationUpdateBody,
+  GithubStatus,
   GitlabConfiguration,
   GitlabConfigurationSummary,
   ProvisioningType,
@@ -31,6 +32,7 @@ import {
 
 const GITLAB_CONFIGURATIONS = '/api/v2/dop-translation/gitlab-configurations';
 const GITLAB_PERMISSION_MAPPINGS = '/api/v2/dop-translation/gitlab-permission-mappings';
+const GITLAB_SYNCHRONIZATION_RUNS = '/api/v2/dop-translation/gitlab-synchronization-runs';
 
 export function fetchGitLabConfigurations() {
   return axiosClient.get<{
@@ -74,7 +76,11 @@ export function deleteGitLabConfiguration(id: string): Promise<void> {
 }
 
 export function syncNowGitLabProvisioning(): Promise<void> {
-  return axiosClient.post('/api/v2/dop-translation/gitlab-synchronization-runs');
+  return axiosClient.post(GITLAB_SYNCHRONIZATION_RUNS);
+}
+
+export function fetchGitLabProvisioningStatus(): Promise<GithubStatus> {
+  return axiosClient.get<GithubStatus>(`${GITLAB_SYNCHRONIZATION_RUNS}/status`);
 }
 
 export function fetchGitlabRolesMapping() {
