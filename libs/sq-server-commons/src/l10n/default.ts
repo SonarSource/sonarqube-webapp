@@ -658,11 +658,12 @@ export const defaultMessages = {
   'event.quality_gate.still_x': 'Still {status}',
   'event.quality_gate.ERROR': 'Failed',
   'event.quality_gate.OK': 'Passed',
-  'event.definition_change.added': '{project} added',
-  'event.definition_change.removed': '{project} removed',
-  'event.definition_change.branch_added': '{project} {branch} added',
-  'event.definition_change.branch_removed': '{project} {branch} removed',
-  'event.definition_change.branch_replaced': '{project} {oldBranch} replaced with {newBranch}',
+  'event.definition_change.added': "''{project}'' added",
+  'event.definition_change.removed': "''{project}'' removed",
+  'event.definition_change.branch_added': "''{project}'' ''{branch}'' added",
+  'event.definition_change.branch_removed': "''{project}'' ''{branch}'' removed",
+  'event.definition_change.branch_replaced':
+    "''{project}'' ''{oldBranch}'' replaced with ''{newBranch}''",
   'event.failed_conditions': 'Failed Conditions:',
   'event.sqUpgrade': 'First analysis since updating to {productName} {sqVersion}',
 
@@ -2524,8 +2525,8 @@ export const defaultMessages = {
   'issue.changelog.webhook_source': ' (change triggered by a {0} webhook)',
   'issue.change.file_move': 'The file has been moved from {0} to {1}',
   'issue.change.from_branch':
-    'The issue has been copied from branch "{branchA}" to branch "{branchB}"',
-  'issue.change.from_non_branch': 'The issue has been merged from "{branchA}"into "{branchB}"',
+    "The issue has been copied from branch ''{branchA}'' to branch ''{branchB}''",
+  'issue.change.from_non_branch': "The issue has been merged from ''{branchA}''into ''{branchB}''",
   'issue.changelog.removed': '{0} removed',
   'issue.changelog.line_removed_X': 'Line number removed from issue (was {0})',
   'issue.changelog.field.severity': 'Severity',
@@ -2848,7 +2849,7 @@ export const defaultMessages = {
   'dependencies.details.chains_none_missing_lockfile_link': 'analyzing projects for dependencies.',
   'dependencies.details.other_versions': '{count} other releases in use',
   'dependencies.details.other_versions.description':
-    '{count} other releases of this package are used in {branchName}',
+    "{count} other releases of this package are used in ''{branchName}''",
   'dependencies.package_managers.CARGO': 'Cargo',
   'dependencies.package_managers.COCOAPODS': 'CocoaPods',
   'dependencies.package_managers.COMPOSER': 'Packagist', // Composer is the tool, packagist is the package manager
@@ -3200,7 +3201,7 @@ export const defaultMessages = {
   'sca.risk.report': 'Advanced Security dependency risks report',
   'sca.risk.report.name': 'Dependency risks report',
 
-  'sca.dependencies.key_changes.heading': 'Key changes for {branchName}',
+  'sca.dependencies.key_changes.heading': "Key changes for ''{branchName}''",
   'sca.dependencies.key_changes.selection_cards.aria_label': 'Select risk category to view',
   'sca.dependencies.key_changes.newly_introduced.label': '{count} Newly Introduced Risks',
   'sca.dependencies.key_changes.newly_introduced.no_risks':
@@ -3245,8 +3246,8 @@ export const defaultMessages = {
   'architecture.page.discovery.copy_component_path_to_clipboard':
     'Copy the component path to the clipboard',
   'architecture.page.model.visual.title': 'Intended architecture',
-  'architecture.page.model.visual.title.edit_mode': 'Edit "{label}"',
-  'architecture.page.model.visual.title.view_mode': 'View "{label}"',
+  'architecture.page.model.visual.title.edit_mode': "Edit ''{label}''",
+  'architecture.page.model.visual.title.view_mode': "View ''{label}''",
   'architecture.page.model.visual.legend': 'Legend',
   'architecture.page.model.visual.legend.title': 'How to read the map',
   'architecture.page.model.visual.legend.bullet.1':
@@ -3328,7 +3329,7 @@ export const defaultMessages = {
   'architecture.page.model.modal.delete_component.confirm': 'Are you sure?',
   'architecture.page.model.modal.delete_component.delete_button': 'Delete and save',
   'architecture.page.model.modal.delete_component.cancel_button': 'Cancel',
-  'architecture.page.model.modal.move_component.title': 'Move "{label}"',
+  'architecture.page.model.modal.move_component.title': "Move ''{label}''",
   'architecture.page.model.modal.move_component.description':
     'Move the component and its code artifacts.',
   'architecture.page.model.modal.move_component.current_location': 'Current location: ',
@@ -3347,7 +3348,7 @@ export const defaultMessages = {
     'You cannot move this component into one of its own children.',
   'architecture.page.model.modal.move_component.disabled_kind_language_root':
     'You cannot move this component to the language root.',
-  'architecture.page.model.modal.rename_component.title': 'Rename "{label}"',
+  'architecture.page.model.modal.rename_component.title': "Rename ''{label}''",
   'architecture.page.model.modal.rename_component.new_name': 'New name',
   'architecture.page.model.modal.code_artifacts': 'Code Artifacts',
   'architecture.page.model.modal.search_artifacts': 'Search artifacts',
@@ -3496,7 +3497,7 @@ export const defaultMessages = {
   'architecture.patterns.delete.error.generic':
     "Sorry, we couldn't delete the pattern. Please try again later.",
   'architecture.patterns.create': 'Create Pattern',
-  'architecture.patterns.edit.title': 'Edit {name}',
+  'architecture.patterns.edit.title': "Edit ''{name}''",
   'architecture.patterns.edit.load.error':
     "Sorry, we couldn't open that pattern. Please try again later.",
   'architecture.patterns.edit.saved': 'Pattern saved successfully.',
@@ -3614,12 +3615,12 @@ export const defaultMessages = {
   'architecture.relationships.form.direction.exit_point': 'Exit point',
   'architecture.relationships.form.query': 'Query',
   'architecture.list.delete.confirm.title': 'Delete',
-  'architecture.list.delete.confirm.body': 'Are you sure you want to delete "{name}"?',
+  'architecture.list.delete.confirm.body': "Are you sure you want to delete ''{name}''?",
   'architecture.external_interfaces.modal.save_error':
     "Sorry, we couldn't save the system component. Please try again later.",
   'architecture.external_interfaces.list.delete.confirm.title': 'Delete system component',
   'architecture.external_interfaces.list.delete.confirm.body':
-    'Deleting the system component "{name}" will also remove it from any project relationships where it is currently used. This can\'t be undone.',
+    "Deleting the system component ''{name}'' will also remove it from any project relationships where it is currently used. This can't be undone.",
   'architecture.organization.cross_project.title': 'Cross-project architecture',
   'architecture.organization.current.page': 'Current architecture',
   'architecture.enterprise_settings.nav': 'Architecture',
@@ -3645,7 +3646,7 @@ export const defaultMessages = {
   'architecture.sdks.list.column.signature': 'Code signature',
   'architecture.sdks.list.delete.confirm.title': 'Delete SDK',
   'architecture.sdks.list.delete.confirm.body':
-    'Deleting the SDK "{name}" will remove its detection signature. This can\'t be undone.',
+    "Deleting the SDK ''{name}'' will remove its detection signature. This can't be undone.",
   'architecture.sdks.list.delete.error':
     "Sorry, we couldn't delete the SDK. Please try again later.",
   'architecture.sdks.form.create_title': 'Create SDK',
@@ -5841,7 +5842,7 @@ export const defaultMessages = {
   //------------------------------------------------------------------------------
 
   'project_deletion.delete_resource_confirmation': 'Are you sure you want to delete "{name}"?',
-  'project_deletion.resource_deleted': 'Project "{name}" has been successfully deleted.',
+  'project_deletion.resource_deleted': "Project ''{name}'' has been successfully deleted.",
   'projects_management.delete_resource_confirmation': 'Are you sure you want to delete "{0}"?',
   'projects_management.delete_selected_warning': "You're about to delete {0} selected items.",
   'projects_management.delete_all_warning': "You're about to delete all {0} items.",
@@ -5913,9 +5914,9 @@ export const defaultMessages = {
   'quality_profiles.no_lang_found': 'No languages found',
   'quality_profiles.restore_profile': 'Restore Profile',
   'quality_profiles.restore_profile.success':
-    '{ruleSuccesses} rule(s) restored in profile "{profileName}"',
+    "{ruleSuccesses} rule(s) restored in profile ''{profileName}''",
   'quality_profiles.restore_profile.warning':
-    '{ruleSuccesses} rule(s) restored, {ruleFailures} rule(s) ignored in profile "{profileName}"',
+    "{ruleSuccesses} rule(s) restored, {ruleFailures} rule(s) ignored in profile ''{profileName}''",
   'quality_profiles.optional_configuration_file': 'Optional configuration file',
   'quality_profiles.new_name': 'New name',
   'quality_profiles.no_languages_available':
@@ -11631,14 +11632,14 @@ export const defaultMessages = {
   'project_settings.jira_binding.description.not_bound':
     '<p>Enable seamless issue management and workflow visibility.</p>  <p>Push SonarQube issues directly to Jira and display relevant release-related Jira information within SonarQube <link>by setting up your connection</link></p>',
   'project_settings.jira_binding.key': 'Project key:',
-  'project_settings.jira_binding.remove_binding': 'Remove jira connection for project: {name}',
+  'project_settings.jira_binding.remove_binding': "Remove jira connection for project: ''{name}''",
   'project_settings.jira_binding.disconnect': 'Disconnect',
   'project_settings.jira_binding.create_binding.title': 'Select a Jira project',
   'project_settings.jira_binding.create_binding.description':
     'By default, you will be able to push all possible issue types',
   'project_settings.jira_binding.edit_binding.title': 'Change Jira project binding?',
   'project_settings.jira_binding.edit_binding.description':
-    'Issues previously pushed to "{name}" and earlier will be preserved, but all new issues will be pushed to your new Jira project.',
+    "Issues previously pushed to ''{name}'' and earlier will be preserved, but all new issues will be pushed to your new Jira project.",
   'project_settings.jira_binding.organization_not_bound':
     'Cannot connect until you bind your instance to Jira in <link>Administration -> Integrations</link>',
   'project_settings.jira_binding.no_permissions':
@@ -11647,10 +11648,10 @@ export const defaultMessages = {
     'To edit or delete this binding, your instance admin must grant binding permissions to project admins in the instance settings.',
   'project_settings.jira_binding.no_summary':
     'To see issues for this release, configure Jira releases and versions. See <link>instructions in our documentation</link>',
-  'project_settings.jira.binding.bind_success': '"{sqProject}" has been connected to Jira',
+  'project_settings.jira.binding.bind_success': "''{sqProject}'' has been connected to Jira",
   'project_settings.jira.binding.update_bind_success':
-    'You have successfully changed your Jira connection to "{name}"',
-  'project_settings.jira.binding.unbind_success': '"{sqProject}" has been disconnected from Jira',
+    "You have successfully changed your Jira connection to ''{name}''",
+  'project_settings.jira.binding.unbind_success': "''{sqProject}'' has been disconnected from Jira",
   'project_settings.jira_binding.work_types.at_least_one_required':
     'At least one work type must be selected',
   'project_settings.jira_binding.work_types.mandatory_custom_fields':
@@ -12012,7 +12013,7 @@ export const defaultMessages = {
 
   'security_alerts.page': 'Security Alerts',
   'security_alerts.branch_label': 'Branch:',
-  'security_alerts.branch_link_label': '{projectName} on branch {branchName}',
+  'security_alerts.branch_link_label': "''{projectName}'' on branch ''{branchName}''",
   'security_alerts.filter.alert_type': 'Alert Type',
   'security_alerts.filter.status': 'Status',
   'security_alerts.sort.first_detected_at': 'First Detection',
