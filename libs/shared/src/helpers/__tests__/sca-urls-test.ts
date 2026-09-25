@@ -178,6 +178,13 @@ describe('sca-urls', () => {
         search: undefined,
       });
     });
+
+    it('should build a risk details URL with showRiskSelector', () => {
+      expect(getRiskDetailsUrl({ riskId: 'risk-456', showRiskSelector: true }, '', '/')).toEqual({
+        pathname: '/dependency-risks/risk-456',
+        search: '?showRiskSelector=true',
+      });
+    });
   });
 
   describe('getRiskDetailsTabUrl', () => {

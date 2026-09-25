@@ -164,13 +164,16 @@ export function getRisksUrl(params: {
 }
 
 export function getRiskDetailsUrl(
-  params: { riskId: string },
+  params: { riskId: string; showRiskSelector?: boolean },
   currentSearch: string,
   baseUrl: string,
 ) {
   return buildUrlWithCurrentParams({
     pathname: withBase(baseUrl, `${RISKS_ROUTE_NAME}/${params.riskId}`),
     currentSearch,
+    newParams: {
+      showRiskSelector: params.showRiskSelector,
+    },
   });
 }
 
