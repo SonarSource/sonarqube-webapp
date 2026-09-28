@@ -6,8 +6,9 @@ workflow can log in without a password or TOTP.
 ## Overview
 
 ```
-github-register.mts   One-time manual script — registers a passkey on the GitHub account
-github-login.mts      CI script — logs in with the passkey and saves a Playwright session file
+github-register.mts         One-time manual script — registers a passkey on the GitHub account
+github-login.mts            CI script — logs in with the passkey and saves a Playwright session file
+github-check-sessions.mts   CI script — checks the saved sessions before e2e tests
 ```
 
 The two scripts share the same CDP virtual authenticator approach:
@@ -16,6 +17,11 @@ The two scripts share the same CDP virtual authenticator approach:
   is intercepted and the credential stored by CDP.
 - **login** installs it before `navigator.credentials.get()` so GitHub's passkey challenge is
   answered automatically, no human interaction required.
+
+The e2e deployment workflow restores the latest encrypted session cache and checks both GitHub
+accounts before Playwright starts. If either session is invalid, it calls
+`e2e-sessions-refresh.yml` to regenerate, encrypt, and cache both auth files. The scheduled run of
+that workflow also regenerates both sessions unconditionally.
 
 ---
 
