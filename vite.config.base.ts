@@ -28,7 +28,6 @@ import { UserConfig } from 'vite';
 import { analyzer } from 'vite-bundle-analyzer';
 import macrosPlugin from 'vite-plugin-babel-macros';
 import requireTransform from 'vite-plugin-require-transform';
-import tsconfigPaths from 'vite-tsconfig-paths';
 import babelConfig from './babel.config';
 import { ALLOWED_LICENSE_TEXT, ALLOWED_LICENSES, generateLicenseText } from './config/license';
 import packageJson from './package.json';
@@ -63,21 +62,23 @@ export const baseViteConfig = {
         assetFileNames: '[ext]/[name]-[hash][extname]',
         chunkFileNames: 'js/[name]-[hash].js',
         entryFileNames: 'js/[name]-[hash].js',
-        // Manual chunk splitting strategy. The packages will be split to its own js package
-        // We also have one more advantage with manual chunks which is caching. Unless we update
+        comments: { legal: false },
+        postBanner: '/*! licenses: /vendor.LICENSE.txt */',
+        // Advanced chunk splitting strategy. The packages will be split to its own js package
+        // We also have one more advantage with advanced chunks which is caching. Unless we update
         // the version of following packages, we would have caching on these chunks as the hash
         // remains the same in successive builds as the package isn't changed
-        manualChunks: {
-          // vendor js chunk will contain only react dependencies
-          vendor: ['react', 'react-router-dom', 'react-dom'],
-          echoes: ['@sonarsource/echoes-react'],
-          datefns: ['date-fns'],
-          lodash: ['lodash/lodash.js'],
-          highlightjs: [
-            'highlight.js',
-            'highlightjs-apex',
-            'highlightjs-cobol',
-            'highlightjs-sap-abap',
+        codeSplitting: {
+          groups: [
+            // vendor js chunk will contain only react dependencies
+            { name: 'vendor', test: /node_modules[\\/](react|react-dom|react-router-dom)[\\/]/ },
+            { name: 'echoes', test: /node_modules[\\/]@sonarsource[\\/]echoes-react[\\/]/ },
+            { name: 'datefns', test: /node_modules[\\/]date-fns[\\/]/ },
+            { name: 'lodash', test: /node_modules[\\/]lodash[\\/]/ },
+            {
+              name: 'highlightjs',
+              test: /node_modules[\\/](highlight\.js|highlightjs-apex|highlightjs-cobol|highlightjs-sap-abap)[\\/]/,
+            },
           ],
         },
       },
@@ -117,21 +118,7 @@ export const baseViteConfig = {
       WITH_MOCK_API: process.env.WITH_MOCK_API,
     },
   },
-  optimizeDeps: {
-    esbuildOptions: {
-      target: 'es2020',
-    },
-  },
-  esbuild: {
-    banner: '/*! licenses: /vendor.LICENSE.txt */',
-    legalComments: 'none',
-    // https://github.com/vitejs/vite/issues/8644#issuecomment-1159308803
-    logOverride: { 'this-is-undefined-in-esm': 'silent' },
-  },
   plugins: [
-    // setup additional vite aliases to resolve dependencies between mono-repo packages
-    tsconfigPaths(),
-
     // additional plugins to allow for the transformation of our existing code to what vite is expecting.
     requireTransform({}),
 
@@ -157,6 +144,7 @@ export const baseViteConfig = {
   // This is the static folder we have to copy to build/webapp folder after build
   publicDir: 'public',
   resolve: {
+    tsconfigPaths: true,
     alias: {
       // src resolution is only applicable for html files and is only needed in vite and not
       // in other configs: tsconfig, jest
