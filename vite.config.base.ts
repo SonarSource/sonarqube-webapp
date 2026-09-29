@@ -45,12 +45,13 @@ export const analyzeBundle = process.env.BUNDLE_ANALYSIS === 'true';
 export const projectRoot = process.cwd();
 export const workspaceRoot = __dirname;
 const buildOutputDir = process.env.BUILD_OUTPUT_DIR || 'build/webapp';
+const licenseBanner = '/*! licenses: /vendor.LICENSE.txt */';
 
 // https://vitejs.dev/config/
 export const baseViteConfig = {
   build: {
     outDir: resolve(projectRoot, buildOutputDir),
-    rollupOptions: {
+    rolldownOptions: {
       // we define all the places where a user can land that requires its own bundle entry point.
       // one main entry point by default that can be overriden by projects
       input: {
@@ -63,7 +64,7 @@ export const baseViteConfig = {
         chunkFileNames: 'js/[name]-[hash].js',
         entryFileNames: 'js/[name]-[hash].js',
         comments: { legal: false },
-        postBanner: '/*! licenses: /vendor.LICENSE.txt */',
+        postBanner: licenseBanner,
         // Advanced chunk splitting strategy. The packages will be split to its own js package
         // We also have one more advantage with advanced chunks which is caching. Unless we update
         // the version of following packages, we would have caching on these chunks as the hash
@@ -108,7 +109,7 @@ export const baseViteConfig = {
   },
   css: {
     postcss: {
-      plugins: [autoprefixer, postCssCalc],
+      plugins: [autoprefixer(), postCssCalc({})],
     },
   },
   // By default vite doesn't pass along any env variable so we do it here. (for MSW and env code)
@@ -154,5 +155,12 @@ export const baseViteConfig = {
   server: {
     allowedHosts: ['.ngrok-free.app', '.ngrok.io'],
     port,
+  },
+  worker: {
+    rolldownOptions: {
+      output: {
+        postBanner: licenseBanner,
+      },
+    },
   },
 } satisfies UserConfig;
