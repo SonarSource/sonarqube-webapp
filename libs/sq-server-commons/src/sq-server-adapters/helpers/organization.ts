@@ -25,3 +25,11 @@ export function shouldWaitForOrganizationId(_organizationId?: string) {
 export function shouldWaitForOrganizationContext() {
   return false;
 }
+
+export function useIsOrganizationMember(
+  _organizationKey?: string,
+  _options: { enabled?: boolean } = {},
+) {
+  // Server has no organizations; this adapter satisfies the shared Cloud membership API.
+  return true;
+}
