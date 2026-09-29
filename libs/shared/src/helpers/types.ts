@@ -40,10 +40,21 @@ export function isRecord(value: unknown): value is Record<string, unknown> {
  *
  * For values that CAN legitimately be absent, narrow with `isDefined` and handle
  * the empty case instead.
+ *
+ * Never use this in a React render path (component body, or a `useMemo` that runs
+ * on every render): the throw is intercepted by the nearest error boundary before
+ * it ever reaches a global handler, so nothing gets reported - it just silently
+ * unmounts that route's content. Use `ensureOrReport` (in `./ensureOrReport`)
+ * there instead.
+ *
+ * Deliberately kept in this file, dependency-free: `types.ts` is a near-universal
+ * leaf import (including from Web Worker entry points), so it must never pull in
+ * app-level code like the reportError adapter - that's why ensureOrReport lives in
+ * its own file instead of alongside this one.
  */
 export function ensure<T>(value: T | undefined | null, message: string): NonNullable<T> {
   if (value === undefined || value === null) {
-    // we don't need to call reportError() explicitely, it will be caught by the global handler
+    // Outside a render path, an uncaught throw does reach the global handler and gets reported.
     throw new Error(message);
   }
 
