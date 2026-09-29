@@ -18,6 +18,12 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+/**
+ * Uses a space in order to integrate properly with existing
+ * settings app approach for PropertyDefinitions sent from
+ * SQS.
+ */
+export const ADVANCED_SECURITY_CATEGORY = 'advanced security';
 export const ALM_INTEGRATION_CATEGORY = 'almintegration';
 export const INSTANCE_INTEGRATIONS_CATEGORY = 'instance_integrations';
 export const NEW_CODE_PERIOD_CATEGORY = 'new_code_period';

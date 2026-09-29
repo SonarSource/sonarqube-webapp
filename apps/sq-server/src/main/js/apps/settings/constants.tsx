@@ -23,19 +23,23 @@ import { DocLink } from '~sq-server-commons/helpers/doc-links';
 import { AlmKeys } from '~sq-server-commons/types/alm-settings';
 import { SettingDefinitionAndValue, SettingsKey } from '~sq-server-commons/types/settings';
 
-export { ALM_INTEGRATION_CATEGORY } from '~sq-server-commons/constants/settings';
+import {
+  ALM_INTEGRATION_CATEGORY,
+  NEW_CODE_PERIOD_CATEGORY,
+  PULL_REQUEST_DECORATION_BINDING_CATEGORY,
+} from '~sq-server-commons/constants/settings';
 
-/**
- * Uses a space in order to integrate properly with existing
- * settings app approach for PropertyDefinitions sent from
- * SQS.
- */
-export const ADVANCED_SECURITY_CATEGORY = 'advanced security';
+export { ADVANCED_SECURITY_CATEGORY } from '~sq-server-commons/constants/settings';
+export {
+  ALM_INTEGRATION_CATEGORY,
+  NEW_CODE_PERIOD_CATEGORY,
+  PULL_REQUEST_DECORATION_BINDING_CATEGORY,
+};
+
 export const AI_CODE_FIX_CATEGORY = 'ai_codefix';
 export const AUTHENTICATION_CATEGORY = 'authentication';
 export const ANALYSIS_SCOPE_CATEGORY = 'exclusions';
 export const LANGUAGES_CATEGORY = 'languages';
-export const PULL_REQUEST_DECORATION_BINDING_CATEGORY = 'pull_request_decoration_binding';
 export const EMAIL_NOTIFICATION_CATEGORY = 'email_notification';
 export const MODE_CATEGORY = 'mode';
 export const EARLY_ACCESS_FEATURES_CATEGORY = 'early_access_features';
@@ -118,7 +122,7 @@ export const ADDITIONAL_PROJECT_SETTING_DEFINITIONS: ExtendedSettingDefinition[]
       Display your Quality Gate status directly in your DevOps Platform.
       Each DevOps Platform instance must be configured globally first, and given a unique name. Pick the instance your project is hosted on.
       `,
-    category: 'pull_request_decoration_binding',
+    category: PULL_REQUEST_DECORATION_BINDING_CATEGORY,
     key: ``,
     fields: [],
     options: [],
@@ -134,7 +138,7 @@ export const ADDITIONAL_SETTING_DEFINITIONS: ExtendedSettingDefinition[] = [
         The New Code definition is used to compare measures and track new issues.
         This setting is the default for all projects. A specific New Code definition can be configured at project level.
       `,
-    category: 'new_code_period',
+    category: NEW_CODE_PERIOD_CATEGORY,
     key: `sonar.new_code_period`,
     fields: [],
     options: [],
@@ -157,7 +161,7 @@ export const ADDITIONAL_SETTING_DEFINITIONS: ExtendedSettingDefinition[] = [
       To create this token, we recommend using a dedicated Azure DevOps account with administration permissions.
       The token itself needs Code > Read & Write permission.
     `,
-    category: 'almintegration',
+    category: ALM_INTEGRATION_CATEGORY,
     key: `sonar.almintegration.${AlmKeys.Azure}`,
     fields: [],
     options: [],
@@ -188,7 +192,7 @@ export const ADDITIONAL_SETTING_DEFINITIONS: ExtendedSettingDefinition[] = [
       Bitbucket generates the Client Secret when you create your OAuth client.
       You can find it in your Bitbucket Cloud workspace settings under OAuth clients.
     `,
-    category: 'almintegration',
+    category: ALM_INTEGRATION_CATEGORY,
     key: `sonar.almintegration.${AlmKeys.BitbucketServer}`,
     fields: [],
     options: [],
@@ -217,7 +221,7 @@ export const ADDITIONAL_SETTING_DEFINITIONS: ExtendedSettingDefinition[] = [
       Your GitHub App's private key. You can generate a .pem file from your GitHub App's page under Private keys.
       Copy and paste the whole contents of the file here.
     `,
-    category: 'almintegration',
+    category: ALM_INTEGRATION_CATEGORY,
     key: `sonar.almintegration.${AlmKeys.GitHub}`,
     fields: [],
     options: [],
@@ -238,7 +242,7 @@ export const ADDITIONAL_SETTING_DEFINITIONS: ExtendedSettingDefinition[] = [
       we recommend using a dedicated GitLab account with Reporter permission to all target projects.
       The token itself needs the api scope.
     `,
-    category: 'almintegration',
+    category: ALM_INTEGRATION_CATEGORY,
     key: `sonar.almintegration.${AlmKeys.GitLab}`,
     fields: [],
     options: [],
