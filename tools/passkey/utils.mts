@@ -29,11 +29,6 @@ export function base64ToBase64url(b64: string): string {
   return result;
 }
 
-export function base64urlToBase64(b64url: string): string {
-  const b64 = b64url.replaceAll('-', '+').replaceAll('_', '/');
-  return b64.padEnd(b64.length + ((4 - (b64.length % 4)) % 4), '=');
-}
-
 export function requireEnv(name: string): string {
   const value = process.env[name];
   if (!value) {

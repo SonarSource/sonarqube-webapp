@@ -45,57 +45,12 @@
 import { chromium, type Page } from '@playwright/test';
 import path from 'node:path';
 import process from 'node:process';
-import { base64urlToBase64, requireEnv } from './utils.mts';
+import { installPasskeyCredential } from '../../libs/shared/src/helpers/e2e-utils.ts';
+import { requireEnv } from './utils.mts';
 
-const GITHUB_RP_ID = 'github.com';
 const GITHUB_DOMAIN = 'https://github.com/';
 const GITHUB_LOGIN_URL = `${GITHUB_DOMAIN}login`;
 const MAX_PASSKEY_ATTEMPTS = 10;
-
-async function installVirtualAuthenticator(page: Page) {
-  const cdp = await page.context().newCDPSession(page);
-  await cdp.send('WebAuthn.enable', { enableUI: false });
-
-  const { authenticatorId } = await cdp.send('WebAuthn.addVirtualAuthenticator', {
-    options: {
-      protocol: 'ctap2',
-      transport: 'internal',
-      hasResidentKey: true,
-      hasUserVerification: true,
-      isUserVerified: true,
-    },
-  });
-
-  // Use the current Unix timestamp as the initial signCount.
-  // GitHub rejects assertions with a signCount not strictly greater than what it last saw.
-  // Starting from the current timestamp guarantees each run starts higher than any previous run.
-  const initialSignCount = Math.floor(Date.now() / 1000);
-  console.log(`[CDP WebAuthn] installing credential with signCount=${initialSignCount}`);
-
-  await cdp.send('WebAuthn.addCredential', {
-    authenticatorId,
-    credential: {
-      credentialId: base64urlToBase64(requireEnv('GITHUB_PASSKEY_ID')),
-      isResidentCredential: true,
-      rpId: GITHUB_RP_ID,
-      privateKey: base64urlToBase64(requireEnv('GITHUB_PASSKEY_PRIVATE_KEY')),
-      userHandle: base64urlToBase64(requireEnv('GITHUB_PASSKEY_USER_HANDLE')),
-      signCount: initialSignCount,
-      backupEligibility: true,
-      backupState: true,
-    },
-  });
-
-  cdp.on(
-    'WebAuthn.credentialAsserted',
-    ({ credential }: { credential: { credentialId: string; signCount: number } }) => {
-      console.log(
-        `[CDP WebAuthn] credentialAsserted — signCount: ${credential?.signCount ?? '?'}, ` +
-          `credentialId: ${(credential?.credentialId ?? '?').slice(0, 16)}…`,
-      );
-    },
-  );
-}
 
 async function authenticateWithPasskey(page: Page) {
   await page.goto(GITHUB_LOGIN_URL);
@@ -179,7 +134,12 @@ async function main() {
   try {
     // The virtual authenticator must be installed before any navigation that could trigger
     // a WebAuthn challenge; CDP intercepts navigator.credentials.get() automatically.
-    await installVirtualAuthenticator(page);
+    console.log(`[passkey-login] installing credential`);
+    await installPasskeyCredential(page, {
+      id: requireEnv('GITHUB_PASSKEY_ID'),
+      privateKey: requireEnv('GITHUB_PASSKEY_PRIVATE_KEY'),
+      userHandle: requireEnv('GITHUB_PASSKEY_USER_HANDLE'),
+    });
     await authenticateWithPasskey(page);
 
     await context.storageState({ path: resolvedOutputPath });
