@@ -4094,6 +4094,22 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@fortawesome/fontawesome-common-types@npm:7.3.1, @fortawesome/fontawesome-common-types@npm:^7.2.0":
+  version: 7.3.1
+  resolution: "@fortawesome/fontawesome-common-types@npm:7.3.1"
+  checksum: 10/95f48fd99fd3d7806b6786213196f6629cf9562cd6d92c6560df6182a82c91bbcee15c4a51776b85bb675a2170c03d98fc59f213be98171ac1981ed9b54d8965
+  languageName: node
+  linkType: hard
+
+"@fortawesome/fontawesome-svg-core@npm:^7.2.0":
+  version: 7.3.1
+  resolution: "@fortawesome/fontawesome-svg-core@npm:7.3.1"
+  dependencies:
+    "@fortawesome/fontawesome-common-types": "npm:7.3.1"
+  checksum: 10/cb79848909fd7dfc55785090fb798055fc3ef42fd04ef66660050f07bcd2d4448e64fd7f315198757dba41d84213e728cab28bb85ff7766829a6f5951044fd3b
+  languageName: node
+  linkType: hard
+
 "@gilbarbara/deep-equal@npm:^0.1.1":
   version: 0.1.2
   resolution: "@gilbarbara/deep-equal@npm:0.1.2"
@@ -4105,6 +4121,65 @@ __metadata:
   version: 0.3.1
   resolution: "@gilbarbara/deep-equal@npm:0.3.1"
   checksum: 10/3ab47262ec3ec8bdcdf8057a0fe7a3fcbc2c035e9d9ff4cf691deef55cae49e38e3a86b0308c232f8148292982daa4aed84ed4cd4a5bb26f5cac2a6ae1b5965b
+  languageName: node
+  linkType: hard
+
+"@gitbook/api@npm:0.181.0":
+  version: 0.181.0
+  resolution: "@gitbook/api@npm:0.181.0"
+  dependencies:
+    event-iterator: "npm:^2.0.0"
+    eventsource-parser: "npm:^3.0.0"
+  checksum: 10/6817b7c03276423bc4523f20ee7c2c1a51d65b8d58359ce9e4bf7cc0a01c5598c87a83938b6c09cb0523c12c317ef63d0567ff13af980b777f596e7a4894ea15
+  languageName: node
+  linkType: hard
+
+"@gitbook/embed@npm:0.5.1":
+  version: 0.5.1
+  resolution: "@gitbook/embed@npm:0.5.1"
+  dependencies:
+    "@gitbook/api": "npm:0.181.0"
+    "@gitbook/icons": "npm:"
+    bidc: "npm:^0.0.2"
+  peerDependencies:
+    react: "*"
+  checksum: 10/13dc02b3db15da7e8c3f5b5172a636a09f7baa78b0ce298ab6e4182a27599e97024955e4c96553e43c5a57053c56a0e547a604e67a646cc77b9045a6fa360fe8
+  languageName: node
+  linkType: hard
+
+"@gitbook/embed@patch:@gitbook/embed@npm%3A0.5.1#./.yarn/patches/@gitbook-embed-npm-0.5.1-23299eafd8.patch::locator=sonarqube-webapp%40workspace%3A.":
+  version: 0.5.1
+  resolution: "@gitbook/embed@patch:@gitbook/embed@npm%3A0.5.1#./.yarn/patches/@gitbook-embed-npm-0.5.1-23299eafd8.patch::version=0.5.1&hash=f2c972&locator=sonarqube-webapp%40workspace%3A."
+  dependencies:
+    "@gitbook/api": "npm:0.181.0"
+    "@gitbook/icons": "npm:"
+    bidc: "npm:^0.0.2"
+  peerDependencies:
+    react: "*"
+  checksum: 10/3766a9951a2a50f9ae9c76ed6d87a67d9ab0bb2e79ec8782ba3011c4f3075d38c554c8c1d9fa248d3c76ed3a275546f86dfd1d98d80172333e30adb51bd996a5
+  languageName: node
+  linkType: hard
+
+"@gitbook/fontawesome-pro@npm:1.0.23":
+  version: 1.0.23
+  resolution: "@gitbook/fontawesome-pro@npm:1.0.23"
+  dependencies:
+    "@fortawesome/fontawesome-common-types": "npm:^7.2.0"
+  checksum: 10/cbef60a55271f7eae9df7b14017cb9cad8ea407069866ae5d406b97f5e165ef2409adca7ab3a8f1220857dfd533279af0e9b04ab943966423cb66a3a56fedb01
+  languageName: node
+  linkType: hard
+
+"@gitbook/icons@npm:":
+  version: 0.5.0
+  resolution: "@gitbook/icons@npm:0.5.0"
+  dependencies:
+    "@fortawesome/fontawesome-svg-core": "npm:^7.2.0"
+    "@gitbook/fontawesome-pro": "npm:1.0.23"
+  peerDependencies:
+    react: "*"
+  bin:
+    gitbook-icons: bin/gitbook-icons.js
+  checksum: 10/dbe8763fab1ab16fb4c7b75a72eab1e3163d451cc56b99d9376ce90c971b9589ee2eb84490ebc10263d7b4da2351b7f043b79bce4881f53406e8be1bfeb4c861
   languageName: node
   linkType: hard
 
@@ -10807,6 +10882,20 @@ __metadata:
   languageName: node
   linkType: hard
 
+"bidc@npm:0.0.2":
+  version: 0.0.2
+  resolution: "bidc@npm:0.0.2"
+  checksum: 10/2ba735474ab6a29dbe43d646e0b4825178a2173e62321f975427ae8a46a136b8f35462068df49ba3804eebdcefe65c49010364ef0bf7dd8f35c8e08d2598e55f
+  languageName: node
+  linkType: hard
+
+"bidc@patch:bidc@npm%3A0.0.2#./.yarn/patches/bidc-npm-0.0.2-9c4989be91.patch::locator=sonarqube-webapp%40workspace%3A.":
+  version: 0.0.2
+  resolution: "bidc@patch:bidc@npm%3A0.0.2#./.yarn/patches/bidc-npm-0.0.2-9c4989be91.patch::version=0.0.2&hash=ac4bd8&locator=sonarqube-webapp%40workspace%3A."
+  checksum: 10/c4aaef50f79bbfc0d1ed555f6da0c38dc9318dbf7f45f0771f44a440b5d542139ad3b1d4f5ec0b473bac568fbeb07ac5a2482a6b770c5488b39f7e1e5a04a320
+  languageName: node
+  linkType: hard
+
 "binary-extensions@npm:^2.0.0":
   version: 2.3.0
   resolution: "binary-extensions@npm:2.3.0"
@@ -13170,6 +13259,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"event-iterator@npm:^2.0.0":
+  version: 2.0.0
+  resolution: "event-iterator@npm:2.0.0"
+  checksum: 10/52f041696b6f99f3c09725b5d5de25189479d26ad0f30e33dd6bea5eb4a1df9894f7c7663ce5335a5e0e77d32ffae9dbca1d6ef0db87d7c173d683a3ff94857b
+  languageName: node
+  linkType: hard
+
 "eventemitter3@npm:^4.0.0":
   version: 4.0.7
   resolution: "eventemitter3@npm:4.0.7"
@@ -13183,6 +13279,13 @@ __metadata:
   dependencies:
     bare-events: "npm:^2.7.0"
   checksum: 10/71b2e6079b4dc030c613ef73d99f1acb369dd3ddb6034f49fd98b3e2c6632cde9f61c15fb1351004339d7c79672252a4694ecc46a6124dc794b558be50a83867
+  languageName: node
+  linkType: hard
+
+"eventsource-parser@npm:^3.0.0":
+  version: 3.1.1
+  resolution: "eventsource-parser@npm:3.1.1"
+  checksum: 10/4ed3fbd0ea5b7041c3d14e6ab686077bc1b93ce230839d50ca735a39754ee17be2402c02be9e6608b325aa7a1e151bfd341ce4c985cb0d0ac2898a0712ab4826
   languageName: node
   linkType: hard
 
@@ -20932,6 +21035,7 @@ __metadata:
     "@emotion/react": "npm:11.14.0"
     "@emotion/styled": "npm:11.14.1"
     "@eslint/js": "npm:10.0.1"
+    "@gitbook/embed": "patch:@gitbook/embed@npm%3A0.5.1#./.yarn/patches/@gitbook-embed-npm-0.5.1-23299eafd8.patch"
     "@hey-api/openapi-ts": "npm:0.99.0"
     "@jupyterlab/nbformat": "npm:4.6.1"
     "@launchdarkly/toolbar": "npm:2.3.1"

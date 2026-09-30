@@ -14,6 +14,14 @@ Graph layout engine used by `feature-architecture` to compute hierarchical (Sugi
 
 Used by sq-cloud to parse Date from string or number.
 
+### @gitbook/embed
+
+Embeds the SonarSource documentation Assistant in sq-cloud and registers the POC's browser-side read-only tools.
+
+The `@gitbook/embed` patch passes the iframe origin and window to `bidc`. The `bidc` patch
+accepts a connection only from that window and origin, and sends messages to that origin.
+These patches keep unrelated pages from opening a tool channel in the signed-in browser tab.
+
 ### @radix-ui/react-slider
 
 Unstyled, accessible slider primitive — Echoes has no Slider component of its own (it's built on Radix under the hood for its other controls), so `libs/shared` wraps this directly for the few places that need a true draggable slider rather than a discrete radio/toggle group.

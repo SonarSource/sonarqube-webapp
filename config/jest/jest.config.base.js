@@ -19,6 +19,7 @@
  */
 
 const esModules = [
+  '@gitbook/embed',
   'd3',
   'd3-array',
   'd3-scale',

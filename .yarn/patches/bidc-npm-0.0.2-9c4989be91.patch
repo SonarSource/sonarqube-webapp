@@ -1,0 +1,109 @@
+diff --git a/dist/index.d.ts b/dist/index.d.ts
+index 8cc081611bf63806296abd15d0d4d8e6fcd55b8a..1d5122d6a6a1daf29ed6f32d8709dcd437e710d7 100644
+--- a/dist/index.d.ts
++++ b/dist/index.d.ts
+@@ -13,6 +13,10 @@ declare function decode<T = any>(chunks: AsyncIterable<string>, options?: {
+     send?: (key: string, ...args: any[]) => Promise<any>;
+ }): Promise<T>;
+ type MessageTarget = Window | Worker | MessagePort | ServiceWorker | BroadcastChannel | MessageEventSource;
++type ChannelConnectionOptions = {
++    origin?: string;
++    source?: MessageEventSource;
++};
+ type TChannel = {
+     send: <TReceiver, T = TReceiver extends (data: infer TT) => any ? TT : never, R = TReceiver extends (data: any) => infer TR ? TR : TReceiver extends (data: any) => Promise<infer TR> ? TR : never>(data: T) => Promise<R>;
+     receive: <T extends SerializableValue, R extends SerializableValue>(callback: (data: T) => R) => Promise<void>;
+@@ -22,6 +26,7 @@ type TChannel = {
+ declare function createChannel(): TChannel;
+ declare function createChannel(targetOrChannelId: MessageTarget | string): TChannel;
+ declare function createChannel(maybeTarget: MessageTarget, channelId: string): TChannel;
++declare function createChannel(maybeTarget: MessageTarget, channelId: string | undefined, options: ChannelConnectionOptions): TChannel;
+ 
+ export { createChannel, decode, encode };
+ export type { SerializableArray, SerializableFunction, SerializableObject, SerializableValue };
+diff --git a/dist/index.js b/dist/index.js
+index b38dd0ea7f357a3164756a70e34733ad1c1ae208..b52f8f2d3977529c185d1d22e1a40725e0b734ac 100644
+--- a/dist/index.js
++++ b/dist/index.js
+@@ -655,8 +655,10 @@ function parse(text, promiseResolvers, send) {
+ // and avoids issues with multiple connections to the same target, as well as
+ // supporting initialization inside useEffect hooks.
+ const connectionCache = new WeakMap();
+-function createChannel(targetOrChannelId, channelId) {
++function createChannel(targetOrChannelId, channelId, options) {
+     let maybeTarget = undefined;
++    const expectedOrigin = options?.origin;
++    const expectedSource = options?.source;
+     if (typeof channelId === 'undefined' && typeof targetOrChannelId === 'string') {
+         // The first argument is channelId
+         channelId = targetOrChannelId;
+@@ -684,7 +686,7 @@ function createChannel(targetOrChannelId, channelId) {
+             if (maybeTarget) {
+                 if ('self' in maybeTarget && maybeTarget.self === maybeTarget) {
+                     // It's an iframe contentWindow
+-                    maybeTarget.postMessage(message, '*', [
++                    maybeTarget.postMessage(message, expectedOrigin ?? '*', [
+                         transfer
+                     ]);
+                 } else {
+@@ -700,7 +702,7 @@ function createChannel(targetOrChannelId, channelId) {
+                     ]);
+                 } else if (typeof window !== 'undefined' && window.parent && window.parent !== window) {
+                     // Inside an iframe, we can use window.parent
+-                    window.parent.postMessage(message, '*', [
++                    window.parent.postMessage(message, expectedOrigin ?? '*', [
+                         transfer
+                     ]);
+                 } else {
+@@ -720,6 +722,8 @@ function createChannel(targetOrChannelId, channelId) {
+         };
+         // Handle handshake requests
+         function handleConnect(event) {
++            if (expectedSource && event.source !== expectedSource) return;
++            if (expectedOrigin && event.origin !== expectedOrigin) return;
+             const port = event.ports[0];
+             if (!port) return;
+             const data = event.data;
+diff --git a/dist/index.mjs b/dist/index.mjs
+index 92496f8b4504d3826e8178867805d560ac7d2215..4356928d164d8f4dfd61251255143f57fa816fb3 100644
+--- a/dist/index.mjs
++++ b/dist/index.mjs
+@@ -653,8 +653,10 @@ function parse(text, promiseResolvers, send) {
+ // and avoids issues with multiple connections to the same target, as well as
+ // supporting initialization inside useEffect hooks.
+ const connectionCache = new WeakMap();
+-function createChannel(targetOrChannelId, channelId) {
++function createChannel(targetOrChannelId, channelId, options) {
+     let maybeTarget = undefined;
++    const expectedOrigin = options?.origin;
++    const expectedSource = options?.source;
+     if (typeof channelId === 'undefined' && typeof targetOrChannelId === 'string') {
+         // The first argument is channelId
+         channelId = targetOrChannelId;
+@@ -682,7 +684,7 @@ function createChannel(targetOrChannelId, channelId) {
+             if (maybeTarget) {
+                 if ('self' in maybeTarget && maybeTarget.self === maybeTarget) {
+                     // It's an iframe contentWindow
+-                    maybeTarget.postMessage(message, '*', [
++                    maybeTarget.postMessage(message, expectedOrigin ?? '*', [
+                         transfer
+                     ]);
+                 } else {
+@@ -698,7 +700,7 @@ function createChannel(targetOrChannelId, channelId) {
+                     ]);
+                 } else if (typeof window !== 'undefined' && window.parent && window.parent !== window) {
+                     // Inside an iframe, we can use window.parent
+-                    window.parent.postMessage(message, '*', [
++                    window.parent.postMessage(message, expectedOrigin ?? '*', [
+                         transfer
+                     ]);
+                 } else {
+@@ -718,6 +720,8 @@ function createChannel(targetOrChannelId, channelId) {
+         };
+         // Handle handshake requests
+         function handleConnect(event) {
++            if (expectedSource && event.source !== expectedSource) return;
++            if (expectedOrigin && event.origin !== expectedOrigin) return;
+             const port = event.ports[0];
+             if (!port) return;
+             const data = event.data;
