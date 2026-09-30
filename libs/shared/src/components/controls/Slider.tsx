@@ -32,14 +32,15 @@ interface SliderStep {
 export interface SliderProps {
   ariaLabel?: string;
   className?: string;
-  /** Shown under the right end of the track (e.g. the meaning of the highest step). */
-  endLabel?: string;
   id?: string;
   isDisabled?: boolean;
   label?: string;
   onChange: (value: string) => void;
-  /** Shown under the left end of the track (e.g. the meaning of the lowest step). */
-  startLabel?: string;
+  /** Called once per interaction (drag or keypress) with its final, settled value - unlike
+   * `onChange`, which fires on every intermediate step a drag passes through on its way there.
+   * Useful for side effects that should react to a deliberate value change, not a step merely
+   * crossed mid-drag on the way back to where it started. */
+  onCommit?: (value: string) => void;
   steps: SliderStep[];
   value: string;
 }
@@ -56,12 +57,11 @@ export interface SliderProps {
 export function Slider({
   ariaLabel,
   className,
-  endLabel,
   id,
   isDisabled,
   label,
   onChange,
-  startLabel,
+  onCommit,
   steps,
   value,
 }: Readonly<SliderProps>) {
@@ -80,6 +80,13 @@ export function Slider({
     }
   };
 
+  const handleValueCommit = ([newIndex]: number[]) => {
+    const step = steps[newIndex];
+    if (step) {
+      onCommit?.(step.value);
+    }
+  };
+
   return (
     <div className={className}>
       {label && <Label id={labelId}>{label}</Label>}
@@ -92,6 +99,7 @@ export function Slider({
         max={steps.length - 1}
         min={0}
         onValueChange={handleValueChange}
+        onValueCommit={handleValueCommit}
         step={1}
         value={[selectedIndex]}
       >
@@ -105,12 +113,30 @@ export function Slider({
         />
       </SliderRoot>
 
-      {(startLabel ?? endLabel) && (
-        <EndLabels>
-          <EndLabel>{startLabel}</EndLabel>
-          <EndLabel>{endLabel}</EndLabel>
-        </EndLabels>
-      )}
+      <Graduations>
+        {steps.map((step, index) => {
+          const isFirst = index === 0 && steps.length > 1;
+          const isLast = index === steps.length - 1 && steps.length > 1;
+
+          let position: 'center' | 'end' | 'start' = 'center';
+          if (isFirst) {
+            position = 'start';
+          } else if (isLast) {
+            position = 'end';
+          }
+
+          return (
+            <Graduation
+              key={step.value}
+              position={position}
+              style={{ left: `${steps.length > 1 ? (index / (steps.length - 1)) * 100 : 50}%` }}
+            >
+              <GraduationTick />
+              <GraduationLabel>{step.label}</GraduationLabel>
+            </Graduation>
+          );
+        })}
+      </Graduations>
     </div>
   );
 }
@@ -155,11 +181,39 @@ const SliderThumb = styled(RadixSlider.Thumb)`
   }
 `;
 
-const EndLabels = styled.div`
-  ${tw`sw-flex sw-justify-between sw-mt-2`}
+const Graduations = styled.div`
+  ${tw`sw-relative sw-w-full sw-mt-2`}
+  height: 1.75rem;
 `;
 
-const EndLabel = styled.span`
-  ${tw`sw-text-xs`}
+/* Positioned at the same percentage Radix uses for the Thumb (min 0 / max steps.length - 1), then
+ * shifted back by half its own width, so the tick and label - which move together as a single
+ * block - line up with the stop they represent instead of drifting off it once step labels have
+ * different widths.
+ *
+ * The first and last graduations get an extra inward shift on top of that, so their label never
+ * sits flush against - or spills past - the ends of the slider track. */
+const Graduation = styled.div<{ position: 'center' | 'end' | 'start' }>`
+  ${tw`sw-absolute sw-top-0 sw-flex sw-flex-col sw-items-center sw-gap-1`}
+  transform: ${({ position }) => {
+    switch (position) {
+      case 'start':
+        return 'translateX(calc(-50% + 0.5rem))';
+      case 'end':
+        return 'translateX(calc(-50% - 0.5rem))';
+      case 'center':
+      default:
+        return 'translateX(-50%)';
+    }
+  }};
+`;
+
+const GraduationTick = styled.span`
+  ${tw`sw-block sw-rounded-pill sw-w-25 sw-h-200`}
+  background-color: ${cssVar('color-border-bold')};
+`;
+
+const GraduationLabel = styled.span`
+  ${tw`sw-text-xs sw-whitespace-nowrap`}
   color: ${cssVar('color-text-subtle')};
 `;

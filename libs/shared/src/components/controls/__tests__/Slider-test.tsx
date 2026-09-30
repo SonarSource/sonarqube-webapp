@@ -37,13 +37,11 @@ it('positions the thumb on the current value', () => {
   expect(screen.getByRole('slider')).toHaveAttribute('aria-valuetext', 'Medium');
 });
 
-it('does not render per-step labels, only the optional start/end labels', () => {
-  setup({ endLabel: 'All Recommended issues', startLabel: 'Only blockers', value: 'MEDIUM' });
+it('renders a graduation label for every step', () => {
+  setup({ value: 'MEDIUM' });
 
-  expect(screen.getByText('Only blockers')).toBeVisible();
-  expect(screen.getByText('All Recommended issues')).toBeVisible();
   STEPS.forEach((step) => {
-    expect(screen.queryByText(step.label)).not.toBeInTheDocument();
+    expect(screen.getByText(step.label)).toBeVisible();
   });
 });
 
@@ -95,6 +93,28 @@ it('prevents interaction when disabled', async () => {
   await user.keyboard('{ArrowRight}');
 
   expect(onChange).not.toHaveBeenCalled();
+});
+
+it('calls onCommit once a keypress settles on its final value', async () => {
+  const onCommit = jest.fn();
+  const { user } = setup({ onCommit, value: 'MEDIUM' });
+
+  const thumb = screen.getByRole('slider');
+  thumb.focus();
+  await user.keyboard('{ArrowRight}');
+
+  expect(onCommit).toHaveBeenCalledWith('HIGH');
+});
+
+it('does not call onCommit when the key press has no effect', async () => {
+  const onCommit = jest.fn();
+  const { user } = setup({ onCommit, value: 'INFO' });
+
+  const thumb = screen.getByRole('slider');
+  thumb.focus();
+  await user.keyboard('{ArrowLeft}');
+
+  expect(onCommit).not.toHaveBeenCalled();
 });
 
 function setup(props: Partial<ComponentProps<typeof Slider>> = {}) {
