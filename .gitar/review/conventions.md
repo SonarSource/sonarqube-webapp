@@ -4,6 +4,10 @@
 
 - Use meaningful names for constants, functions, and components.
 
+## API endpoints
+
+- Write the full API endpoint path at each usage site, repeating the base path when needed. Do not assemble endpoint paths from separate constants (for example, `${API_BASE}/search`); literal paths such as `/api/issues/search` remain searchable across repositories.
+
 ## Localization
 
 - New code using the legacy `translate` or `translateWithParameters` helpers — should use `formatMessage` or `<FormattedMessage>` instead.

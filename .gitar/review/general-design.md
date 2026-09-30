@@ -4,7 +4,7 @@
 
 - Same 3+ lines of logic appearing in 3 or more files? Flag it. Duplication between just 2 files is often coincidental — don't extract unrelated code into shared helpers just because it looks similar.
 - Two components or hooks structurally identical (same props, same state, same render logic)?
-- A constant defined in one place but hardcoded as a string/literal elsewhere?
+- A constant defined in one place but hardcoded as a string/literal elsewhere? Repeated API base paths are intentional; follow the API endpoint convention so full paths remain searchable.
 - Same feature-flag check written independently in multiple components?
 
 ## Missing or better abstractions
