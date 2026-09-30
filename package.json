@@ -11,7 +11,7 @@
     "tools/nx-automation"
   ],
   "engines": {
-    "node": ">=20.19.1 <21 || >=22.15 <23.12"
+    "node": ">=24.21.0 <25"
   },
   "packageManager": "yarn@4.17.0",
   "browserslist": [
@@ -170,7 +170,7 @@
     "@types/jest-axe": "3.5.9",
     "@types/lodash": "4.17.24",
     "@types/lunr": "2.3.7",
-    "@types/node": "20.19.43",
+    "@types/node": "24.19.0",
     "@types/react": "19.2.14",
     "@types/react-dom": "19.2.3",
     "@types/react-highlight-words": "0.20.0",
