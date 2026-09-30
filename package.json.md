@@ -195,7 +195,7 @@ We force it to use the explicit version we declare (3.0.11)
 
 ### axios
 
-Some of our dependencies are requiring an older version of axios with vulnerabilities, we force them to use a more recent version that is not vulnerable.
+Some of our dependencies require an older version of axios with vulnerabilities. Notably, `nx@23.2.1` pins axios to `1.18.1` and `sonarqube-scanner@4.3.8` pins it to `1.17.0`. Because multiple packages are affected, we use a bare resolution to force all transitive dependents to use a more recent version that is not vulnerable.
 
 ### browserslist
 
@@ -224,6 +224,10 @@ This is necessary, because more recent patch versions are broken.
 ### protobuf & protobufjs-cli
 
 These packages are used to maintain contract validation between the frontend and analyzer in the architecture feature. the cli package is specifically used for the generation of the validation code and associated types.
+
+### nx/brace-expansion
+
+`nx@23.2.1` pins `brace-expansion` to the exact version `5.0.9`, which is reported as vulnerable. The scoped resolution `nx/brace-expansion` forces only nx's copy to resolve to `^5.0.10`, leaving the unrelated `1.x` and `2.x` entries used by other packages untouched.
 
 ### semver
 
