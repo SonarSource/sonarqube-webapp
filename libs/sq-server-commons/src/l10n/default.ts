@@ -8339,9 +8339,9 @@ export const defaultMessages = {
   'background_tasks.error_stacktrace.title': 'Error Details: {project} [{type}]',
   'background_tasks.error_stacktrace': 'Error Details',
   'background_tasks.pending': 'pending',
-  'background_tasks.pending_time': 'pending time',
+  'background_tasks.pending_time': 'Age of oldest pending task: {time}',
   'background_tasks.pending_time.description':
-    'Pending time of the oldest background task waiting to be processed.',
+    'How long the oldest pending background task has been waiting in the queue. This is not an estimate of the time needed to process the remaining tasks.',
   'background_tasks.failures': 'still failing',
   'background_tasks.date_and_time': '{date} - {time}',
   'background_tasks.submitted_by_x': 'By {submitter}',
@@ -8357,7 +8357,7 @@ export const defaultMessages = {
     'Configure multiple workers for parallel processing of analysis reports in Enterprise Edition.',
   'background_tasks.search_by_task_or_component': 'Search by Task or Component',
   'background_tasks.failing_count':
-    'Count of projects where processing of most recent analysis report failed',
+    'Count of projects where processing of most recent analysis report failed.',
   'background_tasks.retry_failed_tasks':
     'Some projects data reload failed. Refer to the <link>documentation</link> for steps to retry.',
 
