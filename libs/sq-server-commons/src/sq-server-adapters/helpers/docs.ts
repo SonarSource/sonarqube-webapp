@@ -18,8 +18,10 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import type { DocLink } from '../../helpers/doc-links';
-import { useUncataloguedDocUrl } from '../../helpers/docs';
+import { AgentCentricDocLink, type DocLink } from '../../helpers/doc-links';
+import { useDocUrl, useUncataloguedDocUrl } from '../../helpers/docs';
+
+export { AgentCentricDocLink };
 
 /**
  * SharedDocLink entries are consistent across cloud and server.
@@ -57,4 +59,17 @@ export function useSharedDocUrl(to: SharedDocLink | DocLink): string;
 export function useSharedDocUrl(): (to: SharedDocLink | DocLink) => string;
 export function useSharedDocUrl(to?: SharedDocLink | DocLink) {
   return useUncataloguedDocUrl(to);
+}
+
+/**
+ * Resolves a link from the agent-centric-development-cycle docs site (Vortex, Hunter Agent, …),
+ * as opposed to `useSharedDocUrl`'s generic SonarQube docs site. Server's `useDocUrl` already
+ * routes `AgentCentricDocLink` values to the right base URL; this just narrows it to that enum so
+ * `feature-vortex-dashboard` doesn't need to reach past `~adapters` for it.
+ */
+export function useAgentCentricDocUrl(to: AgentCentricDocLink): string;
+export function useAgentCentricDocUrl(): (to: AgentCentricDocLink) => string;
+export function useAgentCentricDocUrl(to?: AgentCentricDocLink) {
+  const getDocUrl = useDocUrl();
+  return to === undefined ? getDocUrl : getDocUrl(to);
 }
