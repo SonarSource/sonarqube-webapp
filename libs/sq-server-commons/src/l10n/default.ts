@@ -4222,6 +4222,7 @@ export const defaultMessages = {
     'Anyone can view. Only authenticated users can create and edit dashboards.',
   'dashboard.view_all_dashboards': 'View all dashboards',
   'dashboard.download_schema': 'Save dashboard schema',
+  'dashboard.download_pdf': 'Download dashboard as PDF',
   'project_dashboard.widget.no_issues': 'No issues found',
   'project_dashboard.widget.other': 'Other',
   'project_dashboard.widget.tooltip.count': 'Count: {count}',

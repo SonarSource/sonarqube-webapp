@@ -18,7 +18,21 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { downloadDashboardSchema } from '../downloadDashboardSchema';
+import { downloadDashboardSchema, sanitizeDashboardFilename } from '../downloadDashboardSchema';
+
+describe('sanitizeDashboardFilename', () => {
+  it('strips control and Windows-illegal characters', () => {
+    expect(sanitizeDashboardFilename('a\u0000b\u007fc\\d/e:f*g?h"i<j>k|l')).toBe('abcdefghijkl');
+  });
+
+  it('normalizes whitespace and hyphens and trims edge hyphens', () => {
+    expect(sanitizeDashboardFilename('  --a   b\t-- c--  ')).toBe('a-b-c');
+  });
+
+  it('preserves Unicode letters and digits', () => {
+    expect(sanitizeDashboardFilename('Übersicht 质量 v1')).toBe('Übersicht-质量-v1');
+  });
+});
 
 describe('downloadDashboardSchema', () => {
   beforeEach(() => {

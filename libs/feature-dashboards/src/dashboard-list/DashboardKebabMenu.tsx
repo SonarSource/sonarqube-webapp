@@ -41,8 +41,10 @@ interface DashboardKebabMenuItemsProps {
   dashboardName: string;
   isBuiltIn: boolean;
   isDeleting?: boolean;
+  isDownloadingPdf?: boolean;
   isFetching?: boolean;
   onDelete?: (controls: { close: () => void }) => void;
+  onDownloadPdf?: () => void;
   onDownloadSchema?: () => void;
   onDuplicate?: () => void;
   onEditDashboard?: () => void;
@@ -68,7 +70,9 @@ export function DashboardKebabMenuItems(props: Readonly<DashboardKebabMenuItemsP
     dashboardName,
     isBuiltIn,
     isDeleting = false,
+    isDownloadingPdf = false,
     onDelete,
+    onDownloadPdf,
     onDownloadSchema,
     onDuplicate,
     onEditDashboard,
@@ -115,6 +119,16 @@ export function DashboardKebabMenuItems(props: Readonly<DashboardKebabMenuItemsP
           }}
         >
           {intl.formatMessage({ id: 'dashboard.download_schema' })}
+        </DropdownMenu.ItemButton>
+      )}
+      {onDownloadPdf && (
+        <DropdownMenu.ItemButton
+          isDisabled={isDownloadingPdf}
+          onClick={() => {
+            onDownloadPdf();
+          }}
+        >
+          {intl.formatMessage({ id: 'dashboard.download_pdf' })}
         </DropdownMenu.ItemButton>
       )}
       {onDelete && (

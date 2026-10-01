@@ -23,17 +23,33 @@ interface DashboardDownloadMetadata {
   name: string;
 }
 
+/**
+ * Sanitizes a dashboard name for use as a download filename.
+ * Strips control characters and Windows-illegal characters, then normalizes
+ * whitespace/hyphens. Preserves Unicode letters and digits.
+ */
+export function sanitizeDashboardFilename(name: string): string {
+  // Whitespace is normalized first so tabs/newlines become hyphens instead of being dropped as control characters.
+  return [...name.replaceAll(/\s+/g, '-')]
+    .filter((character) => {
+      const codePoint = character.codePointAt(0) ?? 0;
+      return (
+        codePoint > 0x1f &&
+        (codePoint < 0x7f || codePoint > 0x9f) &&
+        !/[\\/:*?"<>|]/.test(character)
+      );
+    })
+    .join('')
+    .replaceAll(/-+/g, '-')
+    .replaceAll(/(^-)|(-$)/g, '');
+}
+
 export function downloadDashboardSchema<T extends DashboardDownloadMetadata>(dashboard: T): void {
   const jsonString = JSON.stringify(dashboard, null, 2);
   const blob = new Blob([jsonString], { type: 'application/json' });
   const url = URL.createObjectURL(blob);
 
-  const sanitizedName = dashboard.name
-    .replaceAll(/[^a-zA-Z0-9\s-]/g, '')
-    .replaceAll(/\s+/g, '-')
-    .replaceAll(/-+/g, '-')
-    .replaceAll(/(^-)|(-$)/g, '');
-  const filename = `${sanitizedName}-${dashboard.id}.json`;
+  const filename = `${sanitizeDashboardFilename(dashboard.name)}-${dashboard.id}.json`;
 
   const link = document.createElement('a');
   link.href = url;
