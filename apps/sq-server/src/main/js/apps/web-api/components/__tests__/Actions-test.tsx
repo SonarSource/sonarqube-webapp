@@ -32,6 +32,14 @@ jest.mock('~sq-server-commons/api/web-api', () => ({
   }),
 }));
 
+it('should display the response content type when the action defines one', () => {
+  renderAction({
+    action: mockAction({ contentType: 'NO_CONTENT' }),
+  });
+
+  expect(byText('api_documentation.response_content_type.NO_CONTENT').get()).toBeInTheDocument();
+});
+
 it('should have no additional information links', () => {
   renderAction();
 

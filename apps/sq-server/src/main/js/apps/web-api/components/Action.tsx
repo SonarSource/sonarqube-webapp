@@ -19,6 +19,7 @@
  */
 
 import * as React from 'react';
+import { FormattedMessage } from 'react-intl';
 import { Badge, Card, LinkBox, LinkIcon, SubHeading, Tabs } from '~design-system';
 import { SafeHTMLInjection } from '~shared/helpers/sanitize';
 import { translate, translateWithParameters } from '~sq-server-commons/helpers/l10n';
@@ -100,6 +101,12 @@ export default function Action(props: Props) {
       <SafeHTMLInjection htmlAsString={action.description}>
         <div className="sw-mt-4 markdown" />
       </SafeHTMLInjection>
+
+      {action.contentType && (
+        <div className="sw-mt-4">
+          <FormattedMessage id={`api_documentation.response_content_type.${action.contentType}`} />
+        </div>
+      )}
 
       <div className="sw-mt-4">
         <Tabs

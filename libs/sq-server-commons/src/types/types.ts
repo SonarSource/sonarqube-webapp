@@ -650,6 +650,7 @@ export interface UserGroupMember {
 export namespace WebApi {
   export interface Action {
     changelog: Changelog[];
+    contentType?: 'BINARY' | 'NO_CONTENT' | 'TEXT';
     deprecatedSince?: string;
     description: string;
     hasResponseExample: boolean;
