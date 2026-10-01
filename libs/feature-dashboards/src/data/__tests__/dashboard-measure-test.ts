@@ -59,7 +59,7 @@ describe('dashboardMetricToMeasure', () => {
     });
   });
 
-  it('includes all filterable statuses for issue resolution metrics', () => {
+  it('does not send a status filter for issue resolution metrics', () => {
     expect(
       dashboardMetricToMeasure(
         {
@@ -70,8 +70,29 @@ describe('dashboardMetricToMeasure', () => {
       ),
     ).toEqual({
       api: 'issue-resolution-history',
-      statuses: [...FILTERABLE_CODE_ISSUE_STATUSES],
+      statuses: undefined,
       statistic: IssueResolutionStatistic.MTTR,
+    });
+  });
+
+  it('does not send a status filter for recent MTTR with impact filters', () => {
+    expect(
+      dashboardMetricToMeasure(
+        {
+          measureFilters: {
+            impactSeverities: [SoftwareImpactSeverity.High],
+            impactSoftwareQuality: SoftwareQuality.Security,
+          },
+          statistic: IssueResolutionStatistic.RecentMTTR,
+          type: DashboardMetricType.IssueResolution,
+        },
+        CodeScope.Overall,
+      ),
+    ).toEqual({
+      api: 'issue-resolution-history',
+      impacts: ['SECURITY:HIGH'],
+      statuses: undefined,
+      statistic: IssueResolutionStatistic.RecentMTTR,
     });
   });
 

@@ -221,7 +221,7 @@ export function dashboardMetricToMeasure(
     case DashboardMetricType.IssueResolution:
       return {
         api: 'issue-resolution-history',
-        ...mqrIssueFilters(metric.measureFilters),
+        ...mqrIssueFilters(metric.measureFilters, null),
         statistic: metric.statistic,
       };
     case DashboardMetricType.IssueDensity:
