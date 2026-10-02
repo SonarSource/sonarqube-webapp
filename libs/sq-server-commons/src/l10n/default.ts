@@ -3669,7 +3669,9 @@ export const defaultMessages = {
     "An exit point is a location in this project's code that calls or depends on another project or system, such as an outbound HTTP call. Map each exit point to its corresponding entry point in another application to trace cross-project dependencies across the full system.",
   'architecture.relationships.validate.save_success': 'Relationships saved',
   'architecture.relationships.validate.save_error': 'Failed to save relationships',
-  'architecture.relationships.validate.exit_points': 'Exit points',
+  'architecture.relationships.validate.builtin_matches': 'Built-in',
+  'architecture.relationships.validate.sdk_matches': 'Custom from SDKs',
+  'architecture.relationships.validate.sdk_boundary_column': 'SDK found',
   'architecture.relationships.validate.exit_points.empty': 'No exit points found for this project.',
   'architecture.relationships.validate.exit_points.unregistered':
     'This project is not registered as an architecture component, so exit points cannot be loaded.',
