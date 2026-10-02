@@ -27,7 +27,7 @@ import {
 } from '@sonarsource/echoes-react';
 import { useRef } from 'react';
 import { useIntl } from 'react-intl';
-import { useObserveElementTruncation } from '../../../dashboard-layout/shared/hooks/useObserveElementTruncation';
+import { useObserveElementTruncation } from '~shared/hooks/useObserveElementTruncation';
 import type { TopListColumnHeaders, TopListProps, TopListRow } from '../../../types/visualization';
 import { WidgetLoadingSpinner } from '../../common/WidgetLoadingSpinner';
 import { WidgetNoData } from '../../common/WidgetNoData';

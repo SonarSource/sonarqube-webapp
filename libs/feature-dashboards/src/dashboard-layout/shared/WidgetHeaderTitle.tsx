@@ -21,8 +21,8 @@
 import { Heading, HeadingSize, Tooltip } from '@sonarsource/echoes-react';
 import { useRef } from 'react';
 import { useIntl } from 'react-intl';
+import { useObserveElementTruncation } from '~shared/hooks/useObserveElementTruncation';
 import { getWidgetTitleId, useOptionalWidgetInstanceContext } from './WidgetInstanceContext';
-import { useObserveElementTruncation } from './hooks/useObserveElementTruncation';
 import { getSentenceCaseWidgetTitle } from './widgetTitleSentenceCase';
 
 export interface WidgetHeaderTitleProps {

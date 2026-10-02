@@ -22,10 +22,10 @@ import { EchoesProviderForTests } from '@sonarsource/echoes-react';
 import { screen } from '@testing-library/react';
 import { HelmetProvider } from 'react-helmet-async';
 import { render } from '~shared/helpers/test-utils';
+import { useObserveElementTruncation } from '~shared/hooks/useObserveElementTruncation';
 import { WidgetHeaderTitle } from '../WidgetHeaderTitle';
-import { useObserveElementTruncation } from '../hooks/useObserveElementTruncation';
 
-jest.mock('../hooks/useObserveElementTruncation');
+jest.mock('~shared/hooks/useObserveElementTruncation');
 
 const mockUseObserveElementTruncation = jest.mocked(useObserveElementTruncation);
 

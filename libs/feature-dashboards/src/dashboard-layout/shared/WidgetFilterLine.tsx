@@ -20,7 +20,7 @@
 
 import { Text, TextSize, Tooltip } from '@sonarsource/echoes-react';
 import { useRef } from 'react';
-import { useObserveElementTruncation } from './hooks/useObserveElementTruncation';
+import { useObserveElementTruncation } from '~shared/hooks/useObserveElementTruncation';
 
 const FILTER_LINE_SEPARATOR = ' · ';
 
