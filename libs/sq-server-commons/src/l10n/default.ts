@@ -10427,8 +10427,6 @@ export const defaultMessages = {
   'user_groups.page.managed_description.recommendation':
     'We recommend you delete local groups. All other operations should be done on your identity provider. Read more about {link}.',
   'user_groups.page.managing_groups': 'managing groups',
-  'user_groups.anyone.description':
-    'Anybody who browses the application belongs to this group. If authentication is not enforced, assigned permissions also apply to non-authenticated users.',
   'groups.delete_group': 'Delete Group',
   'groups.delete_group.confirmation': 'Are you sure you want to delete "{0}"?',
   'groups.create_group': 'Create Group',

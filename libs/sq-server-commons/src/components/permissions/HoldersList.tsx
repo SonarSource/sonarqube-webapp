@@ -36,7 +36,6 @@ import UserHolder from './UserHolder';
 interface Props {
   filter?: string;
   groups: PermissionGroup[];
-  isComponentPrivate?: boolean;
   isProjectManaged: boolean;
   loading?: boolean;
   onToggleGroup: (group: PermissionGroup, permission: string) => Promise<void>;
@@ -101,7 +100,7 @@ export default class HoldersList extends React.PureComponent<
   };
 
   renderItem(item: PermissionUser | PermissionGroup, permissions: PermissionDefinitions) {
-    const { isComponentPrivate, isProjectManaged } = this.props;
+    const { isProjectManaged } = this.props;
 
     return (
       <UseQuery key={this.getKey(item)} query={useIsGitHubProjectQuery}>
@@ -136,7 +135,6 @@ export default class HoldersList extends React.PureComponent<
                         ) : (
                           <GroupHolder
                             group={item}
-                            isComponentPrivate={isComponentPrivate}
                             isGitHubUser={
                               isGitHubProject && !!githubProvisioningStatus && item.managed
                             }

@@ -19,10 +19,7 @@
  */
 
 import { IconPeople, Table } from '@sonarsource/echoes-react';
-import { FormattedMessage } from 'react-intl';
-import { translate } from '../../helpers/l10n';
 import { isPermissionDefinitionGroup } from '../../helpers/permissions';
-import { Permissions } from '../../types/permissions';
 import { PermissionDefinitions, PermissionGroup } from '../../types/types';
 import { IntegrationIcon } from './IntegrationIcon';
 import PermissionCell from './PermissionCell';
@@ -30,7 +27,6 @@ import usePermissionChange from './usePermissionChange';
 
 interface Props {
   group: PermissionGroup;
-  isComponentPrivate?: boolean;
   isGitHubUser: boolean | undefined;
   isGitLabUser: boolean | undefined;
   onToggle: (group: PermissionGroup, permission: string) => Promise<void>;
@@ -38,19 +34,14 @@ interface Props {
   removeOnly?: boolean;
 }
 
-const ANYONE = 'Anyone';
-
 export default function GroupHolder(props: Props) {
-  const { group, isComponentPrivate, permissions, removeOnly, isGitHubUser, isGitLabUser } = props;
+  const { group, permissions, removeOnly, isGitHubUser, isGitLabUser } = props;
   const { loading, handleCheck, modal } = usePermissionChange({
     holder: group,
     onToggle: props.onToggle,
     permissions,
     removeOnly,
   });
-
-  const description =
-    group.name === ANYONE ? translate('user_groups.anyone.description') : group.description;
 
   return (
     <Table.Row>
@@ -59,33 +50,18 @@ export default function GroupHolder(props: Props) {
       </Table.Cell>
 
       <Table.CellText
-        content={
-          <>
-            {group.name}
-            {group.name === ANYONE && (
-              <>
-                &nbsp;[
-                <FormattedMessage id="deprecated" />]
-              </>
-            )}
-          </>
-        }
-        description={description}
+        content={group.name}
+        description={group.description}
         icon={<IntegrationIcon isGitHubUser={isGitHubUser} isGitLabUser={isGitLabUser} />}
       />
 
       {permissions.map((permission) => {
         const isPermissionGroup = isPermissionDefinitionGroup(permission);
         const permissionKey = isPermissionGroup ? permission.category : permission.key;
-        const isAdminPermission = !isPermissionGroup && permissionKey === Permissions.Admin;
 
         return (
           <PermissionCell
-            disabled={
-              isGitHubUser ||
-              isGitLabUser ||
-              (group.name === ANYONE && (isComponentPrivate || isAdminPermission))
-            }
+            disabled={isGitHubUser || isGitLabUser}
             key={permissionKey}
             loading={loading}
             onCheck={handleCheck}
