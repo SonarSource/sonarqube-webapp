@@ -57,6 +57,7 @@ export const CATEGORY_OVERRIDES: Record<string, string> = {
   cobol: LANGUAGES_CATEGORY,
   css: LANGUAGES_CATEGORY,
   dart: LANGUAGES_CATEGORY,
+  delphi: LANGUAGES_CATEGORY,
   docker: LANGUAGES_CATEGORY,
   flex: LANGUAGES_CATEGORY,
   'github actions': LANGUAGES_CATEGORY,
