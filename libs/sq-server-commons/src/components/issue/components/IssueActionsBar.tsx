@@ -20,15 +20,11 @@
 
 import { useCallback } from 'react';
 import { AssigneeUser, IssueAssign } from '~shared/components/issues/IssueAssign';
-import { IssueTags } from '~shared/components/issues/IssueTags';
 import { HighlightRing } from '../../../design-system';
 import { IssueActions } from '../../../types/issues';
 import { Issue } from '../../../types/types';
-import { useSetIssueTags } from '../hooks/useSetIssueTags';
-import IssueTagsPopup from '../popups/IssueTagsPopup';
 import { AssigneeDropdown } from './AssigneeDropdown';
 import IssueTransition from './IssueTransition';
-import SonarLintBadge from './SonarLintBadge';
 
 interface Props {
   additionalIssueActions?: React.ComponentType<{ issue: Issue }>[];
@@ -38,8 +34,6 @@ interface Props {
   issue: Issue;
   onAssign: (login: string) => void;
   onChange: (issue: Issue) => void;
-  showSonarLintBadge?: boolean;
-  showTags?: boolean;
   togglePopup: (popup: string, show?: boolean) => void;
 }
 
@@ -52,14 +46,10 @@ export default function IssueActionsBar(props: Readonly<Props>) {
     issue,
     onAssign,
     onChange,
-    showSonarLintBadge,
-    showTags,
     togglePopup,
   } = props;
 
   const canAssign = issue.actions.includes(IssueActions.Assign);
-  const { canSetTags, setTags } = useSetIssueTags(issue, onChange);
-  const tagsPopupOpen = currentPopup === 'edit-tags' && canSetTags;
   const assignedUser = issue.assigneeName ?? issue.assignee;
 
   const handleAssign = useCallback(
@@ -79,6 +69,7 @@ export default function IssueActionsBar(props: Readonly<Props>) {
         >
           <IssueTransition
             isOpen={currentPopup === 'transition'}
+            isSelected={isSelected}
             issue={issue}
             onChange={onChange}
             togglePopup={togglePopup}
@@ -115,26 +106,6 @@ export default function IssueActionsBar(props: Readonly<Props>) {
             <ActionComponent issue={issue} />
           </li>
         ))}
-
-        {showTags && (
-          <li>
-            <IssueTags
-              canSetTags={canSetTags}
-              className="js-issue-edit-tags sw-typo-sm"
-              isOpen={tagsPopupOpen}
-              issue={issue}
-              overlay={<IssueTagsPopup selectedTags={issue.tags ?? []} setTags={setTags} />}
-              tagsToDisplay={1}
-              togglePopup={props.togglePopup}
-            />
-          </li>
-        )}
-
-        {showSonarLintBadge && issue.quickFixAvailable && (
-          <li>
-            <SonarLintBadge />
-          </li>
-        )}
       </ul>
     </div>
   );

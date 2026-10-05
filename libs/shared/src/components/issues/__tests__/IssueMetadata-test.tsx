@@ -18,9 +18,10 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { act } from '@testing-library/react';
 import { ComponentProps } from 'react';
 import { renderWithContext } from '../../../helpers/test-utils';
-import { byRole, byText } from '../../../helpers/testSelector';
+import { byRole, byTestId, byText } from '../../../helpers/testSelector';
 import {
   CodeAttribute,
   CodeAttributeCategory,
@@ -28,6 +29,7 @@ import {
   SoftwareQuality,
 } from '../../../types/clean-code-taxonomy';
 import { IssueMetadata } from '../IssueMetadata';
+import { IssuePopupContext, IssuePopupName, IssuePopupProvider } from '../IssuePopupContext';
 
 jest.mock('../../intl/DateFromNow');
 
@@ -119,14 +121,14 @@ describe('tags', () => {
 });
 
 describe('line affected', () => {
-  it('renders when textRange is defined', () => {
-    setupWithProps({ issue: { ...baseIssue, textRange: { endLine: 42 } } });
+  it('renders when line is defined', () => {
+    setupWithProps({ line: 42 });
 
     expect(byText('issue.line_affected').get()).toBeInTheDocument();
     expect(byText('issue.ncloc_x.short.42').get()).toBeInTheDocument();
   });
 
-  it('does not render when textRange is absent', () => {
+  it('does not render when line is absent', () => {
     setupWithProps();
 
     expect(byText('issue.line_affected').query()).not.toBeInTheDocument();
@@ -186,6 +188,48 @@ describe('software impacts', () => {
     setupWithProps({ issue: { ...baseIssue, impacts: [] } });
 
     expect(byText('issue.details.software_quality_impacts').query()).not.toBeInTheDocument();
+  });
+});
+
+describe('tags popup coordinated via IssuePopupContext (as wired by IssueTabViewer)', () => {
+  const overlay = <div data-testid="mock-overlay">option</div>;
+
+  function renderWithPopupContext() {
+    return renderWithContext(
+      <IssuePopupProvider>
+        <IssuePopupContext.Consumer>
+          {(popupContext) => (
+            <IssueMetadata
+              assign={{ ...defaultAssign, isSelected: true }}
+              issue={baseIssue}
+              tags={{
+                canSetTags: true,
+                isOpen: popupContext?.currentPopup === IssuePopupName.EditTags,
+                overlay,
+                selectedIssueKey: baseIssue.key,
+                togglePopup: popupContext?.togglePopup,
+              }}
+            />
+          )}
+        </IssuePopupContext.Consumer>
+      </IssuePopupProvider>,
+    );
+  }
+
+  function fireKeyDown(key: string) {
+    act(() => {
+      window.dispatchEvent(new KeyboardEvent('keydown', { key, bubbles: true, cancelable: true }));
+    });
+  }
+
+  it('opens the tags popup when the "t" shortcut is pressed', () => {
+    renderWithPopupContext();
+
+    expect(byTestId('mock-overlay').query()).not.toBeInTheDocument();
+
+    fireKeyDown('t');
+
+    expect(byTestId('mock-overlay').get()).toBeVisible();
   });
 });
 

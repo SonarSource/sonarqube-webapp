@@ -18,10 +18,12 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { JSX, useCallback, useEffect, useRef, useState } from 'react';
+import { JSX, useCallback, useContext, useEffect, useRef, useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import Avatar from '~adapters/components/ui/Avatar';
+import { useCurrentUser } from '~adapters/helpers/users';
 import { isInput, isShortcut } from '../../helpers/keyboard';
+import { IssuePopupContext, IssuePopupName } from './IssuePopupContext';
 
 interface IssueForAssign {
   assignee?: string;
@@ -55,7 +57,7 @@ export interface IssueAssignProps {
 }
 
 export function IssueAssign(props: Readonly<IssueAssignProps>) {
-  const [open, setOpen] = useState(false);
+  const [internalOpen, setInternalOpen] = useState(false);
   const {
     onAssign,
     issue,
@@ -65,6 +67,20 @@ export function IssueAssign(props: Readonly<IssueAssignProps>) {
     renderDropdown,
   } = props;
   const { formatMessage } = useIntl();
+  const { currentUser, isLoggedIn } = useCurrentUser();
+
+  const popupContext = useContext(IssuePopupContext);
+  const open = popupContext ? popupContext.currentPopup === IssuePopupName.Assign : internalOpen;
+  const setOpen = useCallback(
+    (value: boolean) => {
+      if (popupContext) {
+        popupContext.togglePopup(IssuePopupName.Assign, value);
+      } else {
+        setInternalOpen(value);
+      }
+    },
+    [popupContext],
+  );
 
   const selectContainerRef = useRef<HTMLDivElement>(null);
 
@@ -73,7 +89,7 @@ export function IssueAssign(props: Readonly<IssueAssignProps>) {
       onAssign(user);
       setOpen(false);
     },
-    [onAssign],
+    [onAssign, setOpen],
   );
 
   const handleKeyDown = useCallback(
@@ -86,14 +102,17 @@ export function IssueAssign(props: Readonly<IssueAssignProps>) {
         event.preventDefault();
         selectContainerRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
         setOpen(true);
+      } else if (event.key === 'm' && canAssign && isLoggedIn && !isShortcut(event)) {
+        event.preventDefault();
+        onAssign({ login: currentUser.login, name: currentUser.name, avatar: currentUser.avatar });
       }
     },
-    [isShortcutEnabled],
+    [canAssign, currentUser, isLoggedIn, isShortcutEnabled, onAssign, setOpen],
   );
 
   const handleMenuClose = useCallback(() => {
     setOpen(false);
-  }, []);
+  }, [setOpen]);
 
   useEffect(() => {
     if (isSelected && canAssign) {
@@ -110,7 +129,7 @@ export function IssueAssign(props: Readonly<IssueAssignProps>) {
     if (!isSelected) {
       setOpen(false);
     }
-  }, [isSelected]);
+  }, [isSelected, setOpen]);
 
   const assigneeName = (issue.assigneeActive && issue.assigneeName) || issue.assignee;
 

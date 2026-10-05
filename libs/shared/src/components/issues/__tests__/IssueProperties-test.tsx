@@ -47,6 +47,33 @@ describe('external rule engine', () => {
     expect(byText('ADVANCED SAST').get()).toBeInTheDocument();
     expect(byText('eslint').get()).toBeInTheDocument();
   });
+
+  it('renders the badge for hunter-agent external issues', () => {
+    setupWithProps({ issue: { externalRuleEngine: 'hunter-agent' } });
+
+    expect(byText('hunter-agent').get()).toBeInTheDocument();
+  });
+});
+
+describe('externalRulesRepoNames', () => {
+  it('renders the mapped friendly name when a mapping exists for the engine', () => {
+    setupWithProps({
+      issue: { externalRuleEngine: 'eslint' },
+      externalRulesRepoNames: { eslint: 'ESLint' },
+    });
+
+    expect(byText('ESLint').get()).toBeInTheDocument();
+    expect(byText('eslint').query()).not.toBeInTheDocument();
+  });
+
+  it('falls back to the raw engine name when no mapping exists for the engine', () => {
+    setupWithProps({
+      issue: { externalRuleEngine: 'eslint' },
+      externalRulesRepoNames: { pylint: 'Pylint' },
+    });
+
+    expect(byText('eslint').get()).toBeInTheDocument();
+  });
 });
 
 describe('internalTags', () => {
@@ -66,6 +93,65 @@ describe('internalTags', () => {
     setupWithProps();
 
     expect(byText('ADVANCED SAST').query()).not.toBeInTheDocument();
+  });
+});
+
+describe('code variants', () => {
+  it('renders the Properties label and the joined variants when properties is set', () => {
+    setupWithProps({ properties: <span>first, second</span> });
+
+    expect(byText('issue.details.properties').get()).toBeInTheDocument();
+    expect(byText('first, second').get()).toBeInTheDocument();
+  });
+
+  it('does not render when properties is absent', () => {
+    setupWithProps();
+
+    expect(byText('issue.details.properties').query()).not.toBeInTheDocument();
+  });
+
+  it('does not render when properties is null', () => {
+    setupWithProps({ properties: null });
+
+    expect(byText('issue.details.properties').query()).not.toBeInTheDocument();
+  });
+
+  it('renders alongside the external rule engine badge in the same Properties section', () => {
+    setupWithProps({
+      issue: { externalRuleEngine: 'eslint' },
+      properties: <span>first, second</span>,
+    });
+
+    expect(byText('issue.details.properties').get()).toBeInTheDocument();
+    expect(byText('eslint').get()).toBeInTheDocument();
+    expect(byText('first, second').get()).toBeInTheDocument();
+  });
+});
+
+describe('prioritized rule', () => {
+  it('renders the Properties label and the prioritized indicator when properties is provided', () => {
+    setupWithProps({ properties: <span>prioritized</span> });
+
+    expect(byText('issue.details.properties').get()).toBeInTheDocument();
+    expect(byText('prioritized').get()).toBeInTheDocument();
+  });
+
+  it('does not render when properties is absent', () => {
+    setupWithProps();
+
+    expect(byText('issue.details.properties').query()).not.toBeInTheDocument();
+    expect(byText('prioritized').query()).not.toBeInTheDocument();
+  });
+
+  it('renders alongside the external rule engine badge in the same Properties section', () => {
+    setupWithProps({
+      issue: { externalRuleEngine: 'eslint' },
+      properties: <span>prioritized</span>,
+    });
+
+    expect(byText('issue.details.properties').get()).toBeInTheDocument();
+    expect(byText('eslint').get()).toBeInTheDocument();
+    expect(byText('prioritized').get()).toBeInTheDocument();
   });
 });
 

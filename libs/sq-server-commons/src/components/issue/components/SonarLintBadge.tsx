@@ -18,20 +18,36 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { LinkHighlight, LinkStandalone, Tooltip } from '@sonarsource/echoes-react';
-import { FormattedMessage } from 'react-intl';
+import {
+  Button,
+  ButtonVariety,
+  LinkHighlight,
+  LinkStandalone,
+  Tooltip,
+} from '@sonarsource/echoes-react';
+import { FormattedMessage, useIntl } from 'react-intl';
 import { translate } from '../../../helpers/l10n';
 import { SonarLintLogo } from '../../logos/SonarLintLogo';
 
 const SONARLINT_URL =
   'https://www.sonarsource.com/products/sonarlint/features/connected-mode/?referrer=sonarqube-quick-fix';
 
+type SonarLintBadgeVariant = 'button' | 'compact' | 'link';
+
 interface Props {
-  compact?: boolean;
+  variant?: SonarLintBadgeVariant;
 }
 
-export default function SonarLintBadge({ compact }: Readonly<Props>) {
-  return compact ? <SonarLintBadgeCompact /> : <SonarLintBadgeFull />;
+export default function SonarLintBadge({ variant = 'link' }: Readonly<Props>) {
+  switch (variant) {
+    case 'compact':
+      return <SonarLintBadgeCompact />;
+    case 'button':
+      return <SonarLintBadgeButton />;
+    case 'link':
+    default:
+      return <SonarLintBadgeFull />;
+  }
 }
 
 function SonarLintBadgeFull() {
@@ -60,6 +76,18 @@ function SonarLintBadgeCompact() {
           />
         </LinkStandalone>
       </div>
+    </Tooltip>
+  );
+}
+
+function SonarLintBadgeButton() {
+  const { formatMessage } = useIntl();
+
+  return (
+    <Tooltip content={formatMessage({ id: 'issue.quick_fix_available_with_sonarlint_no_link' })}>
+      <Button prefix={<SonarLintLogo />} to={SONARLINT_URL} variety={ButtonVariety.Default}>
+        {formatMessage({ id: 'issue.quick_fix' })}
+      </Button>
     </Tooltip>
   );
 }

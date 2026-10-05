@@ -20,42 +20,33 @@
 
 import { screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { cloneDeep, range } from 'lodash';
 import { byLabelText, byRole, byText } from '~shared/helpers/testSelector';
 import { IssueTransition } from '~shared/types/issues';
 import {
+  EXTERNAL_RULE,
+  FILE3_KEY,
   HUNTER_AGENT_RULE,
-  ISSUE_101,
-  ISSUE_1101,
   ISSUE_2,
-  ISSUE_4,
-  ISSUE_TO_RULE,
+  ISSUE_5,
+  PARENT_COMPONENT_KEY,
 } from '~sq-server-commons/api/mocks/data/ids';
-import type * as RulesApi from '~sq-server-commons/api/rules';
 import { TabKeys } from '~sq-server-commons/components/rules/RuleTabViewer';
 import { KeyboardKeys } from '~sq-server-commons/helpers/keycodes';
-import { mockComponent } from '~sq-server-commons/helpers/mocks/component';
-import { mockCurrentUser, mockLoggedInUser } from '~sq-server-commons/helpers/testMocks';
-import { Feature } from '~sq-server-commons/types/features';
+import { mockLoggedInUser, mockRawIssue } from '~sq-server-commons/helpers/testMocks';
 import { IssueStatus } from '~sq-server-commons/types/issues';
-import { Component } from '~sq-server-commons/types/types';
-import { RestUserDetailed } from '~sq-server-commons/types/users';
+import { NoticeType, RestUserDetailed } from '~sq-server-commons/types/users';
 import {
   branchHandler,
   componentsHandler,
   issuesHandler,
   modeHandler,
-  sourcesHandler,
   ui,
   usersHandler,
 } from '~sq-server-commons/utils/issues-test-utils';
 import { renderIssueApp, renderProjectIssuesApp } from '../test-utils';
 
-// IssuesServiceMock registers its mock implementation via `jest.mock('../../api/rules')`, so this
-// must be fetched lazily from the mock registry rather than imported at module scope, which would
-// bind to the real module if evaluated before that mock registration runs.
-const getRuleDetailsMock = () =>
-  jest.mocked(jest.requireMock<typeof RulesApi>('~sq-server-commons/api/rules').getRuleDetails);
+// Matches a file registered by default in ComponentsServiceMock, so the code viewer can resolve it.
+const REGISTERED_COMPONENT = `${PARENT_COMPONENT_KEY}:${FILE3_KEY}`;
 
 jest.mock('../sidebar/Sidebar', () => {
   const fakeSidebar = () => {
@@ -80,526 +71,528 @@ beforeEach(() => {
 });
 
 describe('issue app', () => {
-  it('should always be able to render the open issue', async () => {
-    renderProjectIssuesApp('project/issues?issueStatuses=CONFIRMED&open=issue2&id=myproject&why=1');
+  describe('rendering the open issue', () => {
+    it('should always be able to render the open issue', async () => {
+      renderProjectIssuesApp(
+        'project/issues?issueStatuses=CONFIRMED&open=issue2&id=myproject&why=1',
+      );
 
-    expect(await ui.conciseIssueTotal.find(undefined, { timeout: 10_000 })).toHaveTextContent('5');
-    expect(ui.conciseIssueItem4.get()).toBeInTheDocument();
-    expect(ui.conciseIssueItem2.get()).toBeInTheDocument();
-  });
-
-  it('should be able to trigger a fix when feature is available', async () => {
-    componentsHandler.registerComponent({
-      ...mockComponent({ key: 'myproject' }),
-      isAiCodeFixEnabled: true,
-    } as Component);
-    sourcesHandler.setSource(
-      range(0, 1)
-        .map((n) => `line: ${n}`)
-        .join('\n'),
-    );
-    const user = userEvent.setup();
-    renderProjectIssuesApp(
-      `project/issues?issueStatuses=CONFIRMED&open=${ISSUE_2}&id=myproject`,
-      {},
-      mockLoggedInUser(),
-      [Feature.BranchSupport, Feature.FixSuggestions],
-    );
-
-    expect(await ui.getFixSuggestion.find(undefined, { timeout: 10_000 })).toBeInTheDocument();
-    await user.click(ui.getFixSuggestion.get());
-
-    expect(await ui.suggestedExplanation.find()).toBeInTheDocument();
-
-    await user.click(ui.issueCodeTab.get());
-
-    expect(ui.seeFixSuggestion.get()).toBeInTheDocument();
-  });
-
-  it('should not be able to trigger a fix when user is not logged in', async () => {
-    renderProjectIssuesApp(
-      'project/issues?issueStatuses=CONFIRMED&open=issue2&id=myproject',
-      {},
-      mockCurrentUser(),
-      [Feature.BranchSupport, Feature.FixSuggestions],
-    );
-    expect(await ui.issueCodeTab.find(undefined, { timeout: 10_000 })).toBeInTheDocument();
-    expect(ui.getFixSuggestion.query()).not.toBeInTheDocument();
-    expect(ui.issueCodeFixTab.query()).not.toBeInTheDocument();
-  });
-
-  it('should not be able to trigger a fix when the feature is disabled', async () => {
-    componentsHandler.registerComponent({
-      ...mockComponent({ key: 'myproject' }),
-      isAiCodeFixEnabled: false,
-    } as Component);
-    sourcesHandler.setSource(
-      range(0, 1)
-        .map((n) => `line: ${n}`)
-        .join('\n'),
-    );
-    renderProjectIssuesApp(
-      `project/issues?issueStatuses=CONFIRMED&open=${ISSUE_2}&id=myproject`,
-      {},
-      mockLoggedInUser(),
-      [Feature.BranchSupport, Feature.FixSuggestions],
-    );
-
-    expect(await ui.issueCodeTab.find(undefined, { timeout: 10_000 })).toBeInTheDocument();
-    expect(ui.getFixSuggestion.query()).not.toBeInTheDocument();
-    expect(ui.issueCodeFixTab.query()).not.toBeInTheDocument();
-  });
-
-  it('should not be able to trigger a fix when issue is not eligible', async () => {
-    renderProjectIssuesApp(
-      `project/issues?issueStatuses=CONFIRMED&open=${ISSUE_1101}&id=myproject`,
-      {},
-      mockCurrentUser(),
-      [Feature.BranchSupport, Feature.FixSuggestions],
-    );
-    expect(await ui.issueCodeTab.find(undefined, { timeout: 10_000 })).toBeInTheDocument();
-    expect(ui.getFixSuggestion.query()).not.toBeInTheDocument();
-    expect(ui.issueCodeFixTab.query()).not.toBeInTheDocument();
-  });
-
-  it('should show error when no fix is available', async () => {
-    componentsHandler.registerComponent({
-      ...mockComponent({ key: 'myproject' }),
-      isAiCodeFixEnabled: true,
-    } as Component);
-    const user = userEvent.setup();
-    renderProjectIssuesApp(
-      `project/issues?issueStatuses=CONFIRMED&open=${ISSUE_101}&id=myproject`,
-      {},
-      mockLoggedInUser(),
-      [Feature.BranchSupport, Feature.FixSuggestions],
-    );
-
-    await user.click(await ui.issueCodeFixTab.find(undefined, { timeout: 10_000 }));
-    await user.click(ui.getAFixSuggestion.get());
-
-    expect(await ui.noFixAvailable.find()).toBeInTheDocument();
-  });
-
-  it('should navigate to Why is this an issue tab', async () => {
-    renderProjectIssuesApp('project/issues?issues=issue2&open=issue2&id=myproject&why=1');
-
-    expect(
-      await screen.findByRole(
-        'tab',
-        { name: `coding_rules.description_section.title.root_cause` },
-        { timeout: 10_000 },
-      ),
-    ).toHaveAttribute('aria-current', 'true');
-
-    expect(byText(/Introduction to this rule/).get()).toBeInTheDocument();
-  });
-
-  it('should interact with flows and locations', async () => {
-    const user = userEvent.setup();
-    renderProjectIssuesApp('project/issues?id=myproject');
-
-    await user.click(await ui.issueItemAction2.find(undefined, { timeout: 10_000 }));
-
-    expect(await screen.findByLabelText('list_of_issues')).toBeInTheDocument();
-
-    const dataFlowButton = await screen.findByRole('button', {
-      name: 'issue.flow.x_steps.2 Backtracking 1',
-    });
-    const exectionFlowButton = screen.getByRole('button', {
-      name: 'issue.show_full_execution_flow.3',
+      expect(await ui.conciseIssueTotal.find(undefined, { timeout: 10_000 })).toHaveTextContent(
+        '5',
+      );
+      expect(ui.conciseIssueItem4.get()).toBeInTheDocument();
+      expect(ui.conciseIssueItem2.get()).toBeInTheDocument();
     });
 
-    let dataLocation1Button = screen.getByLabelText('Data location 1');
-    let dataLocation2Button = screen.getByLabelText('Data location 2');
+    it('shows code variants and the prioritized rule badge under Properties in the sidebar', async () => {
+      renderProjectIssuesApp(`project/issues?issues=${ISSUE_5}&open=${ISSUE_5}&id=myproject`);
 
-    expect(dataFlowButton).toBeInTheDocument();
-    expect(dataLocation1Button).toBeInTheDocument();
-    expect(dataLocation2Button).toBeInTheDocument();
+      expect(
+        await screen.findByRole(
+          'heading',
+          { name: 'Issue with prioritized rule' },
+          { timeout: 10_000 },
+        ),
+      ).toBeInTheDocument();
 
-    await user.click(dataFlowButton);
-    // Colapsing flow
-    expect(dataLocation1Button).not.toBeInTheDocument();
-    expect(dataLocation2Button).not.toBeInTheDocument();
-
-    await user.click(exectionFlowButton);
-    expect(screen.getByLabelText('Execution location 1')).toBeInTheDocument();
-    expect(screen.getByLabelText('Execution location 2')).toBeInTheDocument();
-    expect(screen.getByLabelText('Execution location 3')).toBeInTheDocument();
-
-    // Keyboard interaction
-    await user.click(dataFlowButton);
-    dataLocation1Button = screen.getByLabelText('Data location 1');
-    dataLocation2Button = screen.getByLabelText('Data location 2');
-
-    // Location navigation
-    await user.keyboard('{Alt>}{ArrowDown}{/Alt}');
-
-    expect(dataLocation1Button).toHaveAttribute('aria-current', 'true');
-    await user.keyboard('{Alt>}{ArrowDown}{/Alt}');
-    expect(dataLocation1Button).toHaveAttribute('aria-current', 'false');
-    expect(dataLocation2Button).toHaveAttribute('aria-current', 'true');
-    await user.keyboard('{Alt>}{ArrowDown}{/Alt}');
-    expect(dataLocation1Button).toHaveAttribute('aria-current', 'false');
-    expect(dataLocation2Button).toHaveAttribute('aria-current', 'false');
-    await user.keyboard('{Alt>}{ArrowUp}{/Alt}');
-    expect(dataLocation1Button).toHaveAttribute('aria-current', 'false');
-
-    expect(dataLocation2Button).toHaveAttribute('aria-current', 'true');
-
-    // Flow navigation
-    await user.keyboard('{Alt>}{ArrowRight}{/Alt}');
-    expect(screen.getByLabelText('Execution location 3')).toHaveAttribute('aria-current', 'true');
-    await user.keyboard('{Alt>}{ArrowLeft}{/Alt}');
-    expect(screen.getByLabelText('Data location 1')).toHaveAttribute('aria-current', 'true');
-  });
-
-  it('should show education principles', async () => {
-    const user = userEvent.setup();
-    renderProjectIssuesApp('project/issues?issues=issue2&open=issue2&id=myproject');
-    await user.click(
-      await screen.findByRole(
-        'tab',
-        { name: `coding_rules.description_section.title.more_info` },
-        { timeout: 10_000 },
-      ),
-    );
-    expect(screen.getByRole('heading', { name: 'Defense-in-depth', level: 3 })).toBeInTheDocument();
-  });
-
-  it('should hide the rule description context selector for Hunter agent issues', async () => {
-    const user = userEvent.setup();
-    const list = cloneDeep(issuesHandler.defaultList);
-    list.forEach(({ issue }) => {
-      if (issue.key === ISSUE_2) {
-        issue.rule = HUNTER_AGENT_RULE;
-        issue.externalRuleEngine = 'hunter-agent';
-      }
-    });
-    issuesHandler.setIssueList(list);
-
-    renderProjectIssuesApp('project/issues?issues=issue2&open=issue2&id=myproject');
-
-    await user.click(
-      await screen.findByRole(
-        'tab',
-        { name: 'coding_rules.description_section.title.assess_the_problem' },
-        { timeout: 10_000 },
-      ),
-    );
-    expect(byText(/Assess content/).get()).toBeInTheDocument();
-    expect(screen.queryByRole('radio', { name: 'Spring' })).not.toBeInTheDocument();
-
-    await user.click(
-      screen.getByRole('tab', { name: 'coding_rules.description_section.title.more_info' }),
-    );
-    expect(byText(/Resources content/).get()).toBeInTheDocument();
-    expect(screen.queryByRole('radio', { name: 'Spring' })).not.toBeInTheDocument();
-  });
-
-  it('should send the issue rule description context key for Hunter Agent issues, and only render that context', async () => {
-    const user = userEvent.setup();
-    const list = cloneDeep(issuesHandler.defaultList);
-    list.forEach(({ issue }) => {
-      if (issue.key === ISSUE_2) {
-        issue.rule = HUNTER_AGENT_RULE;
-        issue.externalRuleEngine = 'hunter-agent';
-      }
-    });
-    issuesHandler.setIssueList(list);
-
-    renderProjectIssuesApp('project/issues?issues=issue2&open=issue2&id=myproject');
-
-    await screen.findByRole('tab', {
-      name: 'coding_rules.description_section.title.root_cause',
+      expect(byText('issue.details.properties').get()).toBeInTheDocument();
+      expect(byText('variant 1').get()).toBeInTheDocument();
+      expect(byText('variant 2').get()).toBeInTheDocument();
+      expect(byText('prioritized').get()).toBeInTheDocument();
     });
 
-    expect(getRuleDetailsMock()).toHaveBeenCalledWith(
-      expect.objectContaining({ contextKey: 'spring', key: HUNTER_AGENT_RULE }),
-    );
+    it('shows the external rule key when it differs from the rule name', async () => {
+      const issueKey = 'hunterAgentIssue';
+      issuesHandler.setIssueList([
+        {
+          issue: mockRawIssue(false, {
+            key: issueKey,
+            component: REGISTERED_COMPONENT,
+            rule: HUNTER_AGENT_RULE,
+          }),
+          snippets: {},
+        },
+      ]);
 
-    // The mock actually filters descriptionSections by the requested contextKey, so only the
-    // 'spring' section comes back from the API and the competing 'other' context never renders.
-    await user.click(
-      screen.getByRole('tab', {
-        name: 'coding_rules.description_section.title.assess_the_problem',
-      }),
-    );
-    expect(byText(/Assess content/).get()).toBeInTheDocument();
-    expect(screen.queryByText(/Other framework content/)).not.toBeInTheDocument();
-  });
+      renderProjectIssuesApp(`project/issues?issues=${issueKey}&open=${issueKey}&id=myproject`);
 
-  it('should not send a rule description context key for a regular (non Hunter Agent) issue, and render its full description', async () => {
-    renderProjectIssuesApp('project/issues?issues=issue4&open=issue4&id=myproject&why=1');
-
-    await screen.findByRole('tab', {
-      name: 'coding_rules.description_section.title.root_cause',
+      expect(
+        await screen.findByText('Hunter agent rule', undefined, { timeout: 10_000 }),
+      ).toBeInTheDocument();
+      expect(byText('(hunterAgentRuleId)').get()).toBeInTheDocument();
     });
 
-    expect(getRuleDetailsMock()).toHaveBeenCalledWith(
-      expect.objectContaining({ contextKey: undefined, key: ISSUE_TO_RULE[ISSUE_4] }),
-    );
+    it('does not show the external rule key when it matches the rule name', async () => {
+      const issueKey = 'externalRuleIssue';
+      issuesHandler.setIssueList([
+        {
+          issue: mockRawIssue(false, {
+            key: issueKey,
+            component: REGISTERED_COMPONENT,
+            rule: EXTERNAL_RULE,
+          }),
+          snippets: {},
+        },
+      ]);
 
-    // No contextKey means no filtering, so the rule's description renders as-is.
-    expect(byText(/Default description/).get()).toBeInTheDocument();
+      renderProjectIssuesApp(`project/issues?issues=${issueKey}&open=${issueKey}&id=myproject`);
+
+      expect(
+        await screen.findByText('eslint:no-unused-vars', undefined, { timeout: 10_000 }),
+      ).toBeInTheDocument();
+      expect(byText('(eslint:no-unused-vars)').query()).not.toBeInTheDocument();
+    });
+
+    it('should show the advanced SAST badge for issues with taint and advanced internal tags', async () => {
+      const issueKey = 'advancedSastIssue';
+      issuesHandler.setIssueList([
+        {
+          issue: mockRawIssue(false, {
+            key: issueKey,
+            component: REGISTERED_COMPONENT,
+            message: 'Fix that',
+            internalTags: ['taint', 'advanced'],
+          }),
+          snippets: {},
+        },
+      ]);
+
+      renderProjectIssuesApp(
+        `project/issues?issueStatuses=CONFIRMED&open=${issueKey}&id=myproject`,
+      );
+
+      expect(
+        await screen.findByText('ADVANCED SAST', undefined, { timeout: 10_000 }),
+      ).toBeVisible();
+    });
+
+    it('should not show the advanced SAST badge for issues without both required internal tags', async () => {
+      const issueKey = 'advancedSastIssue';
+      issuesHandler.setIssueList([
+        {
+          issue: mockRawIssue(false, {
+            key: issueKey,
+            component: REGISTERED_COMPONENT,
+            message: 'Fix that',
+            internalTags: ['taint'],
+          }),
+          snippets: {},
+        },
+      ]);
+
+      renderProjectIssuesApp(
+        `project/issues?issueStatuses=CONFIRMED&open=${issueKey}&id=myproject`,
+      );
+
+      await screen.findByRole('heading', { name: 'Fix that' }, { timeout: 10_000 });
+      expect(screen.queryByText('ADVANCED SAST')).not.toBeInTheDocument();
+    });
+
+    it('should show sonarlint badge if applicable', async () => {
+      const user = userEvent.setup();
+      issuesHandler.setIsAdmin(true);
+      renderIssueApp();
+
+      // Select an issue with quick fix available
+      await user.click(await ui.issueItemAction7.find(undefined, { timeout: 10_000 }));
+
+      await expect(screen.getByText('issue.quick_fix')).toHaveATooltipWithContent(
+        'issue.quick_fix_available_with_sonarlint',
+      );
+    });
   });
 
-  it('should be able to change the issue status', async () => {
-    const user = userEvent.setup();
-    issuesHandler.setIsAdmin(true);
-    renderIssueApp();
+  describe('flows and locations', () => {
+    it('should interact with flows and locations', async () => {
+      const user = userEvent.setup();
+      renderProjectIssuesApp('project/issues?id=myproject');
 
-    const issueContainer = await byLabelText('Fix that').find(); // Get a specific issue list item
-    expect(ui.statusBtn(IssueStatus.Open).get(issueContainer)).toBeInTheDocument();
+      await user.click(await ui.issueItemAction2.find(undefined, { timeout: 10_000 }));
 
-    await user.click(ui.statusBtn(IssueStatus.Open).get(issueContainer));
+      expect(await screen.findByLabelText('list_of_issues')).toBeInTheDocument();
 
-    expect(byText('issue.transition.title').get()).toBeInTheDocument();
-    expect(ui.issueTransitionItem(IssueTransition.Accept).get()).toBeInTheDocument();
-    expect(ui.issueTransitionItem(IssueTransition.Confirm).get()).toBeInTheDocument();
+      const dataFlowButton = await screen.findByRole('button', {
+        name: 'issue.flow.x_steps.2 Backtracking 1',
+      });
+      const exectionFlowButton = screen.getByRole('button', {
+        name: 'issue.show_full_execution_flow.3',
+      });
 
-    // test add comment dialog (cancel)
-    await user.click(ui.issueTransitionItem(IssueTransition.FalsePositive).get());
-    expect(ui.commentDialogTitle.get()).toBeInTheDocument();
-    expect(byRole('heading', { name: 'issue.transition.title' }).query()).not.toBeInTheDocument();
+      let dataLocation1Button = screen.getByLabelText('Data location 1');
+      let dataLocation2Button = screen.getByLabelText('Data location 2');
 
-    await user.click(byRole('button', { name: 'cancel' }).get());
-    expect(ui.statusBtn(IssueStatus.Open).get(issueContainer)).toBeInTheDocument();
+      expect(dataFlowButton).toBeInTheDocument();
+      expect(dataLocation1Button).toBeInTheDocument();
+      expect(dataLocation2Button).toBeInTheDocument();
 
-    // test add comment dialog (confirm)
-    await user.click(ui.statusBtn(IssueStatus.Open).get(issueContainer));
-    await user.click(ui.issueTransitionItem(IssueTransition.FalsePositive).get());
-    await user.click(ui.changeStatusBtn.get());
+      await user.click(dataFlowButton);
+      // Colapsing flow
+      expect(dataLocation1Button).not.toBeInTheDocument();
+      expect(dataLocation2Button).not.toBeInTheDocument();
 
-    expect(ui.statusBtn(IssueStatus.FalsePositive).get(issueContainer)).toBeInTheDocument();
+      await user.click(exectionFlowButton);
+      expect(screen.getByLabelText('Execution location 1')).toBeInTheDocument();
+      expect(screen.getByLabelText('Execution location 2')).toBeInTheDocument();
+      expect(screen.getByLabelText('Execution location 3')).toBeInTheDocument();
 
-    // Change back to open
-    await user.click(ui.statusBtn(IssueStatus.FalsePositive).get(issueContainer));
-    await user.click(ui.issueTransitionItem(IssueTransition.Reopen).get());
+      // Keyboard interaction
+      await user.click(dataFlowButton);
+      dataLocation1Button = screen.getByLabelText('Data location 1');
+      dataLocation2Button = screen.getByLabelText('Data location 2');
 
-    expect(await ui.statusBtn(IssueStatus.Open).find(issueContainer)).toBeInTheDocument();
+      // Location navigation
+      await user.keyboard('{Alt>}{ArrowDown}{/Alt}');
 
-    // Accept issue
-    await user.click(ui.statusBtn(IssueStatus.Open).get(issueContainer));
-    await user.click(ui.issueTransitionItem(IssueTransition.Accept).get());
-    await user.click(ui.changeStatusBtn.get());
+      expect(dataLocation1Button).toHaveAttribute('aria-current', 'true');
+      await user.keyboard('{Alt>}{ArrowDown}{/Alt}');
+      expect(dataLocation1Button).toHaveAttribute('aria-current', 'false');
+      expect(dataLocation2Button).toHaveAttribute('aria-current', 'true');
+      await user.keyboard('{Alt>}{ArrowDown}{/Alt}');
+      expect(dataLocation1Button).toHaveAttribute('aria-current', 'false');
+      expect(dataLocation2Button).toHaveAttribute('aria-current', 'false');
+      await user.keyboard('{Alt>}{ArrowUp}{/Alt}');
+      expect(dataLocation1Button).toHaveAttribute('aria-current', 'false');
 
-    expect(ui.statusBtn(IssueStatus.Accepted).get(issueContainer)).toBeInTheDocument();
+      expect(dataLocation2Button).toHaveAttribute('aria-current', 'true');
+
+      // Flow navigation
+      await user.keyboard('{Alt>}{ArrowRight}{/Alt}');
+      expect(screen.getByLabelText('Execution location 3')).toHaveAttribute('aria-current', 'true');
+      await user.keyboard('{Alt>}{ArrowLeft}{/Alt}');
+      expect(screen.getByLabelText('Data location 1')).toHaveAttribute('aria-current', 'true');
+    });
+
+    it('should show code tabs when any secondary location is selected', async () => {
+      const user = userEvent.setup();
+      renderIssueApp();
+
+      await user.click(await ui.issueItemAction4.find(undefined, { timeout: 10_000 }));
+
+      expect(screen.getByRole('button', { name: 'location 1' })).toBeInTheDocument();
+      expect(screen.getByRole('button', { name: 'location 2' })).toBeInTheDocument();
+
+      // Select the "why is this an issue" tab
+      await user.click(
+        screen.getByRole('tab', { name: 'coding_rules.description_section.title.root_cause' }),
+      );
+
+      expect(
+        screen.queryByRole('tab', {
+          name: `issue.tabs.${TabKeys.Code}`,
+        }),
+      ).toHaveAttribute('aria-current', 'false');
+
+      await user.click(screen.getByRole('button', { name: 'location 1' }));
+
+      expect(
+        screen.queryByRole('tab', {
+          name: `issue.tabs.${TabKeys.Code}`,
+        }),
+      ).toHaveAttribute('aria-current', 'true');
+
+      // Select the same selected hotspot location should also navigate back to code page
+      await user.click(
+        screen.getByRole('tab', { name: 'coding_rules.description_section.title.root_cause' }),
+      );
+
+      expect(
+        screen.queryByRole('tab', {
+          name: `issue.tabs.${TabKeys.Code}`,
+        }),
+      ).toHaveAttribute('aria-current', 'false');
+
+      await user.click(screen.getByRole('button', { name: 'location 1' }));
+
+      expect(
+        screen.queryByRole('tab', {
+          name: `issue.tabs.${TabKeys.Code}`,
+        }),
+      ).toHaveAttribute('aria-current', 'true');
+    });
   });
 
-  it('should be able to assign issue to a different user', async () => {
-    const user = userEvent.setup();
-    issuesHandler.setIsAdmin(true);
-    renderIssueApp();
+  describe('actions', () => {
+    it('should be able to change the issue status', async () => {
+      const user = userEvent.setup();
+      issuesHandler.setIsAdmin(true);
+      renderIssueApp();
 
-    // Get a specific issue list item
-    const listItem = within(
-      await screen.findByLabelText('Fix that', undefined, { timeout: 10_000 }),
-    );
+      const issueContainer = await byLabelText('Fix that').find(); // Get a specific issue list item
+      expect(ui.statusBtn(IssueStatus.Open).get(issueContainer)).toBeInTheDocument();
 
-    await user.click(
-      listItem.getByRole('combobox', { name: 'issue.assign.unassigned_click_to_assign' }),
-    );
+      await user.click(ui.statusBtn(IssueStatus.Open).get(issueContainer));
 
-    await user.keyboard('luke');
+      expect(byText('issue.transition.title').get()).toBeInTheDocument();
+      expect(ui.issueTransitionItem(IssueTransition.Accept).get()).toBeInTheDocument();
+      expect(ui.issueTransitionItem(IssueTransition.Confirm).get()).toBeInTheDocument();
 
-    expect(await screen.findByText('Skywalker')).toBeInTheDocument();
+      // test add comment dialog (cancel)
+      await user.click(ui.issueTransitionItem(IssueTransition.FalsePositive).get());
+      expect(ui.commentDialogTitle.get()).toBeInTheDocument();
+      expect(byRole('heading', { name: 'issue.transition.title' }).query()).not.toBeInTheDocument();
 
-    await user.click(screen.getByText('Skywalker'));
+      await user.click(byRole('button', { name: 'cancel' }).get());
+      expect(ui.statusBtn(IssueStatus.Open).get(issueContainer)).toBeInTheDocument();
 
-    expect(
-      listItem.getByRole('combobox', { name: 'issue.assign.assigned_to_x_click_to_change.luke' }),
-    ).toBeInTheDocument();
+      // test add comment dialog (confirm)
+      await user.click(ui.statusBtn(IssueStatus.Open).get(issueContainer));
+      await user.click(ui.issueTransitionItem(IssueTransition.FalsePositive).get());
+      await user.click(ui.changeStatusBtn.get());
+
+      expect(ui.statusBtn(IssueStatus.FalsePositive).get(issueContainer)).toBeInTheDocument();
+
+      // Change back to open
+      await user.click(ui.statusBtn(IssueStatus.FalsePositive).get(issueContainer));
+      await user.click(ui.issueTransitionItem(IssueTransition.Reopen).get());
+
+      expect(await ui.statusBtn(IssueStatus.Open).find(issueContainer)).toBeInTheDocument();
+
+      // Accept issue
+      await user.click(ui.statusBtn(IssueStatus.Open).get(issueContainer));
+      await user.click(ui.issueTransitionItem(IssueTransition.Accept).get());
+      await user.click(ui.changeStatusBtn.get());
+
+      expect(ui.statusBtn(IssueStatus.Accepted).get(issueContainer)).toBeInTheDocument();
+    });
+
+    it('should be able to assign issue to a different user', async () => {
+      const user = userEvent.setup();
+      issuesHandler.setIsAdmin(true);
+      renderIssueApp();
+
+      // Get a specific issue list item
+      const listItem = within(
+        await screen.findByLabelText('Fix that', undefined, { timeout: 10_000 }),
+      );
+
+      await user.click(
+        listItem.getByRole('combobox', { name: 'issue.assign.unassigned_click_to_assign' }),
+      );
+
+      await user.keyboard('luke');
+
+      expect(await screen.findByText('Skywalker')).toBeInTheDocument();
+
+      await user.click(screen.getByText('Skywalker'));
+
+      expect(
+        listItem.getByRole('combobox', { name: 'issue.assign.assigned_to_x_click_to_change.luke' }),
+      ).toBeInTheDocument();
+    });
+
+    it('should assign the issue to self when pressing the m keyboard shortcut', async () => {
+      const user = userEvent.setup();
+      issuesHandler.setIsAdmin(true);
+      // The "assign to me" shortcut requires a logged-in user.
+      renderIssueApp(
+        mockLoggedInUser({
+          dismissedNotices: {
+            [NoticeType.ISSUE_GUIDE]: true,
+            [NoticeType.ISSUE_NEW_STATUS_AND_TRANSITION_GUIDE]: true,
+          },
+        }),
+      );
+
+      // Select the issue so the keyboard shortcut listener is attached.
+      await user.click(await ui.issueItemAction5.find(undefined, { timeout: 10_000 }));
+
+      expect(
+        await screen.findByRole(
+          'combobox',
+          { name: 'issue.assign.unassigned_click_to_assign' },
+          { timeout: 10_000 },
+        ),
+      ).toBeInTheDocument();
+
+      await user.keyboard('m');
+
+      expect(
+        await screen.findByRole('combobox', {
+          name: 'issue.assign.assigned_to_x_click_to_change.luke',
+        }),
+      ).toBeInTheDocument();
+    });
+
+    it('should not let the user assign an issue via click or keyboard shortcut when they are not entitled to assign', async () => {
+      const user = userEvent.setup();
+      renderIssueApp();
+
+      // ISSUE_1 ("Fix this") has no actions, so assignment should be disabled.
+      await user.click(await ui.issueItemAction4.find(undefined, { timeout: 10_000 }));
+
+      expect(
+        await screen.findByRole('heading', { name: 'Fix this' }, { timeout: 10_000 }),
+      ).toBeInTheDocument();
+      expect(screen.queryByRole('combobox', { name: /^issue\.assign/ })).not.toBeInTheDocument();
+
+      await user.keyboard('m');
+
+      expect(screen.queryByRole('combobox', { name: /^issue\.assign/ })).not.toBeInTheDocument();
+    });
+
+    it('should be able to change tags on a issue', async () => {
+      const user = userEvent.setup();
+      issuesHandler.setIsAdmin(true);
+      renderIssueApp();
+
+      // Get a specific issue list item
+      const listItem = within(
+        await screen.findByLabelText('Fix that', undefined, { timeout: 10_000 }),
+      );
+
+      // Change tags
+      expect(listItem.getByText('no_tags')).toBeInTheDocument();
+
+      await user.click(listItem.getByText('no_tags'));
+
+      expect(byLabelText('search.search_for_tags').get()).toBeInTheDocument();
+      expect(byText('android').get()).toBeInTheDocument();
+      expect(byText('accessibility').get()).toBeInTheDocument();
+
+      await user.click(screen.getByText('accessibility'));
+      await user.click(screen.getByText('android'));
+
+      await user.keyboard('{Escape}');
+      expect(
+        await byRole('button', { name: 'tags.edit_button_label.accessibility, android' }).find(),
+      ).toBeInTheDocument();
+
+      await user.click(listItem.getByRole('button', { name: /tags.edit_button_label/ }));
+
+      // Unselect
+      await user.click(byLabelText('accessibility').get());
+
+      await user.keyboard('{Escape}');
+      expect(
+        await byRole('button', { name: 'tags.edit_button_label.android' }).find(),
+      ).toBeInTheDocument();
+
+      await user.click(listItem.getByRole('button', { name: /tags.edit_button_label/ }));
+
+      await user.click(byLabelText('search.search_for_tags').get());
+      await user.keyboard('addNewTag');
+
+      expect(byLabelText('issue.create_tag: addnewtag').get()).toBeInTheDocument();
+    });
+
+    it('should not allow performing actions when user does not have permission', async () => {
+      const user = userEvent.setup();
+      renderIssueApp();
+
+      await user.click(await ui.issueItem4.find(undefined, { timeout: 10_000 }));
+
+      expect(
+        screen.queryByRole('button', {
+          name: `issue.assign.unassigned_click_to_assign`,
+        }),
+      ).not.toBeInTheDocument();
+      expect(
+        screen.queryByRole('button', {
+          name: `issue.type.type_x_click_to_change.issue.type.CODE_SMELL`,
+        }),
+      ).not.toBeInTheDocument();
+
+      expect(
+        screen.queryByRole('button', {
+          name: `transition_status.status_x_click_to_change.issue.status.OPEN`,
+        }),
+      ).not.toBeInTheDocument();
+      expect(
+        screen.queryByRole('button', {
+          name: `issue.severity.severity_x_click_to_change.severity.MAJOR`,
+        }),
+      ).not.toBeInTheDocument();
+    });
   });
 
-  it('should be able to change tags on a issue', async () => {
-    const user = userEvent.setup();
-    issuesHandler.setIsAdmin(true);
-    renderIssueApp();
+  describe('side panel navigation', () => {
+    it('should close the issue detail view when clicking the back-to-list button in the header', async () => {
+      const user = userEvent.setup();
+      renderProjectIssuesApp(`project/issues?issueStatuses=CONFIRMED&open=${ISSUE_2}&id=myproject`);
 
-    // Get a specific issue list item
-    const listItem = within(
-      await screen.findByLabelText('Fix that', undefined, { timeout: 10_000 }),
-    );
+      expect(
+        await screen.findByRole('heading', { name: 'Fix that' }, { timeout: 10_000 }),
+      ).toBeInTheDocument();
 
-    // Change tags
-    expect(listItem.getByText('no_tags')).toBeInTheDocument();
+      await user.click(screen.getByRole('button', { name: 'issue.back_to_issues_list' }));
 
-    await user.click(listItem.getByText('no_tags'));
+      expect(screen.queryByRole('heading', { name: 'Fix that' })).not.toBeInTheDocument();
+    });
 
-    expect(byLabelText('search.search_for_tags').get()).toBeInTheDocument();
-    expect(byText('android').get()).toBeInTheDocument();
-    expect(byText('accessibility').get()).toBeInTheDocument();
+    it('should reset any open popup in the side panel when switching to a different open issue', async () => {
+      const user = userEvent.setup();
+      renderProjectIssuesApp(`project/issues?issueStatuses=CONFIRMED&open=${ISSUE_2}&id=myproject`);
 
-    await user.click(screen.getByText('accessibility'));
-    await user.click(screen.getByText('android'));
+      await user.click(
+        await screen.findByRole('button', { name: 'tags.add_tags' }, { timeout: 10_000 }),
+      );
+      expect(await byLabelText('search.search_for_tags').find()).toBeInTheDocument();
 
-    await user.keyboard('{Escape}');
-    expect(
-      await byRole('button', { name: 'tags.edit_button_label.accessibility, android' }).find(),
-    ).toBeInTheDocument();
+      // Switch to a different open issue via the nav bar, without closing the tags popup first.
+      await user.click(ui.conciseIssueItem4.get());
 
-    await user.click(listItem.getByRole('button', { name: /tags.edit_button_label/ }));
-
-    // Unselect
-    await user.click(byLabelText('accessibility').get());
-
-    await user.keyboard('{Escape}');
-    expect(
-      await byRole('button', { name: 'tags.edit_button_label.android' }).find(),
-    ).toBeInTheDocument();
-
-    await user.click(listItem.getByRole('button', { name: /tags.edit_button_label/ }));
-
-    await user.click(byLabelText('search.search_for_tags').get());
-    await user.keyboard('addNewTag');
-
-    expect(byLabelText('issue.create_tag: addnewtag').get()).toBeInTheDocument();
+      expect(
+        await screen.findByRole('heading', { name: 'Issue with tags' }, { timeout: 10_000 }),
+      ).toBeInTheDocument();
+      expect(byLabelText('search.search_for_tags').query()).not.toBeInTheDocument();
+    });
   });
 
-  it('should not allow performing actions when user does not have permission', async () => {
-    const user = userEvent.setup();
-    renderIssueApp();
+  describe('keyboard shortcuts', () => {
+    it('should open the actions popup using keyboard shortcut', async () => {
+      const user = userEvent.setup();
+      issuesHandler.setIsAdmin(true);
+      renderIssueApp();
 
-    await user.click(await ui.issueItem4.find(undefined, { timeout: 10_000 }));
+      // Select an issue with an advanced rule
+      await user.click(await ui.issueItemAction5.find(undefined, { timeout: 10_000 }));
 
-    expect(
-      screen.queryByRole('button', {
-        name: `issue.assign.unassigned_click_to_assign`,
-      }),
-    ).not.toBeInTheDocument();
-    expect(
-      screen.queryByRole('button', {
-        name: `issue.type.type_x_click_to_change.issue.type.CODE_SMELL`,
-      }),
-    ).not.toBeInTheDocument();
+      // Open status popup on key press 'f'
+      await user.keyboard('f');
 
-    expect(
-      screen.queryByRole('button', {
-        name: `transition_status.status_x_click_to_change.issue.status.OPEN`,
-      }),
-    ).not.toBeInTheDocument();
-    expect(
-      screen.queryByRole('button', {
-        name: `issue.severity.severity_x_click_to_change.severity.MAJOR`,
-      }),
-    ).not.toBeInTheDocument();
-  });
+      expect(await ui.issueTransitionItem(IssueTransition.Confirm).find()).toBeInTheDocument();
 
-  it('should open the actions popup using keyboard shortcut', async () => {
-    const user = userEvent.setup();
-    issuesHandler.setIsAdmin(true);
-    renderIssueApp();
+      // Open tags popup on key press 't'
+      await user.keyboard('t');
+      expect(
+        await screen.findByRole('searchbox', { name: 'search.search_for_tags' }),
+      ).toBeInTheDocument();
 
-    // Select an issue with an advanced rule
-    await user.click(await ui.issueItemAction5.find(undefined, { timeout: 10_000 }));
+      expect(screen.getByText('android')).toBeInTheDocument();
+      expect(screen.getByText('accessibility')).toBeInTheDocument();
 
-    // Open status popup on key press 'f'
-    await user.keyboard('f');
+      // Close tags popup
+      await user.keyboard(`{${KeyboardKeys.Escape}}`);
 
-    expect(await ui.issueTransitionItem(IssueTransition.Confirm).find()).toBeInTheDocument();
+      // Open assign popup on key press 'a'
+      await user.keyboard('a');
 
-    // Open tags popup on key press 't'
-    await user.keyboard('t');
-    expect(
-      await screen.findByRole('searchbox', { name: 'search.search_for_tags' }),
-    ).toBeInTheDocument();
+      expect(
+        await screen.findByRole('combobox', {
+          expanded: true,
+          name: 'issue.assign.unassigned_click_to_assign',
+        }),
+      ).toBeInTheDocument();
+    });
 
-    expect(screen.getByText('android')).toBeInTheDocument();
-    expect(screen.getByText('accessibility')).toBeInTheDocument();
+    it('should not open the actions popup using keyboard shortcut when keyboard shortcut flag is disabled', async () => {
+      localStorage.setItem('sonarqube.preferences.keyboard_shortcuts_enabled', 'false');
+      const user = userEvent.setup();
+      issuesHandler.setIsAdmin(true);
+      renderIssueApp();
 
-    // Close tags popup
-    await user.keyboard(`{${KeyboardKeys.Escape}}`);
+      // Select an issue with an advanced rule
+      await user.click(await ui.issueItem5.find(undefined, { timeout: 10_000 }));
 
-    // Open assign popup on key press 'a'
-    await user.keyboard('a');
+      // open status popup on key press 'f'
+      await user.keyboard('f');
+      expect(screen.queryByText('status_transition.confirm')).not.toBeInTheDocument();
+      expect(screen.queryByText('status_transition.resolve')).not.toBeInTheDocument();
 
-    expect(
-      await screen.findByRole('combobox', {
-        expanded: true,
-        name: 'issue.assign.unassigned_click_to_assign',
-      }),
-    ).toBeInTheDocument();
-  });
-
-  it('should not open the actions popup using keyboard shortcut when keyboard shortcut flag is disabled', async () => {
-    localStorage.setItem('sonarqube.preferences.keyboard_shortcuts_enabled', 'false');
-    const user = userEvent.setup();
-    issuesHandler.setIsAdmin(true);
-    renderIssueApp();
-
-    // Select an issue with an advanced rule
-    await user.click(await ui.issueItem5.find(undefined, { timeout: 10_000 }));
-
-    // open status popup on key press 'f'
-    await user.keyboard('f');
-    expect(screen.queryByText('status_transition.confirm')).not.toBeInTheDocument();
-    expect(screen.queryByText('status_transition.resolve')).not.toBeInTheDocument();
-
-    // open comment popup on key press 'c'
-    await user.keyboard('c');
-    expect(screen.queryByText('issue.comment.submit')).not.toBeInTheDocument();
-    localStorage.setItem('sonarqube.preferences.keyboard_shortcuts_enabled', 'true');
-  });
-
-  it('should show code tabs when any secondary location is selected', async () => {
-    const user = userEvent.setup();
-    renderIssueApp();
-
-    await user.click(await ui.issueItemAction4.find(undefined, { timeout: 10_000 }));
-
-    expect(screen.getByRole('button', { name: 'location 1' })).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: 'location 2' })).toBeInTheDocument();
-
-    // Select the "why is this an issue" tab
-    await user.click(
-      screen.getByRole('tab', { name: 'coding_rules.description_section.title.root_cause' }),
-    );
-
-    expect(
-      screen.queryByRole('tab', {
-        name: `issue.tabs.${TabKeys.Code}`,
-      }),
-    ).toHaveAttribute('aria-current', 'false');
-
-    await user.click(screen.getByRole('button', { name: 'location 1' }));
-
-    expect(
-      screen.queryByRole('tab', {
-        name: `issue.tabs.${TabKeys.Code}`,
-      }),
-    ).toHaveAttribute('aria-current', 'true');
-
-    // Select the same selected hotspot location should also navigate back to code page
-    await user.click(
-      screen.getByRole('tab', { name: 'coding_rules.description_section.title.root_cause' }),
-    );
-
-    expect(
-      screen.queryByRole('tab', {
-        name: `issue.tabs.${TabKeys.Code}`,
-      }),
-    ).toHaveAttribute('aria-current', 'false');
-
-    await user.click(screen.getByRole('button', { name: 'location 1' }));
-
-    expect(
-      screen.queryByRole('tab', {
-        name: `issue.tabs.${TabKeys.Code}`,
-      }),
-    ).toHaveAttribute('aria-current', 'true');
-  });
-
-  it('should show sonarlint badge if applicable', async () => {
-    const user = userEvent.setup();
-    issuesHandler.setIsAdmin(true);
-    renderIssueApp();
-
-    // Select an issue with quick fix available
-    await user.click(await ui.issueItemAction7.find(undefined, { timeout: 10_000 }));
-
-    await expect(screen.getByText('issue.quick_fix')).toHaveATooltipWithContent(
-      'issue.quick_fix_available_with_sonarlint',
-    );
+      // open comment popup on key press 'c'
+      await user.keyboard('c');
+      expect(screen.queryByText('issue.comment.submit')).not.toBeInTheDocument();
+      localStorage.setItem('sonarqube.preferences.keyboard_shortcuts_enabled', 'true');
+    });
   });
 });

@@ -19,6 +19,7 @@
  */
 
 import { Divider, Text } from '@sonarsource/echoes-react';
+import { ReactNode } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { RuleStatus } from '../../types/rules';
 import { RuleStatusBadge } from '../coding-rules/RuleStatusBadge';
@@ -32,21 +33,32 @@ interface IssuePropertiesIssue {
 
 interface Props {
   issue: IssuePropertiesIssue;
-  rule?: { status: RuleStatus };
+  properties?: ReactNode;
+  rule?: { status: RuleStatus; isExternal?: boolean };
+  externalRulesRepoNames?: Record<string, string>;
 }
 
-export function IssueProperties({ issue, rule }: Readonly<Props>) {
+export function IssueProperties({
+  issue,
+  properties,
+  rule,
+  externalRulesRepoNames = {},
+}: Readonly<Props>) {
   const hasAdvancedSast = hasAdvancedSastTags(issue.internalTags);
   const hasExternalRuleEngine = Boolean(issue.externalRuleEngine);
-  const isBeta = rule?.status === RuleStatus.Beta;
+  const hasProperties = Boolean(properties);
+  const isBeta = !rule?.isExternal && rule?.status === RuleStatus.Beta;
 
-  if (!hasAdvancedSast && !hasExternalRuleEngine && !isBeta) {
+  if (!hasAdvancedSast && !hasExternalRuleEngine && !hasProperties && !isBeta) {
     return null;
   }
 
+  const externalRuleEngineLabel = issue.externalRuleEngine
+    ? externalRulesRepoNames[issue.externalRuleEngine] || issue.externalRuleEngine
+    : issue.externalRuleEngine;
+
   return (
     <>
-      <Divider className="sw-my-1" />
       <dt>
         <Text isHighlighted>
           <FormattedMessage id="issue.details.properties" />
@@ -55,14 +67,19 @@ export function IssueProperties({ issue, rule }: Readonly<Props>) {
       <dd>
         {hasAdvancedSast && <AdvancedSastBadge />}
         {issue.externalRuleEngine && (
-          <ExternalRuleEngineBadge externalRuleEngine={issue.externalRuleEngine} />
+          <ExternalRuleEngineBadge
+            externalRuleEngine={issue.externalRuleEngine}
+            label={externalRuleEngineLabel}
+          />
         )}
         {isBeta && (
           <span className="sw-ml-1">
             <RuleStatusBadge rule={rule} />
           </span>
         )}
+        {properties}
       </dd>
+      <Divider className="sw-my-1" />
     </>
   );
 }

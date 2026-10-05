@@ -18,6 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { ButtonSize, ButtonVariety } from '@sonarsource/echoes-react';
 import { ComponentType, useMemo } from 'react';
 import { addons } from '~sq-server-addons/index';
 import { Component, Issue } from '~sq-server-commons/types/types';
@@ -26,10 +27,14 @@ export function useAdditionalIssueActions({
   branch,
   component,
   remediationAgentProjectKey,
+  variety,
+  size,
 }: {
   branch: string | undefined;
   component: Component | undefined;
   remediationAgentProjectKey: string | undefined;
+  variety?: ButtonVariety;
+  size?: ButtonSize;
 }): ComponentType<{ issue: Issue }>[] {
   return useMemo(() => {
     const additionalActions: ComponentType<{ issue: Issue }>[] = [];
@@ -40,7 +45,13 @@ export function useAdditionalIssueActions({
     ) {
       const AgentButton = addons.remediationAgent.IssueAssignToAgentButton;
       additionalActions.push(({ issue }) => (
-        <AgentButton branch={branch} issue={issue} projectKey={remediationAgentProjectKey} />
+        <AgentButton
+          branch={branch}
+          issue={issue}
+          projectKey={remediationAgentProjectKey}
+          size={size}
+          variety={variety}
+        />
       ));
     }
 

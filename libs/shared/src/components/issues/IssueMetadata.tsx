@@ -25,8 +25,11 @@ import { isDefined } from '../../helpers/types';
 import {
   CodeAttribute,
   CodeAttributeCategory,
+  SoftwareImpactSeverity,
+  SoftwareQuality,
   SoftwareQualityImpact,
 } from '../../types/clean-code-taxonomy';
+import { IssueSeverity } from '../../types/issues';
 import { RuleStatus } from '../../types/rules';
 import { CleanCodeAttributePill } from '../badges/CleanCodeAttributePill';
 import DateFromNow from '../intl/DateFromNow';
@@ -49,7 +52,6 @@ interface IssueMetadataIssue {
   internalTags?: string[];
   key: string;
   tags?: string[];
-  textRange?: { endLine: number };
 }
 
 interface Props {
@@ -59,24 +61,45 @@ interface Props {
     onAssign: IssueAssignProps['onAssign'];
     renderDropdown: IssueAssignProps['renderDropdown'];
   };
+  isShortcutEnabled?: boolean;
   issue: IssueMetadataIssue;
   learnMoreUrl?: string;
   tags: {
     canSetTags?: boolean;
+    isOpen?: boolean;
     overlay?: ReactNode;
     selectedIssueKey?: string;
+    togglePopup?: (popup: string, isOpen?: boolean) => void;
   };
-  rule?: { status: RuleStatus };
+  rule?: { status: RuleStatus; isExternal?: boolean };
   deferralDate?: ReactNode;
+  onSetSeverity?: (
+    severity: IssueSeverity | SoftwareImpactSeverity,
+    quality: SoftwareQuality,
+  ) => Promise<void>;
+  issueType?: ReactNode;
+  line?: number;
+  showImpact?: boolean;
+  showCleanCodeAttribute?: boolean;
+  properties?: ReactNode;
+  externalRulesRepoNames?: Record<string, string>;
 }
 
 export function IssueMetadata({
   assign,
+  isShortcutEnabled,
   issue,
   learnMoreUrl,
   tags,
   rule,
   deferralDate,
+  onSetSeverity,
+  issueType,
+  line,
+  showImpact = true,
+  showCleanCodeAttribute = true,
+  properties,
+  externalRulesRepoNames,
 }: Readonly<Props>) {
   const { formatMessage } = useIntl();
 
@@ -90,6 +113,7 @@ export function IssueMetadata({
           <IssueAssign
             canAssign={assign.canAssign}
             isSelected={assign.isSelected}
+            isShortcutEnabled={isShortcutEnabled}
             issue={issue}
             onAssign={assign.onAssign}
             renderDropdown={assign.renderDropdown}
@@ -99,7 +123,9 @@ export function IssueMetadata({
 
         {deferralDate}
 
-        {(issue.impacts?.length ?? 0) > 0 && (
+        {issueType}
+
+        {showImpact && (issue.impacts?.length ?? 0) > 0 && (
           <>
             <dt>
               <Text isHighlighted>
@@ -110,6 +136,7 @@ export function IssueMetadata({
               <SoftwareImpactPillList
                 className="sw-flex-col"
                 learnMoreUrl={learnMoreUrl}
+                onSetSeverity={onSetSeverity}
                 softwareImpacts={issue.impacts}
               />
             </dd>
@@ -117,17 +144,26 @@ export function IssueMetadata({
           </>
         )}
 
-        <dt>
-          <Text isHighlighted>{formatMessage({ id: 'issue.details.code_attribute' })}</Text>
-        </dt>
-        <dd>
-          <CleanCodeAttributePill
-            cleanCodeAttribute={issue.cleanCodeAttribute}
-            cleanCodeAttributeCategory={issue.cleanCodeAttributeCategory}
-          />
-        </dd>
-        <IssueProperties issue={issue} rule={rule} />
-        <Divider className="sw-my-1" />
+        {showCleanCodeAttribute && (
+          <>
+            <dt>
+              <Text isHighlighted>{formatMessage({ id: 'issue.details.code_attribute' })}</Text>
+            </dt>
+            <dd>
+              <CleanCodeAttributePill
+                cleanCodeAttribute={issue.cleanCodeAttribute}
+                cleanCodeAttributeCategory={issue.cleanCodeAttributeCategory}
+              />
+            </dd>
+            <Divider className="sw-my-1" />
+          </>
+        )}
+        <IssueProperties
+          externalRulesRepoNames={externalRulesRepoNames}
+          issue={issue}
+          properties={properties}
+          rule={rule}
+        />
 
         <dt>
           <Text isHighlighted>{formatMessage({ id: 'issue.details.tags' })}</Text>
@@ -135,13 +171,16 @@ export function IssueMetadata({
         <dd>
           <IssueTags
             canSetTags={tags.canSetTags}
+            isOpen={tags.isOpen}
+            isShortcutEnabled={isShortcutEnabled}
             issue={issue}
             overlay={tags.overlay ?? null}
             selectedIssueKey={tags.selectedIssueKey}
+            togglePopup={tags.togglePopup}
           />
         </dd>
 
-        {isDefined(issue.textRange) && (
+        {isDefined(line) && (
           <>
             <Divider className="sw-my-1" />
             <dt>
@@ -152,10 +191,7 @@ export function IssueMetadata({
             <dd>
               <Tooltip content={formatMessage({ id: 'line_number' })}>
                 <span className="sw-w-fit">
-                  <FormattedMessage
-                    id="issue.ncloc_x.short"
-                    values={{ 0: issue.textRange.endLine }}
-                  />
+                  <FormattedMessage id="issue.ncloc_x.short" values={{ 0: line }} />
                 </span>
               </Tooltip>
             </dd>

@@ -72,7 +72,7 @@ import {
   setIssueType,
 } from '../issues';
 import { getRuleDetails, searchRules } from '../rules';
-import { HUNTER_AGENT_RULE } from './data/ids';
+import { EXTERNAL_RULE, HUNTER_AGENT_RULE } from './data/ids';
 import { IssueData, mockIssuesList } from './data/issues';
 import { filterDescriptionSectionsByContextKey, mockRuleList } from './data/rules';
 import UsersServiceMock from './UsersServiceMock';
@@ -303,10 +303,18 @@ export default class IssuesServiceMock {
         ],
       });
     }
+    if (key === EXTERNAL_RULE) {
+      return mockRuleDetails({
+        key: 'external_eslint:no-unused-vars',
+        name: 'eslint:no-unused-vars',
+        isExternal: true,
+      });
+    }
     if (key === HUNTER_AGENT_RULE) {
       return mockRuleDetails({
         key,
         name: 'Hunter agent rule',
+        isExternal: true,
         descriptionSections: [
           {
             key: RuleDescriptionSections.RootCause,

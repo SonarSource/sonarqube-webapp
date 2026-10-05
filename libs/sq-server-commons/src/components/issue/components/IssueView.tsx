@@ -208,8 +208,10 @@ export default function IssueView(props: Readonly<Props>) {
                 canSetTags={canSetTags}
                 className="js-issue-edit-tags sw-typo-sm"
                 isOpen={currentPopup === 'edit-tags' && canSetTags}
+                isShortcutEnabled={isShortcutEnabled}
                 issue={issue}
                 overlay={<IssueTagsPopup selectedTags={issue.tags ?? []} setTags={setTags} />}
+                selectedIssueKey={selected ? issue.key : undefined}
                 togglePopup={togglePopup}
               />
             </div>

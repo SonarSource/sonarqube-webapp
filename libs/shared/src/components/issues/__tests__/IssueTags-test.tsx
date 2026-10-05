@@ -144,6 +144,25 @@ it('should not open popup via keyboard if canSetTags is false', () => {
   expect(event.defaultPrevented).toBe(false);
 });
 
+it('should not open popup via keyboard if shortcuts are disabled', () => {
+  setupWithProps({ isShortcutEnabled: false });
+
+  const event = fireKeyDown('t');
+
+  expect(screen.queryByRole('menu')).not.toBeInTheDocument();
+  expect(event.defaultPrevented).toBe(false);
+});
+
+it('should call togglePopup via keyboard shortcut when provided', () => {
+  const togglePopup = jest.fn();
+  setupWithProps({ togglePopup, isOpen: false });
+
+  const event = fireKeyDown('t');
+
+  expect(togglePopup).toHaveBeenCalledWith('edit-tags', true);
+  expect(event.defaultPrevented).toBe(true);
+});
+
 describe('add/remove event listener', () => {
   const {
     addEventListener: originalAddEventListener,

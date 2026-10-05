@@ -1282,7 +1282,6 @@ export const componentMap = {
   RawIntlProvider: 'Excluded',
   Routes: 'Excluded',
   Table: 'Excluded',
-  IssueHeaderSide: 'Excluded',
   SystemUpgradeItem: 'Excluded',
   DataTableModal: 'Excluded',
   ProjectAnalysisStep: 'Excluded',

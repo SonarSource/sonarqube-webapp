@@ -18,6 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { ButtonVariety } from '@sonarsource/echoes-react';
 import * as React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { StatusTransition } from '~shared/components/status-transition/StatusTransition';
@@ -26,21 +27,28 @@ import {
   orderIssueTransitions,
   transitionRequiresComment,
 } from '~shared/helpers/issues';
+import { isInput, isShortcut } from '../../../helpers/keyboardEventHelpers';
+import { KeyboardKeys } from '../../../helpers/keycodes';
+import { getKeyboardShortcutEnabled } from '../../../helpers/preferences';
 import { useIssueCommentMutation, useIssueTransitionMutation } from '../../../queries/issues';
-import { IssueStatus } from '../../../types/issues';
+import { IssueActions, IssueStatus } from '../../../types/issues';
 import { Issue } from '../../../types/types';
 import { updateIssue } from '../actions';
 
 interface Props {
   isOpen: boolean;
+  isSelected?: boolean;
   issue: Pick<Issue, 'key' | 'resolution' | 'issueStatus' | 'transitions' | 'type' | 'actions'>;
   onChange: (issue: Issue) => void;
   togglePopup: (popup: string, show?: boolean) => void;
+  variety?: ButtonVariety;
 }
 
 export default function IssueTransition(props: Readonly<Props>) {
   const intl = useIntl();
-  const { isOpen, issue, onChange, togglePopup } = props;
+  const { isOpen, isSelected = true, issue, onChange, togglePopup, variety } = props;
+
+  const canComment = issue.actions.includes(IssueActions.Comment);
 
   const [transitioning, setTransitioning] = React.useState(false);
   const { mutateAsync: setIssueTransition } = useIssueTransitionMutation();
@@ -51,7 +59,7 @@ export default function IssueTransition(props: Readonly<Props>) {
       setTransitioning(true);
 
       try {
-        if (typeof comment === 'string' && comment.length > 0) {
+        if (canComment && typeof comment === 'string' && comment.length > 0) {
           await setIssueTransition({ issue: issue.key, transition });
           await updateIssue(onChange, addIssueComment({ issue: issue.key, text: comment }));
         } else {
@@ -62,7 +70,7 @@ export default function IssueTransition(props: Readonly<Props>) {
         setTransitioning(false);
       }
     },
-    [issue.key, onChange, addIssueComment, setIssueTransition, togglePopup],
+    [canComment, issue.key, onChange, addIssueComment, setIssueTransition, togglePopup],
   );
 
   const transitions = orderIssueTransitions(issue.transitions.filter(isTransitionVisible)).map(
@@ -71,6 +79,31 @@ export default function IssueTransition(props: Readonly<Props>) {
       requiresComment: transitionRequiresComment(transition),
     }),
   );
+
+  const canTransition = transitions.length > 0;
+
+  const handleKeyDown = React.useCallback(
+    (event: KeyboardEvent) => {
+      if (isInput(event) || isShortcut(event) || !getKeyboardShortcutEnabled()) {
+        return;
+      }
+      if (event.key === KeyboardKeys.KeyF) {
+        event.preventDefault();
+        togglePopup('transition');
+      }
+    },
+    [togglePopup],
+  );
+
+  React.useEffect(() => {
+    if (isSelected && canTransition) {
+      document.addEventListener('keydown', handleKeyDown, { capture: true });
+    }
+
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown, { capture: true });
+    };
+  }, [canTransition, handleKeyDown, isSelected]);
 
   const getTooltipContent = () => {
     if (issue.issueStatus === IssueStatus.InSandbox) {
@@ -102,6 +135,7 @@ export default function IssueTransition(props: Readonly<Props>) {
       onTransition={changeIssueStatus}
       status={intl.formatMessage({ id: `issue.issue_status.${issue.issueStatus}` })}
       transitions={transitions}
+      variety={variety}
     />
   );
 }

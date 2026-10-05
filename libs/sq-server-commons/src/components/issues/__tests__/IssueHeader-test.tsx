@@ -31,6 +31,7 @@ function setup(issueOverrides: Partial<Issue> = {}, ruleOverrides: Partial<RuleD
 
   return renderComponent(
     <IssueHeader
+      closeIssue={jest.fn()}
       issue={issue}
       navigation={<nav>tabs</nav>}
       onIssueChange={jest.fn()}
@@ -38,20 +39,6 @@ function setup(issueOverrides: Partial<Issue> = {}, ruleOverrides: Partial<RuleD
     />,
   );
 }
-
-describe('external rule engine badge', () => {
-  it('shows badge for hunter-agent issues', () => {
-    setup({ externalRuleEngine: 'hunter-agent' }, { isExternal: true });
-
-    expect(screen.getByText('hunter-agent')).toBeInTheDocument();
-  });
-
-  it('shows badge for non-hunter-agent external issues', () => {
-    setup({ externalRuleEngine: 'eslint' }, { isExternal: true });
-
-    expect(screen.getByText('eslint')).toBeInTheDocument();
-  });
-});
 
 describe('external rule key deduplication', () => {
   it('does not show rule key when it matches the rule name', () => {

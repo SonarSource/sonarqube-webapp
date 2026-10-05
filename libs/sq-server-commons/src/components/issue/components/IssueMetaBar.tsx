@@ -63,7 +63,7 @@ export default function IssueMetaBar(props: Readonly<Props>) {
       {issue.quickFixAvailable && (
         <>
           <li className={issueMetaListItemClassNames}>
-            <SonarLintBadge compact />
+            <SonarLintBadge variant="compact" />
           </li>
           <SeparatorCircleIcon aria-hidden as="li" />
         </>

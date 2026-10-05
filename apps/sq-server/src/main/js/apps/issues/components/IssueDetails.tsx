@@ -18,7 +18,14 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Layout, MessageCallout, Spinner, ToggleTip } from '@sonarsource/echoes-react';
+import {
+  ButtonSize,
+  ButtonVariety,
+  Layout,
+  MessageCallout,
+  Spinner,
+  ToggleTip,
+} from '@sonarsource/echoes-react';
 import { useMemo } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import A11ySkipTarget from '~shared/components/a11y/A11ySkipTarget';
@@ -63,11 +70,19 @@ interface IssueDetailsProps {
   selected?: string;
   selectedFlowIndex?: number;
   selectedLocationIndex?: number;
+  closeIssue: () => void;
 }
 
 export default function IssueDetails(props: Readonly<IssueDetailsProps>) {
-  const { branch, handleOpenIssue, handleIssueChange, openIssue, component, fetchMoreIssues } =
-    props;
+  const {
+    branch,
+    handleOpenIssue,
+    handleIssueChange,
+    openIssue,
+    component,
+    fetchMoreIssues,
+    closeIssue,
+  } = props;
   const { selectFlow, selectLocation, issues, loading, loadingMore, locationsNavigator } = props;
   const { paging, selected, selectedFlowIndex, selectedLocationIndex } = props;
   const { remediationAgentProjectKey } = props;
@@ -86,6 +101,8 @@ export default function IssueDetails(props: Readonly<IssueDetailsProps>) {
     branch,
     component,
     remediationAgentProjectKey,
+    variety: ButtonVariety.Default,
+    size: ButtonSize.Large,
   });
 
   return (
@@ -156,6 +173,7 @@ export default function IssueDetails(props: Readonly<IssueDetailsProps>) {
                 <IssueReviewHistoryAndComments issue={openIssue} onChange={handleIssueChange} />
               }
               additionalIssueActions={additionalIssueActions}
+              closeIssue={closeIssue}
               codeTabContent={
                 <IssuesSourceViewer
                   branchLike={fillBranchLike(openIssue.branch, openIssue.pullRequest)}

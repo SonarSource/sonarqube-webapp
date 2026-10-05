@@ -20,10 +20,16 @@
 
 import { screen } from '@testing-library/react';
 import { ComponentProps, useEffect, useRef } from 'react';
+import { useCurrentUser } from '~adapters/helpers/users';
 import { isInput } from '../../../helpers/keyboard';
 import { fireCustomKeyboardEvent, renderWithContext } from '../../../helpers/test-utils';
 import { AssigneeSelect } from '../AssigneeSelect';
 import { DropdownRenderProps, IssueAssign } from '../IssueAssign';
+import { IssuePopupContext, IssuePopupContextValue } from '../IssuePopupContext';
+
+jest.mock('~adapters/helpers/users', () => ({
+  useCurrentUser: jest.fn(),
+}));
 
 jest.mock('~shared/helpers/keyboard', () => ({
   ...jest.requireActual('~shared/helpers/keyboard'),
@@ -49,8 +55,13 @@ const issue = {
   projectOrganization: 'org',
 };
 
+const currentUser = { login: 'me', name: 'My Name', avatar: 'my-avatar' };
+
 beforeEach(() => {
   jest.clearAllMocks();
+  jest
+    .mocked(useCurrentUser)
+    .mockReturnValue({ currentUser, isLoggedIn: true } as ReturnType<typeof useCurrentUser>);
 });
 
 it('should render without the action when the correct rights are missing', () => {
@@ -143,6 +154,76 @@ it('should not assign with keyboard is cannot assign', () => {
   expect(myEvent.defaultPrevented).toBe(false);
 });
 
+it('should assign to current user with keyboard shortcut', () => {
+  const onAssign = jest.fn();
+  setupWithProps({ onAssign });
+
+  const myEvent = fireCustomKeyboardEvent('keyDown', 'm');
+
+  expect(onAssign).toHaveBeenCalledWith({
+    login: 'me',
+    name: 'My Name',
+    avatar: 'my-avatar',
+  });
+  expect(myEvent.defaultPrevented).toBe(true);
+});
+
+it('should not assign to current user with keyboard shortcut if not logged in', () => {
+  jest.mocked(useCurrentUser).mockReturnValue({
+    currentUser: { isLoggedIn: false },
+    isLoggedIn: false,
+  } as ReturnType<typeof useCurrentUser>);
+  const onAssign = jest.fn();
+  setupWithProps({ onAssign });
+
+  const myEvent = fireCustomKeyboardEvent('keyDown', 'm');
+
+  expect(onAssign).not.toHaveBeenCalled();
+  expect(myEvent.defaultPrevented).toBe(false);
+});
+
+it('should not assign to current user with keyboard shortcut if cannot assign', () => {
+  const onAssign = jest.fn();
+  setupWithProps({ onAssign, canAssign: false });
+
+  const myEvent = fireCustomKeyboardEvent('keyDown', 'm');
+
+  expect(onAssign).not.toHaveBeenCalled();
+  expect(myEvent.defaultPrevented).toBe(false);
+});
+
+it('should not assign to current user with keyboard shortcut if shortcuts are disabled', () => {
+  const onAssign = jest.fn();
+  setupWithProps({ onAssign, isShortcutEnabled: false });
+
+  const myEvent = fireCustomKeyboardEvent('keyDown', 'm');
+
+  expect(onAssign).not.toHaveBeenCalled();
+  expect(myEvent.defaultPrevented).toBe(false);
+});
+
+it('should not assign to current user with keyboard shortcut if in input', () => {
+  jest.mocked(isInput).mockReturnValueOnce(true);
+  const onAssign = jest.fn();
+  setupWithProps({ onAssign });
+
+  const myEvent = fireCustomKeyboardEvent('keyDown', 'm');
+
+  expect(onAssign).not.toHaveBeenCalled();
+  expect(myEvent.defaultPrevented).toBe(false);
+});
+
+it('should not assign to current user with keyboard shortcut if user is pressing another shortcut', async () => {
+  const onAssign = jest.fn();
+  const { user } = setupWithProps({ onAssign });
+
+  await user.keyboard('{Control>}m{/Control}');
+  expect(onAssign).not.toHaveBeenCalled();
+
+  await user.keyboard('{Meta>}m{/Meta}');
+  expect(onAssign).not.toHaveBeenCalled();
+});
+
 it('should render a fallback assignee display if assignee info are not available', () => {
   setupWithProps({ issue: { key: 'issue-key' } });
   expect(screen.getByText('unassigned')).toBeInTheDocument();
@@ -191,6 +272,51 @@ describe('add/remove event listener', () => {
   });
 });
 
+describe('with IssuePopupContext (coordinated with other issue-detail popups)', () => {
+  it('focuses the dropdown on mount when the context reports this popup as current', () => {
+    setupWithPopupContext({ currentPopup: 'assign' });
+
+    expect(screen.getByRole('combobox')).toHaveFocus();
+  });
+
+  it('does not focus the dropdown when the context reports a different popup as current', () => {
+    setupWithPopupContext({ currentPopup: 'edit-tags' });
+
+    expect(screen.getByRole('combobox')).not.toHaveFocus();
+  });
+
+  it('opens via the context togglePopup using the keyboard shortcut', () => {
+    const togglePopup = jest.fn();
+    setupWithPopupContext({ togglePopup });
+
+    const myEvent = fireCustomKeyboardEvent('keyDown', 'a');
+
+    expect(togglePopup).toHaveBeenCalledWith('assign', true);
+    expect(myEvent.defaultPrevented).toBe(true);
+  });
+
+  it('closes via the context togglePopup once a user is selected', async () => {
+    const togglePopup = jest.fn();
+    const onAssign = jest.fn();
+    const { user } = setupWithPopupContext({ currentPopup: 'assign', togglePopup }, { onAssign });
+
+    await user.click(screen.getByRole('option'));
+
+    expect(onAssign).toHaveBeenCalled();
+    expect(togglePopup).toHaveBeenCalledWith('assign', false);
+  });
+
+  it('closes via the context togglePopup when deselected', () => {
+    const togglePopup = jest.fn();
+    const popupContext = { currentPopup: 'assign', togglePopup };
+    const { rerender } = setupWithPopupContext(popupContext);
+
+    rerender(createComponentWithPopupContext(popupContext, { isSelected: false }));
+
+    expect(togglePopup).toHaveBeenCalledWith('assign', false);
+  });
+});
+
 function TestAssigneeDropdown({
   menuIsOpen,
   onMenuClose,
@@ -236,6 +362,32 @@ function setupWithProps(props: Partial<ComponentProps<typeof IssueAssign>> = {})
   return renderWithContext(createComponent(props), {
     initialCurrentUser: { isLoggedIn: true },
   });
+}
+
+function setupWithPopupContext(
+  popupContext: Partial<IssuePopupContextValue>,
+  props: Partial<ComponentProps<typeof IssueAssign>> = {},
+) {
+  return renderWithContext(createComponentWithPopupContext(popupContext, props), {
+    initialCurrentUser: { isLoggedIn: true },
+  });
+}
+
+function createComponentWithPopupContext(
+  popupContext: Partial<IssuePopupContextValue>,
+  props: Partial<ComponentProps<typeof IssueAssign>> = {},
+) {
+  return (
+    <IssuePopupContext.Provider
+      value={{
+        currentPopup: undefined,
+        togglePopup: jest.fn(),
+        ...popupContext,
+      }}
+    >
+      {createComponent(props)}
+    </IssuePopupContext.Provider>
+  );
 }
 
 function createComponent(props: Partial<ComponentProps<typeof IssueAssign>> = {}) {

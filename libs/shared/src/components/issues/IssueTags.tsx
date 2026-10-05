@@ -21,11 +21,13 @@
 import { ReactNode, useCallback, useEffect, useRef, useState } from 'react';
 import { isInput, isShortcut } from '../../helpers/keyboard';
 import { Tags } from '../tags/Tags';
+import { IssuePopupName } from './IssuePopupContext';
 
 interface Props {
   canSetTags?: boolean;
   className?: string;
   isOpen?: boolean;
+  isShortcutEnabled?: boolean;
   issue: { key: string; tags?: string[] };
   overlay: ReactNode;
   selectedIssueKey?: string;
@@ -39,6 +41,7 @@ export function IssueTags({
   canSetTags,
   className,
   isOpen,
+  isShortcutEnabled = true,
   issue,
   overlay,
   selectedIssueKey,
@@ -53,7 +56,7 @@ export function IssueTags({
   const setPopupOpen = useCallback(
     (open: boolean) => {
       if (togglePopup !== undefined) {
-        togglePopup('edit-tags', open);
+        togglePopup(IssuePopupName.EditTags, open);
       } else {
         setInternalIsOpen(open);
       }
@@ -63,7 +66,7 @@ export function IssueTags({
 
   const handleKeyDown = useCallback(
     (event: KeyboardEvent) => {
-      if (isInput(event)) {
+      if (isInput(event) || !isShortcutEnabled) {
         return;
       }
       if (event.key === 't' && !isShortcut(event)) {
@@ -72,7 +75,7 @@ export function IssueTags({
         setPopupOpen(true);
       }
     },
-    [setPopupOpen],
+    [isShortcutEnabled, setPopupOpen],
   );
 
   useEffect(() => {
@@ -92,7 +95,7 @@ export function IssueTags({
     }
   }, [selected]);
 
-  const effectiveIsOpen = isOpen !== undefined ? isOpen : internalIsOpen;
+  const effectiveIsOpen = isOpen ?? internalIsOpen;
 
   return (
     <div ref={selectContainerRef}>

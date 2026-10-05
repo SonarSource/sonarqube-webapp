@@ -18,7 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { screen } from '@testing-library/react';
+import { act, fireEvent, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { omit, pick } from 'lodash';
 import * as React from 'react';
@@ -362,6 +362,40 @@ it('should correctly handle keyboard shortcuts', async () => {
   expect(ui.assigneeCombobox('luke').get()).toBeInTheDocument();
   await ui.pressAssignToMeShortcut();
   expect(ui.assigneeCombobox('leia').get()).toBeInTheDocument();
+});
+
+it('should delay opening the transition popup when switching from another open popup via keyboard', async () => {
+  const { ui } = getPageObject();
+  const issue = mockRawIssue(false, {
+    actions: Object.values(IssueActions),
+    transitions: [IssueTransition.Confirm, IssueTransition.UnConfirm],
+  });
+  issuesHandler.setIssueList([{ issue, snippets: {} }]);
+  renderIssue({
+    selected: true,
+    issue: mockIssue(false, { ...pick(issue, 'actions', 'key', 'transitions') }),
+  });
+
+  await ui.pressTagsShortcut();
+  expect(await ui.tagsSearchInput.find()).toBeInTheDocument();
+
+  jest.useFakeTimers();
+
+  // Dispatch directly on `document` (bypassing whatever currently has DOM focus) to exercise
+  // the same document-level shortcut listener IssueTransition registers.
+  fireEvent.keyDown(document, { key: KeyboardKeys.KeyF });
+
+  // Tags popup closes immediately, but the transition popup only opens after the delay
+  expect(ui.tagsSearchInput.query()).not.toBeInTheDocument();
+  expect(ui.setStatusBtn(IssueTransition.UnConfirm).query()).not.toBeInTheDocument();
+
+  act(() => {
+    jest.advanceTimersByTime(100);
+  });
+
+  expect(ui.setStatusBtn(IssueTransition.UnConfirm).get()).toBeInTheDocument();
+
+  jest.useRealTimers();
 });
 
 function getPageObject() {

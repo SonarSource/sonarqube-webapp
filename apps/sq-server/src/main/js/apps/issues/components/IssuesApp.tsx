@@ -1422,6 +1422,7 @@ export class App extends React.PureComponent<Props, State> {
       return (
         <IssueDetails
           branch={this.listedBranch}
+          closeIssue={this.closeIssue}
           component={component}
           fetchMoreIssues={this.fetchMoreIssues}
           handleIssueChange={this.handleIssueChange}
