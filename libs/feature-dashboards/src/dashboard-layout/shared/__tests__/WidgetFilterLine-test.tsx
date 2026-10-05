@@ -18,34 +18,12 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { EchoesProviderForTests } from '@sonarsource/echoes-react';
 import { screen } from '@testing-library/react';
-import { HelmetProvider } from 'react-helmet-async';
-import { createIntl, createIntlCache, RawIntlProvider } from 'react-intl';
-import { render } from '~shared/helpers/test-utils';
+import { renderWithRouter } from '~shared/helpers/test-utils';
 import { WidgetFilterLine } from '../WidgetFilterLine';
 
-const intlCache = createIntlCache();
-const intl = createIntl(
-  {
-    defaultLocale: 'en',
-    locale: 'en',
-    messages: {},
-    textComponent: 'span',
-  },
-  intlCache,
-);
-
 function renderLine(segments: string[]) {
-  return render(
-    <HelmetProvider>
-      <RawIntlProvider value={intl}>
-        <EchoesProviderForTests tooltipsDelayDuration={0}>
-          <WidgetFilterLine segments={segments} />
-        </EchoesProviderForTests>
-      </RawIntlProvider>
-    </HelmetProvider>,
-  );
+  return renderWithRouter(<WidgetFilterLine segments={segments} />);
 }
 
 describe('WidgetFilterLine', () => {

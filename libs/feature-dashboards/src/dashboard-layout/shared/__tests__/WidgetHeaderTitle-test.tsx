@@ -18,10 +18,8 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { EchoesProviderForTests } from '@sonarsource/echoes-react';
 import { screen } from '@testing-library/react';
-import { HelmetProvider } from 'react-helmet-async';
-import { render } from '~shared/helpers/test-utils';
+import { renderWithContext } from '~shared/helpers/test-utils';
 import { useObserveElementTruncation } from '~shared/hooks/useObserveElementTruncation';
 import { WidgetHeaderTitle } from '../WidgetHeaderTitle';
 
@@ -30,13 +28,7 @@ jest.mock('~shared/hooks/useObserveElementTruncation');
 const mockUseObserveElementTruncation = jest.mocked(useObserveElementTruncation);
 
 function renderTitle(title: string) {
-  return render(
-    <HelmetProvider>
-      <EchoesProviderForTests tooltipsDelayDuration={0}>
-        <WidgetHeaderTitle title={title} />
-      </EchoesProviderForTests>
-    </HelmetProvider>,
-  );
+  return renderWithContext(<WidgetHeaderTitle title={title} />);
 }
 
 describe('WidgetHeaderTitle', () => {

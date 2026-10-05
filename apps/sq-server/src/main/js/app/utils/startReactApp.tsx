@@ -37,6 +37,7 @@ import { A11yProvider } from '~shared/components/a11y/A11yProvider';
 import NotFound from '~shared/components/NotFound';
 import { ResetLayerStack } from '~shared/components/ResetLayerStack';
 import StateCallbackHandler from '~shared/components/StateCallbackHandler';
+import { echoesRouter } from '~shared/helpers/echoes-router';
 import { lazyLoadComponent } from '~shared/helpers/lazyLoadComponent';
 import { ThemeController } from '~shared/helpers/ThemeController';
 import { useFeatureCommunicationLimiter } from '~shared/hooks/feature-communication/useFeatureCommunicationLimiter';
@@ -284,7 +285,7 @@ function RootWrapper() {
   useFeatureCommunicationLimiter();
 
   return (
-    <EchoesProvider>
+    <EchoesProvider router={echoesRouter}>
       <ResetLayerStack>
         <SuggestionsProvider>
           <A11yProvider>

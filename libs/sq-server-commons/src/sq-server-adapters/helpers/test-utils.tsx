@@ -20,11 +20,12 @@
 
 import { EchoesProviderForTests } from '@sonarsource/echoes-react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import React, { ReactNode, useMemo } from 'react';
+import React, { PropsWithChildren, useMemo } from 'react';
 import { HelmetProvider } from 'react-helmet-async';
 import { IntlProvider, ReactIntlErrorCode } from 'react-intl';
 import { AnalysisContext } from '~shared/context/AnalysisContext';
 import { optionalContexts } from '~shared/helpers/context';
+import { echoesTestRouter } from '~shared/helpers/echoes-test-router';
 import { isDefined } from '~shared/helpers/types';
 import { BaseAppState } from '~shared/types/appstate';
 import { LightComponent } from '~shared/types/component';
@@ -38,12 +39,16 @@ import { BranchLike } from '../../types/branch-like';
 import { Feature } from '../../types/features';
 import { CurrentUser } from '../../types/users';
 
+export const realMessages: Record<string, string> =
+  jest.requireActual<typeof import('../../l10n/default')>('../../l10n/default').defaultMessages;
+
 export interface ContextWrapperInitProps {
   analysisContext?: { branchId: string; organizationId?: string; organizationKey?: string };
   appState?: Partial<BaseAppState>;
   availableFeatures?: string[];
   componentContext?: { branchLike?: BranchLike; component: LightComponent };
   initialCurrentUser?: CurrentUser;
+  messages?: 'real' | Record<string, string>;
 }
 
 export function getContextWrapper({
@@ -52,6 +57,7 @@ export function getContextWrapper({
   availableFeatures = [],
   componentContext = undefined,
   initialCurrentUser = undefined,
+  messages,
 }: ContextWrapperInitProps = {}) {
   return function ContextWrapper({ children }: React.PropsWithChildren<object>) {
     const queryClient = new QueryClient({
@@ -113,9 +119,9 @@ export function getContextWrapper({
     return (
       <HelmetProvider>
         <CurrentUserContextProvider currentUser={initialCurrentUser}>
-          <IntlWrapper>
+          <IntlWrapper messages={messages}>
             <QueryClientProvider client={queryClient}>
-              <EchoesProviderForTests tooltipsDelayDuration={0}>
+              <EchoesProviderForTests router={echoesTestRouter} tooltipsDelayDuration={0}>
                 {optionalContexts(providers, children)}
               </EchoesProviderForTests>
             </QueryClientProvider>
@@ -126,14 +132,19 @@ export function getContextWrapper({
   };
 }
 
-export function IntlWrapper({ children }: Readonly<{ children: ReactNode }>) {
+export function IntlWrapper(
+  props: PropsWithChildren<{
+    messages?: 'real' | Record<string, string>;
+  }>,
+) {
+  const { children, messages } = props;
   return (
     <IntlProvider
       defaultLocale="en"
       locale="en"
-      messages={{}}
+      messages={messages === 'real' ? realMessages : (messages ?? {})}
       onError={(e) => {
-        // ignore missing translations, there are none!
+        // Tests may use an empty or focused catalog.
         if (
           e.code !== ReactIntlErrorCode.MISSING_TRANSLATION &&
           e.code !== ReactIntlErrorCode.UNSUPPORTED_FORMATTER

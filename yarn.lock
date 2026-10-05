@@ -8131,9 +8131,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@sonarsource/echoes-react@npm:5.3.0":
-  version: 5.3.0
-  resolution: "@sonarsource/echoes-react@npm:5.3.0"
+"@sonarsource/echoes-react@npm:6.0.0":
+  version: 6.0.0
+  resolution: "@sonarsource/echoes-react@npm:6.0.0"
   dependencies:
     "@mantine/core": "npm:7.12.2"
     "@mantine/hooks": "npm:7.12.2"
@@ -8158,8 +8158,7 @@ __metadata:
     react: ^19.0.0
     react-dom: ^19.0.0
     react-intl: ^10.0.0
-    react-router-dom: ^6.0.0
-  checksum: 10/6aafce875574fe70921849d4578c6edc552cdd96dcde0ccd8474d4568205d3bf79c3d63d8567d810e9956b2166fb25688aeebf55bfebd3729f7ec407787e394a
+  checksum: 10/4698180c271accdf35f79d68a3f1b5f4265d9fa443dbf24c37072c6c5a9df68d63c945a925926eec7e1d2220ec216714d9963ef3778a08cf5b4de09e0b6a6afc
   languageName: node
   linkType: hard
 
@@ -20873,7 +20872,7 @@ __metadata:
     "@sentry/browser": "npm:10.65.0"
     "@sentry/react": "npm:10.65.0"
     "@sentry/vite-plugin": "npm:5.4.0"
-    "@sonarsource/echoes-react": "npm:5.3.0"
+    "@sonarsource/echoes-react": "npm:6.0.0"
     "@sprig-technologies/sprig-browser": "npm:2.48.2"
     "@stripe/react-stripe-js": "npm:7.0.0"
     "@stripe/stripe-js": "npm:10.0.0"

@@ -36,6 +36,7 @@ import {
   parsePath,
 } from 'react-router-dom';
 import { IntlWrapper } from '~adapters/helpers/test-utils';
+import { echoesTestRouter } from '~shared/helpers/echoes-test-router';
 import { CatchAll } from '~shared/helpers/test-utils';
 import { Extension } from '~shared/types/common';
 import { Metric } from '~shared/types/measures';
@@ -129,7 +130,7 @@ export function renderComponent(
               <CurrentUserContextProvider currentUser={currentUser}>
                 <AppStateContextProvider appState={appState}>
                   <MemoryRouter initialEntries={[pathname]}>
-                    <EchoesProviderForTests tooltipsDelayDuration={0}>
+                    <EchoesProviderForTests router={echoesTestRouter} tooltipsDelayDuration={0}>
                       <Routes>
                         <Route element={children} path="*" />
                       </Routes>
@@ -222,7 +223,7 @@ function renderRoutedApp(
     createRoutesFromElements(
       <Route
         element={
-          <EchoesProviderForTests tooltipsDelayDuration={0}>
+          <EchoesProviderForTests router={echoesTestRouter} tooltipsDelayDuration={0}>
             <Outlet />
           </EchoesProviderForTests>
         }

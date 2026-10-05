@@ -81,8 +81,8 @@ export function render(
 export type RenderContextOptions = Omit<RenderOptions, 'wrapper'> &
   ContextWrapperInitProps & {
     initialEntries?: InitialEntry[];
-    locale?: string;
-    messages?: Record<string, string>;
+    /** Use the platform's real English catalog or a focused test catalog. Make sure to use `jest.unmock('react-intl');` at the top of your test file. */
+    messages?: 'real' | Record<string, string>;
     userEventOptions?: UserEventsOptions;
   };
 

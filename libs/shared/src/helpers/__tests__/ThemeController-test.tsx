@@ -21,6 +21,7 @@
 import { EchoesProviderForTests } from '@sonarsource/echoes-react';
 import { act, useState } from 'react';
 import { ThemeMode } from '../../types/themes';
+import { echoesTestRouter } from '../echoes-test-router';
 import { renderWithContext } from '../test-utils';
 import { byRole } from '../testSelector';
 import { ThemeController } from '../ThemeController';
@@ -117,7 +118,7 @@ it('switches theme dynamically on media query change events', () => {
 
 function renderThemeSwitcher() {
   return renderWithContext(
-    <EchoesProviderForTests>
+    <EchoesProviderForTests router={echoesTestRouter}>
       <ThemeSwitcherFixture />
     </EchoesProviderForTests>,
   );
