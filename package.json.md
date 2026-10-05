@@ -6,10 +6,6 @@
 
 AWS SDK v3 CloudWatch Logs client — used by `sq-cloud-metrics` to push metrics to CloudWatch Logs for long-term trend tracking.
 
-### @dagrejs/dagre
-
-Graph layout engine used by `feature-architecture` to compute hierarchical (Sugiyama/LR) node positions and edge paths for the architecture graph.
-
 ### @date-fns/upgrade
 
 Used by sq-cloud to parse Date from string or number.
