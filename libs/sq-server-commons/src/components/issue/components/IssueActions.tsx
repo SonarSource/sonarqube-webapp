@@ -40,7 +40,7 @@ export function IssueActions(props: Readonly<Props>) {
   const togglePopup = popupContext?.togglePopup ?? noop;
 
   return (
-    <>
+    <div className="it__issue-header-actions sw-flex sw-gap-2">
       <HighlightRing className="sw-relative" data-guiding-id={`issue-transition-${issue.key}`}>
         <IssueTransition
           isOpen={currentPopup === IssuePopupName.Transition}
@@ -58,6 +58,6 @@ export function IssueActions(props: Readonly<Props>) {
           variety={ButtonVariety.Default}
         />
       ))}
-    </>
+    </div>
   );
 }
