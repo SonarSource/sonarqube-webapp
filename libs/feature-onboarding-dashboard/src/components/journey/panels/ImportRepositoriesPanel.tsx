@@ -31,8 +31,10 @@ import { useIntl } from 'react-intl';
 import { ImportRepositoriesCta } from '~adapters/components/onboarding/ImportRepositoriesCta';
 import { ImportRepositoriesExtraCard } from '~adapters/components/onboarding/ImportRepositoriesExtraCard';
 import { JourneyState } from '~shared/types/onboarding';
+import { usePlatformSelection } from '../../projects/usePlatformSelection';
 import { PanelDonut, PanelDonutSegment } from '../charts/PanelDonut';
 import { ImportRepositoriesModal } from '../modals/ImportRepositoriesModal';
+import { PermissionGate } from '../PermissionGate';
 
 interface Props {
   state: JourneyState;
@@ -47,6 +49,7 @@ interface Props {
 export function ImportRepositoriesPanel({ state }: Readonly<Props>) {
   const { formatMessage } = useIntl();
   const { imported, importedPct, notYetImported } = state;
+  const { hasListablePlatforms } = usePlatformSelection();
 
   const segments: PanelDonutSegment[] = [
     ...(imported > 0
@@ -80,11 +83,17 @@ export function ImportRepositoriesPanel({ state }: Readonly<Props>) {
         })}
         segments={segments}
         viewAll={
-          <ImportRepositoriesModal>
-            <Button variety={ButtonVariety.PrimaryGhost}>
-              {formatMessage({ id: 'onboarding_dashboard.journey.import.view_all' })}
-            </Button>
-          </ImportRepositoriesModal>
+          hasListablePlatforms ? (
+            <PermissionGate
+              trigger={
+                <Button variety={ButtonVariety.PrimaryGhost}>
+                  {formatMessage({ id: 'onboarding_dashboard.journey.import.view_all' })}
+                </Button>
+              }
+            >
+              {(trigger) => <ImportRepositoriesModal>{trigger}</ImportRepositoriesModal>}
+            </PermissionGate>
+          ) : undefined
         }
       />
 

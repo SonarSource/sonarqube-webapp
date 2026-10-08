@@ -188,6 +188,10 @@ const ui = {
   // Import panel
   extraCard: byTestId('import-extra-card'),
   importCta: byRole('button', { name: 'onboarding_dashboard.journey.import.cta' }),
+  viewAllRepositories: byRole('button', { name: 'onboarding_dashboard.journey.import.view_all' }),
+  importRepositoriesModal: byRole('dialog', {
+    name: 'onboarding_dashboard.journey.import.modal.title',
+  }),
   importedLegend: byText('onboarding_dashboard.journey.import.legend.imported'),
   importedCenterLabel: byText('onboarding_dashboard.journey.import.imported_label'),
   notImportedLegend: byText('onboarding_dashboard.journey.import.legend.not_imported'),
@@ -396,6 +400,16 @@ it('shows the permission popover when the user lacks permission and clicks the b
   await user.click(ui.inertBindCta.get());
 
   expect(await ui.permissionDescription.find()).toBeInTheDocument();
+});
+
+it('shows the permission popover instead of the repositories modal when the user lacks permission and clicks "View all"', async () => {
+  jest.mocked(useCanCreateProjects).mockReturnValue(false);
+  const { user } = renderPanel(JourneyStep.Repositories, boundState);
+
+  await user.click(ui.viewAllRepositories.get());
+
+  expect(await ui.permissionDescription.find()).toBeInTheDocument();
+  expect(ui.importRepositoriesModal.query()).not.toBeInTheDocument();
 });
 
 it('shows the permission popover when the user lacks permission and clicks the configure projects CTA', async () => {
