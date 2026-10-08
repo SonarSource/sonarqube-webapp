@@ -23,14 +23,18 @@ import {
   BadgeVariety,
   Button,
   Modal,
+  ModalProps,
   ModalSize,
   Table,
   Text,
 } from '@sonarsource/echoes-react';
-import { PropsWithChildren } from 'react';
 import { useIntl } from 'react-intl';
 import { OnboardingRepository } from '~shared/types/onboarding';
-import { RepositoriesTable, RepositoriesTableColumn } from '../../projects/RepositoriesTable';
+import {
+  RepositoriesTable,
+  RepositoriesTableColumn,
+  RepositoriesTableSelection,
+} from '../../projects/RepositoriesTable';
 import { RepositoryCell } from '../../projects/RepositoryCell';
 import { usePlatformSelection } from '../../projects/usePlatformSelection';
 
@@ -48,7 +52,11 @@ const COLUMNS: RepositoriesTableColumn[] = [
   },
 ];
 
-export function ImportRepositoriesModal({ children }: Readonly<PropsWithChildren>) {
+type Props = ModalProps & {
+  selection?: RepositoriesTableSelection;
+};
+
+export function ImportRepositoriesModal({ children, selection, ...modalProps }: Readonly<Props>) {
   const { formatMessage } = useIntl();
   const { hasListablePlatforms } = usePlatformSelection();
 
@@ -62,16 +70,18 @@ export function ImportRepositoriesModal({ children }: Readonly<PropsWithChildren
 
   return (
     <Modal
+      {...modalProps}
       content={
         <RepositoriesTable
           ariaLabel={title}
           columns={COLUMNS}
           containerClassName="sw-max-h-[calc(80vh-10rem)]"
           pageSize={PAGE_SIZE}
-          renderRow={(repository) => <RepositoryRow key={repository.id} repository={repository} />}
+          renderCells={(repository) => <RepositoryCells repository={repository} />}
+          selection={selection}
         />
       }
-      primaryButton={<Button>{formatMessage({ id: 'close' })}</Button>}
+      primaryButton={modalProps.primaryButton ?? <Button>{formatMessage({ id: 'close' })}</Button>}
       size={ModalSize.Wide}
       title={title}
     >
@@ -80,12 +90,12 @@ export function ImportRepositoriesModal({ children }: Readonly<PropsWithChildren
   );
 }
 
-function RepositoryRow({ repository }: Readonly<{ repository: OnboardingRepository }>) {
+function RepositoryCells({ repository }: Readonly<{ repository: OnboardingRepository }>) {
   const { formatMessage } = useIntl();
   const { alm, name, slug, isImported, isPrivate } = repository;
 
   return (
-    <Table.Row>
+    <>
       <Table.Cell className="sw-justify-start">
         <RepositoryCell alm={alm} name={name} subtitle={slug} />
       </Table.Cell>
@@ -105,6 +115,6 @@ function RepositoryRow({ repository }: Readonly<{ repository: OnboardingReposito
           })}
         </Badge>
       </Table.Cell>
-    </Table.Row>
+    </>
   );
 }

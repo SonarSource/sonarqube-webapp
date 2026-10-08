@@ -367,6 +367,7 @@ export type OnboardingBoundProjectCounts = Record<string, number>;
 export interface OnboardingRepository {
   alm: OnboardingAlm | null;
   id: string;
+  isArchived?: boolean;
   isImported: boolean;
   isPrivate: boolean;
   name: string;

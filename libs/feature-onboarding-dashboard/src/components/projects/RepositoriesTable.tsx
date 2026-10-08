@@ -31,7 +31,7 @@ import {
   Text,
   TextSize,
 } from '@sonarsource/echoes-react';
-import { ReactNode, useEffect, useMemo, useRef, useState } from 'react';
+import { ReactElement, ReactNode, useEffect, useMemo, useRef, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { Image } from '~adapters/components/common/Image';
 import { useAlmIconSrc } from '~adapters/helpers/almIcons';
@@ -57,12 +57,18 @@ const COLUMN_TEMPLATE = 'minmax(120px, 1fr)';
 /** Same shape as {@link ProjectsTableColumn} — reused so both tables share one header renderer. */
 export type RepositoriesTableColumn = ProjectsTableColumn;
 
+export interface RepositoriesTableSelection {
+  renderCell: (repository: OnboardingRepository) => ReactElement;
+  renderHeader: (repositories: OnboardingRepository[]) => ReactElement;
+}
+
 interface Props {
   ariaLabel: string;
   columns: RepositoriesTableColumn[];
   containerClassName?: string;
   pageSize: number;
-  renderRow: (repository: OnboardingRepository) => ReactNode;
+  renderCells: (repository: OnboardingRepository) => ReactNode;
+  selection?: RepositoriesTableSelection;
 }
 
 /**
@@ -74,7 +80,8 @@ export function RepositoriesTable({
   columns,
   containerClassName,
   pageSize,
-  renderRow,
+  renderCells,
+  selection,
 }: Readonly<Props>) {
   const { formatMessage } = useIntl();
   const tableRef = useRef<HTMLTableElement>(null);
@@ -132,9 +139,10 @@ export function RepositoriesTable({
   const total = data?.page.total ?? 0;
   const totalPages = data === undefined ? 0 : Math.ceil(data.page.total / data.page.pageSize);
 
-  const gridTemplate = columns
+  const columnsTemplate = columns
     .map(({ width }, index) => width ?? (index === 0 ? FIRST_COLUMN_TEMPLATE : COLUMN_TEMPLATE))
     .join(' ');
+  const gridTemplate = selection ? `min-content ${columnsTemplate}` : columnsTemplate;
 
   return (
     <LoadingContainer
@@ -203,15 +211,23 @@ export function RepositoriesTable({
           variety={TableVariety.Surface}
         >
           <Table.Header>
-            <TableHeaderRows columns={columns} />
+            <TableHeaderRows
+              columns={columns}
+              leadingCell={selection?.renderHeader(isFetching ? [] : repositories)}
+            />
           </Table.Header>
 
           <Table.Body>
             <TableBodyRows
-              columnCount={columns.length}
+              columnCount={columns.length + (selection ? 1 : 0)}
               isLoading={isFetching}
               items={repositories}
-              renderRow={renderRow}
+              renderRow={(repository) => (
+                <Table.Row key={repository.id}>
+                  {selection?.renderCell(repository)}
+                  {renderCells(repository)}
+                </Table.Row>
+              )}
               rowCount={pageSize}
             />
           </Table.Body>

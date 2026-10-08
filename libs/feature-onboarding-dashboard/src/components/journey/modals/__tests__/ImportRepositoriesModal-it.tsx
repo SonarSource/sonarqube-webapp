@@ -18,6 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { Table } from '@sonarsource/echoes-react';
 import { waitFor } from '@testing-library/react';
 import {
   useOnboardingDopSettingsQuery,
@@ -32,6 +33,7 @@ import {
   OnboardingRepositoriesQuery,
 } from '~shared/types/onboarding';
 import { NO_DATA } from '../../../dashboardConstants';
+import { RepositoriesTableSelection } from '../../../projects/RepositoriesTable';
 import { ImportRepositoriesModal } from '../ImportRepositoriesModal';
 
 const TRIGGER_LABEL = 'Open';
@@ -136,9 +138,22 @@ const ui = {
   }),
 };
 
-function renderModal() {
+const SELECTION_COLUMN: RepositoriesTableSelection = {
+  renderCell: (repository) => (
+    <Table.CellCheckbox
+      ariaLabel={`Select ${repository.name}`}
+      checked={false}
+      onCheck={jest.fn()}
+    />
+  ),
+  renderHeader: () => (
+    <Table.ColumnHeaderCellCheckbox ariaLabel="Select all" checked={false} onCheck={jest.fn()} />
+  ),
+};
+
+function renderModal(selection?: RepositoriesTableSelection) {
   return renderWithRouter(
-    <ImportRepositoriesModal>
+    <ImportRepositoriesModal selection={selection}>
       <button type="button">{TRIGGER_LABEL}</button>
     </ImportRepositoriesModal>,
   );
@@ -164,11 +179,39 @@ it('renders the table with all repository rows when open', async () => {
 
   expect(await ui.modal.find()).toBeInTheDocument();
   expect(await ui.table.find()).toBeInTheDocument();
+  expect(ui.table.byRole('checkbox').queryAll()).toHaveLength(0);
   expect(ui.table.byText('platform-jobs').get()).toBeInTheDocument();
   expect(ui.table.byText('payments-gateway').get()).toBeInTheDocument();
   expect(ui.table.byText('web-core').get()).toBeInTheDocument();
   expect(ui.table.byText('identity-lib').get()).toBeInTheDocument();
   expect(ui.table.byText('mobile-worker').get()).toBeInTheDocument();
+});
+
+it.each([
+  { columnCount: 3, selection: undefined },
+  { columnCount: 4, selection: SELECTION_COLUMN },
+])(
+  'keeps $columnCount column headers and row cells aligned',
+  async ({ columnCount, selection }) => {
+    const { user } = renderModal(selection);
+    await user.click(ui.openButton.get());
+    await ui.table.find();
+
+    expect(ui.table.byRole('columnheader').getAll()).toHaveLength(columnCount);
+    for (const row of ui.table.byRole('row').getAll().slice(1)) {
+      expect(byRole('cell').getAll(row)).toHaveLength(columnCount);
+    }
+  },
+);
+
+it('keeps the selection column in the empty table state', async () => {
+  mockRepositories.repositories = [];
+  const { user } = renderModal(SELECTION_COLUMN);
+  await user.click(ui.openButton.get());
+
+  expect(await ui.table.byText(NO_DATA).findAll()).toHaveLength(4);
+  expect(ui.table.byRole('columnheader').getAll()).toHaveLength(4);
+  expect(ui.table.byRole('cell').getAll()).toHaveLength(4);
 });
 
 it('displays correct visibility and import status for each row', async () => {

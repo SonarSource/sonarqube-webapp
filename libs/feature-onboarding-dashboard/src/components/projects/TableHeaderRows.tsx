@@ -19,6 +19,7 @@
  */
 
 import { Table } from '@sonarsource/echoes-react';
+import { ReactNode } from 'react';
 import { useIntl } from 'react-intl';
 import { ProjectsTableColumn } from './ProjectsTable';
 
@@ -26,14 +27,16 @@ const STICKY_HEADER_CLASSES = 'sw-sticky sw-top-0 sw-z-normal';
 
 interface Props {
   columns: ProjectsTableColumn[];
+  leadingCell?: ReactNode;
 }
 
 /** Header row shared by {@link ProjectsTable} and {@link RepositoriesTable}. */
-export function TableHeaderRows({ columns }: Readonly<Props>) {
+export function TableHeaderRows({ columns, leadingCell }: Readonly<Props>) {
   const { formatMessage } = useIntl();
 
   return (
     <Table.Row>
+      {leadingCell}
       {columns.map(({ className, isLabelHidden, justify, labelKey }) => {
         const label = formatMessage({ id: labelKey });
         const headerClass = [STICKY_HEADER_CLASSES, className].filter(Boolean).join(' ');
