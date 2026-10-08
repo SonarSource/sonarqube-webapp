@@ -31,9 +31,9 @@ import { getGlobalSettingsUrl } from '../../helpers/urls';
  * binding is its own flow.
  *
  * The `| undefined` in the return type exists only to stay signature-compatible with the SQ-Cloud
- * adapter, which has no destination yet; this implementation always resolves to one. Dropping it
- * would break the shared caller, whose `=== undefined` guard would then compare non-overlapping
- * types.
+ * adapter, which resolves to the organization binding page only while the organization is unbound
+ * (and to `undefined` while loading, once bound, or outside an organization). This implementation
+ * always resolves to one.
  */
 export function useCreateDevopsConfigurationUrl(): Partial<Path> | undefined {
   return getGlobalSettingsUrl(ALM_INTEGRATION_CATEGORY);
