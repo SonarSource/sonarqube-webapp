@@ -36,6 +36,7 @@ import {
   SysStatus,
 } from '../../types/types';
 import {
+  deleteEmailConfiguration,
   getEmailConfigurations,
   getSupportInformation,
   getSystemInfo,
@@ -83,6 +84,7 @@ export default class SystemServiceMock {
     jest.mocked(getEmailConfigurations).mockImplementation(this.handleGetEmailConfigurations);
     jest.mocked(postEmailConfiguration).mockImplementation(this.handlePostEmailConfiguration);
     jest.mocked(patchEmailConfiguration).mockImplementation(this.handlePatchEmailConfiguration);
+    jest.mocked(deleteEmailConfiguration).mockImplementation(this.handleDeleteEmailConfiguration);
     jest.mocked(getSupportInformation).mockImplementation(this.handleGetSupportInformation);
   }
 
@@ -164,6 +166,11 @@ export default class SystemServiceMock {
       ...configuration,
     });
     return this.reply(this.emailConfigurations[index]);
+  };
+
+  handleDeleteEmailConfiguration: typeof deleteEmailConfiguration = (id) => {
+    this.emailConfigurations = this.emailConfigurations.filter((c) => c.id !== id);
+    return this.reply(undefined);
   };
 
   handleGetSupportInformation = () => {

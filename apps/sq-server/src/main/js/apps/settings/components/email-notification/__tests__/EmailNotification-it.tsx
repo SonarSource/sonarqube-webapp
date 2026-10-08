@@ -18,9 +18,10 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { screen } from '@testing-library/react';
+import { toast } from '@sonarsource/echoes-react';
+import { screen, waitForElementToBeRemoved } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { addGlobalSuccessMessage } from '~design-system';
+import { noop } from 'lodash';
 import { byLabelText, byRole, byTestId, byText } from '~shared/helpers/testSelector';
 import SystemServiceMock from '~sq-server-commons/api/mocks/SystemServiceMock';
 import * as settingsApi from '~sq-server-commons/api/settings';
@@ -39,9 +40,15 @@ import EmailNotification from '../EmailNotification';
 jest.mock('~sq-server-commons/api/system');
 jest.mock('~sq-server-commons/api/settings');
 
-jest.mock('~design-system', () => ({
-  ...jest.requireActual('~design-system'),
-  addGlobalSuccessMessage: jest.fn(),
+jest.mock('@sonarsource/echoes-react', () => ({
+  ...jest.requireActual<typeof import('@sonarsource/echoes-react')>('@sonarsource/echoes-react'),
+  toast: Object.assign(jest.fn(), {
+    success: jest.fn(),
+    error: jest.fn(),
+    info: jest.fn(),
+    warning: jest.fn(),
+    dismiss: jest.fn(),
+  }),
 }));
 
 const systemHandler = new SystemServiceMock();
@@ -122,6 +129,10 @@ const ui = {
     name: 'edit',
   }),
 
+  // delete
+  delete: byRole('button', { name: 'delete' }),
+  deleteDialog: byRole('alertdialog', { name: 'email_notification.delete.confirm.title' }),
+
   // test modal
   test_email: byRole('button', { name: 'email_notification.test.create_test_email' }),
   test_email_title: byRole('heading', { name: 'email_notification.test.modal_title' }),
@@ -191,9 +202,9 @@ describe('Email Basic Configuration', () => {
       username: 'username',
     });
 
-    expect(addGlobalSuccessMessage).toHaveBeenCalledWith(
-      'email_notification.form.save_configuration.create_success',
-    );
+    expect(toast.success).toHaveBeenCalledWith({
+      description: 'email_notification.form.save_configuration.create_success',
+    });
 
     expect(await ui.overviewHeading.find()).toBeInTheDocument();
 
@@ -275,9 +286,9 @@ describe('Email Basic Configuration', () => {
       username: 'username-updated',
     });
 
-    expect(addGlobalSuccessMessage).toHaveBeenCalledWith(
-      'email_notification.form.save_configuration.update_success',
-    );
+    expect(toast.success).toHaveBeenCalledWith({
+      description: 'email_notification.form.save_configuration.update_success',
+    });
 
     expect(await ui.overviewHeading.find()).toBeInTheDocument();
 
@@ -370,9 +381,9 @@ describe('Email Oauth Configuration', () => {
       username: 'username',
     });
 
-    expect(addGlobalSuccessMessage).toHaveBeenCalledWith(
-      'email_notification.form.save_configuration.create_success',
-    );
+    expect(toast.success).toHaveBeenCalledWith({
+      description: 'email_notification.form.save_configuration.create_success',
+    });
 
     expect(await ui.overviewHeading.find()).toBeInTheDocument();
 
@@ -486,9 +497,9 @@ describe('Email Oauth Configuration', () => {
       username: 'username-updated',
     });
 
-    expect(addGlobalSuccessMessage).toHaveBeenCalledWith(
-      'email_notification.form.save_configuration.update_success',
-    );
+    expect(toast.success).toHaveBeenCalledWith({
+      description: 'email_notification.form.save_configuration.update_success',
+    });
 
     expect(await ui.overviewHeading.find()).toBeInTheDocument();
 
@@ -561,6 +572,107 @@ describe('EmailNotification send test email', () => {
       'Test subject',
       'This is a test message',
     );
+  });
+});
+
+describe('Email configuration deletion', () => {
+  it('asks for confirmation and deletes the configuration', async () => {
+    jest.spyOn(api, 'deleteEmailConfiguration');
+    const user = userEvent.setup();
+    systemHandler.addEmailConfiguration(
+      mockEmailConfiguration(AuthMethod.Basic, { id: 'email-1' }),
+    );
+
+    renderEmailNotifications();
+    expect(await ui.overviewHeading.find()).toBeInTheDocument();
+
+    await user.click(ui.delete.get());
+
+    expect(await ui.deleteDialog.find()).toBeInTheDocument();
+    expect(
+      ui.deleteDialog.byText('email_notification.delete.confirm.text').get(),
+    ).toBeInTheDocument();
+    expect(api.deleteEmailConfiguration).not.toHaveBeenCalled();
+
+    await user.click(ui.deleteDialog.byRole('button', { name: 'delete' }).get());
+
+    expect(api.deleteEmailConfiguration).toHaveBeenCalledTimes(1);
+    expect(api.deleteEmailConfiguration).toHaveBeenCalledWith('email-1');
+
+    // the overview is replaced by the creation form once the configuration is gone
+    expect(await ui.editSubheading1.find()).toBeInTheDocument();
+    expect(ui.overviewHeading.query()).not.toBeInTheDocument();
+    expect(toast.success).toHaveBeenCalledWith({
+      description: 'email_notification.form.save_configuration.delete_success',
+    });
+  });
+
+  it('keeps the confirmation open while the deletion is pending', async () => {
+    let resolveDeletion = noop;
+    jest.mocked(api.deleteEmailConfiguration).mockReturnValueOnce(
+      new Promise<void>((resolve) => {
+        resolveDeletion = resolve;
+      }),
+    );
+    const user = userEvent.setup();
+    systemHandler.addEmailConfiguration(
+      mockEmailConfiguration(AuthMethod.Basic, { id: 'email-1' }),
+    );
+
+    renderEmailNotifications();
+    expect(await ui.overviewHeading.find()).toBeInTheDocument();
+
+    await user.click(ui.delete.get());
+    expect(await ui.deleteDialog.find()).toBeInTheDocument();
+    await user.click(ui.deleteDialog.byRole('button', { name: 'delete' }).get());
+
+    expect(api.deleteEmailConfiguration).toHaveBeenCalledTimes(1);
+    expect(ui.deleteDialog.get()).toBeInTheDocument();
+
+    resolveDeletion();
+
+    await waitForElementToBeRemoved(() => ui.deleteDialog.query());
+  });
+
+  it('shows an error toast and keeps the configuration when the deletion fails', async () => {
+    jest.mocked(api.deleteEmailConfiguration).mockRejectedValueOnce(new Error('Deletion failed'));
+    const user = userEvent.setup();
+    systemHandler.addEmailConfiguration(
+      mockEmailConfiguration(AuthMethod.Basic, { id: 'email-1' }),
+    );
+
+    renderEmailNotifications();
+    expect(await ui.overviewHeading.find()).toBeInTheDocument();
+
+    await user.click(ui.delete.get());
+    expect(await ui.deleteDialog.find()).toBeInTheDocument();
+    await user.click(ui.deleteDialog.byRole('button', { name: 'delete' }).get());
+
+    expect(toast.error).toHaveBeenCalledWith({
+      description: 'email_notification.form.save_configuration.delete_error',
+    });
+    expect(toast.success).not.toHaveBeenCalled();
+    expect(ui.overviewHeading.get()).toBeInTheDocument();
+  });
+
+  it('does not delete the configuration when the confirmation is dismissed', async () => {
+    jest.spyOn(api, 'deleteEmailConfiguration');
+    const user = userEvent.setup();
+    systemHandler.addEmailConfiguration(
+      mockEmailConfiguration(AuthMethod.Basic, { id: 'email-1' }),
+    );
+
+    renderEmailNotifications();
+    expect(await ui.overviewHeading.find()).toBeInTheDocument();
+
+    await user.click(ui.delete.get());
+    expect(await ui.deleteDialog.find()).toBeInTheDocument();
+
+    await user.keyboard('{Escape}');
+
+    expect(ui.deleteDialog.query()).not.toBeInTheDocument();
+    expect(api.deleteEmailConfiguration).not.toHaveBeenCalled();
+    expect(ui.overviewHeading.get()).toBeInTheDocument();
   });
 });
 

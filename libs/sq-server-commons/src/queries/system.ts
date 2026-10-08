@@ -18,9 +18,12 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { toast } from '@sonarsource/echoes-react';
 import { queryOptions, useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { useIntl } from 'react-intl';
 import { createQueryHook, StaleTime } from '~shared/queries/common';
 import {
+  deleteEmailConfiguration,
   getEmailConfigurations,
   getSupportInformation,
   getSystemStatus,
@@ -28,8 +31,6 @@ import {
   patchEmailConfiguration,
   postEmailConfiguration,
 } from '../api/system';
-import { addGlobalSuccessMessage } from '../design-system';
-import { translate } from '../helpers/l10n';
 import { EmailConfiguration } from '../types/system';
 
 const SYSTEM_UPGRADES_QUERY_KEY = ['system', 'upgrades'] as const;
@@ -38,7 +39,7 @@ export const useSystemUpgrades = createQueryHook(() => {
   return queryOptions({
     queryKey: SYSTEM_UPGRADES_QUERY_KEY,
     queryFn: () => getSystemUpgrades(),
-    staleTime: Infinity,
+    staleTime: StaleTime.NEVER,
   });
 });
 
@@ -51,37 +52,42 @@ export const useSystemStatusQuery = createQueryHook(() => {
   return queryOptions({
     queryKey: ['system', 'status'],
     queryFn: getSystemStatus,
-    staleTime: Infinity,
+    staleTime: StaleTime.NEVER,
   });
 });
 
-export function useGetEmailConfiguration() {
+export function useEmailConfigurationQuery() {
   return useQuery({
     queryKey: ['email_configuration'] as const,
     queryFn: async () => {
       const { emailConfigurations } = await getEmailConfigurations();
       return emailConfigurations && emailConfigurations.length > 0 ? emailConfigurations[0] : null;
     },
+    staleTime: StaleTime.LONG,
   });
 }
 
 export function useSaveEmailConfigurationMutation() {
   const queryClient = useQueryClient();
+  const { formatMessage } = useIntl();
   return useMutation({
     mutationFn: (data: EmailConfiguration) => {
       return postEmailConfiguration(data);
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['email_configuration'] });
-      addGlobalSuccessMessage(
-        translate('email_notification.form.save_configuration.create_success'),
-      );
+      toast.success({
+        description: formatMessage({
+          id: 'email_notification.form.save_configuration.create_success',
+        }),
+      });
     },
   });
 }
 
 export function useUpdateEmailConfigurationMutation() {
   const queryClient = useQueryClient();
+  const { formatMessage } = useIntl();
   return useMutation({
     mutationFn: ({
       emailConfiguration,
@@ -94,9 +100,36 @@ export function useUpdateEmailConfigurationMutation() {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['email_configuration'] });
-      addGlobalSuccessMessage(
-        translate('email_notification.form.save_configuration.update_success'),
-      );
+      toast.success({
+        description: formatMessage({
+          id: 'email_notification.form.save_configuration.update_success',
+        }),
+      });
+    },
+  });
+}
+
+export function useDeleteEmailConfigurationMutation() {
+  const { formatMessage } = useIntl();
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (id: string) => {
+      return deleteEmailConfiguration(id);
+    },
+    onSuccess: () => {
+      void queryClient.invalidateQueries({ queryKey: ['email_configuration'] });
+      toast.success({
+        description: formatMessage({
+          id: 'email_notification.form.save_configuration.delete_success',
+        }),
+      });
+    },
+    onError: () => {
+      toast.error({
+        description: formatMessage({
+          id: 'email_notification.form.save_configuration.delete_error',
+        }),
+      });
     },
   });
 }

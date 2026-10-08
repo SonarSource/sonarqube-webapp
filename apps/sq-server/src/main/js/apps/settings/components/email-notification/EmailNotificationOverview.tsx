@@ -18,10 +18,11 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Button, ButtonVariety } from '@sonarsource/echoes-react';
-import { FormattedMessage } from 'react-intl';
-import { BasicSeparator, CodeSnippet } from '~design-system';
-import { translate } from '~sq-server-commons/helpers/l10n';
+import { Button, ButtonVariety, Divider, ModalAlert } from '@sonarsource/echoes-react';
+import { useState } from 'react';
+import { FormattedMessage, useIntl } from 'react-intl';
+import { CodeSnippet } from '~design-system';
+import { useDeleteEmailConfigurationMutation } from '~sq-server-commons/queries/system';
 import { AuthMethod, EmailConfiguration } from '~sq-server-commons/types/system';
 import EmailTestModal from './EmailTestModal';
 
@@ -31,13 +32,31 @@ interface EmailTestModalProps {
 }
 
 export default function EmailNotificationOverview(props: Readonly<EmailTestModalProps>) {
+  const { formatMessage } = useIntl();
   const { emailConfiguration, onEditClicked } = props;
+  const { mutate: deleteEmailConfiguration, isPending } = useDeleteEmailConfigurationMutation();
+
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+
+  const onDeleteClicked = () => {
+    if (emailConfiguration.id) {
+      deleteEmailConfiguration(emailConfiguration.id, {
+        onSuccess: () => {
+          setIsDeleteModalOpen(false);
+        },
+      });
+    }
+  };
+
+  const onDeleteModalOpenChange = (isOpen: boolean) => {
+    setIsDeleteModalOpen(isOpen);
+  };
 
   return (
     <>
-      <BasicSeparator className="sw-my-6" />
+      <Divider className="sw-my-6" />
       <EmailTestModal />
-      <BasicSeparator className="sw-my-6" />
+      <Divider className="sw-my-6" />
       <div className="sw-flex sw-justify-between">
         <div className="sw-grid sw-gap-4">
           <span className="sw-typo-lg-semibold sw-col-span-2">
@@ -95,22 +114,40 @@ export default function EmailNotificationOverview(props: Readonly<EmailTestModal
             value={emailConfiguration.subjectPrefix}
           />
         </div>
-        <Button
-          className="sw-flex-shrink-0"
-          onClick={onEditClicked}
-          variety={ButtonVariety.Default}
-        >
-          <FormattedMessage id="edit" />
-        </Button>
+        <div className="sw-flex sw-justify-end sw-gap-2">
+          <Button onClick={onEditClicked} variety={ButtonVariety.Default}>
+            <FormattedMessage id="edit" />
+          </Button>
+          <ModalAlert
+            description={formatMessage({ id: 'email_notification.delete.confirm.text' })}
+            isOpen={isDeleteModalOpen}
+            onOpenChange={onDeleteModalOpenChange}
+            primaryButton={
+              <Button
+                isLoading={isPending}
+                onClick={onDeleteClicked}
+                variety={ButtonVariety.Danger}
+              >
+                <FormattedMessage id="delete" />
+              </Button>
+            }
+            title={formatMessage({ id: 'email_notification.delete.confirm.title' })}
+          >
+            <Button variety={ButtonVariety.DangerOutline}>
+              <FormattedMessage id="delete" />
+            </Button>
+          </ModalAlert>
+        </div>
       </div>
     </>
   );
 }
 
 function PublicValue({ messageKey, value }: Readonly<{ messageKey: string; value: string }>) {
+  const { formatMessage } = useIntl();
   return (
     <>
-      <label className="sw-typo-semibold">{translate(messageKey)}</label>
+      <label className="sw-typo-semibold">{formatMessage({ id: messageKey })}</label>
       <div className="sw-truncate" data-testid={`${messageKey}.value`}>
         <CodeSnippet className="sw-px-1" isOneLine noCopy snippet={value} />
       </div>
@@ -119,9 +156,10 @@ function PublicValue({ messageKey, value }: Readonly<{ messageKey: string; value
 }
 
 function PrivateValue({ messageKey }: Readonly<{ messageKey: string }>) {
+  const { formatMessage } = useIntl();
   return (
     <>
-      <label className="sw-typo-semibold">{translate(messageKey)}</label>
+      <label className="sw-typo-semibold">{formatMessage({ id: messageKey })}</label>
       <span data-testid={`${messageKey}.value`}>
         <FormattedMessage id="email_notification.overview.private" />
       </span>

@@ -18,23 +18,22 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Spinner, Text } from '@sonarsource/echoes-react';
+import { Heading, Spinner, Text } from '@sonarsource/echoes-react';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
-import { SubTitle } from '~design-system';
-import { useGetEmailConfiguration } from '~sq-server-commons/queries/system';
+import { useEmailConfigurationQuery } from '~sq-server-commons/queries/system';
 import EmailNotificationConfiguration from './EmailNotificationConfiguration';
 import EmailNotificationOverview from './EmailNotificationOverview';
 
 export default function EmailNotification() {
   const [isEditing, setIsEditing] = React.useState(false);
-  const { data: configuration, isLoading } = useGetEmailConfiguration();
+  const { data: configuration, isLoading } = useEmailConfigurationQuery();
 
   return (
     <div className="sw-p-6">
-      <SubTitle as="h3">
+      <Heading as="h3" className="sw-mb-3" size="large">
         <FormattedMessage id="email_notification.header" />
-      </SubTitle>
+      </Heading>
       <Text>
         <FormattedMessage id="email_notification.description" />
       </Text>

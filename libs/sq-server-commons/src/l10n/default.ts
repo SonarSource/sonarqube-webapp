@@ -6726,7 +6726,10 @@ export const defaultMessages = {
     'Email configuration saved successfully.',
   'email_notification.form.save_configuration.update_success':
     'Email configuration updated successfully.',
-  'email_notification.form.delete_configuration': 'Delete configuration',
+  'email_notification.form.save_configuration.delete_success':
+    'Email configuration deleted successfully.',
+  'email_notification.form.save_configuration.delete_error':
+    'Failed to delete email configuration.',
   'email_notification.overview.heading': 'SMTP configuration settings',
   'email_notification.overview.authentication_type': 'Authentication type',
   'email_notification.overview.private': 'Hidden for security reasons',
@@ -6744,6 +6747,9 @@ export const defaultMessages = {
   'email_notification.test.failure':
     'Your email could not be sent. Ensure your authentication configuration settings and email recipient are valid.',
   'email_notification.state.value_should_be_valid_email': 'A valid email address is required.',
+  'email_notification.delete.confirm.title': 'Delete SMTP configuration',
+  'email_notification.delete.confirm.text':
+    'This action cannot be undone. Deleting this SMTP configuration will remove all its settings, and SonarQube will stop sending email notifications.',
 
   //------------------------------------------------------------------------------
   //

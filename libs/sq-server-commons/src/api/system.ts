@@ -110,6 +110,10 @@ export function patchEmailConfiguration(
   );
 }
 
+export function deleteEmailConfiguration(id: string): Promise<void> {
+  return axiosClient.delete(`${EMAIL_NOTIFICATION_PATH}/${id}`);
+}
+
 export function getSupportInformation(): Promise<SupportInformation> {
   return axiosClient.get('/api/support/info');
 }
