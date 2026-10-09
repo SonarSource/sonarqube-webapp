@@ -8177,23 +8177,23 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@stripe/react-stripe-js@npm:6.8.0":
-  version: 6.8.0
-  resolution: "@stripe/react-stripe-js@npm:6.8.0"
+"@stripe/react-stripe-js@npm:7.0.0":
+  version: 7.0.0
+  resolution: "@stripe/react-stripe-js@npm:7.0.0"
   dependencies:
     prop-types: "npm:^15.7.2"
   peerDependencies:
-    "@stripe/stripe-js": ">=9.5.0 <10.0.0"
+    "@stripe/stripe-js": ">=10.0.0 <11.0.0"
     react: ">=16.8.0 <20.0.0"
     react-dom: ">=16.8.0 <20.0.0"
-  checksum: 10/5ba0f82f2691265180b82fe0f17c664247fa829c38cdaa37559a055901b0238a0f462e61b132ca3baf78b567bee322f1c91b8c4f428bf8918398af0a6a41eb45
+  checksum: 10/95ba0bfb26beea64c340128ab9c3a6965b202bd08f1e025835655605f5abdededd6aea017535c175025136c44ef9c077845f9c8eeeb4f4d147ff5549aa584697
   languageName: node
   linkType: hard
 
-"@stripe/stripe-js@npm:9.12.1":
-  version: 9.12.1
-  resolution: "@stripe/stripe-js@npm:9.12.1"
-  checksum: 10/beec1f2bfd5b0f235eda9d52a7cf0650ba23c98fdf2bea797acf967e8336faf8ea156d7fca376e51e132bb012bc1c43f3adbb6fed91fbb50918f2c147ceaf80b
+"@stripe/stripe-js@npm:10.0.0":
+  version: 10.0.0
+  resolution: "@stripe/stripe-js@npm:10.0.0"
+  checksum: 10/06db09e9cc655d6f593f417cc524c9008c275d0894384d78f85f2a1a6bd5130179671ed19c6cca04020d49d7f5ba0334d7cec1564b1c13af8bb9fdb5a52afef1
   languageName: node
   linkType: hard
 
@@ -20875,8 +20875,8 @@ __metadata:
     "@sentry/vite-plugin": "npm:5.4.0"
     "@sonarsource/echoes-react": "npm:5.3.0"
     "@sprig-technologies/sprig-browser": "npm:2.48.2"
-    "@stripe/react-stripe-js": "npm:6.8.0"
-    "@stripe/stripe-js": "npm:9.12.1"
+    "@stripe/react-stripe-js": "npm:7.0.0"
+    "@stripe/stripe-js": "npm:10.0.0"
     "@swc-node/register": "npm:1.11.1"
     "@swc/core": "npm:1.15.43"
     "@swc/helpers": "npm:0.5.23"
