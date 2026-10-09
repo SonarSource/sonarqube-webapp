@@ -84,6 +84,7 @@ export interface DevopsRolesMapping {
   readonly id: string;
   permissions: {
     admin: boolean;
+    architectureAdmin?: boolean;
     codeViewer: boolean;
     issueAdmin: boolean;
     scan: boolean;

@@ -34,13 +34,27 @@ import {
 import * as React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { PermissionHeader } from '~sq-server-commons/components/permissions/PermissionHeader';
+import { useAvailableFeatures } from '~sq-server-commons/context/available-features/withAvailableFeatures';
 import {
   PERMISSIONS_ORDER_FOR_PROJECT_TEMPLATE,
   convertToPermissionDefinitions,
   isPermissionDefinitionGroup,
+  removeArchitectureAdminPermission,
 } from '~sq-server-commons/helpers/permissions';
 import { AlmKeys } from '~sq-server-commons/types/alm-settings';
+import { Feature } from '~sq-server-commons/types/features';
+import { Permissions } from '~sq-server-commons/types/permissions';
 import { DevopsRolesMapping } from '~sq-server-commons/types/provisioning';
+
+const PERMISSION_TO_MAPPING_KEY: Record<string, keyof DevopsRolesMapping['permissions']> = {
+  [Permissions.Browse]: 'user',
+  [Permissions.CodeViewer]: 'codeViewer',
+  [Permissions.IssueAdmin]: 'issueAdmin',
+  [Permissions.SecurityHotspotAdmin]: 'securityHotspotAdmin',
+  [Permissions.ArchitectureAdmin]: 'architectureAdmin',
+  [Permissions.Admin]: 'admin',
+  [Permissions.Scan]: 'scan',
+};
 
 interface Props {
   isLoading: boolean;
@@ -54,6 +68,7 @@ interface Props {
 interface PermissionCellProps {
   list?: DevopsRolesMapping[];
   mapping: DevopsRolesMapping;
+  permissionKeys: Array<keyof DevopsRolesMapping['permissions']>;
   setMapping: React.Dispatch<React.SetStateAction<DevopsRolesMapping[] | null>>;
 }
 
@@ -62,12 +77,13 @@ const DEFAULT_CUSTOM_ROLE_PERMISSIONS: DevopsRolesMapping['permissions'] = {
   codeViewer: false,
   issueAdmin: false,
   securityHotspotAdmin: false,
+  architectureAdmin: false,
   admin: false,
   scan: false,
 };
 
 function PermissionRow(props: Readonly<PermissionCellProps>) {
-  const { list, mapping, setMapping } = props;
+  const { list, mapping, permissionKeys, setMapping } = props;
   const { role, baseRole } = mapping;
   const intl = useIntl();
 
@@ -108,10 +124,10 @@ function PermissionRow(props: Readonly<PermissionCellProps>) {
           )}
         </div>
       </Table.Cell>
-      {Object.entries(mapping.permissions).map(([key, value]) => (
+      {permissionKeys.map((key) => (
         <Table.CellCheckbox
           ariaLabel={`Toggle ${key} permission for ${role}`}
-          checked={value}
+          checked={mapping.permissions[key] ?? false}
           id={`${mapping.id}-${key}`}
           key={key}
           onCheck={(newValue) => {
@@ -132,11 +148,13 @@ function PermissionRow(props: Readonly<PermissionCellProps>) {
 export function DevopsRolesMappingModal(props: Readonly<Props>) {
   const { isLoading, isSaving, mappingFor, onClose, onSave, roles } = props;
   const intl = useIntl();
+  const { hasFeature } = useAvailableFeatures();
 
-  const permissions = convertToPermissionDefinitions(
-    PERMISSIONS_ORDER_FOR_PROJECT_TEMPLATE,
-    'projects_role',
-  );
+  const permissionOrder = hasFeature(Feature.Architecture)
+    ? PERMISSIONS_ORDER_FOR_PROJECT_TEMPLATE
+    : removeArchitectureAdminPermission(PERMISSIONS_ORDER_FOR_PROJECT_TEMPLATE);
+  const permissions = convertToPermissionDefinitions(permissionOrder, 'projects_role');
+  const permissionKeys = permissionOrder.map((permission) => PERMISSION_TO_MAPPING_KEY[permission]);
   const [editedMapping, setEditedMapping] = React.useState<DevopsRolesMapping[] | null>(null);
   const [customRoleInput, setCustomRoleInput] = React.useState('');
   const [customRoleError, setCustomRoleError] = React.useState(false);
@@ -203,6 +221,7 @@ export function DevopsRolesMappingModal(props: Readonly<Props>) {
                 key={mapping.id}
                 list={list}
                 mapping={mapping}
+                permissionKeys={permissionKeys}
                 setMapping={setEditedMapping}
               />
             ))}
@@ -250,6 +269,7 @@ export function DevopsRolesMappingModal(props: Readonly<Props>) {
                 key={mapping.id}
                 list={list}
                 mapping={mapping}
+                permissionKeys={permissionKeys}
                 setMapping={setEditedMapping}
               />
             ))}

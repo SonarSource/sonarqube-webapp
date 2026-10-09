@@ -957,6 +957,28 @@ describe('Github tab', () => {
       await user.click(ui.mappingDialogCancel.get());
     });
 
+    it('should show the architecture admin column and keep rows aligned when the Architecture feature is on', async () => {
+      const user = userEvent.setup();
+      dopTranslationHandler.gitHubConfigurations.push(mockedGitHubConfigurationResponse);
+      renderAuthentication([Feature.GithubProvisioning, Feature.Architecture]);
+      await user.click(await ui.tab.find());
+
+      await user.click(await ui.editMappingButton.find());
+
+      const readCheckboxes = ui.mappingCheckbox.getAll(ui.getMappingRowByRole('read'));
+      const adminCheckboxes = ui.mappingCheckbox.getAll(ui.getMappingRowByRole('admin'));
+
+      // user, codeViewer, issueAdmin, securityHotspotAdmin, architectureAdmin, admin, scan
+      expect(readCheckboxes).toHaveLength(7);
+      expect(adminCheckboxes).toHaveLength(7);
+      expect(readCheckboxes[4]).not.toBeChecked();
+      expect(adminCheckboxes[4]).toBeChecked();
+      expect(adminCheckboxes[5]).toBeChecked();
+      expect(adminCheckboxes[6]).toBeChecked();
+
+      await user.click(ui.mappingDialogCancel.get());
+    });
+
     it('should add/remove/update custom roles', async () => {
       const user = userEvent.setup();
       dopTranslationHandler.gitHubConfigurations.push(mockedGitHubConfigurationResponse);

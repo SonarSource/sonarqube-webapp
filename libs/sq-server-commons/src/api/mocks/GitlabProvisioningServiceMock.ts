@@ -61,6 +61,7 @@ const gitlabMappingMock = (
     codeViewer: permissions.includes('codeViewer'),
     issueAdmin: permissions.includes('issueAdmin'),
     securityHotspotAdmin: permissions.includes('securityHotspotAdmin'),
+    architectureAdmin: permissions.includes('architectureAdmin'),
     admin: permissions.includes('admin'),
     scan: permissions.includes('scan'),
   },
@@ -81,7 +82,15 @@ const defaultMapping: DevopsRolesMapping[] = [
   ),
   gitlabMappingMock(
     'owner',
-    ['user', 'codeViewer', 'issueAdmin', 'securityHotspotAdmin', 'admin', 'scan'],
+    [
+      'user',
+      'codeViewer',
+      'issueAdmin',
+      'securityHotspotAdmin',
+      'architectureAdmin',
+      'admin',
+      'scan',
+    ],
     true,
   ),
 ];
