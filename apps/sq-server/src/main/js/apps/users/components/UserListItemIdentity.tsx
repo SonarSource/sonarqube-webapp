@@ -22,7 +22,9 @@ import { Text } from '@sonarsource/echoes-react';
 import { FormattedMessage } from 'react-intl';
 import { Image } from '~adapters/components/common/Image';
 import { Badge, getTextColor } from '~design-system';
+import { useCurrentTheme } from '~shared/helpers/css';
 import { isDefined } from '~shared/helpers/types';
+import { identityProviderIconUrl } from '~sq-server-commons/helpers/almIcons';
 import { IdentityProvider, Provider } from '~sq-server-commons/types/types';
 import { RestUserDetailed } from '~sq-server-commons/types/users';
 
@@ -57,6 +59,8 @@ export default function UserListItemIdentity({ identityProvider, user, managePro
 }
 
 export function ExternalProvider({ identityProvider, user }: Omit<Props, 'manageProvider'>) {
+  const currentTheme = useCurrentTheme();
+
   if (!identityProvider) {
     return (
       <div className="it__user-identity-provider sw-mt-1">
@@ -80,7 +84,7 @@ export function ExternalProvider({ identityProvider, user }: Omit<Props, 'manage
           alt={identityProvider.name}
           className="sw-mr-1"
           height="14"
-          src={identityProvider.iconPath}
+          src={identityProviderIconUrl(currentTheme, identityProvider)}
           width="14"
         />
         {user.externalLogin}

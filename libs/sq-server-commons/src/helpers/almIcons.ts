@@ -21,6 +21,7 @@
 import { ALM_ICONS_BASE_URL } from '~adapters/helpers/urls';
 import { AlmIconKey } from '~shared/types/onboarding';
 import { AlmKeys } from '../types/alm-settings';
+import { IdentityProvider } from '../types/types';
 import { getBaseUrl } from './system';
 
 export function almIconUrl(theme: string, imageKey: AlmIconKey) {
@@ -34,4 +35,23 @@ export function almIconUrlUnthemed(imageKey: string) {
 export function almKeyToIconKey(almKey: AlmKeys): AlmIconKey {
   // Both bitbuckets get the same icon. Map `bitbucketcloud` to `bitbucket`
   return almKey === AlmKeys.BitbucketCloud ? AlmKeys.BitbucketServer : almKey;
+}
+
+const ALM_KEY_VALUES = new Set<string>([
+  AlmKeys.Azure,
+  AlmKeys.BitbucketServer,
+  AlmKeys.BitbucketCloud,
+  AlmKeys.GitHub,
+  AlmKeys.GitLab,
+]);
+
+export function identityProviderIconUrl(
+  theme: string,
+  { iconPath, key }: Pick<IdentityProvider, 'iconPath' | 'key'>,
+) {
+  if (ALM_KEY_VALUES.has(key)) {
+    return almIconUrl(theme, almKeyToIconKey(key as AlmKeys));
+  }
+
+  return iconPath.startsWith('/') ? `${getBaseUrl()}${iconPath}` : iconPath;
 }

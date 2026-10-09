@@ -18,6 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { setTheme, Theme } from '@sonarsource/echoes-react';
 import { act, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { registerServiceMocks, resetServiceMocks } from '~shared/api/mocks/server';
@@ -31,11 +32,13 @@ import SettingsServiceMock from '~sq-server-commons/api/mocks/SettingsServiceMoc
 import SystemServiceMock from '~sq-server-commons/api/mocks/SystemServiceMock';
 import UserTokensMock from '~sq-server-commons/api/mocks/UserTokensMock';
 import UsersServiceMock from '~sq-server-commons/api/mocks/UsersServiceMock';
+import { getIdentityProviders } from '~sq-server-commons/api/users';
 import { mockGitHubConfiguration } from '~sq-server-commons/helpers/mocks/dop-translation';
 import {
   mockCurrentUser,
   mockGroup,
   mockGroupMembership,
+  mockIdentityProvider,
   mockLoggedInUser,
   mockRestUser,
 } from '~sq-server-commons/helpers/testMocks';
@@ -120,6 +123,7 @@ const ui = {
       accessibleName.startsWith('Franck Grillo Franck Grillo franck.grillo '),
   }),
   jackRow: byRole('row', { name: /Jack/ }),
+  githubIdentityProviderIcon: byRole('img', { name: 'GitHub' }),
 
   dialogGroups: byRole('dialog', { name: 'users.update_groups' }),
   dialogViewGroups: byRole('dialog', { name: 'users.view_groups' }),
@@ -765,6 +769,33 @@ it('should render external identity Providers', async () => {
 
   expect(await ui.charlieRow.find()).toHaveTextContent(/ExternalTest/);
   expect(await ui.denisRow.find()).toHaveTextContent(/test2: UnknownExternalProvider/);
+});
+
+describe('identity provider icon', () => {
+  afterEach(async () => {
+    await act(async () => {
+      setTheme(Theme.light);
+      await Promise.resolve();
+    });
+  });
+
+  it.each([
+    [Theme.light, '/images/alm/light/github.svg'],
+    [Theme.dark, '/images/alm/dark/github.svg'],
+  ])('should render the %s theme icon of a known provider', async (theme, iconUrl) => {
+    setTheme(theme);
+    userHandler.users = [
+      mockRestUser({ externalLogin: 'octocat', externalProvider: 'github', local: false }),
+    ];
+    jest.mocked(getIdentityProviders).mockResolvedValueOnce({
+      identityProviders: [
+        mockIdentityProvider({ iconPath: '/images/alm/github.svg', key: 'github', name: 'GitHub' }),
+      ],
+    });
+    renderUsersApp();
+
+    expect(await ui.githubIdentityProviderIcon.find()).toHaveAttribute('src', iconUrl);
+  });
 });
 
 it('accessibility', async () => {

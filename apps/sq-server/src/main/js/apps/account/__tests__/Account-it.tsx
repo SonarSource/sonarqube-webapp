@@ -18,7 +18,8 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { screen, waitFor, within } from '@testing-library/react';
+import { setTheme, Theme } from '@sonarsource/echoes-react';
+import { act, screen, waitFor, within } from '@testing-library/react';
 import userEvent, { UserEvent } from '@testing-library/user-event';
 import { Outlet, Route } from 'react-router-dom';
 import { byRole, byText } from '~shared/helpers/testSelector';
@@ -192,6 +193,13 @@ it('should render the top menu', async () => {
 });
 
 describe('profile page', () => {
+  afterEach(async () => {
+    await act(async () => {
+      setTheme(Theme.light);
+      await Promise.resolve();
+    });
+  });
+
   it('should display all the information', async () => {
     const loggedInUser = mockLoggedInUser({
       email: 'email@company.com',
@@ -216,14 +224,18 @@ describe('profile page', () => {
     expect(screen.queryByText('my_profile.scm_accounts')).not.toBeInTheDocument();
   });
 
-  it('should handle known external Providers', async () => {
+  it.each([
+    [Theme.light, '/images/alm/light/github.svg'],
+    [Theme.dark, '/images/alm/dark/github.svg'],
+  ])('should handle known external Providers in %s theme', async (theme, iconUrl) => {
+    setTheme(theme);
     const loggedInUser = mockLoggedInUser({
       externalProvider: 'github',
       externalIdentity: 'gh_id',
     });
     renderAccountApp(loggedInUser);
 
-    expect(await screen.findByAltText('GitHub')).toBeInTheDocument();
+    expect(await screen.findByAltText('GitHub')).toHaveAttribute('src', iconUrl);
   });
 
   it('should handle unknown external Providers', async () => {

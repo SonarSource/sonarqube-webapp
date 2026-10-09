@@ -21,7 +21,9 @@
 import * as React from 'react';
 import { Image } from '~adapters/components/common/Image';
 import { getTextColor } from '~design-system';
+import { useCurrentTheme } from '~shared/helpers/css';
 import { getIdentityProviders } from '~sq-server-commons/api/users';
+import { identityProviderIconUrl } from '~sq-server-commons/helpers/almIcons';
 import { IdentityProvider } from '~sq-server-commons/types/types';
 import { LoggedInUser } from '~sq-server-commons/types/users';
 
@@ -32,6 +34,24 @@ export interface UserExternalIdentityProps {
 interface State {
   identityProvider?: IdentityProvider;
   loading: boolean;
+}
+
+interface IdentityProviderIconProps {
+  identityProvider: IdentityProvider;
+}
+
+function IdentityProviderIcon({ identityProvider }: Readonly<IdentityProviderIconProps>) {
+  const currentTheme = useCurrentTheme();
+
+  return (
+    <Image
+      alt={identityProvider.name}
+      className="sw-mr-1"
+      height="14"
+      src={identityProviderIconUrl(currentTheme, identityProvider)}
+      width="14"
+    />
+  );
 }
 
 export default class UserExternalIdentity extends React.PureComponent<
@@ -104,13 +124,7 @@ export default class UserExternalIdentity extends React.PureComponent<
             color: getTextColor(identityProvider.backgroundColor, '#656565'),
           }}
         >
-          <Image
-            alt={identityProvider.name}
-            className="sw-mr-1"
-            height="14"
-            src={identityProvider.iconPath}
-            width="14"
-          />
+          <IdentityProviderIcon identityProvider={identityProvider} />
           {user.externalIdentity}
         </span>
       </div>

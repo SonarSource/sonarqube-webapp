@@ -20,7 +20,7 @@
 
 import { Theme } from '@sonarsource/echoes-react';
 import { AlmKeys } from '../../types/alm-settings';
-import { almIconUrl, almKeyToIconKey } from '../almIcons';
+import { almIconUrl, almKeyToIconKey, identityProviderIconUrl } from '../almIcons';
 import { getBaseUrl } from '../system';
 
 jest.mock('../system');
@@ -41,5 +41,39 @@ describe('almKeyToIconKey', () => {
   it('should map bitbucketcloud to bitbucket', () => {
     expect(almKeyToIconKey(AlmKeys.BitbucketCloud)).toBe(AlmKeys.BitbucketServer.toString());
     expect(almKeyToIconKey(AlmKeys.BitbucketServer)).toBe(AlmKeys.BitbucketServer.toString());
+  });
+});
+
+describe('identityProviderIconUrl', () => {
+  it.each([
+    [Theme.light, 'github'],
+    [Theme.dark, 'github'],
+    [Theme.light, 'gitlab'],
+    [Theme.dark, 'gitlab'],
+    [Theme.light, 'bitbucket'],
+    [Theme.dark, 'bitbucket'],
+  ])('should return the %s icon of the %s provider', (theme, key) => {
+    jest.mocked(getBaseUrl).mockReturnValueOnce('base');
+
+    expect(identityProviderIconUrl(theme, { iconPath: `/images/alm/${key}.svg`, key })).toBe(
+      `base/images/alm/${theme}/${key}.svg`,
+    );
+  });
+
+  it('should prefix the base URL to the icon path of any other provider', () => {
+    jest.mocked(getBaseUrl).mockReturnValueOnce('base');
+
+    expect(identityProviderIconUrl(Theme.dark, { iconPath: '/images/saml.png', key: 'saml' })).toBe(
+      'base/images/saml.png',
+    );
+  });
+
+  it('should keep the absolute icon URL of any other provider', () => {
+    expect(
+      identityProviderIconUrl(Theme.dark, {
+        iconPath: 'https://example.com/icon.png',
+        key: 'custom',
+      }),
+    ).toBe('https://example.com/icon.png');
   });
 });
