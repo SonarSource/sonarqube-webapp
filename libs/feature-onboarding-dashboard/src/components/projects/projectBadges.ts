@@ -47,7 +47,7 @@ export function getOnboardingBadge(project: OnboardingProject): BadgeConfig {
   }
   return {
     variety: BadgeVariety.Warning,
-    labelKey: 'onboarding_dashboard.projects.onboarding.imported_empty',
+    labelKey: 'onboarding_dashboard.projects.onboarding.not_scanned',
   };
 }
 

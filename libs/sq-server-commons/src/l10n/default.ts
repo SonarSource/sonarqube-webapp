@@ -11990,7 +11990,7 @@ export const defaultMessages = {
   'onboarding_dashboard.projects.filter.no_analysis_mode': 'None',
   'onboarding_dashboard.projects.onboarding.scanned': 'Analyzed',
   'onboarding_dashboard.projects.onboarding.scan_failed': 'Analysis failed',
-  'onboarding_dashboard.projects.onboarding.imported_empty': 'Imported, not analyzed',
+  'onboarding_dashboard.projects.onboarding.not_scanned': 'Not analyzed',
   'onboarding_dashboard.projects.analysis.full_ci': 'CI-based analysis',
   'onboarding_dashboard.projects.analysis.autoscan': 'Automatic analysis',
   'onboarding_dashboard.projects.gate.not_computed': 'Not computed',

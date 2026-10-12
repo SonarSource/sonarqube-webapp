@@ -18,8 +18,11 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { http, HttpResponse } from 'msw';
 import { IS_AUTOMATIC_ANALYSIS_SUPPORTED } from '~adapters/helpers/onboarding-actions';
-import { ALM_ICONS_BASE_URL } from '~adapters/helpers/urls';
+import { ALM_ICONS_BASE_URL, API_V2_MOCKS_PREFIX } from '~adapters/helpers/urls';
+import { server } from '~shared/api/mocks/server';
+import { NO_DATA } from '../../../dashboardConstants';
 import {
   renderAllProjectsCard,
   seedProjects,
@@ -80,6 +83,56 @@ it('renders the repository ALM icon from the app-specific images path', async ()
   const icon = await ui.repoGitlabIcon.find();
   expect(icon).toHaveAttribute('src', expect.stringContaining(`${ALM_ICONS_BASE_URL}/`));
   expect(icon).toHaveAttribute('src', expect.stringContaining('gitlab.svg'));
+  expect(
+    ui.table.byText('onboarding_dashboard.projects.onboarding.scanned').get(),
+  ).toBeInTheDocument();
+  expect(ui.table.byRole('cell', { name: NO_DATA }).get()).toBeInTheDocument();
+});
+
+it('shows analysis status separately from CI-based analysis mode', async () => {
+  seedProjects('payments-gateway');
+  renderAllProjectsCard();
+
+  expect(
+    await ui.table.byText('onboarding_dashboard.projects.onboarding.scanned').find(),
+  ).toBeInTheDocument();
+  expect(
+    ui.table.byText('onboarding_dashboard.projects.analysis.full_ci').get(),
+  ).toBeInTheDocument();
+});
+
+it('renders a manually created project with nullable repository and analysis fields', async () => {
+  server.use(
+    http.get(
+      `${API_V2_MOCKS_PREFIX}/onboarding/projects`,
+      () =>
+        HttpResponse.json({
+          page: { pageIndex: 1, pageSize: 50, total: 1 },
+          projects: [
+            {
+              alm: null,
+              analysisMode: 'NONE',
+              key: 'ismailcherri_manually-created-project',
+              lastScan: null,
+              name: 'Manually created project',
+              path: null,
+              scanStatus: 'NOT_SCANNED',
+            },
+          ],
+        }),
+      { once: true },
+    ),
+  );
+  renderAllProjectsCard();
+
+  expect(
+    await ui.table.byRole('link', { name: 'Manually created project' }).find(),
+  ).toBeInTheDocument();
+  expect(
+    ui.table.byText('onboarding_dashboard.projects.onboarding.not_scanned').get(),
+  ).toBeInTheDocument();
+  expect(ui.table.byRole('cell', { name: NO_DATA }).get()).toBeInTheDocument();
+  expect(ui.table.byRole('img').query()).not.toBeInTheDocument();
 });
 
 it('offers the first-scan actions on a row that has not been scanned yet', async () => {
@@ -88,6 +141,10 @@ it('offers the first-scan actions on a row that has not been scanned yet', async
   const { user } = renderAllProjectsCard();
 
   expect(await ui.repoPlatformJobs.find()).toBeInTheDocument();
+  expect(
+    ui.table.byText('onboarding_dashboard.projects.onboarding.not_scanned').get(),
+  ).toBeInTheDocument();
+  expect(ui.table.byRole('cell', { name: NO_DATA }).get()).toBeInTheDocument();
 
   await user.click(ui.rowActionsButton('platform-jobs').get());
 
@@ -104,6 +161,12 @@ it('offers the automatic-analysis actions on a row scanned by autoscan', async (
   const { user } = renderAllProjectsCard();
 
   expect(await ui.repoIdentityLib.find()).toBeInTheDocument();
+  expect(
+    ui.table.byText('onboarding_dashboard.projects.onboarding.scanned').get(),
+  ).toBeInTheDocument();
+  expect(
+    ui.table.byText('onboarding_dashboard.projects.analysis.autoscan').get(),
+  ).toBeInTheDocument();
 
   await user.click(ui.rowActionsButton('identity-lib').get());
 

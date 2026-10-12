@@ -109,7 +109,7 @@ it('displays correct onboarding and analysis-mode badges for each row', async ()
     3,
   ); // payments-gateway + web-core + identity-lib: SCANNED
   expect(
-    ui.table.byText('onboarding_dashboard.projects.onboarding.imported_empty').getAll(),
+    ui.table.byText('onboarding_dashboard.projects.onboarding.not_scanned').getAll(),
   ).toHaveLength(2); // platform-jobs + mobile-worker: NOT_SCANNED
 
   // Analysis-mode badges.
