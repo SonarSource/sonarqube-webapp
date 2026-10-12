@@ -180,6 +180,7 @@ function ConfigureProjectRow({ project }: Readonly<{ project: OnboardingProject 
           <PermissionGate
             trigger={
               <Button
+                enableOpenInNewTab
                 suffix={<IconLinkExternal />}
                 to={getConfigureProjectUrl(project.key)}
                 variety={ButtonVariety.Default}

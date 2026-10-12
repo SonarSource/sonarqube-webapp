@@ -140,13 +140,16 @@ it('renders a link to the doc in the footer', async () => {
   );
 });
 
-it('renders a configure button for every project not already on a CI pipeline', async () => {
+it('opens configuration in a new tab for every project not already on a CI pipeline', async () => {
   await renderModal();
 
   await ui.table.byText('mobile-worker').find();
 
   // Only payments-gateway is CI-configured; the other four all get a configure button.
   expect(ui.configureButton.getAll()).toHaveLength(4);
+  for (const configureLink of ui.configureButton.getAll()) {
+    expect(configureLink).toHaveAttribute('target', '_blank');
+  }
   const { pathname, search } = getConfigureProjectUrl('web-core');
   expect(
     byRole('row', { name: /web-core/ })
