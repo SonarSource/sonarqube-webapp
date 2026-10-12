@@ -18,10 +18,12 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Badge, Table } from '@sonarsource/echoes-react';
+import { Badge, Table, TableCellJustify, Text } from '@sonarsource/echoes-react';
 import { useState } from 'react';
 import { useIntl } from 'react-intl';
 import { ANALYSIS_MODE_FILTER_OPTIONS } from '~adapters/helpers/onboarding-actions';
+import DateFormatter from '~shared/components/intl/DateFormatter';
+import { isDefined } from '~shared/helpers/types';
 import { AnalysisModeFilterValue, ANY_PROJECTS_FILTER } from '~shared/types/onboarding';
 import {
   PROJECT_HEALTH_FEATURE_ENABLED,
@@ -53,6 +55,7 @@ const COLUMNS: ProjectsTableColumn[] = [
   { labelKey: 'onboarding_dashboard.projects.col.repository' },
   { className: 'sw-justify-center', labelKey: 'onboarding_dashboard.projects.col.onboarding' },
   { className: 'sw-justify-center', labelKey: 'onboarding_dashboard.projects.col.analysis_mode' },
+  { justify: TableCellJustify.Start, labelKey: 'onboarding_dashboard.stale.col.last_scan' },
   ...(PROJECT_HEALTH_FEATURE_ENABLED
     ? [
         {
@@ -134,6 +137,14 @@ function ProjectRow({ project }: Readonly<ProjectsTableRowProps>) {
           <Badge variety={analysisBadge.variety}>
             {formatMessage({ id: analysisBadge.labelKey })}
           </Badge>
+        )}
+      </Table.Cell>
+
+      <Table.Cell className="sw-justify-start">
+        {isDefined(project.lastScan) ? (
+          <DateFormatter date={project.lastScan} />
+        ) : (
+          <Text>{NO_DATA}</Text>
         )}
       </Table.Cell>
 

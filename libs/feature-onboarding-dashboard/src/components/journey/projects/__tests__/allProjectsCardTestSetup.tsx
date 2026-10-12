@@ -127,6 +127,7 @@ export const ui = {
   colRepository: byText('onboarding_dashboard.projects.col.repository'),
   colScanStatus: byText('onboarding_dashboard.projects.col.onboarding'),
   colAnalysisMode: byText('onboarding_dashboard.projects.col.analysis_mode'),
+  colLastScan: byRole('columnheader', { name: 'onboarding_dashboard.stale.col.last_scan' }),
   colActions: byRole('table', { name: 'onboarding_dashboard.projects.title' }).byText(
     'onboarding_dashboard.projects.col.actions',
   ),

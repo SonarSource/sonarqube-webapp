@@ -47,16 +47,16 @@ setupOnboardingServiceMock();
 const RERUN_AUTOMATIC_ANALYSIS_ENTRIES = IS_AUTOMATIC_ANALYSIS_SUPPORTED ? 1 : 0;
 const AUTOSCANNED_ROW_ENTRIES = 3 + RERUN_AUTOMATIC_ANALYSIS_ENTRIES;
 
-/** Repository, scan status, analysis mode, and the visually blank actions column. */
-const COLUMN_COUNT = 4;
+const COLUMN_COUNT = 5;
 
-it('renders the three redesigned columns and the actions column', async () => {
+it('renders the project columns including last scan and the actions column', async () => {
   renderAllProjectsCard();
 
   expect(await ui.table.find()).toBeInTheDocument();
   expect(ui.colRepository.get()).toBeInTheDocument();
   expect(ui.colScanStatus.get()).toBeInTheDocument();
   expect(ui.colAnalysisMode.get()).toBeInTheDocument();
+  expect(ui.colLastScan.get()).toBeInTheDocument();
 
   // The actions column header is only exposed to assistive technology — the design shows it blank.
   expect(ui.colActions.get()).toBeInTheDocument();
@@ -64,6 +64,26 @@ it('renders the three redesigned columns and the actions column', async () => {
   // Gate status isn't part of the backend contract yet (PROJECT_HEALTH_FEATURE_ENABLED is off), so
   // its column must not appear.
   expect(ui.columnHeaders.getAll()).toHaveLength(COLUMN_COUNT);
+});
+
+it('shows the last scan date or the no-data placeholder for never-scanned projects', async () => {
+  seedProjects('web-core', 'platform-jobs');
+  renderAllProjectsCard();
+
+  expect(await ui.repoWebCore.find()).toBeInTheDocument();
+
+  expect(
+    ui.table
+      .byRole('row', { name: /web-core/ })
+      .byRole('cell')
+      .getAt(3),
+  ).toHaveTextContent('Feb 26, 2025');
+  expect(
+    ui.table
+      .byRole('row', { name: /platform-jobs/ })
+      .byRole('cell')
+      .getAt(3),
+  ).toHaveTextContent(NO_DATA);
 });
 
 it('renders the repository ALM icon from the app-specific images path', async () => {
@@ -131,7 +151,7 @@ it('renders a manually created project with nullable repository and analysis fie
   expect(
     ui.table.byText('onboarding_dashboard.projects.onboarding.not_scanned').get(),
   ).toBeInTheDocument();
-  expect(ui.table.byRole('cell', { name: NO_DATA }).get()).toBeInTheDocument();
+  expect(ui.table.byRole('cell', { name: NO_DATA }).getAll()).toHaveLength(2);
   expect(ui.table.byRole('img').query()).not.toBeInTheDocument();
 });
 
@@ -144,7 +164,7 @@ it('offers the first-scan actions on a row that has not been scanned yet', async
   expect(
     ui.table.byText('onboarding_dashboard.projects.onboarding.not_scanned').get(),
   ).toBeInTheDocument();
-  expect(ui.table.byRole('cell', { name: NO_DATA }).get()).toBeInTheDocument();
+  expect(ui.table.byRole('cell', { name: NO_DATA }).getAll()).toHaveLength(2);
 
   await user.click(ui.rowActionsButton('platform-jobs').get());
 
