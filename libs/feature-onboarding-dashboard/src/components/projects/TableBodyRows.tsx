@@ -24,6 +24,7 @@ import { ProjectsTableRowsSkeleton } from './ProjectsTableRowsSkeleton';
 
 interface Props<T> {
   columnCount: number;
+  hasSelectionColumn?: boolean;
   isLoading: boolean;
   items: T[];
   renderRow: (item: T) => ReactNode;
@@ -36,13 +37,20 @@ interface Props<T> {
  */
 export function TableBodyRows<T>({
   columnCount,
+  hasSelectionColumn,
   isLoading,
   items,
   renderRow,
   rowCount,
 }: Readonly<Props<T>>) {
   if (isLoading) {
-    return <ProjectsTableRowsSkeleton columns={columnCount} rows={rowCount} />;
+    return (
+      <ProjectsTableRowsSkeleton
+        columns={columnCount}
+        hasSelectionColumn={hasSelectionColumn}
+        rows={rowCount}
+      />
+    );
   }
 
   if (items.length === 0) {

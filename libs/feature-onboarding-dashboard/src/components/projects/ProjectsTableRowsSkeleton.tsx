@@ -23,23 +23,32 @@ import { LoadingSkeleton, Table } from '@sonarsource/echoes-react';
 interface Props {
   /** Number of cells to render per row (must match the table's column count). */
   columns: number;
+  hasSelectionColumn?: boolean;
   /** Number of placeholder rows to render. */
   rows?: number;
 }
 
 /**
- * Placeholder table body rows shown while project data loads. Each cell is a text skeleton.
+ * Placeholder table body rows shown while project data loads.
  * `isLoading` is read from the enclosing LoadingContainer context. Reused by the stale-projects
  * and repositories tables, as well as the dashboard-wide loading skeleton.
  */
-export function ProjectsTableRowsSkeleton({ columns, rows = 5 }: Readonly<Props>) {
+export function ProjectsTableRowsSkeleton({
+  columns,
+  hasSelectionColumn = false,
+  rows = 5,
+}: Readonly<Props>) {
   return (
     <>
       {Array.from({ length: rows }, (_, rowIndex) => (
         <Table.Row key={`skeleton-row-${rowIndex}`}>
           {Array.from({ length: columns }, (_, columnIndex) => (
             <Table.Cell key={`skeleton-cell-${rowIndex}-${columnIndex}`}>
-              <LoadingSkeleton className="sw-w-3/4" variety="text" />
+              {hasSelectionColumn && columnIndex === 0 ? (
+                <LoadingSkeleton className="sw-size-4" variety="rectangle" />
+              ) : (
+                <LoadingSkeleton className="sw-w-3/4" variety="text" />
+              )}
             </Table.Cell>
           ))}
         </Table.Row>

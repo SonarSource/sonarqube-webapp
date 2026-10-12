@@ -28,6 +28,7 @@ import {
   Table,
   Text,
 } from '@sonarsource/echoes-react';
+import { ReactNode } from 'react';
 import { useIntl } from 'react-intl';
 import { OnboardingRepository } from '~shared/types/onboarding';
 import {
@@ -53,10 +54,16 @@ const COLUMNS: RepositoriesTableColumn[] = [
 ];
 
 type Props = ModalProps & {
+  notice?: ReactNode;
   selection?: RepositoriesTableSelection;
 };
 
-export function ImportRepositoriesModal({ children, selection, ...modalProps }: Readonly<Props>) {
+export function ImportRepositoriesModal({
+  children,
+  notice,
+  selection,
+  ...modalProps
+}: Readonly<Props>) {
   const { formatMessage } = useIntl();
   const { hasListablePlatforms } = usePlatformSelection();
 
@@ -72,14 +79,21 @@ export function ImportRepositoriesModal({ children, selection, ...modalProps }: 
     <Modal
       {...modalProps}
       content={
-        <RepositoriesTable
-          ariaLabel={title}
-          columns={COLUMNS}
-          containerClassName="sw-max-h-[calc(80vh-10rem)]"
-          pageSize={PAGE_SIZE}
-          renderCells={(repository) => <RepositoryCells repository={repository} />}
-          selection={selection}
-        />
+        <>
+          {notice}
+          <RepositoriesTable
+            ariaLabel={title}
+            columns={
+              selection?.headerLabelKey
+                ? [{ ...COLUMNS[0], labelKey: selection.headerLabelKey }, ...COLUMNS.slice(1)]
+                : COLUMNS
+            }
+            containerClassName="sw-max-h-[calc(80vh-10rem)]"
+            pageSize={PAGE_SIZE}
+            renderCells={(repository) => <RepositoryCells repository={repository} />}
+            selection={selection}
+          />
+        </>
       }
       primaryButton={modalProps.primaryButton ?? <Button>{formatMessage({ id: 'close' })}</Button>}
       size={ModalSize.Wide}

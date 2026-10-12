@@ -58,6 +58,8 @@ const COLUMN_TEMPLATE = 'minmax(120px, 1fr)';
 export type RepositoriesTableColumn = ProjectsTableColumn;
 
 export interface RepositoriesTableSelection {
+  headerLabelKey?: string;
+  isSelected?: (repository: OnboardingRepository) => boolean;
   renderCell: (repository: OnboardingRepository) => ReactElement;
   renderHeader: (repositories: OnboardingRepository[]) => ReactElement;
 }
@@ -220,10 +222,11 @@ export function RepositoriesTable({
           <Table.Body>
             <TableBodyRows
               columnCount={columns.length + (selection ? 1 : 0)}
+              hasSelectionColumn={selection !== undefined}
               isLoading={isFetching}
               items={repositories}
               renderRow={(repository) => (
-                <Table.Row key={repository.id}>
+                <Table.Row key={repository.id} selected={selection?.isSelected?.(repository)}>
                   {selection?.renderCell(repository)}
                   {renderCells(repository)}
                 </Table.Row>
