@@ -26,8 +26,32 @@ import { ComponentProps, ReactNode } from 'react';
 
 type Resolution = 'FAILED' | 'COMPLETED' | 'IN_PROGRESS';
 
+const resolutionColors: Record<Resolution, string> = {
+  FAILED: cssVar('color-background-danger-default'),
+  COMPLETED: cssVar('color-icon-success'),
+  IN_PROGRESS: cssVar('color-background-accent-default'),
+};
+
+function getStepContent(index: number, progressIndex: number, resolution: Resolution): ReactNode {
+  if (index < progressIndex || (index === progressIndex && resolution === 'COMPLETED')) {
+    return <IconCheck />;
+  }
+  if (index === progressIndex && resolution === 'FAILED') {
+    return <IconX />;
+  }
+  return index + 1;
+}
+
+function getStepLabelColor(isLatest: boolean, isDone: boolean, resolution: Resolution) {
+  if (isLatest && resolution !== 'COMPLETED') {
+    return resolutionColors[resolution];
+  }
+  return isDone ? undefined : cssVar('color-text-subtle');
+}
+
 type Props<T extends string | number> = {
   activeStep?: T;
+  disabledSteps?: T[];
   progress: T;
   resolution?: Resolution;
   stepNames: Record<T, string>;
@@ -40,6 +64,7 @@ type Props<T extends string | number> = {
 
 type StepItemProps<T extends string | number> = {
   activeStep?: T;
+  isDisabled: boolean;
   index: number;
   onChange?: (step: T) => void;
   progressIndex: number;
@@ -54,6 +79,7 @@ function StepItem<T extends string | number>({
   step,
   index: i,
   activeStep,
+  isDisabled,
   progressIndex,
   resolution,
   readOnly,
@@ -64,31 +90,11 @@ function StepItem<T extends string | number>({
   const isActive = activeStep === step;
   const isDone = i <= progressIndex;
   const isLatest = i === progressIndex;
-  const isClickable = !readOnly && (isDone || isActive);
-  const handleClick = () => {
-    onChange?.(step);
-  };
-
-  let latestColor: string;
-  if (resolution === 'FAILED') {
-    latestColor = cssVar('color-background-danger-default');
-  } else if (resolution === 'COMPLETED') {
-    latestColor = cssVar('color-icon-success');
-  } else {
-    latestColor = cssVar('color-background-accent-default');
-  }
-
-  const showCheck = i < progressIndex || (isLatest && resolution === 'COMPLETED');
-  const showCross = isLatest && resolution === 'FAILED';
-
-  let stepContent: ReactNode;
-  if (showCheck) {
-    stepContent = <IconCheck />;
-  } else if (showCross) {
-    stepContent = <IconX />;
-  } else {
-    stepContent = i + 1;
-  }
+  const isAvailable = isDone || isActive;
+  const isClickable = !readOnly && !isDisabled && isAvailable;
+  const clickHandler = isClickable ? () => onChange?.(step) : undefined;
+  const latestColor = resolutionColors[resolution];
+  const labelColor = getStepLabelColor(isLatest, isDone, resolution);
 
   const stepInner = (
     <>
@@ -96,14 +102,15 @@ function StepItem<T extends string | number>({
         accentColor={isLatest ? latestColor : undefined}
         aria-current={isActive ? 'step' : undefined}
         aria-labelledby={`step-${step}`}
-        disabled={!isDone && !isActive}
+        disabled={isDisabled || !isAvailable}
+        id={`step-control-${step}`}
         isActive={isActive}
         isLatest={isLatest}
-        onClick={readOnly ? undefined : handleClick}
+        onClick={clickHandler}
         readOnly={readOnly}
         showPulse={readOnly && isLatest && resolution === 'IN_PROGRESS'}
       >
-        {stepContent}
+        {getStepContent(i, progressIndex, resolution)}
       </StatusCircle>
       <label
         className={classNames(
@@ -111,16 +118,9 @@ function StepItem<T extends string | number>({
           isClickable && 'hover:sw-underline sw-cursor-pointer',
           isActive && 'sw-font-bold',
         )}
+        htmlFor={`step-control-${step}`}
         id={`step-${step}`}
-        onClick={isClickable ? handleClick : undefined}
-        style={{
-          color:
-            isLatest && resolution !== 'COMPLETED'
-              ? latestColor
-              : isDone
-                ? undefined
-                : cssVar('color-text-subtle'),
-        }}
+        style={{ color: labelColor }}
       >
         {stepNames[step]}
       </label>
@@ -144,6 +144,7 @@ export function ProgressStepper<T extends string | number>(props: Readonly<Props
   const {
     steps,
     activeStep,
+    disabledSteps = [],
     progress,
     stepNames,
     stepTooltips,
@@ -164,6 +165,7 @@ export function ProgressStepper<T extends string | number>(props: Readonly<Props
           <StepItem
             activeStep={activeStep}
             index={i}
+            isDisabled={disabledSteps.includes(step)}
             key={i}
             onChange={onChange}
             progressIndex={progressIndex}

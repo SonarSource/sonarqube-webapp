@@ -61,7 +61,7 @@ it('should notify the parent when a reached step is clicked', async () => {
     />,
   );
 
-  await user.click(screen.getByRole('button', { name: 'Add details' }));
+  await user.click(screen.getByText('Add details'));
 
   expect(onChange).toHaveBeenCalledWith(1);
 });
@@ -70,4 +70,44 @@ it('should not be interactive when readOnly', () => {
   render(<ProgressStepper progress={3} readOnly stepNames={stepNames} steps={steps} />);
 
   expect(screen.queryByRole('button', { current: 'step' })).not.toBeInTheDocument();
+});
+
+it('disables excluded steps even when later steps have been reached', async () => {
+  const onChange = jest.fn();
+  const { user } = render(
+    <ProgressStepper
+      activeStep={2}
+      disabledSteps={[3]}
+      onChange={onChange}
+      progress={4}
+      stepNames={stepNames}
+      steps={steps}
+    />,
+  );
+  expect(screen.getByRole('button', { name: 'Set permissions' })).toBeDisabled();
+  await user.click(screen.getByText('Set permissions'));
+  expect(onChange).not.toHaveBeenCalled();
+  await user.click(screen.getByText('Review'));
+  expect(onChange).toHaveBeenCalledWith(4);
+});
+
+it('supports activating steps with Enter and Space', async () => {
+  const onChange = jest.fn();
+  const { user } = render(
+    <ProgressStepper
+      activeStep={2}
+      onChange={onChange}
+      progress={3}
+      stepNames={stepNames}
+      steps={steps}
+    />,
+  );
+
+  await user.tab();
+  expect(screen.getByRole('button', { name: 'Add details' })).toHaveFocus();
+  await user.keyboard('{Enter}');
+  expect(onChange).toHaveBeenLastCalledWith(1);
+  await user.keyboard(' ');
+  expect(onChange).toHaveBeenCalledTimes(2);
+  expect(onChange).toHaveBeenLastCalledWith(1);
 });
