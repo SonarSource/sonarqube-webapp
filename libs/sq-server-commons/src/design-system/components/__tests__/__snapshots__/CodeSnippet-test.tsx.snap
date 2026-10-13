@@ -130,6 +130,10 @@ exports[`should highlight code content correctly 1`] = `
   white-space: nowrap;
 }
 
+.emotion-9.emotion-9 * {
+  text-wrap: nowrap;
+}
+
 .emotion-11 code {
   font: var(--echoes-typography-code-default);
   background: var(--echoes-color-code-background-default);
@@ -374,6 +378,10 @@ exports[`should show full size when multiline with no editing 1`] = `
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+
+.emotion-9.emotion-9 * {
+  text-wrap: nowrap;
 }
 
 .emotion-11 code {
@@ -623,6 +631,10 @@ exports[`should show reduced size when single line with no editing 1`] = `
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+
+.emotion-9.emotion-9 * {
+  text-wrap: nowrap;
 }
 
 .emotion-11 code {
