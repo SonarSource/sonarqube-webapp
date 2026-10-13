@@ -18,7 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { screen } from '@testing-library/react';
+import { fireEvent, screen } from '@testing-library/react';
 import { ComponentProps } from 'react';
 import { renderWithContext } from '../../../helpers/test-utils';
 import { Slider } from '../Slider';
@@ -45,26 +45,20 @@ it('renders a graduation label for every step', () => {
   });
 });
 
-it('moves to the next step and calls onChange on ArrowRight', async () => {
+it.each([
+  ['{ArrowRight}', 'MEDIUM', 'HIGH'],
+  ['{ArrowLeft}', 'MEDIUM', 'LOW'],
+  ['{Home}', 'HIGH', 'INFO'],
+  ['{End}', 'LOW', 'BLOCKER'],
+])('moves to the expected step and calls onChange on %s', async (key, from, expected) => {
   const onChange = jest.fn();
-  const { user } = setup({ onChange, value: 'MEDIUM' });
+  const { user } = setup({ onChange, value: from });
 
   const thumb = screen.getByRole('slider');
   thumb.focus();
-  await user.keyboard('{ArrowRight}');
+  await user.keyboard(key);
 
-  expect(onChange).toHaveBeenCalledWith('HIGH');
-});
-
-it('moves to the previous step and calls onChange on ArrowLeft', async () => {
-  const onChange = jest.fn();
-  const { user } = setup({ onChange, value: 'MEDIUM' });
-
-  const thumb = screen.getByRole('slider');
-  thumb.focus();
-  await user.keyboard('{ArrowLeft}');
-
-  expect(onChange).toHaveBeenCalledWith('LOW');
+  expect(onChange).toHaveBeenCalledWith(expected);
 });
 
 it('does not go below the first step or above the last one', async () => {
@@ -74,6 +68,17 @@ it('does not go below the first step or above the last one', async () => {
   const thumb = screen.getByRole('slider');
   thumb.focus();
   await user.keyboard('{ArrowLeft}');
+
+  expect(onChange).not.toHaveBeenCalled();
+});
+
+it('ignores a key it has no stepping behavior for', async () => {
+  const onChange = jest.fn();
+  const { user } = setup({ onChange, value: 'MEDIUM' });
+
+  const thumb = screen.getByRole('slider');
+  thumb.focus();
+  await user.keyboard('a');
 
   expect(onChange).not.toHaveBeenCalled();
 });
@@ -95,26 +100,25 @@ it('prevents interaction when disabled', async () => {
   expect(onChange).not.toHaveBeenCalled();
 });
 
-it('calls onCommit once a keypress settles on its final value', async () => {
-  const onCommit = jest.fn();
-  const { user } = setup({ onCommit, value: 'MEDIUM' });
+it('jumps straight to a step when clicking its label, without dragging through the steps between', async () => {
+  const onChange = jest.fn();
+  const { user } = setup({ onChange, value: 'INFO' });
 
-  const thumb = screen.getByRole('slider');
-  thumb.focus();
-  await user.keyboard('{ArrowRight}');
+  await user.click(screen.getByText('Blocker'));
 
-  expect(onCommit).toHaveBeenCalledWith('HIGH');
+  expect(onChange).toHaveBeenCalledWith('BLOCKER');
 });
 
-it('does not call onCommit when the key press has no effect', async () => {
-  const onCommit = jest.fn();
-  const { user } = setup({ onCommit, value: 'INFO' });
+// Dragging the thumb to a position has no userEvent equivalent for a native range input (jsdom
+// doesn't do the layout math to turn a pointer position into a value) - `fireEvent.change` is the
+// accepted way to simulate the native "change" event a real drag would produce.
+it('updates the value when the underlying range input changes directly, as a drag would', () => {
+  const onChange = jest.fn();
+  setup({ onChange, value: 'INFO' });
 
-  const thumb = screen.getByRole('slider');
-  thumb.focus();
-  await user.keyboard('{ArrowLeft}');
+  fireEvent.change(screen.getByRole('slider'), { target: { value: '4' } });
 
-  expect(onCommit).not.toHaveBeenCalled();
+  expect(onChange).toHaveBeenCalledWith('BLOCKER');
 });
 
 function setup(props: Partial<ComponentProps<typeof Slider>> = {}) {

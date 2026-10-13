@@ -18,10 +18,6 @@ The `@gitbook/embed` patch passes the iframe origin and window to `bidc`. The `b
 accepts a connection only from that window and origin, and sends messages to that origin.
 These patches keep unrelated pages from opening a tool channel in the signed-in browser tab.
 
-### @radix-ui/react-slider
-
-Unstyled, accessible slider primitive — Echoes has no Slider component of its own (it's built on Radix under the hood for its other controls), so `libs/shared` wraps this directly for the few places that need a true draggable slider rather than a discrete radio/toggle group.
-
 ### @xyflow/react
 
 React-based interactive graph visualization library used by `feature-architecture` to render nodes, edges, handles, and controls for the architecture diagram, and to manage pan/zoom/selection interactions.

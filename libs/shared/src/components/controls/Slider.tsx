@@ -18,10 +18,10 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { css } from '@emotion/react';
 import styled from '@emotion/styled';
-import * as RadixSlider from '@radix-ui/react-slider';
 import { cssVar } from '@sonarsource/echoes-react';
-import { useId } from 'react';
+import { ChangeEvent, CSSProperties, KeyboardEvent, useId, useRef } from 'react';
 
 interface SliderStep {
   label: string;
@@ -35,23 +35,18 @@ export interface SliderProps {
   isDisabled?: boolean;
   label?: string;
   onChange: (value: string) => void;
-  /** Called once per interaction (drag or keypress) with its final, settled value - unlike
-   * `onChange`, which fires on every intermediate step a drag passes through on its way there.
-   * Useful for side effects that should react to a deliberate value change, not a step merely
-   * crossed mid-drag on the way back to where it started. */
-  onCommit?: (value: string) => void;
   steps: SliderStep[];
   value: string;
 }
 
 /**
- * A discrete, draggable slider across a fixed set of named steps, built directly on Radix's
- * unstyled Slider primitive - the same primitive family Echoes itself is built on internally
- * (react-radio-group, react-tooltip, etc. are all Radix under the hood) - since Echoes has no
- * Slider component of its own.
+ * A discrete, draggable slider across a fixed set of named steps, built on a native
+ * `<input type="range">` rather than a JS-driven primitive - this gets keyboard stepping
+ * (Arrow/Home/End), boundary clamping, and a `disabled` state for free from the browser, and a
+ * real `<label htmlFor>` association needs no extra ARIA plumbing.
  *
- * Works in terms of the step `value` strings passed in `steps`, never Radix's own numeric index,
- * so callers never deal with translating between the two.
+ * Works in terms of the step `value` strings passed in `steps`, never the native input's own
+ * numeric index, so callers never deal with translating between the two.
  */
 export function Slider({
   ariaLabel,
@@ -60,59 +55,90 @@ export function Slider({
   isDisabled,
   label,
   onChange,
-  onCommit,
   steps,
   value,
 }: Readonly<SliderProps>) {
   const generatedId = useId();
   const sliderId = id ?? generatedId;
-  const labelId = `${sliderId}-label`;
+  const inputRef = useRef<HTMLInputElement>(null);
   const selectedIndex = Math.max(
     0,
     steps.findIndex((step) => step.value === value),
   );
+  // Kept inside the 1-99 range rather than the full 0-100 - right at the edges, the gradient-fill
+  // background (see `sliderTrackStyle`) leaves a sliver of the unfilled color peeking past the
+  // thumb by a pixel or two.
+  const fillPercentage = steps.length > 1 ? (98 / (steps.length - 1)) * selectedIndex + 1 : 50;
 
-  const handleValueChange = ([newIndex]: number[]) => {
-    const step = steps[newIndex];
+  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const step = steps[Number(event.target.value)];
     if (step) {
       onChange(step.value);
     }
   };
 
-  const handleValueCommit = ([newIndex]: number[]) => {
-    const step = steps[newIndex];
-    if (step) {
-      onCommit?.(step.value);
+  // A native range input already steps on Arrow/Home/End by itself in a real browser, but jsdom
+  // (and so this component's own tests) doesn't implement that - handled explicitly here instead
+  // of relying on it, which also keeps the stepping behavior identical across browsers.
+  const handleKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
+    if (isDisabled || event.altKey || event.ctrlKey || event.metaKey) {
+      return;
+    }
+
+    let nextIndex: number;
+    switch (event.key) {
+      case 'ArrowRight':
+      case 'ArrowUp':
+        nextIndex = selectedIndex + 1;
+        break;
+      case 'ArrowLeft':
+      case 'ArrowDown':
+        nextIndex = selectedIndex - 1;
+        break;
+      case 'Home':
+        nextIndex = 0;
+        break;
+      case 'End':
+        nextIndex = steps.length - 1;
+        break;
+      default:
+        return;
+    }
+
+    event.preventDefault();
+    const step = steps[Math.min(Math.max(nextIndex, 0), steps.length - 1)];
+    if (step && step.value !== value) {
+      onChange(step.value);
     }
   };
 
   return (
     <div className={className}>
-      {label && <Label id={labelId}>{label}</Label>}
+      {label && (
+        <Label className="sw-block sw-mb-2 sw-font-semibold" htmlFor={sliderId}>
+          {label}
+        </Label>
+      )}
 
-      {/* Radix puts role="slider" on the Thumb, not the Root, so the accessible name has to be
-       * attached there rather than via a <label htmlFor> pointing at the Root. */}
-      <SliderRoot
-        disabled={isDisabled}
-        id={sliderId}
-        max={steps.length - 1}
-        min={0}
-        onValueChange={handleValueChange}
-        onValueCommit={handleValueCommit}
-        step={1}
-        value={[selectedIndex]}
-      >
-        <SliderTrack>
-          <SliderRange />
-        </SliderTrack>
-        <SliderThumb
+      <SliderInputWrapper className="sw-relative sw-w-full">
+        <SliderInput
           aria-label={ariaLabel}
-          aria-labelledby={!ariaLabel && label ? labelId : undefined}
           aria-valuetext={steps[selectedIndex]?.label}
+          className="sw-w-full sw-cursor-pointer"
+          disabled={isDisabled}
+          id={sliderId}
+          max={steps.length - 1}
+          min={0}
+          onChange={handleChange}
+          onKeyDown={handleKeyDown}
+          ref={inputRef}
+          style={{ '--sliderFilling': `${fillPercentage}%` } as CSSProperties}
+          type="range"
+          value={selectedIndex}
         />
-      </SliderRoot>
+      </SliderInputWrapper>
 
-      <Graduations>
+      <Graduations className="sw-relative sw-w-full sw-mt-2">
         {steps.map((step, index) => {
           const isFirst = index === 0 && steps.length > 1;
           const isLast = index === steps.length - 1 && steps.length > 1;
@@ -126,12 +152,23 @@ export function Slider({
 
           return (
             <Graduation
+              className="sw-absolute sw-top-0 sw-flex sw-flex-col sw-items-center sw-gap-1"
               key={step.value}
               position={position}
               style={{ left: `${steps.length > 1 ? (index / (steps.length - 1)) * 100 : 50}%` }}
             >
-              <GraduationTick />
-              <GraduationLabel>{step.label}</GraduationLabel>
+              <GraduationLabel
+                className="sw-text-xs sw-whitespace-nowrap sw-cursor-pointer"
+                disabled={isDisabled}
+                onClick={() => {
+                  onChange(step.value);
+                  inputRef.current?.focus();
+                }}
+                tabIndex={-1}
+                type="button"
+              >
+                {step.label}
+              </GraduationLabel>
             </Graduation>
           );
         })}
@@ -141,88 +178,103 @@ export function Slider({
 }
 
 const Label = styled.label`
-  margin-bottom: ${cssVar('dimension-space-100', '0.5rem')};
-  display: block;
-  font-weight: ${cssVar('font-weight-semi-bold')};
   color: ${cssVar('color-text-default')};
 `;
 
-const SliderRoot = styled(RadixSlider.Root)`
-  position: relative;
-  display: flex;
-  height: ${cssVar('dimension-height-600', '1.5rem')};
-  width: 100%;
-  touch-action: none;
-  user-select: none;
-  align-items: center;
+const SLIDER_TRACK_HEIGHT = cssVar('dimension-height-100');
+// Both axes deliberately use the same (height) token - Echoes' width/height scale is unequal at
+// every step (e.g. meant for buttons), so pairing a `width-N` token with a `height-N` token here
+// would render a capsule instead of a circle.
+const SLIDER_THUMB_SIZE = cssVar('dimension-height-400');
 
-  &[data-disabled] {
+const SliderInputWrapper = styled.div`
+  height: ${SLIDER_TRACK_HEIGHT};
+  display: flex;
+  align-items: center;
+`;
+
+// box-shadow is used instead of border so it doesn't impact the slider thumb size and allows for
+// multiple borders for the focus style.
+const sliderThumbStyle = css`
+  width: ${SLIDER_THUMB_SIZE};
+  height: ${SLIDER_THUMB_SIZE};
+  margin-top: calc((${SLIDER_TRACK_HEIGHT} - ${SLIDER_THUMB_SIZE}) / 2);
+  background-color: ${cssVar('color-background-accent-default')};
+  border-radius: 50%;
+  box-shadow: ${cssVar('box-shadow-small')};
+  cursor: pointer;
+  transition: box-shadow 0.2s ease;
+  -webkit-appearance: none;
+`;
+
+const sliderTrackStyle = css`
+  height: ${SLIDER_TRACK_HEIGHT};
+  border-radius: 625rem;
+  background-color: ${cssVar('color-background-neutral-subtle-default')};
+  background-image: linear-gradient(
+    ${cssVar('color-background-accent-default')},
+    ${cssVar('color-background-accent-default')}
+  );
+  background-repeat: no-repeat;
+  background-size: var(--sliderFilling);
+`;
+
+const SliderInput = styled.input`
+  background: transparent;
+  outline: none;
+  -webkit-appearance: none;
+  appearance: none;
+
+  &:disabled {
     cursor: not-allowed;
     opacity: 0.5;
   }
-`;
 
-const SliderTrack = styled(RadixSlider.Track)`
-  position: relative;
-  height: ${cssVar('dimension-height-100', '0.25rem')};
-  flex-grow: 1;
-  border-radius: ${cssVar('border-radius-full', '625rem')};
-  background-color: ${cssVar('color-background-neutral-subtle-default')};
-`;
-
-const SliderRange = styled(RadixSlider.Range)`
-  position: absolute;
-  height: 100%;
-  border-radius: ${cssVar('border-radius-full', '625rem')};
-  background-color: ${cssVar('color-background-accent-default')};
-`;
-
-const SliderThumb = styled(RadixSlider.Thumb)`
-  display: block;
-  height: ${cssVar('dimension-height-400', '1rem')};
-  width: ${cssVar('dimension-width-400', '2rem')};
-  cursor: pointer;
-  border-radius: ${cssVar('border-radius-full', '625rem')};
-  transition-property: box-shadow;
-  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-  transition-duration: 150ms;
-  background-color: ${cssVar('color-background-accent-default')};
-  box-shadow: ${cssVar('box-shadow-small')};
-
-  &:hover {
-    box-shadow: ${cssVar('box-shadow-medium')};
+  &:hover,
+  &:focus-visible {
+    &::-webkit-slider-thumb {
+      box-shadow: ${cssVar('box-shadow-medium')};
+    }
+    &::-moz-range-thumb {
+      box-shadow: ${cssVar('box-shadow-medium')};
+    }
   }
   &:focus-visible {
-    outline: 2px solid ${cssVar('color-focus-default')};
-    outline-offset: 2px;
+    &::-webkit-slider-thumb {
+      outline: 2px solid ${cssVar('color-focus-default')};
+      outline-offset: 2px;
+    }
+    &::-moz-range-thumb {
+      outline: 2px solid ${cssVar('color-focus-default')};
+      outline-offset: 2px;
+    }
   }
-  &[data-disabled] {
-    cursor: not-allowed;
+
+  &::-webkit-slider-thumb {
+    ${sliderThumbStyle}
+  }
+  &::-moz-range-thumb {
+    ${sliderThumbStyle}
+  }
+  &::-webkit-slider-runnable-track {
+    ${sliderTrackStyle}
+  }
+  &::-moz-range-track {
+    ${sliderTrackStyle}
   }
 `;
 
 const Graduations = styled.div`
-  position: relative;
-  margin-top: ${cssVar('dimension-space-100', '0.5rem')};
-  width: 100%;
   height: 1.75rem;
 `;
 
-/* Positioned at the same percentage Radix uses for the Thumb (min 0 / max steps.length - 1), then
- * shifted back by half its own width, so the tick and label - which move together as a single
- * block - line up with the stop they represent instead of drifting off it once step labels have
- * different widths.
+/* Positioned at the same percentage the input uses for its thumb (min 0 / max steps.length - 1),
+ * then shifted back by half its own width, so the label lines up with the stop it represents
+ * instead of drifting off it once step labels have different widths.
  *
  * The first and last graduations get an extra inward shift on top of that, so their label never
  * sits flush against - or spills past - the ends of the slider track. */
 const Graduation = styled.div<{ position: 'center' | 'end' | 'start' }>`
-  position: absolute;
-  top: 0;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: ${cssVar('dimension-space-50', '0.25rem')};
-
   transform: ${({ position }) => {
     switch (position) {
       case 'start':
@@ -236,17 +288,24 @@ const Graduation = styled.div<{ position: 'center' | 'end' | 'start' }>`
   }};
 `;
 
-const GraduationTick = styled.span`
-  display: block;
-  height: ${cssVar('dimension-height-200', '0.5rem')};
-  width: ${cssVar('dimension-width-25', '0.125rem')};
-  border-radius: ${cssVar('border-radius-full', '625rem')};
-  background-color: ${cssVar('color-border-bold')};
-`;
-
-const GraduationLabel = styled.span`
-  white-space: nowrap;
-  font-size: 0.75rem;
-  line-height: 1rem;
+/** A step's label, clickable to jump the slider straight to it without needing to drag through
+ * every step in between - a plain button reset directly here (rather than importing a shared
+ * "bare button" helper) since this `libs/shared` component can't depend on any
+ * app/`private`-level design-system code. Taken out of the tab order (`tabIndex={-1}`) since the
+ * range input already handles keyboard stepping (Arrow/Home/End) - without that, every step would
+ * add its own unlabeled tab stop (e.g. a bare "Blocker" button with no hint of which slider it
+ * belongs to), for keyboard/screen-reader users who gain nothing from it. */
+const GraduationLabel = styled.button`
+  border: none;
+  background: none;
+  padding: 0;
+  font: inherit;
   color: ${cssVar('color-text-subtle')};
+
+  &:hover {
+    color: ${cssVar('color-text-accent')};
+  }
+  &:disabled {
+    cursor: not-allowed;
+  }
 `;

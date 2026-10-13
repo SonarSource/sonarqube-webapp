@@ -70,7 +70,6 @@
     "@emotion/styled": "11.14.1",
     "@gitbook/embed": "patch:@gitbook/embed@npm%3A0.5.1#./.yarn/patches/@gitbook-embed-npm-0.5.1-23299eafd8.patch",
     "@primer/octicons-react": "19.29.2",
-    "@radix-ui/react-slider": "1.4.7",
     "@react-spring/web": "10.1.2",
     "@sentry/browser": "10.65.0",
     "@sentry/react": "10.65.0",
