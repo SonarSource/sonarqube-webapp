@@ -19,9 +19,9 @@
  */
 
 import styled from '@emotion/styled';
+import { cssVar } from '@sonarsource/echoes-react';
 import classNames from 'classnames';
 import { ReactNode, RefObject } from 'react';
-import tw from 'twin.macro';
 import { LineIssuePointer } from './LineIssuePointer';
 
 export interface TokenModifiers {
@@ -61,7 +61,7 @@ const TokenStyled = styled.span`
   display: inline-block;
 
   &.sym {
-    ${tw`sw-cursor-pointer`}
+    cursor: pointer;
   }
 
   &.sym.highlighted {
@@ -89,6 +89,6 @@ const TokenStyled = styled.span`
   }
 
   &.issue-location.has-marker {
-    ${tw`sw-pl-1`}
+    padding-left: ${cssVar('dimension-space-50', '0.25rem')};
   }
 `;

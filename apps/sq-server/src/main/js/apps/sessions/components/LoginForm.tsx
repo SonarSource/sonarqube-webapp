@@ -34,7 +34,6 @@ import {
 } from '@sonarsource/echoes-react';
 import { ChangeEvent, FormEvent, MouseEvent, useRef, useState } from 'react';
 import { useIntl } from 'react-intl';
-import tw from 'twin.macro';
 import { useLocation } from '~shared/components/hoc/withRouter';
 import { getReturnUrl } from '~sq-server-commons/helpers/urls';
 import { useLoginMutation } from '~sq-server-commons/queries/authentication';
@@ -194,7 +193,9 @@ const LoginFormCollapsePassword = styled.div<{ isCollapsed: boolean }>`
 `;
 
 const LoginFormButton = styled(Button)`
-  ${tw`sw-w-full sw-justify-center`}
+  width: 100%;
+  justify-content: center;
+
   transition:
     background-color 0.3s ease-in-out,
     color 0.3s ease-in-out;

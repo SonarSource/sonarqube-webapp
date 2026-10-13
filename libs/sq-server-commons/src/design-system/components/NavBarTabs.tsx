@@ -22,7 +22,6 @@ import styled from '@emotion/styled';
 import { IconChevronDown, cssVar } from '@sonarsource/echoes-react';
 import classNames from 'classnames';
 import React, { forwardRef } from 'react';
-import tw, { theme } from 'twin.macro';
 import { isDefined } from '~shared/helpers/types';
 import NavLink, { NavLinkProps } from './NavLink';
 import { Tooltip } from './Tooltip';
@@ -97,18 +96,18 @@ export function DisabledTabLink(props: { label: string; overlay: React.ReactNode
 
 // Styling for <NavLink> due to its special className function, it conflicts when styled with Emotion.
 const NavBarTabLinkWrapper = styled.li`
-  ${tw`sw-typo-default`};
+  font: ${cssVar('typography-text-default-regular')};
   & > a,
   & > * > a {
-    ${tw`sw-pb-3`};
-    ${tw`sw-block`};
-    ${tw`sw-box-border`};
-    ${tw`sw-transition-none`};
+    padding-bottom: ${cssVar('dimension-space-150', '0.75rem')};
+    display: block;
+    box-sizing: border-box;
+    transition-property: none;
 
     color: ${cssVar('color-text-default')};
     text-decoration: none;
     border-bottom: 3px solid ${cssVar('color-border-none')};
-    padding-bottom: calc(${theme('spacing.3')} + 1px); // 12px spacing + 3px border + 1px = 16px
+    padding-bottom: calc(${'0.75rem'} + 1px); // 12px spacing + 3px border + 1px = 16px
   }
 
   & > a.active,
@@ -130,17 +129,17 @@ const NavBarTabLinkWrapper = styled.li`
   & > * > a.active > span[data-text],
   & > * > a[aria-expanded='true'] > span[data-text],
   & > * > a:active > span:not([data-component='badge']) {
-    ${tw`sw-typo-semibold`};
+    font: ${cssVar('typography-text-default-semi-bold')};
   }
 
   // This is a hack to have a link take the space of the bold font, so when active other ones are not moving
   & > a > span[data-text]::before,
   & > * > a > span[data-text]::before {
-    ${tw`sw-block`};
-    ${tw`sw-typo-semibold`};
+    display: block;
+    font: ${cssVar('typography-text-default-semi-bold')};
     height: 0;
-    ${tw`sw-overflow-hidden`};
-    ${tw`sw-invisible`};
+    overflow: hidden;
+    visibility: hidden;
     content: attr(data-text);
   }
 
@@ -150,7 +149,7 @@ const NavBarTabLinkWrapper = styled.li`
   & > * > a.disabled-link,
   & > * > a.disabled-link:hover,
   & > * > a.disabled-link.hover {
-    ${tw`sw-cursor-default`};
+    cursor: default;
     border-bottom: 3px solid ${cssVar('color-border-none')};
     color: ${cssVar('color-text-disabled')};
   }

@@ -21,7 +21,6 @@
 import styled from '@emotion/styled';
 import { DropdownMenu, DropdownMenuSide, cssVar } from '@sonarsource/echoes-react';
 import { memo } from 'react';
-import tw from 'twin.macro';
 import { BareButton } from '../../sonar-aligned/components/buttons/BareButton';
 import { LineMeta } from './LineStyles';
 
@@ -70,7 +69,8 @@ function LineNumberFunc({
 export const LineNumber = memo(LineNumberFunc);
 
 const LineNumberStyled = styled(BareButton)`
-  ${tw`sw-px-1`}
+  padding-left: ${cssVar('dimension-space-50', '0.25rem')};
+  padding-right: ${cssVar('dimension-space-50', '0.25rem')};
   min-width: 24px;
   min-height: 24px;
 

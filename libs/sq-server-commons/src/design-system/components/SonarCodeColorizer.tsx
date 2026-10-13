@@ -20,11 +20,10 @@
 
 import styled from '@emotion/styled';
 import { cssVar } from '@sonarsource/echoes-react';
-import tw from 'twin.macro';
 
 export const SonarCodeColorizer = styled.div`
   & pre {
-    ${tw`sw-code`}
+    font: ${cssVar('typography-code-default')};
 
     color: ${cssVar('color-code-text-default')};
   }
@@ -36,35 +35,35 @@ export const SonarCodeColorizer = styled.div`
 
   /* constants */
   & .c {
-    ${tw`sw-code-highlight`}
+    font: ${cssVar('typography-code-highlight')};
 
     color: ${cssVar('color-code-text-constant')};
   }
 
   /* classic comment */
   & .cd {
-    ${tw`sw-code-comment`}
+    font: ${cssVar('typography-code-comment')};
 
     color: ${cssVar('color-code-text-comment')};
   }
 
   /* javadoc */
   & .j {
-    ${tw`sw-code-comment`}
+    font: ${cssVar('typography-code-comment')};
 
     color: ${cssVar('color-code-text-comment')};
   }
 
   /* C++ doc */
   & .cppd {
-    ${tw`sw-code-comment`}
+    font: ${cssVar('typography-code-comment')};
 
     color: ${cssVar('color-code-text-comment')};
   }
 
   /* keyword */
   & .k {
-    ${tw`sw-code-highlight`}
+    font: ${cssVar('typography-code-highlight')};
 
     color: ${cssVar('color-code-text-keyword')};
   }

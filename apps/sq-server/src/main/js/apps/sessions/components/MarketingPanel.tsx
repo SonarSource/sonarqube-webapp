@@ -21,7 +21,6 @@
 import styled from '@emotion/styled';
 import { cssVar, Heading, Spinner } from '@sonarsource/echoes-react';
 import { FormattedMessage, useIntl } from 'react-intl';
-import tw from 'twin.macro';
 import { Image } from '~adapters/components/common/Image';
 import { SafeHTMLInjection, SanitizeLevel } from '~shared/helpers/sanitize';
 import { useLoginMessageQuery } from '~sq-server-commons/queries/settings';
@@ -86,24 +85,31 @@ export default function MarketingPanel() {
 }
 
 const SonarBackgroundContainer = styled.div`
-  ${tw`sw-relative`}
-  ${tw`sw-flex sw-flex-col sw-items-center sw-justify-center sw-relative sw-overflow-hidden sw-w-full`}
-  ${tw`sw-h-full`}
+  position: relative;
+  position: relative;
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  height: 100%;
 
-  background:
-    linear-gradient(135deg,
-      ${cssVar('color-background-accent-default')} 0%,
-      ${cssVar('color-background-accent-hover')} 50%,
-      ${cssVar('color-background-accent-active')} 100%);
+  background: linear-gradient(
+    135deg,
+    ${cssVar('color-background-accent-default')} 0%,
+    ${cssVar('color-background-accent-hover')} 50%,
+    ${cssVar('color-background-accent-active')} 100%
+  );
 `;
 
 const SonarBackgroundImage = styled(Image)`
-  ${tw`sw-absolute`}
-  ${tw`sw-w-auto`}
-  ${tw`sw-h-[105vh]`}
-  ${tw`sw-pointer-events-none`}
-  ${tw`sw-top-[10%]`}
-  ${tw`sw-right-[15%]`}
+  position: absolute;
+  width: auto;
+  height: 105vh;
+  pointer-events: none;
+  top: 10%;
+  right: 15%;
 
   opacity: 0.08;
   transform: 'translate(-50%, calc(-50% + 0px))';
@@ -111,7 +117,7 @@ const SonarBackgroundImage = styled(Image)`
 `;
 
 const CustomMessage = styled.div`
-  ${tw`sw-overflow-y-auto`}
+  overflow-y: auto;
 
   max-height: calc(100vh - 5rem); /* Account for padding */
   scrollbar-width: none; /* Firefox */
@@ -122,17 +128,27 @@ const CustomMessage = styled.div`
   }
 
   a {
-    ${tw`sw-text-white sw-border-b sw-border-white`};
-    ${tw`sw-underline sw-typo-semibold`};
+    border-bottom-width: 1px;
+    --tw-border-opacity: 1;
+    border-color: rgb(255 255 255 / var(--tw-border-opacity, 1));
+    --tw-text-opacity: 1;
+    color: rgb(255 255 255 / var(--tw-text-opacity, 1));
+    text-decoration-line: underline;
+    font: ${cssVar('typography-text-default-semi-bold')};
 
     &:visited {
-      ${tw`sw-border-b sw-border-white`}
+      border-bottom-width: 1px;
+      --tw-border-opacity: 1;
+      border-color: rgb(255 255 255 / var(--tw-border-opacity, 1));
     }
     &:hover,
     &:focus,
     &:active {
-      ${tw`sw-text-white`}
-      ${tw`sw-border-b sw-border-white`}
+      --tw-text-opacity: 1;
+      color: rgb(255 255 255 / var(--tw-text-opacity, 1));
+      border-bottom-width: 1px;
+      --tw-border-opacity: 1;
+      border-color: rgb(255 255 255 / var(--tw-border-opacity, 1));
     }
   }
 `;

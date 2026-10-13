@@ -30,7 +30,6 @@ import {
 } from 'react-select';
 import { AsyncProps } from 'react-select/async';
 import type Select from 'react-select/base';
-import tw from 'twin.macro';
 import { SearchHighlighterContext } from '~shared/components/SearchHighlighter';
 import { PopupPlacement, PopupZLevel } from '../../helpers';
 import {
@@ -217,12 +216,12 @@ export function SearchSelectDropdown<
 }
 
 const StyledSearchSelectWrapper = styled.div<{ isSearchable: boolean }>`
-  ${tw`sw-w-full`};
-  ${tw`sw-rounded-2`};
+  width: 100%;
+  border-radius: ${cssVar('border-radius-400', '0.5rem')};
 
   .react-select {
     border: ${cssVar('border-width-default')} solid ${cssVar('color-border-disabled')};
-    ${tw`sw-rounded-2`};
+    border-radius: ${cssVar('border-radius-400', '0.5rem')};
   }
 
   .react-select__control {
@@ -230,14 +229,19 @@ const StyledSearchSelectWrapper = styled.div<{ isSearchable: boolean }>`
   }
 
   .react-select__menu {
-    ${tw`sw-m-0`};
-    ${tw`sw-relative`};
-    ${tw`sw-shadow-none`};
-    ${tw`sw-rounded-2`};
+    margin: 0;
+    position: relative;
+    --tw-shadow: 0 0 #0000;
+    --tw-shadow-colored: 0 0 #0000;
+
+    box-shadow:
+      var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+
+    border-radius: ${cssVar('border-radius-400', '0.5rem')};
   }
 
   .react-select__menu-notice--loading {
-    ${tw`sw-hidden`}
+    display: none;
   }
 
   .react-select__input-container {

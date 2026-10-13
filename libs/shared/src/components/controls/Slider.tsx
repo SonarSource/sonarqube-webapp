@@ -22,7 +22,6 @@ import styled from '@emotion/styled';
 import * as RadixSlider from '@radix-ui/react-slider';
 import { cssVar } from '@sonarsource/echoes-react';
 import { useId } from 'react';
-import tw from 'twin.macro';
 
 interface SliderStep {
   label: string;
@@ -142,30 +141,51 @@ export function Slider({
 }
 
 const Label = styled.label`
-  ${tw`sw-block sw-mb-2 sw-font-semibold`}
+  margin-bottom: ${cssVar('dimension-space-100', '0.5rem')};
+  display: block;
+  font-weight: ${cssVar('font-weight-semi-bold')};
   color: ${cssVar('color-text-default')};
 `;
 
 const SliderRoot = styled(RadixSlider.Root)`
-  ${tw`sw-relative sw-flex sw-items-center sw-select-none sw-touch-none sw-w-full sw-h-600`}
+  position: relative;
+  display: flex;
+  height: ${cssVar('dimension-height-600', '1.5rem')};
+  width: 100%;
+  touch-action: none;
+  user-select: none;
+  align-items: center;
 
   &[data-disabled] {
-    ${tw`sw-cursor-not-allowed sw-opacity-50`}
+    cursor: not-allowed;
+    opacity: 0.5;
   }
 `;
 
 const SliderTrack = styled(RadixSlider.Track)`
-  ${tw`sw-relative sw-grow sw-rounded-pill sw-h-100`}
+  position: relative;
+  height: ${cssVar('dimension-height-100', '0.25rem')};
+  flex-grow: 1;
+  border-radius: ${cssVar('border-radius-full', '625rem')};
   background-color: ${cssVar('color-background-neutral-subtle-default')};
 `;
 
 const SliderRange = styled(RadixSlider.Range)`
-  ${tw`sw-absolute sw-rounded-pill sw-h-full`}
+  position: absolute;
+  height: 100%;
+  border-radius: ${cssVar('border-radius-full', '625rem')};
   background-color: ${cssVar('color-background-accent-default')};
 `;
 
 const SliderThumb = styled(RadixSlider.Thumb)`
-  ${tw`sw-block sw-rounded-pill sw-cursor-pointer sw-transition-shadow sw-w-400 sw-h-400`}
+  display: block;
+  height: ${cssVar('dimension-height-400', '1rem')};
+  width: ${cssVar('dimension-width-400', '2rem')};
+  cursor: pointer;
+  border-radius: ${cssVar('border-radius-full', '625rem')};
+  transition-property: box-shadow;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
   background-color: ${cssVar('color-background-accent-default')};
   box-shadow: ${cssVar('box-shadow-small')};
 
@@ -177,12 +197,14 @@ const SliderThumb = styled(RadixSlider.Thumb)`
     outline-offset: 2px;
   }
   &[data-disabled] {
-    ${tw`sw-cursor-not-allowed`}
+    cursor: not-allowed;
   }
 `;
 
 const Graduations = styled.div`
-  ${tw`sw-relative sw-w-full sw-mt-2`}
+  position: relative;
+  margin-top: ${cssVar('dimension-space-100', '0.5rem')};
+  width: 100%;
   height: 1.75rem;
 `;
 
@@ -194,7 +216,13 @@ const Graduations = styled.div`
  * The first and last graduations get an extra inward shift on top of that, so their label never
  * sits flush against - or spills past - the ends of the slider track. */
 const Graduation = styled.div<{ position: 'center' | 'end' | 'start' }>`
-  ${tw`sw-absolute sw-top-0 sw-flex sw-flex-col sw-items-center sw-gap-1`}
+  position: absolute;
+  top: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: ${cssVar('dimension-space-50', '0.25rem')};
+
   transform: ${({ position }) => {
     switch (position) {
       case 'start':
@@ -209,11 +237,16 @@ const Graduation = styled.div<{ position: 'center' | 'end' | 'start' }>`
 `;
 
 const GraduationTick = styled.span`
-  ${tw`sw-block sw-rounded-pill sw-w-25 sw-h-200`}
+  display: block;
+  height: ${cssVar('dimension-height-200', '0.5rem')};
+  width: ${cssVar('dimension-width-25', '0.125rem')};
+  border-radius: ${cssVar('border-radius-full', '625rem')};
   background-color: ${cssVar('color-border-bold')};
 `;
 
 const GraduationLabel = styled.span`
-  ${tw`sw-text-xs sw-whitespace-nowrap`}
+  white-space: nowrap;
+  font-size: 0.75rem;
+  line-height: 1rem;
   color: ${cssVar('color-text-subtle')};
 `;

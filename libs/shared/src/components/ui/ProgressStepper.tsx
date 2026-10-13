@@ -23,7 +23,6 @@ import styled from '@emotion/styled';
 import { IconCheck, IconX, Tooltip, cssVar } from '@sonarsource/echoes-react';
 import classNames from 'classnames';
 import { ComponentProps, ReactNode } from 'react';
-import tw from 'twin.macro';
 
 type Resolution = 'FAILED' | 'COMPLETED' | 'IN_PROGRESS';
 
@@ -246,7 +245,10 @@ const pulse = keyframes`
 `;
 
 const PulseRing = styled.div`
-  ${tw`sw-absolute sw-inset-0 sw-rounded-pill sw-pointer-events-none`}
+  pointer-events: none;
+  position: absolute;
+  inset: 0;
+  border-radius: ${cssVar('border-radius-full', '625rem')};
   z-index: 0;
   animation: ${pulse} 1.8s ease-out infinite;
 `;
@@ -255,15 +257,25 @@ const Circle = styled.button`
   all: unset;
   position: relative;
   z-index: 1;
-  ${tw`sw-rounded-pill sw-h-1000 sw-aspect-square sw-cursor-pointer sw-transition-all`}
-  ${tw`sw-flex sw-justify-center sw-items-center sw-m-auto sw-font-semibold`}
+  aspect-ratio: 1 / 1;
+  height: ${cssVar('dimension-height-1000', '2.5rem')};
+  cursor: pointer;
+  border-radius: ${cssVar('border-radius-full', '625rem')};
+  transition-property: all;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
+  margin: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: ${cssVar('font-weight-semi-bold')};
   background-color: ${cssVar('color-icon-success')};
   color: ${cssVar('color-text-on-color')};
 
   &:disabled {
     background-color: ${cssVar('color-background-neutral-subtle-default')};
     color: ${cssVar('color-text-default')};
-    ${tw`sw-cursor-not-allowed`}
+    cursor: not-allowed;
   }
   &:hover {
     box-shadow: ${cssVar('box-shadow-small')};
@@ -271,21 +283,29 @@ const Circle = styled.button`
 `;
 
 const Ring = styled.div`
-  ${tw`sw-absolute sw-w-full sw-h-full`}
-  ${tw`sw-flex sw-justify-center sw-items-center sw-m-auto sw-font-semibold `}
-  ${tw`sw-rounded-pill sw-pointer-events-none`};
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  margin: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: ${cssVar('font-weight-semi-bold')};
+  pointer-events: none;
+  border-radius: ${cssVar('border-radius-full', '625rem')};
 `;
 
 const ProgressLine = styled.div`
   position: absolute;
-  ${tw`sw-h-200 sw-top-4`}
+  top: ${cssVar('dimension-space-200', '1rem')};
+  height: ${cssVar('dimension-height-200', '0.5rem')};
   width: calc(100% - 160px);
   left: 80px;
   background-color: ${cssVar('color-background-neutral-subtle-default')};
 `;
 
 const ProgressLineFill = styled.div`
-  ${tw`sw-h-200`}
+  height: ${cssVar('dimension-height-200', '0.5rem')};
   background-color: ${cssVar('color-icon-success')};
   transition: width 0.2s ease-in-out;
 `;

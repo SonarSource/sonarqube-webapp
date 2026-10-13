@@ -21,7 +21,6 @@
 import styled from '@emotion/styled';
 import { cssVar } from '@sonarsource/echoes-react';
 import { ForwardedRef, forwardRef } from 'react';
-import tw from 'twin.macro';
 import { CheckIcon } from '../../../design-system';
 
 interface Props {
@@ -91,9 +90,12 @@ interface StyledProps {
 }
 
 const CheckIconContainer = styled.div<StyledProps>`
-  ${tw`sw-rounded-pill`}
-  ${tw`sw-flex sw-items-center sw-justify-center`}
-  ${tw`sw-w-200 sw-h-400`}
+  border-radius: ${cssVar('border-radius-full', '625rem')};
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: ${cssVar('dimension-height-400', '1rem')};
+  width: ${cssVar('dimension-width-200', '1rem')};
   background: ${cssVar('color-surface-default')};
   border: none;
   box-shadow: ${cssVar('box-shadow-xsmall')};
@@ -103,10 +105,11 @@ const CheckIconContainer = styled.div<StyledProps>`
 `;
 
 const StyledSwitch = styled.button<StyledProps>`
-  ${tw`sw-flex sw-flex-row`}
-  ${tw`sw-rounded-pill`}
-  ${tw`sw-p-1/2`}
-  ${tw`sw-cursor-pointer`}
+  display: flex;
+  flex-direction: row;
+  border-radius: ${cssVar('border-radius-full', '625rem')};
+  padding: ${cssVar('dimension-space-25', '0.125rem')};
+  cursor: pointer;
   width: 2.25rem;
   height: 1.25rem;
   background: ${({ active }) =>

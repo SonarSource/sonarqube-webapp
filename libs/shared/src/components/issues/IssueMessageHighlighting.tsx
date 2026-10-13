@@ -21,7 +21,6 @@
 import styled from '@emotion/styled';
 import { cssVar } from '@sonarsource/echoes-react';
 import * as React from 'react';
-import tw from 'twin.macro';
 
 interface MessageFormatting {
   end: number;
@@ -118,9 +117,10 @@ const SingleLineSnippet = styled.span`
   border-color: ${cssVar('color-border-bold')};
   color: ${cssVar('color-text-default')};
 
-  ${tw`sw-py-1/2`}
+  padding-top: ${cssVar('dimension-space-25', '0.125rem')};
+  padding-bottom: ${cssVar('dimension-space-25', '0.125rem')};
 
   a & {
-    ${tw`sw-pb-0`}
+    padding-bottom: 0;
   }
 `;

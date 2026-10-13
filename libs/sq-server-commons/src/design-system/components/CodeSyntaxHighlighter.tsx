@@ -56,7 +56,6 @@ import yaml from 'highlight.js/lib/languages/yaml';
 import apex from 'highlightjs-apex';
 import cobol from 'highlightjs-cobol';
 import abap from 'highlightjs-sap-abap';
-import tw from 'twin.macro';
 import { SafeHTMLInjection, SanitizeLevel } from '~shared/helpers/sanitize';
 import { hljsIssueIndicatorPlugin, hljsUnderlinePlugin } from '../sonar-aligned';
 
@@ -188,7 +187,7 @@ export function CodeSyntaxHighlighter(props: Readonly<Props>) {
 
 const StyledSpan = styled.span`
   code {
-    ${tw`sw-code`};
+    font: ${cssVar('typography-code-default')};
 
     background: ${cssVar('color-code-background-default')};
     color: ${cssVar('color-code-text-default')};
@@ -211,7 +210,7 @@ const StyledSpan = styled.span`
   }
 
   .hljs-comment {
-    ${tw`sw-code-comment`}
+    font: ${cssVar('typography-code-comment')};
 
     color: ${cssVar('color-code-text-comment')};
   }
@@ -243,19 +242,19 @@ const StyledSpan = styled.span`
   }
 
   &.code-wrap {
-    ${tw`sw-whitespace-pre-wrap`}
-    ${tw`sw-break-all`}
+    white-space: pre-wrap;
+    word-break: break-all;
 
     &.wrap-words {
       word-break: normal;
-      ${tw`sw-break-words`}
+      overflow-wrap: break-word;
     }
   }
 
   mark {
-    ${tw`sw-font-regular`}
-    ${tw`sw-p-1`}
-    ${tw`sw-rounded-1`}
+    font-weight: ${cssVar('font-weight-regular')};
+    padding: ${cssVar('dimension-space-50', '0.25rem')};
+    border-radius: ${cssVar('border-radius-200', '0.25rem')};
 
     background-color: ${cssVar('color-code-background-highlight')};
     color: ${cssVar('color-code-text-highlight')};

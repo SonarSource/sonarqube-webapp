@@ -23,7 +23,6 @@ import { ButtonIcon, ButtonSize, ButtonVariety, cssVar, IconX } from '@sonarsour
 import classNames from 'classnames';
 import { KeyboardEvent, MouseEvent } from 'react';
 import { useIntl } from 'react-intl';
-import tw from 'twin.macro';
 import { Key } from '~shared/helpers/keyboard';
 import { INPUT_SIZES } from '../../helpers';
 import { InputSizeKeys } from '../../types/theme';
@@ -117,19 +116,24 @@ const StyledControl = styled.div`
   border: ${cssVar('border-width-default')} solid ${cssVar('color-border-bolder')};
   width: var(--inputSize);
 
-  ${tw`sw-flex sw-justify-between sw-items-center`};
-  ${tw`sw-rounded-2`};
-  ${tw`sw-box-border`};
-  ${tw`sw-px-3`};
-  ${tw`sw-typo-default`};
-  ${tw`sw-h-control`};
-  ${tw`sw-leading-6`};
-  ${tw`sw-cursor-pointer`};
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-radius: ${cssVar('border-radius-400', '0.5rem')};
+  box-sizing: border-box;
+  padding-left: ${cssVar('dimension-space-150', '0.75rem')};
+  padding-right: ${cssVar('dimension-space-150', '0.75rem')};
+  font: ${cssVar('typography-text-default-regular')};
+  height: ${cssVar('dimension-height-900', '2.25rem')};
+  line-height: 1.5rem;
+  cursor: pointer;
 
   &.is-discreet {
-    ${tw`sw-border-none`};
-    ${tw`sw-px-1`};
-    ${tw`sw-w-auto sw-h-auto`};
+    border-style: none;
+    padding-left: ${cssVar('dimension-space-50', '0.25rem')};
+    padding-right: ${cssVar('dimension-space-50', '0.25rem')};
+    height: auto;
+    width: auto;
 
     background: inherit;
   }
@@ -138,7 +142,7 @@ const StyledControl = styled.div`
     border: ${cssVar('border-width-default')} solid ${cssVar('color-focus-default')};
 
     &.is-discreet {
-      ${tw`sw-border-none`};
+      border-style: none;
       color: ${cssVar('color-text-accent')};
     }
   }
@@ -150,7 +154,8 @@ const StyledControl = styled.div`
     outline: ${cssVar('focus-border-width-default')} solid ${cssVar('color-focus-default')};
 
     &.is-discreet {
-      ${tw`sw-rounded-1 sw-border-none`};
+      border-radius: ${cssVar('border-radius-200', '0.25rem')};
+      border-style: none;
       outline: ${cssVar('focus-border-width-default')} solid ${cssVar('color-focus-default')};
     }
   }
@@ -161,7 +166,9 @@ const InputValue = styled.span`
   width: 100%;
   color: ${cssVar('color-text-default')};
 
-  ${tw`sw-truncate`};
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 
   &.is-placeholder {
     color: ${cssVar('color-text-placeholder')};

@@ -20,7 +20,6 @@
 
 import styled from '@emotion/styled';
 import { cssVar } from '@sonarsource/echoes-react';
-import tw from 'twin.macro';
 
 interface Props {
   children: React.ReactNode;
@@ -39,8 +38,9 @@ export function TutorialStep({ children, title, stepNumber }: Props) {
 
 const StepDetails = styled.div`
   h3 {
-    ${tw`sw-typo-semibold`}
-    ${tw`sw-my-2`}
+    font: ${cssVar('typography-text-default-semi-bold')};
+    margin-top: ${cssVar('dimension-space-100', '0.5rem')};
+    margin-bottom: ${cssVar('dimension-space-100', '0.5rem')};
 
     color: ${cssVar('color-text-default')};
   }
@@ -48,17 +48,17 @@ const StepDetails = styled.div`
   &,
   h4,
   h5 {
-    ${tw`sw-typo-default`}
-    ${tw`sw-mb-2`}
+    font: ${cssVar('typography-text-default-regular')};
+    margin-bottom: ${cssVar('dimension-space-100', '0.5rem')};
 
     color: ${cssVar('color-text-default')};
   }
 `;
 
 const Title = styled.h2`
-  ${tw`sw-typo-lg-semibold`}
-  ${tw`sw-inline-block`}
-  ${tw`sw-mb-4`}
+  font: ${cssVar('typography-text-large-semi-bold')};
+  display: inline-block;
+  margin-bottom: ${cssVar('dimension-space-200', '1rem')};
 
   color: ${cssVar('color-text-strong')};
 `;
@@ -71,15 +71,17 @@ const Step = styled.li<{ stepNumber?: number }>`
     color: ${cssVar('color-text-subtle')};
     content: counter(li);
 
-    ${tw`sw-inline-block`}
-    ${tw`sw-align-middle`}
-    ${tw`sw-heading-lg`}
-    ${tw`sw-mr-2 sw--mt-1`}
+    display: inline-block;
+    vertical-align: middle;
+    font: ${cssVar('typography-heading-large')};
+    letter-spacing: ${cssVar('letter-spacing-decreased')};
+    margin-top: -0.25rem;
+    margin-right: ${cssVar('dimension-space-100', '0.5rem')};
   }
 
   & + & {
     border-top: ${cssVar('border-width-default')} solid ${cssVar('color-border-weak')};
-    ${tw`sw-mt-10`}
-    ${tw`sw-pt-10`}
+    margin-top: ${cssVar('dimension-space-500', '2.5rem')};
+    padding-top: ${cssVar('dimension-space-500', '2.5rem')};
   }
 `;

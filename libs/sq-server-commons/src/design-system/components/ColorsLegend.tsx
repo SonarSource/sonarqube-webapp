@@ -20,7 +20,6 @@
 
 import styled from '@emotion/styled';
 import { cssVar } from '@sonarsource/echoes-react';
-import tw from 'twin.macro';
 import { BUBBLE_BORDER_COLORS, BUBBLE_COLORS } from '../helpers';
 import { BubbleColorVal } from '../types';
 import { Tooltip } from './Tooltip';
@@ -83,7 +82,7 @@ export function ColorsLegend(props: ColorLegendProps) {
 }
 
 const ColorsLegendWrapper = styled.ul`
-  ${tw`sw-flex`}
+  display: flex;
 `;
 
 const ColorRating = styled.div`
@@ -92,6 +91,7 @@ const ColorRating = styled.div`
   line-height: 20px;
   border-radius: 50%;
   border: ${cssVar('border-width-default')} solid ${cssVar('color-border-weak')};
-  ${tw`sw-flex sw-justify-center`}
-  ${tw`sw-ml-1`}
+  display: flex;
+  justify-content: center;
+  margin-left: ${cssVar('dimension-space-50', '0.25rem')};
 `;

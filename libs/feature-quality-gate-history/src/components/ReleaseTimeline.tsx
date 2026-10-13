@@ -22,7 +22,6 @@ import styled from '@emotion/styled';
 import { cssVar, Divider, Text } from '@sonarsource/echoes-react';
 import { useLayoutEffect, useRef } from 'react';
 import { useIntl } from 'react-intl';
-import tw from 'twin.macro';
 import { QualityGateIndicator } from '~adapters/components/ui/QualityGateIndicator';
 import { Release } from '../types';
 
@@ -66,18 +65,23 @@ export function ReleaseTimeline(props: Readonly<Props>) {
 }
 
 const TimelineList = styled.ol`
-  ${tw`sw-flex sw-overflow-x-auto sw-mt-4`};
+  margin-top: ${cssVar('dimension-space-200', '1rem')};
+  display: flex;
+  overflow-x: auto;
   max-width: calc(${cssVar('layout-sizes-max-width-default')} - 5.5rem);
   white-space: nowrap;
 `;
 
 const TimelineItem = styled.li<{ totalReleases: number }>`
-  ${tw`sw-inline-flex sw-min-w-[100px] sw-flex-col sw-items-center`}
+  display: inline-flex;
+  min-width: 100px;
+  flex-direction: column;
+  align-items: center;
   width: calc(100% / ${(props) => props.totalReleases});
 `;
 
 const VerticalDashedLine = styled.div`
-  ${tw`sw-mt-1`};
+  margin-top: ${cssVar('dimension-space-50', '0.25rem')};
   height: 64px;
   border-left: 1px dashed ${cssVar('color-border-weak')};
 `;

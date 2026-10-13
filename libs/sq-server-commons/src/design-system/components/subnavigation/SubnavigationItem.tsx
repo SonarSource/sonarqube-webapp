@@ -20,9 +20,9 @@
 
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
+import { cssVar } from '@sonarsource/echoes-react';
 import classNames from 'classnames';
 import { ReactNode, SyntheticEvent, useCallback } from 'react';
-import tw, { theme as twTheme } from 'twin.macro';
 import NavLink, { NavLinkProps } from '../NavLink';
 import { selectableItemState } from '../SelectableItemStateStyles';
 
@@ -97,14 +97,18 @@ export function SubnavigationLinkItem(props: Readonly<NavLinkProps>) {
 }
 
 const ItemBaseStyle = css`
-  ${tw`sw-flex sw-items-center sw-justify-between`}
-  ${tw`sw-box-border`}
-  ${tw`sw-typo-default`}
-  ${tw`sw-py-4 sw-pr-4`}
-  ${tw`sw-w-full`}
-  ${tw`sw-cursor-pointer`}
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-sizing: border-box;
+  font: ${cssVar('typography-text-default-regular')};
+  padding-top: ${cssVar('dimension-space-200', '1rem')};
+  padding-bottom: ${cssVar('dimension-space-200', '1rem')};
+  padding-right: ${cssVar('dimension-space-200', '1rem')};
+  width: 100%;
+  cursor: pointer;
 
-  padding-left: calc(${twTheme('spacing.4')} - 3px);
+  padding-left: calc(${'1rem'} - 3px);
   color: ${selectableItemState.text};
   background-color: ${selectableItemState.defaultBackground};
   border-bottom: none;
@@ -129,7 +133,7 @@ const ItemBaseStyle = css`
 
   &.disabled,
   &[aria-disabled='true'] {
-    ${tw`sw-cursor-not-allowed`}
+    cursor: not-allowed;
 
     color: ${selectableItemState.disabledText};
     background-color: ${selectableItemState.disabledBackground};
@@ -143,5 +147,5 @@ const StyledSubnavigationItem = styled.a`
 
 const SubnavigationLinkItemStyled = styled(NavLink)`
   ${ItemBaseStyle};
-  ${tw`sw-no-underline`}
+  text-decoration-line: none;
 `;

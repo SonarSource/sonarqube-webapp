@@ -21,7 +21,6 @@
 import styled from '@emotion/styled';
 import { cssVar } from '@sonarsource/echoes-react';
 import { forwardRef, Ref } from 'react';
-import tw from 'twin.macro';
 import { BareButton } from '../../sonar-aligned/components/buttons';
 
 interface Props {
@@ -80,15 +79,44 @@ function LineFindingFunc(
 export const LineFinding = forwardRef<HTMLElement, Props>(LineFindingFunc);
 
 const LineFindingStyled = styled(BareButton)<{ selected: boolean }>`
-  ${tw`sw-flex sw-gap-2 sw-items-center`}
-  ${tw`sw-my-3 sw-mx-1`}
-  ${tw`sw-rounded-1`}
-  ${tw`sw-px-3`}
-  ${tw`sw-w-full`}
-  ${tw`sw-box-border`}
-  ${(props) => (props.selected ? tw`sw-py-3` : tw`sw-py-2`)};
-  ${(props) => (props.selected ? tw`sw-typo-lg-semibold` : tw`sw-typo-default`)};
-  ${(props) => (props.selected ? tw`sw-cursor-default` : tw`sw-cursor-pointer`)};
+  display: flex;
+  align-items: center;
+  gap: ${cssVar('dimension-space-100', '0.5rem')};
+  margin-left: ${cssVar('dimension-space-50', '0.25rem')};
+  margin-right: ${cssVar('dimension-space-50', '0.25rem')};
+  margin-top: ${cssVar('dimension-space-150', '0.75rem')};
+  margin-bottom: ${cssVar('dimension-space-150', '0.75rem')};
+  border-radius: ${cssVar('border-radius-200', '0.25rem')};
+  padding-left: ${cssVar('dimension-space-150', '0.75rem')};
+  padding-right: ${cssVar('dimension-space-150', '0.75rem')};
+  width: 100%;
+  box-sizing: border-box;
+  ${(props) =>
+    props.selected
+      ? {
+          paddingTop: '0.75rem',
+          paddingBottom: '0.75rem',
+        }
+      : {
+          paddingTop: '0.5rem',
+          paddingBottom: '0.5rem',
+        }};
+  ${(props) =>
+    props.selected
+      ? {
+          font: cssVar('typography-text-large-semi-bold'),
+        }
+      : {
+          font: cssVar('typography-text-default-regular'),
+        }};
+  ${(props) =>
+    props.selected
+      ? {
+          cursor: 'default',
+        }
+      : {
+          cursor: 'pointer',
+        }};
 
   border: ${(props) =>
     props.selected
@@ -98,7 +126,7 @@ const LineFindingStyled = styled(BareButton)<{ selected: boolean }>`
   word-break: break-word;
   background-color: ${cssVar('color-surface-default')};
 
-  :hover {
+  &:hover {
     box-shadow: ${cssVar('box-shadow-small')};
   }
 `;

@@ -29,7 +29,6 @@ import {
 import classNames from 'classnames';
 import React, { type JSX } from 'react';
 import { useIntl } from 'react-intl';
-import tw from 'twin.macro';
 import { useResizeObserver } from '~shared/helpers/useResizeObserver';
 import { LAYOUT_VIEWPORT_MAX_WIDTH_LARGE, PopupPlacement, PopupZLevel } from '../helpers';
 import { Dropdown } from './Dropdown';
@@ -180,9 +179,12 @@ export function BreadcrumbsFullWidth(props: Omit<Props, 'innerRef' | 'maxWidth'>
 }
 
 const BreadcrumbWrapper = styled.nav`
-  ${tw`sw-flex sw-items-center`}
-  ${tw`sw-truncate`}
-  ${tw`sw-typo-default`}
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font: ${cssVar('typography-text-default-regular')};
 
   color: ${cssVar('color-text-subtle')};
   background-color: ${cssVar('color-background-utility-transparent')};

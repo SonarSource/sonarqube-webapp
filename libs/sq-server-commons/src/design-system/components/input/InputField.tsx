@@ -23,7 +23,6 @@ import styled from '@emotion/styled';
 import type * as Echoes from '@sonarsource/echoes-react';
 import { cssVar } from '@sonarsource/echoes-react';
 import { forwardRef } from 'react';
-import tw from 'twin.macro';
 import { INPUT_SIZES } from '../../helpers/constants';
 import { InputSizeKeys, ThemedProps } from '../../types/theme';
 
@@ -115,10 +114,13 @@ const baseStyle = css`
   width: var(--inputSize);
   transition: border-color 0.2s ease;
 
-  ${tw`sw-typo-default`}
-  ${tw`sw-box-border`}
-  ${tw`sw-rounded-2`}
-  ${tw`sw-px-3 sw-py-2`}
+  font: ${cssVar('typography-text-default-regular')};
+  box-sizing: border-box;
+  border-radius: ${cssVar('border-radius-400', '0.5rem')};
+  padding-left: ${cssVar('dimension-space-150', '0.75rem')};
+  padding-right: ${cssVar('dimension-space-150', '0.75rem')};
+  padding-top: ${cssVar('dimension-space-100', '0.5rem')};
+  padding-bottom: ${cssVar('dimension-space-100', '0.5rem')};
 
   &::placeholder {
     color: ${cssVar('color-text-placeholder')};
@@ -144,7 +146,7 @@ const baseStyle = css`
     border: ${cssVar('border-width-default')} solid ${cssVar('color-border-disabled')};
     outline: none;
 
-    ${tw`sw-cursor-not-allowed`};
+    cursor: not-allowed;
     &::placeholder {
       color: ${cssVar('color-text-disabled')};
     }
@@ -154,7 +156,7 @@ const baseStyle = css`
 const StyledInput = styled.input`
   ${getInputVariant}
   ${baseStyle}
-  ${tw`sw-h-control`}
+  height: ${cssVar('dimension-height-900', '2.25rem')};
 `;
 
 const StyledTextArea = styled.textarea`

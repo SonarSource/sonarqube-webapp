@@ -23,7 +23,6 @@ import styled from '@emotion/styled';
 import { cssVar } from '@sonarsource/echoes-react';
 import React, { HTMLAttributeAnchorTarget } from 'react';
 import { Link as RouterLink, LinkProps as RouterLinkProps } from 'react-router-dom';
-import tw, { theme as twTheme } from 'twin.macro';
 
 import { TooltipWrapperInner } from './Tooltip';
 import { OpenNewTabIcon } from './icons/OpenNewTabIcon';
@@ -152,19 +151,19 @@ const StyledBaseLink = styled(BaseLink)`
   }
 
   & > svg {
-    ${tw`sw-align-text-bottom!`}
+    vertical-align: text-bottom !important;
   }
 
   ${({ icon }) =>
     icon
       ? css`
-          margin-left: calc(${twTheme('width.icon')} + ${twTheme('spacing.3')});
+          margin-left: calc(${'1rem'} + ${'0.75rem'});
 
           & > svg,
           & > img {
-            ${tw`sw-mr-3`}
+            margin-right: ${cssVar('dimension-space-150', '0.75rem')};
 
-            margin-left: calc(-1 * (${twTheme('width.icon')} + ${twTheme('spacing.3')}));
+            margin-left: calc(-1 * (${'1rem'} + ${'0.75rem'}));
           }
         `
       : undefined};
@@ -181,7 +180,9 @@ export const NakedLink = styled(BaseLink)`
 
   ${({ disabled }) =>
     disabled
-      ? tw`sw-cursor-default`
+      ? {
+          cursor: 'default',
+        }
       : `&:hover,
          &:focus,
          &:active {
@@ -192,13 +193,16 @@ export const NakedLink = styled(BaseLink)`
 /** @deprecated Use either Link or LinkStandalone from Echoes instead.
  */
 export const DrilldownLink = styled(StyledBaseLink)`
-  ${tw`sw-heading-xl`}
-  ${tw`sw-tracking-tight`}
-  ${tw`sw-whitespace-nowrap`}
+  font: ${cssVar('typography-heading-xlarge')};
+  letter-spacing: ${cssVar('letter-spacing-decreased')};
+  letter-spacing: -0.025em;
+  white-space: nowrap;
 
   ${({ disabled }) =>
     disabled
-      ? tw`sw-cursor-default`
+      ? {
+          cursor: 'default',
+        }
       : `--active: ${cssVar('color-text-link-hover')};
          --border: ${cssVar('border-width-default')} solid ${cssVar('color-border-accent-default')};
          --borderActive: ${cssVar('border-width-default')} solid ${cssVar('color-border-accent-default')};`};
@@ -255,7 +259,12 @@ export const DiscreetLinkBox = styled(StyledBaseLink)`
     display: block;
   }
 
-  ${({ disabled }) => (disabled ? tw`sw-cursor-default` : '')};
+  ${({ disabled }) =>
+    disabled
+      ? {
+          cursor: 'default',
+        }
+      : ''};
 `;
 LinkBox.displayName = 'DiscreetLinkBox';
 
@@ -272,7 +281,12 @@ export const ContentLink = styled(HoverLink)`
   --color: ${cssVar('color-text-strong')};
   --border: ${cssVar('border-width-default')} solid ${cssVar('color-border-bold')};
 
-  ${({ disabled }) => (disabled ? tw`sw-cursor-default` : '')};
+  ${({ disabled }) =>
+    disabled
+      ? {
+          cursor: 'default',
+        }
+      : ''};
 
   ${({ disabled }) =>
     disabled
@@ -286,8 +300,8 @@ ContentLink.displayName = 'ContentLink';
 /** @deprecated Use either Link or LinkStandalone from Echoes instead.
  */
 export const StandoutLink = styled(StyledBaseLink)`
-  ${tw`sw-font-semibold`}
-  ${tw`sw-no-underline`}
+  font-weight: ${cssVar('font-weight-semi-bold')};
+  text-decoration-line: none;
 
   --color: ${cssVar('color-text-accent')};
   --active: ${cssVar('color-text-link-hover')};
@@ -309,5 +323,5 @@ export const IssueIndicatorLink = styled(BaseLink)`
   color: ${cssVar('color-text-subtle')};
   text-decoration: none;
 
-  ${tw`sw-whitespace-nowrap`}
+  white-space: nowrap;
 `;

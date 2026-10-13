@@ -3,12 +3,12 @@
 exports[`renders with children 1`] = `
 .emotion-0 {
   font: var(--echoes-typography-text-default-regular);
-  padding-left: 0.75rem;
-  padding-right: 0.75rem;
+  padding-left: var(--echoes-dimension-space-150, 0.75rem);
+  padding-right: var(--echoes-dimension-space-150, 0.75rem);
   margin-left: -0.75rem;
   margin-right: -0.75rem;
-  margin-top: 3rem;
-  margin-bottom: 3rem;
+  margin-top: var(--echoes-dimension-space-600, 3rem);
+  margin-bottom: var(--echoes-dimension-space-600, 3rem);
   overflow-x: hidden;
   color: var(--echoes-color-text-default);
 }

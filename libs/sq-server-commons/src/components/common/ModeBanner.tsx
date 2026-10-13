@@ -31,7 +31,6 @@ import {
   cssVar,
 } from '@sonarsource/echoes-react';
 import { useIntl } from 'react-intl';
-import tw from 'twin.macro';
 import { useDismissNotice, useIsNoticeDismissed } from '~adapters/helpers/notices';
 import { useCurrentUser } from '~adapters/helpers/users';
 import { useModeModifiedQuery, useStandardExperienceModeQuery } from '../../queries/mode';
@@ -105,6 +104,7 @@ export default function ModeBanner({ as }: Readonly<Props>) {
 }
 
 const FacetBanner = styled.div`
-  ${tw`sw-p-2 sw-rounded-2`}
+  border-radius: ${cssVar('border-radius-400', '0.5rem')};
+  padding: ${cssVar('dimension-space-100', '0.5rem')};
   background-color: ${cssVar('color-background-accent-weak-default')};
 `;

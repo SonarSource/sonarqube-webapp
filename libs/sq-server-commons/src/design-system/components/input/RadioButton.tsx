@@ -22,7 +22,6 @@ import styled from '@emotion/styled';
 import { cssVar } from '@sonarsource/echoes-react';
 import classNames from 'classnames';
 import React from 'react';
-import tw from 'twin.macro';
 
 type AllowedRadioButtonAttributes = Pick<
   React.InputHTMLAttributes<HTMLInputElement>,
@@ -85,12 +84,13 @@ export function RadioButton({
 }
 
 const LabelStyled = styled.label<{ disabled?: boolean }>`
-  ${tw`sw-flex sw-items-center`}
-  ${tw`sw-cursor-pointer`}
+  display: flex;
+  align-items: center;
+  cursor: pointer;
 
   &.disabled {
     color: ${cssVar('color-text-disabled')};
-    ${tw`sw-cursor-not-allowed`}
+    cursor: not-allowed;
   }
 `;
 
@@ -103,13 +103,17 @@ export const RadioButtonStyled = styled.input`
   appearance: none; //disables native style
   border: ${cssVar('border-width-default')} solid ${cssVar('color-border-bolder')};
 
-  ${tw`sw-cursor-pointer`}
+  cursor: pointer;
 
-  ${tw`sw-w-200 sw-min-w-200 sw-h-400 sw-min-h-400`}
-  ${tw`sw-p-1 sw-mr-2`}
-  ${tw`sw-inline-block`}
-  ${tw`sw-box-border`}
-  ${tw`sw-rounded-pill`}
+  height: ${cssVar('dimension-height-400', '1rem')};
+  min-height: ${cssVar('dimension-height-400', '1rem')};
+  width: ${cssVar('dimension-width-200', '1rem')};
+  min-width: ${cssVar('dimension-width-200', '1rem')};
+  margin-right: ${cssVar('dimension-space-100', '0.5rem')};
+  padding: ${cssVar('dimension-space-50', '0.25rem')};
+  display: inline-block;
+  box-sizing: border-box;
+  border-radius: ${cssVar('border-radius-full', '625rem')};
 
   &:hover {
     background: ${cssVar('color-surface-hover')};

@@ -21,7 +21,6 @@
 import styled from '@emotion/styled';
 import { cssVar } from '@sonarsource/echoes-react';
 import { ReactEventHandler, useState } from 'react';
-import tw from 'twin.macro';
 import { AvatarSize, sizeMap } from '~shared/components/avatar';
 import { GenericAvatar } from './GenericAvatar';
 
@@ -109,10 +108,10 @@ const borderStyle = (border = false) =>
     : undefined;
 
 const StyledAvatar = styled.img`
-  ${tw`sw-inline-flex`};
-  ${tw`sw-items-center`};
-  ${tw`sw-justify-center`};
-  ${tw`sw-align-top`};
-  ${tw`sw-rounded-1`};
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  vertical-align: top;
+  border-radius: ${cssVar('border-radius-200', '0.25rem')};
   background: ${cssVar('color-surface-default')};
 `;

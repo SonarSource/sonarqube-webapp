@@ -20,7 +20,6 @@
 
 import styled from '@emotion/styled';
 import { cssVar } from '@sonarsource/echoes-react';
-import tw from 'twin.macro';
 
 type BadgeVariant = 'default' | 'new' | 'deleted' | 'counter' | 'counterFailed';
 
@@ -61,39 +60,46 @@ export function Badge({ className, children, title, variant = 'default' }: Badge
 const StyledBadge = styled.span<{
   variant: BadgeVariant;
 }>`
-  ${tw`sw-text-[0.75rem]`};
-  ${tw`sw-leading-[0.938rem]`};
-  ${tw`sw-font-semibold`};
-  ${tw`sw-inline-block`};
-  ${tw`sw-whitespace-nowrap`};
-  ${tw`sw-px-[0.125rem] sw-py-[0.03125rem]`};
-  ${tw`sw-rounded-1/2`};
+  font-size: 0.75rem;
+  line-height: 0.938rem;
+  font-weight: ${cssVar('font-weight-semi-bold')};
+  display: inline-block;
+  white-space: nowrap;
+  padding-left: ${cssVar('dimension-space-25', '0.125rem')};
+  padding-right: ${cssVar('dimension-space-25', '0.125rem')};
+  padding-top: 0.03125rem;
+  padding-bottom: 0.03125rem;
+  border-radius: ${cssVar('border-radius-100', '0.125rem')};
 
   ${getBadgeVariantStyles}
 
   text-transform: uppercase;
 
   &:empty {
-    ${tw`sw-hidden`}
+    display: none;
   }
 `;
 
 const StyledCounter = styled.span<{
   variant: BadgeVariant;
 }>`
-  ${tw`sw-min-w-250 sw-min-h-500`};
-  ${tw`sw-text-[0.75rem]`};
-  ${tw`sw-font-regular`};
-  ${tw`sw-box-border sw-px-[5px]`};
-  ${tw`sw-inline-flex`};
-  ${tw`sw-leading-[1.125rem]`};
-  ${tw`sw-items-center sw-justify-center`};
-  ${tw`sw-rounded-pill`};
+  min-height: ${cssVar('dimension-height-500', '1.25rem')};
+  min-width: ${cssVar('dimension-width-250', '1.25rem')};
+  font-size: 0.75rem;
+  font-weight: ${cssVar('font-weight-regular')};
+  box-sizing: border-box;
+  padding-left: 5px;
+  padding-right: 5px;
+  display: inline-flex;
+  line-height: 1.125rem;
+  align-items: center;
+  justify-content: center;
+  border-radius: ${cssVar('border-radius-full', '625rem')};
 
   ${getBadgeVariantStyles}
 
   &:empty {
-    ${tw`sw-hidden`}
+    display: none;
   }
 `;
 

@@ -25,7 +25,6 @@ import { format } from 'date-fns';
 import * as React from 'react';
 import { Matcher, DayPicker as OriginalDayPicker } from 'react-day-picker';
 import 'react-day-picker/style.css';
-import tw from 'twin.macro';
 import { PopupPlacement, PopupZLevel } from '../../helpers';
 import { InputSizeKeys } from '../../types/theme';
 import EscKeydownHandler from '../EscKeydownHandler';
@@ -231,18 +230,20 @@ export class DatePicker extends React.PureComponent<Props, State> {
 }
 
 const StyledInputField = styled(InputField)`
-  ${tw`sw-pl-8`};
-  ${tw`sw-cursor-pointer`};
-  ${tw`sw-w-full`};
+  padding-left: ${cssVar('dimension-space-400', '2rem')};
+  cursor: pointer;
+  width: 100%;
 
   &.is-filled {
-    ${tw`sw-pr-8`};
+    padding-right: ${cssVar('dimension-space-400', '2rem')};
   }
 `;
 
 const StyledInteractiveIcon = styled(InteractiveIcon)`
-  ${tw`sw-absolute`};
-  ${tw`sw-top-1/2 -sw-translate-y-1/2 sw-right-1`};
+  position: absolute;
+  right: ${cssVar('dimension-space-50', '0.25rem')};
+  top: 50%;
+  transform: translateY(-50%);
 `;
 
 const DayPicker = styled(OriginalDayPicker)`

@@ -20,7 +20,6 @@
 
 import styled from '@emotion/styled';
 import { cssVar } from '@sonarsource/echoes-react';
-import tw from 'twin.macro';
 import { Badge } from '../../components/Badge';
 import { getTabId, getTabPanelId } from '../helpers/tabs';
 import { ButtonSecondary } from './buttons';
@@ -94,11 +93,11 @@ export function ToggleButton<T extends ToggleButtonValueType>(props: ButtonToggl
 const Wrapper = styled.div`
   border: ${cssVar('border-width-default')} solid ${cssVar('color-border-bold')};
 
-  ${tw`sw-inline-flex`}
-  ${tw`sw-h-control`}
-  ${tw`sw-box-border`}
-  ${tw`sw-font-semibold`}
-  ${tw`sw-rounded-2`}
+  display: inline-flex;
+  height: ${cssVar('dimension-height-900', '2.25rem')};
+  box-sizing: border-box;
+  font-weight: ${cssVar('font-weight-semi-bold')};
+  border-radius: ${cssVar('border-radius-400', '0.5rem')};
 `;
 
 const OptionButton = styled(ButtonSecondary)<{ selected: boolean }>`
@@ -110,15 +109,19 @@ const OptionButton = styled(ButtonSecondary)<{ selected: boolean }>`
     props.selected ? cssVar('font-weight-semi-bold') : cssVar('font-weight-regular')};
   height: auto;
 
-  ${tw`sw-rounded-0`};
-  ${tw`sw-truncate`};
+  border-radius: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 
   &:first-of-type {
-    ${tw`sw-rounded-l-2`};
+    border-top-left-radius: ${cssVar('border-radius-400', '0.5rem')};
+    border-bottom-left-radius: ${cssVar('border-radius-400', '0.5rem')};
   }
 
   &:last-of-type {
-    ${tw`sw-rounded-r-2`};
+    border-top-right-radius: ${cssVar('border-radius-400', '0.5rem')};
+    border-bottom-right-radius: ${cssVar('border-radius-400', '0.5rem')};
   }
 
   &:not(:last-of-type) {

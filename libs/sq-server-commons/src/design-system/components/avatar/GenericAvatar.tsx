@@ -19,8 +19,8 @@
  */
 
 import styled from '@emotion/styled';
+import { cssVar } from '@sonarsource/echoes-react';
 import React from 'react';
-import tw from 'twin.macro';
 import { AvatarSize, iconSizeMap, sizeMap } from '~shared/components/avatar';
 import { themeAvatarColor } from '~shared/helpers/avatar';
 import { IconProps } from '../icons/Icon';
@@ -60,14 +60,14 @@ export function GenericAvatar({
 }
 
 export const StyledGenericAvatar = styled.div<{ name: string; size: number }>`
-  ${tw`sw-text-center`};
-  ${tw`sw-align-top`};
-  ${tw`sw-select-none`};
-  ${tw`sw-font-regular`};
-  ${tw`sw-rounded-1`};
-  ${tw`sw-inline-flex`};
-  ${tw`sw-items-center`};
-  ${tw`sw-justify-center`};
+  text-align: center;
+  vertical-align: top;
+  user-select: none;
+  font-weight: ${cssVar('font-weight-regular')};
+  border-radius: ${cssVar('border-radius-200', '0.25rem')};
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   height: ${({ size }) => size}px;
   width: ${({ size }) => size}px;
   background-color: ${({ name }) => themeAvatarColor(name)()};

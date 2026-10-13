@@ -27,7 +27,6 @@ import {
   cssVar,
 } from '@sonarsource/echoes-react';
 import classNames from 'classnames';
-import tw from 'twin.macro';
 import { Key } from '../helpers/keyboard';
 
 export const mappedKeys = {
@@ -78,9 +77,12 @@ export function KeyboardHintKeys({ command }: Readonly<KeyboardHintKeysProps>) {
 }
 
 const KeyBox = styled.span`
-  ${tw`sw-flex sw-items-center sw-justify-center`}
-  ${tw`sw-px-1/2`}
-  ${tw`sw-rounded-1/2`}
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-left: ${cssVar('dimension-space-25', '0.125rem')};
+  padding-right: ${cssVar('dimension-space-25', '0.125rem')};
+  border-radius: ${cssVar('border-radius-100', '0.125rem')};
 
   color: ${cssVar('color-text-default')};
   background-color: ${cssVar('color-background-ghost-neutral-active')};

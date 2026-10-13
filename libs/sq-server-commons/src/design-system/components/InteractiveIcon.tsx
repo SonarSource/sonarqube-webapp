@@ -23,7 +23,6 @@ import styled from '@emotion/styled';
 import { cssVar } from '@sonarsource/echoes-react';
 import classNames from 'classnames';
 import React, { ForwardedRef, MouseEvent, forwardRef, useCallback } from 'react';
-import tw from 'twin.macro';
 import { isDefined } from '~shared/helpers/types';
 import { ThemedProps } from '../types/theme';
 import { IconProps } from './icons/Icon';
@@ -101,16 +100,27 @@ const buttonIconStyle = (props: ThemedProps & { size: InteractiveIconSize }) => 
     outline 0.2s ease,
     color 0.2s ease;
 
-  ${tw`sw-inline-flex sw-items-center sw-justify-center`}
-  ${tw`sw-cursor-pointer`}
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
 
   ${
     {
-      small: tw`sw-h-600 sw-px-1 sw-rounded-1/2`,
-      medium: tw`sw-h-control sw-px-[0.625rem] sw-rounded-2`,
+      small: {
+        height: cssVar('dimension-height-600', '1.5rem'),
+        borderRadius: '0.125rem',
+        paddingLeft: '0.25rem',
+        paddingRight: '0.25rem',
+      },
+      medium: {
+        height: '2.25rem',
+        borderRadius: '0.5rem',
+        paddingLeft: '0.625rem',
+        paddingRight: '0.625rem',
+      },
     }[props.size]
   }
-
 
   &:hover,
   &:focus,
@@ -129,7 +139,7 @@ const buttonIconStyle = (props: ThemedProps & { size: InteractiveIconSize }) => 
     color: ${cssVar('color-icon-disabled')};
     background-color: var(--background);
 
-    ${tw`sw-cursor-not-allowed`}
+    cursor: not-allowed;
   }
 `;
 

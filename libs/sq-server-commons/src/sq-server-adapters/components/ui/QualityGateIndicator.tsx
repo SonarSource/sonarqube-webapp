@@ -21,14 +21,13 @@
 import { cssVar } from '@sonarsource/echoes-react';
 import React from 'react';
 import { useIntl } from 'react-intl';
-import { theme as twTheme } from 'twin.macro';
 import { QGStatus, QGStatusExtended } from '~shared/types/common';
 import { BasePlacement } from '../../../design-system';
 
 const SIZE = {
-  sm: twTheme('spacing.4'),
-  md: twTheme('spacing.6'),
-  xl: twTheme('spacing.16'),
+  sm: '1rem',
+  md: '1.5rem',
+  xl: '4rem',
 };
 
 // Used to collapse NONE & NOT_COMPUTED into NONE

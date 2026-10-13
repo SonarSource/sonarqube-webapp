@@ -21,7 +21,6 @@
 import styled from '@emotion/styled';
 import type * as Echoes from '@sonarsource/echoes-react';
 import { cssVar } from '@sonarsource/echoes-react';
-import tw from 'twin.macro';
 
 /**
  * @deprecated Use {@link Echoes.Divider | Divider} from Echoes instead.
@@ -30,9 +29,10 @@ export const BasicSeparator = styled.hr`
   height: 1px;
   background-color: ${cssVar('color-border-weak')};
 
-  ${tw`sw-my-1`}
-  ${tw`sw-overflow-hidden`};
-  ${tw`sw-clear-both`}
+  margin-top: ${cssVar('dimension-space-50', '0.25rem')};
+  margin-bottom: ${cssVar('dimension-space-50', '0.25rem')};
+  overflow: hidden;
+  clear: both;
 `;
 
 export const BlueGreySeparator = styled(BasicSeparator)`

@@ -24,7 +24,6 @@ import { cssVar } from '@sonarsource/echoes-react';
 import classNames from 'classnames';
 import { uniqueId } from 'lodash';
 import React from 'react';
-import tw from 'twin.macro';
 import { BareButton } from '../sonar-aligned/components/buttons';
 import { OpenCloseIndicator } from './icons/OpenCloseIndicator';
 
@@ -83,12 +82,13 @@ const accordionStyle = css`
     outline 0.2s ease;
 
   & > button {
-    ${tw`sw-typo-semibold`}
+    font: ${cssVar('typography-text-default-semi-bold')};
   }
-  ${tw`sw-rounded-2`}
-  ${tw`sw-overflow-hidden`}
+  border-radius: ${cssVar('border-radius-400', '0.5rem')};
+  overflow: hidden;
 
-  & > button:hover, & > button:active {
+  & > button:hover,
+  & > button:active {
     color: ${cssVar('color-text-default')};
     background-color: ${cssVar('color-surface-hover')};
   }
@@ -105,11 +105,11 @@ const accordionStyle = css`
     background-color: ${cssVar('color-surface-disabled')};
     border: ${cssVar('border-width-default')} solid ${cssVar('color-border-disabled')};
 
-    ${tw`sw-cursor-not-allowed`}
+    cursor: not-allowed;
   }
 
   & > svg {
-    ${tw`sw-mr-1`}
+    margin-right: ${cssVar('dimension-space-50', '0.25rem')};
   }
 `;
 

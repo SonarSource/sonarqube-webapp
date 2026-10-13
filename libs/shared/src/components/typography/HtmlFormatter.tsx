@@ -21,7 +21,6 @@
 import styled from '@emotion/styled';
 import { cssVar } from '@sonarsource/echoes-react';
 import React, { ComponentProps } from 'react';
-import tw from 'twin.macro';
 import { SafeHTMLInjection, SanitizeLevel } from '../../helpers/sanitize';
 
 interface HtmlFormatterProps {
@@ -57,12 +56,12 @@ export const HtmlFormatter = React.forwardRef<
 HtmlFormatter.displayName = 'HtmlFormatter';
 
 const HtmlFormatterStyled = styled.div<HtmlFormatterProps>`
-  ${tw`sw-typo-default`}
+  font: ${cssVar('typography-text-default-regular')};
 
   a {
     color: ${cssVar('color-text-accent')};
     text-decoration-line: ${cssVar('text-decoration-underline')};
-    ${tw`sw-typo-semibold`};
+    font: ${cssVar('typography-text-default-semi-bold')};
 
     &:visited {
       color: ${cssVar('color-text-accent')};
@@ -82,13 +81,14 @@ const HtmlFormatterStyled = styled.div<HtmlFormatterProps>`
   blockquote,
   table {
     color: ${cssVar('color-text-default')};
-    ${tw`sw-mb-4`}
+    margin-bottom: ${cssVar('dimension-space-200', '1rem')};
     text-wrap: auto;
   }
 
   blockquote {
-    ${tw`sw-typo-default`}
-    ${tw`sw-px-4`}
+    font: ${cssVar('typography-text-default-regular')};
+    padding-left: ${cssVar('dimension-space-200', '1rem')};
+    padding-right: ${cssVar('dimension-space-200', '1rem')};
     border-left: ${cssVar('border-width-default')} solid ${cssVar('color-border-weak')};
 
     cite {
@@ -99,8 +99,10 @@ const HtmlFormatterStyled = styled.div<HtmlFormatterProps>`
   h1 {
     color: ${cssVar('color-text-default')};
 
-    ${tw`sw-heading-xl`}
-    ${tw`sw-my-6`}
+    font: ${cssVar('typography-heading-xlarge')};
+    letter-spacing: ${cssVar('letter-spacing-decreased')};
+    margin-top: ${cssVar('dimension-space-300', '1.5rem')};
+    margin-bottom: ${cssVar('dimension-space-300', '1.5rem')};
   }
 
   h2,
@@ -108,8 +110,17 @@ const HtmlFormatterStyled = styled.div<HtmlFormatterProps>`
     color: ${(props) =>
       props.isLegacyFormat ? cssVar('color-text-default') : cssVar('color-text-strong')};
 
-    ${(props) => (props.isLegacyFormat ? tw`sw-typo-lg-semibold` : tw`sw-heading-lg`)}
-    ${tw`sw-my-6`}
+    ${(props) =>
+      props.isLegacyFormat
+        ? {
+            font: cssVar('typography-text-large-semi-bold'),
+          }
+        : {
+            font: cssVar('typography-heading-large'),
+            letterSpacing: cssVar('letter-spacing-decreased'),
+          }}
+    margin-top: ${cssVar('dimension-space-300', '1.5rem')};
+    margin-bottom: ${cssVar('dimension-space-300', '1.5rem')};
   }
 
   h4,
@@ -117,44 +128,51 @@ const HtmlFormatterStyled = styled.div<HtmlFormatterProps>`
   h6 {
     color: ${cssVar('color-text-default')};
 
-    ${tw`sw-typo-lg-semibold`}
-    ${tw`sw-mt-6 sw-mb-2`}
+    font: ${cssVar('typography-text-large-semi-bold')};
+    margin-bottom: ${cssVar('dimension-space-100', '0.5rem')};
+    margin-top: ${cssVar('dimension-space-300', '1.5rem')};
   }
 
   pre,
   code {
     background-color: ${cssVar('color-background-neutral-subtle-default')};
     border: 1px solid ${cssVar('color-border-bold')};
-    ${tw`sw-code`}
+    font: ${cssVar('typography-code-default')};
   }
 
   pre {
-    ${tw`sw-rounded-2`}
-    ${tw`sw-relative`}
-    ${tw`sw-my-2`}
+    border-radius: ${cssVar('border-radius-400', '0.5rem')};
+    position: relative;
+    margin-top: ${cssVar('dimension-space-100', '0.5rem')};
+    margin-bottom: ${cssVar('dimension-space-100', '0.5rem')};
 
-    ${tw`sw-overflow-x-auto`}
-    ${tw`sw-p-6`}
+    overflow-x: auto;
+    padding: ${cssVar('dimension-space-300', '1.5rem')};
   }
 
   code {
-    ${tw`sw-m-0`}
+    margin: 0;
     /* 1px override is needed to prevent overlap of other code "tags" */
-    ${tw`sw-py-[1px] sw-px-1`}
-    ${tw`sw-rounded-1`}
-    ${tw`sw-whitespace-nowrap`}
+    padding-left: ${cssVar('dimension-space-50', '0.25rem')};
+    padding-right: ${cssVar('dimension-space-50', '0.25rem')};
+    padding-top: 1px;
+    padding-bottom: 1px;
+    border-radius: ${cssVar('border-radius-200', '0.25rem')};
+    white-space: nowrap;
   }
 
   pre > code {
-    ${tw`sw-p-0`}
-    ${tw`sw-whitespace-pre`}
+    padding: 0;
+    white-space: pre;
     border: none;
     background-color: transparent;
   }
 
   ul {
-    ${tw`sw-pl-6`}
-    ${tw`sw-flex sw-flex-col sw-gap-2`}
+    padding-left: ${cssVar('dimension-space-300', '1.5rem')};
+    display: flex;
+    flex-direction: column;
+    gap: ${cssVar('dimension-space-100', '0.5rem')};
     list-style-type: disc;
 
     li::marker {
@@ -163,30 +181,39 @@ const HtmlFormatterStyled = styled.div<HtmlFormatterProps>`
   }
 
   li > ul {
-    ${tw`sw-my-2 sw-mx-0`}
+    margin-left: 0;
+    margin-right: 0;
+    margin-top: ${cssVar('dimension-space-100', '0.5rem')};
+    margin-bottom: ${cssVar('dimension-space-100', '0.5rem')};
   }
 
   ol {
-    ${tw`sw-pl-10`};
+    padding-left: ${cssVar('dimension-space-500', '2.5rem')};
     list-style-type: decimal;
   }
 
   table {
-    ${tw`sw-min-w-[50%]`}
-    border:  ${cssVar('border-width-default')} solid ${cssVar('color-border-bold')};
+    min-width: 50%;
+    border: ${cssVar('border-width-default')} solid ${cssVar('color-border-bold')};
     border-collapse: collapse;
   }
 
   th {
-    ${tw`sw-py-1 sw-px-3`}
-    ${tw`sw-typo-semibold`}
-    ${tw`sw-text-center`}
+    padding-left: ${cssVar('dimension-space-150', '0.75rem')};
+    padding-right: ${cssVar('dimension-space-150', '0.75rem')};
+    padding-top: ${cssVar('dimension-space-50', '0.25rem')};
+    padding-bottom: ${cssVar('dimension-space-50', '0.25rem')};
+    font: ${cssVar('typography-text-default-semi-bold')};
+    text-align: center;
     background-color: ${cssVar('color-background-neutral-subtle-default')};
     border: ${cssVar('border-width-default')} solid ${cssVar('color-border-bold')};
   }
 
   td {
-    ${tw`sw-py-1 sw-px-3`}
-    border:  ${cssVar('border-width-default')} solid ${cssVar('color-border-bold')};
+    padding-left: ${cssVar('dimension-space-150', '0.75rem')};
+    padding-right: ${cssVar('dimension-space-150', '0.75rem')};
+    padding-top: ${cssVar('dimension-space-50', '0.25rem')};
+    padding-bottom: ${cssVar('dimension-space-50', '0.25rem')};
+    border: ${cssVar('border-width-default')} solid ${cssVar('color-border-bold')};
   }
 `;

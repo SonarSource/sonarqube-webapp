@@ -23,7 +23,6 @@ import { cssVar, Text } from '@sonarsource/echoes-react';
 import classNames from 'classnames';
 import { uniqueId } from 'lodash';
 import React, { ReactNode } from 'react';
-import tw from 'twin.macro';
 import { BareButton } from '../sonar-aligned/components/buttons';
 import { OpenCloseIndicator } from './icons';
 
@@ -101,8 +100,11 @@ const AccordionTitle = styled.span`
   vertical-align: middle;
   transition: color 0.3s ease;
 
-  ${tw`sw-select-none`}
-  ${tw`sw-pt-4 sw-px-page sw-pb-2`}
+  user-select: none;
+  padding-left: ${cssVar('dimension-space-250', '1.25rem')};
+  padding-right: ${cssVar('dimension-space-250', '1.25rem')};
+  padding-bottom: ${cssVar('dimension-space-100', '0.5rem')};
+  padding-top: ${cssVar('dimension-space-200', '1rem')};
 
   &:hover {
     color: ${cssVar('color-text-accent')};
@@ -110,5 +112,5 @@ const AccordionTitle = styled.span`
 `;
 
 const AccordionContent = styled.div`
-  ${tw`sw-pl-10`}
+  padding-left: ${cssVar('dimension-space-500', '2.5rem')};
 `;

@@ -22,7 +22,6 @@ import styled from '@emotion/styled';
 import { cssVar } from '@sonarsource/echoes-react';
 import classNames from 'classnames';
 import { ReactNode } from 'react';
-import tw from 'twin.macro';
 
 interface Props {
   children: ReactNode;
@@ -44,11 +43,14 @@ export function ModalBody({ children, isScrollable = true, isOverflowVisible = f
 }
 
 const StyledMain = styled.div`
-  ${tw`sw-typo-default`}
-  ${tw`sw-px-3`} // to accomodate a possible scrollbar
-  ${tw`sw--mx-3`}
-  ${tw`sw-my-12`}
-  ${tw`sw-overflow-x-hidden`}
+  font: ${cssVar('typography-text-default-regular')};
+  padding-left: ${cssVar('dimension-space-150', '0.75rem')};
+  padding-right: ${cssVar('dimension-space-150', '0.75rem')}; // to accomodate a possible scrollbar
+  margin-left: -0.75rem;
+  margin-right: -0.75rem;
+  margin-top: ${cssVar('dimension-space-600', '3rem')};
+  margin-bottom: ${cssVar('dimension-space-600', '3rem')};
+  overflow-x: hidden;
 
   color: ${cssVar('color-text-default')};
 

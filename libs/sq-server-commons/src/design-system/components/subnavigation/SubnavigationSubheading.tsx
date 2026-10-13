@@ -20,14 +20,16 @@
 
 import styled from '@emotion/styled';
 import { cssVar } from '@sonarsource/echoes-react';
-import tw from 'twin.macro';
 
 export const SubnavigationSubheading = styled.h3`
-  ${tw`sw-flex`}
-  ${tw`sw-box-border`}
-  ${tw`sw-typo-default`}
-  ${tw`sw-px-4 sw-pt-6 sw-pb-2`}
-  ${tw`sw-w-full`}
+  display: flex;
+  box-sizing: border-box;
+  font: ${cssVar('typography-text-default-regular')};
+  padding-left: ${cssVar('dimension-space-200', '1rem')};
+  padding-right: ${cssVar('dimension-space-200', '1rem')};
+  padding-bottom: ${cssVar('dimension-space-100', '0.5rem')};
+  padding-top: ${cssVar('dimension-space-300', '1.5rem')};
+  width: 100%;
 
   color: ${cssVar('color-text-subtle')};
   background-color: ${cssVar('color-background-neutral-subtle-default')};

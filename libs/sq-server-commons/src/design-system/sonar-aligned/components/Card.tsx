@@ -21,7 +21,6 @@
 import styled from '@emotion/styled';
 import { cssVar } from '@sonarsource/echoes-react';
 import * as React from 'react';
-import tw from 'twin.macro';
 import { BasicSeparator } from '../../components/Separator';
 
 interface CardProps extends React.HTMLAttributes<HTMLDivElement> {
@@ -79,8 +78,8 @@ const CardStyled = styled.div`
   background-color: ${cssVar('color-surface-default')};
   border: ${cssVar('border-width-default')} solid ${cssVar('color-border-weak')};
 
-  ${tw`sw-p-6`};
-  ${tw`sw-rounded-1`};
+  padding: ${cssVar('dimension-space-300', '1.5rem')};
+  border-radius: ${cssVar('border-radius-200', '0.25rem')};
 `;
 
 const LightGreyCardStyled = styled(CardStyled)`
@@ -92,7 +91,7 @@ const GreyCardStyled = styled(CardStyled)`
 `;
 
 const BlueCard = styled.div`
-  ${tw`sw-rounded-1`};
+  border-radius: ${cssVar('border-radius-200', '0.25rem')};
   border: 1px solid ${cssVar('color-border-weak')};
   background: ${cssVar('color-background-info-weak-default')};
 `;

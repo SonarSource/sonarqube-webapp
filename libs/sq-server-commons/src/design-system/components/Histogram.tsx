@@ -24,7 +24,6 @@ import { cssVar, Tooltip, TooltipSide } from '@sonarsource/echoes-react';
 import { max } from 'd3-array';
 import { scaleBand, ScaleBand, scaleLinear, ScaleLinear } from 'd3-scale';
 import React from 'react';
-import tw from 'twin.macro';
 
 interface Props {
   bars: number[];
@@ -141,7 +140,7 @@ export class Histogram extends React.PureComponent<Props> {
 }
 
 const HistogramTick = styled.text`
-  ${tw`sw-typo-default`}
+  font: ${cssVar('typography-text-default-regular')};
   fill: ${cssVar('color-text-subtle')};
 `;
 

@@ -21,7 +21,6 @@
 import styled from '@emotion/styled';
 import { cssVar, Label, Text } from '@sonarsource/echoes-react';
 import { ReactNode } from 'react';
-import tw from 'twin.macro';
 import { RequiredIcon } from '../icons';
 
 interface Props {
@@ -89,9 +88,11 @@ const StyledLabel = styled(Label)<{ disabled?: boolean }>`
 `;
 
 const FieldWrapper = styled.div`
-  ${tw`sw-flex sw-flex-col sw-w-full`}
+  display: flex;
+  width: 100%;
+  flex-direction: column;
 
   &:not(:last-of-type) {
-    ${tw`sw-mb-6`}
+    margin-bottom: ${cssVar('dimension-space-300', '1.5rem')};
   }
 `;

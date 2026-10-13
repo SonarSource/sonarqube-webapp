@@ -4,16 +4,16 @@ exports[`should highlight code content correctly 1`] = `
 .emotion-0 {
   background-color: var(--echoes-color-code-background-default);
   border: var(--echoes-border-width-default) solid var(--echoes-color-code-border-default);
-  border-radius: 0.5rem;
+  border-radius: var(--echoes-border-radius-400, 0.5rem);
   position: relative;
-  margin-top: 0.5rem;
-  margin-bottom: 0.5rem;
+  margin-top: var(--echoes-dimension-space-100, 0.5rem);
+  margin-bottom: var(--echoes-dimension-space-100, 0.5rem);
 }
 
 .emotion-0.code-snippet-simple-oneline {
   margin-top: 0;
   margin-bottom: 0;
-  border-radius: 0.25rem;
+  border-radius: var(--echoes-border-radius-200, 0.25rem);
 }
 
 .emotion-3 {
@@ -56,8 +56,8 @@ exports[`should highlight code content correctly 1`] = `
   -ms-user-select: none;
   user-select: none;
   font: var(--echoes-typography-text-default-regular);
-  right: 1.5rem;
-  top: 1.5rem;
+  right: var(--echoes-dimension-space-300, 1.5rem);
+  top: var(--echoes-dimension-space-300, 1.5rem);
   position: absolute;
 }
 
@@ -93,7 +93,7 @@ exports[`should highlight code content correctly 1`] = `
 }
 
 .code-snippet-highlighted-oneline .emotion-3 {
-  bottom: 0.5rem;
+  bottom: var(--echoes-dimension-space-100, 0.5rem);
 }
 
 .emotion-5 {
@@ -200,9 +200,9 @@ exports[`should highlight code content correctly 1`] = `
 }
 
 .emotion-11 mark {
-  font-weight: 400;
-  padding: 0.25rem;
-  border-radius: 0.25rem;
+  font-weight: var(--echoes-font-weight-regular);
+  padding: var(--echoes-dimension-space-50, 0.25rem);
+  border-radius: var(--echoes-border-radius-200, 0.25rem);
   background-color: var(--echoes-color-code-background-highlight);
   color: var(--echoes-color-code-text-highlight);
 }
@@ -254,16 +254,16 @@ exports[`should show full size when multiline with no editing 1`] = `
 .emotion-0 {
   background-color: var(--echoes-color-code-background-default);
   border: var(--echoes-border-width-default) solid var(--echoes-color-code-border-default);
-  border-radius: 0.5rem;
+  border-radius: var(--echoes-border-radius-400, 0.5rem);
   position: relative;
-  margin-top: 0.5rem;
-  margin-bottom: 0.5rem;
+  margin-top: var(--echoes-dimension-space-100, 0.5rem);
+  margin-bottom: var(--echoes-dimension-space-100, 0.5rem);
 }
 
 .emotion-0.code-snippet-simple-oneline {
   margin-top: 0;
   margin-bottom: 0;
-  border-radius: 0.25rem;
+  border-radius: var(--echoes-border-radius-200, 0.25rem);
 }
 
 .emotion-3 {
@@ -306,8 +306,8 @@ exports[`should show full size when multiline with no editing 1`] = `
   -ms-user-select: none;
   user-select: none;
   font: var(--echoes-typography-text-default-regular);
-  right: 1.5rem;
-  top: 1.5rem;
+  right: var(--echoes-dimension-space-300, 1.5rem);
+  top: var(--echoes-dimension-space-300, 1.5rem);
   position: absolute;
 }
 
@@ -343,7 +343,7 @@ exports[`should show full size when multiline with no editing 1`] = `
 }
 
 .code-snippet-highlighted-oneline .emotion-3 {
-  bottom: 0.5rem;
+  bottom: var(--echoes-dimension-space-100, 0.5rem);
 }
 
 .emotion-5 {
@@ -450,9 +450,9 @@ exports[`should show full size when multiline with no editing 1`] = `
 }
 
 .emotion-11 mark {
-  font-weight: 400;
-  padding: 0.25rem;
-  border-radius: 0.25rem;
+  font-weight: var(--echoes-font-weight-regular);
+  padding: var(--echoes-dimension-space-50, 0.25rem);
+  border-radius: var(--echoes-border-radius-200, 0.25rem);
   background-color: var(--echoes-color-code-background-highlight);
   color: var(--echoes-color-code-text-highlight);
 }
@@ -505,16 +505,16 @@ exports[`should show reduced size when single line with no editing 1`] = `
 .emotion-0 {
   background-color: var(--echoes-color-code-background-default);
   border: var(--echoes-border-width-default) solid var(--echoes-color-code-border-default);
-  border-radius: 0.5rem;
+  border-radius: var(--echoes-border-radius-400, 0.5rem);
   position: relative;
-  margin-top: 0.5rem;
-  margin-bottom: 0.5rem;
+  margin-top: var(--echoes-dimension-space-100, 0.5rem);
+  margin-bottom: var(--echoes-dimension-space-100, 0.5rem);
 }
 
 .emotion-0.code-snippet-simple-oneline {
   margin-top: 0;
   margin-bottom: 0;
-  border-radius: 0.25rem;
+  border-radius: var(--echoes-border-radius-200, 0.25rem);
 }
 
 .emotion-3 {
@@ -557,11 +557,11 @@ exports[`should show reduced size when single line with no editing 1`] = `
   -ms-user-select: none;
   user-select: none;
   font: var(--echoes-typography-text-default-regular);
-  right: 1.5rem;
-  top: 1.5rem;
+  right: var(--echoes-dimension-space-300, 1.5rem);
+  top: var(--echoes-dimension-space-300, 1.5rem);
   position: absolute;
-  bottom: 1rem;
-  top: 1rem;
+  bottom: var(--echoes-dimension-space-200, 1rem);
+  top: var(--echoes-dimension-space-200, 1rem);
 }
 
 .emotion-3:focus,
@@ -596,7 +596,7 @@ exports[`should show reduced size when single line with no editing 1`] = `
 }
 
 .code-snippet-highlighted-oneline .emotion-3 {
-  bottom: 0.5rem;
+  bottom: var(--echoes-dimension-space-100, 0.5rem);
 }
 
 .emotion-5 {
@@ -703,9 +703,9 @@ exports[`should show reduced size when single line with no editing 1`] = `
 }
 
 .emotion-11 mark {
-  font-weight: 400;
-  padding: 0.25rem;
-  border-radius: 0.25rem;
+  font-weight: var(--echoes-font-weight-regular);
+  padding: var(--echoes-dimension-space-50, 0.25rem);
+  border-radius: var(--echoes-border-radius-200, 0.25rem);
   background-color: var(--echoes-color-code-background-highlight);
   color: var(--echoes-color-code-text-highlight);
 }

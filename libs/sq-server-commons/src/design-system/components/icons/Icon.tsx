@@ -20,7 +20,6 @@
 
 import { OcticonProps } from '@primer/octicons-react';
 import React from 'react';
-import { theme } from 'twin.macro';
 import { CSSColor } from '../../types/theme';
 
 interface Props {
@@ -76,7 +75,7 @@ export function CustomIcon(props: Props) {
       aria-label={ariaLabel}
       className={className}
       fill="none"
-      height={convertRemToPixel(theme('height.icon'))}
+      height={convertRemToPixel('1rem')}
       role="img"
       style={{
         clipRule: 'evenodd',
@@ -89,7 +88,7 @@ export function CustomIcon(props: Props) {
       }}
       version="1.1"
       viewBox="0 0 16 16"
-      width={convertRemToPixel(theme('width.icon'))}
+      width={convertRemToPixel('1rem')}
       xmlSpace="preserve"
       xmlnsXlink="http://www.w3.org/1999/xlink"
       {...iconProps}

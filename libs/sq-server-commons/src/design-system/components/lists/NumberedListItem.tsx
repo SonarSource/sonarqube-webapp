@@ -20,12 +20,11 @@
 
 import styled from '@emotion/styled';
 import { cssVar } from '@sonarsource/echoes-react';
-import tw from 'twin.macro';
 
 export const NumberedListItem = styled.li`
   counter-increment: li;
-  ${tw`sw-mb-4`}
-  ${tw`sw-ml-1`}
+  margin-bottom: ${cssVar('dimension-space-200', '1rem')};
+  margin-left: ${cssVar('dimension-space-50', '0.25rem')};
 
   &::before {
     width: 19px;
@@ -35,11 +34,11 @@ export const NumberedListItem = styled.li`
     border-radius: 20px;
     content: counter(li);
 
-    ${tw`sw-typo-semibold`}
-    ${tw`sw-p-1`}
-    ${tw`sw-mr-3`}
-    ${tw`sw-inline-block`}
-    ${tw`sw-text-center`}
+    font: ${cssVar('typography-text-default-semi-bold')};
+    padding: ${cssVar('dimension-space-50', '0.25rem')};
+    margin-right: ${cssVar('dimension-space-150', '0.75rem')};
+    display: inline-block;
+    text-align: center;
   }
 `;
 

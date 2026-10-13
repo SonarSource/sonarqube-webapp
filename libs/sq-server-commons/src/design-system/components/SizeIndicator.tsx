@@ -21,7 +21,6 @@
 import styled from '@emotion/styled';
 import { cssVar } from '@sonarsource/echoes-react';
 import { inRange } from 'lodash';
-import tw from 'twin.macro';
 import { getProp } from '../helpers/theme';
 import { SizeLabel } from '../types/measures';
 
@@ -71,8 +70,10 @@ const StyledContainer = styled.div<{ size: string }>`
   color: ${cssVar('color-text-on-color')};
   background-color: ${cssVar('color-background-info-default')};
 
-  ${tw`sw-inline-flex sw-items-center sw-justify-center`};
-  ${tw`sw-leading-4`};
-  ${tw`sw-rounded-pill`};
-  ${tw`sw-font-semibold`};
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1rem;
+  border-radius: ${cssVar('border-radius-full', '625rem')};
+  font-weight: ${cssVar('font-weight-semi-bold')};
 `;

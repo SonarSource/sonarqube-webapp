@@ -22,7 +22,6 @@ import styled from '@emotion/styled';
 import { cssVar } from '@sonarsource/echoes-react';
 import { scaleLinear } from 'd3-scale';
 import React from 'react';
-import tw from 'twin.macro';
 import { BasePlacement, PopupPlacement } from '../helpers/positioning';
 import { Tooltip } from './Tooltip';
 
@@ -108,41 +107,53 @@ export function TreeMapRect(props: Props) {
 }
 
 const StyledCell = styled.li`
-  ${tw`sw-absolute`};
-  ${tw`sw-box-border`};
+  position: absolute;
+  box-sizing: border-box;
 
   border-right: 1px solid #fff;
   border-bottom: 1px solid #fff;
 `;
 
 const StyledCellLink = styled.a`
-  ${tw`sw-w-full sw-h-full`};
-  ${tw`sw-border-0`};
-  ${tw`sw-flex sw-flex-col sw-items-center sw-justify-center`};
+  height: 100%;
+  width: 100%;
+  border-width: 0px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 
   color: ${cssVar('color-text-default')};
 
   &:hover,
   &:active,
   &:focus {
-    ${tw`sw-border-0`};
+    border-width: 0px;
     outline: none;
   }
 
   &:focus .treemap-text,
   &:hover .treemap-text {
-    ${tw`sw-underline`};
+    text-decoration-line: underline;
   }
 `;
 
 const StyledCellLabel = styled.div<{ width: number }>`
-  ${tw`sw-flex sw-flex-wrap sw-justify-center sw-items-center sw-gap-2`};
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: ${cssVar('dimension-space-100', '0.5rem')};
 
   line-height: 1.2;
   max-width: ${({ width }) => width}px;
 
   .treemap-text {
-    ${tw`sw-shrink sw-overflow-hidden sw-whitespace-nowrap sw-text-left sw-text-ellipsis`};
+    flex-shrink: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    text-align: left;
   }
 `;
 

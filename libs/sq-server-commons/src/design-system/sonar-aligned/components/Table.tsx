@@ -23,7 +23,6 @@ import { cssVar } from '@sonarsource/echoes-react';
 import classNames from 'classnames';
 import { isNumber, times } from 'lodash';
 import { ComponentProps, ReactNode, createContext, useContext } from 'react';
-import tw from 'twin.macro';
 import { FCProps } from '../../../types/misc';
 
 interface TableBaseProps extends ComponentProps<'table'> {
@@ -103,7 +102,7 @@ export function Table(props: Readonly<TableProps>) {
 }
 
 export const TableSeparator = styled.tr`
-  ${tw`sw-h-400`}
+  height: ${cssVar('dimension-height-400', '1rem')};
   border-top: ${cssVar('border-width-default')} solid ${cssVar('color-border-weak')};
 `;
 
@@ -114,7 +113,7 @@ export const TableRow = styled.tr`
   }
 
   .no-header-top-border & th {
-    ${tw`sw-border-t-0`}
+    border-top-width: 0px;
   }
 
   td:first-of-type,
@@ -128,12 +127,12 @@ export const TableRow = styled.tr`
   .no-side-padding & {
     td:first-of-type,
     th:first-of-type {
-      ${tw`sw-pl-0`}
+      padding-left: 0;
     }
 
     td:last-child,
     th:last-child {
-      ${tw`sw-pr-0`}
+      padding-right: 0;
     }
   }
 
@@ -273,13 +272,13 @@ const StyledTable = styled.table<{ gridTemplate?: string }>`
   &.with-rounded-border {
     border-collapse: separate;
     border: ${cssVar('border-width-default')} solid ${cssVar('color-border-weak')};
-    ${tw`sw-rounded-1`};
+    border-radius: ${cssVar('border-radius-200', '0.25rem')};
 
     th:first-of-type {
-      ${tw`sw-rounded-tl-1`};
+      border-top-left-radius: ${cssVar('border-radius-200', '0.25rem')};
     }
     th:last-of-type {
-      ${tw`sw-rounded-tr-1`};
+      border-top-right-radius: ${cssVar('border-radius-200', '0.25rem')};
     }
 
     tr:last-child > td {
@@ -290,14 +289,17 @@ const StyledTable = styled.table<{ gridTemplate?: string }>`
 
 const CellComponentStyled = styled.td`
   color: ${cssVar('color-text-default')};
-  ${tw`sw-items-center`}
-  ${tw`sw-typo-default`}
-  ${tw`sw-py-4 sw-px-2`}
-  ${tw`sw-align-middle`}
+  align-items: center;
+  font: ${cssVar('typography-text-default-regular')};
+  padding-left: ${cssVar('dimension-space-100', '0.5rem')};
+  padding-right: ${cssVar('dimension-space-100', '0.5rem')};
+  padding-top: ${cssVar('dimension-space-200', '1rem')};
+  padding-bottom: ${cssVar('dimension-space-200', '1rem')};
+  vertical-align: middle;
 
   thead > tr > & {
     color: ${cssVar('color-text-strong')};
 
-    ${tw`sw-typo-semibold`}
+    font: ${cssVar('typography-text-default-semi-bold')};
   }
 `;

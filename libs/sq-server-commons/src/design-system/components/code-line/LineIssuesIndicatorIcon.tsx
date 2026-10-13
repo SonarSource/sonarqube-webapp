@@ -19,8 +19,8 @@
  */
 
 import styled from '@emotion/styled';
+import { cssVar } from '@sonarsource/echoes-react';
 import { memo } from 'react';
-import tw from 'twin.macro';
 import { DotFillIcon } from '../icons';
 
 interface Props {
@@ -42,6 +42,6 @@ const IssueIndicatorCounter = styled.span`
   font-size: 0.5rem;
   line-height: 0.5rem;
 
-  ${tw`sw-ml-1/2`}
-  ${tw`sw-align-top`}
+  margin-left: ${cssVar('dimension-space-25', '0.125rem')};
+  vertical-align: top;
 `;

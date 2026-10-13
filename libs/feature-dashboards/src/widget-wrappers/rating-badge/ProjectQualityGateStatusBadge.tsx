@@ -19,9 +19,8 @@
  */
 
 import styled from '@emotion/styled';
-import { LinkStandalone, Spinner, Text } from '@sonarsource/echoes-react';
+import { cssVar, LinkStandalone, Spinner, Text } from '@sonarsource/echoes-react';
 import { FormattedMessage, useIntl } from 'react-intl';
-import tw from 'twin.macro';
 import { QualityGateIndicator } from '~adapters/components/ui/QualityGateIndicator';
 import { formatDashboardMeasure } from '~adapters/helpers/dashboard-measures';
 import { getProjectDashboardSummaryUrl } from '~adapters/helpers/dashboard-widget-urls';
@@ -161,7 +160,11 @@ export function ProjectQualityGateStatusBadge({
 }
 
 const ConditionLink = styled(LinkStandalone)`
-  ${tw`sw-no-underline hover:sw-underline sw-font-regular`};
+  font-weight: ${cssVar('font-weight-regular')};
+  text-decoration-line: none;
+  &:hover {
+    text-decoration-line: underline;
+  }
 
   &,
   &:visited,

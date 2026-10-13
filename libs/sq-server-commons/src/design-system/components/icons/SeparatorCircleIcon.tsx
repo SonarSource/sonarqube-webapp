@@ -20,11 +20,10 @@
 
 import styled from '@emotion/styled';
 import { cssVar } from '@sonarsource/echoes-react';
-import tw from 'twin.macro';
 
 export const SeparatorCircleIcon = styled.div`
-  ${tw`sw-inline-block`}
-  ${tw`sw-rounded-1`}
+  display: inline-block;
+  border-radius: ${cssVar('border-radius-200', '0.25rem')};
 
   background-color: ${cssVar('color-border-bold')};
   border: ${cssVar('border-width-default')} solid ${cssVar('color-border-bold')};

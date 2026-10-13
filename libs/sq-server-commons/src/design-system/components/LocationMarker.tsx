@@ -19,9 +19,9 @@
  */
 
 import styled from '@emotion/styled';
+import { cssVar } from '@sonarsource/echoes-react';
 import classNames from 'classnames';
 import { forwardRef, LegacyRef } from 'react';
-import tw from 'twin.macro';
 import { isDefined } from '~shared/helpers/types';
 import { IssueLocationIcon } from './icons/IssueLocationIcon';
 
@@ -54,9 +54,12 @@ function InternalLocationMarker(
 export const LocationMarker = forwardRef<HTMLDivElement, Props>(InternalLocationMarker);
 
 export const StyledMarker = styled.div`
-  ${tw`sw-flex sw-grow-0 sw-items-center sw-justify-center`}
-  ${tw`sw-typo-semibold`}
-  ${tw`sw-rounded-1/2`}
+  display: flex;
+  flex-grow: 0;
+  align-items: center;
+  justify-content: center;
+  font: ${cssVar('typography-text-default-semi-bold')};
+  border-radius: ${cssVar('border-radius-100', '0.125rem')};
 
   height: 1.125rem;
   color: var(--code-viewer-location-marker-text);
@@ -68,7 +71,8 @@ export const StyledMarker = styled.div`
   }
 
   &:not(.concealed) {
-    ${tw`sw-px-1`}
-    ${tw`sw-self-start`}
+    padding-left: ${cssVar('dimension-space-50', '0.25rem')};
+    padding-right: ${cssVar('dimension-space-50', '0.25rem')};
+    align-self: flex-start;
   }
 `;

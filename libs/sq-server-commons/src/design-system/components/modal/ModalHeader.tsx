@@ -21,7 +21,6 @@
 import styled from '@emotion/styled';
 import { cssVar } from '@sonarsource/echoes-react';
 import { ReactNode } from 'react';
-import tw from 'twin.macro';
 
 interface Props {
   description?: string | ReactNode;
@@ -38,14 +37,15 @@ export function ModalHeader({ description, title }: Props) {
 }
 
 const Description = styled.p`
-  ${tw`sw-typo-default`}
-  ${tw`sw-mt-2`}
+  font: ${cssVar('typography-text-default-regular')};
+  margin-top: ${cssVar('dimension-space-100', '0.5rem')};
 
   color: ${cssVar('color-text-default')};
 `;
 
 const Title = styled.h2`
-  ${tw`sw-heading-xl`}
+  font: ${cssVar('typography-heading-xlarge')};
+  letter-spacing: ${cssVar('letter-spacing-decreased')};
 
   color: ${cssVar('color-text-strong')};
 `;

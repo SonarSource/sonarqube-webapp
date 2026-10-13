@@ -14,9 +14,9 @@ exports[`should render Alt 1`] = `
   -ms-flex-pack: center;
   -webkit-justify-content: center;
   justify-content: center;
-  padding-left: 0.125rem;
-  padding-right: 0.125rem;
-  border-radius: 0.125rem;
+  padding-left: var(--echoes-dimension-space-25, 0.125rem);
+  padding-right: var(--echoes-dimension-space-25, 0.125rem);
+  border-radius: var(--echoes-border-radius-100, 0.125rem);
   color: var(--echoes-color-text-default);
   background-color: var(--echoes-color-background-ghost-neutral-active);
 }
@@ -49,9 +49,9 @@ exports[`should render ArrowDown 1`] = `
   -ms-flex-pack: center;
   -webkit-justify-content: center;
   justify-content: center;
-  padding-left: 0.125rem;
-  padding-right: 0.125rem;
-  border-radius: 0.125rem;
+  padding-left: var(--echoes-dimension-space-25, 0.125rem);
+  padding-right: var(--echoes-dimension-space-25, 0.125rem);
+  border-radius: var(--echoes-border-radius-100, 0.125rem);
   color: var(--echoes-color-text-default);
   background-color: var(--echoes-color-background-ghost-neutral-active);
 }
@@ -109,9 +109,9 @@ exports[`should render ArrowLeft 1`] = `
   -ms-flex-pack: center;
   -webkit-justify-content: center;
   justify-content: center;
-  padding-left: 0.125rem;
-  padding-right: 0.125rem;
-  border-radius: 0.125rem;
+  padding-left: var(--echoes-dimension-space-25, 0.125rem);
+  padding-right: var(--echoes-dimension-space-25, 0.125rem);
+  border-radius: var(--echoes-border-radius-100, 0.125rem);
   color: var(--echoes-color-text-default);
   background-color: var(--echoes-color-background-ghost-neutral-active);
 }
@@ -165,9 +165,9 @@ exports[`should render ArrowRight 1`] = `
   -ms-flex-pack: center;
   -webkit-justify-content: center;
   justify-content: center;
-  padding-left: 0.125rem;
-  padding-right: 0.125rem;
-  border-radius: 0.125rem;
+  padding-left: var(--echoes-dimension-space-25, 0.125rem);
+  padding-right: var(--echoes-dimension-space-25, 0.125rem);
+  border-radius: var(--echoes-border-radius-100, 0.125rem);
   color: var(--echoes-color-text-default);
   background-color: var(--echoes-color-background-ghost-neutral-active);
 }
@@ -221,9 +221,9 @@ exports[`should render ArrowUp 1`] = `
   -ms-flex-pack: center;
   -webkit-justify-content: center;
   justify-content: center;
-  padding-left: 0.125rem;
-  padding-right: 0.125rem;
-  border-radius: 0.125rem;
+  padding-left: var(--echoes-dimension-space-25, 0.125rem);
+  padding-right: var(--echoes-dimension-space-25, 0.125rem);
+  border-radius: var(--echoes-border-radius-100, 0.125rem);
   color: var(--echoes-color-text-default);
   background-color: var(--echoes-color-background-ghost-neutral-active);
 }
@@ -281,9 +281,9 @@ exports[`should render Click 1`] = `
   -ms-flex-pack: center;
   -webkit-justify-content: center;
   justify-content: center;
-  padding-left: 0.125rem;
-  padding-right: 0.125rem;
-  border-radius: 0.125rem;
+  padding-left: var(--echoes-dimension-space-25, 0.125rem);
+  padding-right: var(--echoes-dimension-space-25, 0.125rem);
+  border-radius: var(--echoes-border-radius-100, 0.125rem);
   color: var(--echoes-color-text-default);
   background-color: var(--echoes-color-background-ghost-neutral-active);
 }
@@ -316,9 +316,9 @@ exports[`should render Command 1`] = `
   -ms-flex-pack: center;
   -webkit-justify-content: center;
   justify-content: center;
-  padding-left: 0.125rem;
-  padding-right: 0.125rem;
-  border-radius: 0.125rem;
+  padding-left: var(--echoes-dimension-space-25, 0.125rem);
+  padding-right: var(--echoes-dimension-space-25, 0.125rem);
+  border-radius: var(--echoes-border-radius-100, 0.125rem);
   color: var(--echoes-color-text-default);
   background-color: var(--echoes-color-background-ghost-neutral-active);
 }
@@ -351,9 +351,9 @@ exports[`should render Control 1`] = `
   -ms-flex-pack: center;
   -webkit-justify-content: center;
   justify-content: center;
-  padding-left: 0.125rem;
-  padding-right: 0.125rem;
-  border-radius: 0.125rem;
+  padding-left: var(--echoes-dimension-space-25, 0.125rem);
+  padding-right: var(--echoes-dimension-space-25, 0.125rem);
+  border-radius: var(--echoes-border-radius-100, 0.125rem);
   color: var(--echoes-color-text-default);
   background-color: var(--echoes-color-background-ghost-neutral-active);
 }
@@ -386,9 +386,9 @@ exports[`should render Option 1`] = `
   -ms-flex-pack: center;
   -webkit-justify-content: center;
   justify-content: center;
-  padding-left: 0.125rem;
-  padding-right: 0.125rem;
-  border-radius: 0.125rem;
+  padding-left: var(--echoes-dimension-space-25, 0.125rem);
+  padding-right: var(--echoes-dimension-space-25, 0.125rem);
+  border-radius: var(--echoes-border-radius-100, 0.125rem);
   color: var(--echoes-color-text-default);
   background-color: var(--echoes-color-background-ghost-neutral-active);
 }
@@ -421,9 +421,9 @@ exports[`should render a default text if no keys match 1`] = `
   -ms-flex-pack: center;
   -webkit-justify-content: center;
   justify-content: center;
-  padding-left: 0.125rem;
-  padding-right: 0.125rem;
-  border-radius: 0.125rem;
+  padding-left: var(--echoes-dimension-space-25, 0.125rem);
+  padding-right: var(--echoes-dimension-space-25, 0.125rem);
+  border-radius: var(--echoes-border-radius-100, 0.125rem);
   color: var(--echoes-color-text-default);
   background-color: var(--echoes-color-background-ghost-neutral-active);
 }
@@ -464,9 +464,9 @@ exports[`should render multiple keys 1`] = `
   -ms-flex-pack: center;
   -webkit-justify-content: center;
   justify-content: center;
-  padding-left: 0.125rem;
-  padding-right: 0.125rem;
-  border-radius: 0.125rem;
+  padding-left: var(--echoes-dimension-space-25, 0.125rem);
+  padding-right: var(--echoes-dimension-space-25, 0.125rem);
+  border-radius: var(--echoes-border-radius-100, 0.125rem);
   color: var(--echoes-color-text-default);
   background-color: var(--echoes-color-background-ghost-neutral-active);
 }
@@ -567,9 +567,9 @@ exports[`should render multiple keys with non-key symbols 1`] = `
   -ms-flex-pack: center;
   -webkit-justify-content: center;
   justify-content: center;
-  padding-left: 0.125rem;
-  padding-right: 0.125rem;
-  border-radius: 0.125rem;
+  padding-left: var(--echoes-dimension-space-25, 0.125rem);
+  padding-right: var(--echoes-dimension-space-25, 0.125rem);
+  border-radius: var(--echoes-border-radius-100, 0.125rem);
   color: var(--echoes-color-text-default);
   background-color: var(--echoes-color-background-ghost-neutral-active);
 }

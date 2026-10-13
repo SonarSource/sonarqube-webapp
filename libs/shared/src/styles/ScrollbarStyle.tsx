@@ -20,7 +20,6 @@
 
 import { css, Global } from '@emotion/react';
 import { cssVar, Theme } from '@sonarsource/echoes-react';
-import tw from 'twin.macro';
 import { useCurrentTheme } from '../helpers/css';
 
 export default function ScrollbarStyle() {
@@ -53,7 +52,7 @@ export const scrollbarStyle = (props: { theme: `${Theme}` }) => css`
   }
 
   ::-webkit-scrollbar-thumb {
-    ${tw`sw-rounded-pill`};
+    border-radius: ${cssVar('border-radius-full', '625rem')};
     background: ${cssVar('color-background-neutral-bolder-default')};
     background-clip: content-box;
     border: 3px solid transparent;

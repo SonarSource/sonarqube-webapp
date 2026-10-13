@@ -20,7 +20,6 @@
 
 import styled from '@emotion/styled';
 import { cssVar } from '@sonarsource/echoes-react';
-import tw from 'twin.macro';
 import { BaseLink } from './Link';
 import { LocationMarker, StyledMarker } from './LocationMarker';
 
@@ -48,9 +47,13 @@ export function FlowStep(props: Props) {
 }
 
 const StyledLink = styled(BaseLink)`
-  ${tw`sw-p-1 sw-rounded-1/2`}
-  ${tw`sw-flex sw-items-center sw-flex-wrap sw-gap-2`}
-  ${tw`sw-typo-default`}
+  border-radius: ${cssVar('border-radius-100', '0.125rem')};
+  padding: ${cssVar('dimension-space-50', '0.25rem')};
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: ${cssVar('dimension-space-100', '0.5rem')};
+  font: ${cssVar('typography-text-default-regular')};
 
   color: ${cssVar('color-text-default')};
   border-bottom: none;

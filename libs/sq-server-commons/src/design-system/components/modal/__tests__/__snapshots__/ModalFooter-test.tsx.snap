@@ -30,7 +30,7 @@ exports[`should render with primary and secondary buttons 1`] = `
   -ms-flex-pack: end;
   -webkit-justify-content: flex-end;
   justify-content: flex-end;
-  gap: 0.75rem;
+  gap: var(--echoes-dimension-space-150, 0.75rem);
 }
 
 .emotion-2 {
@@ -168,7 +168,7 @@ exports[`should render with secondary button 1`] = `
   -ms-flex-pack: end;
   -webkit-justify-content: flex-end;
   justify-content: flex-end;
-  gap: 0.75rem;
+  gap: var(--echoes-dimension-space-150, 0.75rem);
 }
 
 .emotion-2 {

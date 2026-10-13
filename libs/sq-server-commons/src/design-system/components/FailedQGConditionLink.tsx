@@ -20,17 +20,17 @@
 
 import styled from '@emotion/styled';
 import { cssVar } from '@sonarsource/echoes-react';
-import tw from 'twin.macro';
 import { ButtonProps, DangerButtonSecondary } from '../sonar-aligned/components/buttons';
 import { ChevronRightIcon } from './icons/ChevronRightIcon';
 
 const StyledFailedQGConditionLink = styled(DangerButtonSecondary)`
-  ${tw`sw-typo-default`}
-  ${tw`sw-h-[28px]`}
-  ${tw`sw-pl-2`}
-  ${tw`sw-pr-1`}
-  ${tw`sw-py-0`}
-  ${tw`sw-rounded-1/2`}
+  font: ${cssVar('typography-text-default-regular')};
+  height: 28px;
+  padding-left: ${cssVar('dimension-space-100', '0.5rem')};
+  padding-right: ${cssVar('dimension-space-50', '0.25rem')};
+  padding-top: 0;
+  padding-bottom: 0;
+  border-radius: ${cssVar('border-radius-100', '0.125rem')};
 
   &:active,
   &:focus,

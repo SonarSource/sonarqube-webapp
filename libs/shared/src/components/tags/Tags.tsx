@@ -30,7 +30,6 @@ import {
 import classNames from 'classnames';
 import { ReactNode } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
-import tw from 'twin.macro';
 
 const MIN_TAGS_TO_DISPLAY = 3;
 
@@ -130,10 +129,15 @@ const TagLabel = styled.span`
   color: ${cssVar('color-text-default')};
   background: ${cssVar('color-background-neutral-subtle-default')};
 
-  ${tw`sw-typo-sm`}
-  ${tw`sw-box-border`}
-  ${tw`sw-truncate`}
-  ${tw`sw-rounded-1/2`}
-  ${tw`sw-px-1 sw-py-1/2`}
-  ${tw`sw-max-w-[8rem]`}
+  font: ${cssVar('typography-text-small-medium')};
+  box-sizing: border-box;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  border-radius: ${cssVar('border-radius-100', '0.125rem')};
+  padding-left: ${cssVar('dimension-space-50', '0.25rem')};
+  padding-right: ${cssVar('dimension-space-50', '0.25rem')};
+  padding-top: ${cssVar('dimension-space-25', '0.125rem')};
+  padding-bottom: ${cssVar('dimension-space-25', '0.125rem')};
+  max-width: 8rem;
 `;

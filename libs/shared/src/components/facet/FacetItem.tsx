@@ -22,7 +22,6 @@ import styled from '@emotion/styled';
 import { Button, ButtonSize, ButtonVariety, cssVar } from '@sonarsource/echoes-react';
 import classNames from 'classnames';
 import * as React from 'react';
-import tw from 'twin.macro';
 
 export type FacetItemProps = {
   active?: boolean;
@@ -100,27 +99,42 @@ const StyledButton = styled(Button)<{
   active?: boolean;
   small?: boolean;
 }>`
-  ${tw`sw-typo-default`};
-  ${tw`sw-box-border`};
-  ${tw`sw-h-[28px]`};
-  ${tw`sw-px-1`};
-  ${tw`sw-rounded-1`};
-  ${tw`sw-w-full`};
+  font: ${cssVar('typography-text-default-regular')};
+  box-sizing: border-box;
+  height: 28px;
+  padding-left: ${cssVar('dimension-space-50', '0.25rem')};
+  padding-right: ${cssVar('dimension-space-50', '0.25rem')};
+  border-radius: ${cssVar('border-radius-200', '0.25rem')};
+  width: 100%;
 
-  ${({ small }) => (small ? tw`sw-typo-sm sw-pr-0` : '')};
+  ${({ small }) =>
+    small
+      ? {
+          paddingRight: '0',
+          font: cssVar('typography-text-small-medium'),
+        }
+      : ''};
 
   background-color: ${({ active }) =>
     active ? cssVar('color-background-accent-weak-default') : 'transparent'} !important;
 
   & div.container {
-    ${tw`sw-container`};
-    ${tw`sw-flex`};
-    ${tw`sw-items-center`};
-    ${tw`sw-justify-between`};
+    width: 100%;
+    @media (min-width: 1280px) {
+      max-width: 1280px;
+    }
+    @media (min-width: 1920px) {
+      max-width: 1920px;
+    }
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 
     & span.name {
-      ${tw`sw-pr-1`};
-      ${tw`sw-truncate`};
+      padding-right: ${cssVar('dimension-space-50', '0.25rem')};
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
 
       & mark {
         background-color: ${cssVar('color-background-neutral-bolder-default')}; // this color does not exist in the design system

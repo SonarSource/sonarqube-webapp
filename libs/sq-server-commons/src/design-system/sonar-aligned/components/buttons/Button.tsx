@@ -22,7 +22,6 @@ import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { cssVar } from '@sonarsource/echoes-react';
 import React, { MouseEvent, ReactNode, forwardRef, useCallback } from 'react';
-import tw from 'twin.macro';
 import { BaseLink, LinkProps } from '../../../components/Link';
 
 type AllowedButtonAttributes = Pick<
@@ -125,14 +124,19 @@ export const buttonStyle = css`
   background-color: var(--background);
   transition: background-color 0.2s ease;
 
-  ${tw`sw-inline-flex sw-items-center`}
-  ${tw`sw-h-control`}
-  ${tw`sw-typo-semibold`}
-  ${tw`sw-py-2 sw-px-4`}
-  ${tw`sw-rounded-2`}
-  ${tw`sw-cursor-pointer`}
+  display: inline-flex;
+  align-items: center;
+  height: ${cssVar('dimension-height-900', '2.25rem')};
+  font: ${cssVar('typography-text-default-semi-bold')};
+  padding-left: ${cssVar('dimension-space-200', '1rem')};
+  padding-right: ${cssVar('dimension-space-200', '1rem')};
+  padding-top: ${cssVar('dimension-space-100', '0.5rem')};
+  padding-bottom: ${cssVar('dimension-space-100', '0.5rem')};
+  border-radius: ${cssVar('border-radius-400', '0.5rem')};
+  cursor: pointer;
 
-  &:hover, &:active {
+  &:hover,
+  &:active {
     color: var(--color);
     background-color: var(--backgroundHover);
   }
@@ -154,11 +158,11 @@ export const buttonStyle = css`
     background-color: ${cssVar('color-surface-disabled')};
     border: ${cssVar('border-width-default')} solid ${cssVar('color-border-disabled')};
 
-    ${tw`sw-cursor-not-allowed`}
+    cursor: not-allowed;
   }
 
   & > svg {
-    ${tw`sw-mr-1`}
+    margin-right: ${cssVar('dimension-space-50', '0.25rem')};
   }
 `;
 
@@ -189,6 +193,6 @@ const BaseButton = styled.button`
    https://github.com/facebook/react/issues/4251
   */
   & [disabled] {
-    ${tw`sw-pointer-events-none`};
+    pointer-events: none;
   }
 `;

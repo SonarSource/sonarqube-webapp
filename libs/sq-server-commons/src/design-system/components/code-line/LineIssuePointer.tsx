@@ -19,8 +19,8 @@
  */
 
 import styled from '@emotion/styled';
+import { cssVar } from '@sonarsource/echoes-react';
 import { createRef, RefObject, useEffect, useState } from 'react';
-import tw from 'twin.macro';
 
 const POINTER_HANDLE_HEIGHT_OFFSET = 2;
 const POINTER_HANDLE_MAX_HEIGHT = 10;
@@ -58,7 +58,9 @@ const EmptyIssuePointer = styled.div`
   border: 0.125rem solid transparent;
   transform: translate(-50%, 0);
 
-  ${tw`sw-block sw-absolute sw-rounded-2`};
+  position: absolute;
+  display: block;
+  border-radius: ${cssVar('border-radius-400', '0.5rem')};
 `;
 
 const IssuePointer = styled(EmptyIssuePointer)<{ distance: number }>`

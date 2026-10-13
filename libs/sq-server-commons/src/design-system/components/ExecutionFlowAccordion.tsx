@@ -22,7 +22,6 @@ import styled from '@emotion/styled';
 import { cssVar } from '@sonarsource/echoes-react';
 import classNames from 'classnames';
 import { ReactNode } from 'react';
-import tw from 'twin.macro';
 import { BareButton } from '../sonar-aligned/components/buttons';
 import { OpenCloseIndicator } from './icons/OpenCloseIndicator';
 
@@ -58,19 +57,22 @@ export function ExecutionFlowAccordion(props: Readonly<Props>) {
 }
 
 const Expander = styled(BareButton)`
-  ${tw`sw-flex sw-items-center sw-justify-between`}
-  ${tw`sw-box-border`}
-  ${tw`sw-p-2`}
-  ${tw`sw-w-full`}
-  ${tw`sw-cursor-pointer`}
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-sizing: border-box;
+  padding: ${cssVar('dimension-space-100', '0.5rem')};
+  width: 100%;
+  cursor: pointer;
 
   color: ${cssVar('color-text-strong')};
   background-color: ${cssVar('color-background-neutral-subtle-default')};
 `;
 
 const Accordion = styled.div`
-  ${tw`sw-flex sw-flex-col`}
-  ${tw`sw-rounded-1/2`}
+  display: flex;
+  flex-direction: column;
+  border-radius: ${cssVar('border-radius-100', '0.125rem')};
 
   border: ${cssVar('border-width-default')} solid ${cssVar('color-border-bold')};
 
@@ -89,7 +91,7 @@ const Accordion = styled.div`
 `;
 
 const Body = styled.div`
-  ${tw`sw-p-2`}
+  padding: ${cssVar('dimension-space-100', '0.5rem')};
 
   background-color: ${cssVar('color-background-neutral-subtle-default')};
 `;

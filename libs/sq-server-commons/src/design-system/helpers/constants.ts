@@ -18,8 +18,6 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { theme } from 'twin.macro';
-
 export const DEFAULT_LOCALE = 'en';
 export const IS_SSR = typeof window === 'undefined';
 export const REACT_DOM_CONTAINER = '#content';
@@ -42,11 +40,11 @@ export const LEAK_PERIOD = 'sonar.leak.period';
 export const LEAK_PERIOD_TYPE = 'sonar.leak.period.type';
 
 export const INPUT_SIZES = {
-  small: theme('width.input-small'),
-  medium: theme('width.input-medium'),
-  large: theme('width.input-large'),
-  full: theme('width.full'),
-  auto: theme('width.auto'),
+  small: '150px',
+  medium: '250px',
+  large: '350px',
+  full: '100%',
+  auto: 'auto',
 };
 
 export const LAYOUT_VIEWPORT_MIN_WIDTH = 1280;

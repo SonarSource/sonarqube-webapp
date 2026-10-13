@@ -21,7 +21,6 @@
 import styled from '@emotion/styled';
 import { cssVar } from '@sonarsource/echoes-react';
 import { Children, ElementType, Fragment, HtmlHTMLAttributes, ReactNode } from 'react';
-import tw from 'twin.macro';
 import { isDefined } from '~shared/helpers/types';
 import { selectableItemState } from '../SelectableItemStateStyles';
 
@@ -46,9 +45,10 @@ export function SubnavigationGroup({ as, className, children, ...htmlProps }: Re
 }
 
 const Group = styled.div`
-  ${tw`sw-relative`}
-  ${tw`sw-flex sw-flex-col`}
-  ${tw`sw-w-full`}
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
 
   background-color: ${selectableItemState.defaultBackground};
   border: ${cssVar('border-width-default')} solid ${cssVar('color-border-weak')};
@@ -56,7 +56,7 @@ const Group = styled.div`
 `;
 
 const Separator = styled.div`
-  ${tw`sw-w-full`}
+  width: 100%;
 
   height: 1px;
   background-color: ${cssVar('color-border-weaker')};

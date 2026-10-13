@@ -25,7 +25,6 @@ import classNames from 'classnames';
 import { throttle, uniqueId } from 'lodash';
 import React from 'react';
 import { createPortal } from 'react-dom';
-import tw from 'twin.macro';
 import { THROTTLE_SCROLL_DELAY } from '../helpers/constants';
 import {
   BasePlacement,
@@ -399,7 +398,7 @@ export class TooltipInner extends React.Component<TooltipProps, State> {
         {this.isVisible() && (
           <TooltipPortal>
             <TooltipWrapper
-              className={classNames(placement)}
+              className={classNames(placement, 'sw-z-tooltip')}
               onPointerEnter={this.handleOverlayPointerEnter}
               onPointerLeave={this.handleOverlayPointerLeave}
               ref={this.tooltipNodeRef}
@@ -460,12 +459,12 @@ const ARROW_MARGIN = 3;
 const TooltipWrapper = styled.div`
   animation: ${fadeIn} 0.3s forwards;
 
-  ${tw`sw-absolute`}
-  ${tw`sw-z-tooltip`};
-  ${tw`sw-block`};
-  ${tw`sw-box-border`};
-  ${tw`sw-h-auto`};
-  ${tw`sw-typo-default`};
+  position: absolute;
+
+  display: block;
+  box-sizing: border-box;
+  height: auto;
+  font: ${cssVar('typography-text-default-regular')};
 
   &.top {
     margin-top: -${ARROW_MARGIN}px;
@@ -489,10 +488,10 @@ const TooltipWrapper = styled.div`
 `;
 
 const TooltipWrapperArrow = styled.div`
-  ${tw`sw-absolute`};
+  position: absolute;
   width: 0;
   height: 0;
-  ${tw`sw-border-solid`};
+  border-style: solid;
   border-color: ${cssVar('color-roles-support-transparent')};
 
   ${TooltipWrapper}.top & {
@@ -500,8 +499,8 @@ const TooltipWrapperArrow = styled.div`
     border-top-color: ${cssVar('color-surface-inverse-default')};
     transform: translateX(-${ARROW_WIDTH}px);
 
-    ${tw`sw-bottom-0`};
-    ${tw`sw-left-1/2`};
+    bottom: 0;
+    left: 50%;
   }
 
   ${TooltipWrapper}.right & {
@@ -509,8 +508,8 @@ const TooltipWrapperArrow = styled.div`
     border-right-color: ${cssVar('color-surface-inverse-default')};
     transform: translateY(-${ARROW_WIDTH}px);
 
-    ${tw`sw-top-1/2`};
-    ${tw`sw-left-0`};
+    top: 50%;
+    left: 0;
   }
 
   ${TooltipWrapper}.left & {
@@ -518,8 +517,8 @@ const TooltipWrapperArrow = styled.div`
     border-left-color: ${cssVar('color-surface-inverse-default')};
     transform: translateY(-${ARROW_WIDTH}px);
 
-    ${tw`sw-top-1/2`};
-    ${tw`sw-right-0`};
+    top: 50%;
+    right: 0;
   }
 
   ${TooltipWrapper}.bottom & {
@@ -527,8 +526,8 @@ const TooltipWrapperArrow = styled.div`
     border-bottom-color: ${cssVar('color-surface-inverse-default')};
     transform: translateX(-${ARROW_WIDTH}px);
 
-    ${tw`sw-top-0`};
-    ${tw`sw-left-1/2`};
+    top: 0;
+    left: 50%;
   }
 `;
 
@@ -539,15 +538,16 @@ export const TooltipWrapperInner = styled.div`
   background-color: ${cssVar('color-surface-inverse-default')};
   border-radius: ${cssVar('border-radius-200')};
 
-  ${tw`sw-max-w-[22rem]`}
-  ${tw`sw-overflow-hidden`};
-  ${tw`sw-text-left`};
-  ${tw`sw-no-underline`};
-  ${tw`sw-break-words`};
+  max-width: 22rem;
+  overflow: hidden;
+  text-align: left;
+  text-decoration-line: none;
+  overflow-wrap: break-word;
 
   hr {
     background-color: ${cssVar('color-text-subtle')};
 
-    ${tw`sw-mx-4`};
+    margin-left: ${cssVar('dimension-space-200', '1rem')};
+    margin-right: ${cssVar('dimension-space-200', '1rem')};
   }
 `;

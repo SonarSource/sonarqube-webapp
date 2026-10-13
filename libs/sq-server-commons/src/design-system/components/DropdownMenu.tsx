@@ -23,7 +23,6 @@ import styled from '@emotion/styled';
 import { cssVar } from '@sonarsource/echoes-react';
 import classNames from 'classnames';
 import React, { ForwardedRef, forwardRef } from 'react';
-import tw from 'twin.macro';
 import { useCopyClipboardEffect } from '~shared/components/clipboard';
 import { INPUT_SIZES } from '../helpers/constants';
 import { InputSizeKeys } from '../types/theme';
@@ -273,7 +272,10 @@ export const ItemHeader = styled(UnstyledItemHeader)`
   background-color: ${cssVar('color-surface-default')};
   color: ${cssVar('color-text-subtle')};
 
-  ${tw`sw-py-2 sw-px-3`}
+  padding-left: ${cssVar('dimension-space-150', '0.75rem')};
+  padding-right: ${cssVar('dimension-space-150', '0.75rem')};
+  padding-top: ${cssVar('dimension-space-100', '0.5rem')};
+  padding-bottom: ${cssVar('dimension-space-100', '0.5rem')};
 `;
 
 function UnstyledItemHeader({
@@ -296,8 +298,11 @@ export const ItemDivider = styled(UnstyledItemDivider)`
   height: 1px;
   background-color: ${cssVar('color-border-bold')};
 
-  ${tw`sw-my-1 sw--mx-2`}
-  ${tw`sw-overflow-hidden`};
+  margin-left: -0.5rem;
+  margin-right: -0.5rem;
+  margin-top: ${cssVar('dimension-space-50', '0.25rem')};
+  margin-bottom: ${cssVar('dimension-space-50', '0.25rem')};
+  overflow: hidden;
 `;
 
 function UnstyledItemDivider({
@@ -318,11 +323,13 @@ export const DropdownMenuWrapper = styled.ul`
   width: var(--inputSize);
   list-style: none;
 
-  ${tw`sw-flex sw-flex-col`}
-  ${tw`sw-box-border`};
-  ${tw`sw-min-w-input-small`}
-  ${tw`sw-py-2`}
-  ${tw`sw-typo-default`}
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  min-width: 150px;
+  padding-top: ${cssVar('dimension-space-100', '0.5rem')};
+  padding-bottom: ${cssVar('dimension-space-100', '0.5rem')};
+  font: ${cssVar('typography-text-default-regular')};
 
   &:focus {
     outline: none;
@@ -337,14 +344,20 @@ const itemStyle = css`
   text-decoration: none;
   transition: none;
 
-  ${tw`sw-flex sw-items-center`}
-  ${tw`sw-typo-default`}
-  ${tw`sw-box-border`}
-  ${tw`sw-w-full`}
-  ${tw`sw-text-left`}
-  ${tw`sw-py-2 sw-px-3`}
-  ${tw`sw-truncate`};
-  ${tw`sw-cursor-pointer`}
+  display: flex;
+  align-items: center;
+  font: ${cssVar('typography-text-default-regular')};
+  box-sizing: border-box;
+  width: 100%;
+  text-align: left;
+  padding-left: ${cssVar('dimension-space-150', '0.75rem')};
+  padding-right: ${cssVar('dimension-space-150', '0.75rem')};
+  padding-top: ${cssVar('dimension-space-100', '0.5rem')};
+  padding-bottom: ${cssVar('dimension-space-100', '0.5rem')};
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  cursor: pointer;
 
   &.active,
   &:active,
@@ -390,7 +403,7 @@ const itemStyle = css`
     background-color: ${cssVar('color-surface-disabled')};
     pointer-events: none !important;
 
-    ${tw`sw-cursor-not-allowed`};
+    cursor: not-allowed;
   }
 
   &.selected {
@@ -398,7 +411,7 @@ const itemStyle = css`
   }
 
   & > svg {
-    ${tw`sw-mr-2`}
+    margin-right: ${cssVar('dimension-space-100', '0.5rem')};
   }
 `;
 

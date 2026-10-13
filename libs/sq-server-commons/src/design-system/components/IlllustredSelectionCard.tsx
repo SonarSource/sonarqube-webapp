@@ -22,7 +22,6 @@ import styled from '@emotion/styled';
 import { cssVar, Text } from '@sonarsource/echoes-react';
 import classNames from 'classnames';
 import { ReactNode } from 'react';
-import tw from 'twin.macro';
 import { BareButton } from '../sonar-aligned/components/buttons';
 
 interface Props {
@@ -54,22 +53,25 @@ const ImageContainer = styled.div`
   min-height: 116px;
   flex: 1;
   background: ${cssVar('color-surface-canvas-default')};
-  ${tw`sw-flex`}
-  ${tw`sw-justify-center sw-items-center`}
-  ${tw`sw-rounded-t-1`}
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-top-left-radius: ${cssVar('border-radius-200', '0.25rem')};
+  border-top-right-radius: ${cssVar('border-radius-200', '0.25rem')};
 `;
 
 const DescriptionContainer = styled.div`
   background: ${cssVar('color-surface-default')};
   border-top: ${cssVar('border-width-default')} solid ${cssVar('color-border-weak')};
-  ${tw`sw-rounded-b-1`}
-  ${tw`sw-p-4`}
+  border-bottom-right-radius: ${cssVar('border-radius-200', '0.25rem')};
+  border-bottom-left-radius: ${cssVar('border-radius-200', '0.25rem')};
+  padding: ${cssVar('dimension-space-200', '1rem')};
 `;
 
 const StyledSelectionCard = styled(BareButton)`
-  ${tw`sw-flex`}
-  ${tw`sw-flex-col`}
-  ${tw`sw-rounded-1`};
+  display: flex;
+  flex-direction: column;
+  border-radius: ${cssVar('border-radius-200', '0.25rem')};
 
   min-width: 146px;
   border: ${cssVar('border-width-default')} solid ${cssVar('color-border-weak')};

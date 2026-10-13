@@ -21,7 +21,6 @@
 // These are merged with the default babel.config.js file, no need to repeat what's already in there
 const babelOptions = {
   presets: ['@babel/preset-env'],
-  plugins: ['babel-plugin-twin', 'babel-plugin-macros'],
 };
 
 module.exports = require('babel-jest').default.createTransformer(babelOptions);

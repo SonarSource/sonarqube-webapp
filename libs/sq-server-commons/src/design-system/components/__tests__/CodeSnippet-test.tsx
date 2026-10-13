@@ -18,6 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { cssVar } from '@sonarsource/echoes-react';
 import { screen } from '@testing-library/react';
 import { HelmetProvider } from 'react-helmet-async';
 import { FCProps } from '../../../types/misc';
@@ -27,14 +28,14 @@ import { CodeSnippet } from '../CodeSnippet';
 it('should show full size when multiline with no editing', () => {
   const { container } = setupWithProps();
   const copyButton = screen.getByRole('button', { name: 'copy' });
-  expect(copyButton).toHaveStyle('top: 1.5rem');
+  expect(copyButton).toHaveStyle(`top: ${cssVar('dimension-space-300', '1.5rem')}`);
   expect(container).toMatchSnapshot();
 });
 
 it('should show reduced size when single line with no editing', () => {
   const { container } = setupWithProps({ isOneLine: true, snippet: 'foobar' });
   const copyButton = screen.getByRole('button', { name: 'copy' });
-  expect(copyButton).toHaveStyle('top: 1rem');
+  expect(copyButton).toHaveStyle(`top: ${cssVar('dimension-space-200', '1rem')}`);
   expect(container).toMatchSnapshot();
 });
 

@@ -23,7 +23,6 @@ import type * as Echoes from '@sonarsource/echoes-react';
 import { Text, cssVar } from '@sonarsource/echoes-react';
 import classNames from 'classnames';
 import { useIntl } from 'react-intl';
-import tw from 'twin.macro';
 import { RecommendedIcon } from './icons/RecommendedIcon';
 import { RadioButtonStyled } from './input/RadioButton';
 
@@ -112,9 +111,11 @@ export function SelectionCard(props: Readonly<SelectionCardProps>) {
 }
 
 const StyledButton = styled.button`
-  ${tw`sw-relative sw-flex sw-flex-col`}
-  ${tw`sw-rounded-2`}
-  ${tw`sw-box-border`}
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  border-radius: ${cssVar('border-radius-400', '0.5rem')};
+  box-sizing: border-box;
 
   background-color: ${cssVar('color-surface-default')};
   border: ${cssVar('border-width-default')} solid ${cssVar('color-border-weak')};
@@ -126,12 +127,12 @@ const StyledButton = styled.button`
   }
 
   &.card-vertical {
-    ${tw`sw-w-full`}
+    width: 100%;
     min-height: auto;
   }
 
   &.card-actionable {
-    ${tw`sw-cursor-pointer`}
+    cursor: pointer;
 
     &:hover {
       border: ${cssVar('border-width-default')} solid ${cssVar('color-border-accent-default')};
@@ -144,7 +145,7 @@ const StyledButton = styled.button`
   }
 
   &.disabled {
-    ${tw`sw-cursor-not-allowed`}
+    cursor: not-allowed;
 
     background-color: ${cssVar('color-surface-disabled')};
     color: ${cssVar('color-text-disabled')};
@@ -153,18 +154,26 @@ const StyledButton = styled.button`
 `;
 
 const StyledContent = styled.div`
-  ${tw`sw-my-4 sw-mx-3`}
-  ${tw`sw-flex sw-grow`}
-  ${tw`sw-text-left`}
+  margin-left: ${cssVar('dimension-space-150', '0.75rem')};
+  margin-right: ${cssVar('dimension-space-150', '0.75rem')};
+  margin-top: ${cssVar('dimension-space-200', '1rem')};
+  margin-bottom: ${cssVar('dimension-space-200', '1rem')};
+  display: flex;
+  flex-grow: 1;
+  text-align: left;
 `;
 
 const StyledRecommended = styled.div`
-  ${tw`sw-typo-default`}
-  ${tw`sw-py-2 sw-px-4`}
-  ${tw`sw-box-border`}
-  ${tw`sw-rounded-b-2`}
-  ${tw`sw-w-full`}
-  ${tw`sw-text-left`}
+  font: ${cssVar('typography-text-default-regular')};
+  padding-left: ${cssVar('dimension-space-200', '1rem')};
+  padding-right: ${cssVar('dimension-space-200', '1rem')};
+  padding-top: ${cssVar('dimension-space-100', '0.5rem')};
+  padding-bottom: ${cssVar('dimension-space-100', '0.5rem')};
+  box-sizing: border-box;
+  border-bottom-right-radius: ${cssVar('border-radius-400', '0.5rem')};
+  border-bottom-left-radius: ${cssVar('border-radius-400', '0.5rem')};
+  width: 100%;
+  text-align: left;
 
   color: ${cssVar('color-text-info')};
   background-color: ${cssVar('color-background-info-weak-default')};
@@ -172,13 +181,14 @@ const StyledRecommended = styled.div`
 
 const StyledRecommendedIcon = styled(RecommendedIcon)`
   color: ${cssVar('color-icon-info')};
-  ${tw`sw-align-middle`}
+  vertical-align: middle;
 `;
 
 const StyledLabel = styled.label`
-  ${tw`sw-flex`}
-  ${tw`sw-mb-3 sw-gap-2`}
-  ${tw`sw-typo-semibold`}
+  display: flex;
+  margin-bottom: ${cssVar('dimension-space-150', '0.75rem')};
+  gap: ${cssVar('dimension-space-100', '0.5rem')};
+  font: ${cssVar('typography-text-default-semi-bold')};
 
   color: ${cssVar('color-text-default')};
   cursor: inherit;
@@ -189,6 +199,8 @@ const StyledLabel = styled.label`
 `;
 
 const StyledBody = styled.div`
-  ${tw`sw-flex sw-grow`}
-  ${tw`sw-flex-col sw-justify-between`}
+  display: flex;
+  flex-grow: 1;
+  flex-direction: column;
+  justify-content: space-between;
 `;

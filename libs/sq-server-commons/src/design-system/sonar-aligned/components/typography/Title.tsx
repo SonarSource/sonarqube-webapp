@@ -20,21 +20,22 @@
 
 import styled from '@emotion/styled';
 import { cssVar } from '@sonarsource/echoes-react';
-import tw from 'twin.macro';
 
 /** @deprecated Use Heading from Echoes instead.
  */
 export const Title = styled.h1`
-  ${tw`sw-heading-xl`}
-  ${tw`sw-mb-4`}
+  font: ${cssVar('typography-heading-xlarge')};
+  letter-spacing: ${cssVar('letter-spacing-decreased')};
+  margin-bottom: ${cssVar('dimension-space-200', '1rem')};
   color: ${cssVar('color-text-strong')};
 `;
 
 /** @deprecated Use Heading from Echoes instead.
  */
 export const SubTitle = styled.h2`
-  ${tw`sw-heading-lg`}
-  ${tw`sw-mb-4`}
+  font: ${cssVar('typography-heading-large')};
+  letter-spacing: ${cssVar('letter-spacing-decreased')};
+  margin-bottom: ${cssVar('dimension-space-200', '1rem')};
   color: ${cssVar('color-text-strong')};
 `;
 
@@ -43,14 +44,14 @@ export const SubTitle = styled.h2`
 export const HeadingDark = styled.h2`
   color: ${cssVar('color-text-strong')};
 
-  ${tw`sw-typo-semibold`}
+  font: ${cssVar('typography-text-default-semi-bold')};
 `;
 
 /** @deprecated Use Heading from Echoes instead.
  */
 export const SubHeading = styled.h3`
-  ${tw`sw-typo-lg-semibold`}
-  ${tw`sw-mb-2`}
+  font: ${cssVar('typography-text-large-semi-bold')};
+  margin-bottom: ${cssVar('dimension-space-100', '0.5rem')};
   color: ${cssVar('color-text-default')};
 `;
 

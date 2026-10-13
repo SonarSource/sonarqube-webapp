@@ -10,7 +10,7 @@ exports[`should render for mac 1`] = `
   -ms-flex-pack: center;
   -webkit-justify-content: center;
   justify-content: center;
-  gap: 0.5rem;
+  gap: var(--echoes-dimension-space-100, 0.5rem);
   -webkit-box-flex-wrap: wrap;
   -webkit-flex-wrap: wrap;
   -ms-flex-wrap: wrap;
@@ -31,9 +31,9 @@ exports[`should render for mac 1`] = `
   -ms-flex-pack: center;
   -webkit-justify-content: center;
   justify-content: center;
-  padding-left: 0.125rem;
-  padding-right: 0.125rem;
-  border-radius: 0.125rem;
+  padding-left: var(--echoes-dimension-space-25, 0.125rem);
+  padding-right: var(--echoes-dimension-space-25, 0.125rem);
+  border-radius: var(--echoes-border-radius-100, 0.125rem);
   color: var(--echoes-color-text-default);
   background-color: var(--echoes-color-background-ghost-neutral-active);
 }
@@ -82,7 +82,7 @@ exports[`should render for windows 1`] = `
   -ms-flex-pack: center;
   -webkit-justify-content: center;
   justify-content: center;
-  gap: 0.5rem;
+  gap: var(--echoes-dimension-space-100, 0.5rem);
   -webkit-box-flex-wrap: wrap;
   -webkit-flex-wrap: wrap;
   -ms-flex-wrap: wrap;
@@ -103,9 +103,9 @@ exports[`should render for windows 1`] = `
   -ms-flex-pack: center;
   -webkit-justify-content: center;
   justify-content: center;
-  padding-left: 0.125rem;
-  padding-right: 0.125rem;
-  border-radius: 0.125rem;
+  padding-left: var(--echoes-dimension-space-25, 0.125rem);
+  padding-right: var(--echoes-dimension-space-25, 0.125rem);
+  border-radius: var(--echoes-border-radius-100, 0.125rem);
   color: var(--echoes-color-text-default);
   background-color: var(--echoes-color-background-ghost-neutral-active);
 }

@@ -28,7 +28,7 @@ exports[`should render with title and description 1`] = `
 
 .emotion-2 {
   font: var(--echoes-typography-text-default-regular);
-  margin-top: 0.5rem;
+  margin-top: var(--echoes-dimension-space-100, 0.5rem);
   color: var(--echoes-color-text-default);
 }
 

@@ -20,13 +20,12 @@
 
 import styled from '@emotion/styled';
 import { cssVar } from '@sonarsource/echoes-react';
-import tw from 'twin.macro';
 
 export const HighlightRing = styled.div`
   &.active {
     box-shadow: 0 0 4px 0 ${cssVar('color-background-accent-default')};
     background: ${cssVar('color-background-neutral-subtle-default')};
     z-index: 1;
-    ${tw`sw-rounded-1/2`}
+    border-radius: ${cssVar('border-radius-100', '0.125rem')};
   }
 `;

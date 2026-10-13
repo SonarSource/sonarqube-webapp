@@ -20,13 +20,13 @@
 
 import styled from '@emotion/styled';
 import { ToggleTip } from '@sonarsource/echoes-react';
+import classNames from 'classnames';
 import { ReactNode, useCallback, useState } from 'react';
-import tw from 'twin.macro';
 import {
   BareButton,
   OpenCloseIndicator,
-  SubnavigationGroup,
   selectableItemState,
+  SubnavigationGroup,
 } from '~design-system';
 
 interface Props {
@@ -55,7 +55,11 @@ export default function DomainSubnavigationAccordion(props: Readonly<Props>) {
         <SubnavigationAccordionItem
           aria-controls={`${id}-subnavigation-accordion`}
           aria-expanded={expanded}
-          className={helpDescription ? 'sw-pr-16' : undefined}
+          className={classNames(
+            'sw-flex sw-items-center sw-justify-between sw-box-border',
+            'sw-typo-semibold sw-p-4 sw-w-full sw-cursor-pointer',
+            { 'sw-pr-16': helpDescription },
+          )}
           id={`${id}-subnavigation-accordion-button`}
           onClick={toggleExpanded}
         >
@@ -65,7 +69,12 @@ export default function DomainSubnavigationAccordion(props: Readonly<Props>) {
         </SubnavigationAccordionItem>
 
         {helpDescription && (
-          <AccordionHeaderAction>
+          <AccordionHeaderAction
+            className={classNames(
+              'sw-absolute sw-top-1/2 -sw-translate-y-1/2',
+              'sw-right-10 sw-flex sw-items-center',
+            )}
+          >
             <ToggleTip description={helpDescription} />
           </AccordionHeaderAction>
         )}
@@ -76,24 +85,24 @@ export default function DomainSubnavigationAccordion(props: Readonly<Props>) {
   );
 }
 
-const AccordionHeader = styled.div(tw`sw-relative`);
+const AccordionHeader = styled.div({
+  position: 'relative',
+});
 
-const AccordionHeaderAction = styled.div(() => [
-  tw`sw-absolute sw-top-1/2 -sw-translate-y-1/2 sw-right-10 sw-flex sw-items-center`,
-  { zIndex: 1 },
-]);
+const AccordionHeaderAction = styled.div({
+  zIndex: 1,
+});
 
-const SubnavigationAccordionItem = styled(BareButton)(() => [
-  tw`sw-flex sw-items-center sw-justify-between sw-box-border sw-typo-semibold sw-p-4 sw-w-full sw-cursor-pointer`,
-  {
-    color: selectableItemState.text,
-    backgroundColor: selectableItemState.defaultBackground,
-    transition: '0.2 ease',
-    transitionProperty: 'border-left, background-color, color',
-    '&:hover, &:focus': {
-      backgroundColor: selectableItemState.hoverBackground,
-    },
-  },
-]);
+const SubnavigationAccordionItem = styled(BareButton)`
+  color: ${selectableItemState.text};
+  background-color: ${selectableItemState.defaultBackground};
+  transition: 0.2 ease;
+  transition-property: border-left, background-color, color;
+
+  &:hover,
+  &:focus {
+    background-color: ${selectableItemState.hoverBackground};
+  }
+`;
 
 SubnavigationAccordionItem.displayName = 'SubnavigationAccordionItem';

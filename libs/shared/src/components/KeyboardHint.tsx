@@ -20,7 +20,6 @@
 
 import styled from '@emotion/styled';
 import { cssVar } from '@sonarsource/echoes-react';
-import tw from 'twin.macro';
 import { Key } from '../helpers/keyboard';
 import { KeyboardHintKeys } from './KeyboardHintKeys';
 
@@ -44,7 +43,9 @@ export function KeyboardHint({ title, command, className }: Readonly<KeyboardHin
 }
 
 const Body = styled.div`
-  ${tw`sw-flex sw-gap-2 sw-justify-center`}
+  display: flex;
+  justify-content: center;
+  gap: ${cssVar('dimension-space-100', '0.5rem')};
   flex-wrap: wrap;
   color: ${cssVar('color-text-subtle')};
 `;

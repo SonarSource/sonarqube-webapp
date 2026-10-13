@@ -19,15 +19,17 @@
  */
 
 import styled from '@emotion/styled';
-import tw from 'twin.macro';
+import { cssVar } from '@sonarsource/echoes-react';
 import { selectableItemState } from '../SelectableItemStateStyles';
 
 export const SubnavigationHeading = styled.div`
-  ${tw`sw-flex sw-items-center sw-justify-between`}
-  ${tw`sw-box-border`}
-  ${tw`sw-typo-default`}
-  ${tw`sw-p-4`}
-  ${tw`sw-w-full`}
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-sizing: border-box;
+  font: ${cssVar('typography-text-default-regular')};
+  padding: ${cssVar('dimension-space-200', '1rem')};
+  width: 100%;
 
   color: ${selectableItemState.text};
   background-color: ${selectableItemState.defaultBackground};

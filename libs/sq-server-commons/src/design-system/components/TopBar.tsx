@@ -20,15 +20,17 @@
 
 import styled from '@emotion/styled';
 import { cssVar } from '@sonarsource/echoes-react';
-import tw from 'twin.macro';
 import { LAYOUT_VIEWPORT_MIN_WIDTH } from '../helpers';
 
 const TopBarNewLayoutCompatible = styled.nav`
-  ${tw`sw-px-6 sw-pt-4`}
-  ${tw`sw-box-border`};
-  ${tw`sw-w-full`};
-  ${tw`sw-font-sans`}
-  ${tw`sw-text-sm`}
+  padding-left: ${cssVar('dimension-space-300', '1.5rem')};
+  padding-right: ${cssVar('dimension-space-300', '1.5rem')};
+  padding-top: ${cssVar('dimension-space-200', '1rem')};
+  box-sizing: border-box;
+  width: 100%;
+  font-family: ${cssVar('font-family-sans')};
+  font-size: 0.875rem;
+  line-height: 1.25rem;
 
   background-color: ${cssVar('color-surface-default')};
   color: ${cssVar('color-text-default')};

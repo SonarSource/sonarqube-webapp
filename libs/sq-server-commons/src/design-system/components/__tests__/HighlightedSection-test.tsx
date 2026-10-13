@@ -27,7 +27,7 @@ it('should render as expected', () => {
   render(<HighlightedSection>content</HighlightedSection>);
 
   expect(screen.getByText('content')).toHaveStyle({
-    padding: '2rem',
+    padding: cssVar('dimension-space-400', '2rem'),
     border: `${cssVar('border-width-default')} solid ${cssVar('color-border-weak')}`,
     background: cssVar('color-background-neutral-subtle-default'),
   });

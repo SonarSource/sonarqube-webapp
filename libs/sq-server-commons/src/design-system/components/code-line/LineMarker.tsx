@@ -19,9 +19,9 @@
  */
 
 import styled from '@emotion/styled';
+import { cssVar } from '@sonarsource/echoes-react';
 import classNames from 'classnames';
 import { forwardRef, Ref, useCallback, useRef } from 'react';
-import tw from 'twin.macro';
 import { LocationMarker } from '../LocationMarker';
 
 interface Props {
@@ -58,11 +58,12 @@ function LineMarkerFunc(
 }
 
 const Message = styled.div`
-  ${tw`sw-absolute`}
-  ${tw`sw-typo-default`}
-  ${tw`sw-rounded-1/2`}
-  ${tw`sw-px-1`}
-  ${tw`sw-left-0`}
+  position: absolute;
+  font: ${cssVar('typography-text-default-regular')};
+  border-radius: ${cssVar('border-radius-100', '0.125rem')};
+  padding-left: ${cssVar('dimension-space-50', '0.25rem')};
+  padding-right: ${cssVar('dimension-space-50', '0.25rem')};
+  left: 0;
 
   z-index: 1;
   bottom: calc(100% + 0.25rem);
@@ -73,18 +74,18 @@ const Message = styled.div`
   visibility: hidden;
 
   &.message-right {
-    ${tw`sw-left-auto`}
-    ${tw`sw-right-0`}
+    left: auto;
+    right: 0;
   }
 `;
 
 const Wrapper = styled.div`
-  ${tw`sw-relative`}
-  ${tw`sw-inline-block`}
-  ${tw`sw-align-top`}
+  position: relative;
+  display: inline-block;
+  vertical-align: top;
 
   &:not(:first-of-type) {
-    ${tw`sw-ml-1`}
+    margin-left: ${cssVar('dimension-space-50', '0.25rem')};
   }
 
   &.leading {

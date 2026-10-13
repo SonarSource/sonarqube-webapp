@@ -20,15 +20,15 @@
 
 import styled from '@emotion/styled';
 import { cssVar } from '@sonarsource/echoes-react';
-import tw from 'twin.macro';
 
 export const HighlightedSection = styled.div`
   border: ${cssVar('border-width-default')} solid ${cssVar('color-border-weak')};
   background: ${cssVar('color-background-neutral-subtle-default')};
 
-  ${tw`sw-box-border`}
-  ${tw`sw-flex sw-flex-col`}
-  ${tw`sw-gap-4`}
-  ${tw`sw-p-8`}
-  ${tw`sw-rounded-2`}
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: ${cssVar('dimension-space-200', '1rem')};
+  padding: ${cssVar('dimension-space-400', '2rem')};
+  border-radius: ${cssVar('border-radius-400', '0.5rem')};
 `;

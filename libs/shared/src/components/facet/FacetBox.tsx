@@ -35,7 +35,6 @@ import classNames from 'classnames';
 import { uniqueId } from 'lodash';
 import * as React from 'react';
 import { useIntl } from 'react-intl';
-import tw from 'twin.macro';
 import { OpenCloseIndicator } from '../OpenCloseIndicator';
 
 export interface FacetBoxProps {
@@ -188,33 +187,40 @@ const Accordion = styled.div<{
   hasEmbeddedFacets?: boolean;
   inner?: boolean;
 }>`
-  ${tw`sw-flex-col`};
-  ${tw`sw-flex`};
-  ${tw`sw-gap-3`};
+  flex-direction: column;
+  display: flex;
+  gap: ${cssVar('dimension-space-150', '0.75rem')};
 
-  ${({ hasEmbeddedFacets }) => (hasEmbeddedFacets ? tw`sw-gap-0` : '')};
+  ${({ hasEmbeddedFacets }) => (hasEmbeddedFacets ? 'gap: 0;' : '')};
 
-  ${({ inner }) => (inner ? tw`sw-gap-1 sw-ml-3 sw-mt-1` : '')};
+  ${({ inner }) =>
+    inner
+      ? `
+          margin-left: 0.75rem;
+          margin-top: 0.25rem;
+          gap: 0.25rem;
+        `
+      : ''};
 `;
 
 const BadgeAndIcons = styled.div`
-  ${tw`sw-flex`};
-  ${tw`sw-items-center`};
-  ${tw`sw-gap-2`};
+  display: flex;
+  align-items: center;
+  gap: ${cssVar('dimension-space-100', '0.5rem')};
 `;
 
 const TitleWithHelp = styled.div`
-  ${tw`sw-flex`};
-  ${tw`sw-items-center`};
+  display: flex;
+  align-items: center;
 `;
 
 const ChevronAndTitle = styled(Button)<{
   expandable?: boolean;
 }>`
-  ${tw`sw-flex`};
-  ${tw`sw-gap-1`};
-  ${tw`sw-h-900`};
-  ${tw`sw-items-center`};
+  display: flex;
+  gap: ${cssVar('dimension-space-50', '0.25rem')};
+  height: ${cssVar('dimension-height-900', '2.25rem')};
+  align-items: center;
 
   cursor: ${({ expandable }) => (expandable ? 'pointer' : 'default')};
 
@@ -227,16 +233,16 @@ const ChevronAndTitle = styled(Button)<{
 `;
 
 const Header = styled.div`
-  ${tw`sw-flex`};
-  ${tw`sw-gap-3`};
-  ${tw`sw-items-center`};
-  ${tw`sw-justify-between`};
+  display: flex;
+  gap: ${cssVar('dimension-space-150', '0.75rem')};
+  align-items: center;
+  justify-content: space-between;
 `;
 
 const HeaderTitle = styled.span<{
   disabled?: boolean;
 }>`
-  ${tw`sw-typo-semibold`};
+  font: ${cssVar('typography-text-default-semi-bold')};
 
   color: ${({ disabled }) =>
     disabled ? cssVar('color-text-disabled') : cssVar('color-text-default')};

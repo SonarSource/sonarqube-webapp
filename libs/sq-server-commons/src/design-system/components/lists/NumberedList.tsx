@@ -19,16 +19,16 @@
  */
 
 import styled from '@emotion/styled';
-import tw from 'twin.macro';
+import { cssVar } from '@sonarsource/echoes-react';
 
 export const NumberedList = styled.ol`
   list-style: none;
   counter-reset: li;
-  ${tw`sw-mt-4`}
-  ${tw`sw-pl-0`}
+  margin-top: ${cssVar('dimension-space-200', '1rem')};
+  padding-left: 0;
 
   li:last-child {
-    ${tw`sw-mb-0`}
+    margin-bottom: 0;
   }
 `;
 

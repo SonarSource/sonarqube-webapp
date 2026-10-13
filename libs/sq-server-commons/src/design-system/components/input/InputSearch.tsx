@@ -24,7 +24,6 @@ import classNames from 'classnames';
 import { debounce } from 'lodash';
 import React, { PropsWithChildren, useEffect, useMemo, useRef, useState } from 'react';
 import { useIntl } from 'react-intl';
-import tw, { theme } from 'twin.macro';
 import { Key } from '~shared/helpers/keyboard';
 import { isDefined } from '~shared/helpers/types';
 import { DEBOUNCE_DELAY, INPUT_SIZES } from '../../helpers/constants';
@@ -191,7 +190,8 @@ export function InputSearch(props: PropsWithChildren<Props>) {
           type="search"
           value={value}
         />
-        <StyledSearchIconWrapper>
+
+        <StyledSearchIconWrapper className="sw-z-normal">
           <Spinner className="sw-z-normal" isLoading={loading ?? false}>
             <StyledSearchIcon />
           </Spinner>
@@ -223,10 +223,11 @@ export const InputSearchWrapper = styled.div`
 
   width: var(--inputSize);
 
-  ${tw`sw-relative sw-inline-block`}
-  ${tw`sw-whitespace-nowrap`}
-  ${tw`sw-align-middle`}
-  ${tw`sw-h-control`}
+  position: relative;
+  display: inline-block;
+  white-space: nowrap;
+  vertical-align: middle;
+  height: ${cssVar('dimension-height-900', '2.25rem')};
 `;
 
 export const StyledInputWrapper = styled.div`
@@ -235,16 +236,19 @@ export const StyledInputWrapper = styled.div`
     color: ${cssVar('color-text-default')};
     border: ${cssVar('border-width-default')} solid ${cssVar('color-border-bolder')};
 
-    ${tw`sw-rounded-2`}
-    ${tw`sw-box-border`}
-    ${tw`sw-pl-10`}
-    ${tw`sw-typo-default`}
-    ${tw`sw-w-full sw-h-control`}
+    border-radius: ${cssVar('border-radius-400', '0.5rem')};
+    box-sizing: border-box;
+    padding-left: ${cssVar('dimension-space-500', '2.5rem')};
+    font: ${cssVar('typography-text-default-regular')};
+    height: ${cssVar('dimension-height-900', '2.25rem')};
+    width: 100%;
 
     &::placeholder {
       color: ${cssVar('color-text-placeholder')};
 
-      ${tw`sw-truncate`}
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
     }
 
     &:hover {
@@ -262,7 +266,8 @@ export const StyledInputWrapper = styled.div`
     &::-webkit-search-cancel-button,
     &::-webkit-search-results-button,
     &::-webkit-search-results-decoration {
-      ${tw`sw-hidden sw-appearance-none`}
+      display: none;
+      appearance: none;
     }
   }
 `;
@@ -272,14 +277,13 @@ export const StyledSearchIcon = styled(IconSearch)`
 `;
 
 export const StyledSearchIconWrapper = styled.div`
-  ${tw`sw-left-3`}
-  ${tw`sw-absolute`}
-  ${tw`sw-z-normal`}
+  left: ${cssVar('dimension-space-150', '0.75rem')};
+  position: absolute;
 `;
 
 export const StyledInteractiveIcon = styled(InteractiveIcon)`
-  ${tw`sw-absolute`}
-  ${tw`sw-right-2`}
+  position: absolute;
+  right: ${cssVar('dimension-space-100', '0.5rem')};
 
   &:focus,
   &:active {
@@ -289,12 +293,15 @@ export const StyledInteractiveIcon = styled(InteractiveIcon)`
 
 export const StyledNote = styled.span`
   color: ${cssVar('color-text-placeholder')};
-  top: calc(1px + ${theme('inset.2')});
+  top: calc(1px + ${'0.5rem'});
 
-  ${tw`sw-absolute`}
-  ${tw`sw-left-12 sw-right-10`}
-  ${tw`sw-typo-default`}
-  ${tw`sw-text-right`}
-  ${tw`sw-truncate`}
-  ${tw`sw-pointer-events-none`}
+  position: absolute;
+  left: ${cssVar('dimension-space-600', '3rem')};
+  right: ${cssVar('dimension-space-500', '2.5rem')};
+  font: ${cssVar('typography-text-default-regular')};
+  text-align: right;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  pointer-events: none;
 `;

@@ -21,7 +21,6 @@
 import styled from '@emotion/styled';
 import { Spinner, cssVar } from '@sonarsource/echoes-react';
 import React from 'react';
-import tw from 'twin.macro';
 import { CheckIcon } from '../icons/CheckIcon';
 import { CustomIcon } from '../icons/Icon';
 
@@ -119,15 +118,16 @@ const CheckboxContainer = styled.label<{ disabled?: boolean }>`
   color: ${cssVar('color-text-strong')};
   user-select: none;
 
-  ${tw`sw-inline-flex sw-items-center`};
+  display: inline-flex;
+  align-items: center;
 
   &:hover {
-    ${tw`sw-cursor-pointer`}
+    cursor: pointer;
   }
 
   &:disabled {
     color: ${cssVar('color-border-disabled')};
-    ${tw`sw-cursor-not-allowed`}
+    cursor: not-allowed;
   }
 `;
 
@@ -135,10 +135,14 @@ export const StyledCheckbox = styled.span`
   border: ${cssVar('border-width-default')} solid ${cssVar('color-border-accent-default')};
   color: ${cssVar('color-icon-on-color')};
 
-  ${tw`sw-w-200 sw-h-400`};
-  ${tw`sw-rounded-1/2`};
-  ${tw`sw-box-border`}
-  ${tw`sw-inline-flex sw-items-center sw-justify-center sw-shrink-0`};
+  height: ${cssVar('dimension-height-400', '1rem')};
+  width: ${cssVar('dimension-width-200', '1rem')};
+  border-radius: ${cssVar('border-radius-100', '0.125rem')};
+  box-sizing: border-box;
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
 `;
 
 export const AccessibleCheckbox = styled.input`

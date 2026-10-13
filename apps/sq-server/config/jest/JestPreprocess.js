@@ -24,8 +24,6 @@ const babelOptions = {
 
   /* @babel/preset-env reads the browserlist in the root package.json to determine the target */
   presets: ['@babel/preset-env'],
-
-  plugins: ['babel-plugin-twin', 'babel-plugin-macros'],
 };
 
 module.exports = require('babel-jest').default.createTransformer(babelOptions);

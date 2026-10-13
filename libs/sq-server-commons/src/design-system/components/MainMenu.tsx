@@ -19,10 +19,12 @@
  */
 
 import styled from '@emotion/styled';
-import tw from 'twin.macro';
+import { cssVar } from '@sonarsource/echoes-react';
 
 const MainMenuUl = styled.ul`
-  ${tw`sw-flex sw-gap-8 sw-items-center`}
+  display: flex;
+  align-items: center;
+  gap: ${cssVar('dimension-space-400', '2rem')};
 `;
 
 export function MainMenu({ children }: React.PropsWithChildren<object>) {

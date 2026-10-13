@@ -21,14 +21,13 @@
 import styled from '@emotion/styled';
 import { cssVar, Text } from '@sonarsource/echoes-react';
 import classNames from 'classnames';
-import tw from 'twin.macro';
 
 export const NewCodeLegendIcon = styled.span`
-  ${tw`sw-align-middle`}
-  ${tw`sw-box-border`}
-  ${tw`sw-h-400`}
-  ${tw`sw-inline-block`}
-  ${tw`sw-w-200`}
+  vertical-align: middle;
+  box-sizing: border-box;
+  height: ${cssVar('dimension-height-400', '1rem')};
+  display: inline-block;
+  width: ${cssVar('dimension-width-200', '1rem')};
   background-color: ${cssVar('color-background-accent-weak-default')};
   border: 1px solid ${cssVar('color-border-weak')};
 `;

@@ -19,8 +19,7 @@
  */
 
 import styled from '@emotion/styled';
-import { ButtonGroup, Spinner } from '@sonarsource/echoes-react';
-import tw from 'twin.macro';
+import { ButtonGroup, cssVar, Spinner } from '@sonarsource/echoes-react';
 
 interface Props {
   loading?: boolean;
@@ -42,5 +41,8 @@ export function ModalFooter({ loading = false, primaryButton, secondaryButton }:
 }
 
 const StyledFooter = styled.div`
-  ${tw`sw-flex sw-gap-3 sw-items-center sw-justify-end`}
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: ${cssVar('dimension-space-150', '0.75rem')};
 `;

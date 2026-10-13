@@ -22,7 +22,6 @@ import styled from '@emotion/styled';
 import { cssVar } from '@sonarsource/echoes-react';
 import classNames from 'classnames';
 import { escape as lodashEscape } from 'lodash';
-import tw from 'twin.macro';
 import { ClipboardButton } from '~shared/components/clipboard';
 import { isDefined } from '~shared/helpers/types';
 import { CodeSyntaxHighlighter } from './CodeSyntaxHighlighter';
@@ -104,27 +103,31 @@ const Wrapper = styled.div`
   background-color: ${cssVar('color-code-background-default')};
   border: ${cssVar('border-width-default')} solid ${cssVar('color-code-border-default')};
 
-  ${tw`sw-rounded-2`}
-  ${tw`sw-relative`}
-  ${tw`sw-my-2`}
+  border-radius: ${cssVar('border-radius-400', '0.5rem')};
+  position: relative;
+  margin-top: ${cssVar('dimension-space-100', '0.5rem')};
+  margin-bottom: ${cssVar('dimension-space-100', '0.5rem')};
 
   &.code-snippet-simple-oneline {
-    ${tw`sw-my-0`}
-    ${tw`sw-rounded-1`}
+    margin-top: 0;
+    margin-bottom: 0;
+    border-radius: ${cssVar('border-radius-200', '0.25rem')};
   }
 `;
 
 const StyledClipboardButton = styled(ClipboardButton)`
-  ${tw`sw-select-none`}
-  ${tw`sw-typo-default`}
-  ${tw`sw-top-6 sw-right-6`}
-  ${tw`sw-absolute`}
+  user-select: none;
+  font: ${cssVar('typography-text-default-regular')};
+  right: ${cssVar('dimension-space-300', '1.5rem')};
+  top: ${cssVar('dimension-space-300', '1.5rem')};
+  position: absolute;
 
   .code-snippet-highlighted-oneline & {
-    ${tw`sw-bottom-2`}
+    bottom: ${cssVar('dimension-space-100', '0.5rem')};
   }
 `;
 
 const StyledSingleLineClipboardButton = styled(StyledClipboardButton)`
-  ${tw`sw-top-4 sw-bottom-4`}
+  bottom: ${cssVar('dimension-space-200', '1rem')};
+  top: ${cssVar('dimension-space-200', '1rem')};
 `;

@@ -21,7 +21,6 @@
 import styled from '@emotion/styled';
 import { hierarchy as d3Hierarchy, treemap as d3Treemap } from 'd3-hierarchy';
 import { sortBy } from 'lodash';
-import tw from 'twin.macro';
 import { PopupPlacement } from '../helpers/positioning';
 import { TreeMapRect } from './TreeMapRect';
 
@@ -108,5 +107,5 @@ export function TreeMap<T = unknown>(props: TreeMapProps<T>) {
 }
 
 const StyledContainer = styled.ul`
-  ${tw`sw-relative`}
+  position: relative;
 `;

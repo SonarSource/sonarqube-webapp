@@ -19,10 +19,9 @@
  */
 
 import styled from '@emotion/styled';
-import { IconInheritance, LinkStandalone, Text, Tooltip } from '@sonarsource/echoes-react';
+import { cssVar, IconInheritance, LinkStandalone, Text, Tooltip } from '@sonarsource/echoes-react';
 import { filter, isEqual, orderBy } from 'lodash';
 import { FormattedMessage } from 'react-intl';
-import tw from 'twin.macro';
 import {
   ActionCell,
   CellComponent,
@@ -366,11 +365,14 @@ export default function RuleDetailsProfiles(props: Readonly<Props>) {
 }
 
 const MetaProfileItem = styled.div`
-  ${tw`sw-flex sw-items-center sw-gap-1 sw-mt-1`};
+  margin-top: ${cssVar('dimension-space-50', '0.25rem')};
+  display: flex;
+  align-items: center;
+  gap: ${cssVar('dimension-space-50', '0.25rem')};
 `;
 
 const StyledParameter = styled.div`
   &:not(:first-of-type) {
-    ${tw`sw-mt-3`};
+    margin-top: ${cssVar('dimension-space-150', '0.75rem')};
   }
 `;

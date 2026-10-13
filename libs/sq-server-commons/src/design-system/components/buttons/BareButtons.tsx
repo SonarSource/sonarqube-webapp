@@ -20,34 +20,37 @@
 
 import styled from '@emotion/styled';
 import { cssVar } from '@sonarsource/echoes-react';
-import tw from 'twin.macro';
 import { BareButton } from '../../sonar-aligned/components/buttons';
 
 export const IssueIndicatorButton = styled(BareButton)`
   color: ${cssVar('color-text-subtle')};
   text-decoration: none;
 
-  ${tw`sw-whitespace-nowrap`}
+  white-space: nowrap;
 `;
 
 export const DuplicationBlock = styled(BareButton)`
   background-color: var(--code-viewer-duplication-marker-background);
   outline: none;
 
-  ${tw`sw-block`}
-  ${tw`sw-w-50 sw-h-full`}
-  ${tw`sw-ml-1/2`}
-  ${tw`sw-cursor-pointer`}
+  display: block;
+  height: 100%;
+  width: ${cssVar('dimension-width-50', '0.25rem')};
+  margin-left: ${cssVar('dimension-space-25', '0.125rem')};
+  cursor: pointer;
 `;
 
 export const LineSCMStyled = styled(BareButton)`
   outline: none;
 
-  ${tw`sw-pr-2`}
-  ${tw`sw-truncate`}
-  ${tw`sw-whitespace-nowrap`}
-  ${tw`sw-cursor-pointer`}
-  ${tw`sw-w-full sw-h-full`}
+  padding-right: ${cssVar('dimension-space-100', '0.5rem')};
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  white-space: nowrap;
+  cursor: pointer;
+  height: 100%;
+  width: 100%;
 
   &:hover {
     color: ${cssVar('color-text-subtle')};

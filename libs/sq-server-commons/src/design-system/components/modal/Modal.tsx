@@ -24,7 +24,6 @@ import classNames from 'classnames';
 import { Fragment, ReactNode } from 'react';
 import { useIntl } from 'react-intl';
 import ReactModal from 'react-modal';
-import tw from 'twin.macro';
 
 import { REACT_DOM_CONTAINER } from '../../helpers/constants';
 import { ModalBody } from './ModalBody';
@@ -114,12 +113,12 @@ export function Modal({
 
       <ReactModal
         aria={{ labelledby: 'modal_header_title' }}
-        className={classNames('design-system-modal-contents', {
+        className={classNames('design-system-modal-contents', 'sw-z-modal', {
           large: isLarge,
         })}
         isOpen={isOpen}
         onRequestClose={onClose}
-        overlayClassName="design-system-modal-overlay"
+        overlayClassName="design-system-modal-overlay sw-z-modal-overlay"
         shouldCloseOnEsc
         shouldCloseOnOverlayClick={closeOnOverlayClick}
         shouldFocusAfterRender
@@ -158,11 +157,18 @@ export function Modal({
 
 const globalStyles = css`
   .design-system-modal-contents {
-    ${tw`sw-container sw-flex sw-flex-col`}
-    ${tw`sw-p-9`}
-    ${tw`sw-rounded-2`}
-    ${tw`sw-z-modal`}
-    ${tw`sw-box-border`}
+    width: 100%;
+    @media (min-width: 1280px) {
+      max-width: 1280px;
+    }
+    @media (min-width: 1920px) {
+      max-width: 1920px;
+    }
+    display: flex;
+    flex-direction: column;
+    padding: 2.25rem;
+    border-radius: ${cssVar('border-radius-400', '0.5rem')};
+    box-sizing: border-box;
 
     background-color: ${cssVar('color-surface-default')};
     max-height: calc(100vh - 200px);
@@ -176,9 +182,11 @@ const globalStyles = css`
   }
 
   .design-system-modal-overlay {
-    ${tw`sw-fixed sw-inset-0`}
-    ${tw`sw-flex sw-items-center sw-justify-center`}
-    ${tw`sw-z-modal-overlay`}
+    position: fixed;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
     background-color: ${cssVar('color-overlays-back-drop-default')};
   }

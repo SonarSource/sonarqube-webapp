@@ -22,7 +22,6 @@ import styled from '@emotion/styled';
 import { Badge, cssVar, EchoesCSSVarString } from '@sonarsource/echoes-react';
 import { PropsWithChildren } from 'react';
 import { FormattedMessage } from 'react-intl';
-import tw from 'twin.macro';
 import { BareButton } from '../sonar-aligned/components/buttons';
 import { getTabId, getTabPanelId } from '../sonar-aligned/helpers/tabs';
 
@@ -98,14 +97,18 @@ const TabsContainer = styled.div<{
   borderColor: EchoesCSSVarString;
   large: boolean;
 }>`
-  ${tw`sw-w-full`};
-  ${(props) => !props.large && tw`sw-pl-4`}
-  ${tw`sw-flex sw-justify-between`};
+  width: 100%;
+  ${(props) =>
+    !props.large && {
+      paddingLeft: '1rem',
+    }}
+  display: flex;
+  justify-content: space-between;
   border-bottom: ${cssVar('border-width-default')} solid ${(props) => props.borderColor};
 `;
 
 const TabList = styled.div`
-  ${tw`sw-inline-flex`};
+  display: inline-flex;
 `;
 
 const TabButton = styled(BareButton)<{
@@ -113,12 +116,29 @@ const TabButton = styled(BareButton)<{
   large: boolean;
   selected: boolean;
 }>`
-  ${tw`sw-relative`};
-  ${tw`sw-mb-[-1px]`};
-  ${tw`sw-flex sw-items-center`};
-  ${(props) => (props.large ? tw`sw-typo-lg sw-px-6 sw-py-4` : tw`sw-typo-default sw-px-3 sw-py-1`)}
-  ${tw`sw-font-semibold`};
-  ${tw`sw-rounded-t-1`};
+  position: relative;
+  margin-bottom: -1px;
+  display: flex;
+  align-items: center;
+  ${(props) =>
+    props.large
+      ? {
+          paddingLeft: '1.5rem',
+          paddingRight: '1.5rem',
+          paddingTop: '1rem',
+          paddingBottom: '1rem',
+          font: cssVar('typography-text-large-regular'),
+        }
+      : {
+          paddingLeft: '0.75rem',
+          paddingRight: '0.75rem',
+          paddingTop: '0.25rem',
+          paddingBottom: '0.25rem',
+          font: cssVar('typography-text-default-regular'),
+        }}
+  font-weight: ${cssVar('font-weight-semi-bold')};
+  border-top-left-radius: ${cssVar('border-radius-200', '0.25rem')};
+  border-top-right-radius: ${cssVar('border-radius-200', '0.25rem')};
 
   height: 34px;
   background: ${(props) => (props.selected ? cssVar('color-surface-default') : 'none')};
@@ -153,8 +173,9 @@ const TabButton = styled(BareButton)<{
   // Active line
   &::after {
     content: '';
-    ${tw`sw-absolute`};
-    ${tw`sw-rounded-t-1`};
+    position: absolute;
+    border-top-left-radius: ${cssVar('border-radius-200', '0.25rem')};
+    border-top-right-radius: ${cssVar('border-radius-200', '0.25rem')};
     top: 0;
     left: 0;
     width: calc(100%);
@@ -165,5 +186,6 @@ const TabButton = styled(BareButton)<{
 
 const RightSection = styled.div`
   max-height: 43px;
-  ${tw`sw-flex sw-items-center`};
+  display: flex;
+  align-items: center;
 `;

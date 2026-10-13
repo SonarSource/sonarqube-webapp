@@ -19,8 +19,8 @@
  */
 
 import styled from '@emotion/styled';
+import { cssVar } from '@sonarsource/echoes-react';
 import { ReactNode, useCallback, useState } from 'react';
-import tw from 'twin.macro';
 import { BareButton } from '../../sonar-aligned/components/buttons';
 import { OpenCloseIndicator } from '../icons/OpenCloseIndicator';
 import { selectableItemState } from '../SelectableItemStateStyles';
@@ -81,12 +81,14 @@ export function SubnavigationAccordion(props: Props) {
 }
 
 const SubnavigationAccordionItem = styled(BareButton)`
-  ${tw`sw-flex sw-items-center sw-justify-between`}
-  ${tw`sw-box-border`}
-  ${tw`sw-typo-semibold`}
-  ${tw`sw-p-4`}
-  ${tw`sw-w-full`}
-  ${tw`sw-cursor-pointer`}
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-sizing: border-box;
+  font: ${cssVar('typography-text-default-semi-bold')};
+  padding: ${cssVar('dimension-space-200', '1rem')};
+  width: 100%;
+  cursor: pointer;
 
   color: ${selectableItemState.text};
   background-color: ${selectableItemState.defaultBackground};

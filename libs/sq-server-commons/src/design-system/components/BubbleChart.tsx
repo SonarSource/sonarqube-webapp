@@ -27,7 +27,6 @@ import { select } from 'd3-selection';
 import { D3ZoomEvent, zoom, ZoomBehavior, zoomIdentity } from 'd3-zoom';
 import { sortBy, uniq } from 'lodash';
 import * as React from 'react';
-import tw from 'twin.macro';
 import { useResizeObserver } from '~shared/helpers/useResizeObserver';
 
 const TICKS_COUNT = 5;
@@ -453,7 +452,7 @@ const BubbleContainer = styled.g`
 `;
 
 const BubbleStyled = styled.circle`
-  ${tw`sw-cursor-pointer`}
+  cursor: pointer;
 
   transition: fill-opacity 0.2s ease;
   fill: ${cssVar('color-charts-categorical-1')};
@@ -470,8 +469,8 @@ const BubbleChartGrid = styled.line`
 `;
 
 const BubbleChartTick = styled.text`
-  ${tw`sw-typo-default`}
-  ${tw`sw-select-none`}
+  font: ${cssVar('typography-text-default-regular')};
+  user-select: none;
   fill: ${cssVar('color-text-subtle')};
   text-anchor: var(--align);
 `;

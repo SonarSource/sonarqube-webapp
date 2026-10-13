@@ -23,7 +23,6 @@ import { cssVar } from '@sonarsource/echoes-react';
 import classNames from 'classnames';
 import { throttle } from 'lodash';
 import React, { AriaRole } from 'react';
-import tw from 'twin.macro';
 import { THROTTLE_SCROLL_DELAY } from '../helpers/constants';
 import {
   PopupPlacement,
@@ -56,7 +55,7 @@ function PopupBase(props: PopupBaseProps, ref: React.Ref<HTMLDivElement>) {
   return (
     <ClickEventBoundary>
       <PopupWrapper
-        className={classNames(`is-${placement}`, className)}
+        className={classNames(`is-${placement}`, POPUP_Z_LEVEL_CLASS_NAMES[zLevel], className)}
         ref={ref ?? React.createRef()}
         style={style}
         zLevel={zLevel}
@@ -70,6 +69,13 @@ function PopupBase(props: PopupBaseProps, ref: React.Ref<HTMLDivElement>) {
 
 const PopupWithRef = React.forwardRef(PopupBase);
 PopupWithRef.displayName = 'Popup';
+
+const POPUP_Z_LEVEL_CLASS_NAMES: Record<PopupZLevel, string> = {
+  [PopupZLevel.Default]: 'sw-z-popup',
+  [PopupZLevel.Global]: 'sw-z-global-popup',
+  [PopupZLevel.Content]: 'sw-z-content-popup',
+  [PopupZLevel.Absolute]: 'sw-z-global-popup',
+};
 
 interface PopupProps extends Omit<PopupBaseProps, 'style'> {
   allowResizing?: boolean;
@@ -200,39 +206,32 @@ export const PopupWrapper = styled.div<{ zLevel: PopupZLevel }>`
   border: ${cssVar('border-width-default')} solid ${cssVar('color-border-bold')};
   box-shadow: ${cssVar('box-shadow-medium')};
 
-  ${tw`sw-box-border`};
-  ${tw`sw-rounded-2`};
-  ${tw`sw-cursor-default`};
-  ${tw`sw-overflow-hidden`};
-  ${({ zLevel }) =>
-    ({
-      [PopupZLevel.Default]: tw`sw-z-popup`,
-      [PopupZLevel.Global]: tw`sw-z-global-popup`,
-      [PopupZLevel.Content]: tw`sw-z-content-popup`,
-      [PopupZLevel.Absolute]: tw`sw-z-global-popup`,
-    })[zLevel]};
+  box-sizing: border-box;
+  border-radius: ${cssVar('border-radius-400', '0.5rem')};
+  cursor: default;
+  overflow: hidden;
 
   &.is-bottom,
   &.is-bottom-left,
   &.is-bottom-right {
-    ${tw`sw-mt-2`};
+    margin-top: ${cssVar('dimension-space-100', '0.5rem')};
   }
 
   &.is-top,
   &.is-top-left,
   &.is-top-right {
-    ${tw`sw--mt-2`};
+    margin-top: -0.5rem;
   }
 
   &.is-left,
   &.is-left-top,
   &.is-left-bottom {
-    ${tw`sw--ml-2`};
+    margin-left: -0.5rem;
   }
 
   &.is-right,
   &.is-right-top,
   &.is-right-bottom {
-    ${tw`sw-ml-2`};
+    margin-left: ${cssVar('dimension-space-100', '0.5rem')};
   }
 `;

@@ -63,7 +63,7 @@ exports[`should render correctly and forward click event 1`] = `
   -ms-flex-pack: center;
   -webkit-justify-content: center;
   justify-content: center;
-  gap: 0.5rem;
+  gap: var(--echoes-dimension-space-100, 0.5rem);
   line-height: 1.2;
   max-width: 83px;
 }
@@ -104,7 +104,7 @@ exports[`should render correctly and forward click event 1`] = `
   -ms-flex-pack: center;
   -webkit-justify-content: center;
   justify-content: center;
-  gap: 0.5rem;
+  gap: var(--echoes-dimension-space-100, 0.5rem);
   line-height: 1.2;
   max-width: 17px;
 }

@@ -21,12 +21,11 @@
 import legacy from '@vitejs/plugin-legacy';
 import react from '@vitejs/plugin-react';
 import autoprefixer from 'autoprefixer';
-import path, { resolve } from 'path';
+import path, { resolve } from 'node:path';
 import postCssCalc from 'postcss-calc';
 import license from 'rollup-plugin-license';
 import { UserConfig } from 'vite';
 import { analyzer } from 'vite-bundle-analyzer';
-import macrosPlugin from 'vite-plugin-babel-macros';
 import requireTransform from 'vite-plugin-require-transform';
 import babelConfig from './babel.config';
 import { ALLOWED_LICENSE_TEXT, ALLOWED_LICENSES, generateLicenseText } from './config/license';
@@ -133,9 +132,6 @@ export const baseViteConfig = {
     react({
       babel: babelConfig,
     }),
-    // we use this to support `twin.macro` (macro is a term for a generic babel plugin used at runtime)
-    // More Info: https://www.npmjs.com/package/babel-plugin-macros
-    macrosPlugin(),
     analyzeBundle &&
       analyzer({
         fileName: resolve(projectRoot, 'build/bundle-metrics.json'),

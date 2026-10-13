@@ -24,7 +24,6 @@ import { cssVar, type EchoesDesignTokens } from '@sonarsource/echoes-react';
 import classNames from 'classnames';
 import * as React from 'react';
 import { useIntl } from 'react-intl';
-import tw from 'twin.macro';
 import { InteractiveIcon } from '../../components/InteractiveIcon';
 import {
   CloseIcon,
@@ -159,10 +158,11 @@ export function DismissableFlagMessage(
 DismissableFlagMessage.displayName = 'DismissableFlagMessage'; // so that tests don't see the obfuscated production name
 
 const StyledFlag = styled.div<{ variantInfo: ReturnType<typeof getVariantInfo> }>`
-  ${tw`sw-inline-flex`}
-  ${tw`sw-min-h-1000`}
-  ${tw`sw-rounded-1`}
-  ${tw`sw-box-border`}
+  display: inline-flex;
+  min-height: ${cssVar('dimension-height-1000', '2.5rem')};
+  border-radius: ${cssVar('border-radius-200', '0.25rem')};
+  box-sizing: border-box;
+
   border: ${cssVar('border-width-default')} solid
     ${({ variantInfo }) => cssVar(variantInfo.borderColor)};
   background-color: ${cssVar('color-surface-default')};
@@ -172,23 +172,33 @@ const StyledFlag = styled.div<{ variantInfo: ReturnType<typeof getVariantInfo> }
   }
 
   & > .flag-inner {
-    ${tw`sw-flex sw-items-stretch`}
-    ${tw`sw-box-border`}
+    display: flex;
+    align-items: stretch;
+    box-sizing: border-box;
   }
 
   & .flag-icon {
-    ${tw`sw-flex sw-justify-center sw-items-center`}
-    ${tw`sw-rounded-l-1`}
-    ${tw`sw-px-3`}
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-top-left-radius: ${cssVar('border-radius-200', '0.25rem')};
+    border-bottom-left-radius: ${cssVar('border-radius-200', '0.25rem')};
+    padding-left: ${cssVar('dimension-space-150', '0.75rem')};
+    padding-right: ${cssVar('dimension-space-150', '0.75rem')};
     background-color: ${({ variantInfo }) => cssVar(variantInfo.backgroundColor)};
   }
 
   & .flag-content {
-    ${tw`sw-flex sw-flex-auto sw-items-center`}
-    ${tw`sw-overflow-auto`}
-    ${tw`sw-text-left`}
-    ${tw`sw-px-3 sw-py-2`}
-    ${tw`sw-typo-default`}
+    display: flex;
+    flex: 1 1 auto;
+    align-items: center;
+    overflow: auto;
+    text-align: left;
+    padding-left: ${cssVar('dimension-space-150', '0.75rem')};
+    padding-right: ${cssVar('dimension-space-150', '0.75rem')};
+    padding-top: ${cssVar('dimension-space-100', '0.5rem')};
+    padding-bottom: ${cssVar('dimension-space-100', '0.5rem')};
+    font: ${cssVar('typography-text-default-regular')};
     color: ${cssVar('color-text-default')};
   }
 `;

@@ -20,27 +20,30 @@
 
 import styled from '@emotion/styled';
 import { cssVar } from '@sonarsource/echoes-react';
-import tw from 'twin.macro';
 import { BareButton } from '../../sonar-aligned';
 
 export const SCMHighlight = styled.h6`
   color: var(--code-viewer-tooltip-highlight-text);
 
-  ${tw`sw-typo-semibold`};
-  ${tw`sw-text-right`};
-  ${tw`sw-min-w-[6rem]`};
-  ${tw`sw-mr-4`};
-  ${tw`sw-my-1`};
+  font: ${cssVar('typography-text-default-semi-bold')};
+  text-align: right;
+  min-width: 6rem;
+  margin-right: ${cssVar('dimension-space-200', '1rem')};
+  margin-top: ${cssVar('dimension-space-50', '0.25rem')};
+  margin-bottom: ${cssVar('dimension-space-50', '0.25rem')};
 `;
 
 export const LineSCMStyledDiv = styled.div`
   outline: none;
 
-  ${tw`sw-pr-2`}
-  ${tw`sw-truncate`}
-  ${tw`sw-whitespace-nowrap`}
-  ${tw`sw-cursor-pointer`}
-  ${tw`sw-w-full sw-h-full`}
+  padding-right: ${cssVar('dimension-space-100', '0.5rem')};
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  white-space: nowrap;
+  cursor: pointer;
+  height: 100%;
+  width: 100%;
 
   &:hover {
     color: ${cssVar('color-text-strong')};
@@ -50,7 +53,8 @@ export const LineSCMStyledDiv = styled.div`
 export const DuplicationHighlight = styled.h6`
   color: var(--code-viewer-tooltip-highlight-text);
 
-  ${tw`sw-mb-2 sw-font-semibold`};
+  margin-bottom: ${cssVar('dimension-space-100', '0.5rem')};
+  font-weight: ${cssVar('font-weight-semi-bold')};
 `;
 
 export const LineStyled = styled.tr`
@@ -59,7 +63,7 @@ export const LineStyled = styled.tr`
   grid-template-columns: var(--columns);
   align-items: center;
 
-  ${tw`sw-code`}
+  font: ${cssVar('typography-code-default')};
 `;
 LineStyled.displayName = 'LineStyled';
 
@@ -68,9 +72,10 @@ export const LineMeta = styled.td`
   background-color: var(--line-background);
   outline: none;
 
-  ${tw`sw-w-full sw-h-full`}
-  ${tw`sw-box-border`}
-  ${tw`sw-select-none`}
+  height: 100%;
+  width: 100%;
+  box-sizing: border-box;
+  user-select: none;
 
   ${LineStyled}:hover & {
     background-color: var(--code-viewer-line-background-hover);
@@ -97,11 +102,12 @@ export const LineCodeLayers = styled.td`
 `;
 
 export const UnderlineLabels = styled.div<{ transparentBackground?: boolean }>`
-  ${tw`sw-absolute`}
-  ${tw`sw-flex sw-gap-1`}
-  ${tw`sw-px-1`}
-  ${tw`sw-right-0`}
-
+  position: absolute;
+  display: flex;
+  gap: ${cssVar('dimension-space-50', '0.25rem')};
+  padding-left: ${cssVar('dimension-space-50', '0.25rem')};
+  padding-right: ${cssVar('dimension-space-50', '0.25rem')};
+  right: 0;
 
   height: 1.125rem;
   margin-top: -1.125rem;
@@ -110,8 +116,10 @@ export const UnderlineLabels = styled.div<{ transparentBackground?: boolean }>`
 `;
 
 export const UnderlineLabel = styled.span`
-  ${tw`sw-rounded-t-1`}
-  ${tw`sw-px-1`}
+  border-top-left-radius: ${cssVar('border-radius-200', '0.25rem')};
+  border-top-right-radius: ${cssVar('border-radius-200', '0.25rem')};
+  padding-left: ${cssVar('dimension-space-50', '0.25rem')};
+  padding-right: ${cssVar('dimension-space-50', '0.25rem')};
 `;
 
 export const NewCodeUnderlineLabel = styled(UnderlineLabel)`
@@ -130,11 +138,16 @@ export const UncoveredUnderlineLabel = styled(UnderlineLabel)`
 `;
 
 export const LineCodeEllipsisStyled = styled(BareButton)`
-  ${tw`sw-flex sw-items-center sw-gap-2`}
-  ${tw`sw-px-2 sw-py-1`}
-  ${tw`sw-code`}
-  ${tw`sw-w-full`}
-  ${tw`sw-box-border`}
+  display: flex;
+  align-items: center;
+  gap: ${cssVar('dimension-space-100', '0.5rem')};
+  padding-left: ${cssVar('dimension-space-100', '0.5rem')};
+  padding-right: ${cssVar('dimension-space-100', '0.5rem')};
+  padding-top: ${cssVar('dimension-space-50', '0.25rem')};
+  padding-bottom: ${cssVar('dimension-space-50', '0.25rem')};
+  font: ${cssVar('typography-code-default')};
+  width: 100%;
+  box-sizing: border-box;
 
   border-top: 1px solid var(--code-viewer-line-border);
   border-bottom: 1px solid var(--code-viewer-line-border);
