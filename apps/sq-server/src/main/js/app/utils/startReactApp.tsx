@@ -19,6 +19,7 @@
  */
 
 import { EchoesProvider } from '@sonarsource/echoes-react';
+import '@sonarsource/echoes-react/styles/sonar.css';
 import { QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { Agentation } from 'agentation';
