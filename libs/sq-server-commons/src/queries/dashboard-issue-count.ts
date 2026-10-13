@@ -45,11 +45,9 @@ export const useIssueCountSearchQuery = createQueryHook(
         searchIssues({
           componentKeys: params.componentKey,
           issueStatuses:
-            params.measureFilters?.issueStatus === undefined
-              ? FILTERABLE_CODE_ISSUE_STATUSES.join(',')
-              : params.measureFilters.issueStatus,
+            params.measureFilters?.issueStatus ?? FILTERABLE_CODE_ISSUE_STATUSES.join(','),
           ps: 1,
-          sinceLeakPeriod: params.scope === CodeScope.New,
+          inNewCodePeriod: params.scope === CodeScope.New,
           ...getIssueFilterQuery(params.measureFilters, params.isStandardMode === true),
           ...getBranchLikeQuery(params.branchLike),
         }).then((response) => response.paging.total),

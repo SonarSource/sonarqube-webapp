@@ -91,7 +91,7 @@ describe('Server dashboard widget URL seams', () => {
         impactSeverities: 'HIGH,LOW',
         impactSoftwareQualities: 'SECURITY',
         issueStatuses: 'ACCEPTED',
-        sinceLeakPeriod: 'true',
+        inNewCodePeriod: 'true',
       },
     );
     expectUrl(
@@ -111,7 +111,7 @@ describe('Server dashboard widget URL seams', () => {
         id: 'project-key',
         issueStatuses: 'ACCEPTED',
         severities: 'CRITICAL,MINOR',
-        sinceLeakPeriod: 'true',
+        inNewCodePeriod: 'true',
         types: 'VULNERABILITY',
       },
     );
@@ -171,7 +171,7 @@ describe('Server dashboard widget URL seams', () => {
         impactSeverities: 'HIGH',
         impactSoftwareQualities: 'SECURITY',
         issueStatuses: 'OPEN,CONFIRMED,ACCEPTED,FALSE_POSITIVE',
-        sinceLeakPeriod: 'true',
+        inNewCodePeriod: 'true',
       },
     );
     expectUrl(
@@ -181,7 +181,7 @@ describe('Server dashboard widget URL seams', () => {
         id: 'project-key',
         issueStatuses: 'OPEN,CONFIRMED,ACCEPTED,FALSE_POSITIVE',
         severities: 'CRITICAL',
-        sinceLeakPeriod: 'true',
+        inNewCodePeriod: 'true',
         types: 'VULNERABILITY',
       },
     );
@@ -253,7 +253,7 @@ describe('Server dashboard widget URL seams', () => {
         impactSoftwareQualities: 'RELIABILITY',
         issueStatuses: 'ACCEPTED',
         rules: 'typescript:S1',
-        sinceLeakPeriod: 'true',
+        inNewCodePeriod: 'true',
       },
     );
     expectUrl(
@@ -281,7 +281,7 @@ describe('Server dashboard widget URL seams', () => {
         issueStatuses: 'ACCEPTED',
         rules: 'typescript:S1',
         severities: 'CRITICAL',
-        sinceLeakPeriod: 'true',
+        inNewCodePeriod: 'true',
         types: 'BUG',
       },
     );

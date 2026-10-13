@@ -70,7 +70,7 @@ function buildIssueSearchQuery(
     facets: widget.slice,
     issueStatuses: FILTERABLE_CODE_ISSUE_STATUSES.join(','),
     ps: 1,
-    sinceLeakPeriod: false,
+    inNewCodePeriod: false,
     ...resolveIssueSearchFiltersForMode({ impactSoftwareQuality }, isStandardMode),
     ...getBranchLikeQuery(branchLike),
   };

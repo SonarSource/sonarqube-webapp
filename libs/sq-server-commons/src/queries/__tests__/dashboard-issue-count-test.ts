@@ -35,14 +35,17 @@ describe('dashboard issue count queries', () => {
     jest.clearAllMocks();
   });
 
-  it('returns the total from the Server issue search endpoint', async () => {
-    jest.mocked(searchIssues).mockResolvedValue({ paging: { total: 7 } } as never);
+  it.each([
+    [CodeScope.New, 5],
+    [CodeScope.Overall, 15],
+  ])('returns the issue count for %s code scope', async (scope, expectedTotal) => {
+    jest.mocked(searchIssues).mockResolvedValue({ paging: { total: expectedTotal } } as never);
 
     const { result } = renderHook(
       () =>
         useIssueCountSearchQuery({
           componentKey: 'project-1',
-          scope: CodeScope.New,
+          scope,
         }),
       { wrapper: getContextWrapper() },
     );
@@ -50,15 +53,13 @@ describe('dashboard issue count queries', () => {
     await waitFor(() => {
       expect(result.current.isSuccess).toBe(true);
     });
-    expect(result.current.data).toBe(7);
-    expect(searchIssues).toHaveBeenCalledWith(
-      expect.objectContaining({
-        componentKeys: 'project-1',
-        issueStatuses: 'OPEN,CONFIRMED,ACCEPTED,FALSE_POSITIVE',
-        sinceLeakPeriod: true,
-        ps: 1,
-      }),
-    );
+    expect(result.current.data).toBe(expectedTotal);
+    expect(searchIssues).toHaveBeenCalledWith({
+      componentKeys: 'project-1',
+      issueStatuses: 'OPEN,CONFIRMED,ACCEPTED,FALSE_POSITIVE',
+      inNewCodePeriod: scope === CodeScope.New,
+      ps: 1,
+    });
   });
 
   it('uses Standard issue types and severities for Standard mode', async () => {

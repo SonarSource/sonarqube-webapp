@@ -360,7 +360,7 @@ describe('dashboard widget adapter queries', () => {
           issueStatuses: 'OPEN,CONFIRMED,ACCEPTED,FALSE_POSITIVE',
           ps: 1,
           types: 'VULNERABILITY',
-          sinceLeakPeriod: false,
+          inNewCodePeriod: false,
         },
         expect.objectContaining({ enabled: true }),
       );

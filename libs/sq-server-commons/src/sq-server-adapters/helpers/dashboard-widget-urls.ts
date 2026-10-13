@@ -113,7 +113,7 @@ export function buildProjectRichCountWidgetLink(
       isStandardMode,
     ),
     issueStatuses: measureFilters?.issueStatus ?? ALL_FILTERABLE_CODE_ISSUE_STATUSES,
-    ...(scope === CodeScope.New ? { sinceLeakPeriod: 'true' } : {}),
+    ...(scope === CodeScope.New ? { inNewCodePeriod: 'true' } : {}),
     ...getBranchLikeQuery(branchLike),
   });
 }
@@ -181,7 +181,7 @@ function getProjectIssuePieChartSegmentUrl(
 ): string {
   const { filter, scope, slice } = props;
   if (scope === CodeScope.New) {
-    params.set('sinceLeakPeriod', 'true');
+    params.set('inNewCodePeriod', 'true');
   }
   if (slice !== PieChartIssueSlice.IssueStatuses) {
     params.set('issueStatuses', ALL_FILTERABLE_CODE_ISSUE_STATUSES);
@@ -218,7 +218,7 @@ export function getProjectDashboardTopListRowUrl(
   });
 
   if (scope === CodeScope.New) {
-    params.set('sinceLeakPeriod', 'true');
+    params.set('inNewCodePeriod', 'true');
   }
 
   if (metric.type === DashboardMetricType.Rich) {
