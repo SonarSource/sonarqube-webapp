@@ -28,6 +28,7 @@ describe('useFlags', () => {
     expect(result.current).toMatchObject({
       designArchitectureSquadExtensionPack: true,
       scaKeyChangesPrView: false,
+      scaShowRiskCopyAiPromptButton: false,
     });
   });
 });

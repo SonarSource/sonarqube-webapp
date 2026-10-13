@@ -28,6 +28,7 @@ interface SQSFlagSet extends FlagSet {
     maxNodesCount: number;
   };
   scaKeyChangesPrView: boolean;
+  scaShowRiskCopyAiPromptButton: boolean;
 }
 
 // SQS doesn't use LaunchDarkly for feature flags, so we just pass a default hardcoded flag set for
@@ -37,6 +38,7 @@ const defaultFlags: SQSFlagSet = {
   designArchitectureSquadExtensionPack: true,
   designArchitectureSquadPerformanceLimits: DEFAULT_PERFORMANCE_LIMITS,
   scaKeyChangesPrView: false,
+  scaShowRiskCopyAiPromptButton: false,
 };
 
 export function useFlags(): SQSFlagSet {

@@ -3028,6 +3028,8 @@ export const defaultMessages = {
   'dependencies.risk.how.title': 'Update the dependency',
   'dependencies.risk.how.body':
     'If an updated version of the dependency that fixes the vulnerability is available, update to that version. Always test your application thoroughly after updating a dependency to ensure nothing breaks.',
+  'dependencies.risk.how.view_prompt': 'View AI fix prompt',
+  'dependencies.risk.how.hide_prompt': 'Hide AI fix prompt',
   'dependencies.risk.how_introduced_tab': 'Where is it?',
   'dependencies.risk.how.find_alternative': 'Find an alternative',
   'dependencies.risk.how.find_alternative.vulnerability_body':
