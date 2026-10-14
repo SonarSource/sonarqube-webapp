@@ -18,10 +18,12 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import styled from '@emotion/styled';
 import {
   BadgeVariety,
   Button,
   ButtonVariety,
+  cssVar,
   IconLinkExternal,
   LinkStandalone,
   Modal,
@@ -92,7 +94,7 @@ export function ConfigureProjectsModal({
   }, [setScanStatus, setAnalysisMode, defaultScanStatus]);
 
   return (
-    <Modal
+    <TopAnchoredModal
       content={
         <ProjectsTable
           ariaLabel={title}
@@ -141,9 +143,14 @@ export function ConfigureProjectsModal({
       title={title}
     >
       {children}
-    </Modal>
+    </TopAnchoredModal>
   );
 }
+
+const TopAnchoredModal = styled(Modal)`
+  top: calc((100vh - ${cssVar('sizes-overlays-max-height-default')}) / 2);
+  transform: translateX(-50%);
+`;
 
 function ConfigureProjectRow({ project }: Readonly<{ project: OnboardingProject }>) {
   const { formatMessage } = useIntl();
