@@ -48,6 +48,9 @@ interface StatusTransitionProps<T extends string> {
   dropdownHeader?: NonNullable<React.ComponentProps<typeof DropdownMenu>['header']>;
   isOpen: boolean;
   isTransiting?: boolean;
+  /** Fired on every checkbox toggle, not just on confirm — lets a caller mirror the choice
+   * (e.g. to localStorage) as the user picks it, not only once they submit. */
+  onIsFeedbackChange?: (isFeedback: boolean) => void;
   onOpenChange?: (isOpen: boolean) => void;
   onTransition: (transition: T, comment?: string, isFeedback?: boolean) => Promise<void>;
   showFeedbackCheckbox?: boolean;
@@ -61,6 +64,7 @@ export function StatusTransition<T extends string>(props: Readonly<StatusTransit
   const {
     isOpen,
     onTransition,
+    onIsFeedbackChange,
     onOpenChange,
     transitions,
     buttonTooltipContent,
@@ -158,7 +162,10 @@ export function StatusTransition<T extends string>(props: Readonly<StatusTransit
               setPendingIsFeedback(defaultIsFeedback);
             }
           }}
-          onIsFeedbackChange={setPendingIsFeedback}
+          onIsFeedbackChange={(nextIsFeedback) => {
+            setPendingIsFeedback(nextIsFeedback);
+            onIsFeedbackChange?.(nextIsFeedback);
+          }}
           showFeedbackCheckbox={showFeedbackCheckbox}
           transition={selectedTransition}
         />

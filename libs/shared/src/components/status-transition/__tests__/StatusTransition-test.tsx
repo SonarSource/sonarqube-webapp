@@ -93,6 +93,24 @@ it('should pass isFeedback=true when checkbox is checked', async () => {
   expect(onTransite).toHaveBeenLastCalledWith('transition-2', '', true);
 });
 
+it('should call onIsFeedbackChange on every toggle, not just on confirm', async () => {
+  const onIsFeedbackChange = jest.fn();
+  const { user } = renderStatusTransition({
+    onIsFeedbackChange,
+    showFeedbackCheckbox: true,
+  });
+
+  await user.click(
+    byRole('menuitem', {
+      name: 'status_transition.transition-2 status_transition.transition-2.description',
+    }).get(),
+  );
+
+  await user.click(byRole('checkbox').get());
+
+  expect(onIsFeedbackChange).toHaveBeenCalledWith(true);
+});
+
 it('should not pass isFeedback when the feedback checkbox is hidden', async () => {
   const { user } = renderStatusTransition({ defaultIsFeedback: true });
 
