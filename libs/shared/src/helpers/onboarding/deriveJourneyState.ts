@@ -61,7 +61,11 @@ export function deriveJourneyState(overview: OnboardingOverview): JourneyState {
 
   return {
     activeStep,
-    analyze: { notImported: notYetImported, notScanned: steps.projects.notScanned },
+    analyze: {
+      byMode: steps.projects.analyzedByMode ?? null,
+      notImported: notYetImported,
+      notScanned: steps.projects.notScanned,
+    },
     analyzed,
     analyzedPct:
       steps.projects.percent === null

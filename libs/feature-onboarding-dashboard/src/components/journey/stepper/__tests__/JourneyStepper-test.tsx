@@ -87,7 +87,7 @@ const ui = {
 function mockState(overrides: Partial<JourneyState> = {}): JourneyState {
   return {
     activeStep: JourneyStep.Binding,
-    analyze: { notImported: 0, notScanned: 0 },
+    analyze: { byMode: null, notImported: 0, notScanned: 0 },
     analyzed: 0,
     analyzedPct: 0,
     configured: 0,

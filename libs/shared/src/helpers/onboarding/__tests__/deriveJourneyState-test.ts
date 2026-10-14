@@ -33,7 +33,7 @@ it('maps the step counters onto the view model', () => {
   const state = deriveJourneyState(buildOverview());
 
   expect(state).toMatchObject({
-    analyze: { notImported: 295, notScanned: 11 },
+    analyze: { byMode: null, notImported: 295, notScanned: 11 },
     analyzed: 1,
     configured: 1,
     discovered: 301,
@@ -43,6 +43,34 @@ it('maps the step counters onto the view model', () => {
     overallPct: 50,
     totalProjects: 301,
   });
+});
+
+it('maps the analyzed-by-mode split when the backend reports it', () => {
+  const state = deriveJourneyState(
+    buildOverview({
+      projects: {
+        analyzed: 10,
+        analyzedByMode: { automatic: 3, ci: 5 },
+        notImported: 20,
+        notScanned: 3,
+        percent: null,
+        total: 40,
+      },
+    }),
+  );
+
+  expect(state.analyze.byMode).toEqual({ automatic: 3, ci: 5 });
+  expect(state.analyzed).toBe(10);
+});
+
+it('exposes a null analyzed-by-mode split when the backend sends null or nothing', () => {
+  const projects = { analyzed: 10, notImported: 20, notScanned: 3, percent: null, total: 40 };
+
+  expect(
+    deriveJourneyState(buildOverview({ projects: { ...projects, analyzedByMode: null } })).analyze
+      .byMode,
+  ).toBeNull();
+  expect(deriveJourneyState(buildOverview({ projects })).analyze.byMode).toBeNull();
 });
 
 it('treats a configured platform count of zero as unbound', () => {

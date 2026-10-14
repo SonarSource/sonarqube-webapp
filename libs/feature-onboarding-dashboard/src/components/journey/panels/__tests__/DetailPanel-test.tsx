@@ -87,7 +87,13 @@ jest.mock('~adapters/queries/onboarding', () => ({
 }));
 
 // Where a configuration's actions lead is product-specific, so the row menu is pinned to stubs here.
+// The module is mocked, so the product flag is a getter over a mutable value: SQC reports the
+// analysis-mode split, SQS (the default here) never does.
+let mockIsAutomaticAnalysisSupported = false;
 jest.mock('~adapters/helpers/onboarding-actions', () => ({
+  get IS_AUTOMATIC_ANALYSIS_SUPPORTED() {
+    return mockIsAutomaticAnalysisSupported;
+  },
   getDevopsPlatformWebUrl: jest.fn().mockReturnValue(undefined),
   getImportRepositoriesUrl: jest.fn().mockReturnValue(undefined),
   getProjectCiConfigurationUrl: jest.fn().mockReturnValue({ pathname: '/tutorials' }),
@@ -107,6 +113,7 @@ jest.mock('~adapters/helpers/useEditPermissionsUrl', () => ({
 
 beforeEach(() => {
   jest.clearAllMocks();
+  mockIsAutomaticAnalysisSupported = false;
 
   jest.mocked(useBindingSettingsUrl).mockReturnValue(BINDING_SETTINGS_URL);
   jest.mocked(useCreateDevopsConfigurationUrl).mockReturnValue(CREATE_CONFIGURATION_URL);
@@ -123,7 +130,7 @@ beforeEach(() => {
 // A fully-bound org with imported + analysed repositories (the "everything unlocked" state).
 const boundState: JourneyState = {
   activeStep: JourneyStep.Projects,
-  analyze: { notImported: 20, notScanned: 7 },
+  analyze: { byMode: null, notImported: 20, notScanned: 7 },
   analyzed: 72,
   analyzedPct: 60,
   configured: 1,
@@ -202,6 +209,9 @@ const ui = {
   // Analyze panel
   analyzedLegend: byText('onboarding_dashboard.journey.analyze.legend.analyzed'),
   analyzedCenterLabel: byText('onboarding_dashboard.journey.analyze.analyzed_label'),
+  ciScanLegend: byText('onboarding_dashboard.journey.analyze.legend.ci_scan'),
+  autoscanLegend: byText('onboarding_dashboard.journey.analyze.legend.autoscan'),
+  otherAnalysisLegend: byText('onboarding_dashboard.journey.analyze.legend.other_analysis'),
   notScannedLegend: byText('onboarding_dashboard.journey.analyze.legend.not_scanned'),
   notImportedAnalyzeLegend: byText('onboarding_dashboard.journey.analyze.legend.not_imported'),
   notScannedCta: byRole('button', { name: 'onboarding_dashboard.journey.analyze.not_scanned.cta' }),
@@ -588,7 +598,11 @@ it('omits the analyzed legend entry when nothing has been analyzed', () => {
 it('omits the analyzed legend when the reported counts leave no room for it', () => {
   renderPanel(
     JourneyStep.Projects,
-    stateWith({ analyze: { notImported: 100, notScanned: 20 }, analyzed: 5, totalProjects: 120 }),
+    stateWith({
+      analyze: { byMode: null, notImported: 100, notScanned: 20 },
+      analyzed: 5,
+      totalProjects: 120,
+    }),
   );
 
   expect(ui.analyzedLegend.query()).not.toBeInTheDocument();
@@ -599,7 +613,7 @@ it('does not cap the analyzed segment when totalProjects is unusable (discovery 
   renderPanel(
     JourneyStep.Projects,
     stateWith({
-      analyze: { notImported: 0, notScanned: 2 },
+      analyze: { byMode: null, notImported: 0, notScanned: 2 },
       analyzed: 4,
       totalProjects: 0,
     }),
@@ -607,4 +621,101 @@ it('does not cap the analyzed segment when totalProjects is unusable (discovery 
 
   expect(ui.analyzedLegend.get()).toBeInTheDocument();
   expect(ui.notScannedLegend.get()).toBeInTheDocument();
+});
+
+describe('analyzed segment split by analysis mode', () => {
+  // boundState: 72 analyzed, 7 not scanned, 20 not imported, 120 projects in total.
+  function renderSplit(byMode: { automatic: number; ci: number } | null, overrides = {}) {
+    renderPanel(
+      JourneyStep.Projects,
+      stateWith({ analyze: { byMode, notImported: 20, notScanned: 7 }, ...overrides }),
+    );
+  }
+
+  it('shows CI scan, Autoscan and Other analysis instead of Analyzed on SQC', () => {
+    mockIsAutomaticAnalysisSupported = true;
+    renderSplit({ automatic: 20, ci: 40 });
+
+    expect(ui.ciScanLegend.get()).toBeInTheDocument();
+    expect(ui.autoscanLegend.get()).toBeInTheDocument();
+    // 72 - 40 - 20 projects are analyzed by a local scanner without CI.
+    expect(ui.otherAnalysisLegend.get()).toBeInTheDocument();
+    expect(ui.analyzedLegend.query()).not.toBeInTheDocument();
+    expect(ui.notScannedLegend.get()).toBeInTheDocument();
+    expect(ui.notImportedAnalyzeLegend.get()).toBeInTheDocument();
+    expect(ui.analyzedCenterLabel.get()).toBeInTheDocument();
+  });
+
+  it('omits Other analysis when the modes add up to the analyzed total', () => {
+    mockIsAutomaticAnalysisSupported = true;
+    renderSplit({ automatic: 22, ci: 50 });
+
+    expect(ui.ciScanLegend.get()).toBeInTheDocument();
+    expect(ui.autoscanLegend.get()).toBeInTheDocument();
+    expect(ui.otherAnalysisLegend.query()).not.toBeInTheDocument();
+  });
+
+  it('omits the modes that have no project', () => {
+    mockIsAutomaticAnalysisSupported = true;
+    renderSplit({ automatic: 0, ci: 72 });
+
+    expect(ui.ciScanLegend.get()).toBeInTheDocument();
+    expect(ui.autoscanLegend.query()).not.toBeInTheDocument();
+    expect(ui.otherAnalysisLegend.query()).not.toBeInTheDocument();
+  });
+
+  it('keeps the single Analyzed entry on SQS even if a split is present', () => {
+    mockIsAutomaticAnalysisSupported = false;
+    renderSplit({ automatic: 20, ci: 40 });
+
+    expect(ui.analyzedLegend.get()).toBeInTheDocument();
+    expect(ui.ciScanLegend.query()).not.toBeInTheDocument();
+    expect(ui.autoscanLegend.query()).not.toBeInTheDocument();
+    expect(ui.otherAnalysisLegend.query()).not.toBeInTheDocument();
+  });
+
+  it('keeps the single Analyzed entry when the backend reports no split', () => {
+    mockIsAutomaticAnalysisSupported = true;
+    renderSplit(null);
+
+    expect(ui.analyzedLegend.get()).toBeInTheDocument();
+    expect(ui.ciScanLegend.query()).not.toBeInTheDocument();
+    expect(ui.autoscanLegend.query()).not.toBeInTheDocument();
+  });
+
+  it('never shows more than the analyzed total when the modes exceed it', () => {
+    mockIsAutomaticAnalysisSupported = true;
+    // 60 + 40 > 72 analyzed: CI takes 60, Autoscan only gets the 12 left, nothing is "other".
+    renderSplit({ automatic: 40, ci: 60 });
+
+    expect(ui.ciScanLegend.get()).toBeInTheDocument();
+    expect(ui.autoscanLegend.get()).toBeInTheDocument();
+    expect(ui.otherAnalysisLegend.query()).not.toBeInTheDocument();
+  });
+
+  it('drops the later modes when the reported counts leave no room for them', () => {
+    mockIsAutomaticAnalysisSupported = true;
+    // Only 120 - 100 - 20 = 0 projects of room: no analyzed segment fits at all.
+    renderSplit(
+      { automatic: 2, ci: 3 },
+      {
+        analyze: { byMode: { automatic: 2, ci: 3 }, notImported: 100, notScanned: 20 },
+        analyzed: 5,
+      },
+    );
+
+    expect(ui.ciScanLegend.query()).not.toBeInTheDocument();
+    expect(ui.autoscanLegend.query()).not.toBeInTheDocument();
+    expect(ui.otherAnalysisLegend.query()).not.toBeInTheDocument();
+    expect(ui.notScannedLegend.get()).toBeInTheDocument();
+  });
+
+  it('ignores negative counts', () => {
+    mockIsAutomaticAnalysisSupported = true;
+    renderSplit({ automatic: -5, ci: 10 });
+
+    expect(ui.ciScanLegend.get()).toBeInTheDocument();
+    expect(ui.autoscanLegend.query()).not.toBeInTheDocument();
+    expect(ui.otherAnalysisLegend.get()).toBeInTheDocument();
+  });
 });

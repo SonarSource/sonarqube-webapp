@@ -136,7 +136,14 @@ interface OnboardingRepositoriesStep {
 }
 
 interface OnboardingProjectsStep {
+  /** Total of analyzed projects, whatever the analysis mode. */
   analyzed: number;
+  /**
+   * Analyzed projects split by analysis mode. Only reported on SonarQube Cloud, absent or null on
+   * SonarQube Server and older backends. `ci + automatic` can be lower than `analyzed`: the
+   * remainder are projects analyzed by a local scanner without CI.
+   */
+  analyzedByMode?: { automatic: number; ci: number } | null;
   /** Discovered repositories with no project yet. Null when `discovered` is null. */
   notImported: number | null;
   notScanned: number;
@@ -270,6 +277,8 @@ export enum JourneyLevel {
 export interface JourneyState {
   activeStep: JourneyStep;
   analyze: {
+    /** Analyzed projects split by analysis mode, or null when the product doesn't report it. */
+    byMode: { automatic: number; ci: number } | null;
     notImported: number;
     notScanned: number;
   };
