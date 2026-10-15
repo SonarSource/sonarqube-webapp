@@ -31,6 +31,8 @@ interface SliderStep {
 export interface SliderProps {
   ariaLabel?: string;
   className?: string;
+  /** Shows a tick mark above each step label. */
+  hasTicks?: boolean;
   id?: string;
   isDisabled?: boolean;
   label?: string;
@@ -53,6 +55,7 @@ export interface SliderProps {
 export function Slider({
   ariaLabel,
   className,
+  hasTicks,
   id,
   isDisabled,
   label,
@@ -153,7 +156,7 @@ export function Slider({
         />
       </SliderInputWrapper>
 
-      <Graduations className="sw-relative sw-w-full sw-mt-2">
+      <Graduations className="sw-relative sw-w-full sw-mt-2" hasTicks={hasTicks}>
         {steps.map((step, index) => {
           const isFirst = index === 0 && steps.length > 1;
           const isLast = index === steps.length - 1 && steps.length > 1;
@@ -169,9 +172,11 @@ export function Slider({
             <Graduation
               className="sw-absolute sw-top-0 sw-flex sw-flex-col sw-items-center sw-gap-1"
               key={step.value}
-              position={position}
-              style={{ left: `${steps.length > 1 ? (index / (steps.length - 1)) * 100 : 50}%` }}
+              style={{
+                left: `calc(${SLIDER_THUMB_SIZE} / 2 + (100% - ${SLIDER_THUMB_SIZE}) * ${steps.length > 1 ? index / (steps.length - 1) : 0.5})`,
+              }}
             >
+              {hasTicks && <GraduationTick aria-hidden />}
               <GraduationLabel
                 className="sw-text-xs sw-whitespace-nowrap sw-cursor-pointer"
                 disabled={isDisabled}
@@ -179,6 +184,7 @@ export function Slider({
                   onChange(step.value);
                   inputRef.current?.focus();
                 }}
+                position={position}
                 tabIndex={-1}
                 type="button"
               >
@@ -279,28 +285,22 @@ const SliderInput = styled.input`
   }
 `;
 
-const Graduations = styled.div`
-  height: 1.75rem;
+const Graduations = styled.div<{ hasTicks?: boolean }>`
+  height: ${({ hasTicks }) => (hasTicks ? '2.5rem' : '1.75rem')};
 `;
 
-/* Positioned at the same percentage the input uses for its thumb (min 0 / max steps.length - 1),
- * then shifted back by half its own width, so the label lines up with the stop it represents
- * instead of drifting off it once step labels have different widths.
- *
- * The first and last graduations get an extra inward shift on top of that, so their label never
- * sits flush against - or spills past - the ends of the slider track. */
-const Graduation = styled.div<{ position: 'center' | 'end' | 'start' }>`
-  transform: ${({ position }) => {
-    switch (position) {
-      case 'start':
-        return 'translateX(calc(-50% + 0.5rem))';
-      case 'end':
-        return 'translateX(calc(-50% - 0.5rem))';
-      case 'center':
-      default:
-        return 'translateX(-50%)';
-    }
-  }};
+const GraduationTick = styled.span`
+  width: 1px;
+  height: 0.375rem;
+  background-color: ${cssVar('color-border-bold')};
+`;
+
+/* Positioned where the native thumb's center sits for that step - the thumb travels from half its
+ * own size to the track width minus half its size, so a plain percentage drifts off it for the
+ * steps in between - then shifted back by half its own width, so the tick and label line up with
+ * the stop they represent instead of drifting off it once step labels have different widths. */
+const Graduation = styled.div`
+  transform: translateX(-50%);
 `;
 
 /** A step's label, clickable to jump the slider straight to it without needing to drag through
@@ -310,7 +310,20 @@ const Graduation = styled.div<{ position: 'center' | 'end' | 'start' }>`
  * range input already handles keyboard stepping (Arrow/Home/End) - without that, every step would
  * add its own unlabeled tab stop (e.g. a bare "Blocker" button with no hint of which slider it
  * belongs to), for keyboard/screen-reader users who gain nothing from it. */
-const GraduationLabel = styled.button`
+const GraduationLabel = styled.button<{ position: 'center' | 'end' | 'start' }>`
+  /* The first and last labels get an extra inward shift, so they never sit flush against - or
+   * spill past - the ends of the slider track. */
+  transform: ${({ position }) => {
+    switch (position) {
+      case 'start':
+        return 'translateX(0.5rem)';
+      case 'end':
+        return 'translateX(-0.5rem)';
+      case 'center':
+      default:
+        return 'none';
+    }
+  }};
   border: none;
   background: none;
   padding: 0;
