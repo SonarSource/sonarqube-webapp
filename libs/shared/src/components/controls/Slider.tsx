@@ -34,6 +34,8 @@ export interface SliderProps {
   id?: string;
   isDisabled?: boolean;
   label?: string;
+  /** Optional secondary text shown next to the label, e.g. a short status for the current value. */
+  labelDetail?: string;
   onChange: (value: string) => void;
   steps: SliderStep[];
   value: string;
@@ -54,6 +56,7 @@ export function Slider({
   id,
   isDisabled,
   label,
+  labelDetail,
   onChange,
   steps,
   value,
@@ -115,13 +118,25 @@ export function Slider({
   return (
     <div className={className}>
       {label && (
-        <Label className="sw-block sw-mb-2 sw-font-semibold" htmlFor={sliderId}>
-          {label}
-        </Label>
+        <div className="sw-flex sw-items-baseline sw-gap-2 sw-mb-2">
+          <Label className="sw-font-semibold" htmlFor={sliderId}>
+            {label}
+          </Label>
+          {labelDetail && (
+            <span
+              className="sw-text-sm"
+              id={`${sliderId}-detail`}
+              style={{ color: cssVar('color-text-subtle') }}
+            >
+              {labelDetail}
+            </span>
+          )}
+        </div>
       )}
 
       <SliderInputWrapper className="sw-relative sw-w-full">
         <SliderInput
+          aria-describedby={labelDetail ? `${sliderId}-detail` : undefined}
           aria-label={ariaLabel}
           aria-valuetext={steps[selectedIndex]?.label}
           className="sw-w-full sw-cursor-pointer"

@@ -45,6 +45,15 @@ it('renders a graduation label for every step', () => {
   });
 });
 
+it('renders the optional label detail next to the label', () => {
+  setup({ label: 'Security', labelDetail: '~61% Active rules', value: 'MEDIUM' });
+
+  expect(screen.getByText('~61% Active rules')).toBeVisible();
+  expect(screen.getByRole('slider', { name: 'Security' })).toHaveAccessibleDescription(
+    '~61% Active rules',
+  );
+});
+
 it.each([
   ['{ArrowRight}', 'MEDIUM', 'HIGH'],
   ['{ArrowLeft}', 'MEDIUM', 'LOW'],
