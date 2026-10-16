@@ -688,6 +688,12 @@ module.exports = [
     },
   },
   {
+    files: ['private/libs/feature-dast/**/*.{ts,tsx}'],
+    languageOptions: {
+      parserOptions: { tsconfigRootDir: `${__dirname}/private/libs/feature-dast` },
+    },
+  },
+  {
     files: ['private/libs/feature-architecture/**/*.{ts,tsx}'],
     languageOptions: {
       parserOptions: { tsconfigRootDir: `${__dirname}/private/libs/feature-architecture` },

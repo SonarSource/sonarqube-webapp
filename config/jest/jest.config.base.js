@@ -110,6 +110,7 @@ const projectConfig = {
 
     // Shared libraries aliases, following token is used in the nx shared-library generator
     // <<shared-libraries-aliases>>
+    '^~feature-dast/(.+)': '<rootDir>/private/libs/feature-dast/src/$1',
     '^~feature-vortex-dashboard/(.+)': '<rootDir>/private/libs/feature-vortex-dashboard/src/$1',
     '^~feature-compliance-reports/(.+)': '<rootDir>/private/libs/feature-compliance-reports/src/$1',
     '^~feature-hunter-agent/(.+)': '<rootDir>/private/libs/feature-hunter-agent/src/$1',
