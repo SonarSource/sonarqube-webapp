@@ -2932,6 +2932,12 @@ export const defaultMessages = {
   'dependencies.risks.type.license.upgrade_callout.body':
     'Upgrade to set license profiles and manage risk from open source licenses.',
   'dependencies.risks.type.license.upgrade_callout.header': 'Manage license risk with Enterprise',
+  'dependencies.risks.type.license.no_profile_tooltip': 'No license profile configured.',
+  'dependencies.risks.type.license.no_profile_tooltip.icon':
+    'License risks not available for this project.',
+  'dependencies.risks.type.license.no_profile_learn_more': 'Learn more',
+  'dependencies.risks.type.license.no_profile_empty_state.body':
+    'No prohibited license risks are available because no license profile has been applied to this project.',
   'dependencies.risks.type.license_prohibited_description':
     'Dependencies with license {license} should not be used',
   'dependencies.risks.type.vulnerability': 'Vulnerability',

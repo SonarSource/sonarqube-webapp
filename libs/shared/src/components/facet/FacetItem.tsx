@@ -36,6 +36,12 @@ export type FacetItemProps = {
   onClick: (x: string, multiple?: boolean) => void;
   small?: boolean;
   stat?: React.ReactNode;
+  /**
+   * Rendered as a sibling of the item's button, not forwarded into it, so an
+   * interactive element (e.g. a ToggleTip) can be used here without nesting
+   * a button inside the item's own button.
+   */
+  suffixContent?: React.ReactNode;
   value: string;
 };
 
@@ -54,6 +60,7 @@ export function BaseFacetItem({
   onClick,
   small,
   stat,
+  suffixContent,
   ariaLabel,
   value,
 }: Readonly<FacetItemProps>) {
@@ -87,6 +94,7 @@ export function BaseFacetItem({
           <div>{!hideStat && <span className="stat">{stat}</span>}</div>
         </div>
       </StyledButton>
+      {suffixContent}
     </StyledItem>
   );
 }
@@ -105,7 +113,8 @@ const StyledButton = styled(Button)<{
   padding-left: ${cssVar('dimension-space-50', '0.25rem')};
   padding-right: ${cssVar('dimension-space-50', '0.25rem')};
   border-radius: ${cssVar('border-radius-200', '0.25rem')};
-  width: 100%;
+  flex: 1 1 auto;
+  min-width: 0;
 
   ${({ small }) =>
     small
@@ -164,6 +173,8 @@ const StyledButton = styled(Button)<{
 `;
 
 const StyledItem = styled.li<{ active: boolean }>`
+  display: flex;
+  align-items: center;
   border-color: ${({ active }) => (active ? cssVar('color-text-accent') : 'transparent')};
   border-radius: 0.25rem;
   border-width: 1px;
