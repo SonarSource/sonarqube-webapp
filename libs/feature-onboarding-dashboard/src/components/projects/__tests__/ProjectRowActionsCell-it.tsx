@@ -344,7 +344,9 @@ it('checks the access of the reader only once the menu is opened', async () => {
 });
 
 it('triggers a new automatic analysis, on the products that run one', async () => {
-  const eligibilityCheck = jest.fn(() => HttpResponse.json({ eligible: true }));
+  const eligibilityCheck = jest.fn(
+    (_info: { request: Request }) => new HttpResponse(null, { status: 202 }),
+  );
   server.use(http.get('*/api/autoscan/eligibility', eligibilityCheck));
   const { user } = renderProjectRowActionsCell();
 
@@ -364,6 +366,9 @@ it('triggers a new automatic analysis, on the products that run one', async () =
   await waitFor(() => {
     expect(ui.rerunSuccess.queryAll()).toHaveLength(EXPECTED_AUTOMATIC_ANALYSIS_RUNS);
   });
+  for (const [{ request }] of eligibilityCheck.mock.calls) {
+    expect(new URL(request.url).searchParams.get('ignoreCache')).toBe('true');
+  }
 });
 
 it('does not claim an analysis started when the project is not eligible', async () => {
