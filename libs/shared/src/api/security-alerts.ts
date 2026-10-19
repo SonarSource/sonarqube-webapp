@@ -19,28 +19,39 @@
  */
 
 import { API_V2_BASE_URL } from '~adapters/helpers/urls';
-import { axiosClient } from '~shared/helpers/axios-clients';
+import { axiosClient } from '../helpers/axios-clients';
 import {
+  SecurityAlert,
+  SecurityAlertSearchParams,
   SecurityAlertSearchResponse,
   SecurityAlertSortField,
   SecurityAlertStatus,
   SortDirection,
-} from '~shared/types/security-alert';
+} from '../types/security-alert';
 
 const SECURITY_ALERTS_ENDPOINT = `${API_V2_BASE_URL}/security-alerts/alerts`;
 
-// This duplicates the security-alerts API call from private/libs/feature-security-alerts
-// because that library is not accessible from sq-server-commons. The banner needs only
-// the single most-recent open alert, so a minimal function is defined here rather than
-// depending on the private feature library.
-export function getNewestSecurityAlert() {
+export function getSecurityAlert(id: string) {
+  return axiosClient.get<SecurityAlert>(`${SECURITY_ALERTS_ENDPOINT}/${id}`);
+}
+
+export function getSecurityAlerts(params: SecurityAlertSearchParams) {
+  const serializedParams = {
+    ...params,
+    alertTypes: params.alertTypes?.join(','),
+    statuses: params.statuses?.join(','),
+  };
   return axiosClient.get<SecurityAlertSearchResponse>(SECURITY_ALERTS_ENDPOINT, {
-    params: {
-      sort: SecurityAlertSortField.FIRST_DETECTED_AT,
-      direction: SortDirection.DESC,
-      pageSize: 1,
-      pageIndex: 1,
-      statuses: SecurityAlertStatus.OPEN,
-    },
+    params: serializedParams,
+  });
+}
+
+export function getNewestSecurityAlert() {
+  return getSecurityAlerts({
+    sort: SecurityAlertSortField.FIRST_DETECTED_AT,
+    direction: SortDirection.DESC,
+    pageSize: 1,
+    pageIndex: 1,
+    statuses: [SecurityAlertStatus.OPEN],
   });
 }

@@ -22,10 +22,10 @@ import { Layout, Link } from '@sonarsource/echoes-react';
 import { useContext } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { getSecurityAlertsUrl } from '~shared/helpers/security-alerts-urls';
+import { useNewestSecurityAlertQuery } from '~shared/queries/security-alerts';
 import { SecurityAlertSortField, SortDirection } from '~shared/types/security-alert';
 import { CurrentUserContext } from '~sq-server-commons/context/current-user/CurrentUserContext';
 import { useMyGroupSubscriptionsQuery } from '~sq-server-commons/queries/group-notifications';
-import { useNewestSecurityAlertQuery } from '~sq-server-commons/queries/security-alerts';
 import { NotificationGroupType } from '~sq-server-commons/types/notifications';
 
 export function SecurityAlertBanner() {
@@ -41,7 +41,7 @@ export function SecurityAlertBanner() {
       (s) => s.notificationType === NotificationGroupType.SecurityAlertRaised,
     );
 
-  const { data } = useNewestSecurityAlertQuery({ enabled: receivesAlerts });
+  const { data } = useNewestSecurityAlertQuery(undefined, { enabled: receivesAlerts });
   const alert = data?.securityAlerts[0];
 
   const ONE_WEEK_MS = 7 * 24 * 60 * 60 * 1000;

@@ -19,12 +19,14 @@
  */
 
 import { queryOptions } from '@tanstack/react-query';
-import { createQueryHook, StaleTime } from '~shared/queries/common';
 import { getNewestSecurityAlert } from '../api/security-alerts';
+import { createQueryHook, StaleTime } from './common';
 
-export const useNewestSecurityAlertQuery = createQueryHook(() =>
+export const useNewestSecurityAlertQuery = createQueryHook((organizationKey?: string) =>
   queryOptions({
-    queryKey: ['security-alerts', 'banner'],
+    queryKey: organizationKey
+      ? ['security-alerts', 'banner', organizationKey]
+      : ['security-alerts', 'banner'],
     queryFn: getNewestSecurityAlert,
     staleTime: StaleTime.NEVER,
   }),
