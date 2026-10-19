@@ -84,6 +84,11 @@ beforeAll(() => {
         page: { pageIndex: 1, pageSize: 100, total: 1 },
       }),
     ),
+    http.get('*/api/navigation/component', () =>
+      HttpResponse.json({
+        configuration: { canBrowseProject: true, showPermissions: true },
+      }),
+    ),
   );
 });
 

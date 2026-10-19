@@ -20,6 +20,7 @@
 
 import { Button } from '@sonarsource/echoes-react';
 import { waitFor } from '@testing-library/react';
+import { http, HttpResponse } from 'msw';
 import {
   ANALYSIS_MODE_FILTER_OPTIONS,
   IS_AUTOMATIC_ANALYSIS_SUPPORTED,
@@ -28,7 +29,8 @@ import { getConfigureProjectUrl } from '~adapters/helpers/urls';
 import { useCanCreateProjects } from '~adapters/helpers/useCanCreateProjects';
 import { useEditPermissionsUrl } from '~adapters/helpers/useEditPermissionsUrl';
 import { OnboardingServiceMock } from '~shared/api/mocks/OnboardingServiceMock';
-import { registerServiceMocks } from '~shared/api/mocks/server';
+import { registerServiceMocks, server } from '~shared/api/mocks/server';
+import { mockLoggedInUser } from '~shared/helpers/mocks/users';
 import { renderWithRouter } from '~shared/helpers/test-utils';
 import { byRole, byText } from '~shared/helpers/testSelector';
 import { OnboardingProjectScanStatus } from '~shared/types/onboarding';
@@ -44,10 +46,14 @@ jest.mock('~adapters/helpers/useEditPermissionsUrl', () => ({
 }));
 
 jest.mock('~adapters/queries/onboarding', () => ({
+  ...jest.requireActual<typeof import('~adapters/queries/onboarding')>(
+    '~adapters/queries/onboarding',
+  ),
   useOnboardingOrganizationKey: jest.fn().mockReturnValue('my-org'),
 }));
 
 let onboardingMock: OnboardingServiceMock;
+let hasProjectAccess = true;
 
 const OPEN_BUTTON_TRIGGER = 'open_modal';
 
@@ -61,6 +67,17 @@ beforeAll(() => {
 });
 
 beforeEach(() => {
+  hasProjectAccess = true;
+  server.use(
+    http.get('*/api/navigation/component', () =>
+      HttpResponse.json({
+        configuration: {
+          canBrowseProject: hasProjectAccess,
+          showPermissions: hasProjectAccess,
+        },
+      }),
+    ),
+  );
   jest.mocked(useCanCreateProjects).mockReturnValue(true);
   jest.mocked(useEditPermissionsUrl).mockReturnValue({ pathname: '/admin/permissions' });
 });
@@ -83,6 +100,7 @@ const ui = {
   configureButton: byRole('link', {
     name: /^onboarding_dashboard\.journey\.analyze\.modal\.configure/,
   }),
+  restoreAccessModal: byRole('dialog', { name: 'global_permissions.restore_access' }),
   footerDocLink: byRole('link', {
     name: /^onboarding_dashboard\.journey\.analyze\.modal\.how_to_configure/,
   }),
@@ -93,6 +111,7 @@ async function renderModal(defaultScanStatus?: OnboardingProjectScanStatus) {
     <ConfigureProjectsModal defaultScanStatus={defaultScanStatus}>
       <Button>{OPEN_BUTTON_TRIGGER}</Button>
     </ConfigureProjectsModal>,
+    { initialCurrentUser: mockLoggedInUser({ login: 'luke' }) },
   );
   await result.user.click(ui.openTrigger.get());
   return result;
@@ -144,6 +163,9 @@ it('opens configuration in a new tab for every project not already on a CI pipel
   await renderModal();
 
   await ui.table.byText('mobile-worker').find();
+  await waitFor(() => {
+    expect(ui.configureButton.getAll()).toHaveLength(4);
+  });
 
   // Only payments-gateway is CI-configured; the other four all get a configure button.
   expect(ui.configureButton.getAll()).toHaveLength(4);
@@ -158,6 +180,69 @@ it('opens configuration in a new tab for every project not already on a CI pipel
       })
       .get(),
   ).toHaveAttribute('href', expect.stringContaining(`${pathname}${search}`));
+});
+
+it('offers to restore project access before opening configuration', async () => {
+  hasProjectAccess = false;
+  const { user } = await renderModal();
+
+  const configureButton = byRole('row', { name: /web-core/ }).byRole('button', {
+    name: 'onboarding_dashboard.journey.analyze.modal.configure',
+  });
+  const button = await configureButton.find();
+  await waitFor(() => {
+    expect(button).toBeEnabled();
+  });
+  await user.click(button);
+
+  expect(await ui.restoreAccessModal.find()).toBeInTheDocument();
+  expect(
+    byRole('row', { name: /web-core/ })
+      .byRole('link', {
+        name: /^onboarding_dashboard\.journey\.analyze\.modal\.configure/,
+      })
+      .query(),
+  ).not.toBeInTheDocument();
+});
+
+it('offers the same new-tab link after access is restored', async () => {
+  hasProjectAccess = false;
+  const grantedPermissions: Array<string | null> = [];
+  server.use(
+    // The access lookup is only refetched once both permissions are granted, so granting any of
+    // them is enough to flip what the lookup reports.
+    http.post('*/api/permissions/add_user', async ({ request }) => {
+      const body = new URLSearchParams(await request.text());
+      grantedPermissions.push(body.get('permission'));
+      hasProjectAccess = true;
+      return new HttpResponse(null, { status: 204 });
+    }),
+  );
+  const { user } = await renderModal();
+
+  const configureButton = byRole('row', { name: /web-core/ }).byRole('button', {
+    name: 'onboarding_dashboard.journey.analyze.modal.configure',
+  });
+  const button = await configureButton.find();
+  await waitFor(() => {
+    expect(button).toBeEnabled();
+  });
+  await user.click(button);
+  await user.click(
+    ui.restoreAccessModal
+      .byRole('button', {
+        name: 'onboarding_dashboard.projects.action.restore_access',
+      })
+      .get(),
+  );
+
+  const restoredLink = await byRole('row', { name: /web-core/ })
+    .byRole('link', {
+      name: /^onboarding_dashboard\.journey\.analyze\.modal\.configure/,
+    })
+    .find();
+  expect(restoredLink).toHaveAttribute('target', '_blank');
+  expect(grantedPermissions.sort()).toEqual(['admin', 'user']);
 });
 
 it('renders the scan-status and analysis-mode filters', async () => {

@@ -38,8 +38,10 @@ import { useIntl } from 'react-intl';
 import { SharedDocLink, useSharedDocUrl } from '~adapters/helpers/docs';
 import { ANALYSIS_MODE_FILTER_OPTIONS } from '~adapters/helpers/onboarding-actions';
 import { getConfigureProjectUrl } from '~adapters/helpers/urls';
+import { useCanCreateProjects } from '~adapters/helpers/useCanCreateProjects';
 import DateFormatter from '~shared/components/intl/DateFormatter';
 import { isDefined } from '~shared/helpers/types';
+import { useComponentConfigurationQuery } from '~shared/queries/navigation';
 import {
   AnalysisModeFilterValue,
   ANY_PROJECTS_FILTER,
@@ -52,6 +54,7 @@ import { getAnalysisModeBadge, getOnboardingBadge } from '../../projects/project
 import { ProjectsFilterSelect } from '../../projects/ProjectsFilterSelect';
 import { ProjectsTable, ProjectsTableColumn } from '../../projects/ProjectsTable';
 import { RepositoryCell } from '../../projects/RepositoryCell';
+import { RestoreProjectAccessModal } from '../../projects/RestoreProjectAccessModal';
 import { PermissionGate } from '../PermissionGate';
 
 const PAGE_SIZE = 10;
@@ -154,6 +157,17 @@ const TopAnchoredModal = styled(Modal)`
 
 function ConfigureProjectRow({ project }: Readonly<{ project: OnboardingProject }>) {
   const { formatMessage } = useIntl();
+  const canCreateProjects = useCanCreateProjects();
+  const [isRestoreAccessModalOpen, setIsRestoreAccessModalOpen] = useState(false);
+  const {
+    data: hasProjectAccess,
+    isFetching,
+    refetch,
+  } = useComponentConfigurationQuery(project.key, {
+    enabled: project.analysisMode !== OnboardingProjectAnalysisMode.Ci && canCreateProjects,
+    select: (configuration) =>
+      Boolean(configuration.showPermissions && configuration.canBrowseProject),
+  });
 
   const onboardingBadge = getOnboardingBadge(project);
   const analysisBadge = getAnalysisModeBadge(project);
@@ -184,18 +198,44 @@ function ConfigureProjectRow({ project }: Readonly<{ project: OnboardingProject 
 
       <Table.Cell>
         {project.analysisMode !== OnboardingProjectAnalysisMode.Ci && (
-          <PermissionGate
-            trigger={
-              <Button
-                enableOpenInNewTab
-                suffix={<IconLinkExternal />}
-                to={getConfigureProjectUrl(project.key)}
-                variety={ButtonVariety.Default}
-              >
-                {formatMessage({ id: 'onboarding_dashboard.journey.analyze.modal.configure' })}
-              </Button>
-            }
-          />
+          <>
+            <PermissionGate
+              trigger={
+                hasProjectAccess === true ? (
+                  <Button
+                    enableOpenInNewTab
+                    suffix={<IconLinkExternal />}
+                    to={getConfigureProjectUrl(project.key)}
+                    variety={ButtonVariety.Default}
+                  >
+                    {formatMessage({ id: 'onboarding_dashboard.journey.analyze.modal.configure' })}
+                  </Button>
+                ) : (
+                  <Button
+                    isDisabled={isFetching}
+                    onClick={() => {
+                      if (hasProjectAccess === false) {
+                        setIsRestoreAccessModalOpen(true);
+                      } else {
+                        void refetch();
+                      }
+                    }}
+                    variety={ButtonVariety.Default}
+                  >
+                    {formatMessage({ id: 'onboarding_dashboard.journey.analyze.modal.configure' })}
+                  </Button>
+                )
+              }
+            />
+            {isRestoreAccessModalOpen && (
+              <RestoreProjectAccessModal
+                onClose={() => {
+                  setIsRestoreAccessModalOpen(false);
+                }}
+                projectKey={project.key}
+              />
+            )}
+          </>
         )}
       </Table.Cell>
     </Table.Row>
