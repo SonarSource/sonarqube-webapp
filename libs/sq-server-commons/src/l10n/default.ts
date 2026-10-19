@@ -5447,7 +5447,7 @@ export const defaultMessages = {
   'search.show_more.hint': 'Press {key} to display',
   'search.placeholder': 'Search for projects...',
   'search.search_for_projects': 'Search projects',
-  'search.search_for_cves': 'Search by vulnerability ID...',
+  'search.search_for_cves': 'Search by vulnerability or license ID...',
   'search.search_for_dependencies': 'Search by dependency name...',
   'search.search_for_members': 'Search for members...',
   'search.search_for_users': 'Search for users...',
