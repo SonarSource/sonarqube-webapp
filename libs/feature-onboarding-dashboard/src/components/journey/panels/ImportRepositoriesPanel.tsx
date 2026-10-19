@@ -30,6 +30,7 @@ import {
 import { useIntl } from 'react-intl';
 import { ImportRepositoriesCta } from '~adapters/components/onboarding/ImportRepositoriesCta';
 import { ImportRepositoriesExtraCard } from '~adapters/components/onboarding/ImportRepositoriesExtraCard';
+import { useImportRepositoriesModalProps } from '~adapters/helpers/useImportRepositoriesModalProps';
 import { JourneyState } from '~shared/types/onboarding';
 import { usePlatformSelection } from '../../projects/usePlatformSelection';
 import { PanelDonut, PanelDonutSegment } from '../charts/PanelDonut';
@@ -50,6 +51,7 @@ export function ImportRepositoriesPanel({ state }: Readonly<Props>) {
   const { formatMessage } = useIntl();
   const { imported, importedPct, notYetImported } = state;
   const { hasListablePlatforms } = usePlatformSelection();
+  const importRepositoriesModalProps = useImportRepositoriesModalProps();
 
   const segments: PanelDonutSegment[] = [
     ...(imported > 0
@@ -91,7 +93,11 @@ export function ImportRepositoriesPanel({ state }: Readonly<Props>) {
                 </Button>
               }
             >
-              {(trigger) => <ImportRepositoriesModal>{trigger}</ImportRepositoriesModal>}
+              {(trigger) => (
+                <ImportRepositoriesModal {...importRepositoriesModalProps}>
+                  {trigger}
+                </ImportRepositoriesModal>
+              )}
             </PermissionGate>
           ) : undefined
         }
