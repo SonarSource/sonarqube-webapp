@@ -41,12 +41,12 @@ it('keeps the percentage compact by default, so it fits the smaller page-header 
   renderWithContext(<OnboardingProgressDonut showLabel value={100} />);
 
   expect(ui.label(100).get()).toHaveStyle({
-    font: cssVar('typography-text-default-semi-bold'),
+    font: cssVar('typography-text-small-semi-bold'),
   });
 });
 
 it('renders the percentage prominently when the ring is large enough for it', () => {
   renderWithContext(<OnboardingProgressDonut hasProminentLabel showLabel value={100} />);
 
-  expect(ui.label(100).get()).toHaveStyle({ font: cssVar('typography-heading-medium') });
+  expect(ui.label(100).get()).toHaveStyle({ font: cssVar('typography-heading-xsmall') });
 });

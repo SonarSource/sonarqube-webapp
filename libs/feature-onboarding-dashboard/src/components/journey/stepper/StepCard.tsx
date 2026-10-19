@@ -21,7 +21,7 @@
 import {
   Card,
   cssVar,
-  IconCheck,
+  IconCheckCircle,
   IconLink,
   IconLock,
   Text,
@@ -35,8 +35,6 @@ import { OnboardingProgressDonut } from '~shared/components/onboarding/Onboardin
 import { OnboardingRingValue } from '~shared/components/onboarding/OnboardingRingValue';
 import { StepCardVisual } from '../../../types/types';
 
-/** Filled circle sitting inside the ring for the "bound" binding visual. */
-const INNER_AVATAR_SIZE = '1rem';
 const DONUT_SIZE = 64;
 const DONUT_THICKNESS = 6;
 
@@ -52,22 +50,6 @@ interface Props {
   secondaryLine?: ReactNode;
   title: string;
   visual: StepCardVisual;
-}
-
-function Avatar({
-  background,
-  icon,
-  size,
-}: Readonly<{ background: string; icon: ReactNode; size: string }>) {
-  return (
-    <span
-      aria-hidden
-      className="sw-flex sw-shrink-0 sw-items-center sw-justify-center sw-rounded-pill"
-      style={{ backgroundColor: background, height: size, width: size }}
-    >
-      {icon}
-    </span>
-  );
 }
 
 /** A full ring with arbitrary content (icon, avatar or value) centered inside. */
@@ -114,11 +96,9 @@ function VisualSlot({
       return (
         <Ring
           center={
-            <Avatar
-              background={cssVar('color-background-success-default')}
-              icon={<IconCheck color="echoes-color-icon-on-color" />}
-              size={INNER_AVATAR_SIZE}
-            />
+            <Text size={TextSize.Large}>
+              <IconCheckCircle color="echoes-color-icon-success" />
+            </Text>
           }
           ringColor={cssVar('color-background-success-weak-default')}
         />

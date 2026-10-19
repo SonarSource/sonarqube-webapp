@@ -18,16 +18,16 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { cssVar, Text } from '@sonarsource/echoes-react';
+import { cssVar, Text, TextSize } from '@sonarsource/echoes-react';
 import { useIntl } from 'react-intl';
 import { DonutChart } from '../charts/DonutChart';
 import { OnboardingRingValue } from './OnboardingRingValue';
 
 interface Props {
   /**
-   * When `true`, the label reads as `heading-medium` instead of `text-default-semibold`. Only for
-   * rings whose hole is wide enough for it: the step cards' 64px ring is, the 56px page-header
-   * ring is not — a three-digit percentage would there overlap the stroke.
+   * When `true`, the label reads as `heading-xsmall` instead of `text-small-semi-bold`. Only for
+   * rings whose hole is wide enough for it (the step cards' 64px ring). The smaller page-header
+   * ring is not: a three-digit percentage would overlap the stroke there.
    */
   hasProminentLabel?: boolean;
   /**
@@ -81,7 +81,11 @@ export function OnboardingProgressDonut({
           {hasProminentLabel ? (
             <OnboardingRingValue>{label}</OnboardingRingValue>
           ) : (
-            <Text isHighlighted>{label}</Text>
+            // Small, not the default size: the header ring's hole is narrow enough that a
+            // three-digit percentage at the default text size touches the stroke.
+            <Text isHighlighted size={TextSize.Small}>
+              {label}
+            </Text>
           )}
         </div>
       )}

@@ -22,5 +22,7 @@ import styled from '@emotion/styled';
 import { cssVar, Text } from '@sonarsource/echoes-react';
 
 export const OnboardingRingValue = styled(Text)`
-  font: ${cssVar('typography-heading-medium')};
+  /* heading-xsmall, not heading-medium: at heading-medium a three-digit percentage touches the
+   * ring's stroke in the step cards' 64px donut. */
+  font: ${cssVar('typography-heading-xsmall')};
 `;
