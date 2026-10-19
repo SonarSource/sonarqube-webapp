@@ -11969,7 +11969,7 @@ export const defaultMessages = {
   'onboarding_dashboard.projects.title': 'All projects',
   'onboarding_dashboard.projects.loading': 'Loading projects',
   'onboarding_dashboard.projects.description':
-    'A complete overview of all projects that need your attention.',
+    'All of your projects, whether or not they are bound to a repository.',
   'onboarding_dashboard.projects.search': 'Search projects...',
   'onboarding_dashboard.projects.col.repository': 'Repository',
   'onboarding_dashboard.projects.col.project': 'Project',
