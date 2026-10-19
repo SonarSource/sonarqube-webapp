@@ -61,7 +61,7 @@ export interface RepositoriesTableSelection {
   headerLabelKey?: string;
   isSelected?: (repository: OnboardingRepository) => boolean;
   renderCell: (repository: OnboardingRepository) => ReactElement;
-  renderHeader: (repositories: OnboardingRepository[]) => ReactElement;
+  renderHeader: (repositories: OnboardingRepository[], isCompleteList: boolean) => ReactElement;
 }
 
 interface Props {
@@ -140,6 +140,11 @@ export function RepositoriesTable({
   const repositories = useMemo(() => data?.repositories ?? [], [data?.repositories]);
   const total = data?.page.total ?? 0;
   const totalPages = data === undefined ? 0 : Math.ceil(data.page.total / data.page.pageSize);
+  const isCompleteList =
+    !isFetching &&
+    query === '' &&
+    visibility === OnboardingRepositoriesVisibility.All &&
+    repositories.length === total;
 
   const columnsTemplate = columns
     .map(({ width }, index) => width ?? (index === 0 ? FIRST_COLUMN_TEMPLATE : COLUMN_TEMPLATE))
@@ -215,7 +220,7 @@ export function RepositoriesTable({
           <Table.Header>
             <TableHeaderRows
               columns={columns}
-              leadingCell={selection?.renderHeader(isFetching ? [] : repositories)}
+              leadingCell={selection?.renderHeader(isFetching ? [] : repositories, isCompleteList)}
             />
           </Table.Header>
 
