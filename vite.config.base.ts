@@ -18,7 +18,6 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import legacy from '@vitejs/plugin-legacy';
 import react from '@vitejs/plugin-react';
 import autoprefixer from 'autoprefixer';
 import path, { resolve } from 'node:path';
@@ -29,7 +28,6 @@ import { analyzer } from 'vite-bundle-analyzer';
 import requireTransform from 'vite-plugin-require-transform';
 import babelConfig from './babel.config';
 import { ALLOWED_LICENSE_TEXT, ALLOWED_LICENSES, generateLicenseText } from './config/license';
-import packageJson from './package.json';
 
 export const DEFAULT_DEV_SERVER_PORT = 3000;
 export const DEFAULT_WS_PROXY_PORT = 3010;
@@ -50,6 +48,7 @@ const licenseBanner = '/*! licenses: /vendor.LICENSE.txt */';
 export const baseViteConfig = {
   build: {
     outDir: resolve(projectRoot, buildOutputDir),
+    target: 'baseline-widely-available',
     rolldownOptions: {
       // we define all the places where a user can land that requires its own bundle entry point.
       // one main entry point by default that can be overriden by projects
@@ -121,14 +120,6 @@ export const baseViteConfig = {
   plugins: [
     // additional plugins to allow for the transformation of our existing code to what vite is expecting.
     requireTransform({}),
-
-    // create a polyfill chunk for browsers we support that are missing modern JS features
-    legacy({
-      modernTargets: packageJson.browserslist,
-      polyfills: false,
-      modernPolyfills: true,
-      renderLegacyChunks: false,
-    }),
     react({
       babel: babelConfig,
     }),

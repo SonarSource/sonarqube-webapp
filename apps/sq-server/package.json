@@ -22,11 +22,7 @@
     "validate": "yarn run -T nx validate sq-server"
   },
   "browserslist": [
-    "defaults and supports es6-module",
-    "Chrome >= 66",
-    "Edge >= 88",
-    "Firefox >= 78",
-    "Safari >= 12"
+    "baseline widely available"
   ],
   "msw": {
     "workerDirectory": [

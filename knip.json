@@ -9,8 +9,6 @@
     "@typescript-eslint/types",
     "@yarnpkg/core",
     "browserslist",
-    "browserslist-useragent-regexp",
-    "core-js",
     "csstype",
     "env-cmd",
     "globals",
@@ -18,7 +16,6 @@
     "jsonc-eslint-parser",
     "nyc",
     "openapi-merge-cli",
-    "regenerator-runtime",
     "ts-node",
     "typescript-eslint"
   ],
@@ -137,7 +134,7 @@
       "entry": [
         "index.html!",
         "integration/**/index.html!",
-        "src/app/index-scripts/{gtm,supportedBrowsers}.ts!",
+        "src/app/index-scripts/gtm.ts!",
         "src/pages/entry-client.tsx!",
         "src/pages/integration/**/index.tsx!",
         "src/sq-cloud-adapters/**/*.{ts,tsx}!",

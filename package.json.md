@@ -98,10 +98,6 @@ Replaces eslint-plugin-header, which has been abandoned.
 
 Used to test our custom eslint rules in `./eslint-local-rules`.
 
-### @vitejs/plugin-legacy
-
-Used by vite to provide polyfills for older browsers.
-
 ### vite-tsconfig-paths
 
 Vite plugin used to resolve TypeScript path aliases from tsconfig files.
@@ -112,17 +108,9 @@ Tool to do UI annotations that are used by LLM do generate code changes.
 See https://www.agentation.com/ for more details.
 Add agentation-mcp config with `yarn dlx agentation-mcp init`. Start it with `yarn dlx agentation-mcp server`.
 
-### browserslist-useragent-regexp
-
-Used by sq-cloud to generate a regex from the browserlist query to display the "not supported" html code.
-
 ### cheerio
 
 Used by sq-cloud-e2e-tests to load SAML files.
-
-### core-js
-
-Polyfills for new JS features. Used in conjunction with @vitejs/plugin-legacy.
 
 ### env-cmd
 
@@ -162,14 +150,6 @@ Used to mock API requests in tests and dev mode.
 
 Used by sq-cloud-e2e-tests to generate TOTP codes when logging in github or bitbucket.
 
-### regenerator-runtime
-
-Polyfill for async/await used in conjunction with @vitejs/plugin-legacy.
-
-### terser
-
-Peer dependency of @vitejs/plugin-legacy.
-
 ## resolutions
 
 ### @typescript-eslint/utils
@@ -199,7 +179,7 @@ Some of our dependencies require an older version of axios with vulnerabilities.
 
 ### browserslist
 
-Several build-time dependencies (`@vitejs/plugin-legacy`, `autoprefixer`, `core-js-compat`, `webpack`, and the direct root dependency) can otherwise resolve different `browserslist` patch versions, including versions reported as vulnerable on the SonarQube dependency-risks page. We pin `browserslist@4.28.8` everywhere so the browser-targeting toolchain stays aligned on the same fixed version.
+Several build-time dependencies (`autoprefixer`, `core-js-compat`, `webpack`, and the direct root dependency) can otherwise resolve different `browserslist` patch versions, including versions reported as vulnerable on the SonarQube dependency-risks page. We pin `browserslist@4.28.8` everywhere so the browser-targeting toolchain stays aligned on the same fixed version.
 
 ### debug
 
