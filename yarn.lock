@@ -8752,15 +8752,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react-highlight-words@npm:0.20.0":
-  version: 0.20.0
-  resolution: "@types/react-highlight-words@npm:0.20.0"
-  dependencies:
-    "@types/react": "npm:*"
-  checksum: 10/56246d8678ef5cf32b7c02bce7759946e28da7b079d5a59c7f1ca5b3e5a8bd521c4151fac192281cf56c0a62b2276d990162253f869e9ff3ef451c603e783bc4
-  languageName: node
-  linkType: hard
-
 "@types/react-modal@npm:3.16.3":
   version: 3.16.3
   resolution: "@types/react-modal@npm:3.16.3"
@@ -13897,10 +13888,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"highlight-words-core@npm:^1.2.0":
-  version: 1.2.3
-  resolution: "highlight-words-core@npm:1.2.3"
-  checksum: 10/289d0654559f0fa385f2af69d0022adc24312722d1ebee32e41c7f28cc14ed61c7c6eea8d5872d15cf44d8f97c7a15d5e62a7b80a015d49ba3b69aa35d8046d3
+"highlight-words-core@npm:2.0.0":
+  version: 2.0.0
+  resolution: "highlight-words-core@npm:2.0.0"
+  checksum: 10/5c37443ac4351431e92c7f46cad9ca10527e4fa40965ee6371345b504c66e01503d3b937739b3390ce5f8959d5590498ca44f60f86c45dc581e2bf8186476b0e
   languageName: node
   linkType: hard
 
@@ -16872,13 +16863,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"memoize-one@npm:^4.0.0":
-  version: 4.0.3
-  resolution: "memoize-one@npm:4.0.3"
-  checksum: 10/6aee6da4d5305b0876c47166522f417440ad0a11483b5199bfae5896c72f4f5b13a5993b8842178a9f0501e0ab501775b54b6eff09af54cc992fc8f607e72338
-  languageName: node
-  linkType: hard
-
 "meow@npm:^13.0.0":
   version: 13.2.0
   resolution: "meow@npm:13.2.0"
@@ -19271,15 +19255,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-highlight-words@npm:0.21.0":
-  version: 0.21.0
-  resolution: "react-highlight-words@npm:0.21.0"
+"react-highlight-words@npm:1.0.0":
+  version: 1.0.0
+  resolution: "react-highlight-words@npm:1.0.0"
   dependencies:
-    highlight-words-core: "npm:^1.2.0"
-    memoize-one: "npm:^4.0.0"
+    highlight-words-core: "npm:2.0.0"
   peerDependencies:
-    react: ^0.14.0 || ^15.0.0 || ^16.0.0-0 || ^17.0.0-0 || ^18.0.0-0 || ^19.0.0-0
-  checksum: 10/5054e1d3f536bf672047cc22d954837289061754cd342c5439b153069fca6997890f44af4cf9154149f70844dc9cdbc18d5fd82b7458b430fc42b7f1c11a6bf2
+    react: ^16.3.0 || ^17.0.0-0 || ^18.0.0-0 || ^19.0.0-0
+  checksum: 10/c4c2c2e4e9bf93bface68d811a6ea903a69786b5eb2fb967b913a827d8825acfc0ed60b27e8899dd940b01b73de17399e652c18bc6c57fa3204f56324af1cc3e
   languageName: node
   linkType: hard
 
@@ -20671,7 +20654,6 @@ __metadata:
     "@types/node": "npm:24.19.0"
     "@types/react": "npm:19.2.14"
     "@types/react-dom": "npm:19.2.3"
-    "@types/react-highlight-words": "npm:0.20.0"
     "@types/react-modal": "npm:3.16.3"
     "@types/valid-url": "npm:1.0.7"
     "@types/validator": "npm:13.15.10"
@@ -20755,7 +20737,7 @@ __metadata:
     react-dnd-html5-backend: "npm:16.0.1"
     react-dom: "npm:19.2.4"
     react-helmet-async: "npm:3.0.0"
-    react-highlight-words: "npm:0.21.0"
+    react-highlight-words: "npm:1.0.0"
     react-intl: "npm:10.1.1"
     react-markdown: "npm:10.1.0"
     react-modal: "npm:3.16.3"
