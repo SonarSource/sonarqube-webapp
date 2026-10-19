@@ -48,6 +48,7 @@ const licenseBanner = '/*! licenses: /vendor.LICENSE.txt */';
 export const baseViteConfig = {
   build: {
     outDir: resolve(projectRoot, buildOutputDir),
+    // Vite reads build.target for the JS bundle. package.json browserslist is still consumed elsewhere in the toolchain (Autoprefixer, Babel/Jest).
     target: 'baseline-widely-available',
     rolldownOptions: {
       // we define all the places where a user can land that requires its own bundle entry point.
