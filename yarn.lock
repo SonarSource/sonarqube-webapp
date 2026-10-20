@@ -7946,10 +7946,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@stripe/stripe-js@npm:10.0.0":
-  version: 10.0.0
-  resolution: "@stripe/stripe-js@npm:10.0.0"
-  checksum: 10/06db09e9cc655d6f593f417cc524c9008c275d0894384d78f85f2a1a6bd5130179671ed19c6cca04020d49d7f5ba0334d7cec1564b1c13af8bb9fdb5a52afef1
+"@stripe/stripe-js@npm:10.1.0":
+  version: 10.1.0
+  resolution: "@stripe/stripe-js@npm:10.1.0"
+  checksum: 10/735c99e91412cd30f8f2a4a7c5f59f3bfcf91a47dd078d0ed81d064890d95c043d2a46c28a1d2e5613d59406d3ecb87c4323c421eb21833568a90839b5e15724
   languageName: node
   linkType: hard
 
@@ -20448,7 +20448,7 @@ __metadata:
     "@sonarsource/echoes-react": "npm:6.0.0"
     "@sprig-technologies/sprig-browser": "npm:2.48.2"
     "@stripe/react-stripe-js": "npm:7.0.0"
-    "@stripe/stripe-js": "npm:10.0.0"
+    "@stripe/stripe-js": "npm:10.1.0"
     "@swc-node/register": "npm:1.11.1"
     "@swc/core": "npm:1.15.43"
     "@swc/helpers": "npm:0.5.23"
