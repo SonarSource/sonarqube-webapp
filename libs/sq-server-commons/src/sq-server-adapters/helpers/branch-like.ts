@@ -29,6 +29,13 @@ export function isLongLivingBranch(branchLike?: BranchLikeBase) {
   return isBranch(branchLike) && !branchLike.isMain;
 }
 
+/**
+ * SonarQube Server has no short-lived branches, so this is always false.
+ */
+export function isShortLivingBranch(_branchLike?: BranchLikeBase) {
+  return false;
+}
+
 export function isSameBranchLike(a: BranchLikeBase | undefined, b: BranchLikeBase | undefined) {
   // main branches are always equal
   if (isMainBranch(a) && isMainBranch(b)) {
