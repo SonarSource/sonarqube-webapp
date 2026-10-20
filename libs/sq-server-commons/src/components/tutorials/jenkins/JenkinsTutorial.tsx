@@ -59,7 +59,7 @@ function JenkinsTutorial(props: Readonly<JenkinsTutorialProps>) {
       {hasSelectAlmStep && <SelectAlmStep alm={alm} onChange={setAlm} />}
       {alm && (
         <>
-          <TutorialStepList className="sw-mb-10">
+          <TutorialStepList className="sw:mb-10">
             <PreRequisitesStep alm={alm} branchesEnabled={branchSupportEnabled} />
 
             {branchSupportEnabled ? (
@@ -83,7 +83,7 @@ function JenkinsTutorial(props: Readonly<JenkinsTutorialProps>) {
           </TutorialStepList>
           {done && (
             <>
-              <BasicSeparator className="sw-my-10" />
+              <BasicSeparator className="sw:my-10" />
               <AllSet alm={alm} willRefreshAutomatically={willRefreshAutomatically} />
             </>
           )}

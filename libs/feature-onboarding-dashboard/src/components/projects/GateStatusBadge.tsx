@@ -50,9 +50,9 @@ export function GateStatusBadge({ status }: Readonly<Props>) {
     GATE_STATUS_CONFIG[OnboardingProjectGateStatus.NotComputed];
 
   return (
-    <div className="sw-flex sw-items-center sw-gap-2 sw-whitespace-nowrap">
+    <div className="sw:flex sw:items-center sw:gap-2 sw:whitespace-nowrap">
       <span
-        className="sw-inline-block sw-h-2 sw-w-2 sw-shrink-0 sw-rounded-full"
+        className="sw:inline-block sw:h-2 sw:w-2 sw:shrink-0 sw:rounded-full"
         style={{ backgroundColor: config.color }}
       />
       <Text size={TextSize.Small}>{formatMessage({ id: config.labelKey })}</Text>

@@ -53,7 +53,7 @@ export function ClipboardButton(props: Readonly<ButtonProps>) {
     <Tooltip content={copiedLabel ?? <FormattedMessage id="copied_action" />} isOpen={copySuccess}>
       <Button
         aria-label={ariaLabel}
-        className={classNames('sw-select-none', className)}
+        className={classNames('sw:select-none', className)}
         isDisabled={isDisabled}
         onClick={handleCopy}
         prefix={icon ?? <IconCopy />}

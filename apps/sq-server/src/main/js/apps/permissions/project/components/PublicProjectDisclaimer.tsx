@@ -42,7 +42,7 @@ export default function PublicProjectDisclaimer({ component, isOpen, onClose, on
       onClose={onClose}
       onConfirm={onConfirm}
     >
-      <FlagMessage className="sw-mb-4" variant="warning">
+      <FlagMessage className="sw:mb-4" variant="warning">
         {translate('projects_role.are_you_sure_to_turn_project_to_public.warning', qualifier)}
       </FlagMessage>
       <p>{translate('projects_role.are_you_sure_to_turn_project_to_public', qualifier)}</p>

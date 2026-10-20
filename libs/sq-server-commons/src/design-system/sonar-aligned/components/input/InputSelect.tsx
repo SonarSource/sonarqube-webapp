@@ -78,21 +78,21 @@ export function InputSelect<
       className={classNames('react-select', className)}
       classNamePrefix="react-select"
       classNames={{
-        container: () => 'sw-relative sw-inline-block sw-align-middle',
-        placeholder: () => 'sw-truncate sw-leading-4',
-        menu: () => 'sw-z-dropdown-menu sw-ml-1/2 sw-mt-2',
-        menuList: () => 'sw-overflow-y-auto sw-py-2 sw-max-h-[12.25rem]',
-        clearIndicator: () => 'sw-p-0',
-        dropdownIndicator: () => classNames(props.isClearable && 'sw-p-0'),
+        container: () => 'sw:relative sw:inline-block sw:align-middle',
+        placeholder: () => 'sw:truncate sw:leading-4',
+        menu: () => 'sw:z-dropdown-menu sw:ml-1/2 sw:mt-2',
+        menuList: () => 'sw:overflow-y-auto sw:py-2 sw:max-h-[12.25rem]',
+        clearIndicator: () => 'sw:p-0',
+        dropdownIndicator: () => classNames(props.isClearable && 'sw:p-0'),
         control: ({ isDisabled }) =>
           classNames(
-            'sw-box-border sw-rounded-2 sw-overflow-hidden',
-            isDisabled && 'sw-pointer-events-none sw-cursor-not-allowed',
+            'sw:box-border sw:rounded-2 sw:overflow-hidden',
+            isDisabled && 'sw:pointer-events-none sw:cursor-not-allowed',
           ),
         option: ({ isDisabled }) =>
           classNames(
-            'it__select-option sw-py-2 sw-px-3 sw-cursor-pointer',
-            isDisabled && 'sw-pointer-events-none sw-cursor-not-allowed',
+            'it__select-option sw:py-2 sw:px-3 sw:cursor-pointer',
+            isDisabled && 'sw:pointer-events-none sw:cursor-not-allowed',
           ),
         ...props.classNames,
       }}

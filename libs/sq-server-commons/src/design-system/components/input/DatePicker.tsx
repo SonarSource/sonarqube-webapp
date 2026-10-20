@@ -153,13 +153,13 @@ export class DatePicker extends React.PureComponent<Props, State> {
           <EscKeydownHandler onKeydown={this.closeCalendar}>
             <Popup
               allowResizing
-              className="sw-overflow-visible" //Necessary for the month & year selectors
+              className="sw:overflow-visible" //Necessary for the month & year selectors
               overlay={
                 open ? (
-                  <div className="sw-px-2 sw-pb-2">
+                  <div className="sw:px-2 sw:pb-2">
                     <DayPicker
                       captionLayout="dropdown"
-                      className="sw-typo-default"
+                      className="sw:typo-default"
                       components={{
                         MonthCaption: CustomCalendarNavigation,
                         Nav: () => <></>,
@@ -188,7 +188,7 @@ export class DatePicker extends React.PureComponent<Props, State> {
               placement={alignRight ? PopupPlacement.BottomRight : PopupPlacement.BottomLeft}
               zLevel={zLevel}
             >
-              <span className={classNames('sw-relative sw-block sw-cursor-pointer', className)}>
+              <span className={classNames('sw:relative sw:block sw:cursor-pointer', className)}>
                 <StyledInputField
                   aria-label={placeholder}
                   className={classNames(inputClassName, {
@@ -208,7 +208,7 @@ export class DatePicker extends React.PureComponent<Props, State> {
                 />
 
                 <IconCalendar
-                  className="sw-absolute sw-top-1/2 sw-left-2 -sw-translate-y-1/2"
+                  className="sw:absolute sw:top-1/2 sw:left-2 sw:-translate-y-1/2"
                   color="echoes-color-icon-default"
                 />
 

@@ -79,7 +79,7 @@ export default function PersonalAccessTokenForm({
   };
 
   return (
-    <Form className={`sw-mb-6 ${className}`} onSubmit={handleSubmit}>
+    <Form className={`sw:mb-6 ${className}`} onSubmit={handleSubmit}>
       <Form.Header
         description={FORM_HEADER_DESCRIPTIONS[almKey]}
         title={<FormattedMessage id="onboarding.create_project.pat_form.title" />}

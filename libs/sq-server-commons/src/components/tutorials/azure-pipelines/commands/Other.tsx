@@ -34,7 +34,7 @@ export default function Other(props: OtherProps) {
   return (
     <>
       <AlertClassicEditor />
-      <NumberedList className="sw-mt-4">
+      <NumberedList className="sw:mt-4">
         <NumberedListItem>
           <SentenceWithHighlights
             highlightKeys={['pipeline', 'task', 'before']}

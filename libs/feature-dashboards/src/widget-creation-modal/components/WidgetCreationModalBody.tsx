@@ -48,7 +48,7 @@ export function WidgetCreationModalBody<S>({
 }: Readonly<WidgetCreationModalBodyProps<S>>) {
   return (
     <div
-      className="sw-flex sw-min-h-0 sw-items-stretch sw-justify-between sw-gap-4"
+      className="sw:flex sw:min-h-0 sw:items-stretch sw:justify-between sw:gap-4"
       style={{
         maxHeight: `calc(${cssVar('sizes-overlays-max-height-default')} - 280px)`,
         minHeight: '400px',

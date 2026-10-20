@@ -71,7 +71,7 @@ export default function ProjectRow(props: Readonly<Props>) {
         {project.qualifier === ComponentQualifier.Project &&
           (githubProvisioningEnabled || gitlabProvisioningEnabled) &&
           !project.managed && (
-            <Badge className="sw-ml-1">
+            <Badge className="sw:ml-1">
               <FormattedMessage id="local" />
             </Badge>
           )}

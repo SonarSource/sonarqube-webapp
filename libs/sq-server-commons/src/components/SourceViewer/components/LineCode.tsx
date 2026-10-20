@@ -236,7 +236,7 @@ export class LineCode extends PureComponent<React.PropsWithChildren<Props>> {
           </>
         )}
 
-        <LineCodeLayer className="sw-px-3">
+        <LineCodeLayer className="sw:px-3">
           <LineCodePreFormatted ref={this.nodeNodeRef}>
             {this.renderTokens(
               getHighlightedTokens({

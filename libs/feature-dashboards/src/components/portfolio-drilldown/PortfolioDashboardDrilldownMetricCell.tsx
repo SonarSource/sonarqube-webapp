@@ -31,8 +31,8 @@ import type {
   PortfolioDashboardMeasureDrilldownDescriptor,
 } from './portfolioPieChartDrilldown';
 
-const METRIC_CELL_END_LINK_CLASS = 'sw-flex sw-w-full sw-justify-end';
-const VALUE_CELL_JUSTIFY_END = 'sw-justify-end';
+const METRIC_CELL_END_LINK_CLASS = 'sw:flex sw:w-full sw:justify-end';
+const VALUE_CELL_JUSTIFY_END = 'sw:justify-end';
 
 interface Props {
   descriptor: NonNullable<PortfolioDashboardDrilldownDescriptor>;
@@ -89,7 +89,7 @@ function stringComputedMeasureValueCell(
   if (stringValueFormatMetricType === MetricType.Level) {
     const status = (String(value) || 'NOT_COMPUTED') as QGStatusExtended;
     const content = (
-      <div className="sw-flex sw-items-center sw-gap-2">
+      <div className="sw:flex sw:items-center sw:gap-2">
         <QualityGateIndicator size="sm" status={status} />
         {formatDashboardMeasure(String(value), MetricType.Level)}
       </div>

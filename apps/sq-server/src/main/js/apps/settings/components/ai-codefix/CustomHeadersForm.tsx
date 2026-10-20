@@ -54,12 +54,12 @@ export function CustomHeadersForm({
   }
 
   return (
-    <div className="sw-flex sw-flex-col sw-gap-4">
+    <div className="sw:flex sw:flex-col sw:gap-4">
       {headers.map((header, index) => {
         const hasSavedSecret = header.secret && header.value === MASKED_SECRET;
 
         return (
-          <div className="sw-flex sw-items-end sw-gap-3" key={keysRef.current[index]}>
+          <div className="sw:flex sw:items-end sw:gap-3" key={keysRef.current[index]}>
             <TextInput
               label={formatMessage({ id: 'aicodefix.admin.custom_headers.header_name' })}
               onChange={(event) => {
@@ -115,7 +115,7 @@ export function CustomHeadersForm({
       })}
 
       <Button
-        className="sw-self-start sw-cursor-pointer"
+        className="sw:self-start sw:cursor-pointer"
         onClick={onAddHeader}
         variety={ButtonVariety.PrimaryGhost}
       >

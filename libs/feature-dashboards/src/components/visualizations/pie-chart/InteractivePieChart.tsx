@@ -65,11 +65,11 @@ export function InteractivePieChart(props: Readonly<InteractivePieChartProps>) {
 
   return (
     <div
-      className="sw-h-full sw-flex sw-flex-col sw-items-center sw-justify-center sw-gap-4"
+      className="sw:h-full sw:flex sw:flex-col sw:items-center sw:justify-center sw:gap-4"
       data-testid="pie-chart-container"
       ref={containerRef}
     >
-      <div className="sw-flex sw-items-center sw-justify-center">
+      <div className="sw:flex sw:items-center sw:justify-center">
         <PieChart
           ariaLabel={ariaLabel}
           height={180}

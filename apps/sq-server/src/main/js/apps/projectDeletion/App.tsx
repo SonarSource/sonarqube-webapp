@@ -51,7 +51,7 @@ export default function App() {
     <ProjectPageTemplate disableBranchSelector title={intl.formatMessage({ id: 'deletion.page' })}>
       <A11ySkipTarget anchor="deletion_main" />
 
-      <Text as="p" className="sw-my-8">
+      <Text as="p" className="sw:my-8">
         <PageDescription qualifier={component.qualifier} />
       </Text>
 

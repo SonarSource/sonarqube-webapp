@@ -212,9 +212,9 @@ export default class TokenStep extends React.PureComponent<Props, State> {
       </>
     );
     return (
-      <DivAnimated className="sw-mt-4">
-        <form className="sw-flex" onSubmit={this.handleTokenGenerate}>
-          <div className="sw-flex">
+      <DivAnimated className="sw:mt-4">
+        <form className="sw:flex" onSubmit={this.handleTokenGenerate}>
+          <div className="sw:flex">
             <TextInput
               autoFocus
               helpToggletipProps={{
@@ -229,10 +229,10 @@ export default class TokenStep extends React.PureComponent<Props, State> {
               width={FormFieldWidth.Large}
             />
           </div>
-          <div className="sw-ml-4">
-            <div className="sw-flex sw-items-end">
+          <div className="sw:ml-4">
+            <div className="sw:flex sw:items-end">
               <Select
-                className="sw-w-abs-150 sw-mr-4"
+                className="sw:w-abs-150 sw:mr-4"
                 data={tokenExpirationOptions}
                 id="token-select-expiration"
                 isNotClearable
@@ -251,7 +251,7 @@ export default class TokenStep extends React.PureComponent<Props, State> {
             </div>
           </div>
         </form>
-        <ProjectTokenScopeInfo className="sw-mt-6 sw-w-1/2" />
+        <ProjectTokenScopeInfo className="sw:mt-6 sw:w-1/2" />
       </DivAnimated>
     );
   };
@@ -270,9 +270,9 @@ export default class TokenStep extends React.PureComponent<Props, State> {
     );
 
     return (
-      <DivAnimated className="sw-mt-4">
+      <DivAnimated className="sw:mt-4">
         {this.state.selection === TokenUse.EXISTING && (
-          <div className="sw-flex sw-flex-col sw-mt-4">
+          <div className="sw:flex sw:flex-col sw:mt-4">
             <TextInput
               autoFocus
               helpToggletipProps={{
@@ -311,20 +311,20 @@ export default class TokenStep extends React.PureComponent<Props, State> {
     ];
 
     return (
-      <div className="sw-p-4">
+      <div className="sw:p-4">
         {token != null ? (
-          <form className="sw-flex sw-items-center" onSubmit={this.handleTokenRevoke}>
+          <form className="sw:flex sw:items-center" onSubmit={this.handleTokenRevoke}>
             <span>
               {tokenName}
               {': '}
-              <strong className="sw-font-semibold">{token}</strong>
+              <strong className="sw:font-semibold">{token}</strong>
             </span>
 
-            <Spinner className="sw-ml-3 sw-my-2" isLoading={loading}>
+            <Spinner className="sw:ml-3 sw:my-2" isLoading={loading}>
               <ButtonIcon
                 Icon={IconDelete}
                 ariaLabel={translate('onboarding.token.delete')}
-                className="sw-ml-1"
+                className="sw:ml-1"
                 onClick={this.handleTokenRevoke}
                 variety={ButtonVariety.DangerGhost}
               />
@@ -338,14 +338,14 @@ export default class TokenStep extends React.PureComponent<Props, State> {
               value={selection}
             />
 
-            <div className="sw-ml-4">
+            <div className="sw:ml-4">
               {selection === TokenUse.GENERATE && this.renderGenerateOption()}
               {selection === TokenUse.EXISTING && this.renderUseExistingOption()}
             </div>
           </div>
         )}
 
-        <Text as="div" className="sw-mt-6 sw-w-1/2" isSubtle>
+        <Text as="div" className="sw:mt-6 sw:w-1/2" isSubtle>
           <FormattedMessage
             id="onboarding.token.text"
             values={{
@@ -359,7 +359,7 @@ export default class TokenStep extends React.PureComponent<Props, State> {
         </Text>
 
         {this.canContinue() && (
-          <div className="sw-mt-4">
+          <div className="sw:mt-4">
             <Button onClick={this.handleContinueClick}>{translate('continue')}</Button>
           </div>
         )}
@@ -376,11 +376,11 @@ export default class TokenStep extends React.PureComponent<Props, State> {
     }
 
     return (
-      <div className="sw-flex sw-items-center">
-        <IconCheckCircle className="sw-mr-2" color="echoes-color-icon-success" />
+      <div className="sw:flex sw:items-center">
+        <IconCheckCircle className="sw:mr-2" color="echoes-color-icon-success" />
         <span>
           {selection === TokenUse.GENERATE && tokenName && `${tokenName}: `}
-          <strong className="sw-ml-1">{token}</strong>
+          <strong className="sw:ml-1">{token}</strong>
         </span>
       </div>
     );

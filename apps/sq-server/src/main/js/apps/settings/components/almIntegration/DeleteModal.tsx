@@ -62,7 +62,7 @@ export default function DeleteModal({
       onConfirm={onDelete}
     >
       <>
-        <p className="sw-mb-2">
+        <p className="sw:mb-2">
           <FormattedMessage
             id="settings.almintegration.delete.message"
             values={{ id: <b>{id}</b> }}

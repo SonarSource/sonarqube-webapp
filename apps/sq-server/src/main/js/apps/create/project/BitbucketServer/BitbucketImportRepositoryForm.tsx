@@ -116,8 +116,8 @@ export default function BitbucketImportRepositoryForm(
 
   return (
     <div>
-      <div className="sw-mb-10 sw-w-abs-800 sw-flex">
-        <div className="sw-flex-1">
+      <div className="sw:mb-10 sw:w-abs-800 sw:flex">
+        <div className="sw:flex-1">
           <InputSearch
             onChange={onSearch}
             placeholder={formatMessage({
@@ -129,8 +129,8 @@ export default function BitbucketImportRepositoryForm(
             size="full"
           />
         </div>
-        <div className="sw-ml-4 sw-flex-1 sw-flex sw-items-center">
-          <Label className="sw-mr-2" htmlFor="aria-bbs-search-mode" id="aria-bbs-search-mode">
+        <div className="sw:ml-4 sw:flex-1 sw:flex sw:items-center">
+          <Label className="sw:mr-2" htmlFor="aria-bbs-search-mode" id="aria-bbs-search-mode">
             <FormattedMessage id="onboarding.create_project.search_mode" />
           </Label>
           <Select

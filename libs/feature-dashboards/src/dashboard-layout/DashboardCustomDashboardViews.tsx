@@ -69,7 +69,7 @@ export function DashboardCustomDashboardLoading() {
   const { formatMessage } = useIntl();
   return (
     <ProjectPageTemplate title={formatMessage({ id: 'loading' })}>
-      <div className="sw-flex sw-justify-center sw-my-10">
+      <div className="sw:flex sw:justify-center sw:my-10">
         <Spinner />
       </div>
     </ProjectPageTemplate>
@@ -92,7 +92,7 @@ function StatePage(
       <MessageCallout title={formatMessage({ id: titleId })} variety={variety}>
         {children}
       </MessageCallout>
-      <div className="sw-mt-4">
+      <div className="sw:mt-4">
         <Button to={listUrl} variety={ButtonVariety.Primary}>
           <FormattedMessage id={backToListLabelId} />
         </Button>
@@ -154,7 +154,7 @@ export function DashboardCustomDashboardGenericError(
       <MessageCallout title={formatMessage({ id: props.titleId })} variety={MessageVariety.Danger}>
         <FormattedMessage id={props.descriptionId} />
       </MessageCallout>
-      <div className="sw-mt-4">
+      <div className="sw:mt-4">
         <Button onClick={props.onRetry} variety={ButtonVariety.Default}>
           <FormattedMessage id="retry" />
         </Button>
@@ -175,9 +175,9 @@ export function DashboardCustomDashboardUnsupportedVersion(
     });
 
   return (
-    <div className="sw-flex sw-min-h-[50vh] sw-flex-col sw-items-center sw-justify-center sw-gap-4">
+    <div className="sw:flex sw:min-h-[50vh] sw:flex-col sw:items-center sw:justify-center sw:gap-4">
       <MessageCallout
-        className="sw-w-full sw-max-w-[600px]"
+        className="sw:w-full sw:max-w-[600px]"
         title={title}
         variety={MessageVariety.Warning}
       >

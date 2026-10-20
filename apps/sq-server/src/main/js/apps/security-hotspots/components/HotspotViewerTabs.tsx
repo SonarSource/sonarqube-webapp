@@ -170,7 +170,7 @@ export default function HotspotViewerTabs(props: Props) {
 
   return (
     <>
-      <div className="sw-mt-4">
+      <div className="sw:mt-4">
         <ToggleButton
           onChange={handleSelectTabs}
           options={tabs}

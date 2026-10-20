@@ -65,7 +65,7 @@ function useOptions({
     if (assigneeLogin) {
       opts.set(assigneeLogin, {
         Icon: assigneeAvatar ? (
-          <Avatar className="sw-my-1" hash={assigneeAvatar} name={assignedUser} size="xs" />
+          <Avatar className="sw:my-1" hash={assigneeAvatar} name={assignedUser} size="xs" />
         ) : undefined,
         label: assignedUser ?? assigneeLogin,
         value: assigneeLogin,
@@ -166,7 +166,7 @@ export function AssigneeDropdown({
     : formatMessage({ id: 'issue.assign.unassigned_click_to_assign' });
 
   const valueIcon = assigneeLogin ? (
-    <Avatar className="sw-my-1" hash={assigneeAvatar} name={assignedUser} size="xs" />
+    <Avatar className="sw:my-1" hash={assigneeAvatar} name={assignedUser} size="xs" />
   ) : undefined;
 
   return (

@@ -114,7 +114,7 @@ export default class AlmBindingDefinitionFormRenderer extends React.PureComponen
       <form id={FORM_ID} onSubmit={handleSubmit}>
         <div ref={errorListElementRef}>
           {validationError && !canSubmit && (
-            <FlagMessage className="sw-w-full sw-mb-2" variant="error">
+            <FlagMessage className="sw:w-full sw:mb-2" variant="error">
               <div>
                 <p>
                   <FormattedMessage id="settings.almintegration.configuration_invalid" />

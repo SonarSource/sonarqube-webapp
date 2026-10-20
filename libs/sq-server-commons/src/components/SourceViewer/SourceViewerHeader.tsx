@@ -95,9 +95,9 @@ export default function SourceViewerHeader(props: Readonly<Props>) {
       componentMeasures &&
       componentMeasures.length > 0 && (
         <>
-          <StyledVerticalSeparator className="sw-h-800 sw-mx-6" />
+          <StyledVerticalSeparator className="sw:h-800 sw:mx-6" />
 
-          <div className="sw-flex sw-gap-6">
+          <div className="sw:flex sw:gap-6">
             {SOFTWARE_QUALITIES.map((quality) => {
               const { deprecatedMetric, metric } = SOFTWARE_QUALITIES_METRIC_KEYS_MAP[quality];
               const measure = componentMeasures.find(
@@ -119,7 +119,7 @@ export default function SourceViewerHeader(props: Readonly<Props>) {
               });
 
               return (
-                <div className="sw-flex sw-flex-col sw-gap-1" key={quality}>
+                <div className="sw:flex sw:flex-col sw:gap-1" key={quality}>
                   <Text className="it__source-viewer-header-measure-label" isSubtle>
                     {qualityTitle}
                   </Text>
@@ -133,7 +133,7 @@ export default function SourceViewerHeader(props: Readonly<Props>) {
                           quality: qualityTitle,
                         },
                       )}
-                      className="sw-typo-lg"
+                      className="sw:typo-lg"
                       to={linkUrl}
                     >
                       {formatMeasure(measureValue, MetricType.Integer)}
@@ -143,7 +143,7 @@ export default function SourceViewerHeader(props: Readonly<Props>) {
               );
             })}
 
-            <div className="sw-flex sw-flex-col sw-gap-1" key={IssueType.SecurityHotspot}>
+            <div className="sw:flex sw:flex-col sw:gap-1" key={IssueType.SecurityHotspot}>
               <Text className="it__source-viewer-header-measure-label" isSubtle>
                 {intl.formatMessage({
                   id: `issue.type.${IssueType.SecurityHotspot}`,
@@ -152,7 +152,7 @@ export default function SourceViewerHeader(props: Readonly<Props>) {
 
               <span>
                 <StyledDrilldownLink
-                  className="sw-typo-lg"
+                  className="sw:typo-lg"
                   to={getComponentSecurityHotspotsUrl(project, branchLike, {
                     files: path,
                     ...DEFAULT_ISSUES_QUERY,
@@ -178,18 +178,18 @@ export default function SourceViewerHeader(props: Readonly<Props>) {
   return (
     <StyledHeaderContainer
       className={
-        'it__source-viewer-header sw-typo-default sw-flex sw-items-center sw-px-4 sw-py-3 ' +
-        'sw-relative'
+        'it__source-viewer-header sw:typo-default sw:flex sw:items-center sw:px-4 sw:py-3 ' +
+        'sw:relative'
       }
     >
-      <div className="sw-flex sw-flex-1 sw-flex-col sw-gap-1 sw-mr-5 sw-my-1">
-        <div className="sw-flex sw-gap-1 sw-items-center">
+      <div className="sw:flex sw:flex-1 sw:flex-col sw:gap-1 sw:mr-5 sw:my-1">
+        <div className="sw:flex sw:gap-1 sw:items-center">
           <LinkStandalone iconLeft={<IconProject />} to={getBranchLikeUrl(project, branchLike)}>
             {projectName}
           </LinkStandalone>
         </div>
 
-        <div className="sw-flex sw-gap-2 sw-items-center">
+        <div className="sw:flex sw:gap-2 sw:items-center">
           <QualifierIcon qualifier={q} />
 
           {collapsedDirFromPath(path)}
@@ -208,9 +208,9 @@ export default function SourceViewerHeader(props: Readonly<Props>) {
       </div>
 
       {showMeasures && (
-        <div className="sw-flex sw-gap-6 sw-items-center">
+        <div className="sw:flex sw:gap-6 sw:items-center">
           {isDefined(measures[unitTestsOrLines]) && (
-            <div className="sw-flex sw-flex-col sw-gap-1">
+            <div className="sw:flex sw:flex-col sw:gap-1">
               <Text className="it__source-viewer-header-measure-label" isSubtle>
                 {intl.formatMessage({ id: `metric.${unitTestsOrLines}.name` })}
               </Text>
@@ -220,7 +220,7 @@ export default function SourceViewerHeader(props: Readonly<Props>) {
           )}
 
           {isDefined(measures.coverage) && (
-            <div className="sw-flex sw-flex-col sw-gap-1">
+            <div className="sw:flex sw:flex-col sw:gap-1">
               <Text className="it__source-viewer-header-measure-label" isSubtle>
                 {intl.formatMessage({ id: 'metric.coverage.name' })}
               </Text>
@@ -230,7 +230,7 @@ export default function SourceViewerHeader(props: Readonly<Props>) {
           )}
 
           {isDefined(measures.duplicationDensity) && (
-            <div className="sw-flex sw-flex-col sw-gap-1">
+            <div className="sw:flex sw:flex-col sw:gap-1">
               <Text className="it__source-viewer-header-measure-label" isSubtle>
                 {intl.formatMessage({ id: 'duplications' })}
               </Text>
@@ -277,7 +277,7 @@ export default function SourceViewerHeader(props: Readonly<Props>) {
           ariaLabel={intl.formatMessage({
             id: 'component_viewer.action_menu',
           })}
-          className="it__js-actions sw-ml-4 sw-px-3 sw-py-2"
+          className="it__js-actions sw:ml-4 sw:px-3 sw:py-2"
           variety={ButtonVariety.DefaultGhost}
         />
       </Dropdown>

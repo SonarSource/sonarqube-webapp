@@ -41,7 +41,7 @@ export default function NonProductionDatabaseWarning() {
           instance: getInstance(),
           link: (
             <DocumentationLink
-              className="sw-ml-1"
+              className="sw:ml-1"
               enableOpenInNewTab
               highlight={LinkHighlight.CurrentColor}
               to={DocLink.DatabaseRequirements}

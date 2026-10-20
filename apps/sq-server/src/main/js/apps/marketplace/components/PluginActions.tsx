@@ -91,7 +91,7 @@ export default class PluginActions extends React.PureComponent<Props, State> {
       <div className="it__js-actions">
         {isAvailablePlugin(plugin) && (
           <div>
-            <p className="sw-mb-1">
+            <p className="sw:mb-1">
               <FormattedMessage id="marketplace.available_under_commercial_license" />
             </p>
             {plugin.homepageUrl && (
@@ -103,12 +103,12 @@ export default class PluginActions extends React.PureComponent<Props, State> {
         )}
         {isInstalledPlugin(plugin) && (
           <p>
-            <CheckIcon className="sw-mr-1" />
+            <CheckIcon className="sw:mr-1" />
             <FormattedMessage id="marketplace.installed" />
           </p>
         )}
         {isInstalledPlugin(plugin) && plugin.updates && plugin.updates.length > 0 && (
-          <div className="sw-mt-2">
+          <div className="sw:mt-2">
             {plugin.updates.map((update, idx) => (
               <PluginUpdateButton
                 disabled={this.state.loading}
@@ -134,26 +134,26 @@ export default class PluginActions extends React.PureComponent<Props, State> {
     return (
       <div className="it__js-actions">
         {isAvailablePlugin(plugin) && plugin.termsAndConditionsUrl && (
-          <div className="sw-flex sw-items-center sw-flex-wrap sw-mb-2">
+          <div className="sw:flex sw:items-center sw:flex-wrap sw:mb-2">
             <Checkbox
               checked={this.state.acceptTerms}
               id={'plugin-terms-' + plugin.key}
               onCheck={this.handleTermsCheck}
             >
-              <span className="sw-ml-2">
+              <span className="sw:ml-2">
                 <FormattedMessage id="marketplace.i_accept_the" />
               </span>
             </Checkbox>
-            <Link className="sw-whitespace-nowrap sw-ml-1" to={plugin.termsAndConditionsUrl}>
+            <Link className="sw:whitespace-nowrap sw:ml-1" to={plugin.termsAndConditionsUrl}>
               <FormattedMessage id="marketplace.terms_and_conditions" />
             </Link>
           </div>
         )}
-        <Spinner className="sw-my-2" isLoading={loading} />
+        <Spinner className="sw:my-2" isLoading={loading} />
         {isInstalledPlugin(plugin) && (
           <>
             {plugin.updates?.map((update, idx) => (
-              <div className="sw-inline-block sw-mr-2 sw-mb-2" key={idx}>
+              <div className="sw:inline-block sw:mr-2 sw:mb-2" key={idx}>
                 <PluginUpdateButton
                   disabled={loading}
                   onClick={this.handleUpdate}

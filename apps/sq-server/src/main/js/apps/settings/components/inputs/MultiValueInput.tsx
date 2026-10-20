@@ -48,7 +48,7 @@ class MultiValueInput extends React.PureComponent<Props> {
   renderInput(value: any, index: number, isLast: boolean) {
     const { ariaDescribedBy, setting, isDefault, name, innerRef } = this.props;
     return (
-      <li className="sw-flex sw-items-center sw-mb-2" key={index}>
+      <li className="sw:flex sw:items-center sw:mb-2" key={index}>
         <PrimitiveInput
           ariaDescribedBy={ariaDescribedBy}
           hasValueChanged={this.props.hasValueChanged}
@@ -71,7 +71,7 @@ class MultiValueInput extends React.PureComponent<Props> {
               getPropertyName(setting.definition),
               value,
             )}
-            className="js-remove-value sw-ml-2 sw-flex sw-self-end"
+            className="js-remove-value sw:ml-2 sw:flex sw:self-end"
             onClick={() => {
               this.handleDeleteValue(index);
             }}

@@ -27,7 +27,7 @@ export default function MonorepoDocLinkFallback() {
   return (
     <NumberedListItem>
       <DocumentationLink
-        className="sw-mt-4"
+        className="sw:mt-4"
         enableOpenInNewTab
         to={DocLink.AlmGitHubMonorepoWorkfileExample}
       >

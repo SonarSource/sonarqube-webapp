@@ -404,7 +404,7 @@ function ComponentContainer({ hasFeature }: Readonly<WithAvailableFeaturesProps>
           {isLoading ? (
             <Layout.PageGrid>
               <Layout.PageContent>
-                <Spinner className="sw-mt-10" />
+                <Spinner className="sw:mt-10" />
               </Layout.PageContent>
             </Layout.PageGrid>
           ) : (

@@ -62,7 +62,7 @@ export default function LineIssuesList(props: LineIssuesListProps) {
     return null;
   }
   return (
-    <ul className="sw-my-4 sw-max-w-[980px]">
+    <ul className="sw:my-4 sw:max-w-[980px]">
       {displayedIssue.map((issue) => (
         <Issue
           branchLike={props.branchLike}

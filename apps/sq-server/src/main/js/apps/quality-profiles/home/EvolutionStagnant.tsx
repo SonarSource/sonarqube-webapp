@@ -45,14 +45,14 @@ export default function EvolutionStagnant(props: Readonly<Props>) {
         {intl.formatMessage({ id: 'quality_profiles.stagnant_profiles' })}
       </Heading>
 
-      <MessageCallout className="sw-mb-3" variety={MessageVariety.Warning}>
+      <MessageCallout className="sw:mb-3" variety={MessageVariety.Warning}>
         {intl.formatMessage({ id: 'quality_profiles.not_updated_more_than_year' })}
       </MessageCallout>
 
-      <ul className="sw-flex sw-flex-col sw-gap-4 sw-typo-default">
+      <ul className="sw:flex sw:flex-col sw:gap-4 sw:typo-default">
         {outdated.map((profile) => (
-          <li className="sw-flex sw-flex-col sw-gap-1" key={profile.key}>
-            <div className="sw-truncate">
+          <li className="sw:flex sw:flex-col sw:gap-1" key={profile.key}>
+            <div className="sw:truncate">
               <DiscreetLink to={getProfilePath(profile.name, profile.language)}>
                 {profile.name}
               </DiscreetLink>

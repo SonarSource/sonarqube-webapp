@@ -91,7 +91,7 @@ export function Breadcrumbs(props: Props) {
       const isLast = index === 0;
       return (
         <li
-          className="sw-inline-flex sw-items-center"
+          className="sw:inline-flex sw:items-center"
           ref={(node) => {
             if (node !== null) {
               breadcrumbRef(node, index);
@@ -148,7 +148,7 @@ export function Breadcrumbs(props: Props) {
       {showDropdownMenu && (
         <Dropdown
           allowResizing
-          className="sw-px-2"
+          className="sw:px-2"
           id="breadcrumb-menu"
           overlay={React.Children.map(children, (child) => (
             <li>{child}</li>
@@ -159,14 +159,14 @@ export function Breadcrumbs(props: Props) {
           <ButtonIcon
             Icon={IconChevronDown}
             ariaLabel={expandButtonLabel ?? intl.formatMessage({ id: 'expand_breadcrumb' })}
-            className="sw-m-1 sw-mr-2"
+            className="sw:m-1 sw:mr-2"
             size={ButtonSize.Medium}
             variety={ButtonVariety.DefaultGhost}
           />
         </Dropdown>
       )}
-      <ul className="sw-truncate sw-leading-6 sw-flex">{[...breadcrumbsToShow].reverse()}</ul>
-      {actions && <div className="sw-mx-2">{actions}</div>}
+      <ul className="sw:truncate sw:leading-6 sw:flex">{[...breadcrumbsToShow].reverse()}</ul>
+      {actions && <div className="sw:mx-2">{actions}</div>}
     </BreadcrumbWrapper>
   );
 }

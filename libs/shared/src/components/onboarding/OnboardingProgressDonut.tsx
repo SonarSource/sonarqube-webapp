@@ -63,7 +63,7 @@ export function OnboardingProgressDonut({
     <div
       aria-hidden={isDecorative || undefined}
       aria-label={isDecorative ? undefined : label}
-      className="sw-relative sw-shrink-0"
+      className="sw:relative sw:shrink-0"
       role={isDecorative ? undefined : 'img'}
       style={{ height: size, width: size }}
     >
@@ -77,7 +77,7 @@ export function OnboardingProgressDonut({
         width={size}
       />
       {showLabel && (
-        <div className="sw-absolute sw-inset-0 sw-flex sw-items-center sw-justify-center">
+        <div className="sw:absolute sw:inset-0 sw:flex sw:items-center sw:justify-center">
           {hasProminentLabel ? (
             <OnboardingRingValue>{label}</OnboardingRingValue>
           ) : (

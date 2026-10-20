@@ -47,7 +47,7 @@ export default function IssueSandboxCallout() {
     <MessageCallout
       action={
         <Link
-          className="sw-ml-3"
+          className="sw:ml-3"
           enableOpenInNewTab
           highlight={LinkHighlight.CurrentColor}
           to={docUrl}

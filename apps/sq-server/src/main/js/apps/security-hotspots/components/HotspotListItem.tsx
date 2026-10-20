@@ -74,7 +74,7 @@ export default function HotspotListItem(props: Readonly<HotspotListItemProps>) {
         { id: hotspot.line ? 'hotspot.label_with_line' : 'hotspot.label' },
         { issue: hotspot.message, file: hotspot.component.split('/').at(-1), line: hotspot.line },
       )}
-      className="sw-flex-col sw-items-start"
+      className="sw:flex-col sw:items-start"
       innerRef={itemRef}
       onClick={handleClick}
     >
@@ -82,17 +82,17 @@ export default function HotspotListItem(props: Readonly<HotspotListItemProps>) {
         {hotspot.message}
       </StyledHotspotTitle>
       {locations.length > 0 && (
-        <StyledHotspotInfo className="sw-flex sw-justify-end sw-w-full">
-          <div className="sw-flex sw-mt-2 sw-items-center sw-justify-center sw-gap-1 sw-overflow-hidden">
+        <StyledHotspotInfo className="sw:flex sw:justify-end sw:w-full">
+          <div className="sw:flex sw:mt-2 sw:items-center sw:justify-center sw:gap-1 sw:overflow-hidden">
             <ExecutionFlowIcon />
             <span
-              className="sw-truncate"
+              className="sw:truncate"
               title={intl.formatMessage({ id: locationMessage }, { number: locations.length })}
             >
               <FormattedMessage
                 id={locationMessage}
                 values={{
-                  number: <span className="sw-typo-semibold">{locations.length}</span>,
+                  number: <span className="sw:typo-semibold">{locations.length}</span>,
                 }}
               />
             </span>
@@ -101,8 +101,8 @@ export default function HotspotListItem(props: Readonly<HotspotListItemProps>) {
       )}
       {selected && locations.length > 0 && (
         <>
-          <StyledSeparator className="sw-w-full sw-my-2" />
-          <div className="sw-flex sw-flex-col sw-gap-1 sw-my-2 sw-w-full">
+          <StyledSeparator className="sw:w-full sw:my-2" />
+          <div className="sw:flex sw:flex-col sw:gap-1 sw:my-2 sw:w-full">
             {locations.map((location, index) => (
               <SingleFileLocationNavigator
                 concealedMarker

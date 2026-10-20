@@ -160,7 +160,7 @@ class Search extends React.PureComponent<Props, State> {
     const searchPlaceholder = getSearchPlaceholderLabel(component.qualifier as ComponentQualifier);
 
     return (
-      <div className={classNames('sw-flex sw-items-center sw-gap-4', className)} id="code-search">
+      <div className={classNames('sw:flex sw:items-center sw:gap-4', className)} id="code-search">
         {isPortfolio && (
           <ToggleButtonGroup
             isDisabled={!isEmpty(query)}
@@ -187,7 +187,7 @@ class Search extends React.PureComponent<Props, State> {
           size="large"
           value={this.state.query}
         />
-        <Spinner className="sw-ml-2" isLoading={loading} />
+        <Spinner className="sw:ml-2" isLoading={loading} />
       </div>
     );
   }

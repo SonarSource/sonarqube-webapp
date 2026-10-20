@@ -114,7 +114,7 @@ function QualityGateConditions(props: Readonly<QualityGateConditionsProps>) {
           )}
           <IssuesLinkCausedByUpgrade
             branchLike={branchLike}
-            className="sw-ml-16 sw-mt-1"
+            className="sw:ml-16 sw:mt-1"
             component={component}
             condition={condition}
             fromSonarQubeUpdateIssuesMeasure={fromSonarQubeUpdateIssuesMeasure}
@@ -125,9 +125,9 @@ function QualityGateConditions(props: Readonly<QualityGateConditionsProps>) {
         </div>
       ))}
       {renderCollapsed && (
-        <li className="sw-flex sw-justify-center sw-my-3">
+        <li className="sw:flex sw:justify-center sw:my-3">
           <Link onClick={handleToggleCollapsed} preventDefault to={{}}>
-            <span className="sw-font-semibold sw-text-sm">{translate('show_more')}</span>
+            <span className="sw:font-semibold sw:text-sm">{translate('show_more')}</span>
           </Link>
         </li>
       )}

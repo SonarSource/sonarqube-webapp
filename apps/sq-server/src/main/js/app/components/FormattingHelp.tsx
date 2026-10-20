@@ -27,7 +27,7 @@ const COLUMNS = ['50%', '50%'];
 
 export default function FormattingHelp() {
   return (
-    <div className="sw-typo-lg sw-p-6 sw-h-screen">
+    <div className="sw:typo-lg sw:p-6 sw:h-screen">
       <Helmet defer={false} title={translate('formatting.page')} />
       <Title>Formatting Syntax</Title>
       <Table

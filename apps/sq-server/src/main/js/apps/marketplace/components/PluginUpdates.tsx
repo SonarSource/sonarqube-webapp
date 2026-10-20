@@ -37,7 +37,7 @@ export default function PluginUpdates({ pluginName, updates }: Readonly<PluginUp
       <strong>
         <FormattedMessage id="marketplace.updates" />:
       </strong>
-      <Text as="ul" className="sw-list-none sw-max-w-full sw-mt-2">
+      <Text as="ul" className="sw:list-none sw:max-w-full sw:mt-2">
         {updates.map((update) =>
           update.release ? (
             <PluginUpdateItem

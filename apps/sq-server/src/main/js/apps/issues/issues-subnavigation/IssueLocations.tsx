@@ -46,7 +46,7 @@ export default function IssueLocations(props: Props) {
       selectedLocationIndex={selectedLocationIndex}
     />
   ) : (
-    <div className="sw-flex sw-flex-col sw-gap-1">
+    <div className="sw:flex sw:flex-col sw:gap-1">
       {locations.map((location, index) => (
         <IssueLocation
           concealed={concealed}

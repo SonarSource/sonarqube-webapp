@@ -36,7 +36,7 @@ export default function PageActions(props: PageActionsProps) {
   const { canSetHome, effortTotal, paging, sortSelect } = props;
 
   return (
-    <div className="sw-typo-default sw-flex sw-items-center sw-gap-6 sw-justify-end sw-flex-1">
+    <div className="sw:typo-default sw:flex sw:items-center sw:gap-6 sw:justify-end sw:flex-1">
       {paging != null && <IssuesCounter total={paging.total} />}
       {effortTotal !== undefined && (
         <span>

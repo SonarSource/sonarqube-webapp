@@ -45,15 +45,15 @@ export default function HotspotReviewHistory(props: Readonly<HotspotReviewHistor
       {history.map((historyElt, historyIndex) => {
         const { user, type, diffs, date, html, key, updatable, markdown } = historyElt;
         return (
-          <li className="sw-p-2 sw-typo-default" key={historyIndex}>
-            <div className="sw-typo-semibold sw-mb-1">
+          <li className="sw:p-2 sw:typo-default" key={historyIndex}>
+            <div className="sw:typo-semibold sw:mb-1">
               <DateTimeFormatter date={date} />
             </div>
-            <Text as="div" className="sw-flex sw-gap-2" isSubtle>
+            <Text as="div" className="sw:flex sw:gap-2" isSubtle>
               {user.name && (
-                <div className="sw-flex sw-items-center sw-gap-1">
+                <div className="sw:flex sw:items-center sw:gap-1">
                   <Avatar hash={user.avatar} name={user.name} size="xs" />
-                  <span className="sw-typo-semibold">
+                  <span className="sw:typo-semibold">
                     {user.active ? user.name : translateWithParameters('user.x_deleted', user.name)}
                   </span>
                 </div>
@@ -66,7 +66,7 @@ export default function HotspotReviewHistory(props: Readonly<HotspotReviewHistor
             </Text>
 
             {type === ReviewHistoryType.Diff && diffs && (
-              <div className="sw-mt-2">
+              <div className="sw:mt-2">
                 {diffs.map((diff, diffIndex) => (
                   <IssueChangelogDiff diff={diff} key={diffIndex} />
                 ))}
@@ -74,9 +74,9 @@ export default function HotspotReviewHistory(props: Readonly<HotspotReviewHistor
             )}
 
             {type === ReviewHistoryType.Comment && key && html && markdown && (
-              <div className="sw-mt-2 sw-flex sw-justify-between">
+              <div className="sw:mt-2 sw:flex sw:justify-between">
                 <SafeHTMLInjection htmlAsString={html} sanitizeLevel={SanitizeLevel.USER_INPUT}>
-                  <CommentBox className="sw-pl-2 sw-ml-2 sw-typo-default" />
+                  <CommentBox className="sw:pl-2 sw:ml-2 sw:typo-default" />
                 </SafeHTMLInjection>
 
                 {updatable && (

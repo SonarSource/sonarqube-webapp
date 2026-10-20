@@ -148,10 +148,10 @@ export default function SamlAuthenticationTab(props: SamlAuthenticationProps) {
             <ProvisioningSection
               autoDescription={
                 <>
-                  <p className="sw-mb-2">
+                  <p className="sw:mb-2">
                     <FormattedMessage id="settings.authentication.saml.form.provisioning_with_scim.sub" />
                   </p>
-                  <p className="sw-mb-2">
+                  <p className="sw:mb-2">
                     <FormattedMessage id="settings.authentication.saml.form.provisioning_with_scim.description" />
                   </p>
                   <p>

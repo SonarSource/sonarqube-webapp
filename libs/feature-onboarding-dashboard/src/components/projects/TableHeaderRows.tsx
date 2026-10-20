@@ -23,7 +23,7 @@ import { ReactNode } from 'react';
 import { useIntl } from 'react-intl';
 import { ProjectsTableColumn } from './ProjectsTable';
 
-const STICKY_HEADER_CLASSES = 'sw-sticky sw-top-0 sw-z-normal';
+const STICKY_HEADER_CLASSES = 'sw:sticky sw:top-0 sw:z-normal';
 
 interface Props {
   columns: ProjectsTableColumn[];
@@ -46,7 +46,7 @@ export function TableHeaderRows({ columns, leadingCell }: Readonly<Props>) {
             className={headerClass}
             justify={justify}
             key={labelKey}
-            label={isLabelHidden ? <span className="sw-sr-only">{label}</span> : label}
+            label={isLabelHidden ? <span className="sw:sr-only">{label}</span> : label}
           />
         );
       })}

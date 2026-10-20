@@ -135,13 +135,13 @@ export default function CFamily(props: Readonly<LanguageProps>) {
         {
           <GithubCFamilyExampleRepositories
             ci={TutorialModes.Jenkins}
-            className="sw-my-4 sw-w-abs-600"
+            className="sw:my-4 sw:w-abs-600"
             os={os}
           />
         }
         {os === OSs.Linux && (
           <>
-            <div className="sw-mt-4">
+            <div className="sw:mt-4">
               {translate('onboarding.tutorial.with.azure_pipelines.architecture')}
             </div>
             <RenderOptions

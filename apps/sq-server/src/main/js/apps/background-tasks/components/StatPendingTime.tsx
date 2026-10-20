@@ -35,20 +35,20 @@ export default function StatPendingTime({ pendingCount, pendingTime }: Readonly<
     return undefined;
   }
   return (
-    <div className="sw-flex sw-items-center">
+    <div className="sw:flex sw:items-center">
       <span>
         <FormattedMessage
           id="background_tasks.pending_time"
           values={{
             time: (
-              <span className="sw-typo-lg-semibold">{formatMeasure(pendingTime, 'MILLISEC')}</span>
+              <span className="sw:typo-lg-semibold">{formatMeasure(pendingTime, 'MILLISEC')}</span>
             ),
           }}
         />
       </span>
 
       <ToggleTip
-        className="sw-ml-1"
+        className="sw:ml-1"
         description={<FormattedMessage id="background_tasks.pending_time.description" />}
       />
     </div>

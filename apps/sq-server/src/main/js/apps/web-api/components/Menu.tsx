@@ -76,7 +76,7 @@ export default function Menu(props: Props) {
   };
 
   return (
-    <SubnavigationGroup className="sw-mt-4 sw-box-border">
+    <SubnavigationGroup className="sw:mt-4 sw:box-border">
       {filteredDomains.map(renderDomain)}
     </SubnavigationGroup>
   );

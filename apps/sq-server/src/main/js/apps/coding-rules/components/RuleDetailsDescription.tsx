@@ -64,7 +64,7 @@ export default function RuleDetailsDescription(props: Readonly<Props>) {
   const renderExtendedDescription = () => (
     <div id="coding-rules-detail-description-extra">
       {ruleDetails.htmlNote !== undefined && (
-        <HtmlFormatter className="sw-my-6">
+        <HtmlFormatter className="sw:my-6">
           <CodeSyntaxHighlighter
             htmlAsString={ruleDetails.htmlNote}
             language={ruleDetails.lang}
@@ -73,7 +73,7 @@ export default function RuleDetailsDescription(props: Readonly<Props>) {
         </HtmlFormatter>
       )}
 
-      <div className="sw-my-6">
+      <div className="sw:my-6">
         {canWrite && (
           <Button
             onClick={() => {
@@ -91,7 +91,7 @@ export default function RuleDetailsDescription(props: Readonly<Props>) {
   const renderForm = () => (
     <Form
       aria-label={translate('coding_rules.detail.extend_description.form')}
-      className="sw-my-6"
+      className="sw:my-6"
       onSubmit={(event: React.SyntheticEvent<HTMLFormElement>) => {
         event.preventDefault();
         updateDescription(description);
@@ -99,7 +99,7 @@ export default function RuleDetailsDescription(props: Readonly<Props>) {
     >
       <TextArea
         aria-label={translate('coding_rules.extend_description')}
-        className="sw-mb-2 sw-resize-y"
+        className="sw:mb-2 sw:resize-y"
         id="coding-rules-detail-extend-description-text"
         onChange={({ currentTarget: { value } }: React.SyntheticEvent<HTMLTextAreaElement>) => {
           setDescription(value);
@@ -109,8 +109,8 @@ export default function RuleDetailsDescription(props: Readonly<Props>) {
         width={FormFieldWidth.Full}
       />
 
-      <div className="sw-flex sw-items-center sw-justify-between">
-        <div className="sw-flex sw-items-center">
+      <div className="sw:flex sw:items-center sw:justify-between">
+        <div className="sw:flex sw:items-center">
           <Button
             id="coding-rules-detail-extend-description-submit"
             isLoading={updatingRule}
@@ -123,7 +123,7 @@ export default function RuleDetailsDescription(props: Readonly<Props>) {
           {ruleDetails.mdNote !== undefined && (
             <>
               <Button
-                className="sw-ml-2"
+                className="sw:ml-2"
                 id="coding-rules-detail-extend-description-remove"
                 isLoading={updatingRule}
                 onClick={() => {
@@ -148,7 +148,7 @@ export default function RuleDetailsDescription(props: Readonly<Props>) {
           )}
 
           <Button
-            className="sw-ml-2"
+            className="sw:ml-2"
             id="coding-rules-detail-extend-description-cancel"
             isLoading={updatingRule}
             onClick={() => {
@@ -158,7 +158,7 @@ export default function RuleDetailsDescription(props: Readonly<Props>) {
             <FormattedMessage id="cancel" />
           </Button>
 
-          <Spinner className="sw-ml-2" isLoading={updatingRule} />
+          <Spinner className="sw:ml-2" isLoading={updatingRule} />
         </div>
 
         <FormattingTips />
@@ -177,7 +177,7 @@ export default function RuleDetailsDescription(props: Readonly<Props>) {
       )}
 
       {!ruleDetails.templateKey && (
-        <div className="sw-mt-6">
+        <div className="sw:mt-6">
           {!descriptionForm && renderExtendedDescription()}
           {descriptionForm && canWrite && renderForm()}
         </div>

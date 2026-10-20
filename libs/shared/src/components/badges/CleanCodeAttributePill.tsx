@@ -55,7 +55,7 @@ export function CleanCodeAttributePill(props: Readonly<Props>) {
         isInteractive
         variety="info"
       >
-        <span className={cleanCodeAttribute ? 'sw-font-semibold' : ''}>
+        <span className={cleanCodeAttribute ? 'sw:font-semibold' : ''}>
           {translate({
             id: `cct.clean_code_attribute_category.${cleanCodeAttributeCategory}`,
           })}

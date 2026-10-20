@@ -70,7 +70,7 @@ export function HotspotViewerRenderer(props: HotspotViewerRendererProps) {
 
   return (
     <>
-      <Spinner className="sw-m-4" isLoading={loading} />
+      <Spinner className="sw:m-4" isLoading={loading} />
 
       {showStatusUpdateSuccessModal && (
         <StatusUpdateSuccessModal

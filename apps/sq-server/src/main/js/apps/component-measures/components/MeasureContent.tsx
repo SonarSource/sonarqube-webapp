@@ -229,27 +229,27 @@ export default function MeasureContent(props: Readonly<Props>) {
           <MeasuresBreadcrumbs
             backToFirst={view === MeasurePageView.list}
             branchLike={branchLike}
-            className="sw-flex-1"
+            className="sw:flex-1"
             component={baseComponent}
             handleSelect={onOpenComponent}
             rootComponent={rootComponent}
           />
         }
         right={
-          <div className="sw-flex sw-items-center">
+          <div className="sw:flex sw:items-center">
             {!isFileComponent && metric && (
               <>
                 {!isApplication(baseComponent.qualifier) && (
                   <>
                     <Text
-                      className="sw-whitespace-nowrap"
+                      className="sw:whitespace-nowrap"
                       id="measures-view-selection-label"
                       isHighlighted
                     >
                       <FormattedMessage id="component_measures.view_as" />
                     </Text>
                     <MeasureViewSelect
-                      className="measure-view-select sw-ml-2 sw-mr-4"
+                      className="measure-view-select sw:ml-2 sw:mr-4"
                       handleViewChange={(view) => {
                         updateQuery({ view });
                       }}
@@ -262,7 +262,7 @@ export default function MeasureContent(props: Readonly<Props>) {
                 {view !== MeasurePageView.treemap && (
                   <>
                     <KeyboardHint
-                      className="sw-mr-4 sw-ml-6"
+                      className="sw:mr-4 sw:ml-6"
                       command={`${KeyboardKeys.DownArrow} ${KeyboardKeys.UpArrow}`}
                       title={intl.formatMessage({ id: 'component_measures.select_files' })}
                     />
@@ -276,7 +276,7 @@ export default function MeasureContent(props: Readonly<Props>) {
 
                 {isDefined(totalComponents) && totalComponents > 0 && (
                   <FilesCounter
-                    className="sw-min-w-[96px] sw-text-right"
+                    className="sw:min-w-[96px] sw:text-right"
                     current={
                       isDefined(selectedIdx) && view !== MeasurePageView.treemap
                         ? selectedIdx + 1
@@ -291,7 +291,7 @@ export default function MeasureContent(props: Readonly<Props>) {
         }
       />
 
-      <div className="sw-p-6">
+      <div className="sw:p-6">
         <MeasureHeader
           branchLike={branchLike}
           component={baseComponent}

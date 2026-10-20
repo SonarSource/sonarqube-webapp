@@ -99,7 +99,7 @@ export function FacetBox(props: FacetBoxProps) {
       inner={inner}
     >
       <Header>
-        <div className="sw-flex sw-items-center">
+        <div className="sw:flex sw:items-center">
           <TitleWithHelp>
             <ChevronAndTitle
               aria-controls={`${id}-panel`}
@@ -138,14 +138,14 @@ export function FacetBox(props: FacetBoxProps) {
               )}
             </ChevronAndTitle>
           </TitleWithHelp>
-          {help && <span className="sw-flex sw-ml-1">{help}</span>}
+          {help && <span className="sw:flex sw:ml-1">{help}</span>}
         </div>
 
         {<Spinner isLoading={loading} />}
 
         {counter > 0 && (
           <BadgeAndIcons>
-            <Badge className="sw-px-2" title={countLabel} variant="counter">
+            <Badge className="sw:px-2" title={countLabel} variant="counter">
               {counter}
             </Badge>
 

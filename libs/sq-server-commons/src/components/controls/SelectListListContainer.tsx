@@ -85,8 +85,8 @@ export default class SelectListListContainer extends React.PureComponent<Props, 
     const { allowBulkSelection, elements, filter, readOnly, selectedElements } = this.props;
 
     return (
-      <ListContainer className="sw-mt-2 sw-p-3 sw-rounded-1 it__select-list-list-container">
-        <Text as="ul" className="sw-list-none sw-mt-0 sw-pl-0">
+      <ListContainer className="sw:mt-2 sw:p-3 sw:rounded-1 it__select-list-list-container">
+        <Text as="ul" className="sw:list-none sw:mt-0 sw:pl-0">
           {allowBulkSelection && elements.length > 0 && filter === SelectListFilter.All && (
             <>
               <li>
@@ -99,10 +99,10 @@ export default class SelectListListContainer extends React.PureComponent<Props, 
                     selectedElements.length > 0 && elements.length !== selectedElements.length
                   }
                 >
-                  <span className="sw-ml-4">{translate('bulk_change')}</span>
+                  <span className="sw:ml-4">{translate('bulk_change')}</span>
                 </Checkbox>
               </li>
-              <li className="sw-my-1">
+              <li className="sw:my-1">
                 <Divider />
               </li>
             </>

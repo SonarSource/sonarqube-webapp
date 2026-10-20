@@ -66,11 +66,11 @@ export default function AboutProject(props: Readonly<AboutProjectProps>) {
 
   return (
     <>
-      <Heading as="h2" className="sw-mb-4">
+      <Heading as="h2" className="sw:mb-4">
         {translate(isApp ? 'application' : 'project', 'about.title')}
       </Heading>
       {!isApp && (component.qualityGate || filteredQualityProfiles.length > 0) && (
-        <ProjectInformationSection className="sw-pt-0 sw-flex sw-flex-col sw-gap-4">
+        <ProjectInformationSection className="sw:pt-0 sw:flex sw:flex-col sw:gap-4">
           {component.qualityGate && <MetaQualityGate qualityGate={component.qualityGate} />}
 
           {filteredQualityProfiles.length > 0 && (
@@ -81,7 +81,7 @@ export default function AboutProject(props: Readonly<AboutProjectProps>) {
       <AiCodeStatus component={component} />
       {component.isAiCodeFixEnabled === true && (
         <ProjectInformationSection>
-          <Heading as="h3" className="sw-mb-2">
+          <Heading as="h3" className="sw:mb-2">
             <FormattedMessage id="project.info.ai_code_fix.title" />
           </Heading>
           <FormattedMessage id="project.info.ai_code_fix.message" />

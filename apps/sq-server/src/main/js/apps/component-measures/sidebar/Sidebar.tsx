@@ -57,7 +57,7 @@ export default function Sidebar(props: Readonly<Props>) {
     <Layout.AsideLeft size="medium">
       <section
         aria-label={translate('component_measures.navigation')}
-        className="sw-flex sw-flex-col sw-gap-4"
+        className="sw:flex sw:flex-col sw:gap-4"
       >
         <A11ySkipTarget
           anchor="measures_filters"

@@ -45,18 +45,18 @@ export default function PluginAvailable(props: Readonly<PluginAvailableProps>) {
     <>
       <PluginDescription plugin={plugin} />
       <ContentCell>
-        <div className="sw-mr-2">
+        <div className="sw:mr-2">
           <Badge variant="new">{plugin.release.version}</Badge>
         </div>
-        <div className="sw-mr-2">{plugin.release.description}</div>
+        <div className="sw:mr-2">{plugin.release.description}</div>
         <PluginChangeLogButton
           pluginName={plugin.name}
           release={plugin.release}
           update={plugin.update}
         />
         {plugin.update.requires.length > 0 && (
-          <p className="sw-mt-2">
-            <strong className="sw-typo-semibold">
+          <p className="sw:mt-2">
+            <strong className="sw:typo-semibold">
               {translateWithParameters(
                 'marketplace.installing_this_plugin_will_also_install_x',
                 plugin.update.requires

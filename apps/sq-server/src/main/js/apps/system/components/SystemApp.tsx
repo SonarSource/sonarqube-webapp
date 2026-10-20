@@ -156,7 +156,7 @@ class SystemApp extends React.PureComponent<Props, State> {
       >
         <Helmet defer={false} title={this.intl.formatMessage({ id: 'system_info.page' })} />
 
-        <div className="sw-flex sw-flex-col sw-gap-y-4 sw-mb-8 empty:sw-mb-0">
+        <div className="sw:flex sw:flex-col sw:gap-y-4 sw:mb-8 sw:empty:mb-0">
           <MonitoringAlerts />
           <UpdateNotification />
         </div>
@@ -167,7 +167,7 @@ class SystemApp extends React.PureComponent<Props, State> {
           version={getSysInfoVersion(sysInfoData)}
         />
 
-        <LoadingSkeleton className="sw-h-[400px] sw-w-3/4" variety="rectangle">
+        <LoadingSkeleton className="sw:h-[400px] sw:w-3/4" variety="rectangle">
           {this.renderSysInfo()}
         </LoadingSkeleton>
       </AdminPageTemplate>

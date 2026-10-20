@@ -60,7 +60,7 @@ export function MultiSelector(props: Readonly<Props>) {
       allowSearch={allowSearch}
       createElementLabel={createElementLabel}
       elements={elements}
-      headerNode={<div className="sw-mt-4 sw-font-semibold">{headerLabel}</div>}
+      headerNode={<div className="sw:mt-4 sw:font-semibold">{headerLabel}</div>}
       listSize={listSize}
       noResultsLabel={noResultsLabel}
       onSearch={props.onSearch}

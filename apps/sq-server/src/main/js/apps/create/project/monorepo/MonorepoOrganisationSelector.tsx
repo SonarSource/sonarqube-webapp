@@ -48,7 +48,7 @@ export function MonorepoOrganisationSelector({
   return (
     !error && (
       <>
-        <Label className="sw-mb-2" htmlFor={`${almKey}-monorepo-choose-organization`}>
+        <Label className="sw:mb-2" htmlFor={`${almKey}-monorepo-choose-organization`}>
           <FormattedMessage id="onboarding.create_project.monorepo.choose_organization" />
         </Label>
 
@@ -71,7 +71,7 @@ export function MonorepoOrganisationSelector({
             />
           ) : (
             !loadingOrganizations && (
-              <FlagMessage className="sw-mb-2" variant="error">
+              <FlagMessage className="sw:mb-2" variant="error">
                 <span>
                   {canAdmin ? (
                     <FormattedMessage

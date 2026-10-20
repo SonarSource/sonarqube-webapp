@@ -102,14 +102,14 @@ export default class Projects extends React.PureComponent<Props, State> {
 
     return (
       <section data-test="account__project-notifications">
-        <div className="sw-flex sw-justify-between">
+        <div className="sw:flex sw:justify-between">
           <Heading as="h2" hasMarginBottom>
             <FormattedMessage id="my_profile.per_project_notifications.title" />
           </Heading>
 
-          <div className="sw-flex sw-gap-4">
+          <div className="sw:flex sw:gap-4">
             {allProjects.length > 0 && (
-              <div className="sw-mb-4">
+              <div className="sw:mb-4">
                 <SearchInput
                   onChange={this.handleSearch}
                   placeholderLabel={intl.formatMessage({

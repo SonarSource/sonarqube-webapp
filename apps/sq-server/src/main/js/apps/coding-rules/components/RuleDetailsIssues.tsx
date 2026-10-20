@@ -145,7 +145,7 @@ export class RuleDetailsIssues extends React.PureComponent<Props, State> {
     const path = getIssuesUrl({ ...DEFAULT_ISSUES_QUERY, rules: key });
 
     const totalItem = (
-      <span className="sw-ml-1">
+      <span className="sw:ml-1">
         {'('}
         <Link to={path}>{total}</Link>
         {')'}
@@ -182,7 +182,7 @@ export class RuleDetailsIssues extends React.PureComponent<Props, State> {
     const { loading, projects = [], totalProjects } = this.state;
 
     return (
-      <div className="sw-mb-8">
+      <div className="sw:mb-8">
         <Spinner isLoading={loading}>
           <SubTitle>
             <FormattedMessage id="coding_rules.issues" />
@@ -192,7 +192,7 @@ export class RuleDetailsIssues extends React.PureComponent<Props, State> {
           {projects.length > 0 ? (
             <>
               <Table
-                className="sw-mt-6"
+                className="sw:mt-6"
                 columnCount={2}
                 header={
                   <TableRow>
@@ -205,7 +205,7 @@ export class RuleDetailsIssues extends React.PureComponent<Props, State> {
                 {projects.map(this.renderProject)}
               </Table>
               {totalProjects !== undefined && totalProjects > projects.length && (
-                <div className="sw-text-center sw-mt-4">
+                <div className="sw:text-center sw:mt-4">
                   <FormattedMessage
                     id="coding_rules.most_violating_projects.more_x"
                     values={{
@@ -221,7 +221,7 @@ export class RuleDetailsIssues extends React.PureComponent<Props, State> {
               )}
             </>
           ) : (
-            <div className="sw-mb-6">
+            <div className="sw:mb-6">
               <FormattedMessage id="coding_rules.no_issue_detected_for_projects" />
             </div>
           )}

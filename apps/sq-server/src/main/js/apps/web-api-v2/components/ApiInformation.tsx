@@ -44,20 +44,20 @@ export default function ApiInformation({ name, data, method, apiUrl }: Readonly<
       )}
       <Heading as="h2" hasMarginBottom size="medium">
         <RestMethodPill method={method} />
-        <span className="sw-ml-4">{apiUrl.replace(/.*(?=\/api)/, '') + name}</span>
+        <span className="sw:ml-4">{apiUrl.replace(/.*(?=\/api)/, '') + name}</span>
         {data['x-sonar-internal'] && (
-          <Badge className="sw-ml-3" variety="highlight">
+          <Badge className="sw:ml-3" variety="highlight">
             <FormattedMessage id="internal" />
           </Badge>
         )}
         {data.deprecated && (
-          <Badge className="sw-ml-3" variety="danger">
+          <Badge className="sw:ml-3" variety="danger">
             <FormattedMessage id="deprecated" />
           </Badge>
         )}
       </Heading>
       {data.description && <div>{data.description}</div>}
-      <div className="sw-grid sw-grid-cols-2 sw-gap-4 sw-mt-4">
+      <div className="sw:grid sw:grid-cols-2 sw:gap-4 sw:mt-4">
         <div>
           <ApiParameters data={data} key={getApiEndpointKey(name, method)} />
         </div>

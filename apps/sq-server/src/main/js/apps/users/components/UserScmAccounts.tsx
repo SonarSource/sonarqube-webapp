@@ -46,19 +46,19 @@ export default class UserScmAccounts extends React.PureComponent<Props, State> {
     return (
       <ul className="it__scm-accounts">
         {scmAccounts.slice(0, limit).map((scmAccount) => (
-          <li className="sw-mb-1" key={scmAccount}>
+          <li className="sw:mb-1" key={scmAccount}>
             {scmAccount}
           </li>
         ))}
         {scmAccounts.length > SCM_LIMIT &&
           (this.state.showMore ? (
             scmAccounts.slice(limit).map((scmAccount) => (
-              <li className="sw-mb-1" key={scmAccount}>
+              <li className="sw:mb-1" key={scmAccount}>
                 {scmAccount}
               </li>
             ))
           ) : (
-            <li className="sw-mb-1">
+            <li className="sw:mb-1">
               <Link onClick={this.toggleShowMore} to="#">
                 {translateWithParameters('more_x', scmAccounts.length - limit)}
               </Link>

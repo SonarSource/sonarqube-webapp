@@ -63,7 +63,7 @@ export function OrganizationBindingPanel({ onSelectStep, state }: Readonly<Props
   const showCreateCta = createConfigurationUrl !== undefined || !state.isBound;
 
   return (
-    <div className="sw-flex sw-items-start sw-gap-8">
+    <div className="sw:flex sw:items-start sw:gap-8">
       {byPlatform !== undefined && byPlatform.length > 0 && (
         <DevopsConfigurationsDonut
           byPlatform={byPlatform}
@@ -72,8 +72,8 @@ export function OrganizationBindingPanel({ onSelectStep, state }: Readonly<Props
         />
       )}
 
-      <div className="sw-flex sw-min-w-0 sw-flex-1 sw-flex-col sw-gap-4 sw-py-4">
-        <div className="sw-flex sw-flex-col sw-gap-2">
+      <div className="sw:flex sw:min-w-0 sw:flex-1 sw:flex-col sw:gap-4 sw:py-4">
+        <div className="sw:flex sw:flex-col sw:gap-2">
           <Heading as="h3" size={HeadingSize.Medium}>
             {formatMessage({ id: 'onboarding_dashboard.journey.binding.title' })}
           </Heading>
@@ -86,7 +86,7 @@ export function OrganizationBindingPanel({ onSelectStep, state }: Readonly<Props
         {showBindingReview && (
           <>
             {currentBinding !== undefined && (
-              <div className="sw-flex sw-items-center sw-gap-2">
+              <div className="sw:flex sw:items-center sw:gap-2">
                 <Text isSubtle>
                   {formatMessage({ id: 'onboarding_dashboard.journey.binding.current' })}
                 </Text>

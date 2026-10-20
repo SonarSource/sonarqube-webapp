@@ -50,7 +50,7 @@ export function AnalysisWarningsModal(props: Props) {
     <>
       {warnings.map(({ dismissable, key, message }) => (
         <React.Fragment key={key}>
-          <div className="sw-flex sw-items-center sw-mt-2">
+          <div className="sw:flex sw:items-center sw:mt-2">
             <FlagMessage variant="warning">
               <HtmlFormatter
                 htmlAsString={message.trim().replace(/\n/g, '<br />')}
@@ -60,7 +60,7 @@ export function AnalysisWarningsModal(props: Props) {
           </div>
           <div>
             {dismissable && currentUser.isLoggedIn && (
-              <div className="sw-mt-4">
+              <div className="sw:mt-4">
                 <Button
                   isDisabled={Boolean(isPending)}
                   onClick={() => {
@@ -71,7 +71,7 @@ export function AnalysisWarningsModal(props: Props) {
                   {translate('dismiss_permanently')}
                 </Button>
 
-                <Spinner className="sw-ml-2" isLoading={isPending && variables?.key === key} />
+                <Spinner className="sw:ml-2" isLoading={isPending && variables?.key === key} />
               </div>
             )}
           </div>

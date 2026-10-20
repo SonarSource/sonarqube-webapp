@@ -73,13 +73,13 @@ export function IssueProperties({
           />
         )}
         {isBeta && (
-          <span className="sw-ml-1">
+          <span className="sw:ml-1">
             <RuleStatusBadge rule={rule} />
           </span>
         )}
         {properties}
       </dd>
-      <Divider className="sw-my-1" />
+      <Divider className="sw:my-1" />
     </>
   );
 }

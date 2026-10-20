@@ -38,7 +38,7 @@ export function WidgetFilterLine({ className, segments }: Readonly<WidgetFilterL
     return null;
   }
 
-  const baseLineClassName = 'sw-w-full sw-min-w-0 sw-truncate sw-text-start';
+  const baseLineClassName = 'sw:w-full sw:min-w-0 sw:truncate sw:text-start';
   const lineClassName = className ? `${baseLineClassName} ${className}` : baseLineClassName;
 
   const line = (
@@ -56,14 +56,14 @@ export function WidgetFilterLine({ className, segments }: Readonly<WidgetFilterL
 
   if (!isTruncated) {
     return (
-      <div className="sw-w-full sw-min-w-0" data-testid="widget-filter-line">
+      <div className="sw:w-full sw:min-w-0" data-testid="widget-filter-line">
         {line}
       </div>
     );
   }
 
   return (
-    <div className="sw-w-full sw-min-w-0" data-testid="widget-filter-line">
+    <div className="sw:w-full sw:min-w-0" data-testid="widget-filter-line">
       <Tooltip content={fullText} delayDuration={300}>
         {line}
       </Tooltip>

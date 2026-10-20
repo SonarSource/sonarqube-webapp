@@ -78,7 +78,7 @@ export default function BitbucketCloudSearchForm(props: BitbucketCloudSearchForm
 
   return (
     <div>
-      <div className="sw-flex sw-items-center sw-mb-6 sw-w-abs-400">
+      <div className="sw:flex sw:items-center sw:mb-6 sw:w-abs-400">
         <InputSearch
           loading={searching}
           minLength={3}
@@ -89,13 +89,13 @@ export default function BitbucketCloudSearchForm(props: BitbucketCloudSearchForm
         />
       </div>
       {repositories.length === 0 ? (
-        <div className="sw-py-6 sw-px-2">
-          <Text className="sw-typo-default">
+        <div className="sw:py-6 sw:px-2">
+          <Text className="sw:typo-default">
             <FormattedMessage id="no_results" />
           </Text>
         </div>
       ) : (
-        <ul className="sw-flex sw-flex-col sw-gap-3">
+        <ul className="sw:flex sw:flex-col sw:gap-3">
           {repositories.map((r) => (
             <AlmRepoItem
               almIconSrc={iconUrl}
@@ -112,7 +112,7 @@ export default function BitbucketCloudSearchForm(props: BitbucketCloudSearchForm
         </ul>
       )}
       <ListFooter
-        className="sw-mb-10"
+        className="sw:mb-10"
         count={repositories.length}
         loadMore={props.onLoadMore}
         loading={loadingMore}

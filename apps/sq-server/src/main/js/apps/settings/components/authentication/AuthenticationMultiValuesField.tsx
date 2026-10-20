@@ -55,7 +55,7 @@ export default function AuthenticationMultiValueField(props: Props) {
         {displayValue.map((value, index) => {
           const isNotLast = index !== displayValue.length - 1;
           return (
-            <li className="sw-flex sw-mb-2" key={index}>
+            <li className="sw:flex sw:mb-2" key={index}>
               <InputField
                 id={definition.key}
                 maxLength={4000}
@@ -70,7 +70,7 @@ export default function AuthenticationMultiValueField(props: Props) {
               />
 
               {isNotLast && (
-                <div className="sw-ml-2">
+                <div className="sw:ml-2">
                   <ButtonIcon
                     Icon={IconDelete}
                     ariaLabel={translateWithParameters(

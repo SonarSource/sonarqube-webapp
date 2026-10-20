@@ -81,8 +81,8 @@ function ProjectInformationApp(props: Readonly<Props>) {
 
   return (
     <ProjectPageTemplate disableBranchSelector title={title} width="fluid">
-      <div className="sw-grid sw-grid-cols-[488px_minmax(0,_1000px)] sw-gap-x-12 sw-gap-y-3 sw-auto-rows-min">
-        <div className="sw-row-span-3">
+      <div className="sw:grid sw:grid-cols-[488px_minmax(0,_1000px)] sw:gap-x-12 sw:gap-y-3 sw:auto-rows-min">
+        <div className="sw:row-span-3">
           <Card>
             <AboutProject
               component={component}

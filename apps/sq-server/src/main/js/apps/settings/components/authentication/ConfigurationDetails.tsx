@@ -40,19 +40,19 @@ export default function ConfigurationDetails(props: Readonly<Props>) {
   const { formatMessage } = useIntl();
 
   return (
-    <div className="sw-flex sw-mb-6 sw-justify-between">
-      <div className="sw-min-w-0">
-        <Heading as="h5" className="sw-truncate">
+    <div className="sw:flex sw:mb-6 sw:justify-between">
+      <div className="sw:min-w-0">
+        <Heading as="h5" className="sw:truncate">
           <span title={title}>{title}</span>
         </Heading>
         <p>{url}</p>
         {enabled ? (
-          <Button className="sw-mt-4" isDisabled={!canDisable} onClick={onToggle}>
+          <Button className="sw:mt-4" isDisabled={!canDisable} onClick={onToggle}>
             <FormattedMessage id="settings.authentication.form.disable" />
           </Button>
         ) : (
           <Button
-            className="sw-mt-4"
+            className="sw:mt-4"
             isDisabled={!canDisable}
             onClick={onToggle}
             variety={ButtonVariety.Primary}
@@ -61,12 +61,12 @@ export default function ConfigurationDetails(props: Readonly<Props>) {
           </Button>
         )}
         {!canDisable && (
-          <MessageInline className="sw-mt-2" variety="warning">
+          <MessageInline className="sw:mt-2" variety="warning">
             <FormattedMessage id="settings.authentication.form.disable.tooltip" />
           </MessageInline>
         )}
       </div>
-      <div className="sw-flex sw-gap-2 sw-flex-nowrap sw-shrink-0">
+      <div className="sw:flex sw:gap-2 sw:flex-nowrap sw:shrink-0">
         {extraActions}
         <Button onClick={onEdit}>
           <FormattedMessage id="settings.authentication.form.edit" />

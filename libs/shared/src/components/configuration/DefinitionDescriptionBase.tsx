@@ -56,7 +56,7 @@ export default function DefinitionDescriptionBase({
     if (description) {
       return (
         <SafeHTMLInjection htmlAsString={description} sanitizeLevel={SanitizeLevel.RESTRICTED}>
-          <div className="markdown sw-mt-1" />
+          <div className="markdown sw:mt-1" />
         </SafeHTMLInjection>
       );
     }
@@ -64,8 +64,8 @@ export default function DefinitionDescriptionBase({
   }, [descriptionOverride, definition, intl]);
 
   return (
-    <div className="sw-w-abs-300">
-      <Heading as="h4" className="sw-text-ellipsis sw-overflow-hidden">
+    <div className="sw:w-abs-300">
+      <Heading as="h4" className="sw:text-ellipsis sw:overflow-hidden">
         {name}
       </Heading>
 

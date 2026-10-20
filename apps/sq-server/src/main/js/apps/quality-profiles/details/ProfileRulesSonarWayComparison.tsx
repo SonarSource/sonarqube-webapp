@@ -42,7 +42,7 @@ export default function ProfileRulesSonarWayComparison(props: Readonly<Props>) {
 
   return (
     <FlagMessage variant="warning">
-      <div className="sw-flex sw-items-center sw-gap-1">
+      <div className="sw:flex sw:items-center sw:gap-1">
         <FormattedMessage
           id="quality_profiles.x_sonarway_missing_rules"
           values={{
@@ -62,7 +62,7 @@ export default function ProfileRulesSonarWayComparison(props: Readonly<Props>) {
         />
 
         <ToggleTip
-          className="sw-ml-2"
+          className="sw:ml-2"
           description={
             <FormattedMessage id="quality_profiles.sonarway_missing_rules_description" />
           }

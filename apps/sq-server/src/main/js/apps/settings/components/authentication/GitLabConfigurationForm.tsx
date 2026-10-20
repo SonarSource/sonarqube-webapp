@@ -174,7 +174,7 @@ export default function GitLabConfigurationForm(props: Readonly<Props>) {
 
   const formBody = (
     <form id={FORM_ID} onSubmit={handleSubmit}>
-      <Text as="p" className="sw-mb-8" isSubtle>
+      <Text as="p" className="sw:mb-8" isSubtle>
         <FormattedMessage
           id="settings.authentication.help"
           values={{
@@ -191,7 +191,7 @@ export default function GitLabConfigurationForm(props: Readonly<Props>) {
           key: keyof GitLabConfigurationCreateBody,
           FormData,
         ]) => (
-          <div className="sw-mb-8" key={key}>
+          <div className="sw:mb-8" key={key}>
             <AuthenticationFormField
               definition={definition}
               error={errors[key]?.message}

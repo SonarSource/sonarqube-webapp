@@ -104,7 +104,7 @@ export default class AllHoldersList extends React.PureComponent<Props> {
 
     return (
       <>
-        <div className="sw-flex sw-justify-between sw-mb-6">
+        <div className="sw:flex sw:justify-between sw:mb-6">
           <SearchForm
             filter={filter}
             onFilter={this.props.onFilter}

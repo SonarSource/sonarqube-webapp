@@ -35,10 +35,10 @@ import { buildTopListIssueCountFilterSegments } from './topListDrilldownFilterSe
 import { TopListDrilldownRuleHeaderCard } from './TopListDrilldownRuleHeaderCard';
 import { TopListDrilldownSliceFilterCard } from './TopListDrilldownSliceFilterCard';
 
-const summaryCardClassName = 'sw-flex sw-h-full sw-min-h-0 sw-min-w-0 sw-flex-col';
+const summaryCardClassName = 'sw:flex sw:h-full sw:min-h-0 sw:min-w-0 sw:flex-col';
 const summaryCardBodyClassName =
-  'sw-box-border sw-flex sw-min-h-0 sw-flex-1 sw-flex-col sw-items-center sw-justify-center sw-p-3';
-const summaryContentClassName = 'sw-flex sw-h-[56px] sw-w-full sw-items-center sw-justify-center';
+  'sw:box-border sw:flex sw:min-h-0 sw:flex-1 sw:flex-col sw:items-center sw:justify-center sw:p-3';
+const summaryContentClassName = 'sw:flex sw:h-[56px] sw:w-full sw:items-center sw:justify-center';
 
 interface TopListDrilldownData {
   counts: Record<string, number>;
@@ -63,7 +63,7 @@ function renderIssueCount(isPending: boolean, issueCount: number | null, metricK
   }
 
   if (issueCount === null) {
-    return <WidgetNoData className="sw-my-0" />;
+    return <WidgetNoData className="sw:my-0" />;
   }
 
   return (
@@ -74,7 +74,7 @@ function renderIssueCount(isPending: boolean, issueCount: number | null, metricK
 function renderTrend(isPending: boolean, showTrend: boolean, trendData: TrendData | null) {
   if (!showTrend) {
     return (
-      <div className="sw-px-4 sw-text-center" data-testid="top-list-drilldown-trend-unavailable">
+      <div className="sw:px-4 sw:text-center" data-testid="top-list-drilldown-trend-unavailable">
         <FormattedMessage id="dashboard.add_widget_modal.customize_visualization.checkbox.show_trend_indicator.overall_code_only" />
       </div>
     );
@@ -124,7 +124,7 @@ export function TopListDrilldownOverview(props: Readonly<Props>) {
   ];
 
   return (
-    <div className="sw-flex sw-flex-col sw-gap-4" data-testid="top-list-drilldown-overview">
+    <div className="sw:flex sw:flex-col sw:gap-4" data-testid="top-list-drilldown-overview">
       <TopListDrilldownSliceFilterCard
         onRuleChange={onRuleChange}
         segments={filterSegments}
@@ -141,7 +141,7 @@ export function TopListDrilldownOverview(props: Readonly<Props>) {
       )}
 
       <div
-        className="sw-grid sw-grid-cols-2 sw-items-stretch sw-gap-4"
+        className="sw:grid sw:grid-cols-2 sw:items-stretch sw:gap-4"
         data-testid="top-list-drilldown-summary-row"
       >
         <Card className={summaryCardClassName} data-testid="top-list-drilldown-issue-count-card">

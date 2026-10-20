@@ -197,7 +197,7 @@ export default function ActivationFormModal(props: Readonly<Props>) {
           )}
 
           {hasFeature(Feature.PrioritizedRules) && (
-            <div className="sw-flex sw-flex-col sw-gap-2">
+            <div className="sw:flex sw:flex-col sw:gap-2">
               <Heading as="h3">
                 {intl.formatMessage({ id: 'coding_rules.prioritized_rule.title' })}
               </Heading>
@@ -210,10 +210,10 @@ export default function ActivationFormModal(props: Readonly<Props>) {
                 }}
               />
               {prioritizedRule && (
-                <MessageInline className="sw-mt-4" variety={MessageVariety.Info}>
+                <MessageInline className="sw:mt-4" variety={MessageVariety.Info}>
                   {intl.formatMessage({ id: 'coding_rules.prioritized_rule.note' })}
                   <DocumentationLink
-                    className="sw-ml-2 sw-whitespace-nowrap"
+                    className="sw:ml-2 sw:whitespace-nowrap"
                     to={DocLink.InstanceAdminQualityProfilesPrioritizingRules}
                   >
                     {intl.formatMessage({ id: 'learn_more' })}
@@ -224,7 +224,7 @@ export default function ActivationFormModal(props: Readonly<Props>) {
           )}
 
           {isStandardMode && (
-            <div className="sw-flex sw-flex-col sw-gap-5">
+            <div className="sw:flex sw:flex-col sw:gap-5">
               <Heading as="h3">
                 {intl.formatMessage({ id: 'coding_rules.custom_severity.title' })}
               </Heading>
@@ -257,8 +257,8 @@ export default function ActivationFormModal(props: Readonly<Props>) {
           )}
 
           {!isStandardMode && (
-            <div className="sw-flex sw-flex-col">
-              <Heading as="h3" className="sw-mb-2">
+            <div className="sw:flex sw:flex-col">
+              <Heading as="h3" className="sw:mb-2">
                 {intl.formatMessage({ id: 'coding_rules.custom_severity.title' })}
               </Heading>
               <Text>
@@ -276,13 +276,13 @@ export default function ActivationFormModal(props: Readonly<Props>) {
                 />
               </Text>
 
-              <div className="sw-mt-6 sw-gap-6">
+              <div className="sw:mt-6 sw:gap-6">
                 {Object.values(SoftwareQuality).map((quality) => {
                   const impact = rule.impacts?.find((impact) => impact.softwareQuality === quality);
                   const id = `coding-rules-custom-severity-${quality}-select`;
                   return (
                     <SeveritySelect
-                      className="sw-mb-4"
+                      className="sw:mb-4"
                       id={id}
                       impactSeverity
                       isDisabled={submitting || !impact}
@@ -306,7 +306,7 @@ export default function ActivationFormModal(props: Readonly<Props>) {
           )}
 
           {isCustomRule ? (
-            <Text as="p" className="sw-my-4" isSubtle>
+            <Text as="p" className="sw:my-4" isSubtle>
               {intl.formatMessage({ id: 'coding_rules.custom_rule.activation_notice' })}
             </Text>
           ) : (

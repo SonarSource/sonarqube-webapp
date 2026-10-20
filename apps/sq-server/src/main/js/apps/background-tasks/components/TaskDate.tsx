@@ -38,13 +38,13 @@ export default function TaskDate({ date, baseDate }: Readonly<Props>) {
       : 0;
 
   return (
-    <NumericalCell className="sw-px-2">
+    <NumericalCell className="sw:px-2">
       {diff > 0 && (
-        <Text className="sw-mr-1" colorOverride="echoes-color-text-warning">{`(+${diff}d)`}</Text>
+        <Text className="sw:mr-1" colorOverride="echoes-color-text-warning">{`(+${diff}d)`}</Text>
       )}
 
       {parsedDate && isValidDate(parsedDate) ? (
-        <span className="sw-whitespace-nowrap">
+        <span className="sw:whitespace-nowrap">
           <TimeFormatter date={parsedDate} long />
         </span>
       ) : (

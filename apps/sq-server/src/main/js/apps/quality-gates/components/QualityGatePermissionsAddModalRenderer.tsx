@@ -55,7 +55,7 @@ export default function QualityGatePermissionsAddModalRenderer(
       content={
         <SelectAsync
           ariaLabel={translate('quality_gates.permissions.search')}
-          className="sw-mb-4"
+          className="sw:mb-4"
           data={options}
           id={USER_SELECT_INPUT_ID}
           isLoading={loading}
@@ -75,7 +75,7 @@ export default function QualityGatePermissionsAddModalRenderer(
       submitButtonLabel={translate('add_verb')}
       title={translate('quality_gates.permissions.grant')}
     >
-      <Button className="sw-mt-4">
+      <Button className="sw:mt-4">
         <FormattedMessage id="quality_gates.permissions.grant" />
       </Button>
     </ModalForm>
@@ -87,12 +87,12 @@ function OptionRenderer(option: Readonly<QGPermissionOption>) {
     return null;
   }
   return (
-    <div className="sw-flex sw-items-center sw-justify-start">
+    <div className="sw:flex sw:items-center sw:justify-start">
       {isUser(option) ? (
         <>
           <Avatar hash={option.avatar} name={option.name} />
-          <div className="sw-ml-2">
-            <strong className="sw-typo-semibold sw-mr-1">{option.name}</strong>
+          <div className="sw:ml-2">
+            <strong className="sw:typo-semibold sw:mr-1">{option.name}</strong>
             <br />
             <Text isSubtle>{option.login}</Text>
           </div>
@@ -100,7 +100,7 @@ function OptionRenderer(option: Readonly<QGPermissionOption>) {
       ) : (
         <>
           <GenericAvatar Icon={IconPeople} name={option.name} />
-          <strong className="sw-typo-semibold sw-ml-2">{option.name}</strong>
+          <strong className="sw:typo-semibold sw:ml-2">{option.name}</strong>
         </>
       )}
     </div>

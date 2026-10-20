@@ -66,7 +66,7 @@ export default function ProfilesList(props: Readonly<Props>) {
             <Tooltip content={intl.formatMessage({ id: 'quality_profiles.list.projects.help' })}>
               <Button
                 ariaLabel={intl.formatMessage({ id: 'help' })}
-                className="sw-p-0 sw-h-fit sw-min-h-fit"
+                className="sw:p-0 sw:h-fit sw:min-h-fit"
                 variety={ButtonVariety.DefaultGhost}
               >
                 <IconQuestionMark color="echoes-color-icon-subtle" />
@@ -86,14 +86,14 @@ export default function ProfilesList(props: Readonly<Props>) {
   return (
     <div>
       {Object.keys(profilesToShow).length === 0 && (
-        <FlagMessage className="sw-mt-4 sw-w-full" variant="warning">
+        <FlagMessage className="sw:mt-4 sw:w-full" variant="warning">
           {intl.formatMessage({ id: 'no_results' })}
         </FlagMessage>
       )}
 
       {languagesToShow.map((languageKey) => (
         <Table
-          className="sw-mb-12"
+          className="sw:mb-12"
           columnCount={6}
           columnWidths={['43%', '14%', '14%', '14%', '14%', '1%']}
           data-language={languageKey}

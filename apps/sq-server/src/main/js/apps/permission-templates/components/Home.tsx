@@ -88,7 +88,7 @@ export default function Home(props: Readonly<Props>) {
     >
       <ProvisioningWarning />
 
-      <div className="sw-mb-4">
+      <div className="sw:mb-4">
         <SearchInput
           id="permission_templates.search"
           minLength={2}
@@ -110,7 +110,7 @@ export default function Home(props: Readonly<Props>) {
                   topQualifiers={topQualifiers}
                 />
               ) : (
-                <div className="sw-py-8 sw-text-center">
+                <div className="sw:py-8 sw:text-center">
                   {searchQuery ? (
                     <FormattedMessage
                       id="permission_templates.no_results"
@@ -123,7 +123,7 @@ export default function Home(props: Readonly<Props>) {
               )}
             </Spinner>
             {displayList && (
-              <div className="sw-flex sw-justify-center sw-mt-4">
+              <div className="sw:flex sw:justify-center sw:mt-4">
                 <Pagination
                   onChange={onPageChange}
                   page={paging?.pageIndex ?? 1}

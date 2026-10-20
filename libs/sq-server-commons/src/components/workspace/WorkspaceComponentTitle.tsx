@@ -36,7 +36,7 @@ export default function WorkspaceComponentTitle({ component, limited }: Props) {
       {isDefined(component.qualifier) && (
         <QualifierIcon
           aria-label={translate('qualifier', component.qualifier)}
-          className="sw-mr-1"
+          className="sw:mr-1"
           qualifier={component.qualifier}
         />
       )}

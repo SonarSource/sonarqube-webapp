@@ -122,10 +122,10 @@ export function AggregateRatingRow({
   }, [type]);
 
   return (
-    <TableRowInteractive className={expanded ? '' : 'sw-collapse'} id={RowIds[type]}>
-      <ContentCell className="it__code-name-cell sw-overflow-hidden">
-        <div className="sw-ml-16 sw-whitespace-nowrap">
-          <span className="sw-truncate">{content}</span>
+    <TableRowInteractive className={expanded ? '' : 'sw:collapse'} id={RowIds[type]}>
+      <ContentCell className="it__code-name-cell sw:overflow-hidden">
+        <div className="sw:ml-16 sw:whitespace-nowrap">
+          <span className="sw:truncate">{content}</span>
           <InfoIconWithTooltip type={type} />
         </div>
       </ContentCell>
@@ -142,7 +142,7 @@ export function AggregateRatingRow({
         <NumericalCell />
       )}
 
-      {showAnalysisDate && <NumericalCell className="sw-whitespace-nowrap" />}
+      {showAnalysisDate && <NumericalCell className="sw:whitespace-nowrap" />}
     </TableRowInteractive>
   );
 }
@@ -166,9 +166,9 @@ function InfoIconWithTooltip({ type }: Readonly<InfoIconWithTooltipProps>) {
   return (
     <span>
       <Tooltip content={content}>
-        <IconInfo aria-describedby="ldjuh_ja" aria-label="info" className="sw-ml-1" />
+        <IconInfo aria-describedby="ldjuh_ja" aria-label="info" className="sw:ml-1" />
       </Tooltip>
-      <span className="sw-sr-only" id="ldjuh_ja">
+      <span className="sw:sr-only" id="ldjuh_ja">
         {content}
       </span>
     </span>

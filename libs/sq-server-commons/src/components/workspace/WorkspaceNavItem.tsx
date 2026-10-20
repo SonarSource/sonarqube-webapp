@@ -49,10 +49,10 @@ export default class WorkspaceNavItem extends React.PureComponent<Props> {
     const inverseTheme = getCurrentRootTheme() === Theme.dark ? Theme.light : Theme.dark;
 
     return (
-      <StyledWorkspaceNavItem className="sw-mr-2">
+      <StyledWorkspaceNavItem className="sw:mr-2">
         <ThemeProvider theme={inverseTheme}>
           <StyledWorkSpaceNavItemButton
-            className="sw-typo-default sw-pr-10 sw-pl-2"
+            className="sw:typo-default sw:pr-10 sw:pl-2"
             onClick={this.handleNameClick}
           >
             {this.props.children}
@@ -60,7 +60,7 @@ export default class WorkspaceNavItem extends React.PureComponent<Props> {
           <ButtonIcon
             Icon={IconX}
             ariaLabel={translate('workspace.close')}
-            className="js-close sw-absolute sw-top-0 sw-right-0 sw-mx-1/2"
+            className="js-close sw:absolute sw:top-0 sw:right-0 sw:mx-1/2"
             onClick={this.props.onClose}
             size={ButtonSize.Medium}
             variety={ButtonVariety.DefaultGhost}

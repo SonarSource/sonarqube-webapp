@@ -44,8 +44,8 @@ export default function MeasuresCard(
 
   return (
     <div>
-      <div className="sw-flex sw-items-center sw-gap-2">
-        <Label as="span" className="sw-whitespace-nowrap">
+      <div className="sw:flex sw:items-center sw:gap-2">
+        <Label as="span" className="sw:whitespace-nowrap">
           <FormattedMessage id={label} />
         </Label>
 
@@ -56,7 +56,7 @@ export default function MeasuresCard(
           </Badge>
         )}
       </div>
-      <div className="sw-flex sw-items-center sw-mt-1 sw-justify-between sw-font-semibold">
+      <div className="sw:flex sw:items-center sw:mt-1 sw:justify-between sw:font-semibold">
         <LinkStandalone
           aria-label={
             value
@@ -67,7 +67,7 @@ export default function MeasuresCard(
                 )
               : translateWithParameters('no_measure_value_x', localizeMetric(metric))
           }
-          className="it__overview-measures-value sw-text-lg"
+          className="it__overview-measures-value sw:text-lg"
           highlight={LinkHighlight.Default}
           to={url}
         >
@@ -76,7 +76,7 @@ export default function MeasuresCard(
 
         {icon}
       </div>
-      {children && <div className="sw-flex sw-flex-col">{children}</div>}
+      {children && <div className="sw:flex sw:flex-col">{children}</div>}
     </div>
   );
 }

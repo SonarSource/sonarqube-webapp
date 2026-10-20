@@ -51,7 +51,7 @@ export default class Search extends React.PureComponent<Props> {
       },
     ];
     return (
-      <div className="sw-mt-6 sw-flex sw-gap-6" id="marketplace-search">
+      <div className="sw:mt-6 sw:flex sw:gap-6" id="marketplace-search">
         <ToggleButton
           onChange={this.handleFilterChange}
           options={radioOptions}

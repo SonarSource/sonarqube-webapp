@@ -61,8 +61,8 @@ export function LineChartWidgetShell(props: LineChartWidgetShellProps) {
   ].filter((message) => message !== undefined);
 
   return (
-    <div className="sw-h-full sw-min-h-0 sw-flex sw-flex-col sw-gap-4">
-      <div className="sw-flex-1 sw-min-h-0">
+    <div className="sw:h-full sw:min-h-0 sw:flex sw:flex-col sw:gap-4">
+      <div className="sw:flex-1 sw:min-h-0">
         <MultiLineChart
           {...rest}
           hasFetchError={hasFetchError}
@@ -72,7 +72,7 @@ export function LineChartWidgetShell(props: LineChartWidgetShellProps) {
       </div>
       {infoMessages.length > 0 && (
         <MessageInline
-          className="sw-flex-shrink-0 sw-self-start"
+          className="sw:flex-shrink-0 sw:self-start"
           size={MessageInlineSize.Small}
           variety={MessageVariety.Info}
         >

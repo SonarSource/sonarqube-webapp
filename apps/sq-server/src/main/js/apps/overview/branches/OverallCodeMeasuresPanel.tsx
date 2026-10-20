@@ -82,14 +82,14 @@ export default function OverallCodeMeasuresPanel(props: Readonly<OverallCodeMeas
 
   return (
     <GridContainer
-      className={classNames('sw-grid sw-gap-12 sw-relative sw-overflow-hidden js-summary', {
-        'sw-grid-cols-3': noConditionsAndWarningForOverallCode,
-        'sw-grid-cols-4': !noConditionsAndWarningForOverallCode,
+      className={classNames('sw:grid sw:gap-12 sw:relative sw:overflow-hidden js-summary', {
+        'sw:grid-cols-3': noConditionsAndWarningForOverallCode,
+        'sw:grid-cols-4': !noConditionsAndWarningForOverallCode,
       })}
       id={getTabPanelId(CodeScope.Overall)}
     >
       {!noConditionsAndWarningForOverallCode && (
-        <StyledConditionsCard className="sw-row-span-5">
+        <StyledConditionsCard className="sw:row-span-5">
           <QualityGatePanel
             component={component}
             loading={loading}
@@ -142,7 +142,7 @@ export default function OverallCodeMeasuresPanel(props: Readonly<OverallCodeMeas
           })}
           value={formatMeasure(acceptedIssues, MetricType.ShortInteger)}
         >
-          <Text className="sw-mt-3" isSubtle size="small">
+          <Text className="sw:mt-3" isSubtle size="small">
             {intl.formatMessage({
               id: 'overview.accepted_issues.help',
             })}
@@ -229,7 +229,7 @@ export default function OverallCodeMeasuresPanel(props: Readonly<OverallCodeMeas
         dependencyRiskRating={dependencyRiskRating}
         ratingMetricKey={MetricKey.sca_rating_any_issue}
       />
-      <IssuesInSandboxSection className="sw-col-span-3" measures={measures} />
+      <IssuesInSandboxSection className="sw:col-span-3" measures={measures} />
     </GridContainer>
   );
 }

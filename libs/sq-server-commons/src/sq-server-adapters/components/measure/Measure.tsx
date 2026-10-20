@@ -33,21 +33,21 @@ import { formatMeasure } from '../../../sonar-aligned/helpers/measures';
 import { BranchLike } from '../../../types/branch-like';
 
 type FontClass =
-  | 'sw-heading-xs'
-  | 'sw-heading-sm'
-  | 'sw-heading-md'
-  | 'sw-heading-lg'
-  | 'sw-heading-xl'
-  | 'sw-typo-default'
-  | 'sw-typo-semibold'
-  | 'sw-typo-bold'
-  | 'sw-typo-sm'
-  | 'sw-typo-sm-semibold'
-  | 'sw-typo-lg'
-  | 'sw-typo-lg-semibold'
-  | 'sw-typo-label'
-  | 'sw-typo-helper-text'
-  | 'sw-typo-display';
+  | 'sw:heading-xs'
+  | 'sw:heading-sm'
+  | 'sw:heading-md'
+  | 'sw:heading-lg'
+  | 'sw:heading-xl'
+  | 'sw:typo-default'
+  | 'sw:typo-semibold'
+  | 'sw:typo-bold'
+  | 'sw:typo-sm'
+  | 'sw:typo-sm-semibold'
+  | 'sw:typo-lg'
+  | 'sw:typo-lg-semibold'
+  | 'sw:typo-label'
+  | 'sw:typo-helper-text'
+  | 'sw:typo-display';
 
 interface Props {
   badgeSize?: `${RatingBadgeSize}` | RatingBadgeSize;
@@ -134,11 +134,11 @@ export default function Measure({
     return (
       <>
         <QualityGateIndicator
-          className="sw-mr-2"
+          className="sw:mr-2"
           size={small ? 'sm' : 'md'}
           status={(value as QGStatus) ?? 'NONE'}
         />
-        <span className={small ? '' : 'sw-typo-lg'}>{formatted}</span>
+        <span className={small ? '' : 'sw:typo-lg'}>{formatted}</span>
       </>
     );
   }
@@ -146,7 +146,7 @@ export default function Measure({
   if (metricType === MetricType.IssueSeverity) {
     return (
       <SoftwareImpactSeverityIcon
-        className={classNames(className, 'sw-text-md')}
+        className={classNames(className, 'sw:text-md')}
         severity={getIssueSeverityBasedOnConditionValue(value, metricKey as MetricKey)}
       />
     );

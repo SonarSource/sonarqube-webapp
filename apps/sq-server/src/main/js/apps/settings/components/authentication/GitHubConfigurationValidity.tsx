@@ -114,7 +114,7 @@ export default function GitHubConfigurationValidity({
   }, [isFetching, isValidApp, isAutoProvisioning, applicationField, data]);
 
   const message = (
-    <div className="sw-flex sw-items-center">
+    <div className="sw:flex sw:items-center">
       <div>
         {messages.map((msg) => (
           <p key={msg}>{msg}</p>
@@ -122,7 +122,7 @@ export default function GitHubConfigurationValidity({
       </div>
       <div>
         <Link
-          className="sw-mx-2 sw-whitespace-nowrap sw-text-center"
+          className="sw:mx-2 sw:whitespace-nowrap sw:text-center"
           highlight="current-color"
           onClick={() => {
             if (!isFetching) {
@@ -151,25 +151,25 @@ export default function GitHubConfigurationValidity({
           body={
             <>
               {isValidApp ? (
-                <MessageInline className="sw-w-full sw-mb-2" variety="success">
+                <MessageInline className="sw:w-full sw:mb-2" variety="success">
                   {translate(`${intlPrefix}.valid.short`)}
                 </MessageInline>
               ) : (
-                <MessageInline className="sw-w-full sw-mb-2" variety="danger">
+                <MessageInline className="sw:w-full sw:mb-2" variety="danger">
                   {translateWithParameters(
                     `${intlPrefix}.invalid`,
                     data?.application[applicationField].errorMessage ?? '',
                   )}
                 </MessageInline>
               )}
-              <Text as="ul" className="sw-list-none sw-max-w-full sw-pl-5 sw-m-0">
+              <Text as="ul" className="sw:list-none sw:max-w-full sw:pl-5 sw:m-0">
                 {data?.installations.map((inst) => (
-                  <li className="sw-flex sw-items-center" key={inst.organization}>
+                  <li className="sw:flex sw:items-center" key={inst.organization}>
                     <ValidityIcon
                       valid={inst[applicationField].status === GitHubProvisioningStatus.Success}
                     />
                     <div>
-                      <span className="sw-ml-2">{inst.organization}</span>
+                      <span className="sw:ml-2">{inst.organization}</span>
                       {inst[applicationField].status === GitHubProvisioningStatus.Failed && (
                         <span> - {inst[applicationField].errorMessage}</span>
                       )}
@@ -177,9 +177,9 @@ export default function GitHubConfigurationValidity({
                   </li>
                 ))}
                 {failedOrgs.map((fo) => (
-                  <li className="sw-flex sw-items-center" key={fo}>
+                  <li className="sw:flex sw:items-center" key={fo}>
                     <IconQuestionMark />
-                    <Text className="sw-ml-2" isSubtle>
+                    <Text className="sw:ml-2" isSubtle>
                       {translateWithParameters(`${intlPrefix}.details.org_not_found`, fo)}
                     </Text>
                   </li>

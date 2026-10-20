@@ -104,8 +104,8 @@ export function IssueMetadata({
   const { formatMessage } = useIntl();
 
   return (
-    <aside className="sw-self-start">
-      <dl className="sw-flex sw-flex-col sw-gap-2">
+    <aside className="sw:self-start">
+      <dl className="sw:flex sw:flex-col sw:gap-2">
         <dt>
           <Text isHighlighted>{formatMessage({ id: 'issue.details.assignee' })}</Text>
         </dt>
@@ -119,7 +119,7 @@ export function IssueMetadata({
             renderDropdown={assign.renderDropdown}
           />
         </dd>
-        <Divider className="sw-my-1" />
+        <Divider className="sw:my-1" />
 
         {deferralDate}
 
@@ -134,13 +134,13 @@ export function IssueMetadata({
             </dt>
             <dd>
               <SoftwareImpactPillList
-                className="sw-flex-col"
+                className="sw:flex-col"
                 learnMoreUrl={learnMoreUrl}
                 onSetSeverity={onSetSeverity}
                 softwareImpacts={issue.impacts}
               />
             </dd>
-            <Divider className="sw-my-1" />
+            <Divider className="sw:my-1" />
           </>
         )}
 
@@ -155,7 +155,7 @@ export function IssueMetadata({
                 cleanCodeAttributeCategory={issue.cleanCodeAttributeCategory}
               />
             </dd>
-            <Divider className="sw-my-1" />
+            <Divider className="sw:my-1" />
           </>
         )}
         <IssueProperties
@@ -182,7 +182,7 @@ export function IssueMetadata({
 
         {isDefined(line) && (
           <>
-            <Divider className="sw-my-1" />
+            <Divider className="sw:my-1" />
             <dt>
               <Text isHighlighted>
                 <FormattedMessage id="issue.line_affected" />
@@ -190,7 +190,7 @@ export function IssueMetadata({
             </dt>
             <dd>
               <Tooltip content={formatMessage({ id: 'line_number' })}>
-                <span className="sw-w-fit">
+                <span className="sw:w-fit">
                   <FormattedMessage id="issue.ncloc_x.short" values={{ 0: line }} />
                 </span>
               </Tooltip>
@@ -200,7 +200,7 @@ export function IssueMetadata({
 
         {issue.effort && (
           <>
-            <Divider className="sw-my-1" />
+            <Divider className="sw:my-1" />
             <dt>
               <Text isHighlighted>
                 <FormattedMessage id="issue.effort" />
@@ -213,7 +213,7 @@ export function IssueMetadata({
           </>
         )}
 
-        <Divider className="sw-my-1" />
+        <Divider className="sw:my-1" />
         <dt>
           <Text isHighlighted>
             <FormattedMessage id="issue.introduced" />

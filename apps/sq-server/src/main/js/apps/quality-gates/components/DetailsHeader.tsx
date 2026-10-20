@@ -100,13 +100,13 @@ export default function DetailsHeader({ qualityGate }: Readonly<Props>) {
 
   return (
     <>
-      <div className="it__layout-page-main-header sw-flex sw-items-center sw-justify-between sw-mb-9">
-        <div className="sw-flex sw-flex-col">
-          <div className="sw-flex sw-items-baseline">
-            <Heading as="h2" className="sw-m-0">
+      <div className="it__layout-page-main-header sw:flex sw:items-center sw:justify-between sw:mb-9">
+        <div className="sw:flex sw:flex-col">
+          <div className="sw:flex sw:items-baseline">
+            <Heading as="h2" className="sw:m-0">
               {qualityGate.name}
             </Heading>
-            <div className="sw-flex sw-gap-2 sw-ml-4">
+            <div className="sw:flex sw:gap-2 sw:ml-4">
               {qualityGate.isDefault && (
                 <Badge variety={BadgeVariety.Neutral}>
                   <FormattedMessage id="default" />

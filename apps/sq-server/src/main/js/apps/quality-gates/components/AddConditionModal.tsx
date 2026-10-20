@@ -202,7 +202,7 @@ export default function AddConditionModal({ qualityGate }: Readonly<Props>) {
 
         {selectedMetric && (
           <Form.Section>
-            <div className="sw-flex sw-justify-between sw-w-3/4">
+            <div className="sw:flex sw:justify-between sw:w-3/4">
               <ConditionOperator
                 isDisabled={Boolean(similarMetricFromAnotherMode)}
                 metric={selectedMetric}

@@ -23,7 +23,7 @@ import { FormattedMessage } from 'react-intl';
 
 export default function NoMyIssues() {
   return (
-    <div className="sw-text-center sw-py-8">
+    <div className="sw:text-center sw:py-8">
       <Heading as="h3">
         <FormattedMessage id="issues.no_my_issues" />
       </Heading>

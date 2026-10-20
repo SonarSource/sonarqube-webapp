@@ -251,7 +251,7 @@ export function EditableDashboard<WidgetPropMap extends {}>(props: Readonly<Prop
 
   return (
     <div
-      className="sw-py-4"
+      className="sw:py-4"
       ref={containerRef}
       style={{
         contain: 'inline-size',

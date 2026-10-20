@@ -166,7 +166,7 @@ export function IssueStatusFacet(props: Readonly<Props>) {
       </FacetItemsList>
 
       <MultipleSelectionHint
-        className="sw-pt-4"
+        className="sw:pt-4"
         selectedItems={issueStatuses.length}
         totalItems={nbSelectableItems}
       />

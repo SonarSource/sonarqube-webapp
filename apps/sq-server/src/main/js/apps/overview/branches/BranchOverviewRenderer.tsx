@@ -173,10 +173,10 @@ export default function BranchOverviewRenderer(props: Readonly<BranchOverviewRen
       ) : (
         <div>
           <div
-            className="sw-flex sw-justify-between sw-items-start sw-mb-6"
+            className="sw:flex sw:justify-between sw:items-start sw:mb-6"
             data-testid="overview__quality-gate-panel"
           >
-            <div className="sw-flex sw-items-center">
+            <div className="sw:flex sw:items-center">
               <QGStatusComponent
                 status={qgStatus}
                 statusSuffix={
@@ -189,7 +189,7 @@ export default function BranchOverviewRenderer(props: Readonly<BranchOverviewRen
             </div>
           </div>
           <AnalysisStatus component={component} />
-          <div className="sw-flex sw-flex-col sw-mt-6">
+          <div className="sw:flex sw:flex-col sw:mt-6">
             <TabsPanel
               analyses={analyses}
               component={component}
@@ -229,7 +229,7 @@ export default function BranchOverviewRenderer(props: Readonly<BranchOverviewRen
               )}
             </TabsPanel>
 
-            <CommunityBuildSecurityNotice className="sw-mt-6" />
+            <CommunityBuildSecurityNotice className="sw:mt-6" />
 
             <ActivityPanel
               analyses={analyses}

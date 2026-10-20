@@ -20,7 +20,7 @@ exports[`should render correctly when covered 1`] = `
 
 <tr>
   <td
-    class="sw-pl-1/2 emotion-0 emotion-1"
+    class="sw:pl-1/2 emotion-0 emotion-1"
     data-line-number="16"
   >
     <svg
@@ -89,7 +89,7 @@ exports[`should render correctly when partially covered with 5/10 conditions 1`]
 
 <tr>
   <td
-    class="sw-pl-1/2 emotion-0 emotion-1"
+    class="sw:pl-1/2 emotion-0 emotion-1"
     data-line-number="16"
   >
     <svg
@@ -131,7 +131,7 @@ exports[`should render correctly when partially covered without conditions 1`] =
 
 <tr>
   <td
-    class="sw-pl-1/2 emotion-0 emotion-1"
+    class="sw:pl-1/2 emotion-0 emotion-1"
     data-line-number="16"
   >
     <svg
@@ -173,7 +173,7 @@ exports[`should render correctly when uncovered 1`] = `
 
 <tr>
   <td
-    class="sw-pl-1/2 emotion-0 emotion-1"
+    class="sw:pl-1/2 emotion-0 emotion-1"
     data-line-number="16"
   >
     <svg

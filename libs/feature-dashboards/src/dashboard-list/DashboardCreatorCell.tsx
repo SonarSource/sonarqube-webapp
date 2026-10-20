@@ -49,7 +49,7 @@ export function DashboardCreatorCell({
   }
 
   return (
-    <div className="sw-flex sw-items-center sw-gap-1">
+    <div className="sw:flex sw:items-center sw:gap-1">
       {!isBuiltIn && (
         <span aria-hidden="true">
           <Avatar hash={creator?.avatar} name={creator?.name} size="xs" />

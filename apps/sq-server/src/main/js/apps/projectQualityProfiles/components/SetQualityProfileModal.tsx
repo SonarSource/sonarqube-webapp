@@ -75,7 +75,7 @@ export default function SetQualityProfileModal(props: SetQualityProfileModalProp
   return (
     <ModalForm
       content={
-        <Form.Section className="sw-pt-6 sw-pb-4">
+        <Form.Section className="sw:pt-6 sw:pb-4">
           <RadioButtonGroup
             ariaLabel={intl.formatMessage(
               { id: 'project_quality_profile.change_lang_X_profile' },
@@ -93,10 +93,10 @@ export default function SetQualityProfileModal(props: SetQualityProfileModalProp
                 value: RadioOption.Default,
                 label: intl.formatMessage({ id: 'project_quality_profile.always_use_default' }),
                 helpText: (
-                  <span className="sw-block sw-pb-4">
+                  <span className="sw:block sw:pb-4">
                     <FormattedMessage id="current_noun" />: {defaultProfile?.name}
                     {defaultProfile?.isBuiltIn && (
-                      <BuiltInQualityProfileBadge className="sw-ml-2" />
+                      <BuiltInQualityProfileBadge className="sw:ml-2" />
                     )}
                   </span>
                 ),
@@ -111,7 +111,7 @@ export default function SetQualityProfileModal(props: SetQualityProfileModalProp
                     ariaLabel={intl.formatMessage({
                       id: 'project_quality_profile.always_use_specific',
                     })}
-                    className="sw-mt-4"
+                    className="sw:mt-4"
                     isDisabled={hasSelectedSysDefault}
                     onChange={(value: string) => {
                       setSelected(value);
@@ -126,7 +126,7 @@ export default function SetQualityProfileModal(props: SetQualityProfileModalProp
           />
 
           {needsReanalysis && (
-            <MessageCallout className="sw-mt-4" variety={MessageVariety.Info}>
+            <MessageCallout className="sw:mt-4" variety={MessageVariety.Info}>
               <FormattedMessage id="project_quality_profile.requires_new_analysis" />
             </MessageCallout>
           )}

@@ -43,9 +43,9 @@ export default function FiltersHeader({
   const titleFinal = title ?? intl.formatMessage({ id: 'filters' });
 
   return (
-    <div className="sw-mb-5">
-      <div className="sw-flex sw-h-900 sw-items-center sw-justify-between">
-        <Heading as="h2" className="sw-typo-lg-semibold">
+    <div className="sw:mb-5">
+      <div className="sw:flex sw:h-900 sw:items-center sw:justify-between">
+        <Heading as="h2" className="sw:typo-lg-semibold">
           {titleFinal}
         </Heading>
 

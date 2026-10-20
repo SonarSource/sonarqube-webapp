@@ -59,7 +59,7 @@ export default class ValidationModal<V extends FormikValues> extends React.PureC
           {(formState) => (
             <>
               <Modal.Header title={this.props.header} />
-              <div className="sw-py-4">{this.props.children(formState)}</div>
+              <div className="sw:py-4">{this.props.children(formState)}</div>
               <Modal.Footer
                 loading={formState.isSubmitting}
                 primaryButton={
@@ -73,7 +73,7 @@ export default class ValidationModal<V extends FormikValues> extends React.PureC
                 }
                 secondaryButton={
                   <Button
-                    className="sw-ml-2"
+                    className="sw:ml-2"
                     isDisabled={formState.isSubmitting}
                     onClick={this.props.onClose}
                   >

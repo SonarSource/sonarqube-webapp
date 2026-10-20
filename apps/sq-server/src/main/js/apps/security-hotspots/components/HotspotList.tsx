@@ -120,18 +120,18 @@ export default class HotspotList extends React.Component<Props, State> {
 
     return (
       <StyledContainer>
-        <div className="sw-mt-8 sw-mb-4">
+        <div className="sw:mt-8 sw:mb-4">
           {groupedHotspots.map((riskGroup, riskGroupIndex) => {
             const isLastRiskGroup = riskGroupIndex === groupedHotspots.length - 1;
 
             return (
-              <div className="sw-mb-4" key={riskGroup.risk}>
-                <SubnavigationHeading as="h2" className="sw-px-0">
-                  <span className="sw-flex sw-items-center">
-                    <span className="sw-typo-semibold">
+              <div className="sw:mb-4" key={riskGroup.risk}>
+                <SubnavigationHeading as="h2" className="sw:px-0">
+                  <span className="sw:flex sw:items-center">
+                    <span className="sw:typo-semibold">
                       <FormattedMessage id="hotspots.risk_exposure" />:
                     </span>
-                    <HotspotRating className="sw-ml-2 sw-mr-1" rating={riskGroup.risk} />
+                    <HotspotRating className="sw:ml-2 sw:mr-1" rating={riskGroup.risk} />
                     {translate('risk_exposure', riskGroup.risk)}
                   </span>
                 </SubnavigationHeading>
@@ -140,7 +140,7 @@ export default class HotspotList extends React.Component<Props, State> {
                     const isLastCategory = categoryIndex === riskGroup.categories.length - 1;
 
                     return (
-                      <div className="sw-mb-2" key={category.key}>
+                      <div className="sw:mb-2" key={category.key}>
                         <HotspotCategory
                           expanded={Boolean(expandedCategories[category.key])}
                           hotspots={category.hotspots}

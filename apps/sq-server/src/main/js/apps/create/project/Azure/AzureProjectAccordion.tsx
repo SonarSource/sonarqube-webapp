@@ -95,7 +95,7 @@ export default function AzureProjectAccordion(props: AzureProjectAccordionProps)
             </MessageCallout>
           ) : (
             <>
-              <ul className="sw-flex sw-flex-col sw-gap-3">
+              <ul className="sw:flex sw:flex-col sw:gap-3">
                 {limitedRepositories.map((r) => (
                   <AlmRepoItem
                     almIconSrc={iconUrl}

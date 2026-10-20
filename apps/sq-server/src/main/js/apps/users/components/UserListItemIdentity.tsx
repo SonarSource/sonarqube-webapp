@@ -37,14 +37,14 @@ export interface Props {
 export default function UserListItemIdentity({ identityProvider, user, manageProvider }: Props) {
   return (
     <div>
-      <div className="sw-flex sw-flex-col">
-        <strong className="it__user-name sw-typo-semibold">{user.name}</strong>
+      <div className="sw:flex sw:flex-col">
+        <strong className="it__user-name sw:typo-semibold">{user.name}</strong>
         <Text className="it__user-login" isSubtle>
           {user.login}
         </Text>
       </div>
       {isDefined(user.email) && user.email !== '' && (
-        <div className="it__user-email sw-mt-1">{user.email}</div>
+        <div className="it__user-email sw:mt-1">{user.email}</div>
       )}
       {!user.local && user.externalProvider !== 'sonarqube' && (
         <ExternalProvider identityProvider={identityProvider} user={user} />
@@ -63,7 +63,7 @@ export function ExternalProvider({ identityProvider, user }: Omit<Props, 'manage
 
   if (!identityProvider) {
     return (
-      <div className="it__user-identity-provider sw-mt-1">
+      <div className="it__user-identity-provider sw:mt-1">
         <span>
           {user.externalProvider}: {user.externalLogin}
         </span>
@@ -72,9 +72,9 @@ export function ExternalProvider({ identityProvider, user }: Omit<Props, 'manage
   }
 
   return (
-    <div className="it__user-identity-provider sw-mt-1">
+    <div className="it__user-identity-provider sw:mt-1">
       <span
-        className="sw-inline-flex sw-items-center sw-px-1"
+        className="sw:inline-flex sw:items-center sw:px-1"
         style={{
           backgroundColor: identityProvider.backgroundColor,
           color: getTextColor(identityProvider.backgroundColor, '#656565'),
@@ -82,7 +82,7 @@ export function ExternalProvider({ identityProvider, user }: Omit<Props, 'manage
       >
         <Image
           alt={identityProvider.name}
-          className="sw-mr-1"
+          className="sw:mr-1"
           height="14"
           src={identityProviderIconUrl(currentTheme, identityProvider)}
           width="14"

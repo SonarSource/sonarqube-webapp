@@ -59,16 +59,16 @@ export default function MeasureHeader(props: Readonly<Props>) {
   const title = getMetricSubnavigationName(metric, getLocalizedMetricName, isDiff);
 
   return (
-    <div className="sw-mb-4">
-      <div className="sw-flex sw-items-center sw-justify-between sw-gap-4">
-        <div className="it__measure-details-metric sw-flex sw-items-center sw-gap-1">
-          <strong className="sw-typo-lg-semibold">{title}</strong>
+    <div className="sw:mb-4">
+      <div className="sw:flex sw:items-center sw:justify-between sw:gap-4">
+        <div className="it__measure-details-metric sw:flex sw:items-center sw:gap-1">
+          <strong className="sw:typo-lg-semibold">{title}</strong>
 
-          <div className="sw-flex sw-items-center sw-ml-2">
+          <div className="sw:flex sw:items-center sw:ml-2">
             <Measure
               badgeSize={RatingBadgeSize.Small}
               branchLike={branchLike}
-              className={classNames('it__measure-details-value sw-typo-lg')}
+              className={classNames('it__measure-details-value sw:typo-lg')}
               componentKey={component.key}
               metricKey={metric.key}
               metricType={metric.type}
@@ -78,9 +78,9 @@ export default function MeasureHeader(props: Readonly<Props>) {
 
           {!isDiff && hasHistory && (
             <Tooltip content={translate('component_measures.show_metric_history')}>
-              <span className="sw-ml-4">
+              <span className="sw:ml-4">
                 <LinkStandalone
-                  className="it__show-history-link sw-font-semibold"
+                  className="it__show-history-link sw:font-semibold"
                   to={getMeasureHistoryUrl(component.key, metric.key, branchLike)}
                 >
                   <FormattedMessage id="component_measures.see_metric_history" />
@@ -95,7 +95,7 @@ export default function MeasureHeader(props: Readonly<Props>) {
       </div>
       {secondaryMeasure?.metric === MetricKey.ncloc_language_distribution &&
         secondaryMeasure.value !== undefined && (
-          <div className="sw-inline-block sw-mt-2">
+          <div className="sw:inline-block sw:mt-2">
             <LanguageDistribution distribution={secondaryMeasure.value} />
           </div>
         )}

@@ -73,7 +73,7 @@ export default class ChangeLogLevelForm extends React.PureComponent<Props, State
       <Modal
         body={
           <form id={FORM_ID} onSubmit={this.handleFormSubmit}>
-            <div className="sw-mt-1">
+            <div className="sw:mt-1">
               <RadioButtonGroup
                 ariaLabel={header}
                 id="system-loglevel-radio"
@@ -83,11 +83,11 @@ export default class ChangeLogLevelForm extends React.PureComponent<Props, State
               />
             </div>
 
-            <FlagMessage className="sw-mt-2" variant="info">
+            <FlagMessage className="sw:mt-2" variant="info">
               {this.props.infoMsg}
             </FlagMessage>
             {newLevel !== 'INFO' && (
-              <FlagMessage className="sw-mt-2" variant="warning">
+              <FlagMessage className="sw:mt-2" variant="warning">
                 <FormattedMessage id="system.log_level.warning" />
               </FlagMessage>
             )}

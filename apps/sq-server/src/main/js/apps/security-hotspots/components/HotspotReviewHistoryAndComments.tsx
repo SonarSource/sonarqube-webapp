@@ -84,12 +84,12 @@ export default class HotspotReviewHistoryAndComments extends React.PureComponent
     const { currentUser, hotspot } = this.props;
     const { showAddCommentModal } = this.state;
     return (
-      <div className="it__hs-review-history sw-mt-6">
+      <div className="it__hs-review-history sw:mt-6">
         <Heading as="h2" size="medium">
           <FormattedMessage id="hotspot.section.activity" />
         </Heading>
         {isLoggedIn(currentUser) && (
-          <Button className="sw-mt-4 sw-mb-2" onClick={this.handleShowCommentModal}>
+          <Button className="sw:mt-4 sw:mb-2" onClick={this.handleShowCommentModal}>
             <FormattedMessage id="hotspots.status.add_comment" />
           </Button>
         )}

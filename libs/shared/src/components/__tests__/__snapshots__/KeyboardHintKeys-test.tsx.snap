@@ -23,7 +23,7 @@ exports[`should render Alt 1`] = `
 
 <div>
   <div
-    class="sw-flex sw-gap-1"
+    class="sw:flex sw:gap-1"
     role="group"
   >
     <span
@@ -78,7 +78,7 @@ exports[`should render ArrowDown 1`] = `
 
 <div>
   <div
-    class="sw-flex sw-gap-1"
+    class="sw:flex sw:gap-1"
     role="group"
   >
     <span
@@ -134,7 +134,7 @@ exports[`should render ArrowLeft 1`] = `
 
 <div>
   <div
-    class="sw-flex sw-gap-1"
+    class="sw:flex sw:gap-1"
     role="group"
   >
     <span
@@ -190,7 +190,7 @@ exports[`should render ArrowRight 1`] = `
 
 <div>
   <div
-    class="sw-flex sw-gap-1"
+    class="sw:flex sw:gap-1"
     role="group"
   >
     <span
@@ -250,7 +250,7 @@ exports[`should render ArrowUp 1`] = `
 
 <div>
   <div
-    class="sw-flex sw-gap-1"
+    class="sw:flex sw:gap-1"
     role="group"
   >
     <span
@@ -290,7 +290,7 @@ exports[`should render Click 1`] = `
 
 <div>
   <div
-    class="sw-flex sw-gap-1"
+    class="sw:flex sw:gap-1"
     role="group"
   >
     <span
@@ -325,7 +325,7 @@ exports[`should render Command 1`] = `
 
 <div>
   <div
-    class="sw-flex sw-gap-1"
+    class="sw:flex sw:gap-1"
     role="group"
   >
     <span
@@ -360,7 +360,7 @@ exports[`should render Control 1`] = `
 
 <div>
   <div
-    class="sw-flex sw-gap-1"
+    class="sw:flex sw:gap-1"
     role="group"
   >
     <span
@@ -395,7 +395,7 @@ exports[`should render Option 1`] = `
 
 <div>
   <div
-    class="sw-flex sw-gap-1"
+    class="sw:flex sw:gap-1"
     role="group"
   >
     <span
@@ -430,7 +430,7 @@ exports[`should render a default text if no keys match 1`] = `
 
 <div>
   <div
-    class="sw-flex sw-gap-1"
+    class="sw:flex sw:gap-1"
     role="group"
   >
     <span
@@ -513,11 +513,11 @@ exports[`should render multiple keys 1`] = `
 
 <div>
   <div
-    class="sw-flex sw-gap-1"
+    class="sw:flex sw:gap-1"
     role="group"
   >
     <span
-      class="sw-px-1 emotion-0 emotion-1"
+      class="sw:px-1 emotion-0 emotion-1"
     >
       Use
     </span>
@@ -616,7 +616,7 @@ exports[`should render multiple keys with non-key symbols 1`] = `
 
 <div>
   <div
-    class="sw-flex sw-gap-1"
+    class="sw:flex sw:gap-1"
     role="group"
   >
     <span

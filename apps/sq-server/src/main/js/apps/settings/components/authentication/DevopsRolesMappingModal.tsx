@@ -94,7 +94,7 @@ function PermissionRow(props: Readonly<PermissionCellProps>) {
   return (
     <Table.Row>
       <Table.Cell
-        className="sw-whitespace-nowrap"
+        className="sw:whitespace-nowrap"
         style={{
           textAlign: 'left',
           justifyContent: 'flex-start',
@@ -102,8 +102,8 @@ function PermissionRow(props: Readonly<PermissionCellProps>) {
           display: 'flex',
         }}
       >
-        <div className="sw-flex sw-max-w-[330px] sw-items-center sw-justify-start sw-w-full">
-          <b className={baseRole ? 'sw-capitalize' : 'sw-truncate'} title={role}>
+        <div className="sw:flex sw:max-w-[330px] sw:items-center sw:justify-start sw:w-full">
+          <b className={baseRole ? 'sw:capitalize' : 'sw:truncate'} title={role}>
             {role}
           </b>
 
@@ -116,7 +116,7 @@ function PermissionRow(props: Readonly<PermissionCellProps>) {
                 },
                 { 0: role },
               )}
-              className="sw-ml-1"
+              className="sw:ml-1"
               onClick={deleteRole}
               size={ButtonSize.Medium}
               variety={ButtonVariety.DangerGhost}
@@ -193,7 +193,7 @@ export function DevopsRolesMappingModal(props: Readonly<Props>) {
   );
 
   const formBody = (
-    <div className="sw-p-0">
+    <div className="sw:p-0">
       <Table
         ariaLabel={header}
         gridTemplate={`auto ${Array(permissions.length).fill('1fr').join(' ')}`}
@@ -227,10 +227,10 @@ export function DevopsRolesMappingModal(props: Readonly<Props>) {
             ))}
           <Table.Row>
             <Table.Cell style={{ gridColumn: `1 / -1`, justifyContent: 'flex-start' }}>
-              <div className="sw-flex sw-items-end">
-                <form className="sw-flex sw-items-end" onSubmit={validateAndAddCustomRole}>
+              <div className="sw:flex sw:items-end">
+                <form className="sw:flex sw:items-end" onSubmit={validateAndAddCustomRole}>
                   <TextInput
-                    className="sw-w-[300px]"
+                    className="sw:w-[300px]"
                     id="custom-role-input"
                     label={intl.formatMessage({
                       id: 'settings.authentication.configuration.roles_mapping.dialog.add_custom_role',
@@ -244,7 +244,7 @@ export function DevopsRolesMappingModal(props: Readonly<Props>) {
                     value={customRoleInput}
                   />
                   <Button
-                    className="sw-ml-2 sw-mr-4 sw-w-full"
+                    className="sw:ml-2 sw:mr-4 sw:w-full"
                     isDisabled={customRoleInput.trim() === '' || customRoleError}
                     type="submit"
                   >
@@ -295,7 +295,7 @@ export function DevopsRolesMappingModal(props: Readonly<Props>) {
         }
       }}
       primaryButton={
-        <div className="sw-flex sw-items-center sw-justify-end sw-gap-2">
+        <div className="sw:flex sw:items-center sw:justify-end sw:gap-2">
           {haveEmptyCustomRoles && (
             <MessageCallout variety="danger">
               <FormattedMessage id="settings.authentication.configuration.roles_mapping.empty_custom_role" />

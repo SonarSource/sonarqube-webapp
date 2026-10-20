@@ -104,7 +104,7 @@ function BaseLinkWithRef(props: LinkProps, ref: React.ForwardedRef<HTMLAnchorEle
       >
         {icon}
         {children}
-        {showExternalIcon && <ExternalIcon className="sw-ml-1" />}
+        {showExternalIcon && <ExternalIcon className="sw:ml-1" />}
       </a>
     );
   }

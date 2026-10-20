@@ -121,11 +121,11 @@ export function PortfolioProjectBreakdownTable<Row extends PortfolioProjectBreak
   return (
     <Card>
       <Card.Header
-        className="sw-pb-0"
+        className="sw:pb-0"
         description={
           emptyContent === undefined ? (
             <SearchInput
-              className="sw-pt-2"
+              className="sw:pt-2"
               isLoading={isSearchInputLoading}
               minLength={SEARCH_MIN_LENGTH}
               onChange={handleSearchChange}
@@ -160,7 +160,7 @@ export function PortfolioProjectBreakdownTable<Row extends PortfolioProjectBreak
               <Table.Body>
                 {tableBodyMessage !== undefined && (
                   <Table.Row>
-                    <Table.Cell className="sw-py-6" style={{ gridColumn: '1 / -1' }}>
+                    <Table.Cell className="sw:py-6" style={{ gridColumn: '1 / -1' }}>
                       <Text as="div" isSubtle>
                         {tableBodyMessage}
                       </Text>
@@ -169,7 +169,7 @@ export function PortfolioProjectBreakdownTable<Row extends PortfolioProjectBreak
                 )}
                 {tableBodyMessage === undefined && isProjectSearchWithNoMatches && (
                   <Table.Row>
-                    <Table.Cell className="sw-py-6" style={{ gridColumn: '1 / -1' }}>
+                    <Table.Cell className="sw:py-6" style={{ gridColumn: '1 / -1' }}>
                       <Text as="div" isSubtle>
                         {noResultsText}
                       </Text>
@@ -183,10 +183,10 @@ export function PortfolioProjectBreakdownTable<Row extends PortfolioProjectBreak
                     return (
                       <Table.Row key={`${row.projectKey}-${row.branchId}`}>
                         <Table.CellLink
-                          className="fs-mask sw-flex sw-w-full sw-items-center"
+                          className="fs-mask sw:flex sw:w-full sw:items-center"
                           to={url}
                         >
-                          <span className="sw-inline-flex sw-items-center sw-gap-2">
+                          <span className="sw:inline-flex sw:items-center sw:gap-2">
                             <span>{row.projectName}</span>
                             {row.branchName ? (
                               <Badge variety="neutral">{row.branchName}</Badge>
@@ -194,7 +194,7 @@ export function PortfolioProjectBreakdownTable<Row extends PortfolioProjectBreak
                           </span>
                         </Table.CellLink>
                         {isLoading ? (
-                          <Table.CellLink className="sw-flex sw-w-full sw-justify-end" to={url}>
+                          <Table.CellLink className="sw:flex sw:w-full sw:justify-end" to={url}>
                             <Spinner ariaLabel={loadingLabel} isLoading />
                           </Table.CellLink>
                         ) : (
@@ -207,7 +207,7 @@ export function PortfolioProjectBreakdownTable<Row extends PortfolioProjectBreak
             </Table>
 
             {!isProjectSearchWithNoMatches && totalPages > 1 && (
-              <div className="sw-flex sw-justify-center sw-mt-8">
+              <div className="sw:flex sw:justify-center sw:mt-8">
                 <Pagination
                   isDisabled={isLoading}
                   onChange={onPageChange}
@@ -218,7 +218,7 @@ export function PortfolioProjectBreakdownTable<Row extends PortfolioProjectBreak
             )}
           </>
         ) : (
-          <div className="sw-flex sw-items-center sw-justify-center sw-h-[332px]">
+          <div className="sw:flex sw:items-center sw:justify-center sw:h-[332px]">
             {emptyContent}
           </div>
         )}

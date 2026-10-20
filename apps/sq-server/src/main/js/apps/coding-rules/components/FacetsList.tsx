@@ -86,7 +86,7 @@ export default function FacetsList(props: Readonly<FacetsListProps>) {
 
       {isStandardMode && (
         <>
-          <Divider className="sw-my-2" />
+          <Divider className="sw:my-2" />
 
           <TypeFacet
             onChange={props.onFilterChange}
@@ -100,7 +100,7 @@ export default function FacetsList(props: Readonly<FacetsListProps>) {
 
       {!isStandardMode && (
         <>
-          <Divider className="sw-my-2" />
+          <Divider className="sw:my-2" />
 
           <SoftwareQualityFacet
             onChange={props.onFilterChange}
@@ -114,7 +114,7 @@ export default function FacetsList(props: Readonly<FacetsListProps>) {
 
       {!isStandardMode && (
         <>
-          <Divider className="sw-my-2" />
+          <Divider className="sw:my-2" />
 
           <SecurityHotspotsFacet
             onChange={props.onFilterChange}
@@ -127,7 +127,7 @@ export default function FacetsList(props: Readonly<FacetsListProps>) {
       )}
 
       <>
-        <Divider className="sw-my-2" />
+        <Divider className="sw:my-2" />
         <RuleSeverityFacet
           facets={props.facets}
           onChange={props.onFilterChange}
@@ -139,7 +139,7 @@ export default function FacetsList(props: Readonly<FacetsListProps>) {
 
       {!isStandardMode && (
         <>
-          <Divider className="sw-my-2" />
+          <Divider className="sw:my-2" />
 
           <AttributeCategoryFacet
             onChange={props.onFilterChange}
@@ -151,7 +151,7 @@ export default function FacetsList(props: Readonly<FacetsListProps>) {
         </>
       )}
 
-      <Divider className="sw-my-2" />
+      <Divider className="sw:my-2" />
 
       <TagFacet
         onChange={props.onFilterChange}
@@ -161,7 +161,7 @@ export default function FacetsList(props: Readonly<FacetsListProps>) {
         values={props.query.tags}
       />
 
-      <Divider className="sw-my-2" />
+      <Divider className="sw:my-2" />
 
       <RepositoryFacet
         onChange={props.onFilterChange}
@@ -172,7 +172,7 @@ export default function FacetsList(props: Readonly<FacetsListProps>) {
         values={props.query.repositories}
       />
 
-      <Divider className="sw-my-2" />
+      <Divider className="sw:my-2" />
 
       <StatusFacet
         onChange={props.onFilterChange}
@@ -182,7 +182,7 @@ export default function FacetsList(props: Readonly<FacetsListProps>) {
         values={props.query.statuses}
       />
 
-      <Divider className="sw-my-2" />
+      <Divider className="sw:my-2" />
 
       <AvailableSinceFacet
         onChange={props.onFilterChange}
@@ -191,7 +191,7 @@ export default function FacetsList(props: Readonly<FacetsListProps>) {
         value={props.query.availableSince}
       />
 
-      <Divider className="sw-my-2" />
+      <Divider className="sw:my-2" />
 
       <StandardFacet
         onChange={props.onFilterChange}
@@ -207,7 +207,7 @@ export default function FacetsList(props: Readonly<FacetsListProps>) {
         )}
       />
 
-      <Divider className="sw-my-2" />
+      <Divider className="sw:my-2" />
 
       <TemplateFacet
         onChange={props.onFilterChange}
@@ -217,7 +217,7 @@ export default function FacetsList(props: Readonly<FacetsListProps>) {
       />
       {!props.hideProfileFacet && (
         <>
-          <Divider className="sw-my-2" />
+          <Divider className="sw:my-2" />
           <ProfileFacet
             activation={props.query.activation}
             compareToProfile={props.query.compareToProfile}
@@ -228,7 +228,7 @@ export default function FacetsList(props: Readonly<FacetsListProps>) {
             referencedProfiles={props.referencedProfiles}
             value={props.query.profile}
           />
-          <Divider className="sw-my-2" />
+          <Divider className="sw:my-2" />
           <InheritanceFacet
             disabled={inheritanceDisabled}
             onChange={props.onFilterChange}
@@ -238,7 +238,7 @@ export default function FacetsList(props: Readonly<FacetsListProps>) {
           />
           {showPrioritizedRuleFacet && (
             <>
-              <Divider className="sw-my-2" />
+              <Divider className="sw:my-2" />
               <PrioritizedRulesFacet
                 disabled={props.selectedProfile === undefined}
                 onChange={props.onFilterChange}

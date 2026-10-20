@@ -60,11 +60,11 @@ export default function IssueActionsBar(props: Readonly<Props>) {
   );
 
   return (
-    <div className="sw-flex sw-gap-3 sw-min-w-0">
-      <ul className="it__issue-header-actions sw-flex sw-items-center sw-gap-4 sw-typo-default sw-min-w-0">
+    <div className="sw:flex sw:gap-3 sw:min-w-0">
+      <ul className="it__issue-header-actions sw:flex sw:items-center sw:gap-4 sw:typo-default sw:min-w-0">
         <HighlightRing
           as="li"
-          className="sw-relative"
+          className="sw:relative"
           data-guiding-id={`issue-transition-${issue.key}`}
         >
           <IssueTransition
@@ -76,7 +76,7 @@ export default function IssueActionsBar(props: Readonly<Props>) {
           />
         </HighlightRing>
 
-        <li className="sw-min-w-0">
+        <li className="sw:min-w-0">
           <IssueAssign
             canAssign={canAssign}
             isSelected={isSelected}
@@ -100,7 +100,7 @@ export default function IssueActionsBar(props: Readonly<Props>) {
           <li
             // An action decides per-issue whether to render, so a hidden one leaves an empty
             // <li> behind; :empty collapses it, otherwise it would still consume a flex gap.
-            className="empty:sw-hidden"
+            className="sw:empty:hidden"
             key={`${index}-${issue.key}`}
           >
             <ActionComponent issue={issue} />

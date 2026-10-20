@@ -91,7 +91,7 @@ export default class ProfileFacet extends React.PureComponent<Props> {
   renderName = (profile: BaseProfile) => (
     <>
       {profile.name}
-      <Text className="sw-ml-1" isSubtle>
+      <Text className="sw:ml-1" isSubtle>
         {profile.languageName}
         {profile.isBuiltIn && ` (${translate('quality_profiles.built_in')})`}
       </Text>
@@ -105,7 +105,7 @@ export default class ProfileFacet extends React.PureComponent<Props> {
       <>
         <FacetToggleActiveStyle
           aria-checked={activation}
-          className="js-active sw-typo-sm"
+          className="js-active sw:typo-sm"
           onClick={isCompare ? this.stopPropagation : this.handleActiveClick}
           role="radio"
           selected={!!activation}
@@ -115,7 +115,7 @@ export default class ProfileFacet extends React.PureComponent<Props> {
         </FacetToggleActiveStyle>
         <FacetToggleInActiveStyle
           aria-checked={!activation}
-          className="js-inactive sw-typo-sm sw-ml-1"
+          className="js-inactive sw:typo-sm sw:ml-1"
           onClick={isCompare ? this.stopPropagation : this.handleInactiveClick}
           role="radio"
           selected={!activation}
@@ -174,7 +174,7 @@ export default class ProfileFacet extends React.PureComponent<Props> {
               <>
                 <FormattedMessage id="coding_rules.facet.qprofile.help.desc" />
                 {!hasEditRights && (
-                  <p className="sw-mt-4">
+                  <p className="sw:mt-4">
                     <FormattedMessage id="coding_rules.facet.qprofile.help.extra" />
                   </p>
                 )}
@@ -192,7 +192,7 @@ export default class ProfileFacet extends React.PureComponent<Props> {
         open={open}
       >
         {hasEditRights && (
-          <Text as="p" className="sw-mt-2 sw-mb-4" isSubtle>
+          <Text as="p" className="sw:mt-2 sw:mb-4" isSubtle>
             <FormattedMessage id="coding_rules.facet.qprofile.help.extra" />
           </Text>
         )}

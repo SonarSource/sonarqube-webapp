@@ -205,10 +205,10 @@ export default function NewCodeDefinitionSelection(props: Props) {
         aria-label={formatMessage({
           id: 'onboarding.create_project.new_code_definition.title',
         })}
-        className="sw-typo-default"
+        className="sw:typo-default"
         id="project-ncd-selection"
       >
-        <div className="sw-flex sw-justify-between">
+        <div className="sw:flex sw:justify-between">
           <FormattedMessage id="onboarding.create_project.manual.step2" />
           <ButtonIcon
             Icon={IconX}
@@ -225,7 +225,7 @@ export default function NewCodeDefinitionSelection(props: Props) {
                 <Text as="p">
                   <FormattedMessage id="project_baseline.page.description" />
                 </Text>
-                <Text as="p" className="sw-mt-4">
+                <Text as="p" className="sw:mt-4">
                   <FormattedMessage
                     id="project_baseline.page.description2"
                     values={{
@@ -241,7 +241,7 @@ export default function NewCodeDefinitionSelection(props: Props) {
                   />
                 </Text>
                 <Link
-                  className="sw-block"
+                  className="sw:block"
                   enableOpenInNewTab
                   highlight={LinkHighlight.CurrentColor}
                   to={toUrl}
@@ -271,7 +271,7 @@ export default function NewCodeDefinitionSelection(props: Props) {
               </MessageCallout>
             )}
           </Form.Section>
-          <Form.Footer className="sw-mb-8">
+          <Form.Footer className="sw:mb-8">
             <Button
               onClick={() => {
                 navigate(-1);

@@ -53,7 +53,7 @@ export function FacetHelp({ property, title, description, noDescription, link, l
                 id={`issues.facet.${property}.help.description`}
                 values={{
                   p1: (text) => <p>{text}</p>,
-                  p: (text) => <p className="sw-mt-4">{text}</p>,
+                  p: (text) => <p className="sw:mt-4">{text}</p>,
                 }}
               />
             )

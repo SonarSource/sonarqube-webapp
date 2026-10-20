@@ -68,12 +68,12 @@ export default function JavaGradle(props: Readonly<JavaGradleProps>) {
 
   return (
     <div>
-      <Heading as="h2" className="sw-mb-2">
+      <Heading as="h2" className="sw:mb-2">
         {translate('onboarding.analysis.java.gradle.header')}
       </Heading>
       <InstanceMessage message={translate('onboarding.analysis.java.gradle.text.1')}>
         {(transformedMessage) => (
-          <p className="sw-mb-2">
+          <p className="sw:mb-2">
             <FormattedMessage
               id={transformedMessage}
               values={{
@@ -85,16 +85,16 @@ export default function JavaGradle(props: Readonly<JavaGradleProps>) {
           </p>
         )}
       </InstanceMessage>
-      <GradleBuildSelection className="sw-mt-4 sw-mb-4">
+      <GradleBuildSelection className="sw:mt-4 sw:mb-4">
         {(build) => (
           <CodeSnippet
-            className="sw-p-4"
+            className="sw:p-4"
             language={config[build].lang}
             snippet={config[build].snippet}
           />
         )}
       </GradleBuildSelection>
-      <p className="sw-mb-4">
+      <p className="sw:mb-4">
         <Text as="em" isSubtle>
           <FormattedMessage
             id="onboarding.analysis.java.gradle.latest_version"
@@ -108,9 +108,9 @@ export default function JavaGradle(props: Readonly<JavaGradleProps>) {
           />
         </Text>
       </p>
-      <p className="sw-mt-2 sw-mb-2">{translate('onboarding.analysis.java.gradle.text.2')}</p>
-      <CodeSnippet className="sw-p-4" snippet={command} />
-      <p className="sw-mt-4">
+      <p className="sw:mt-2 sw:mb-2">{translate('onboarding.analysis.java.gradle.text.2')}</p>
+      <CodeSnippet className="sw:p-4" snippet={command} />
+      <p className="sw:mt-4">
         <FormattedMessage
           id="onboarding.analysis.docs"
           values={{

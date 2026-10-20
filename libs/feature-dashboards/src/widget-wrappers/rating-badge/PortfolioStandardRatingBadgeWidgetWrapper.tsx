@@ -217,10 +217,10 @@ export function PortfolioStandardRatingBadgeWidgetWrapper(
     }
 
     return (
-      <div className="sw-h-full sw-flex sw-flex-col sw-items-center sw-justify-center">
-        <div className="sw-flex sw-items-center sw-justify-center sw-gap-4">
+      <div className="sw:h-full sw:flex sw:flex-col sw:items-center sw:justify-center">
+        <div className="sw:flex sw:items-center sw:justify-center sw:gap-4">
           <QualityGateIndicator size="xl" status={value ?? 'NOT_COMPUTED'} />
-          <Text className="sw-typo-lg-semibold sw-text-2xl">
+          <Text className="sw:typo-lg-semibold sw:text-2xl">
             {formatDashboardMeasure(value ?? 'NOT_COMPUTED', MetricType.Level)}
           </Text>
         </div>
@@ -240,7 +240,7 @@ export function PortfolioStandardRatingBadgeWidgetWrapper(
       : undefined;
 
   return (
-    <div className="sw-text-[3rem] sw-leading-none sw-h-full sw-flex sw-flex-col sw-items-center sw-justify-center">
+    <div className="sw:text-[3rem] sw:leading-none sw:h-full sw:flex sw:flex-col sw:items-center sw:justify-center">
       {metricTypeForMeasure === MetricType.Rating ? (
         <RatingBadgeDisplay
           badgeSize={RatingBadgeSize.ExtraLarge}

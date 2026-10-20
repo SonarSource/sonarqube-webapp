@@ -79,7 +79,7 @@ export const InteractiveIconBase = forwardRef(
 
     return (
       <IconButton {...propsForInteractiveWrapper} onClick={handleClick} ref={ref} type="button">
-        <Icon className={classNames({ 'sw-mr-1': isDefined(children) })} {...iconProps} />
+        <Icon className={classNames({ 'sw:mr-1': isDefined(children) })} {...iconProps} />
         {children}
       </IconButton>
     );

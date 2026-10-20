@@ -72,7 +72,7 @@ export function MonorepoRepositorySelector({
 
   return (
     <>
-      <Label className="sw-mb-2" htmlFor={`${almKey}-monorepo-choose-repository`}>
+      <Label className="sw:mb-2" htmlFor={`${almKey}-monorepo-choose-repository`}>
         <FormattedMessage id="onboarding.create_project.monorepo.choose_repository" />
       </Label>
       {showWarningMessage ? (
@@ -104,13 +104,13 @@ export function MonorepoRepositorySelector({
           {selectedRepository &&
             !isLoadingAlreadyBoundProjects &&
             !isFetchingAlreadyBoundProjects && (
-              <FlagMessage className="sw-mt-2" variant="info">
+              <FlagMessage className="sw:mt-2" variant="info">
                 {alreadyBoundProjects.length === 0 ? (
                   <FormattedMessage id="onboarding.create_project.monorepo.choose_repository.no_already_bound_projects" />
                 ) : (
                   <div>
                     <FormattedMessage id="onboarding.create_project.monorepo.choose_repository.existing_already_bound_projects" />
-                    <ul className="sw-mt-4">
+                    <ul className="sw:mt-4">
                       {alreadyBoundProjects.map(({ projectId, projectName }) => (
                         <li key={projectId}>
                           <LinkStandalone

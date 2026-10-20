@@ -53,18 +53,18 @@ export default function Login() {
   const displayError = Boolean(location.query.authorizationError);
 
   return (
-    <div className="sw-flex sw-flex-col sw-w-abs-400 sw-min-w-abs-400" id="login_form">
+    <div className="sw:flex sw:flex-col sw:w-abs-400 sw:min-w-abs-400" id="login_form">
       <Helmet defer={false} title={formatMessage({ id: 'login.page' })} />
-      <div className="sw-typo-lg sw-flex-col">
-        <SonarQubeProductLogo className="sw-mb-6" hasText size={LogoSize.Large} />
-        <Heading as="h1" className="sw-mb-10">
+      <div className="sw:typo-lg sw:flex-col">
+        <SonarQubeProductLogo className="sw:mb-6" hasText size={LogoSize.Large} />
+        <Heading as="h1" className="sw:mb-10">
           <FormattedMessage id="login.login_to_sonarqube" />
         </Heading>
 
         <Spinner isLoading={isLoading}>
           <>
             {displayError && (
-              <MessageCallout className="sw-mb-6" variety={MessageVariety.Danger}>
+              <MessageCallout className="sw:mb-6" variety={MessageVariety.Danger}>
                 {formatMessage({ id: 'login.unauthorized_access_alert' })}
               </MessageCallout>
             )}

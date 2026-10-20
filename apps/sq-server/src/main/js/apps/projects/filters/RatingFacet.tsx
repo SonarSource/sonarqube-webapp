@@ -118,7 +118,7 @@ function RatingOption({
         size={RatingBadgeSize.ExtraSmall}
       />
 
-      <span className="sw-ml-2">
+      <span className="sw:ml-2">
         {intl.formatMessage({
           id: `projects.facets.rating_option.${propertyWithoutPrefix}${isStandardMode && isSecurityOrReliability ? '.legacy' : ''}.${option}`,
         })}

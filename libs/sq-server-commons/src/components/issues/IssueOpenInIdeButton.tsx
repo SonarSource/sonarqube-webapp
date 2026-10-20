@@ -92,7 +92,7 @@ export function IssueOpenInIdeButton({ branchLike, issueKey, login, projectKey }
 
   const triggerButton = (
     <Button
-      className="sw-whitespace-nowrap"
+      className="sw:whitespace-nowrap"
       isDisabled={isLoading}
       isLoading={isLoading}
       onClick={onClick}

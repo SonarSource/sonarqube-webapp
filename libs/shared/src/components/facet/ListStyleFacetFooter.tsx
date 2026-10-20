@@ -49,17 +49,17 @@ export function ListStyleFacetFooter({
   const allShown = Boolean(total && total === nbShown);
 
   return (
-    <div className="sw-mb-2 sw-mt-2 sw-text-center" style={{ color: cssVar('color-text-subtle') }}>
+    <div className="sw:mb-2 sw:mt-2 sw:text-center" style={{ color: cssVar('color-text-subtle') }}>
       <FormattedMessage id="x_show" values={{ 0: numberFormatter(nbShown) }} />
 
       {hasMore && (
-        <Link aria-label={showMoreAriaLabel} className="sw-ml-2" onClick={showMore}>
+        <Link aria-label={showMoreAriaLabel} className="sw:ml-2" onClick={showMore}>
           <FormattedMessage id="show_more" />
         </Link>
       )}
 
       {showLess && allShown && (
-        <Link aria-label={showLessAriaLabel} className="sw-ml-2" onClick={showLess}>
+        <Link aria-label={showLessAriaLabel} className="sw:ml-2" onClick={showLess}>
           <FormattedMessage id="show_less" />
         </Link>
       )}

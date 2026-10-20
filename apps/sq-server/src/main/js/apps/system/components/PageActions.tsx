@@ -75,7 +75,7 @@ export function PageActions(props: Readonly<Props>) {
 
   return (
     <>
-      <div className="sw-flex sw-items-center">
+      <div className="sw:flex sw:items-center">
         <span>
           <FormattedMessage id="system.logs_level" />
           {': '}
@@ -85,7 +85,7 @@ export function PageActions(props: Readonly<Props>) {
         <ButtonIcon
           Icon={IconEdit}
           ariaLabel={intl.formatMessage({ id: 'system.logs_level.change' })}
-          className="sw-ml-1"
+          className="sw:ml-1"
           id="edit-logs-level-button"
           onClick={handleLogsLevelOpen}
           variety={ButtonVariety.DefaultGhost}
@@ -151,7 +151,7 @@ export function PageActions(props: Readonly<Props>) {
         <Button prefix={<IconDownload />} variety={ButtonVariety.Primary}>
           <FormattedMessage id="system.download_logs" />
 
-          <IconChevronDown className="sw-ml-1" />
+          <IconChevronDown className="sw:ml-1" />
         </Button>
       </DropdownMenu>
 

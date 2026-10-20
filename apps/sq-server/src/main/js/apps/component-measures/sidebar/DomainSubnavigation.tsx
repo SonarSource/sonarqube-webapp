@@ -78,8 +78,8 @@ export default function DomainSubnavigation(props: Readonly<Props>) {
   return (
     <DomainSubnavigationAccordion
       header={
-        <div className="sw-flex sw-items-center sw-gap-3 sw-min-w-0">
-          <strong className="sw-typo-semibold sw-truncate">
+        <div className="sw:flex sw:items-center sw:gap-3 sw:min-w-0">
+          <strong className="sw:typo-semibold sw:truncate">
             {getLocalizedMetricDomain(domain.name)}
           </strong>
           {isSecurityReviewDomain && <DeprecatedBadge />}
@@ -89,7 +89,7 @@ export default function DomainSubnavigation(props: Readonly<Props>) {
       id={`measure-${domain.name}`}
       initExpanded={open}
     >
-      {domain.name === 'Security' && <SecurityDevEditionPromoteBanner className="sw-m-2" />}
+      {domain.name === 'Security' && <SecurityDevEditionPromoteBanner className="sw:m-2" />}
       {hasOverview(domain.name) && (
         <SubnavigationItem
           active={domain.name === selected}

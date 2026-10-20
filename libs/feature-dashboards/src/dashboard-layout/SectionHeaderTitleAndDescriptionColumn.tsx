@@ -41,7 +41,7 @@ export function SectionHeaderTitleAndDescriptionColumn(props: Readonly<Props>) {
 
   return (
     <div
-      className="sw-text-left"
+      className="sw:text-left"
       style={{
         display: 'flex',
         flexDirection: 'column',

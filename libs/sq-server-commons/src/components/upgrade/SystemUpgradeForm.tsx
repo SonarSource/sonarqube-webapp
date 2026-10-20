@@ -59,7 +59,7 @@ export function SystemUpgradeForm(props: Readonly<Props>) {
   return (
     <Modal
       content={
-        <div className="sw-flex sw-flex-col sw-gap-y-10 sw-mt-4">
+        <div className="sw:flex sw:flex-col sw:gap-y-10 sw:mt-4">
           {alertVariant && (
             <MessageCallout className={`it__upgrade-alert-${updateUseCase}`} variety={alertVariant}>
               <FormattedMessage id={`admin_notification.update.${updateUseCase}`} />
@@ -90,7 +90,7 @@ export function SystemUpgradeForm(props: Readonly<Props>) {
       primaryButton={
         !isCommunityBuildRunning && (
           <LinkStandalone
-            className="sw-mr-8"
+            className="sw:mr-8"
             to="https://www.sonarsource.com/products/sonarqube/downloads/?referrer=sonarqube"
           >
             {translate('system.see_sonarqube_downloads')}

@@ -60,7 +60,7 @@ export default function SoftwareImpactPillList({
 
   if (isStandardMode) {
     return (
-      <ul className={classNames('sw-flex sw-gap-2', className)} data-guiding-id={dataGuidingId}>
+      <ul className={classNames('sw:flex sw:gap-2', className)} data-guiding-id={dataGuidingId}>
         {issueType && issueSeverity && (
           <IssueTypePill
             issueType={issueType}
@@ -90,7 +90,7 @@ export default function SoftwareImpactPillList({
 
   if (issueType === 'SECURITY_HOTSPOT') {
     return (
-      <ul className={classNames('sw-flex sw-gap-2', className)} data-guiding-id={dataGuidingId}>
+      <ul className={classNames('sw:flex sw:gap-2', className)} data-guiding-id={dataGuidingId}>
         <IssueTypePill issueType={issueType} severity={issueSeverity ?? IssueSeverity.Info} />
       </ul>
     );

@@ -56,9 +56,9 @@ export default function DomainSubnavigationAccordion(props: Readonly<Props>) {
           aria-controls={`${id}-subnavigation-accordion`}
           aria-expanded={expanded}
           className={classNames(
-            'sw-flex sw-items-center sw-justify-between sw-box-border',
-            'sw-typo-semibold sw-p-4 sw-w-full sw-cursor-pointer',
-            { 'sw-pr-16': helpDescription },
+            'sw:flex sw:items-center sw:justify-between sw:box-border',
+            'sw:typo-semibold sw:p-4 sw:w-full sw:cursor-pointer',
+            { 'sw:pr-16': helpDescription },
           )}
           id={`${id}-subnavigation-accordion-button`}
           onClick={toggleExpanded}
@@ -71,8 +71,8 @@ export default function DomainSubnavigationAccordion(props: Readonly<Props>) {
         {helpDescription && (
           <AccordionHeaderAction
             className={classNames(
-              'sw-absolute sw-top-1/2 -sw-translate-y-1/2',
-              'sw-right-10 sw-flex sw-items-center',
+              'sw:absolute sw:top-1/2 sw:-translate-y-1/2',
+              'sw:right-10 sw:flex sw:items-center',
             )}
           >
             <ToggleTip description={helpDescription} />

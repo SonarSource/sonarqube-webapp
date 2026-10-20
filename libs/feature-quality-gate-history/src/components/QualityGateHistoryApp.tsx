@@ -45,7 +45,7 @@ function QualityGateHistoryApp(props: Readonly<Props>) {
     >
       <Spinner isLoading={isLoading}>
         {isError ? (
-          <MessageCallout className="sw-mt-8" variety={MessageVariety.Danger}>
+          <MessageCallout className="sw:mt-8" variety={MessageVariety.Danger}>
             <FormattedMessage id="default_error_message" />
           </MessageCallout>
         ) : (

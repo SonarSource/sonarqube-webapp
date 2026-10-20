@@ -99,16 +99,16 @@ export function ProfilePageTemplate(props: PropsWithChildren<Props>) {
         description={<ProfileDescription profile={profile} showAicaIntro={showAicaIntro} />}
         metadata={
           !hideMetadata && (
-            <Layout.PageHeader.Metadata className="sw-gap-3">
+            <Layout.PageHeader.Metadata className="sw:gap-3">
               <div>
-                <strong className="sw-typo-semibold">
+                <strong className="sw:typo-semibold">
                   <FormattedMessage id="quality_profiles.updated_" />
                 </strong>{' '}
                 <DateFromNow date={profile.rulesUpdatedAt} />
               </div>
 
               <div>
-                <strong className="sw-typo-semibold">
+                <strong className="sw:typo-semibold">
                   <FormattedMessage id="quality_profiles.used_" />
                 </strong>{' '}
                 <DateFromNow date={profile.lastUsed} />
@@ -130,7 +130,7 @@ export function ProfilePageTemplate(props: PropsWithChildren<Props>) {
         title={
           <Layout.PageHeader.Title
             suffix={
-              <div className="sw-flex sw-items-center sw-ml-2 sw-gap-2">
+              <div className="sw:flex sw:items-center sw:ml-2 sw:gap-2">
                 {profile.isBuiltIn && <BuiltInQualityProfileBadge tooltip={false} />}
                 {profile.isDefault && (
                   <Badge variety="neutral">

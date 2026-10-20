@@ -61,7 +61,7 @@ export default function UserHolder(props: Props) {
   if (user.login === '<creator>') {
     return (
       <Table.Row>
-        <Table.Cell className="sw-typo-lg">
+        <Table.Cell className="sw:typo-lg">
           <IconPeople />
         </Table.Cell>
         <Table.CellText

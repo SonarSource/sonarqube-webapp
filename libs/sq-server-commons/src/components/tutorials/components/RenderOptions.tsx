@@ -43,8 +43,8 @@ export default function RenderOptions({
   };
 
   return (
-    <div className="sw-mt-4">
-      {titleLabelKey && <label className="sw-block sw-mb-1">{translate(titleLabelKey)}</label>}
+    <div className="sw:mt-4">
+      {titleLabelKey && <label className="sw:block sw:mb-1">{translate(titleLabelKey)}</label>}
 
       <ToggleButton
         label={label}

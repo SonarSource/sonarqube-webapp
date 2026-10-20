@@ -288,7 +288,7 @@ export function PieChart(props: Readonly<PieChartProps>) {
 
   return (
     <div
-      className="sw-relative sw-flex sw-items-center sw-justify-center"
+      className="sw:relative sw:flex sw:items-center sw:justify-center"
       style={{ height: svgHeight, width: showLabels ? svgWidth : width }}
     >
       <svg
@@ -362,7 +362,7 @@ export function PieChart(props: Readonly<PieChartProps>) {
       {tooltip?.segment &&
         createPortal(
           <div
-            className="sw-fixed sw-z-popup sw-rounded-1 sw-p-3 sw-whitespace-nowrap"
+            className="sw:fixed sw:z-popup sw:rounded-1 sw:p-3 sw:whitespace-nowrap"
             data-testid="pie-chart-tooltip"
             onMouseEnter={handleTooltipMouseEnter}
             onMouseLeave={handleTooltipMouseLeave}
@@ -380,7 +380,7 @@ export function PieChart(props: Readonly<PieChartProps>) {
               willChange: 'transform',
             }}
           >
-            <div className="sw-flex sw-flex-col sw-gap-1">
+            <div className="sw:flex sw:flex-col sw:gap-1">
               <Text>
                 <strong>{tooltip.segment.label}</strong>
               </Text>
@@ -448,7 +448,7 @@ function Sector(props: Readonly<SectorProps>) {
   return (
     <path
       aria-label={ariaLabel}
-      className="sw-cursor-pointer"
+      className="sw:cursor-pointer"
       d={path}
       data-testid={`pie-chart-segment-${index}`}
       onBlur={onBlur}

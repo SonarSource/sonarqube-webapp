@@ -34,14 +34,14 @@ export default function UsersAppDescription(props: Readonly<Props>) {
       {manageProvider === undefined ? (
         <FormattedMessage id="users.page.description" />
       ) : (
-        <div className="sw-max-w-3/4 sw-mb-4">
+        <div className="sw:max-w-3/4 sw:mb-4">
           <FormattedMessage
             id="users.page.managed_description"
             values={{
               provider: <FormattedMessage id={`managed.${manageProvider}`} />,
             }}
           />
-          <div className="sw-mt-2">
+          <div className="sw:mt-2">
             <FormattedMessage
               id="users.page.managed_description.recommendation"
               values={{

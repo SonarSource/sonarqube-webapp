@@ -5,6 +5,7 @@
   "projectType": "library",
   "tags": [],
   "targets": {
+    "validate-tailwind-prefixes": {},
     "build": {
       "executor": "@nx/js:tsc",
       "outputs": ["{options.outputPath}"],

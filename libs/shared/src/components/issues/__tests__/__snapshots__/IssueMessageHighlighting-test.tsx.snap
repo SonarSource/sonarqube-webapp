@@ -39,13 +39,13 @@ a .emotion-0 {
 <span>
     m
     <span
-      class="sw-code sw-rounded-1 sw-px-1 sw-border sw-border-solid emotion-0 emotion-1"
+      class="sw:code sw:rounded-1 sw:px-1 sw:border sw:border-solid emotion-0 emotion-1"
     >
       ess
     </span>
     a
     <span
-      class="sw-code sw-rounded-1 sw-px-1 sw-border sw-border-solid emotion-0 emotion-1"
+      class="sw:code sw:rounded-1 sw:px-1 sw:border sw:border-solid emotion-0 emotion-1"
     >
       g
     </span>
@@ -79,7 +79,7 @@ a .emotion-0 {
 <span>
     a somewhat longer message with overlapping range
     <span
-      class="sw-code sw-rounded-1 sw-px-1 sw-border sw-border-solid emotion-0 emotion-1"
+      class="sw:code sw:rounded-1 sw:px-1 sw:border sw:border-solid emotion-0 emotion-1"
     >
       s
     </span>
@@ -112,7 +112,7 @@ a .emotion-0 {
 <span>
     a 
     <span
-      class="sw-code sw-rounded-1 sw-px-1 sw-border sw-border-solid emotion-0 emotion-1"
+      class="sw:code sw:rounded-1 sw:px-1 sw:border sw:border-solid emotion-0 emotion-1"
     >
       somewhat longer message
     </span>
@@ -138,7 +138,7 @@ a .emotion-0 {
 <span>
     a 
     <span
-      class="sw-code sw-rounded-1 sw-px-1 sw-border sw-border-solid emotion-0 emotion-1"
+      class="sw:code sw:rounded-1 sw:px-1 sw:border sw:border-solid emotion-0 emotion-1"
     >
       somewhat longer message with
     </span>

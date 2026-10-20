@@ -81,7 +81,7 @@ export default function ProjectRowActions({ currentUser, project }: Props) {
         id="project-management-action-dropdown"
         items={
           <>
-            <Spinner className="sw-flex sw-ml-3 sw-my-2" isLoading={loading}>
+            <Spinner className="sw:flex sw:ml-3 sw:my-2" isLoading={loading}>
               <>
                 {hasAccess === true && (
                   <DropdownMenu.ItemLink to={getComponentPermissionsUrl(project.key)}>

@@ -59,13 +59,13 @@ export function ProjectDumpApp({ component, hasFeature }: Readonly<Props>) {
       disableBranchSelector
       title={title}
     >
-      <div className="sw-mb-4">
-        <h2 className="sw-heading-lg">
+      <div className="sw:mb-4">
+        <h2 className="sw:heading-lg">
           <FormattedMessage id="project_dump.export" />
         </h2>
       </div>
       <Export componentKey={component.key} />
-      <Divider className="sw-my-8" />
+      <Divider className="sw:my-8" />
       <Import componentKey={component.key} importEnabled={!!projectImportFeatureEnabled} />
     </ProjectPageTemplate>
   );

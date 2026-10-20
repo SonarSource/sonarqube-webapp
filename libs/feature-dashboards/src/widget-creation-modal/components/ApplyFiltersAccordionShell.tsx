@@ -50,7 +50,7 @@ export function ApplyFiltersAccordionShell({
 export function ApplyFiltersAccordionContent({ children }: Readonly<{ children: ReactNode }>) {
   return (
     <div
-      className="sw-flex sw-flex-col sw-gap-4"
+      className="sw:flex sw:flex-col sw:gap-4"
       onClick={(e) => {
         e.stopPropagation();
       }}

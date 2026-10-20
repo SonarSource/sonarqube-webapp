@@ -44,7 +44,7 @@ export function BorderlessAccordion(props: AccordionProps) {
 
   return (
     <div
-      className={classNames('sw-cursor-pointer', className, {
+      className={classNames('sw:cursor-pointer', className, {
         open,
       })}
       role="listitem"
@@ -53,12 +53,12 @@ export function BorderlessAccordion(props: AccordionProps) {
         aria-controls={`${id}-panel`}
         aria-expanded={open}
         aria-label={ariaLabel}
-        className="sw-flex sw-items-center sw-justify-between sw-px-2 sw-py-2 sw-box-border sw-w-full"
+        className="sw:flex sw:items-center sw:justify-between sw:px-2 sw:py-2 sw:box-border sw:w-full"
         id={`${id}-header`}
         onClick={handleClick}
       >
         {header}
-        <OpenCloseIndicator aria-hidden className="sw-ml-2" open={open} />
+        <OpenCloseIndicator aria-hidden className="sw:ml-2" open={open} />
       </BareButton>
       <div aria-labelledby={`${id}-header`} id={`${id}-panel`} role="region">
         {open && <div>{props.children}</div>}

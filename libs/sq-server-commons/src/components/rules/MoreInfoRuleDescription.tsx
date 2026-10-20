@@ -66,13 +66,13 @@ export default class MoreInfoRuleDescription extends React.PureComponent<Props> 
     } = this.props;
 
     return (
-      <div className="sw-my-6 rule-desc">
+      <div className="sw:my-6 rule-desc">
         {displayEducationalPrinciplesNotification && (
           <FlagMessage variant="info">
-            <p className="sw-my-1">{translate('coding_rules.more_info.notification_message')}</p>
+            <p className="sw:my-1">{translate('coding_rules.more_info.notification_message')}</p>
 
             <Button
-              className="sw-whitespace-nowrap"
+              className="sw:whitespace-nowrap"
               onClick={() => {
                 this.handleNotificationScroll();
               }}
@@ -107,7 +107,7 @@ export default class MoreInfoRuleDescription extends React.PureComponent<Props> 
               }
 
               return (
-                <StyledEducationPrinciples className="sw-mt-4 sw-p-4 sw-rounded-1" key={key}>
+                <StyledEducationPrinciples className="sw:mt-4 sw:p-4 sw:rounded-1" key={key}>
                   <Concept />
                 </StyledEducationPrinciples>
               );

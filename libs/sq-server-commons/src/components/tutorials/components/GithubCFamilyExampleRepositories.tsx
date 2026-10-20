@@ -61,11 +61,11 @@ export default function GithubCFamilyExampleRepositories(
   const link = `https://github.com/orgs/sonarsource-cfamily-examples/repositories?q=${queryParams}`;
 
   return (
-    <Card className={classNames('sw-p-4', className)}>
+    <Card className={classNames('sw:p-4', className)}>
       <div>
         <Image
           alt="" // Should be ignored by screen readers
-          className="sw-mr-2"
+          className="sw:mr-2"
           height={20}
           src={githubIconUrl}
         />
@@ -73,7 +73,7 @@ export default function GithubCFamilyExampleRepositories(
           sonarsource-cfamily-examples
         </LinkStandalone>
       </div>
-      <Text as="p" className="sw-mt-4" isSubtle>
+      <Text as="p" className="sw:mt-4" isSubtle>
         {translate('onboarding.tutorial.cfamily.examples_repositories_description')}
       </Text>
     </Card>

@@ -28,12 +28,12 @@ interface Props {
 export function NoCoverageCard({ docUrl }: Readonly<Props>) {
   return (
     <div>
-      <div className="sw-flex sw-items-center sw-gap-2 sw-mb-2">
-        <Label as="span" className="sw-whitespace-nowrap">
+      <div className="sw:flex sw:items-center sw:gap-2 sw:mb-2">
+        <Label as="span" className="sw:whitespace-nowrap">
           <FormattedMessage id="metric_domain.Coverage" />
         </Label>
       </div>
-      <Text as="p" className="sw-mb-1" isSubtle>
+      <Text as="p" className="sw:mb-1" isSubtle>
         <FormattedMessage id="overview.coverage.no_coverage.description" />
       </Text>
       <LinkStandalone enableOpenInNewTab to={docUrl}>

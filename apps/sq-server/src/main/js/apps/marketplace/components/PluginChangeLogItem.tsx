@@ -35,19 +35,19 @@ interface Props {
 export default function PluginChangeLogItem({ release, update }: Props) {
   return (
     <li>
-      <div className="sw-mb-2">
+      <div className="sw:mb-2">
         {update.status === 'COMPATIBLE' || !update.status ? (
-          <Badge className="sw-mr-4" variant="new">
+          <Badge className="sw:mr-4" variant="new">
             {release.version}
           </Badge>
         ) : (
           <Tooltip content={translate('marketplace.update_status', update.status)}>
             <span>
-              <Badge className="sw-mr-4">{release.version}</Badge>
+              <Badge className="sw:mr-4">{release.version}</Badge>
             </span>
           </Tooltip>
         )}
-        <Text className="sw-mr-4" isSubtle>
+        <Text className="sw:mr-4" isSubtle>
           <DateFormatter date={release.date} />
         </Text>
         {release.changeLogUrl && (

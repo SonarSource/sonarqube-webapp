@@ -32,8 +32,8 @@ interface Props {
 
 export default function PluginUpdateItem({ release, update, pluginName }: Readonly<Props>) {
   return (
-    <li className="sw-flex sw-items-center" key={release.version}>
-      <div className="sw-mr-2">
+    <li className="sw:flex sw:items-center" key={release.version}>
+      <div className="sw:mr-2">
         {update.status === 'COMPATIBLE' ? (
           <Badge variant="new">{release.version}</Badge>
         ) : (

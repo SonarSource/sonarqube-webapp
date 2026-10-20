@@ -121,7 +121,7 @@ export default function EditMembersModal(props: Readonly<Props>) {
       body={
         <>
           {samlEnabled && (
-            <FlagMessage className="sw-mb-2" variant="warning">
+            <FlagMessage className="sw:mb-2" variant="warning">
               <FormattedMessage id="users.update_groups.saml_enabled" />
             </FlagMessage>
           )}

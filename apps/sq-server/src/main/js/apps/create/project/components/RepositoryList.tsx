@@ -83,13 +83,13 @@ export default function RepositoryList(props: Readonly<RepositoryListProps>) {
   }
 
   return (
-    <div className="sw-flex sw-gap-12">
-      <div className="sw-flex-[6]">
-        <div className="sw-mb-2 sw-py-2 sw-flex sw-items-center sw-justify-between sw-w-full">
+    <div className="sw:flex sw:gap-12">
+      <div className="sw:flex-[6]">
+        <div className="sw:mb-2 sw:py-2 sw:flex sw:items-center sw:justify-between sw:w-full">
           <div>
             <Checkbox
               checked={areAllRepositoriesChecked}
-              className="sw-ml-5"
+              className="sw:ml-5"
               isDisabled={repositories.length === 0}
               label={formatMessage({ id: 'onboarding.create_project.select_all_repositories' })}
               onCheck={onCheckAllRepositories}
@@ -105,11 +105,11 @@ export default function RepositoryList(props: Readonly<RepositoryListProps>) {
         </div>
 
         {repositories.length === 0 ? (
-          <div className="sw-py-6 sw-px-2">
+          <div className="sw:py-6 sw:px-2">
             <Text isHighlighted>{formatMessage({ id: 'no_results' })}</Text>
           </div>
         ) : (
-          <ul className="sw-flex sw-flex-col sw-gap-3">
+          <ul className="sw:flex sw:flex-col sw:gap-3">
             {repositories.map(({ id, name, sqProjectKey, url, ...repo }) => (
               <AlmRepoItem
                 almIconSrc={iconUrl}
@@ -135,30 +135,30 @@ export default function RepositoryList(props: Readonly<RepositoryListProps>) {
         )}
 
         <ListFooter
-          className="sw-mb-10"
+          className="sw:mb-10"
           count={repositories.length}
           loadMore={onLoadMore}
           loading={loadingRepositories}
           total={repositoryPaging.total}
         />
       </div>
-      <div className="sw-flex-[4]">
+      <div className="sw:flex-[4]">
         {selected.size > 0 && (
-          <SetupBox className="sw-rounded-2 sw-p-8 sw-mb-0">
-            <SetupBoxTitle className="sw-mb-2 sw-heading-lg">
+          <SetupBox className="sw:rounded-2 sw:p-8 sw:mb-0">
+            <SetupBoxTitle className="sw:mb-2 sw:heading-lg">
               <FormattedMessage
                 id="onboarding.create_project.x_repositories_selected"
                 values={{ count: selected.size }}
               />
             </SetupBoxTitle>
             <div>
-              <SetupBoxContent className="sw-pb-4">
+              <SetupBoxContent className="sw:pb-4">
                 <FormattedMessage
                   id="onboarding.create_project.x_repository_created"
                   values={{ count: selected.size }}
                 />
               </SetupBoxContent>
-              <div className="sw-mt-4">
+              <div className="sw:mt-4">
                 <Button
                   className="js-set-up-projects"
                   onClick={onImport}

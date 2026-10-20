@@ -54,12 +54,12 @@ export default function EmailNotificationOverview(props: Readonly<EmailTestModal
 
   return (
     <>
-      <Divider className="sw-my-6" />
+      <Divider className="sw:my-6" />
       <EmailTestModal />
-      <Divider className="sw-my-6" />
-      <div className="sw-flex sw-justify-between">
-        <div className="sw-grid sw-gap-4">
-          <span className="sw-typo-lg-semibold sw-col-span-2">
+      <Divider className="sw:my-6" />
+      <div className="sw:flex sw:justify-between">
+        <div className="sw:grid sw:gap-4">
+          <span className="sw:typo-lg-semibold sw:col-span-2">
             <FormattedMessage id="email_notification.overview.heading" />
           </span>
 
@@ -114,7 +114,7 @@ export default function EmailNotificationOverview(props: Readonly<EmailTestModal
             value={emailConfiguration.subjectPrefix}
           />
         </div>
-        <div className="sw-flex sw-justify-end sw-gap-2">
+        <div className="sw:flex sw:justify-end sw:gap-2">
           <Button onClick={onEditClicked} variety={ButtonVariety.Default}>
             <FormattedMessage id="edit" />
           </Button>
@@ -147,9 +147,9 @@ function PublicValue({ messageKey, value }: Readonly<{ messageKey: string; value
   const { formatMessage } = useIntl();
   return (
     <>
-      <label className="sw-typo-semibold">{formatMessage({ id: messageKey })}</label>
-      <div className="sw-truncate" data-testid={`${messageKey}.value`}>
-        <CodeSnippet className="sw-px-1" isOneLine noCopy snippet={value} />
+      <label className="sw:typo-semibold">{formatMessage({ id: messageKey })}</label>
+      <div className="sw:truncate" data-testid={`${messageKey}.value`}>
+        <CodeSnippet className="sw:px-1" isOneLine noCopy snippet={value} />
       </div>
     </>
   );
@@ -159,7 +159,7 @@ function PrivateValue({ messageKey }: Readonly<{ messageKey: string }>) {
   const { formatMessage } = useIntl();
   return (
     <>
-      <label className="sw-typo-semibold">{formatMessage({ id: messageKey })}</label>
+      <label className="sw:typo-semibold">{formatMessage({ id: messageKey })}</label>
       <span data-testid={`${messageKey}.value`}>
         <FormattedMessage id="email_notification.overview.private" />
       </span>

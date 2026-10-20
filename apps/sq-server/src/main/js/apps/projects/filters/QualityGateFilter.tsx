@@ -93,12 +93,12 @@ export default function QualityGateFacet(props: Props) {
 
 function renderOption(option: string) {
   return (
-    <div className="sw-flex sw-items-center">
+    <div className="sw:flex sw:items-center">
       <QualityGateIndicator size="sm" status={option as QGStatus} />
-      <span className="sw-ml-1">{translate('metric.level', option)}</span>
+      <span className="sw:ml-1">{translate('metric.level', option)}</span>
       {option === 'WARN' && (
         <ToggleTip
-          className="sw-ml-1"
+          className="sw:ml-1"
           description={<FormattedMessage id="projects.facets.quality_gate.warning_help" />}
         />
       )}

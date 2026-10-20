@@ -151,14 +151,14 @@ function PortfolioRatingBadgeBreakdownWidget(props: Readonly<Props>) {
 
   if (!isPortfolioRatingBadgeDistributionValue(distribution)) {
     return (
-      <div className="sw-text-[3rem] sw-leading-none sw-h-full sw-flex sw-flex-col sw-items-center sw-justify-center">
+      <div className="sw:text-[3rem] sw:leading-none sw:h-full sw:flex sw:flex-col sw:items-center sw:justify-center">
         <PortfolioDashboardRatingBadgeLink rating={rating} ratingDrilldownTo={ratingDrilldownTo} />
       </div>
     );
   }
 
   return (
-    <div className="sw-h-full sw-flex sw-items-center sw-justify-center">
+    <div className="sw:h-full sw:flex sw:items-center sw:justify-center">
       <PortfolioDashboardRatingDonut
         distribution={distribution}
         drilldownEnabled={drilldownEnabled}
@@ -192,7 +192,7 @@ function PortfolioDashboardRatingBadgeLink(
   }
   return (
     <LinkStandalone
-      className={[extraLinkClassName, 'sw-inline-flex sw-no-underline hover:sw-opacity-90']
+      className={[extraLinkClassName, 'sw:inline-flex sw:no-underline sw:hover:opacity-90']
         .filter(Boolean)
         .join(' ')}
       to={ratingDrilldownTo}
@@ -253,18 +253,18 @@ function PortfolioDashboardRatingDonut(
   );
 
   if (segments.length === 0) {
-    return <WidgetNoData className="sw-my-0 sw-h-full" />;
+    return <WidgetNoData className="sw:my-0 sw:h-full" />;
   }
 
   const hasSupportingContent = showBreakdown;
 
   return (
     <div
-      className="sw-flex sw-h-full sw-w-full sw-flex-col sw-items-center sw-justify-center"
+      className="sw:flex sw:h-full sw:w-full sw:flex-col sw:items-center sw:justify-center"
       ref={containerRef}
     >
       <div
-        className="sw-relative sw-flex sw-items-center sw-justify-center"
+        className="sw:relative sw:flex sw:items-center sw:justify-center"
         style={{
           height: PORTFOLIO_RATING_BADGE_DONUT_SIZE_PX,
           width: PORTFOLIO_RATING_BADGE_DONUT_SIZE_PX,
@@ -282,9 +282,9 @@ function PortfolioDashboardRatingDonut(
           width={PORTFOLIO_RATING_BADGE_DONUT_SIZE_PX}
         />
 
-        <div className="sw-pointer-events-none sw-absolute sw-inset-0 sw-flex sw-items-center sw-justify-center">
+        <div className="sw:pointer-events-none sw:absolute sw:inset-0 sw:flex sw:items-center sw:justify-center">
           <PortfolioDashboardRatingBadgeLink
-            extraLinkClassName="sw-pointer-events-auto sw-relative sw-z-[1]"
+            extraLinkClassName="sw:pointer-events-auto sw:relative sw:z-[1]"
             rating={rating}
             ratingDrilldownTo={ratingDrilldownTo}
           />
@@ -294,7 +294,7 @@ function PortfolioDashboardRatingDonut(
       {hasSupportingContent && (
         <div
           aria-hidden="true"
-          className="sw-w-full sw-flex-shrink-0"
+          className="sw:w-full sw:flex-shrink-0"
           style={{ flexGrow: 1, maxHeight: '1rem', minHeight: '0.5rem' }}
         />
       )}

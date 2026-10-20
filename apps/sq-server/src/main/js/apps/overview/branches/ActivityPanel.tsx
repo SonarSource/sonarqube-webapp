@@ -119,10 +119,10 @@ export function ActivityPanel(props: ActivityPanelProps) {
 
   return (
     <div>
-      <h2 className="sw-pt-6 sw-pb-4 sw-typo-lg-semibold">
+      <h2 className="sw:pt-6 sw:pb-4 sw:typo-lg-semibold">
         <FormattedMessage id="overview.activity" />
       </h2>
-      <Card className="sw-rounded-2" data-test="overview__activity-panel">
+      <Card className="sw:rounded-2" data-test="overview__activity-panel">
         <GraphsHeader graph={graph} metrics={metrics} onUpdateGraph={props.onGraphChange} />
 
         <GraphsHistory
@@ -140,7 +140,7 @@ export function ActivityPanel(props: ActivityPanelProps) {
           series={series}
         />
 
-        <BasicSeparator className="sw-mb-4 sw-mt-16" />
+        <BasicSeparator className="sw:mb-4 sw:mt-16" />
 
         <Spinner isLoading={loading}>
           {displayedAnalyses.length === 0 ? (
@@ -158,15 +158,15 @@ export function ActivityPanel(props: ActivityPanelProps) {
                   variations={analysisVariations[index]}
                 />
 
-                {index !== displayedAnalyses.length - 1 && <BasicSeparator className="sw-my-3" />}
+                {index !== displayedAnalyses.length - 1 && <BasicSeparator className="sw:my-3" />}
               </div>
             ))
           )}
         </Spinner>
 
-        <BasicSeparator className="sw-mt-4" />
+        <BasicSeparator className="sw:mt-4" />
 
-        <div className="sw-flex sw-justify-center sw-pt-3">
+        <div className="sw:flex sw:justify-center sw:pt-3">
           <ActivityLink branchLike={branchLike} component={component.key} graph={graph} />
         </div>
       </Card>

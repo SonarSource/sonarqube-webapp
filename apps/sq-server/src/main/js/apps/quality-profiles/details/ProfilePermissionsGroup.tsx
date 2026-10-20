@@ -47,15 +47,15 @@ export function ProfilePermissionsGroup({ group, profile }: Readonly<Props>) {
   };
 
   return (
-    <div className="sw-flex sw-items-center sw-justify-between">
-      <div className="sw-flex sw-truncate">
+    <div className="sw:flex sw:items-center sw:justify-between">
+      <div className="sw:flex sw:truncate">
         <GenericAvatar
           Icon={UserGroupIcon}
-          className="sw-mt-1/2 sw-mr-3 sw-grow-0 sw-shrink-0"
+          className="sw:mt-1/2 sw:mr-3 sw:grow-0 sw:shrink-0"
           name={group.name}
           size="xs"
         />
-        <strong className="sw-typo-semibold sw-truncate">{group.name}</strong>
+        <strong className="sw:typo-semibold sw:truncate">{group.name}</strong>
       </div>
       <ButtonIcon
         Icon={IconDelete}

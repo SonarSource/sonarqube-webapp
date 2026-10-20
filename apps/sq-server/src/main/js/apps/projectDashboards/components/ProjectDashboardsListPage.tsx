@@ -172,7 +172,7 @@ export function ProjectDashboardsListPage() {
       ? 'project_dashboards.page.public_project_message'
       : 'project_dashboards.page.private_project_message';
   const metadata = (
-    <div className="sw-flex sw-items-center sw-gap-2">
+    <div className="sw:flex sw:items-center sw:gap-2">
       <IconPeople />
       <Text isSubtle>
         <FormattedMessage id={metadataMessageId} />
@@ -270,7 +270,7 @@ export function ProjectDashboardsListPage() {
         projectKey={projectKey}
       />
       {paging.total > PAGE_SIZE && (
-        <div className="sw-flex sw-justify-center sw-mt-4">
+        <div className="sw:flex sw:justify-center sw:mt-4">
           <Pagination
             isDisabled={isLoadingDashboards}
             onChange={setCurrentPage}

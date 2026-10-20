@@ -40,13 +40,13 @@ export default function CreateYmlFile(props: Readonly<CreateYmlFileProps>) {
           file: (
             <>
               <InlineSnippet snippet={yamlFileName} />
-              <ClipboardIconButton className="sw-ml-2 sw-align-sub" copyValue={yamlFileName} />
+              <ClipboardIconButton className="sw:ml-2 sw:align-sub" copyValue={yamlFileName} />
             </>
           ),
         }}
       />
       {warning}
-      <CodeSnippet className="sw-p-6 sw-overflow-auto" language="yml" snippet={yamlTemplate} />
+      <CodeSnippet className="sw:p-6 sw:overflow-auto" language="yml" snippet={yamlTemplate} />
     </NumberedListItem>
   );
 }

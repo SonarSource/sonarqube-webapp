@@ -67,7 +67,7 @@ export default function UserPasswordInput(props: Readonly<Props>) {
           setIsFocused(false);
         }}
       >
-        <div className="sw-flex sw-flex-col">
+        <div className="sw:flex sw:flex-col">
           <TextInput
             id="create-password"
             isRequired
@@ -121,9 +121,9 @@ export default function UserPasswordInput(props: Readonly<Props>) {
 
 function PasswordConstraint({ value }: Readonly<{ value: string }>) {
   return (
-    <div className="sw-mt-2">
+    <div className="sw:mt-2">
       <Text isSubtle>{translate('user.password.conditions')}</Text>
-      <ul className="sw-list-none sw-p-0 sw-mt-1">
+      <ul className="sw:list-none sw:p-0 sw:mt-1">
         <Condition
           condition={contains12Characters(value)}
           label={translate('user.password.condition.12_characters')}
@@ -151,15 +151,15 @@ function PasswordConstraint({ value }: Readonly<{ value: string }>) {
 
 function Condition({ condition, label }: Readonly<{ condition: boolean; label: string }>) {
   return (
-    <li className="sw-mb-1">
+    <li className="sw:mb-1">
       {condition ? (
         <Text colorOverride="echoes-color-text-success" data-testid="valid-condition">
-          <IconCheck className="sw-mr-1" />
+          <IconCheck className="sw:mr-1" />
           {label}
         </Text>
       ) : (
         <Text data-testid="failed-condition" isSubtle>
-          <IconX className="sw-mr-1" />
+          <IconX className="sw:mr-1" />
           {label}
         </Text>
       )}

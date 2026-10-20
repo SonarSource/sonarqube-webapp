@@ -66,7 +66,7 @@ export default function PermissionsProjectVisibility(props: Readonly<Props>) {
       ) : undefined}
       <VisibilitySelector
         canTurnToPrivate={canTurnToPrivate}
-        className="sw-flex sw-my-4"
+        className="sw:flex sw:my-4"
         disabled={isDisabled}
         loading={isLoading || isFetching}
         onChange={handleVisibilityChange}

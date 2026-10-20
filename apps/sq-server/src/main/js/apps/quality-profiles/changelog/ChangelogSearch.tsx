@@ -34,7 +34,7 @@ export default function ChangelogSearch(props: ChangelogSearchProps) {
   const intl = useIntl();
 
   return (
-    <div className="sw-flex sw-gap-2">
+    <div className="sw:flex sw:gap-2">
       <DateRangePicker
         endClearButtonLabel={intl.formatMessage({ id: 'clear.end' })}
         fromLabel={intl.formatMessage({ id: 'start_date' })}
@@ -45,7 +45,7 @@ export default function ChangelogSearch(props: ChangelogSearchProps) {
         toLabel={intl.formatMessage({ id: 'end_date' })}
         value={dateRange}
       />
-      <Button className="sw-ml-2 sw-align-top" onClick={props.onReset}>
+      <Button className="sw:ml-2 sw:align-top" onClick={props.onReset}>
         {intl.formatMessage({ id: 'reset_verb' })}
       </Button>
     </div>

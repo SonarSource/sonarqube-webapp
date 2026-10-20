@@ -291,7 +291,7 @@ export function ListStyleFacet<S>(props: Readonly<Props<S>>) {
         <>
           <SearchInput
             ariaLabel={searchInputAriaLabel ?? intl.formatMessage({ id: 'search_verb' })}
-            className="sw-mb-4 sw-w-full"
+            className="sw:mb-4 sw:w-full"
             hasAutoFocus={autoFocus}
             minLength={minSearchLength}
             onChange={search}
@@ -347,7 +347,7 @@ export function ListStyleFacet<S>(props: Readonly<Props<S>>) {
           </output>
 
           <MultipleSelectionHint
-            className="sw-pt-4"
+            className="sw:pt-4"
             selectedItems={nbSelectedItems}
             totalItems={nbSelectableItems}
           />
@@ -450,7 +450,7 @@ function OptionList({
 
       {selectedBelowLimit.length > 0 && (
         <>
-          <Text as="div" className="sw-mb-2 sw-text-center" isSubtle>
+          <Text as="div" className="sw:mb-2 sw:text-center" isSubtle>
             ⋯
           </Text>
 
@@ -486,7 +486,7 @@ function OptionList({
       />
 
       {mightHaveMoreResults && showFullList && (
-        <MessageCallout className="sw-flex sw-my-4" variety="warning">
+        <MessageCallout className="sw:flex sw:my-4" variety="warning">
           {intl.formatMessage({ id: 'facet_might_have_more_results' })}
         </MessageCallout>
       )}
@@ -536,7 +536,7 @@ function SearchResultList<S>({
   const intl = useIntl();
 
   if (!searchResults?.length) {
-    return <div className="sw-mb-2">{intl.formatMessage({ id: 'no_results' })}</div>;
+    return <div className="sw:mb-2">{intl.formatMessage({ id: 'no_results' })}</div>;
   }
 
   return (
@@ -564,14 +564,14 @@ function SearchResultList<S>({
       </FacetItemsList>
 
       {searchMaxResults && (
-        <MessageCallout className="sw-flex sw-my-4" variety="warning">
+        <MessageCallout className="sw:flex sw:my-4" variety="warning">
           {intl.formatMessage({ id: 'facet_might_have_more_results' })}
         </MessageCallout>
       )}
 
       {searchPaging && (
         <ListFooter
-          className="sw-mb-2"
+          className="sw:mb-2"
           count={searchResults.length}
           loadMore={searchMore}
           loadMoreAriaLabel={showMoreAriaLabel}

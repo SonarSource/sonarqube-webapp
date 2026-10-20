@@ -91,13 +91,13 @@ export default function ApiSidebar({ apisList }: Readonly<Props>) {
   return (
     <Layout.AsideLeft size="large">
       <InputSearch
-        className="sw-w-full"
+        className="sw:w-full"
         onChange={setSearch}
         placeholder={formatMessage({ id: 'api_documentation.v2.search' })}
         value={search}
       />
 
-      <div className="sw-my-4">
+      <div className="sw:my-4">
         <Checkbox
           checked={showInternal}
           helpText={<FormattedMessage id="api_documentation.internal_tooltip" />}
@@ -111,7 +111,7 @@ export default function ApiSidebar({ apisList }: Readonly<Props>) {
       <nav aria-label={formatMessage({ id: 'api_documentation.page' })}>
         {Object.entries(groupedList).map(([group, apis]) => (
           <SubnavigationAccordion
-            className="sw-mt-2"
+            className="sw:mt-2"
             header={group}
             id={`web-api-${group}`}
             initExpanded={apis.some(
@@ -141,23 +141,23 @@ export default function ApiSidebar({ apisList }: Readonly<Props>) {
                       onClick={handleApiClick}
                       value={getApiEndpointKey(name, method)}
                     >
-                      <div className="sw-flex sw-gap-2 sw-w-full sw-justify-between">
-                        <div className="sw-flex sw-gap-2">
+                      <div className="sw:flex sw:gap-2 sw:w-full sw:justify-between">
+                        <div className="sw:flex sw:gap-2">
                           <RestMethodPill method={method} />
 
                           <div>{info.summary ?? name}</div>
                         </div>
 
                         {(info['x-sonar-internal'] || info.deprecated) && (
-                          <div className="sw-flex sw-flex-col sw-justify-center sw-gap-2">
+                          <div className="sw:flex sw:flex-col sw:justify-center sw:gap-2">
                             {info['x-sonar-internal'] && (
-                              <Badge className="sw-self-center" variety="highlight">
+                              <Badge className="sw:self-center" variety="highlight">
                                 <FormattedMessage id="internal" />
                               </Badge>
                             )}
 
                             {info.deprecated && (
-                              <Badge className="sw-self-center" variety="danger">
+                              <Badge className="sw:self-center" variety="danger">
                                 <FormattedMessage id="deprecated" />
                               </Badge>
                             )}

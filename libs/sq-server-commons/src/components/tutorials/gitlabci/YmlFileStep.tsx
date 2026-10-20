@@ -159,7 +159,7 @@ function YmlFileStep(props: Readonly<YmlFileStepProps>) {
         {shouldShowGithubCFamilyExampleRepositories(config) && (
           <GithubCFamilyExampleRepositories
             ci={TutorialModes.GitLabCI}
-            className="sw-my-4 sw-w-abs-600"
+            className="sw:my-4 sw:w-abs-600"
           />
         )}
       </NumberedListItem>
@@ -176,7 +176,7 @@ function YmlFileStep(props: Readonly<YmlFileStepProps>) {
                     <InlineSnippet snippet={filenameForBuildTool[buildTool]} />
 
                     <ClipboardIconButton
-                      className="sw-ml-2 sw-align-sub"
+                      className="sw:ml-2 sw:align-sub"
                       copyValue={filenameForBuildTool[buildTool]}
                     />
                   </>
@@ -189,7 +189,7 @@ function YmlFileStep(props: Readonly<YmlFileStepProps>) {
                         <InlineSnippet snippet={GradleBuildDSL.Kotlin} />
 
                         <ClipboardIconButton
-                          className="sw-ml-2 sw-align-sub"
+                          className="sw:ml-2 sw:align-sub"
                           copyValue={GradleBuildDSL.Kotlin}
                         />
                       </>
@@ -199,10 +199,10 @@ function YmlFileStep(props: Readonly<YmlFileStepProps>) {
             )}
           />
           {buildTool === BuildTools.Gradle ? (
-            <GradleBuildSelection className="sw-mb-4 sw-mt-2">
+            <GradleBuildSelection className="sw:mb-4 sw:mt-2">
               {(build) => (
                 <CodeSnippet
-                  className="sw-p-6"
+                  className="sw:p-6"
                   language="gradle"
                   snippet={snippetForBuildTool[buildTool](component.key, component.name, build)}
                 />
@@ -210,7 +210,7 @@ function YmlFileStep(props: Readonly<YmlFileStepProps>) {
             </GradleBuildSelection>
           ) : (
             <CodeSnippet
-              className="sw-p-6"
+              className="sw:p-6"
               language={snippetLanguageForBuildTool[buildTool]}
               snippet={snippetForBuildTool[buildTool](component.key, component.name)}
             />
@@ -231,7 +231,7 @@ function YmlFileStep(props: Readonly<YmlFileStepProps>) {
                   />
 
                   <ClipboardIconButton
-                    className="sw-ml-2 sw-align-sub"
+                    className="sw:ml-2 sw:align-sub"
                     copyValue={translate('onboarding.tutorial.with.gitlab_ci.yaml.filename')}
                   />
                 </>
@@ -246,11 +246,11 @@ function YmlFileStep(props: Readonly<YmlFileStepProps>) {
             projectKey={component.key}
           />
 
-          <MessageCallout className="sw-mb-4 sw-mt-2" variety={MessageVariety.Warning}>
+          <MessageCallout className="sw:mb-4 sw:mt-2" variety={MessageVariety.Warning}>
             {translate('onboarding.tutorial.with.gitlab_ci.yaml.premium')}
           </MessageCallout>
 
-          <p className="sw-mb-1">
+          <p className="sw:mb-1">
             {translate('onboarding.tutorial.with.gitlab_ci.yaml.baseconfig')}
           </p>
 

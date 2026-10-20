@@ -56,17 +56,17 @@ export function GlobalFooter({ hideLoggedInInfo }: Readonly<GlobalFooterProps>) 
 
   return (
     <Layout.PageFooter
-      className={classNames({ 'sw-flex-wrap sw-gap-x-8 sw-gap-y-2': hasStackedInfo })}
+      className={classNames({ 'sw:flex-wrap sw:gap-x-8 sw:gap-y-2': hasStackedInfo })}
     >
-      <Text as="div" className="sw-flex sw-grow sw-shrink-0 sw-flex-auto" isSubtle size="small">
+      <Text as="div" className="sw:flex sw:grow sw:shrink-0 sw:flex-auto" isSubtle size="small">
         <GlobalFooterBranding />
       </Text>
 
       {!hideLoggedInInfo && (
         <ul
-          className={classNames('sw-code sw-flex sw-flex-wrap sw-items-center sw-gap-1', {
-            'sw-order-last sw-w-full sw-justify-start': hasStackedInfo,
-            'sw-grow sw-justify-center sw-mx-8': !hasStackedInfo,
+          className={classNames('sw:code sw:flex sw:flex-wrap sw:items-center sw:gap-1', {
+            'sw:order-last sw:w-full sw:justify-start': hasStackedInfo,
+            'sw:grow sw:justify-center sw:mx-8': !hasStackedInfo,
           })}
         >
           {currentEdition && (
@@ -95,7 +95,7 @@ export function GlobalFooter({ hideLoggedInInfo }: Readonly<GlobalFooterProps>) 
           {isStandardMode !== undefined && (
             <>
               <SeparatorCircleIcon aria-hidden as="li" />
-              <Text as="li" className="sw-uppercase" isSubtle size="small">
+              <Text as="li" className="sw:uppercase" isSubtle size="small">
                 {intl.formatMessage({
                   id: `footer.mode.${isStandardMode ? 'STANDARD' : 'MQR'}`,
                 })}
@@ -105,11 +105,11 @@ export function GlobalFooter({ hideLoggedInInfo }: Readonly<GlobalFooterProps>) 
         </ul>
       )}
 
-      <ul className="sw-flex sw-grow sw-justify-end sw-items-center sw-gap-4 sw-typo-sm">
+      <ul className="sw:flex sw:grow sw:justify-end sw:items-center sw:gap-4 sw:typo-sm">
         <li>
           {isCommunityBuildRunning ? (
             <LinkStandalone
-              className="sw-text-nowrap"
+              className="sw:text-nowrap"
               highlight={LinkHighlight.Subtle}
               isDiscreet
               to="https://www.gnu.org/licenses/lgpl-3.0.txt"
@@ -118,7 +118,7 @@ export function GlobalFooter({ hideLoggedInInfo }: Readonly<GlobalFooterProps>) 
             </LinkStandalone>
           ) : (
             <LinkStandalone
-              className="sw-text-nowrap"
+              className="sw:text-nowrap"
               highlight={LinkHighlight.Subtle}
               isDiscreet
               to="https://www.sonarsource.com/legal/sonarqube/terms-and-conditions/"
@@ -153,7 +153,7 @@ export function GlobalFooter({ hideLoggedInInfo }: Readonly<GlobalFooterProps>) 
         {!hideLoggedInInfo && (
           <li>
             <LinkStandalone
-              className="sw-text-nowrap"
+              className="sw:text-nowrap"
               highlight={LinkHighlight.Subtle}
               isDiscreet
               to="/web_api"

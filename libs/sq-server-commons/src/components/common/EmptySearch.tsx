@@ -24,12 +24,12 @@ import { translate } from '../../helpers/l10n';
 
 export default function EmptySearch() {
   return (
-    <div className="sw-flex sw-flex-col sw-items-center sw-py-8">
+    <div className="sw:flex sw:flex-col sw:items-center sw:py-8">
       <FishVisual />
-      <Text className="sw-mt-6" isHighlighted size={TextSize.Large}>
+      <Text className="sw:mt-6" isHighlighted size={TextSize.Large}>
         {translate('no_results_search')}
       </Text>
-      <p className="sw-typo-default sw-mt-2">{translate('no_results_search.2')}</p>
+      <p className="sw:typo-default sw:mt-2">{translate('no_results_search.2')}</p>
     </div>
   );
 }

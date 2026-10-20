@@ -69,7 +69,7 @@ export function IssueTransitionCommentDialog<T extends string>({
   return (
     <Modal
       content={
-        <div className="sw-flex sw-flex-col sw-gap-4">
+        <div className="sw:flex sw:flex-col sw:gap-4">
           {extraContent}
           <TextArea
             isResizable
@@ -95,7 +95,7 @@ export function IssueTransitionCommentDialog<T extends string>({
             value={comment}
           />
           {showFeedbackCheckbox && (
-            <div className="sw-flex sw-gap-1">
+            <div className="sw:flex sw:gap-1">
               <Checkbox
                 checked={isFeedback}
                 label={<FormattedMessage id="status_transition.comment.share" />}
@@ -104,7 +104,7 @@ export function IssueTransitionCommentDialog<T extends string>({
                 }}
               />
               <ToggleTip
-                className="sw-mt-1/2"
+                className="sw:mt-1/2"
                 description={
                   <FormattedMessage
                     id="status_transition.comment.share.helper"

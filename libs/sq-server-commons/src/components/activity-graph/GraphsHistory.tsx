@@ -75,11 +75,11 @@ export default function GraphsHistory(props: Readonly<Props>) {
   };
 
   return (
-    <div className="sw-flex sw-justify-center sw-flex-col sw-items-stretch sw-text-center sw-grow">
+    <div className="sw:flex sw:justify-center sw:flex-col sw:items-stretch sw:text-center sw:grow">
       <output aria-busy={loading}>
         <Spinner isLoading={loading}>
           {!hasHistoryData(series) && (
-            <Text className="sw-max-w-full" isSubtle>
+            <Text className="sw:max-w-full" isSubtle>
               {translate(
                 isCustom
                   ? 'project_activity.graphs.custom.no_history'

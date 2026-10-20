@@ -31,11 +31,11 @@ export interface Props {
 
 export default function PluginChangeLog({ release, update }: Props) {
   return (
-    <div className="sw-p-4">
+    <div className="sw:p-4">
       <Text isHighlighted size="large">
         <FormattedMessage id="changelog" />
       </Text>
-      <Text as="ul" className="sw-list-none sw-max-w-full">
+      <Text as="ul" className="sw:list-none sw:max-w-full">
         {update.previousUpdates &&
           sortBy(update.previousUpdates, (prevUpdate) => prevUpdate.release?.date).map(
             (previousUpdate) =>

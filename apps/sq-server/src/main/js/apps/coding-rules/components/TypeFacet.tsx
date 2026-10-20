@@ -27,7 +27,7 @@ import { translate } from '~sq-server-commons/helpers/l10n';
 export default class TypeFacet extends React.PureComponent<BasicProps> {
   renderName = (type: string) => (
     <>
-      <IssueTypeIcon className="sw-mr-1" type={type} />
+      <IssueTypeIcon className="sw:mr-1" type={type} />
       {translate('issue.type', type)}
     </>
   );

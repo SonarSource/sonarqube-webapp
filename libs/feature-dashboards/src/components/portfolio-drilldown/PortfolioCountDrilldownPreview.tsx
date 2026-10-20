@@ -42,7 +42,7 @@ export function PortfolioCountDrilldownPreview(props: Readonly<Props>) {
         }
         title={props.title}
       />
-      <Card.Body className="sw-pb-16">
+      <Card.Body className="sw:pb-16">
         <PortfolioCountWidgetWrapper
           metric={props.widget.metric}
           scope={props.widget.scope}

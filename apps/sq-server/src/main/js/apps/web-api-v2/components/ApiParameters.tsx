@@ -74,28 +74,28 @@ export default function ApiParameters({ data }: Readonly<Props>) {
                 .map((parameter) => {
                   return (
                     <Accordion
-                      className="sw-mt-2 sw-mb-4"
+                      className="sw:mt-2 sw:mb-4"
                       data={parameter.name}
                       header={
                         <div>
                           {parameter.name}{' '}
                           {parameter.schema && (
-                            <Text className="sw-inline sw-ml-2" isSubtle>
+                            <Text className="sw:inline sw:ml-2" isSubtle>
                               {getSchemaType(parameter.schema)}
                             </Text>
                           )}
                           {parameter.required && (
-                            <Badge className="sw-ml-2" variety="neutral">
+                            <Badge className="sw:ml-2" variety="neutral">
                               <FormattedMessage id="required" />
                             </Badge>
                           )}
                           {parameter.deprecated && (
-                            <Badge className="sw-ml-2" variety="danger">
+                            <Badge className="sw:ml-2" variety="danger">
                               <FormattedMessage id="deprecated" />
                             </Badge>
                           )}
                           {parameter['x-sonar-internal'] && (
-                            <Badge className="sw-ml-2" variety="highlight">
+                            <Badge className="sw:ml-2" variety="highlight">
                               <FormattedMessage id="internal" />
                             </Badge>
                           )}
@@ -107,12 +107,12 @@ export default function ApiParameters({ data }: Readonly<Props>) {
                     >
                       <div>{parameter.description}</div>
                       {parameter.schema?.enum && (
-                        <div className="sw-mt-2">
+                        <div className="sw:mt-2">
                           <FormattedMessage
                             id="api_documentation.v2.enum_description"
                             values={{
                               values: (
-                                <div className="sw-typo-semibold">
+                                <div className="sw:typo-semibold">
                                   {parameter.schema.enum.join(', ')}
                                 </div>
                               ),
@@ -121,25 +121,25 @@ export default function ApiParameters({ data }: Readonly<Props>) {
                         </div>
                       )}
                       {parameter.schema?.maximum && (
-                        <Text className="sw-mt-2 sw-block" isSubtle>
+                        <Text className="sw:mt-2 sw:block" isSubtle>
                           <FormattedMessage id="max" />
                           {`: ${parameter.schema?.maximum}`}
                         </Text>
                       )}
                       {typeof parameter.schema?.minimum === 'number' && (
-                        <Text className="sw-mt-2 sw-block" isSubtle>
+                        <Text className="sw:mt-2 sw:block" isSubtle>
                           <FormattedMessage id="min" />
                           {`: ${parameter.schema?.minimum}`}
                         </Text>
                       )}
                       {parameter.example !== undefined && (
-                        <Text className="sw-mt-2 sw-block" isSubtle>
+                        <Text className="sw:mt-2 sw:block" isSubtle>
                           <FormattedMessage id="example" />
                           {`: ${parameter.example}`}
                         </Text>
                       )}
                       {parameter.schema?.default !== undefined && (
-                        <Text className="sw-mt-2 sw-block" isSubtle>
+                        <Text className="sw:mt-2 sw:block" isSubtle>
                           <FormattedMessage id="default" />
                           {`: ${parameter.schema?.default}`}
                         </Text>

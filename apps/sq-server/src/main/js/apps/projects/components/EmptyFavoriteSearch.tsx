@@ -23,14 +23,14 @@ import { FormattedMessage } from 'react-intl';
 
 export default function EmptyFavoriteSearch({ onClearAll }: Readonly<{ onClearAll: () => void }>) {
   return (
-    <div className="sw-flex sw-justify-center sw-py-8">
+    <div className="sw:flex sw:justify-center sw:py-8">
       <EmptyState
         action={
           <Button onClick={onClearAll} variety={ButtonVariety.Primary}>
             <FormattedMessage id="projects.favorite_search.clear_all_filters" />
           </Button>
         }
-        className="sw-py-8"
+        className="sw:py-8"
         graphic={<IconSearch />}
         text={<FormattedMessage id="no_results_search.favorites" />}
         title={<FormattedMessage id="projects.favorite_search.empty.title" />}

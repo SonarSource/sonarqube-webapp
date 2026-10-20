@@ -70,10 +70,10 @@ export default function SearchForm(props: Props) {
   ];
 
   return (
-    <div className="sw-flex sw-flex-row sw-items-center">
+    <div className="sw:flex sw:flex-row sw:items-center">
       <ToggleButtonGroup onChange={onFilter} options={filterOptions} selected={filter} />
 
-      <div className="sw-flex-1 sw-ml-2">
+      <div className="sw:flex-1 sw:ml-2">
         <InputSearch
           minLength={3}
           onChange={onSearch}
@@ -86,7 +86,7 @@ export default function SearchForm(props: Props) {
       {onSelectPermission && (
         <Select
           ariaLabel={intl.formatMessage({ id: 'permissions.filter.label' })}
-          className="sw-ml-2"
+          className="sw:ml-2"
           data={permissions.map(getPermissionOption)}
           onChange={(v) => {
             onSelectPermission(v ?? undefined);

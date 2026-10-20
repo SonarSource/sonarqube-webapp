@@ -85,7 +85,7 @@ unzip build-wrapper.zip`,
 
   return (
     <>
-      <div className="sw-mt-4">{translate('onboarding.tutorial.with.azure_pipelines.os')}</div>
+      <div className="sw:mt-4">{translate('onboarding.tutorial.with.azure_pipelines.os')}</div>
       <RenderOptions
         checked={os}
         label={translate('onboarding.tutorial.with.azure_pipelines.os')}
@@ -97,7 +97,7 @@ unzip build-wrapper.zip`,
       />
       {os === OSs.Linux && (
         <>
-          <div className="sw-mt-4">
+          <div className="sw:mt-4">
             {translate('onboarding.tutorial.with.azure_pipelines.architecture')}
           </div>
           <RenderOptions
@@ -114,25 +114,25 @@ unzip build-wrapper.zip`,
 
       <GithubCFamilyExampleRepositories
         ci={TutorialModes.AzurePipelines}
-        className="sw-mt-4 sw-w-abs-600"
+        className="sw:mt-4 sw:w-abs-600"
         os={os}
       />
       <AlertClassicEditor />
-      <NumberedList className="sw-mt-4">
+      <NumberedList className="sw:mt-4">
         <NumberedListItem>
           <SentenceWithHighlights
             highlightKeys={['pipeline']}
             highlightPrefixKeys="onboarding.tutorial.with.azure_pipelines.BranchAnalysis.prepare"
             translationKey="onboarding.tutorial.with.azure_pipelines.BranchAnalysis.build_wrapper.ccpp"
           />
-          <Text as="ul" className="sw-max-w-full sw-ml-6 sw-mt-2">
+          <Text as="ul" className="sw:max-w-full sw:ml-6 sw:mt-2">
             <li>
               <SentenceWithHighlights
                 highlightKeys={['task', 'inline']}
                 highlightPrefixKeys={codeSnippetDownload[os].highlightScriptKey}
                 translationKey="onboarding.tutorial.with.azure_pipelines.BranchAnalysis.build_wrapper.ccpp.script"
               />
-              <CodeSnippet className="sw-p-6" snippet={codeSnippetDownload[os].script} />
+              <CodeSnippet className="sw:p-6" snippet={codeSnippetDownload[os].script} />
             </li>
           </Text>
         </NumberedListItem>
@@ -155,14 +155,14 @@ unzip build-wrapper.zip`,
             highlightKeys={['task']}
             translationKey="onboarding.tutorial.with.azure_pipelines.BranchAnalysis.build.ccpp"
           />
-          <Text as="ul" className="sw-list-none sw-max-w-full sw-mt-2">
+          <Text as="ul" className="sw:list-none sw:max-w-full sw:mt-2">
             <li>
               <SentenceWithHighlights
                 highlightKeys={['build_wrapper']}
                 translationKey="onboarding.tutorial.with.azure_pipelines.BranchAnalysis.build_script.ccpp"
               />
               <CodeSnippet
-                className="sw-p-6"
+                className="sw:p-6"
                 isOneLine
                 snippet={codeSnippetDownload[os].scriptBuild}
               />

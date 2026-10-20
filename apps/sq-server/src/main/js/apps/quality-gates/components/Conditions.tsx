@@ -78,9 +78,9 @@ export default function Conditions({ qualityGate, isFetching }: Readonly<Props>)
 
   return (
     <>
-      <header className="sw-flex sw-items-center sw-mt-9 sw-mb-4 sw-justify-between">
-        <div className="sw-flex sw-items-center sw-gap-2">
-          <Heading as="h3" className="sw-m-0">
+      <header className="sw:flex sw:items-center sw:mt-9 sw:mb-4 sw:justify-between">
+        <div className="sw:flex sw:items-center sw:gap-2">
+          <Heading as="h3" className="sw:m-0">
             {intl.formatMessage({ id: 'quality_gates.conditions' })}
           </Heading>
           {!isBuiltIn && (
@@ -95,15 +95,15 @@ export default function Conditions({ qualityGate, isFetching }: Readonly<Props>)
               description={intl.formatMessage({ id: 'quality_gates.conditions.hint' })}
             />
           )}
-          <Spinner className="sw-ml-4 sw-mt-1" isLoading={isFetching} />
+          <Spinner className="sw:ml-4 sw:mt-1" isLoading={isFetching} />
         </div>
         <div>{canEdit && <AddConditionModal qualityGate={qualityGate} />}</div>
       </header>
       {uniqDuplicates.length > 0 && (
-        <MessageCallout className="sw-mb-4" variety={MessageVariety.Warning}>
+        <MessageCallout className="sw:mb-4" variety={MessageVariety.Warning}>
           <div>
             <p>{intl.formatMessage({ id: 'quality_gates.duplicated_conditions' })}</p>
-            <ul className="sw-my-2 sw-list-disc sw-pl-10">
+            <ul className="sw:my-2 sw:list-disc sw:pl-10">
               {uniqDuplicates.map((d) => (
                 <li key={d.metric.key}>{getLocalizedMetricName(d.metric)}</li>
               ))}
@@ -111,17 +111,17 @@ export default function Conditions({ qualityGate, isFetching }: Readonly<Props>)
           </div>
         </MessageCallout>
       )}
-      <div className="sw-flex sw-flex-col sw-gap-8">
+      <div className="sw:flex sw:flex-col sw:gap-8">
         {builtInNewCodeConditions.length > 0 && (
           <div>
-            <div className="sw-flex sw-items-center sw-gap-2 sw-mb-2">
+            <div className="sw:flex sw:items-center sw:gap-2 sw:mb-2">
               <Heading as="h4">
                 {isBuiltInAiCodeSupported
                   ? intl.formatMessage({ id: 'quality_gates.conditions.new_code.long' })
                   : intl.formatMessage({ id: 'quality_gates.conditions.builtin' })}
               </Heading>
             </div>
-            <HighlightedSection className="sw-p-0 sw-my-2">
+            <HighlightedSection className="sw:p-0 sw:my-2">
               <ul
                 aria-label={intl.formatMessage({
                   id: 'quality_gates.condition_simplification_list',
@@ -137,7 +137,7 @@ export default function Conditions({ qualityGate, isFetching }: Readonly<Props>)
               </ul>
             </HighlightedSection>
             {hasFeature(Feature.BranchSupport) && (
-              <Text className="sw-mb-2" isSubtle>
+              <Text className="sw:mb-2" isSubtle>
                 {intl.formatMessage({ id: 'quality_gates.conditions.description' })}
               </Text>
             )}
@@ -146,12 +146,12 @@ export default function Conditions({ qualityGate, isFetching }: Readonly<Props>)
 
         {newCodeConditions.length > 0 && (
           <div>
-            <div className="sw-flex sw-justify-between">
-              <Heading as="h4" className="sw-mb-2">
+            <div className="sw:flex sw:justify-between">
+              <Heading as="h4" className="sw:mb-2">
                 {intl.formatMessage({ id: 'quality_gates.conditions.new_code.long' })}
               </Heading>
               {hasFeature(Feature.BranchSupport) && (
-                <Text className="sw-mb-2" isSubtle>
+                <Text className="sw:mb-2" isSubtle>
                   {intl.formatMessage({ id: 'quality_gates.conditions.new_code.description' })}
                 </Text>
               )}
@@ -166,13 +166,13 @@ export default function Conditions({ qualityGate, isFetching }: Readonly<Props>)
           </div>
         )}
         {overallCodeConditions.length > 0 && (
-          <div className="sw-mt-5">
-            <div className="sw-flex sw-justify-between">
-              <Heading as="h4" className="sw-mb-2">
+          <div className="sw:mt-5">
+            <div className="sw:flex sw:justify-between">
+              <Heading as="h4" className="sw:mb-2">
                 {intl.formatMessage({ id: 'quality_gates.conditions.overall_code.long' })}
               </Heading>
               {hasFeature(Feature.BranchSupport) && (
-                <Text className="sw-mb-2" isSubtle>
+                <Text className="sw:mb-2" isSubtle>
                   {intl.formatMessage({ id: 'quality_gates.conditions.overall_code.description' })}
                 </Text>
               )}
@@ -189,13 +189,13 @@ export default function Conditions({ qualityGate, isFetching }: Readonly<Props>)
         )}
         {builtInOverallConditions.length > 0 && (
           <div>
-            <div className="sw-flex sw-items-center sw-gap-2 sw-mb-2">
-              <Heading as="h4" className="sw-mb-2">
+            <div className="sw:flex sw:items-center sw:gap-2 sw:mb-2">
+              <Heading as="h4" className="sw:mb-2">
                 {intl.formatMessage({ id: 'quality_gates.conditions.overall_code.long' })}
               </Heading>
             </div>
 
-            <HighlightedSection className="sw-p-0 sw-my-2" id="ai-highlight">
+            <HighlightedSection className="sw:p-0 sw:my-2" id="ai-highlight">
               <ul>
                 {builtInOverallConditions.map((condition) => (
                   <AiCondition
@@ -210,7 +210,7 @@ export default function Conditions({ qualityGate, isFetching }: Readonly<Props>)
         )}
       </div>
       {existingConditions.length === 0 && (
-        <div className="sw-mt-4 sw-typo-default">
+        <div className="sw:mt-4 sw:typo-default">
           <Text as="p">{intl.formatMessage({ id: 'quality_gates.no_conditions' })}</Text>
         </div>
       )}

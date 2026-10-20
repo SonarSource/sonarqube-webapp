@@ -45,11 +45,11 @@ function LineNumberFunc({
   const isFileTop = lineNumber - FILE_TOP_THRESHOLD < firstLineNumber;
 
   if (!hasLineNumber) {
-    return <LineMeta className="sw-pl-2" />;
+    return <LineMeta className="sw:pl-2" />;
   }
 
   return (
-    <LineMeta className="sw-pl-2" data-line-number={lineNumber}>
+    <LineMeta className="sw:pl-2" data-line-number={lineNumber}>
       {displayOptions ? (
         <DropdownMenu
           aria-label={ariaLabel}

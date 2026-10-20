@@ -54,7 +54,7 @@ export default function EmailIput(props: Readonly<Props>) {
         }
       }}
     >
-      <div className="sw-flex sw-items-center">
+      <div className="sw:flex sw:items-center">
         <InputField
           disabled={isDisabled === true}
           id={id}
@@ -75,14 +75,14 @@ export default function EmailIput(props: Readonly<Props>) {
           value={value}
         />
         {isEmailValid === false && (
-          <IconError className="sw-ml-2" color="echoes-color-icon-danger" />
+          <IconError className="sw:ml-2" color="echoes-color-icon-danger" />
         )}
         {isEmailValid === true && (
-          <IconCheckCircle className="sw-ml-2" color="echoes-color-icon-success" />
+          <IconCheckCircle className="sw:ml-2" color="echoes-color-icon-success" />
         )}
       </div>
       {isEmailValid === false && (
-        <Text className="sw-mt-2" colorOverride="echoes-color-text-danger">
+        <Text className="sw:mt-2" colorOverride="echoes-color-text-danger">
           {translate('users.email.invalid')}
         </Text>
       )}

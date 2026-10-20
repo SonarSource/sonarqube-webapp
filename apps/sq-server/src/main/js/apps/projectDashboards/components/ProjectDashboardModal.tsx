@@ -46,7 +46,7 @@ export function ProjectDashboardModal(props: Readonly<ProjectDashboardModalProps
       {...props}
       trailingContent={
         component?.visibility ? (
-          <div className="sw-flex sw-flex-col sw-gap-2">
+          <div className="sw:flex sw:flex-col sw:gap-2">
             <Label>{formatMessage({ id: 'dashboard.modal.permission_access.title' })}</Label>
             <MessageCallout variety={MessageVariety.Info}>
               {formatMessage({ id: descriptionId })}

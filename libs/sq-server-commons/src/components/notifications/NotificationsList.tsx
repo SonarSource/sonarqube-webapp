@@ -92,14 +92,14 @@ export default function NotificationsList({
     return (
       <Spinner isLoading={isLoading}>
         <Table
-          className={classNames('sw-w-full', className)}
+          className={classNames('sw:w-full', className)}
           columnCount={channels.length + 1}
           header={
             <tr>
-              <th className="sw-typo-semibold">{translate('notification.for')}</th>
+              <th className="sw:typo-semibold">{translate('notification.for')}</th>
 
               {channels.map((channel) => (
-                <th className="sw-typo-semibold sw-text-right" key={channel}>
+                <th className="sw:typo-semibold sw:text-right" key={channel}>
                   <FormattedMessage
                     id="notification.by"
                     values={{
@@ -112,14 +112,14 @@ export default function NotificationsList({
           }
         >
           {types.map((type) => (
-            <TableRowInteractive className="sw-h-900" key={type}>
-              <CellComponent className="sw-py-0 sw-border-0">
+            <TableRowInteractive className="sw:h-900" key={type}>
+              <CellComponent className="sw:py-0 sw:border-0">
                 {getDispatcherLabel(type, projectKey)}
               </CellComponent>
 
               {channels.map((channel) => (
-                <CellComponent className="sw-py-0 sw-border-0" key={channel}>
-                  <div className="sw-justify-end sw-flex sw-items-center">
+                <CellComponent className="sw:py-0 sw:border-0" key={channel}>
+                  <div className="sw:justify-end sw:flex sw:items-center">
                     <Checkbox
                       ariaLabel={intl.formatMessage(
                         { id: 'notification.dispatcher.description_x' },
@@ -155,8 +155,8 @@ export default function NotificationsList({
         }
       >
         {types.map((type) => (
-          <li className="sw-mt-4" key={type}>
-            <Label className="sw-flex sw-gap-2">
+          <li className="sw:mt-4" key={type}>
+            <Label className="sw:flex sw:gap-2">
               {/* For screen readers we want to hide the label and apply aria-label on element to avoid duplication of label */}
               <Switch
                 ariaLabel={getDispatcherLabel(type, projectKey)}

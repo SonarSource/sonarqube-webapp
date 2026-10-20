@@ -31,15 +31,15 @@ export default function EditionBox({ edition }: Readonly<Props>) {
     case EditionKey.datacenter:
       return (
         <div>
-          <SubHeading as="h2" className="sw-flex sw-items-center" id="data-center-edition">
-            <LogoSonarQubeServer className="sw-mr-4" size="small" />
+          <SubHeading as="h2" className="sw:flex sw:items-center" id="data-center-edition">
+            <LogoSonarQubeServer className="sw:mr-4" size="small" />
             <span>Data Center Edition</span>
           </SubHeading>
-          <p className="sw-mt-4">
+          <p className="sw:mt-4">
             <em>High availability, scalability, and peak performance for large codebases</em>
           </p>
-          <p className="sw-mt-4">Includes everything in Enterprise Edition plus:</p>
-          <Text as="ul" className="sw-ml-8">
+          <p className="sw:mt-4">Includes everything in Enterprise Edition plus:</p>
+          <Text as="ul" className="sw:ml-8">
             <li>Autoscaling in a Kubernetes cluster</li>
             <li>Component redundancy</li>
             <li>Data resiliency</li>
@@ -47,7 +47,7 @@ export default function EditionBox({ edition }: Readonly<Props>) {
             <li>
               Get SCA with Advanced Security add-on:{' '}
               <Link
-                className="sw-whitespace-nowrap"
+                className="sw:whitespace-nowrap"
                 to="https://www.sonarsource.com/products/sonarqube/advanced-security/free-trial/?referrer=sonarqube-marketplace"
               >
                 Secure your code dependencies
@@ -60,15 +60,15 @@ export default function EditionBox({ edition }: Readonly<Props>) {
     case EditionKey.enterprise:
       return (
         <div>
-          <SubHeading as="h2" className="sw-flex sw-items-center" id="enterprise-edition">
-            <LogoSonarQubeServer className="sw-mr-4" size="small" />
+          <SubHeading as="h2" className="sw:flex sw:items-center" id="enterprise-edition">
+            <LogoSonarQubeServer className="sw:mr-4" size="small" />
             <span>Enterprise Edition</span>
           </SubHeading>
-          <p className="sw-mt-4">
+          <p className="sw:mt-4">
             <em>Deeper insights and enterprise-level performance</em>
           </p>
-          <p className="sw-mt-4">Includes everything in Developer Edition plus:</p>
-          <Text as="ul" className="sw-ml-8">
+          <p className="sw:mt-4">Includes everything in Developer Edition plus:</p>
+          <Text as="ul" className="sw:ml-8">
             <li>AI CodeFix for one-click AI-powered fix recommendations</li>
             <li>Meet compliance with common security standards: PCI, OWASP, CWE, STIG, and CASA</li>
             <li>Security engine custom configuration for more powerful taint analysis</li>
@@ -80,7 +80,7 @@ export default function EditionBox({ edition }: Readonly<Props>) {
             <li>
               Get SCA with Advanced Security add-on:{' '}
               <Link
-                className="sw-whitespace-nowrap"
+                className="sw:whitespace-nowrap"
                 to="https://www.sonarsource.com/products/sonarqube/advanced-security/free-trial/?referrer=sonarqube-marketplace"
               >
                 Secure your code dependencies
@@ -93,15 +93,15 @@ export default function EditionBox({ edition }: Readonly<Props>) {
     case EditionKey.developer:
       return (
         <div>
-          <SubHeading as="h2" className="sw-flex sw-items-center" id="developer-edition">
-            <LogoSonarQubeServer className="sw-mr-4" size="small" />
+          <SubHeading as="h2" className="sw:flex sw:items-center" id="developer-edition">
+            <LogoSonarQubeServer className="sw:mr-4" size="small" />
             <span>Developer Edition</span>
           </SubHeading>
-          <p className="sw-mt-4">
+          <p className="sw:mt-4">
             <em>Essential capabilities for small teams & businesses</em>
           </p>
-          <p className="sw-mt-4">Includes everything in Community Build plus:</p>
-          <Text as="ul" className="sw-ml-8">
+          <p className="sw:mt-4">Includes everything in Community Build plus:</p>
+          <Text as="ul" className="sw:ml-8">
             <li>
               AI Code Assurance to ensure AI-generated code is verified to meet your standards
             </li>

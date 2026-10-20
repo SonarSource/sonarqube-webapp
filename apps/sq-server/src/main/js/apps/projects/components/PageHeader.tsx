@@ -61,9 +61,9 @@ export default function PageHeader(props: Readonly<Props>) {
   const defaultOption = isLoggedIn(currentUser) ? 'name' : 'analysis_date';
 
   return (
-    <div className="it__page-header sw-flex sw-flex-col sw-gap-2 sw-pb-4">
-      <div className="sw-flex sw-justify-end sw-mb-2">
-        <ButtonGroup className="sw-flex">
+    <div className="it__page-header sw:flex sw:flex-col sw:gap-2 sw:pb-4">
+      <div className="sw:flex sw:justify-end sw:mb-2">
+        <ButtonGroup className="sw:flex">
           <ProjectCoverageButton currentUser={currentUser} />
 
           <ProjectCreationMenu />
@@ -72,11 +72,11 @@ export default function PageHeader(props: Readonly<Props>) {
         </ButtonGroup>
       </div>
 
-      <div className="sw-flex sw-justify-between sw-gap-2">
-        <div className="sw-flex sw-flex-1 sw-gap-3">
+      <div className="sw:flex sw:justify-between sw:gap-2">
+        <div className="sw:flex sw:flex-1 sw:gap-3">
           <Tooltip content={intl.formatMessage({ id: 'projects.search' })}>
             <SearchInput
-              className="it__page-header-search sw-min-w-abs-150 sw-max-w-abs-350 sw-flex-1"
+              className="it__page-header-search sw:min-w-abs-150 sw:max-w-abs-350 sw:flex-1"
               minLength={MIN_SEARCH_QUERY_LENGTH}
               onChange={handleSearch}
               placeholderLabel={intl.formatMessage({ id: 'search.search_for_projects' })}
@@ -95,10 +95,10 @@ export default function PageHeader(props: Readonly<Props>) {
           />
         </div>
 
-        <div className="sw-flex sw-items-center sw-gap-1">
+        <div className="sw:flex sw:items-center sw:gap-1">
           {isDefined(total) && (
             <Text>
-              <Text className="sw-mr-1" id="projects-total" isHighlighted>
+              <Text className="sw:mr-1" id="projects-total" isHighlighted>
                 {total}
               </Text>
               <FormattedMessage id="projects_" />

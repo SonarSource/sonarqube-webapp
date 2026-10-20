@@ -130,7 +130,7 @@ export default function SecurityHotspotsAppRenderer(props: SecurityHotspotsAppRe
       asideLeft={
         <Layout.AsideLeft
           aria-label={intl.formatMessage({ id: 'hotspots.list' })}
-          className="sw-pt-0"
+          className="sw:pt-0"
           role="region"
           size="large"
         >
@@ -160,7 +160,7 @@ export default function SecurityHotspotsAppRenderer(props: SecurityHotspotsAppRe
               loading={loading}
               statusFilter={filters.status}
             />
-            <Spinner className="sw-mt-3" isLoading={loading}>
+            <Spinner className="sw:mt-3" isLoading={loading}>
               {hotspots.length > 0 && selectedHotspot && (
                 <>
                   {filterByCategory || filterByCWE || filterByFile ? (

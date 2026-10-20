@@ -199,9 +199,9 @@ export function SelectList<T>(props: Readonly<SelectListProps<T>>) {
 
   return (
     <>
-      <div className="sw-flex sw-items-center sw-mb-4">
+      <div className="sw:flex sw:items-center sw:mb-4">
         <ToggleButtonGroup
-          className="sw-mr-4"
+          className="sw:mr-4"
           isDisabled={inputValue !== ''}
           onChange={handleFilterChange}
           options={[
@@ -241,7 +241,7 @@ export function SelectList<T>(props: Readonly<SelectListProps<T>>) {
       </div>
 
       <div
-        className="sw-max-h-[320px] sw-overflow-y-auto sw-shrink"
+        className="sw:max-h-[320px] sw:overflow-y-auto sw:shrink"
         style={{
           border: `${cssVar('border-width-default')} solid ${cssVar('color-border-weak')}`,
         }}
@@ -251,7 +251,7 @@ export function SelectList<T>(props: Readonly<SelectListProps<T>>) {
             {!loading && items.length === 0 && (
               <Table.Row>
                 <Table.CellText
-                  className="sw-col-span-full sw-justify-center sw-py-8"
+                  className="sw:col-span-full sw:justify-center sw:py-8"
                   content={intl.formatMessage({ id: emptyMessageId })}
                 />
               </Table.Row>
@@ -271,7 +271,7 @@ export function SelectList<T>(props: Readonly<SelectListProps<T>>) {
                     }}
                   />
                   {columns.map((col) => (
-                    <Table.Cell className="sw-justify-start" key={col.key}>
+                    <Table.Cell className="sw:justify-start" key={col.key}>
                       {col.renderCell(item)}
                     </Table.Cell>
                   ))}

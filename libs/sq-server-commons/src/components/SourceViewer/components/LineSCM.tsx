@@ -67,7 +67,7 @@ function LineSCM({ line, previousLine }: Props) {
     <LineMeta data-line-number={line.line}>
       <OutsideClickHandler onClickOutside={handleClose}>
         <Tooltip
-          classNameInner="sw-max-w-abs-600"
+          classNameInner="sw:max-w-abs-600"
           content={<SCMPopup line={line} />}
           isInteractive
           isOpen={isOpen}

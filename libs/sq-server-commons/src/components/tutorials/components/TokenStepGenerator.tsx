@@ -38,7 +38,7 @@ export default function TokenStepGenerator(props: Readonly<TokenStepGeneratorPro
       values={{
         extra: <EditTokenModal component={component} currentUser={currentUser} />,
         field: (
-          <span className="sw-typo-semibold">
+          <span className="sw:typo-semibold">
             {translate('onboarding.tutorial.env_variables.field')}
           </span>
         ),

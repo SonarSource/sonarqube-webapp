@@ -46,7 +46,7 @@ export function FailedQGConditionLink({ children, ...props }: ButtonProps) {
   return (
     <StyledFailedQGConditionLink {...props}>
       {children}
-      <ChevronRightIcon className="sw-ml-1 -sw-mr-1" />
+      <ChevronRightIcon className="sw:ml-1 sw:-mr-1" />
     </StyledFailedQGConditionLink>
   );
 }

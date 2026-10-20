@@ -60,7 +60,7 @@ export default function RenameQualityGateForm({ qualityGate, children }: Readonl
           <Text aria-hidden isSubtle>
             <FormattedMessage
               id="fields_marked_with_x_required"
-              values={{ star: <RequiredIcon className="sw-m-0" /> }}
+              values={{ star: <RequiredIcon className="sw:m-0" /> }}
             />
           </Text>
           <TextInput

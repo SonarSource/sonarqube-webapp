@@ -312,8 +312,8 @@ export function AiCodeFixEnablementForm() {
     hasProviderChanged(formState, featureEnablementParams.providers);
 
   return (
-    <div className="sw-flex sw-items-start">
-      <div className="sw-flex-grow">
+    <div className="sw:flex sw:items-start">
+      <div className="sw:flex-grow">
         <Heading as="h2" hasMarginBottom>
           <FormattedMessage id="property.aicodefix.admin.title" />
         </Heading>
@@ -324,7 +324,7 @@ export function AiCodeFixEnablementForm() {
 
         <Checkbox
           checked={formState.enablement !== AiCodeFixFeatureEnablement.disabled}
-          className="sw-mt-6"
+          className="sw:mt-6"
           helpText={
             <FormattedMessage
               id="property.aicodefix.admin.acceptTerm.label"
@@ -345,7 +345,7 @@ export function AiCodeFixEnablementForm() {
         />
 
         {formState.enablement !== AiCodeFixFeatureEnablement.disabled && (
-          <div className="sw-ml-6 sw-gap-4 sw-flex sw-flex-col sw-mt-4">
+          <div className="sw:ml-6 sw:gap-4 sw:flex sw:flex-col sw:mt-4">
             <Select
               data={providerOptionsGrouped}
               helpText={translate('aicodefix.admin.provider.help')}
@@ -391,8 +391,8 @@ export function AiCodeFixEnablementForm() {
         )}
 
         <div
-          className={classNames('sw-ml-6', {
-            'sw-mt-6': formState.enablement !== AiCodeFixFeatureEnablement.disabled,
+          className={classNames('sw:ml-6', {
+            'sw:mt-6': formState.enablement !== AiCodeFixFeatureEnablement.disabled,
           })}
         >
           {formState.enablement !== AiCodeFixFeatureEnablement.disabled && (
@@ -420,9 +420,9 @@ export function AiCodeFixEnablementForm() {
           )}
 
           {formState.enablement === AiCodeFixFeatureEnablement.someProjects && (
-            <div className="sw-ml-6">
-              <div className="sw-flex sw-mb-6 sw-mt-4">
-                <IconInfo className="sw-mr-1" color="echoes-color-icon-info" />
+            <div className="sw:ml-6">
+              <div className="sw:flex sw:mb-6 sw:mt-4">
+                <IconInfo className="sw:mr-1" color="echoes-color-icon-info" />
                 <Text>
                   <FormattedMessage id="property.aicodefix.admin.enable.some.projects.note" />
                 </Text>
@@ -452,7 +452,7 @@ export function AiCodeFixEnablementForm() {
 
         <div>
           {!isLoading && isDirty && (
-            <div className="sw-flex sw-mt-6">
+            <div className="sw:flex sw:mt-6">
               <Button
                 isDisabled={
                   (formState.enablement !== AiCodeFixFeatureEnablement.disabled &&
@@ -477,7 +477,7 @@ export function AiCodeFixEnablementForm() {
                 secondaryButtonLabel={translate('aicodefix.cancel.modal.continue_editing')}
                 title={translate('aicodefix.cancel.modal.title')}
               >
-                <Button className="sw-ml-3" variety={ButtonVariety.Default}>
+                <Button className="sw:ml-3" variety={ButtonVariety.Default}>
                   <FormattedMessage id="cancel" />
                 </Button>
               </ModalAlert>

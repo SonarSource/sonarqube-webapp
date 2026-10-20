@@ -137,7 +137,7 @@ function SnippetViewer(props: Readonly<SnippetViewerProps>) {
             isLoading={isLoading}
           />
         )}
-        <table className="sw-w-full">
+        <table className="sw:w-full">
           <tbody>
             {snippet.map((line, index) => {
               const secondaryIssueLocations = getSecondaryIssueLocationsForLine(

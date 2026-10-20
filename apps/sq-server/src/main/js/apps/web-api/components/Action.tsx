@@ -70,7 +70,7 @@ export default function Action(props: Props) {
 
   return (
     <Card id={actionKey}>
-      <header className="sw-flex sw-items-baseline sw-gap-2">
+      <header className="sw:flex sw:items-baseline sw:gap-2">
         <LinkBox
           to={{
             pathname: '/web_api/' + actionKey,
@@ -85,7 +85,7 @@ export default function Action(props: Props) {
           <LinkIcon />
         </LinkBox>
 
-        <SubHeading className="sw-m-0">
+        <SubHeading className="sw:m-0">
           {verb} {actionKey}
         </SubHeading>
 
@@ -99,16 +99,16 @@ export default function Action(props: Props) {
       </header>
 
       <SafeHTMLInjection htmlAsString={action.description}>
-        <div className="sw-mt-4 markdown" />
+        <div className="sw:mt-4 markdown" />
       </SafeHTMLInjection>
 
       {action.contentType && (
-        <div className="sw-mt-4">
+        <div className="sw:mt-4">
           <FormattedMessage id={`api_documentation.response_content_type.${action.contentType}`} />
         </div>
       )}
 
-      <div className="sw-mt-4">
+      <div className="sw:mt-4">
         <Tabs
           onChange={(opt) => {
             setTab(opt);

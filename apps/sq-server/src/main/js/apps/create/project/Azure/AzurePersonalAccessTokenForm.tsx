@@ -62,7 +62,7 @@ export default function AzurePersonalAccessTokenForm({
   } = usePersonalAccessToken(almSetting, resetPat, onPersonalAccessTokenCreate);
 
   if (checkingPat) {
-    return <Spinner className="sw-ml-2" isLoading />;
+    return <Spinner className="sw:ml-2" isLoading />;
   }
 
   const isInvalid = (validationFailed && !touched) || (touched && !isStringDefined(password));
@@ -79,7 +79,7 @@ export default function AzurePersonalAccessTokenForm({
   return (
     <PersonalAccessTokenForm
       almKey={AlmKeys.Azure}
-      className="sw-mt-3 sw-w-[50%]"
+      className="sw:mt-3 sw:w-[50%]"
       errorMessage={errorMessage}
       firstConnection={firstConnection}
       handleSubmit={handleSubmit}

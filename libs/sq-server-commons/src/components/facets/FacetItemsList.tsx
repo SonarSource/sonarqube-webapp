@@ -37,7 +37,7 @@ export function FacetItemsList({ children, labelledby, label }: FacetItemsListPr
 
   return (
     <div
-      className="it__search-navigator-facet-list sw-flex sw-flex-col sw-gap-1"
+      className="it__search-navigator-facet-list sw:flex sw:flex-col sw:gap-1"
       role="list"
       {...props}
     >

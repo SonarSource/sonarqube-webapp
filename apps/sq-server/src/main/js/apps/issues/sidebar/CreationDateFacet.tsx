@@ -190,8 +190,8 @@ export class CreationDateFacet extends React.PureComponent<Props> {
     const { createdInLast } = this.props;
 
     return (
-      <div className="sw-flex sw-justify-start">
-        <div className="sw-flex sw-gap-1 sw-mt-2">
+      <div className="sw:flex sw:justify-start">
+        <div className="sw:flex sw:gap-1 sw:mt-2">
           <FacetItem
             active={!this.hasValue()}
             className="it__search-navigator-facet"
@@ -262,7 +262,7 @@ export class CreationDateFacet extends React.PureComponent<Props> {
 
     return (
       <div>
-        <div className="sw-flex sw-justify-center">{this.renderBarChart()}</div>
+        <div className="sw:flex sw:justify-center">{this.renderBarChart()}</div>
 
         {this.renderPeriodSelectors()}
 

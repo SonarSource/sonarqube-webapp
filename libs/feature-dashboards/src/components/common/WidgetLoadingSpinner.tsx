@@ -36,12 +36,12 @@ export function WidgetLoadingSpinner({
 
   return (
     <Spinner
-      className="sw-flex sw-items-center sw-h-min"
+      className="sw:flex sw:items-center sw:h-min"
       isLoading
       label={
-        <Text className="sw-flex sw-items-center">{intl.formatMessage({ id: messageKey })}</Text>
+        <Text className="sw:flex sw:items-center">{intl.formatMessage({ id: messageKey })}</Text>
       }
-      wrapperClassName="sw-flex sw-h-full sw-min-h-0 sw-w-full sw-flex-col sw-items-center sw-justify-center"
+      wrapperClassName="sw:flex sw:h-full sw:min-h-0 sw:w-full sw:flex-col sw:items-center sw:justify-center"
     />
   );
 }

@@ -38,7 +38,7 @@ export function ApplicationLeakPeriodInfo({ leakPeriod }: ApplicationLeakPeriodI
       </DateFromNow>
 
       <ToggleTip
-        className="sw-ml-1"
+        className="sw:ml-1"
         description={formatMessage(
           { id: 'overview.max_new_code_period_from_x' },
           { 0: leakPeriod.projectName },

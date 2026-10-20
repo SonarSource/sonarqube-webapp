@@ -83,7 +83,7 @@ export default function DeliveriesForm({ onClose, webhook }: Props) {
       ))}
       {paging !== undefined && (
         <ListFooter
-          className="sw-mb-2"
+          className="sw:mb-2"
           count={deliveries.length}
           loadMore={fetchMoreDeliveries}
           ready={!loading}

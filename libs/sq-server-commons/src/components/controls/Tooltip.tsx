@@ -435,13 +435,13 @@ class TooltipInner extends Component<TooltipProps, State> {
     return (
       <div
         aria-hidden={!isVisible}
-        className={classNames(`${classNameSpace}-inner sw-font-sans`, classNameInner, {
-          'sw-hidden': !isVisible,
+        className={classNames(`${classNameSpace}-inner sw:font-sans`, classNameInner, {
+          'sw:hidden': !isVisible,
         })}
         id={this.id}
         role="tooltip"
       >
-        {isInteractive && <span className="sw-sr-only">{translate('tooltip_is_interactive')}</span>}
+        {isInteractive && <span className="sw:sr-only">{translate('tooltip_is_interactive')}</span>}
         {overlay}
       </div>
     );

@@ -39,18 +39,18 @@ export default function ExecBuildWrapper(props: Readonly<ExecBuildWrapperProps>)
 
   return (
     <>
-      <Heading as="h2" className="sw-mt-8 sw-mb-2">
+      <Heading as="h2" className="sw:mt-8 sw:mb-2">
         {translate('onboarding.analysis.build_wrapper.execute')}
       </Heading>
-      <p className="sw-mb-2">{translate('onboarding.analysis.build_wrapper.execute_text')}</p>
+      <p className="sw:mb-2">{translate('onboarding.analysis.build_wrapper.execute_text')}</p>
       <CodeSnippet
-        className="sw-px-4"
+        className="sw:px-4"
         isOneLine
         snippet={`${getBuildWrapperExecutable(os, arch)} --out-dir bw-output ${translate(
           'onboarding.analysis.build_wrapper.execute_build_command',
         )}`}
       />
-      <p className="sw-mt-4">
+      <p className="sw:mt-4">
         <FormattedMessage
           id="onboarding.analysis.build_wrapper.docs"
           values={{

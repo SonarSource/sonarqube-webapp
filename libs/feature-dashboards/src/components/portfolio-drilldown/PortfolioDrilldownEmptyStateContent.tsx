@@ -30,7 +30,7 @@ export function PortfolioDrilldownEmptyStateContent(props: Readonly<Props>) {
   const { description, title } = props;
 
   return (
-    <div className="sw-flex sw-flex-col sw-items-center sw-justify-center sw-gap-2 sw-text-center">
+    <div className="sw:flex sw:flex-col sw:items-center sw:justify-center sw:gap-2 sw:text-center">
       {title !== undefined && (
         <Heading as="h4" size={HeadingSize.Medium}>
           {title}

@@ -32,11 +32,11 @@ export function AdvancedSecurity({
       <Heading as="h2" hasMarginBottom>
         <FormattedMessage id="settings.advanced_security.title" />
       </Heading>
-      <Text as="p" className="sw-mb-6" size={TextSize.Large}>
+      <Text as="p" className="sw:mb-6" size={TextSize.Large}>
         <FormattedMessage id="settings.advanced_security.description" />
       </Text>
       <AdvancedSast />
-      <Divider className="sw-my-6" />
+      <Divider className="sw:my-6" />
       <Sca definitions={definitions} />
     </>
   );

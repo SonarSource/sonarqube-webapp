@@ -36,7 +36,7 @@ export default function DefinitionsList(props: Readonly<Props>) {
     <ul>
       {settings.map((setting) => (
         <StyledListItem
-          className="sw-p-6"
+          className="sw:p-6"
           data-scroll-key={setting.definition.key}
           key={setting.definition.key}
           ref={props.scrollToDefinition}

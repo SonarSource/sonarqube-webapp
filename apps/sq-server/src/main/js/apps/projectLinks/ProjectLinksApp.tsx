@@ -116,7 +116,7 @@ export function ProjectLinksApp({ component }: Readonly<{ component: Component }
       >
         <A11ySkipTarget anchor="links_main" />
 
-        <div className="sw-mt-16">
+        <div className="sw:mt-16">
           <Spinner isLoading={loading}>
             <ProjectLinkTable links={links} onDelete={handleDeleteLink} />
           </Spinner>

@@ -33,11 +33,11 @@ export default function GraphsLegendStatic({
   leakPeriodDate,
 }: Readonly<GraphsLegendStaticProps>) {
   return (
-    <ul className="activity-graph-legends sw-flex sw-justify-center sw-items-center sw-pb-4">
+    <ul className="activity-graph-legends sw:flex sw:justify-center sw:items-center sw:pb-4">
       {series.map((serie, idx) => (
         <li key={serie.name}>
           <GraphsLegendItem
-            className="sw-mx-2"
+            className="sw:mx-2"
             index={idx}
             metric={serie.name}
             name={serie.translatedName}
@@ -47,7 +47,7 @@ export default function GraphsLegendStatic({
       {leakPeriodDate && (
         <li key={translate('hotspot.filters.period.since_leak_period')}>
           <NewCodeLegend
-            className="sw-mr-2"
+            className="sw:mr-2"
             text={translate('hotspot.filters.period.since_leak_period')}
           />
         </li>

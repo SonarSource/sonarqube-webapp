@@ -157,7 +157,7 @@ function RuleListItem(props: Readonly<Props>) {
     }
 
     return (
-      <div className="sw-mr-2 sw-shrink-0">
+      <div className="sw:mr-2 sw:shrink-0">
         {activation.inherit === 'OVERRIDES' && (
           <Tooltip
             content={translateWithParameters(
@@ -166,7 +166,7 @@ function RuleListItem(props: Readonly<Props>) {
               selectedProfile.parentName,
             )}
           >
-            <OverridenIcon className="sw-ml-1" />
+            <OverridenIcon className="sw:ml-1" />
           </Tooltip>
         )}
         {activation.inherit === 'INHERITED' && (
@@ -177,7 +177,7 @@ function RuleListItem(props: Readonly<Props>) {
               selectedProfile.parentName,
             )}
           >
-            <InheritanceIcon className="sw-ml-1" />
+            <InheritanceIcon className="sw:ml-1" />
           </Tooltip>
         )}
       </div>
@@ -192,7 +192,7 @@ function RuleListItem(props: Readonly<Props>) {
     const canCopy = selectedProfile.actions?.copy;
     if (selectedProfile.isBuiltIn && canCopy) {
       return (
-        <div className="sw-ml-4">
+        <div className="sw:ml-4">
           <Tooltip content={translate('coding_rules.need_extend_or_copy')}>
             <Button isDisabled variety={ButtonVariety.DangerOutline}>
               {translate('coding_rules', activation ? 'deactivate' : 'activate')}
@@ -223,7 +223,7 @@ function RuleListItem(props: Readonly<Props>) {
     }
 
     return (
-      <div className="sw-ml-4">
+      <div className="sw:ml-4">
         {!rule.isTemplate && (
           <ActivationButton
             buttonText={translate('coding_rules.activate')}
@@ -243,21 +243,21 @@ function RuleListItem(props: Readonly<Props>) {
   return (
     <ListItemStyled
       aria-current={selected}
-      className="it__coding-rule sw-p-3 sw-mb-4 sw-rounded-1"
+      className="it__coding-rule sw:p-3 sw:mb-4 sw:rounded-1"
       data-rule={rule.key}
       onClick={() => {
         selectRule(rule.key);
       }}
       selected={selected}
     >
-      <section aria-labelledby={ruleNameId} className="sw-flex sw-flex-col sw-gap-3">
-        <div className="sw-flex sw-justify-between sw-items-center">
-          <div className="sw-flex sw-items-center">
+      <section aria-labelledby={ruleNameId} className="sw:flex sw:flex-col sw:gap-3">
+        <div className="sw:flex sw:justify-between sw:items-center">
+          <div className="sw:flex sw:items-center">
             {renderActivation()}
 
             <span id={ruleNameId}>
               <LinkStandalone
-                className="sw-typo-semibold"
+                className="sw:typo-semibold"
                 onClick={handleNameClick}
                 to={getRuleUrl(rule.key)}
               >
@@ -276,8 +276,8 @@ function RuleListItem(props: Readonly<Props>) {
           </div>
         </div>
 
-        <div className="sw-flex sw-items-center">
-          <div className="sw-grow sw-flex sw-gap-2 sw-items-center sw-typo-sm">
+        <div className="sw:flex sw:items-center">
+          <div className="sw:grow sw:flex sw:gap-2 sw:items-center sw:typo-sm">
             {isStandardMode && (
               <>
                 {activation && activation.severity !== rule.severity && (
@@ -346,7 +346,7 @@ function RuleListItem(props: Readonly<Props>) {
 
           <Text
             as="ul"
-            className="sw-flex sw-flex-row sw-gap-1 sw-items-center sw-list-none"
+            className="sw:flex sw:flex-row sw:gap-1 sw:items-center sw:list-none"
             isSubtle
             size={TextSize.Small}
           >
@@ -380,13 +380,13 @@ function RuleListItem(props: Readonly<Props>) {
               <>
                 <SeparatorCircleIcon aria-hidden as="li" />
                 <li>
-                  <TagsList allowUpdate={false} className="sw-typo-sm" tags={allTags} />
+                  <TagsList allowUpdate={false} className="sw:typo-sm" tags={allTags} />
                 </li>
               </>
             )}
           </Text>
 
-          <div className="sw-flex sw-items-center">{renderActions()}</div>
+          <div className="sw:flex sw:items-center">{renderActions()}</div>
         </div>
       </section>
     </ListItemStyled>

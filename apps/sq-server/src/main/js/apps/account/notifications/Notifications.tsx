@@ -57,17 +57,17 @@ export default function Notifications() {
       <Spinner isLoading={isLoading}>
         {notifications && (
           <>
-            <Divider className="sw-my-4" />
+            <Divider className="sw:my-4" />
 
             <GlobalNotifications />
 
-            <Divider className="sw-my-4" />
+            <Divider className="sw:my-4" />
 
             <Heading as="h2" hasMarginBottom>
               <FormattedMessage id="my_profile.news_notifications.title" />
             </Heading>
 
-            <div className="sw-flex sw-items-center sw-gap-2">
+            <div className="sw:flex sw:items-center sw:gap-2">
               <Switch
                 id={NEWS_NOTIFICATION_FIELD_ID}
                 name={BEAMER_NOTIFICATIONS_SETTING}
@@ -79,7 +79,7 @@ export default function Notifications() {
               </Label>
             </div>
 
-            <Divider className="sw-my-4" />
+            <Divider className="sw:my-4" />
 
             <Projects notifications={projectNotifications} />
           </>

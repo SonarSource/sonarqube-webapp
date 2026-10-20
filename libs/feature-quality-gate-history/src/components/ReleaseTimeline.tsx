@@ -51,7 +51,7 @@ export function ReleaseTimeline(props: Readonly<Props>) {
 
           <Divider />
 
-          <Text className="sw-mt-2" isHighlighted size="small">
+          <Text className="sw:mt-2" isHighlighted size="small">
             {release.version}
           </Text>
 

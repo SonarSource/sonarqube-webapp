@@ -53,7 +53,7 @@ export function EmptyDashboard({
   const descriptionDocUrl = canEdit ? editDescriptionDocUrl : nonEditDescriptionDocUrl;
 
   return (
-    <div className="sw-flex sw-h-full sw-justify-center">
+    <div className="sw:flex sw:h-full sw:justify-center">
       <EmptyState
         action={
           showEditButton ? (
@@ -67,7 +67,7 @@ export function EmptyDashboard({
             </Button>
           ) : undefined
         }
-        className="sw-my-24"
+        className="sw:my-24"
         graphic={<IconDashboard />}
         link={
           <Link enableOpenInNewTab to={descriptionDocUrl}>

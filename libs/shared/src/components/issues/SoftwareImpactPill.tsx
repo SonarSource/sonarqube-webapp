@@ -83,7 +83,7 @@ export default function SoftwareImpactPill(props: Readonly<Props>) {
             key={impactSeverity}
             onClick={() => handleSetSeverity(impactSeverity)}
           >
-            <div className="sw-flex sw-items-center sw-gap-2">
+            <div className="sw:flex sw:items-center sw:gap-2">
               <SoftwareImpactSeverityIcon severity={impactSeverity} />
               <FormattedMessage id={`severity_impact.${impactSeverity}`} />
             </div>
@@ -121,8 +121,8 @@ export default function SoftwareImpactPill(props: Readonly<Props>) {
               quality: quality.toLowerCase(),
             }}
           />
-          <p className="sw-mt-2">
-            <span className="sw-mr-1">
+          <p className="sw:mt-2">
+            <span className="sw:mr-1">
               {intl.formatMessage({ id: 'severity_impact.help.line1' })}
             </span>
             <FormattedMessage id="severity_impact.help.line2" />

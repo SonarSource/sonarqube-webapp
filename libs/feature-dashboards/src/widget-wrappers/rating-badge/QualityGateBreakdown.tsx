@@ -52,9 +52,9 @@ export function QualityGateBreakdown({ branchLike, componentKey, conditions }: R
   const overallVariety = overallCount > 0 ? BadgeVariety.Danger : BadgeVariety.Success;
 
   return (
-    <div className="sw-flex sw-flex-col sw-gap-3 sw-items-center sw-justify-center sw-w-full">
+    <div className="sw:flex sw:flex-col sw:gap-3 sw:items-center sw:justify-center sw:w-full">
       <Text isSubtle>{formatMessage({ id: 'quality_gate.breakdown.distribution_title' })}</Text>
-      <div className="sw-flex sw-gap-3 sw-items-start sw-justify-center">
+      <div className="sw:flex sw:gap-3 sw:items-start sw:justify-center">
         <LinkStandalone to={newCodeUrl}>
           <Badge data-variety={newCodeVariety} variety={newCodeVariety}>
             {formatMessage({ id: 'quality_gate.breakdown.new_code' }, { count: newCodeCount })}

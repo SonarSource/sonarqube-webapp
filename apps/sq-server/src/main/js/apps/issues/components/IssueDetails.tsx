@@ -120,11 +120,11 @@ export default function IssueDetails(props: Readonly<IssueDetailsProps>) {
             />
 
             {!canBrowseAllChildProjects && isPortfolioLike(qualifier) && (
-              <MessageCallout className="it__portfolio_warning sw-pb-4" variety="warning">
-                <span className="sw-flex sw-items-center sw-text-nowrap">
+              <MessageCallout className="it__portfolio_warning sw:pb-4" variety="warning">
+                <span className="sw:flex sw:items-center sw:text-nowrap">
                   <FormattedMessage id="issues.not_all_issue_show" />
                   <ToggleTip
-                    className="sw-ml-1"
+                    className="sw:ml-1"
                     description={<FormattedMessage id="issues.not_all_issue_show_why" />}
                   />
                 </span>
@@ -163,10 +163,10 @@ export default function IssueDetails(props: Readonly<IssueDetailsProps>) {
       skipPageContentWrapper
       title={intl.formatMessage({ id: 'issues.page' })}
     >
-      <div className="sw-contents it__layout-page-main-inner details-open" id="issues-page">
+      <div className="sw:contents it__layout-page-main-inner details-open" id="issues-page">
         <A11ySkipTarget anchor="issues_main" />
 
-        <Spinner className="sw-p-4" isLoading={isLoadingRule}>
+        <Spinner className="sw:p-4" isLoading={isLoadingRule}>
           {openRuleDetails && (
             <IssueTabViewer
               activityTabContent={

@@ -65,12 +65,12 @@ function renderFieldWrapper(
   help?: React.ReactNode,
 ) {
   return (
-    <div className="sw-p-6 sw-flex sw-gap-12">
-      <div className="sw-w-abs-300">
+    <div className="sw:p-6 sw:flex sw:gap-12">
+      <div className="sw:w-abs-300">
         <SubHeading>{label}</SubHeading>
         {help && <div className="markdown">{help}</div>}
       </div>
-      <div className="sw-flex-1">{input}</div>
+      <div className="sw:flex-1">{input}</div>
     </div>
   );
 }
@@ -84,7 +84,7 @@ function renderHelp({ help, helpExample, helpParams = {}, id }: CommonFieldProps
           values={helpParams}
         />
         {helpExample && (
-          <div className="sw-mt-2 sw-whitespace-nowrap">
+          <div className="sw:mt-2 sw:whitespace-nowrap">
             <FormattedMessage id="example" />: <em>{helpExample}</em>
           </div>
         )}
@@ -113,7 +113,7 @@ function renderBooleanField(
 
   return renderFieldWrapper(
     renderLabel({ ...props, optional: true }),
-    <div className="sw-flex sw-items-start">
+    <div className="sw:flex sw:items-start">
       <Switch
         name={id}
         onChange={(v) => {
@@ -122,7 +122,7 @@ function renderBooleanField(
         value={value}
       />
       {value == null && (
-        <Text className="sw-ml-2" isSubtle>
+        <Text className="sw:ml-2" isSubtle>
           <FormattedMessage id="settings.not_set" />
         </Text>
       )}
@@ -319,7 +319,7 @@ export function AlmSpecificForm(props: AlmSpecificFormProps) {
           propKey: 'monorepo',
           value: monorepo,
           inputExtra: monorepo && (
-            <FlagMessage className="sw-ml-2" variant="warning">
+            <FlagMessage className="sw:ml-2" variant="warning">
               <FormattedMessage id="settings.pr_decoration.binding.form.monorepo.warning" />
             </FlagMessage>
           ),

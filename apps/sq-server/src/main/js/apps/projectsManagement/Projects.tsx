@@ -68,7 +68,7 @@ export default function Projects(props: Readonly<Props>) {
 
   return (
     <Table
-      className={classNames({ 'sw-opacity-50 sw-transition sw-duration-75 sw-ease-in': !ready })}
+      className={classNames({ 'sw:opacity-50 sw:transition sw:duration-75 sw:ease-in': !ready })}
       columnCount={6}
       header={header}
       id="projects-management-page-projects"

@@ -84,7 +84,7 @@ export default function SubnavigationIssuesList(props: Props) {
       </StyledList>
       {paging && paging.total > 0 && (
         <ListFooter
-          className="sw-my-0 sw-py-4"
+          className="sw:my-0 sw:py-4"
           count={issues.length}
           loadMore={props.fetchMoreIssues}
           loading={loadingMore}

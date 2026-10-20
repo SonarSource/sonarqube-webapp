@@ -31,13 +31,13 @@ export default function Security() {
   const currentUser = useCurrentLoginUser();
   return (
     <AccountPageTemplate title={formatMessage({ id: 'my_account.security' })}>
-      <Text as="p" className="sw-mb-2">
+      <Text as="p" className="sw:mb-2">
         <FormattedMessage id="my_account.tokens_description" values={{ instance: getInstance() }} />
       </Text>
       <TokensForm deleteConfirmation="modal" displayTokenTypeInput login={currentUser.login} />
 
       {currentUser.local && (
-        <div className="sw-mt-8">
+        <div className="sw:mt-8">
           <Heading as="h2" hasMarginBottom>
             <FormattedMessage id="my_profile.password.title" />
           </Heading>

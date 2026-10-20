@@ -55,7 +55,7 @@ export default function ComparisonForm(props: Readonly<Props>) {
 
   return (
     <>
-      <span className="sw-mr-2">{intl.formatMessage({ id: 'quality_profiles.compare_with' })}</span>
+      <span className="sw:mr-2">{intl.formatMessage({ id: 'quality_profiles.compare_with' })}</span>
       <SearchSelectDropdown
         autoFocus
         components={{
@@ -90,7 +90,7 @@ function OptionRenderer(props: Readonly<OptionProps<Option, false>>) {
       {isDefault && (
         <Tooltip content={intl.formatMessage({ id: 'quality_profiles.list.default.help' })}>
           <span>
-            <Badge className="sw-ml-1">{intl.formatMessage({ id: 'default' })}</Badge>
+            <Badge className="sw:ml-1">{intl.formatMessage({ id: 'default' })}</Badge>
           </span>
         </Tooltip>
       )}

@@ -166,7 +166,7 @@ export default function ComponentReportActionsRenderer(
       >
         <Button>
           {intl.formatMessage({ id: 'component_regulatory_report.dropdown' })}{' '}
-          <IconChevronDown className="sw-ml-1" />
+          <IconChevronDown className="sw:ml-1" />
         </Button>
       </DropdownMenu>
 

@@ -212,11 +212,11 @@ export default function CodeAppRenderer(props: Readonly<Props>) {
       <A11ySkipTarget anchor="code_main" />
 
       {!canBrowseAllChildProjects && isPortfolio && (
-        <MessageCallout className="it__portfolio_warning sw-mb-4" variety="warning">
-          <div className="sw-flex sw-items-center">
+        <MessageCallout className="it__portfolio_warning sw:mb-4" variety="warning">
+          <div className="sw:flex sw:items-center">
             <FormattedMessage id="code_viewer.not_all_measures_are_shown" />
             <ToggleTip
-              className="sw-ml-2"
+              className="sw:ml-2"
               description={<FormattedMessage id="code_viewer.not_all_measures_are_shown.help" />}
             />
           </div>
@@ -225,8 +225,8 @@ export default function CodeAppRenderer(props: Readonly<Props>) {
 
       <Spinner isLoading={loading || isLoadingStandardMode}>
         {hasComponents && (
-          <div className="sw-flex sw-justify-between sw-mb-2" id="code-page">
-            <div className="sw-flex sw-flex-col sw-gap-4">
+          <div className="sw:flex sw:justify-between sw:mb-2" id="code-page">
+            <div className="sw:flex sw:flex-col sw:gap-4">
               {hasComponents && (
                 <Search
                   branchLike={branchLike}
@@ -242,7 +242,7 @@ export default function CodeAppRenderer(props: Readonly<Props>) {
         )}
 
         {!hasComponents && sourceViewer === undefined && (
-          <div className="sw-flex sw-align-center sw-flex-col sw-fixed sw-top-1/2">
+          <div className="sw:flex sw:align-center sw:flex-col sw:fixed sw:top-1/2">
             <Text as="div" isSubtle>
               <FormattedMessage
                 id={`code_viewer.no_source_code_displayed_due_to_empty_analysis.${component.qualifier}`}
@@ -252,7 +252,7 @@ export default function CodeAppRenderer(props: Readonly<Props>) {
         )}
 
         {(showComponentList || showSearch) && (
-          <Card className="sw-overflow-auto">
+          <Card className="sw:overflow-auto">
             {showComponentList && (
               <Components
                 aicaDisabledMetrics={aicaDisabledMetrics}

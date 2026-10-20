@@ -28,13 +28,13 @@ export interface CompilationInfoProps {
   className?: string;
 }
 
-export function CompilationInfo({ className = 'sw-my-2' }: Readonly<CompilationInfoProps>) {
+export function CompilationInfo({ className = 'sw:my-2' }: Readonly<CompilationInfoProps>) {
   const docUrl = useDocUrl();
 
   return (
     <MessageCallout className={className} variety={MessageVariety.Info}>
       <div>
-        <p className="sw-mb-2">
+        <p className="sw:mb-2">
           <FormattedMessage
             id="onboarding.tutorial.cfamilly.compilation_database_info"
             values={{

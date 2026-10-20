@@ -117,7 +117,7 @@ export default class ProjectModal extends React.PureComponent<Props, State> {
         content={
           <>
             <SelectAsync
-              className="sw-py-1"
+              className="sw:py-1"
               data={suggestionsToOptions(suggestions)}
               isLoading={loading}
               label={<FormattedMessage id="my_account.set_notifications_for" />}

@@ -99,7 +99,7 @@ export function DashboardDetailsFormModal({
   return (
     <Modal
       content={
-        <div className="sw-space-y-6">
+        <div className="sw:space-y-6">
           <TextInput
             id="dashboard-name"
             isRequired
@@ -113,7 +113,7 @@ export function DashboardDetailsFormModal({
           />
           <TextArea
             helpText={
-              <Text as="div" className="sw-text-right" isSubtle size={TextSize.Small}>
+              <Text as="div" className="sw:text-right" isSubtle size={TextSize.Small}>
                 {`${description.length}/${MAX_DASHBOARD_DESCRIPTION_LENGTH}`}
               </Text>
             }

@@ -45,7 +45,7 @@ export default function PerspectiveSelect(props: Readonly<Props>) {
   );
 
   return (
-    <div className="sw-flex sw-items-center sw-gap-1">
+    <div className="sw:flex sw:items-center sw:gap-1">
       <Label id="aria-projects-perspective">
         <FormattedMessage id="projects.perspective" />
       </Label>

@@ -67,7 +67,7 @@ export default function ConditionsTable({
 }: Readonly<Props>) {
   return (
     <Table
-      className="sw-my-2"
+      className="sw:my-2"
       columnCount={4}
       columnWidths={['auto', '150px', '150px', '200px']}
       data-test={`quality-gates__conditions-${scope}`}

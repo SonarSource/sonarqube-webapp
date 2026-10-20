@@ -357,8 +357,8 @@ export function BubbleChart<T>(props: BubbleChartProps<T>) {
   };
 
   return (
-    <div className="sw-min-w-full sw-overflow-hidden sw-w-0" ref={containerRef}>
-      <div className="sw-flex sw-items-center sw-justify-end sw-h-control sw-mb-4">
+    <div className="sw:min-w-full sw:overflow-hidden sw:w-0" ref={containerRef}>
+      <div className="sw:flex sw:items-center sw:justify-end sw:h-control sw:mb-4">
         <Tooltip content={zoomTooltipText}>
           <span>
             <Text isHighlighted isSubtle>
@@ -369,12 +369,12 @@ export function BubbleChart<T>(props: BubbleChartProps<T>) {
           </span>
         </Tooltip>
         {zoomLevelLabel !== '100%' && (
-          <Button className="sw-ml-2" isDisabled={zoomLevelLabel === '100%'} onClick={resetZoom}>
+          <Button className="sw:ml-2" isDisabled={zoomLevelLabel === '100%'} onClick={resetZoom}>
             {zoomResetLabel}
           </Button>
         )}
       </div>
-      <div className="sw-overflow-hidden sw-w-full">
+      <div className="sw:overflow-hidden sw:w-full">
         {containerWidth !== undefined && renderChart(containerWidth)}
       </div>
     </div>

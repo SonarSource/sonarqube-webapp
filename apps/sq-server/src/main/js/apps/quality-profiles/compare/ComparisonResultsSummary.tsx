@@ -38,7 +38,7 @@ export default function ComparisonResultsSummary(props: Readonly<Props>) {
 
   if (additionalCount > 0 && fewerCount > 0) {
     return (
-      <div className="sw-mb-4">
+      <div className="sw:mb-4">
         <FormattedMessage
           id="quality_profile.summary_differences1"
           values={{
@@ -65,7 +65,7 @@ export default function ComparisonResultsSummary(props: Readonly<Props>) {
 
   if (additionalCount > 0) {
     return (
-      <div className="sw-mb-4">
+      <div className="sw:mb-4">
         <FormattedMessage
           id="quality_profile.summary_differences_additional_only"
           values={{
@@ -86,7 +86,7 @@ export default function ComparisonResultsSummary(props: Readonly<Props>) {
   }
 
   return (
-    <div className="sw-mb-4">
+    <div className="sw:mb-4">
       <FormattedMessage
         id="quality_profile.summary_differences_fewer_only"
         values={{

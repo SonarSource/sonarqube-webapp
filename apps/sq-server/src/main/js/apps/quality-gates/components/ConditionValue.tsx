@@ -57,9 +57,9 @@ function ConditionValue({
     return (
       <>
         {isToBeModified && (
-          <RedColorText className="sw-line-through sw-mr-2">{conditionError}</RedColorText>
+          <RedColorText className="sw:line-through sw:mr-2">{conditionError}</RedColorText>
         )}
-        <GreenColorText className={classNames('sw-mr-2')} isToBeModified={isToBeModified}>
+        <GreenColorText className={classNames('sw:mr-2')} isToBeModified={isToBeModified}>
           {formatMeasure(
             getCorrectCaycCondition(condition).error,
             metric.type,
@@ -78,7 +78,7 @@ function ConditionValue({
 
   return (
     <>
-      <span className="sw-mr-2 sw-flex sw-items-center sw-gap-1">
+      <span className="sw:mr-2 sw:flex sw:items-center sw:gap-1">
         {isIssueSeverityMetric(metric.key) && (
           <SoftwareImpactSeverityIcon
             severity={ISSUE_SEVERITY_CONDITION_MAPPING[condition.error]}

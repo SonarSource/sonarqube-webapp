@@ -29,7 +29,7 @@ export default function AiAssuranceWarningMessage({ className }: Readonly<Props>
   return (
     <div className={className}>
       <IconWarning color="echoes-color-icon-warning" />
-      <Text className="sw-ml-1" colorOverride="echoes-color-text-warning">
+      <Text className="sw:ml-1" colorOverride="echoes-color-text-warning">
         <FormattedMessage id="project_quality_gate.not_ai_assured_quality_gate" />
       </Text>
     </div>

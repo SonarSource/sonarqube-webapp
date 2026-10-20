@@ -55,7 +55,7 @@ export function ImportRepositoriesCta({ children, variety }: Readonly<PropsWithC
   if (!canCreateProject) {
     return (
       <PermissionRequiredPopover>
-        <Button className="sw-shrink-0" variety={variety}>
+        <Button className="sw:shrink-0" variety={variety}>
           {children}
         </Button>
       </PermissionRequiredPopover>
@@ -92,9 +92,9 @@ export function ImportRepositoriesCta({ children, variety }: Readonly<PropsWithC
       }
     >
       <Button
-        className="sw-shrink-0"
+        className="sw:shrink-0"
         isLoading={loading}
-        suffix={<IconChevronDown className="sw-ml-1" />}
+        suffix={<IconChevronDown className="sw:ml-1" />}
         variety={variety}
       >
         {children}
@@ -114,7 +114,7 @@ function AlmDropdownItem({ alm }: Readonly<{ alm: AlmKeys }>) {
         search: queryToSearchString({ mode: alm, redirect: ONBOARDING_DASHBOARD_PATH }),
       }}
     >
-      <Image alt={alm} className="sw-mr-2" src={iconSrc} width={16} />
+      <Image alt={alm} className="sw:mr-2" src={iconSrc} width={16} />
       {formatMessage({ id: `my_account.add_project.${alm}` })}
     </DropdownMenu.ItemLink>
   );

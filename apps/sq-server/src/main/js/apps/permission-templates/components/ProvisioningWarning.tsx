@@ -30,7 +30,7 @@ export default function ProvisioningWarning() {
 
   if (gitHubProvisioningStatus || gitLabProvisioningStatus) {
     return (
-      <FlagMessage className="sw-w-fit sw-mb-4" variant="warning">
+      <FlagMessage className="sw:w-fit sw:mb-4" variant="warning">
         {translateWithParameters(
           'permission_templates.provisioning_warning',
           translate('alm', gitHubProvisioningStatus ? AlmKeys.GitHub : AlmKeys.GitLab),

@@ -38,19 +38,19 @@ export default function PluginRiskConsentBox(props: Readonly<PluginRiskConsentBo
   }
 
   return (
-    <Card className="sw-mt-6 it__plugin_risk_consent_box">
+    <Card className="sw:mt-6 it__plugin_risk_consent_box">
       <Label>
         <FormattedMessage id="marketplace.risk_consent.title" />
       </Label>
-      <p className="sw-mt-2">
+      <p className="sw:mt-2">
         <FormattedMessage id="marketplace.risk_consent.description" />
       </p>
       {currentEdition === EditionKey.community && (
-        <p className="sw-mt-2">
+        <p className="sw:mt-2">
           <FormattedMessage id="marketplace.risk_consent.installation" />
         </p>
       )}
-      <Button className="sw-mt-4" onClick={props.acknowledgeRisk} variety={ButtonVariety.Primary}>
+      <Button className="sw:mt-4" onClick={props.acknowledgeRisk} variety={ButtonVariety.Primary}>
         <FormattedMessage id="marketplace.risk_consent.action" />
       </Button>
     </Card>

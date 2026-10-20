@@ -118,7 +118,7 @@ export default function SourceViewerPreview(props: Readonly<Props>) {
 
   if (typeof data !== 'string') {
     return (
-      <FlagMessage className="sw-mt-2" variant="warning">
+      <FlagMessage className="sw:mt-2" variant="warning">
         {translate('component_viewer.no_component')}
       </FlagMessage>
     );
@@ -126,7 +126,7 @@ export default function SourceViewerPreview(props: Readonly<Props>) {
 
   if (!jupyterNotebook?.cells) {
     return (
-      <FlagMessage className="sw-mt-2" variant="warning">
+      <FlagMessage className="sw:mt-2" variant="warning">
         {translate('source_viewer.jupyter.preview.error')}
       </FlagMessage>
     );

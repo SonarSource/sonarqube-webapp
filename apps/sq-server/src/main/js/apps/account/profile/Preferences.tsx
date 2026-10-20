@@ -51,8 +51,8 @@ export function Preferences() {
           <div>
             <FormattedMessage id="my_account.preferences.keyboard_shortcuts" />
           </div>
-          <div className="sw-flex sw-flex-row">
-            <div className="sw-max-w-3/4">
+          <div className="sw:flex sw:flex-row">
+            <div className="sw:max-w-3/4">
               <FormattedMessage
                 id="my_account.preferences.keyboard_shortcuts.description"
                 values={{

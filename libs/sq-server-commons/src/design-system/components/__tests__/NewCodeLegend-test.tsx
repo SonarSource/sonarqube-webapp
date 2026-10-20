@@ -29,5 +29,5 @@ it('should render NewCodeLegend', () => {
   expect(screen.getByText('the text')).toHaveStyle({
     font: cssVar('typography-text-default-regular'),
   });
-  expect(screen.getByText('the text')).toHaveClass('sw-ml-2');
+  expect(screen.getByText('the text')).toHaveClass('sw:ml-2');
 });

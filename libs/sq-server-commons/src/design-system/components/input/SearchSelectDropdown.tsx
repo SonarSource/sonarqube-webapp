@@ -165,7 +165,7 @@ export function SearchSelectDropdown<
   return (
     <DropdownToggler
       allowResizing
-      className="sw-overflow-visible sw-border-none"
+      className="sw:overflow-visible sw:border-none"
       onRequestClose={() => {
         toggleDropdown(false);
       }}

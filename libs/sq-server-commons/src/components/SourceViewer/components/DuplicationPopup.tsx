@@ -114,7 +114,7 @@ export default class DuplicationPopup extends PureComponent<Props> {
     );
 
     return (
-      <div className="sw-max-w-abs-400">
+      <div className="sw:max-w-abs-400">
         {inRemovedComponent && (
           <FlagMessage variant="warning">
             {translate('duplications.dups_found_on_deleted_resource')}
@@ -122,11 +122,11 @@ export default class DuplicationPopup extends PureComponent<Props> {
         )}
         {duplications.length > 0 &&
           duplications.map((duplication) => (
-            <div className="sw-my-2" key={duplication.file.key}>
-              <div className="sw-flex sw-flex-wrap sw-typo-default">
+            <div className="sw:my-2" key={duplication.file.key}>
+              <div className="sw:flex sw:flex-wrap sw:typo-default">
                 {this.isDifferentComponent(duplication.file, this.props.sourceViewerFile) && (
-                  <div className="sw-mr-4">
-                    <QualifierIcon className="sw-mr-1" qualifier={ComponentQualifier.Project} />
+                  <div className="sw:mr-4">
+                    <QualifierIcon className="sw:mr-1" qualifier={ComponentQualifier.Project} />
                     <Link
                       title={duplication.file.projectName}
                       to={getProjectOverviewUrl(duplication.file.project)}
@@ -137,7 +137,7 @@ export default class DuplicationPopup extends PureComponent<Props> {
                 )}
 
                 {duplication.file.key !== this.props.sourceViewerFile.key && (
-                  <div className="sw-basis-full sw-min-w-0">
+                  <div className="sw:basis-full sw:min-w-0">
                     {this.renderDuplication(
                       duplication.file,
                       <span>
@@ -145,7 +145,7 @@ export default class DuplicationPopup extends PureComponent<Props> {
                         <span>{fileFromPath(duplication.file.name)}</span>
                       </span>,
                       undefined,
-                      'sw-inline-block sw-truncate',
+                      'sw:inline-block sw:truncate',
                       { maxWidth: '370px' },
                     )}
                   </div>

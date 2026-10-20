@@ -52,16 +52,16 @@ export default function ServiceEndpointStepContent(props: Readonly<ServiceEndpoi
           translationKey="onboarding.tutorial.with.azure_pipelines.ServiceEndpoint.step2"
         />
       </NumberedListItem>
-      <NumberedListItem className="sw-flex sw-items-center">
+      <NumberedListItem className="sw:flex sw:items-center">
         <FormattedMessage
           id="onboarding.tutorial.with.azure_pipelines.ServiceEndpoint.step3.sentence"
           values={{
             url: (
-              <span className="sw-ml-1">
+              <span className="sw:ml-1">
                 <InlineSnippet snippet={baseUrl} />
               </span>
             ),
-            button: <ClipboardIconButton className="sw-ml-2" copyValue={baseUrl} />,
+            button: <ClipboardIconButton className="sw:ml-2" copyValue={baseUrl} />,
           }}
         />
       </NumberedListItem>

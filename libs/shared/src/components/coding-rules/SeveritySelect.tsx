@@ -79,12 +79,12 @@ export function SeveritySelect(props: Readonly<SeveritySelectProps>) {
         valueIcon={<SoftwareImpactSeverityIcon severity={severity} />}
       />
       {!isRecommended && !isUndefined(recommendedSeverity) && (
-        <HelperText className="sw-mt-2">
+        <HelperText className="sw:mt-2">
           <FormattedMessage
             id="coding_rules.custom_severity.not_recommended"
             values={{
               recommended: (
-                <b className="sw-lowercase">{getSeverityTranslation(recommendedSeverity)}</b>
+                <b className="sw:lowercase">{getSeverityTranslation(recommendedSeverity)}</b>
               ),
             }}
           />

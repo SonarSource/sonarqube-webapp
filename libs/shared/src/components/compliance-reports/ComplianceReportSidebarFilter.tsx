@@ -64,7 +64,7 @@ export function ComplianceReportSidebarFilter({ onChange, resultCount, value }: 
     <>
       <FilterHeading
         as="h2"
-        className="sw-mb-4"
+        className="sw:mb-4"
         id="security-report-nav-filter-label"
         size="medium"
       >
@@ -109,9 +109,9 @@ export function ComplianceReportSidebarFilter({ onChange, resultCount, value }: 
         value={value}
       />
 
-      <Divider className="sw-my-5" />
+      <Divider className="sw:my-5" />
 
-      <div className="sw-flex sw-items-center sw-gap-1 sw-pb-5">
+      <div className="sw:flex sw:items-center sw:gap-1 sw:pb-5">
         <Text size="small">
           <Text as="span" isSubtle size="small">
             {formatMessage({

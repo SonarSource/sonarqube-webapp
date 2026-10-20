@@ -44,7 +44,7 @@ export default function Logout() {
   return (
     <Layout.PageGrid>
       <Layout.PageContent>
-        <div className="sw-typo-lg sw-mt-40 sw-text-center">
+        <div className="sw:typo-lg sw:mt-40 sw:text-center">
           <FormattedMessage id="logging_out" />
         </div>
       </Layout.PageContent>

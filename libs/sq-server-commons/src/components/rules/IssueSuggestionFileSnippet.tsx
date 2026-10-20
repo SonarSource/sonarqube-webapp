@@ -105,7 +105,7 @@ export function IssueSuggestionFileSnippet({ branchLike, issue, language }: Read
           sourceViewerFile={sourceViewerFile}
         />
       )}
-      <SourceFileWrapper className="js-source-file sw-mb-4">
+      <SourceFileWrapper className="js-source-file sw:mb-4">
         <SonarCodeColorizer>
           {displayedLine[0]?.lineBefore !== 1 && (
             <LineCodeEllipsisStyled
@@ -165,7 +165,7 @@ export function IssueSuggestionFileSnippet({ branchLike, issue, language }: Read
                     )}
                   </>
                 )}
-              <div className="sw-relative">
+              <div className="sw:relative">
                 {line.copy !== undefined && (
                   <StyledClipboardIconButton
                     aria-label={translate('component_viewer.copy_path_to_clipboard')}
@@ -200,7 +200,7 @@ export function IssueSuggestionFileSnippet({ branchLike, issue, language }: Read
           )}
         </SonarCodeColorizer>
       </SourceFileWrapper>
-      <p className="sw-mt-4">{suggestion.explanation}</p>
+      <p className="sw:mt-4">{suggestion.explanation}</p>
     </div>
   );
 }

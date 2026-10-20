@@ -107,9 +107,9 @@ export default function MeasuresCardPercent(
       value={formatMeasure(value, MetricType.Percent, { decimals: 2, omitExtraDecimalZeros: true })}
     >
       {shouldRenderRequiredLabel && (
-        <span className="sw-typo-sm sw-mt-3">
+        <span className="sw:typo-sm sw:mt-3">
           {conditionFailed ? (
-            <Text className="sw-font-regular sw-inline" colorOverride="echoes-color-text-danger">
+            <Text className="sw:font-regular sw:inline" colorOverride="echoes-color-text-danger">
               {getConditionRequiredLabel(condition, intl, true)}
             </Text>
           ) : (
@@ -118,12 +118,12 @@ export default function MeasuresCardPercent(
         </span>
       )}
       <div
-        className={classNames('sw-flex sw-typo-sm sw-justify-between sw-items-center', {
-          'sw-mt-1': shouldRenderRequiredLabel,
-          'sw-mt-3': !shouldRenderRequiredLabel,
+        className={classNames('sw:flex sw:typo-sm sw:justify-between sw:items-center', {
+          'sw:mt-1': shouldRenderRequiredLabel,
+          'sw:mt-3': !shouldRenderRequiredLabel,
         })}
       >
-        <Text className="sw-flex sw-gap-1" isSubtle size={TextSize.Small}>
+        <Text className="sw:flex sw:gap-1" isSubtle size={TextSize.Small}>
           {isDefined(value) ? (
             <FormattedMessage
               id={linesLabel}
@@ -137,7 +137,7 @@ export default function MeasuresCardPercent(
                         1: localizeMetric(linesMetric),
                       },
                     )}
-                    className="sw-typo-semibold"
+                    className="sw:typo-semibold"
                     highlight={LinkHighlight.Default}
                     to={linesUrl}
                   >

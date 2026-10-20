@@ -23,7 +23,7 @@ import { FormattedMessage } from 'react-intl';
 
 export default function MeasuresEmpty() {
   return (
-    <Text as="div" className="sw-my-3 sw-mx-6" isSubtle>
+    <Text as="div" className="sw:my-3 sw:mx-6" isSubtle>
       <FormattedMessage id="component_measures.empty" />
     </Text>
   );

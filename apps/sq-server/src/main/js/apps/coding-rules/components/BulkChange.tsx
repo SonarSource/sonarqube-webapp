@@ -104,7 +104,7 @@ export default class BulkChange extends React.PureComponent<Props, State> {
               {allowActivateOnProfile && profile && (
                 <ItemButton onClick={this.handleActivateInProfileClick}>
                   <FormattedMessage id="coding_rules.activate_in" />{' '}
-                  <strong className="sw-ml-1">{profile.name}</strong>
+                  <strong className="sw:ml-1">{profile.name}</strong>
                 </ItemButton>
               )}
 
@@ -115,7 +115,7 @@ export default class BulkChange extends React.PureComponent<Props, State> {
               {allowDeactivateOnProfile && profile && (
                 <ItemButton onClick={this.handleDeactivateInProfileClick}>
                   <FormattedMessage id="coding_rules.deactivate_in" />{' '}
-                  <strong className="sw-ml-1">{profile.name}</strong>
+                  <strong className="sw:ml-1">{profile.name}</strong>
                 </ItemButton>
               )}
             </>
@@ -124,7 +124,7 @@ export default class BulkChange extends React.PureComponent<Props, State> {
           size="auto"
           zLevel={PopupZLevel.Global}
         >
-          <Button suffix={<IconChevronDown className="sw-ml-1" />}>
+          <Button suffix={<IconChevronDown className="sw:ml-1" />}>
             <FormattedMessage id="bulk_change" />
           </Button>
         </Dropdown>

@@ -119,7 +119,7 @@ export function SimpleListStyleFacet(props: Props) {
       </FacetItemsList>
 
       <MultipleSelectionHint
-        className="sw-pt-4"
+        className="sw:pt-4"
         selectedItems={nbSelectedItems}
         totalItems={nbSelectableItems}
       />

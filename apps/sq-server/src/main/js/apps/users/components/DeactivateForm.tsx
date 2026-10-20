@@ -61,16 +61,16 @@ export default function DeactivateForm(props: Props) {
           {translateWithParameters('users.deactivate_user.confirmation', user.name, user.login)}
           <Checkbox
             checked={anonymize}
-            className="sw-flex sw-items-center sw-mt-4"
+            className="sw:flex sw:items-center sw:mt-4"
             id="delete-user"
             onCheck={setAnonymize}
           >
-            <Text className="sw-ml-3" isHighlighted>
+            <Text className="sw:ml-3" isHighlighted>
               <FormattedMessage id="users.delete_user" />
             </Text>
           </Checkbox>
           {anonymize && (
-            <FlagMessage className="sw-mt-2" variant="warning">
+            <FlagMessage className="sw:mt-2" variant="warning">
               <span>
                 <FormattedMessage
                   id="users.delete_user.help"

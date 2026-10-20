@@ -80,7 +80,7 @@ export function ToggleButton<T extends ToggleButtonValueType>(props: ButtonToggl
         >
           {option.label}
           {option.counter ? (
-            <Badge className="sw-ml-1" variant="counter">
+            <Badge className="sw:ml-1" variant="counter">
               {option.counter}
             </Badge>
           ) : null}

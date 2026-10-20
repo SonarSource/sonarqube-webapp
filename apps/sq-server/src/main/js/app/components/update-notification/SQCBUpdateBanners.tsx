@@ -63,7 +63,7 @@ export function SQCBUpdateBanners({ data, isGlobalBanner }: Readonly<Props>) {
         values={{
           link: (
             <Link
-              className="sw-ml-1"
+              className="sw:ml-1"
               highlight="current-color"
               to="https://www.sonarsource.com/open-source-editions/sonarqube-community-edition/"
             >

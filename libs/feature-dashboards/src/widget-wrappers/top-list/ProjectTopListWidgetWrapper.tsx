@@ -146,7 +146,7 @@ export function ProjectTopListWidgetWrapper(
   }
 
   if (!projectEntityId || !organization) {
-    return <WidgetNoData className="sw-my-0 sw-h-full" />;
+    return <WidgetNoData className="sw:my-0 sw:h-full" />;
   }
 
   return (

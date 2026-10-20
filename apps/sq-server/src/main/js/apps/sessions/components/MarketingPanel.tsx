@@ -36,41 +36,41 @@ export default function MarketingPanel() {
         alt={formatMessage({ id: 'login.marketing.background.alt' })}
         src="/images/sonar-whale-white.svg"
       />
-      <div className="sw-text-white sw-flex sw-flex-col sw-py-10 sw-w-full sw-max-w-[31rem] sw-mx-auto">
+      <div className="sw:text-white sw:flex sw:flex-col sw:py-10 sw:w-full sw:max-w-[31rem] sw:mx-auto">
         <Spinner isLoading={isLoading}>
           {displayMessage ? (
             <CustomMessage>
               <SafeHTMLInjection htmlAsString={message} sanitizeLevel={SanitizeLevel.USER_INPUT}>
-                <div className="markdown sw-rounded-2 sw-p-4 sw-mb-6" />
+                <div className="markdown sw:rounded-2 sw:p-4 sw:mb-6" />
               </SafeHTMLInjection>
             </CustomMessage>
           ) : (
             <div>
               <Image
                 alt={formatMessage({ id: 'login.marketing.logo.alt' })}
-                className="sw-mb-6"
+                className="sw:mb-6"
                 src="/images/sonar-logo-white.svg"
               />
-              <Heading as="h1" className="sw-mb-4 sw-text-white">
+              <Heading as="h1" className="sw:mb-4 sw:text-white">
                 <FormattedMessage id="login.marketing.title" />
               </Heading>
               <FormattedMessage id="login.marketing.description" />
 
-              <ul className="sw-list-disc sw-flex sw-flex-col sw-gap-6 sw-mt-4 sw-pl-4">
+              <ul className="sw:list-disc sw:flex sw:flex-col sw:gap-6 sw:mt-4 sw:pl-4">
                 <li>
-                  <span className="sw-font-bold">
+                  <span className="sw:font-bold">
                     <FormattedMessage id="login.marketing.continuous_verification" />
                   </span>
                   <FormattedMessage id="login.marketing.continuous_verification.description" />
                 </li>
                 <li>
-                  <span className="sw-font-bold">
+                  <span className="sw:font-bold">
                     <FormattedMessage id="login.marketing.devsecops_integrated" />
                   </span>
                   <FormattedMessage id="login.marketing.devsecops_integrated.description" />
                 </li>
                 <li>
-                  <span className="sw-font-bold">
+                  <span className="sw:font-bold">
                     <FormattedMessage id="login.marketing.empowering_developers" />
                   </span>
                   <FormattedMessage id="login.marketing.empowering_developers.description" />

@@ -81,7 +81,7 @@ export function ComponentNavHeader(props: Readonly<Props>) {
           </DropdownMenu.ItemLink>
         )),
         <DropdownMenu.Separator key="separator" />,
-        <DropdownMenu.ItemLink className="sw-min-w-abs-250" key="all-projects" to={allProjectsUrl}>
+        <DropdownMenu.ItemLink className="sw:min-w-abs-250" key="all-projects" to={allProjectsUrl}>
           <FormattedMessage id="navigation.view_all" />
         </DropdownMenu.ItemLink>,
       ]}
@@ -109,7 +109,7 @@ const SidebarNavigationHeader = forwardRef<
       avatar={getItemAvatar(component, 'sm')}
       name={
         <Tooltip content={component.name} side="right">
-          <span className="sw-block sw-truncate">{component.name}</span>
+          <span className="sw:block sw:truncate">{component.name}</span>
         </Tooltip>
       }
       qualifier={<FormattedMessage id={`qualifier.${component.qualifier}`} />}

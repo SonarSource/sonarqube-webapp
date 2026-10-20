@@ -31,7 +31,7 @@ export default function EmptyInstance() {
     isLoggedIn(currentUser) && hasGlobalPermission(currentUser, Permissions.ProjectCreation);
 
   return (
-    <div className="sw-flex sw-justify-center sw-py-8">
+    <div className="sw:flex sw:justify-center sw:py-8">
       <EmptyState
         action={
           showNewProjectButton ? (

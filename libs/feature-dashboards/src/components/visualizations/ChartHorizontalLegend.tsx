@@ -79,19 +79,19 @@ function LegendLabel({
 }: Readonly<{ children: ReactNode; isHighlighted: boolean }>) {
   return (
     <span
-      className="sw-relative sw-inline-flex sw-overflow-hidden sw-text-ellipsis sw-whitespace-nowrap"
+      className="sw:relative sw:inline-flex sw:overflow-hidden sw:text-ellipsis sw:whitespace-nowrap"
       style={{ maxWidth: LEGEND_LABEL_MAX_WIDTH_PX }}
     >
       <Text
         aria-hidden="true"
-        className="sw-invisible sw-overflow-hidden sw-text-ellipsis sw-whitespace-nowrap"
+        className="sw:invisible sw:overflow-hidden sw:text-ellipsis sw:whitespace-nowrap"
         isHighlighted
         isSubtle
       >
         {children}
       </Text>
       <Text
-        className="sw-absolute sw-left-0 sw-top-0 sw-overflow-hidden sw-text-ellipsis sw-whitespace-nowrap sw-max-w-full"
+        className="sw:absolute sw:left-0 sw:top-0 sw:overflow-hidden sw:text-ellipsis sw:whitespace-nowrap sw:max-w-full"
         isHighlighted={isHighlighted}
         isSubtle={!isHighlighted}
       >
@@ -103,7 +103,7 @@ function LegendLabel({
 
 function LegendItemMeasure({ item }: Readonly<{ item: LegendItem }>) {
   return (
-    <div className="sw-flex sw-items-center sw-gap-1 sw-flex-shrink-0" data-legend-item>
+    <div className="sw:flex sw:items-center sw:gap-1 sw:flex-shrink-0" data-legend-item>
       <SquareFillIcon fill={item.color} size={16} />
       <LegendLabel isHighlighted={false}>{item.label}</LegendLabel>
     </div>
@@ -138,7 +138,7 @@ function LegendItemDisplay({
     item.url === undefined ? (
       <button
         aria-pressed={isSelected}
-        className="sw-flex sw-flex-shrink-0 sw-cursor-pointer sw-items-center sw-gap-1 sw-border-0 sw-bg-transparent sw-p-0"
+        className="sw:flex sw:flex-shrink-0 sw:cursor-pointer sw:items-center sw:gap-1 sw:border-0 sw:bg-transparent sw:p-0"
         data-legend-item
         data-testid={testId}
         onClick={onClick}
@@ -149,7 +149,7 @@ function LegendItemDisplay({
       </button>
     ) : (
       <Link
-        className="sw-flex sw-flex-shrink-0 sw-items-center sw-gap-1 sw-no-underline hover:sw-underline"
+        className="sw:flex sw:flex-shrink-0 sw:items-center sw:gap-1 sw:no-underline sw:hover:underline"
         data-legend-item
         data-testid={testId}
         onMouseEnter={onMouseEnter}
@@ -277,10 +277,10 @@ export function ChartHorizontalLegend({
   const overflowCount = overflowItems.length;
 
   return (
-    <div className="sw-relative sw-w-full sw-min-w-0">
+    <div className="sw:relative sw:w-full sw:min-w-0">
       <div
         aria-hidden
-        className="sw-invisible sw-pointer-events-none sw-absolute sw-left-0 sw-top-0 sw-flex sw-items-center sw-gap-3"
+        className="sw:invisible sw:pointer-events-none sw:absolute sw:left-0 sw:top-0 sw:flex sw:items-center sw:gap-3"
         data-testid="chart-horizontal-legend-measure"
         ref={measureRef}
       >
@@ -294,7 +294,7 @@ export function ChartHorizontalLegend({
         </div>
       </div>
       <div
-        className="sw-flex sw-justify-center sw-min-w-0 sw-items-center sw-gap-3 sw-overflow-x-hidden"
+        className="sw:flex sw:justify-center sw:min-w-0 sw:items-center sw:gap-3 sw:overflow-x-hidden"
         data-testid="chart-horizontal-legend"
         onMouseEnter={onLegendMouseEnter}
         onMouseLeave={onLegendMouseLeave}
@@ -328,7 +328,7 @@ export function ChartHorizontalLegend({
         {overflowCount > 0 && (
           <Popover
             description={
-              <div className="sw-flex sw-flex-col sw-gap-1">
+              <div className="sw:flex sw:flex-col sw:gap-1">
                 {overflowItems.map((item) => (
                   <LegendItemDisplay
                     isHighlighted={

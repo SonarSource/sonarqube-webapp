@@ -43,7 +43,7 @@ export function QualityGateHistoryContent(props: Readonly<Props>) {
   if (!isPreviousVersion) {
     return (
       <EmptyState
-        className="sw-mt-12"
+        className="sw:mt-12"
         graphic={<IconQualityGate />}
         link={
           <LinkStandalone enableOpenInNewTab to={newCodeDocUrl}>
@@ -57,7 +57,7 @@ export function QualityGateHistoryContent(props: Readonly<Props>) {
   }
 
   return (
-    <div className="sw-flex sw-flex-col sw-mt-8 sw-gap-6">
+    <div className="sw:flex sw:flex-col sw:mt-8 sw:gap-6">
       <Text>
         <FormattedMessage
           id="quality_gate_history.intro"
@@ -78,7 +78,7 @@ export function QualityGateHistoryContent(props: Readonly<Props>) {
 
       {releases.length === 0 ? (
         <Card>
-          <Card.Body className="sw-flex sw-items-center sw-justify-center sw-py-8">
+          <Card.Body className="sw:flex sw:items-center sw:justify-center sw:py-8">
             <EmptyState
               graphic={<IconActivity />}
               link={

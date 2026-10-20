@@ -32,9 +32,9 @@ export default function PageHeader({ children }: Readonly<Props>) {
   const toUrl = useDocUrl(DocLink.Webhooks);
 
   return (
-    <header className="sw-mb-2 sw-flex sw-items-center sw-justify-between">
+    <header className="sw:mb-2 sw:flex sw:items-center sw:justify-between">
       <div>
-        <Heading as="h1" className="sw-mb-4">
+        <Heading as="h1" className="sw:mb-4">
           <FormattedMessage id="webhooks.page" />
         </Heading>
         <p>

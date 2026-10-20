@@ -75,8 +75,8 @@ export default function DopSettingDropdown(props: Readonly<DopSettingDropdownPro
   }
 
   return (
-    <div className={classNames('sw-flex sw-flex-col', className)}>
-      <Label className="sw-mb-2" htmlFor="dop-setting-dropdown">
+    <div className={classNames('sw:flex sw:flex-col', className)}>
+      <Label className="sw:mb-2" htmlFor="dop-setting-dropdown">
         <FormattedMessage
           id="onboarding.create_project.monorepo.choose_dop_setting"
           values={{ almKey: formatMessage({ id: `alm.${almKey}` }) }}

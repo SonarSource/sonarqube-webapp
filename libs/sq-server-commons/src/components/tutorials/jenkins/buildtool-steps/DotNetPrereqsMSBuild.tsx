@@ -32,12 +32,12 @@ export default function DotNetPrereqsMSBuild() {
         highlightKeys={['default_msbuild']}
         translationKey="onboarding.tutorial.with.jenkins.dotnet.msbuild.prereqs.title"
       />
-      <div className="sw-ml-8 sw-mt-2">
+      <div className="sw:ml-8 sw:mt-2">
         <MessageCallout variety={MessageVariety.Info}>
           {translate('onboarding.tutorial.with.jenkins.dotnet.msbuild.prereqs.info')}
         </MessageCallout>
       </div>
-      <Text as="ol" className="sw-ml-12 sw-list-[lower-alpha]">
+      <Text as="ol" className="sw:ml-12 sw:list-[lower-alpha]">
         <li>
           <SentenceWithHighlights
             highlightKeys={['msbuild']}
@@ -55,8 +55,8 @@ export default function DotNetPrereqsMSBuild() {
             highlightKeys={['msbuild', 'add_msbuild', 'name', 'msbuild_plugin']}
             translationKey="onboarding.tutorial.with.jenkins.dotnet.msbuild.prereqs.step3"
           />
-          <InlineSnippet className="sw-ml-1" snippet="Default MSBuild" />
-          <ClipboardIconButton className="sw-ml-2 sw-align-sub" copyValue="Default MSBuild" />
+          <InlineSnippet className="sw:ml-1" snippet="Default MSBuild" />
+          <ClipboardIconButton className="sw:ml-2 sw:align-sub" copyValue="Default MSBuild" />
         </li>
       </Text>
     </NumberedListItem>

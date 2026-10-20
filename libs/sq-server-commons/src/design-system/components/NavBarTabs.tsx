@@ -33,7 +33,7 @@ interface Props extends React.HTMLAttributes<HTMLUListElement> {
 
 export function NavBarTabs({ children, className, ...other }: Props) {
   return (
-    <ul className={`sw-flex sw-items-end sw-gap-4 ${className ?? ''}`} {...other}>
+    <ul className={`sw:flex sw:items-end sw:gap-4 ${className ?? ''}`} {...other}>
       {children}
     </ul>
   );
@@ -55,7 +55,7 @@ export const NavBarTabLink = forwardRef<HTMLAnchorElement, NavBarTabLinkProps>(
         <NavLink
           className={({ isActive }) =>
             classNames(
-              'sw-flex sw-items-center',
+              'sw:flex sw:items-center',
               { active: isDefined(active) ? active : isActive },
               className,
             )
@@ -63,14 +63,14 @@ export const NavBarTabLink = forwardRef<HTMLAnchorElement, NavBarTabLinkProps>(
           ref={ref}
           {...linkProps}
         >
-          <span className="sw-inline-block sw-text-center" data-text={text}>
+          <span className="sw:inline-block sw:text-center" data-text={text}>
             {text}
           </span>
 
           {children}
 
           {withChevron && (
-            <span className="sw-ml-1">
+            <span className="sw:ml-1">
               <IconChevronDown />
             </span>
           )}

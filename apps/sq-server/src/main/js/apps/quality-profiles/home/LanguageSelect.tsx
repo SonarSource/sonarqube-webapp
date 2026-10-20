@@ -49,10 +49,10 @@ export default function LanguageSelect(props: Readonly<Props>) {
   }
 
   return (
-    <div className="sw-mb-4">
+    <div className="sw:mb-4">
       <Select
         ariaLabel={intl.formatMessage({ id: 'quality_profiles.filter_by_lang' })}
-        className="sw-py-1"
+        className="sw:py-1"
         data={options}
         isSearchable
         label={intl.formatMessage({ id: 'quality_profiles.filter_by' })}

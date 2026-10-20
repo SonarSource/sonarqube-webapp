@@ -269,7 +269,7 @@ export class StandardFacet extends React.PureComponent<Props, State> {
 
     return (
       <MultipleSelectionHint
-        className="sw-pt-4"
+        className="sw:pt-4"
         selectedItems={nbSelectedItems}
         totalItems={nbSelectableItems}
       />
@@ -287,7 +287,7 @@ export class StandardFacet extends React.PureComponent<Props, State> {
   ) => {
     if (!categories.length) {
       return (
-        <Text className="sw-ml-2 sw-mt-1" isSubtle>
+        <Text className="sw:ml-2 sw:mt-1" isSubtle>
           <FormattedMessage id="no_results" />
         </Text>
       );
@@ -347,7 +347,7 @@ export class StandardFacet extends React.PureComponent<Props, State> {
 
     if (!(limitedList.length || selectedBelowLimit.length)) {
       return (
-        <Text className="sw-ml-2 sw-mt-1" isSubtle>
+        <Text className="sw:ml-2 sw:mt-1" isSubtle>
           <FormattedMessage id="no_results" />
         </Text>
       );
@@ -371,7 +371,7 @@ export class StandardFacet extends React.PureComponent<Props, State> {
         {selectedBelowLimit.length > 0 && (
           <>
             {!allItemShown && (
-              <Text as="div" className="sw-mb-2 sw-text-center" isSubtle>
+              <Text as="div" className="sw:mb-2 sw:text-center" isSubtle>
                 ⋯
               </Text>
             )}

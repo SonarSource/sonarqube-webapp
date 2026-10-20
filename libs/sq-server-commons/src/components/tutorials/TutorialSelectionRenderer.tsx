@@ -67,21 +67,21 @@ export interface TutorialSelectionRendererProps {
 
 function renderAlm(mode: TutorialModes, project: string, icon?: React.ReactNode) {
   return (
-    <GreyCard className="sw-col-span-4 sw-p-4">
+    <GreyCard className="sw:col-span-4 sw:p-4">
       <LinkStandalone iconLeft={icon} to={getProjectTutorialLocation(project, mode)}>
-        <span className={icon ? 'sw-ml-2' : ''}>
+        <span className={icon ? 'sw:ml-2' : ''}>
           <FormattedMessage id={`onboarding.tutorial.choose_method.${mode}`} />
         </span>
       </LinkStandalone>
 
       {mode === TutorialModes.Local && (
-        <Text as="p" className="sw-mt-3" isSubtle>
+        <Text as="p" className="sw:mt-3" isSubtle>
           <FormattedMessage id="onboarding.mode.help.manual" />
         </Text>
       )}
 
       {mode === TutorialModes.OtherCI && (
-        <Text as="p" className="sw-mt-3" isSubtle>
+        <Text as="p" className="sw:mt-3" isSubtle>
           <FormattedMessage id="onboarding.mode.help.otherci" />
         </Text>
       )}
@@ -172,21 +172,21 @@ export default function TutorialSelectionRenderer(props: Readonly<TutorialSelect
         disableBranchSelector
         title={pageTitle}
       >
-        <AnalysisStatus className="sw-mb-4 sw-w-max" component={component} />
+        <AnalysisStatus className="sw:mb-4 sw:w-max" component={component} />
 
-        <div className="sw-flex sw-flex-col">
+        <div className="sw:flex sw:flex-col">
           <Heading as="h2" hasMarginBottom>
             <FormattedMessage id="onboarding.tutorial.choose_method" />
           </Heading>
 
-          <div className="it__tutorial-selection sw-grid sw-gap-6 sw-grid-cols-12">
+          <div className="it__tutorial-selection sw:grid sw:gap-6 sw:grid-cols-12">
             {showJenkins &&
               renderAlm(
                 TutorialModes.Jenkins,
                 component.key,
                 <Image
                   alt="" // Should be ignored by screen readers
-                  className="sw-h-400 sw-w-200"
+                  className="sw:h-400 sw:w-200"
                   src="/images/tutorials/jenkins.svg"
                 />,
               )}
@@ -197,7 +197,7 @@ export default function TutorialSelectionRenderer(props: Readonly<TutorialSelect
                 component.key,
                 <Image
                   alt="" // Should be ignored by screen readers
-                  className="sw-h-400 sw-w-200"
+                  className="sw:h-400 sw:w-200"
                   src={almIconUrl(currentTheme, AlmKeys.GitHub)}
                 />,
               )}
@@ -208,7 +208,7 @@ export default function TutorialSelectionRenderer(props: Readonly<TutorialSelect
                 component.key,
                 <Image
                   alt="" // Should be ignored by screen readers
-                  className="sw-h-400 sw-w-200"
+                  className="sw:h-400 sw:w-200"
                   src={almIconUrl(currentTheme, AlmKeys.BitbucketServer)}
                 />,
               )}
@@ -219,7 +219,7 @@ export default function TutorialSelectionRenderer(props: Readonly<TutorialSelect
                 component.key,
                 <Image
                   alt="" // Should be ignored by screen readers
-                  className="sw-h-400 sw-w-200"
+                  className="sw:h-400 sw:w-200"
                   src={almIconUrl(currentTheme, AlmKeys.GitLab)}
                 />,
               )}
@@ -230,7 +230,7 @@ export default function TutorialSelectionRenderer(props: Readonly<TutorialSelect
                 component.key,
                 <Image
                   alt="" // Should be ignored by screen readers
-                  className="sw-h-400 sw-w-200"
+                  className="sw:h-400 sw:w-200"
                   src="/images/tutorials/azure-pipelines.svg"
                 />,
               )}
@@ -260,8 +260,8 @@ export default function TutorialSelectionRenderer(props: Readonly<TutorialSelect
       skipPageContentWrapper
       title={pageTitle}
     >
-      <Layout.PageContent className="sw-overflow-hidden">
-        <AnalysisStatus className="sw-mb-4 sw-w-max" component={component} />
+      <Layout.PageContent className="sw:overflow-hidden">
+        <AnalysisStatus className="sw:mb-4 sw:w-max" component={component} />
 
         {selectedTutorial === TutorialModes.Local && (
           <OtherTutorial

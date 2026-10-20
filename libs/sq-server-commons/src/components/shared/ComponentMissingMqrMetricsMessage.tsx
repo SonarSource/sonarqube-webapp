@@ -78,7 +78,7 @@ export function ComponentMissingMqrMetricsMessage({
           qualifier,
           link: (text) => (
             <DocumentationLink
-              className="sw-whitespace-nowrap"
+              className="sw:whitespace-nowrap"
               enableOpenInNewTab
               highlight={LinkHighlight.CurrentColor}
               to={DocLink.MetricDefinitions}

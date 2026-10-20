@@ -51,7 +51,7 @@ function userToOption(user: RestUser | UserActive) {
   return {
     value: user.login,
     label: isUserActive(user) ? userInfo : translateWithParameters('user.x_deleted', userInfo),
-    Icon: <Avatar className="sw-my-1" hash={user.avatar} name={user.name} size="xs" />,
+    Icon: <Avatar className="sw:my-1" hash={user.avatar} name={user.name} size="xs" />,
   };
 }
 
@@ -107,9 +107,9 @@ function AssigneeOption(props: Readonly<Option>) {
   const { Icon, label } = props;
 
   return (
-    <div className="sw-flex sw-flex-nowrap sw-items-center sw-overflow-hidden">
-      {isDefined(Icon) && <span className="sw-mr-2">{Icon}</span>}
-      <span className="sw-whitespace-nowrap sw-text-ellipsis">{label}</span>
+    <div className="sw:flex sw:flex-nowrap sw:items-center sw:overflow-hidden">
+      {isDefined(Icon) && <span className="sw:mr-2">{Icon}</span>}
+      <span className="sw:whitespace-nowrap sw:text-ellipsis">{label}</span>
     </div>
   );
 }

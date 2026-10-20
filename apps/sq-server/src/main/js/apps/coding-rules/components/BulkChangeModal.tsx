@@ -191,7 +191,7 @@ export class BulkChangeModal extends React.PureComponent<Props, State> {
       : profile.language;
     return (
       <MessageInline
-        className="sw-mb-4"
+        className="sw:mb-4"
         key={result.profile}
         variety={result.failed === 0 ? MessageVariety.Success : MessageVariety.Warning}
       >
@@ -224,7 +224,7 @@ export class BulkChangeModal extends React.PureComponent<Props, State> {
         : translate('coding_rules.deactivate_in');
     return (
       <>
-        <Label className="sw-block sw-mb-2" htmlFor="coding-rules-bulk-change-profile-select">
+        <Label className="sw:block sw:mb-2" htmlFor="coding-rules-bulk-change-profile-select">
           {label}
         </Label>
         <QualityProfileSelector
@@ -263,7 +263,7 @@ export class BulkChangeModal extends React.PureComponent<Props, State> {
           <div>
             {profile ? (
               <>
-                <Heading as="h4" className="sw-mb-0">
+                <Heading as="h4" className="sw:mb-0">
                   {label}
                 </Heading>
                 <span>

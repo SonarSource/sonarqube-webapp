@@ -82,7 +82,7 @@ export default function ListItem(props: Readonly<ListItemProps>) {
     return (
       <Image
         alt={identityProvider}
-        className="sw-ml-2 sw-mr-2"
+        className="sw:ml-2 sw:mr-2"
         height={16}
         src={almIconUrl(currentTheme, identityProvider)}
       />
@@ -92,15 +92,15 @@ export default function ListItem(props: Readonly<ListItemProps>) {
   return (
     <TableRow data-id={name}>
       <ContentCell>
-        <div className="sw-typo-semibold">{name}</div>
+        <div className="sw:typo-semibold">{name}</div>
         {group.default && (
-          <span className="sw-ml-1">
+          <span className="sw:ml-1">
             (<FormattedMessage id="default" />)
           </span>
         )}
         {managed && renderIdentityProviderIcon(manageProvider)}
         {isGroupLocal() && (
-          <Badge className="sw-ml-1" variety={BadgeVariety.Neutral}>
+          <Badge className="sw:ml-1" variety={BadgeVariety.Neutral}>
             <FormattedMessage id="local" />
           </Badge>
         )}
@@ -111,7 +111,7 @@ export default function ListItem(props: Readonly<ListItemProps>) {
       </NumericalCell>
       <ContentCell>{description}</ContentCell>
       <ContentCell>
-        <div className="sw-flex sw-gap-2">
+        <div className="sw:flex sw:gap-2">
           {groupSubscriptionTypes.map((notificationType) => (
             <Badge key={notificationType} variety={BadgeVariety.Neutral}>
               <FormattedMessage id={`notification.dispatcher.${notificationType}`} />

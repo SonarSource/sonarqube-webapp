@@ -31,14 +31,14 @@ import { PROFILE_PATH } from '~sq-server-commons/constants/paths';
 export default function ProfileNotFound() {
   return (
     <Layout.PageGrid>
-      <Layout.PageContent className="sw-flex sw-flex-col sw-items-center sw-justify-start sw-pt-40">
+      <Layout.PageContent className="sw:flex sw:flex-col sw:items-center sw:justify-start sw:pt-40">
         <EmptyState
           action={
             <Button to={PROFILE_PATH} variety={ButtonVariety.Primary}>
               <FormattedMessage id="quality_profiles.back_to_list" />
             </Button>
           }
-          className="sw-max-w-[32rem]"
+          className="sw:max-w-[32rem]"
           graphic={<IconQualityProfile />}
           text={<FormattedMessage id="quality_profiles.not_found.description" />}
           title={<FormattedMessage id="quality_profiles.not_found" />}

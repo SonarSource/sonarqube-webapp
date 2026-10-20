@@ -35,12 +35,12 @@ export default function DefaultProjectKey(props: Readonly<DefaultProjectKeyProps
   const { component, monorepo } = props;
 
   return (
-    <NumberedListItem className="sw-mb-6">
+    <NumberedListItem className="sw:mb-6">
       <SentenceWithFilename
         filename="sonar-project.properties"
         translationKey={`onboarding.tutorial.other.project_key${monorepo ? '.monorepo' : ''}`}
       />
-      <CodeSnippet className="sw-p-6" isOneLine snippet={sonarProjectSnippet(component.key)} />
+      <CodeSnippet className="sw:p-6" isOneLine snippet={sonarProjectSnippet(component.key)} />
       <div>
         <MessageCallout variety={MessageVariety.Info}>
           <FormattedMessage id="onboarding.tutorial.other.project_key.monorepo.info" />

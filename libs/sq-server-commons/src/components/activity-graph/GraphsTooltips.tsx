@@ -89,14 +89,14 @@ export class GraphsTooltips extends React.PureComponent<Props> {
 
     return (
       <Popup
-        className="sw-pointer-events-none"
+        className="sw:pointer-events-none"
         noArrow
         placement={placement}
         style={{ top, left, width: TOOLTIP_WIDTH }}
       >
-        <div className="sw-p-2" role="tooltip">
+        <div className="sw:p-2" role="tooltip">
           <div
-            className="sw-typo-lg-semibold sw-whitespace-nowrap"
+            className="sw:typo-lg-semibold sw:whitespace-nowrap"
             style={{ color: cssVar('color-text-default') }}
           >
             <DateTimeFormatter date={selectedDate} />

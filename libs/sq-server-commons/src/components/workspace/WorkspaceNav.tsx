@@ -35,7 +35,7 @@ export default function WorkspaceNav(props: Props) {
 
   return (
     <WorkspaceNavStyled>
-      <ul className="sw-float-right">
+      <ul className="sw:float-right">
         {components.map((component) => (
           <WorkspaceNavComponent
             component={component}

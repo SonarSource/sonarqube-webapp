@@ -50,7 +50,7 @@ export function PageUnavailableDueToIndexation() {
   const page = (
     <Layout.PageGrid>
       <Layout.PageContent>
-        <MessageCallout className="sw-mt-10" variety="info">
+        <MessageCallout className="sw:mt-10" variety="info">
           {indexationContext.status.statusMessage ?? (
             <FormattedMessage id="indexation.page_unavailable.description" />
           )}{' '}

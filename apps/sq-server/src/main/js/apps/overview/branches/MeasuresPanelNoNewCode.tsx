@@ -65,18 +65,18 @@ export default function MeasuresPanelNoNewCode(props: MeasuresPanelNoNewCodeProp
 
   return (
     <div
-      className="sw-flex sw-items-center sw-justify-center"
+      className="sw:flex sw:items-center sw:justify-center"
       id={getTabPanelId(CodeScope.New)}
       style={{ height: 500 }}
     >
       <Image
         alt="" /* Make screen readers ignore this image; it's purely eye candy. */
-        className="sw-mr-2"
+        className="sw:mr-2"
         height={52}
         src="/images/source-code.svg"
       />
-      <Text as="div" className="sw-ml-4 sw-max-w-abs-500" isSubtle>
-        <p className="sw-mb-2 sw-mt-4">{translate(badExplanationKey)}</p>
+      <Text as="div" className="sw:ml-4 sw:max-w-abs-500" isSubtle>
+        <p className="sw:mb-2 sw:mt-4">{translate(badExplanationKey)}</p>
         {hasBadNewCodeSettingSameRef && showSettingsLink && (
           <p>
             <FormattedMessage

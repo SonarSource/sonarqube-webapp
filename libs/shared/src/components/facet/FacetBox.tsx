@@ -105,14 +105,14 @@ export function FacetBox(props: Readonly<FacetBoxProps>) {
       inner={inner}
     >
       <Header>
-        <div className="sw-flex sw-items-center">
+        <div className="sw:flex sw:items-center">
           <TitleWithHelp>
             <ChevronAndTitle
               aria-controls={`${id}-panel`}
               aria-disabled={!expandable}
               aria-expanded={open}
               ariaLabel={ariaLabel ?? name}
-              className="sw-pl-0"
+              className="sw:pl-0"
               expandable={expandable}
               id={`${id}-header`}
               onClick={() => {
@@ -145,14 +145,14 @@ export function FacetBox(props: Readonly<FacetBoxProps>) {
               )}
             </ChevronAndTitle>
           </TitleWithHelp>
-          {help && <span className="sw-ml-1">{help}</span>}
+          {help && <span className="sw:ml-1">{help}</span>}
         </div>
 
         {<Spinner isLoading={loading} />}
 
         {counter > 0 && (
           <BadgeAndIcons>
-            <BadgeCounter aria-label={countLabel} className="sw-px-2" value={counter} />
+            <BadgeCounter aria-label={countLabel} className="sw:px-2" value={counter} />
 
             {Boolean(clearable) && (
               <Tooltip content={clearIconLabel}>

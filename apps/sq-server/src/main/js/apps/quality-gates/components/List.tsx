@@ -87,7 +87,7 @@ export default function List({ qualityGates, currentQualityGate }: Readonly<Prop
   };
 
   return (
-    <SubnavigationGroup as="ul" className="sw-box-border">
+    <SubnavigationGroup as="ul" className="sw:box-border">
       {qualityGates.map((qualityGate) => {
         const { name, isDefault, isBuiltIn, caycStatus, isAiCodeSupported } = qualityGate;
         const isDefaultTitle = isDefault ? ` ${formatMessage({ id: 'default' })}` : '';
@@ -111,31 +111,31 @@ export default function List({ qualityGates, currentQualityGate }: Readonly<Prop
                     navigateTo(getQualityGateUrl(name));
                   }}
                 >
-                  <div className="sw-flex sw-flex-col sw-min-w-0">
+                  <div className="sw:flex sw:flex-col sw:min-w-0">
                     <BareButton
                       aria-current={currentQualityGate === name && 'page'}
-                      className="sw-flex-1 sw-text-ellipsis sw-overflow-hidden sw-max-w-abs-250 sw-whitespace-nowrap"
+                      className="sw:flex-1 sw:text-ellipsis sw:overflow-hidden sw:max-w-abs-250 sw:whitespace-nowrap"
                       title={`${name}${isDefaultTitle}${isBuiltInTitle}`}
                     >
                       {name}
                     </BareButton>
 
                     {(isDefault || isBuiltIn) && (
-                      <div className="sw-mt-2">
+                      <div className="sw:mt-2">
                         {isAgenticQualityGate({ isBuiltIn: isBuiltIn ?? false, name }) && (
-                          <QualityGateNewBadge className="sw-mr-2" />
+                          <QualityGateNewBadge className="sw:mr-2" />
                         )}
 
-                        {isDefault && <DefaultBadge className="sw-mr-2" />}
-                        {isBuiltIn && <BuiltInQualityGateBadge className="sw-mr-2" />}
+                        {isDefault && <DefaultBadge className="sw:mr-2" />}
+                        {isBuiltIn && <BuiltInQualityGateBadge className="sw:mr-2" />}
                       </div>
                     )}
                   </div>
                   <Spinner isLoading={isLoading}>
-                    <div className="sw-flex sw-ml-6">
+                    <div className="sw:flex sw:ml-6">
                       {showGateUpdateIcon && (
                         <span
-                          className="sw-mr-1"
+                          className="sw:mr-1"
                           data-testid="quality-gates-mqr-standard-mode-update-indicator"
                         >
                           <IconRefresh color="echoes-color-icon-accent" />
@@ -144,7 +144,7 @@ export default function List({ qualityGates, currentQualityGate }: Readonly<Prop
 
                       {isAICodeAssuranceQualityGate && (
                         <span
-                          className="sw-mr-1 sw-flex sw-items-start"
+                          className="sw:mr-1 sw:flex sw:items-start"
                           data-testid="quality-gates-ai-assurance-indicator"
                         >
                           <AIAssuredIcon

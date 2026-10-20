@@ -54,7 +54,7 @@ sonar.projectName=${projectName}
 `;
 
   return (
-    <Text as="ul" className="sw-max-w-full sw-ml-6 sw-my-2">
+    <Text as="ul" className="sw:max-w-full sw:ml-6 sw:my-2">
       <li>
         <SentenceWithHighlights
           highlightKeys={['endpoint']}
@@ -94,54 +94,54 @@ sonar.projectName=${projectName}
           </li>
 
           <li>
-            <span className="sw-flex sw-items-center">
+            <span className="sw:flex sw:items-center">
               <FormattedMessage
                 id="onboarding.tutorial.with.azure_pipelines.BranchAnalysis.run.key.sentence"
                 values={{
                   project_key: (
-                    <b className="sw-mx-1">
+                    <b className="sw:mx-1">
                       {translate(
                         'onboarding.tutorial.with.azure_pipelines.BranchAnalysis.run.key.sentence.project_key',
                       )}
                     </b>
                   ),
                   key: (
-                    <span className="sw-ml-1">
+                    <span className="sw:ml-1">
                       <InlineSnippet snippet={projectKey} />
                     </span>
                   ),
-                  button: <ClipboardIconButton className="sw-ml-2" copyValue={projectKey} />,
+                  button: <ClipboardIconButton className="sw:ml-2" copyValue={projectKey} />,
                 }}
               />
             </span>
           </li>
           {isCFamily(buildTool) && (
             <li>
-              <span className="sw-flex sw-items-center sw-flex-wrap">
+              <span className="sw:flex sw:items-center sw:flex-wrap">
                 <FormattedMessage
                   id="onboarding.tutorial.with.azure_pipelines.BranchAnalysis.prepare_additional.ccpp"
                   values={{
                     advanced: (
-                      <b className="sw-mx-1">
+                      <b className="sw:mx-1">
                         {translate(
                           'onboarding.tutorial.with.azure_pipelines.BranchAnalysis.prepare_additional.ccpp.advanced',
                         )}
                       </b>
                     ),
                     additional: (
-                      <b className="sw-mx-1">
+                      <b className="sw:mx-1">
                         {translate(
                           'onboarding.tutorial.with.azure_pipelines.BranchAnalysis.prepare_additional.ccpp.additional',
                         )}
                       </b>
                     ),
                     property: (
-                      <span className="sw-ml-1">
+                      <span className="sw:ml-1">
                         <InlineSnippet snippet={ADDITIONAL_PROPERTY} />
                       </span>
                     ),
                     button: (
-                      <ClipboardIconButton className="sw-ml-2" copyValue={ADDITIONAL_PROPERTY} />
+                      <ClipboardIconButton className="sw:ml-2" copyValue={ADDITIONAL_PROPERTY} />
                     ),
                   }}
                 />
@@ -159,7 +159,7 @@ sonar.projectName=${projectName}
           />
           :
           <CodeSnippet
-            className="sw-p-6"
+            className="sw:p-6"
             language="properties"
             snippet={MAVEN_GRADLE_PROPS_SNIPPET}
           />
@@ -167,23 +167,23 @@ sonar.projectName=${projectName}
       )}
       {kind === PrepareType.MSBuild && (
         <li>
-          <span className="sw-flex sw-items-center">
+          <span className="sw:flex sw:items-center">
             <FormattedMessage
               id="onboarding.tutorial.with.azure_pipelines.BranchAnalysis.run.key.sentence"
               values={{
                 project_key: (
-                  <b className="sw-mx-1">
+                  <b className="sw:mx-1">
                     {translate(
                       'onboarding.tutorial.with.azure_pipelines.BranchAnalysis.run.key.sentence.project_key',
                     )}
                   </b>
                 ),
                 key: (
-                  <span className="sw-ml-1">
+                  <span className="sw:ml-1">
                     <InlineSnippet snippet={projectKey} />
                   </span>
                 ),
-                button: <ClipboardIconButton className="sw-ml-2" copyValue={projectKey} />,
+                button: <ClipboardIconButton className="sw:ml-2" copyValue={projectKey} />,
               }}
             />
           </span>

@@ -24,12 +24,12 @@ import { Link } from '~design-system';
 export default function NoWorkersSupportPopup() {
   return (
     <>
-      <p className="sw-mb-2">
+      <p className="sw:mb-2">
         <strong>
           <FormattedMessage id="background_tasks.add_more_workers" />
         </strong>
       </p>
-      <p className="sw-mb-4 markdown">
+      <p className="sw:mb-4 markdown">
         <FormattedMessage id="background_tasks.add_more_workers.text" />
       </p>
       <p>

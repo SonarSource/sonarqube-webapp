@@ -65,7 +65,7 @@ export function Tags({
 
   const tagsContent = (
     <Tooltip content={tags.length > 0 ? tags.join(', ') : formatMessage({ id: 'no_tags' })}>
-      <span className="sw-inline-flex sw-items-center sw-gap-1">
+      <span className="sw:inline-flex sw:items-center sw:gap-1">
         {displayedTags.map((tag) => (
           <TagLabel key={tag}>{tag}</TagLabel>
         ))}
@@ -82,7 +82,7 @@ export function Tags({
   );
 
   return (
-    <span className={classNames('sw-cursor-default sw-flex sw-items-center', className)}>
+    <span className={classNames('sw:cursor-default sw:flex sw:items-center', className)}>
       {allowUpdate ? (
         <DropdownMenu
           align={align}
@@ -101,11 +101,11 @@ export function Tags({
                 ? formatMessage({ id: 'tags.edit_button_label' }, { tags: tags.join(', ') })
                 : formatMessage({ id: 'tags.add_tags' })
             }
-            className="sw-flex sw-items-center sw-gap-1 sw-cursor-pointer sw-bg-transparent sw-border-none sw-p-0"
+            className="sw:flex sw:items-center sw:gap-1 sw:cursor-pointer sw:bg-transparent sw:border-none sw:p-0"
             type="button"
           >
             {tagsContent}
-            <TagLabel aria-hidden="true" className="sw-cursor-pointer">
+            <TagLabel aria-hidden="true" className="sw:cursor-pointer">
               +
             </TagLabel>
           </button>

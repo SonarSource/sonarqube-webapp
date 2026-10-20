@@ -121,16 +121,16 @@ export function IssuesInSandboxSection({
     <section className={className}>
       <Text isHighlighted>
         <FormattedMessage id={`metric.${MetricKey.issues_in_sandbox}.short_name`} />
-        <Spinner isLoading={loadingSandboxedBlockerIssues} wrapperClassName="sw-inline-flex">
+        <Spinner isLoading={loadingSandboxedBlockerIssues} wrapperClassName="sw:inline-flex">
           {sandboxIssues?.hasBlockerIssues && (
-            <Badge IconLeft={IconSeverityBlocker} className="sw-ml-2" variety={BadgeVariety.Danger}>
+            <Badge IconLeft={IconSeverityBlocker} className="sw:ml-2" variety={BadgeVariety.Danger}>
               <FormattedMessage id="issue.sandbox.includes_blockers" />
             </Badge>
           )}
         </Spinner>
       </Text>
-      <Spinner className="sw-my-2" isLoading={loadingSandboxedIssues}>
-        <div className="sw-my-4 sw-flex sw-justify-between sw-w-[466px]">
+      <Spinner className="sw:my-2" isLoading={loadingSandboxedIssues}>
+        <div className="sw:my-4 sw:flex sw:justify-between sw:w-[466px]">
           {sandboxIssues &&
             SOFTWARE_QUALITIES.map((quality) => (
               <IssuesSandboxQualityMeasure
@@ -143,10 +143,10 @@ export function IssuesInSandboxSection({
             ))}
         </div>
       </Spinner>
-      <Text as="p" className="sw-w-[400px]" isSubtle size={TextSize.Small}>
+      <Text as="p" className="sw:w-[400px]" isSubtle size={TextSize.Small}>
         <FormattedMessage id={`metric.${MetricKey.issues_in_sandbox}.description`} />
         <Link
-          className="sw-ml-1"
+          className="sw:ml-1"
           enableOpenInNewTab
           highlight={LinkHighlight.CurrentColor}
           to={docUrl}

@@ -91,7 +91,7 @@ function renderAlmOption(
   const icon = (
     <Image
       alt="" // Should be ignored by screen readers
-      className="sw-h-400 sw-w-200"
+      className="sw:h-400 sw:w-200"
       src={
         !disabled && hasConfig
           ? almIconUrl(currentTheme, iconKey)
@@ -101,18 +101,18 @@ function renderAlmOption(
   );
 
   return (
-    <GreyCard className="sw-col-span-4 sw-p-4 sw-flex sw-justify-between sw-items-center" key={alm}>
-      <div className="sw-items-center sw-flex sw-py-2">
+    <GreyCard className="sw:col-span-4 sw:p-4 sw:flex sw:justify-between sw:items-center" key={alm}>
+      <div className="sw:items-center sw:flex sw:py-2">
         {!disabled && hasConfig ? (
           <LinkStandalone iconLeft={icon} to={getCreateProjectModeLocation(mode, { redirect })}>
-            <span className="sw-ml-2">
+            <span className="sw:ml-2">
               <FormattedMessage id={`onboarding.create_project.import_select_method.${alm}`} />
             </span>
           </LinkStandalone>
         ) : (
           <>
             {icon}
-            <Text className="sw-ml-3 sw-text-sm sw-font-semibold" isSubtle>
+            <Text className="sw:ml-3 sw:text-sm sw:font-semibold" isSubtle>
               <FormattedMessage id={`onboarding.create_project.import_select_method.${alm}`} />
             </Text>
           </>
@@ -174,15 +174,15 @@ export function CreateProjectModeSelection(props: Readonly<CreateProjectModeSele
       }
       title={formatMessage({ id: 'onboarding.create_project.select_method' })}
     >
-      <Heading as="h2" className="sw-mt-6">
+      <Heading as="h2" className="sw:mt-6">
         <FormattedMessage id="onboarding.create_project.select_method.devops_platform_second" />
       </Heading>
       {almTotalCount === 0 && canAdmin && (
-        <Text className="sw-mt-3">
+        <Text className="sw:mt-3">
           <FormattedMessage id="onboarding.create_project.select_method.no_alm_yet.admin" />
         </Text>
       )}
-      <div className="sw-grid sw-gap-x-12 sw-gap-y-6 sw-grid-cols-12 sw-mt-4">
+      <div className="sw:grid sw:gap-x-12 sw:gap-y-6 sw:grid-cols-12 sw:mt-4">
         {filteredAlm.availableOptions.map(({ key, mode }) =>
           renderAlmOption(props, key, mode, formatMessage, currentTheme),
         )}
@@ -190,11 +190,11 @@ export function CreateProjectModeSelection(props: Readonly<CreateProjectModeSele
           renderAlmOption(props, key, mode, formatMessage, currentTheme),
         )}
       </div>
-      <Label className="sw-block sw-mb-4 sw-mt-10">
+      <Label className="sw:block sw:mb-4 sw:mt-10">
         <FormattedMessage id="onboarding.create_project.select_method.manually" />
       </Label>
-      <div className="sw-grid sw-gap-x-12 sw-gap-y-6 sw-grid-cols-12">
-        <GreyCard className="sw-col-span-4 sw-p-4 sw-py-6 sw-flex sw-justify-between sw-items-center">
+      <div className="sw:grid sw:gap-x-12 sw:gap-y-6 sw:grid-cols-12">
+        <GreyCard className="sw:col-span-4 sw:p-4 sw:py-6 sw:flex sw:justify-between sw:items-center">
           <div>
             <LinkStandalone
               to={getCreateProjectModeLocation(CreateProjectModes.Manual, { redirect })}

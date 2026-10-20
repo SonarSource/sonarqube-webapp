@@ -59,7 +59,7 @@ function LineCoverageFunc({
   }
 
   return (
-    <LineMeta className="sw-pl-1/2" data-line-number={lineNumber} ref={coverageMarker}>
+    <LineMeta className="sw:pl-1/2" data-line-number={lineNumber} ref={coverageMarker}>
       <MarginIndicator
         ariaLabel={status ?? ''}
         indicatorType={COVERAGE_STATUS_MAPPING[coverageStatus]}

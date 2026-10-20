@@ -36,7 +36,7 @@ export default function MetaLinks({ links }: Readonly<Props>) {
       <Heading as="h3">
         <FormattedMessage id="overview.external_links" />
       </Heading>
-      <ul className="sw-mt-2 sw-flex sw-flex-col sw-gap-3">
+      <ul className="sw:mt-2 sw:flex sw:flex-col sw:gap-3">
         {orderedLinks.map((link) => (
           <MetaLink key={link.id} link={link} />
         ))}

@@ -100,14 +100,14 @@ export default function Component(props: Props) {
       aria-label={component.name}
       selected={selected}
       {...(expandable && {
-        className: 'sw-cursor-pointer',
+        className: 'sw:cursor-pointer',
         onClick: () => setExpanded?.((expanded) => !expanded),
         onKeyDown,
         tabIndex: 0,
       })}
     >
       {canBePinned && (
-        <ContentCell className="sw-py-3">
+        <ContentCell className="sw:py-3">
           {isFile && (
             <WorkspaceContext.Consumer>
               {({ openComponent }) => (
@@ -121,13 +121,13 @@ export default function Component(props: Props) {
           )}
         </ContentCell>
       )}
-      <ContentCell className="it__code-name-cell sw-overflow-hidden">
+      <ContentCell className="it__code-name-cell sw:overflow-hidden">
         {expandable && (
           <IconTriangleRight
             className={`
-              motion-safe:sw-transition-transform
-              sw-mr-3
-              ${expanded ? 'sw-rotate-90' : 'sw-rotate-0'}
+              sw:motion-safe:transition-transform
+              sw:mr-3
+              ${expanded ? 'sw:rotate-90' : 'sw:rotate-0'}
             `}
           />
         )}
@@ -152,7 +152,7 @@ export default function Component(props: Props) {
       ))}
 
       {showAnalysisDate && (
-        <NumericalCell className="sw-whitespace-nowrap">
+        <NumericalCell className="sw:whitespace-nowrap">
           <Spinner isLoading={isLoading}>
             {!isBaseComponent && (analysisDate ? <DateFromNow date={analysisDate} /> : '—')}
           </Spinner>

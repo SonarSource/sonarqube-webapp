@@ -149,7 +149,7 @@ export default function AddGraphMetric(props: Readonly<Props>) {
       zLevel={PopupZLevel.Global}
     >
       <Button suffix={<IconChevronDown />}>
-        <span className="sw-typo-default sw-flex">
+        <span className="sw:typo-default sw:flex">
           {translate('project_activity.graphs.custom.add')}
         </span>
       </Button>

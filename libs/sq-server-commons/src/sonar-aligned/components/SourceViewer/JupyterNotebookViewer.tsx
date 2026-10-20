@@ -35,7 +35,7 @@ import { translate } from '../../../helpers/l10n';
 export function JupyterMarkdownCell({ cell }: Readonly<{ cell: IMarkdownCell }>) {
   const markdown = isArray(cell.source) ? cell.source.join('') : cell.source;
   return (
-    <div className="sw-m-4 sw-ml-0">
+    <div className="sw:m-4 sw:ml-0">
       <Markdown>{markdown}</Markdown>
     </div>
   );
@@ -81,9 +81,9 @@ export function JupyterCodeCell(
   const { source, outputs, className } = props;
 
   return (
-    <div className={classNames('sw-m-4 sw-ml-0', className)}>
+    <div className={classNames('sw:m-4 sw:ml-0', className)}>
       <div>
-        <CodeSnippet className="sw-p-4" language="python" noCopy snippet={source.join('')} wrap />
+        <CodeSnippet className="sw:p-4" language="python" noCopy snippet={source.join('')} wrap />
       </div>
       <div>
         {outputs?.map((output: IOutput, outputIndex: number) => (

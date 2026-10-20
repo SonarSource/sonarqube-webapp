@@ -54,7 +54,7 @@ function SonarLintBadgeFull() {
   return (
     <Tooltip content={translate('issue.quick_fix_available_with_sonarlint_no_link')}>
       <LinkStandalone
-        className="sw-flex sw-items-center"
+        className="sw:flex sw:items-center"
         highlight={LinkHighlight.Default}
         iconLeft={<SonarLintLogo />}
         to={SONARLINT_URL}
@@ -68,7 +68,7 @@ function SonarLintBadgeFull() {
 function SonarLintBadgeCompact() {
   return (
     <Tooltip content={<FormattedMessage id="issue.quick_fix_available_with_sonarlint_no_link" />}>
-      <div className="sw-flex sw-items-center">
+      <div className="sw:flex sw:items-center">
         <LinkStandalone to={SONARLINT_URL}>
           <SonarLintLogo
             className="it__issues-sonarlint-quick-fix"

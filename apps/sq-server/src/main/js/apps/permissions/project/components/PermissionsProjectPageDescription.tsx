@@ -57,7 +57,7 @@ export function PermissionsProjectPageDescription(props: Readonly<Props>) {
               <FormattedMessage id="roles.page.description.gitlab" />
             )}
           </p>
-          <div className="sw-mt-2">
+          <div className="sw:mt-2">
             {provisionedByGitHub && <GitHubSynchronisationWarning short />}
             {provisionedByGitLab && <GitLabSynchronisationWarning short />}
           </div>

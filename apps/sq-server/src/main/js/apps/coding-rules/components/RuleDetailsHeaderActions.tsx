@@ -38,13 +38,13 @@ export default function RuleDetailsHeaderActions(props: Readonly<Props>) {
 
   return (
     <span
-      className="it__coding-rules-detail-property sw-flex sw-flex-wrap sw-items-center sw-gap-2"
+      className="it__coding-rules-detail-property sw:flex sw:flex-wrap sw:items-center sw:gap-2"
       data-meta="tags"
     >
       {/* Tags */}
       <TagsList
         allowUpdate={canWrite}
-        className="sw-typo-sm"
+        className="sw:typo-sm"
         overlay={
           canWrite ? (
             <RuleDetailsTagsPopup setTags={onTagsChange} sysTags={sysTags} tags={tags} />

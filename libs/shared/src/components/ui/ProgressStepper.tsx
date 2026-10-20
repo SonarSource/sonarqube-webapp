@@ -114,9 +114,9 @@ function StepItem<T extends string | number>({
       </StatusCircle>
       <label
         className={classNames(
-          'sw-mt-2 sw-block ',
-          isClickable && 'hover:sw-underline sw-cursor-pointer',
-          isActive && 'sw-font-bold',
+          'sw:mt-2 sw:block ',
+          isClickable && 'sw:hover:underline sw:cursor-pointer',
+          isActive && 'sw:font-bold',
         )}
         htmlFor={`step-control-${step}`}
         id={`step-${step}`}
@@ -128,7 +128,7 @@ function StepItem<T extends string | number>({
   );
 
   return (
-    <li className="sw-w-[160px] sw-text-center">
+    <li className="sw:w-[160px] sw:text-center">
       {tooltip ? (
         <Tooltip content={tooltip}>
           <div>{stepInner}</div>
@@ -156,11 +156,11 @@ export function ProgressStepper<T extends string | number>(props: Readonly<Props
   const progressIndex = steps.indexOf(progress);
   const maxIndex = steps.length - 1;
   return (
-    <nav aria-label="Progress stepper" className="sw-relative sw-inline-block sw-mt-1">
+    <nav aria-label="Progress stepper" className="sw:relative sw:inline-block sw:mt-1">
       <ProgressLine>
         <ProgressLineFill style={{ width: `${Math.round((progressIndex / maxIndex) * 100)}%` }} />
       </ProgressLine>
-      <ol className="sw-flex sw-relative">
+      <ol className="sw:flex sw:relative">
         {steps.map((step, i) => (
           <StepItem
             activeStep={activeStep}
@@ -203,11 +203,11 @@ function StatusCircle(props: Readonly<StatusCircleProps>) {
   } = props;
 
   return (
-    <div className="sw-relative sw-h-1000 sw-aspect-square sw-m-auto">
+    <div className="sw:relative sw:h-1000 sw:aspect-square sw:m-auto">
       {showPulse && <PulseRing style={{ backgroundColor: accentColor }} />}
       <Circle
         {...rem}
-        className={classNames(readOnly && 'sw-pointer-events-none', className)}
+        className={classNames(readOnly && 'sw:pointer-events-none', className)}
         style={{
           backgroundColor: isLatest ? accentColor : undefined,
           fontWeight: isActive ? 'bold' : undefined,

@@ -168,9 +168,9 @@ export default class SelectList extends React.PureComponent<Props, State> {
 
     return (
       <div className="it__select-list">
-        <div className="sw-flex sw-items-center sw-py-1">
+        <div className="sw:flex sw:items-center sw:py-1">
           <ToggleButtonGroup
-            className="sw-mr-2"
+            className="sw:mr-2"
             isDisabled={disabled}
             onChange={this.changeFilter}
             options={[

@@ -33,7 +33,7 @@ interface Props {
 export function ProjectsTableEmptyRow({ columns }: Readonly<Props>) {
   return (
     <Table.Row>
-      <Table.Cell className="sw-justify-start">{NO_DATA}</Table.Cell>
+      <Table.Cell className="sw:justify-start">{NO_DATA}</Table.Cell>
       {Array.from({ length: columns - 1 }, (_, index) => (
         <Table.Cell key={`empty-cell-${index}`}>{NO_DATA}</Table.Cell>
       ))}

@@ -49,7 +49,7 @@ export default function CommentActions(props: Props) {
 
   return (
     <>
-      <div className="sw-flex sw-gap-6">
+      <div className="sw:flex sw:gap-6">
         <ButtonIcon
           Icon={IconEdit}
           ariaLabel={intl.formatMessage({ id: 'issue.comment.edit' })}

@@ -90,7 +90,7 @@ export class DateRangePicker extends React.PureComponent<Props> {
     } = this.props;
 
     return (
-      <div className={classNames('sw-flex sw-items-center', this.props.className)}>
+      <div className={classNames('sw:flex sw:items-center', this.props.className)}>
         <DatePicker
           clearButtonLabel={startClearButtonLabel}
           currentMonth={this.to}
@@ -106,7 +106,7 @@ export class DateRangePicker extends React.PureComponent<Props> {
           valueFormatter={valueFormatter}
           zLevel={zLevel}
         />
-        <Text className="sw-mx-2" isSubtle>
+        <Text className="sw:mx-2" isSubtle>
           {separatorText ?? '–'}
         </Text>
         <DatePicker

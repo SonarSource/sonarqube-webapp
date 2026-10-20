@@ -18,9 +18,9 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import tailwindcss from '@tailwindcss/vite';
 import { existsSync } from 'fs';
 import { resolve } from 'path';
-import tailwind from 'tailwindcss';
 import { defineConfig, loadEnv } from 'vite';
 import { baseViteConfig, proxyTarget, workspaceRoot } from '../../vite.config.base';
 import { viteDevServerHtmlPlugin } from './config/vite-dev-server-html-plugin.mjs';
@@ -57,22 +57,7 @@ export default ({ mode }) => {
         }
       },
     },
-    css: {
-      ...baseViteConfig.css,
-
-      postcss: {
-        ...baseViteConfig.css.postcss,
-
-        plugins: [
-          tailwind(
-            resolve(workspaceRoot, 'libs/sq-server-commons/config/tailwind/tailwind.config'),
-          ),
-
-          ...baseViteConfig.css.postcss.plugins,
-        ],
-      },
-    },
-    plugins: [...baseViteConfig.plugins, viteDevServerHtmlPlugin()],
+    plugins: [tailwindcss(), ...baseViteConfig.plugins, viteDevServerHtmlPlugin()],
 
     resolve: {
       ...baseViteConfig.resolve,

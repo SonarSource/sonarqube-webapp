@@ -72,7 +72,7 @@ function SourceViewerWrapper(props: SourceViewerWrapperProps) {
 
   return isPreviewSupported ? (
     <>
-      <div className="sw-mb-4">
+      <div className="sw:mb-4">
         <ToggleButtonGroup
           onChange={(value) => {
             handleTabChange(value);

@@ -88,7 +88,7 @@ function BuildToolForm(props: Readonly<Props>) {
       {shouldShowGithubCFamilyExampleRepositories(config) && (
         <GithubCFamilyExampleRepositories
           ci={TutorialModes.OtherCI}
-          className="sw-my-4 sw-w-abs-600"
+          className="sw:my-4 sw:w-abs-600"
         />
       )}
     </>

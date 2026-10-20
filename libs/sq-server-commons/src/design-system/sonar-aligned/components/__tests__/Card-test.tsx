@@ -36,12 +36,12 @@ it.each([Card, GreyCard, LightGreyCard])(
   'renders %p correctly with classNames',
   (CardComponent) => {
     render(
-      <CardComponent className="sw-border-8" role="tabpanel">
+      <CardComponent className="sw:border-8" role="tabpanel">
         Hello
       </CardComponent>,
     );
     const cardContent = screen.getByText('Hello');
-    expect(cardContent).toHaveClass('sw-border-8');
+    expect(cardContent).toHaveClass('sw:border-8');
     expect(cardContent).toHaveAttribute('role', 'tabpanel');
   },
 );

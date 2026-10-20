@@ -32,7 +32,7 @@ const BACKDROP_OPACITY = 0.4;
  * Echoes icons size themselves off the inherited font size — `font-size: calc(1em + 4px)` with a
  * `calc(2em - 16px)` box — so a 28px font size is what yields the 48px lock the design asks for.
  */
-const LOCK_ICON_FONT_SIZE_CLASS = 'sw-text-[28px]';
+const LOCK_ICON_FONT_SIZE_CLASS = 'sw:text-[28px]';
 
 interface Props {
   ctaLabel: string;
@@ -70,13 +70,13 @@ export function LockedStatisticsCard({
   } as const;
 
   return (
-    <div className="sw-relative sw-overflow-hidden sw-py-12">
+    <div className="sw:relative sw:overflow-hidden sw:py-12">
       <DecorativeChartBackdrop />
 
-      <div className="sw-relative sw-z-normal sw-mx-auto sw-flex sw-max-w-abs-500 sw-flex-col sw-items-center sw-gap-6 sw-p-6 sw-text-center">
+      <div className="sw:relative sw:z-normal sw:mx-auto sw:flex sw:max-w-abs-500 sw:flex-col sw:items-center sw:gap-6 sw:p-6 sw:text-center">
         <IconLock className={LOCK_ICON_FONT_SIZE_CLASS} color="echoes-color-icon-subtle" />
 
-        <div className="sw-flex sw-flex-col sw-items-center sw-gap-2">
+        <div className="sw:flex sw:flex-col sw:items-center sw:gap-2">
           <Text isHighlighted size={TextSize.Large}>
             {title}
           </Text>
@@ -98,7 +98,7 @@ function DecorativeChartBackdrop() {
   return (
     <svg
       aria-hidden
-      className="sw-absolute sw-inset-0 sw-h-full sw-w-full"
+      className="sw:absolute sw:inset-0 sw:h-full sw:w-full"
       preserveAspectRatio="none"
       style={{ opacity: BACKDROP_OPACITY }}
       viewBox={BACKDROP_VIEWBOX}

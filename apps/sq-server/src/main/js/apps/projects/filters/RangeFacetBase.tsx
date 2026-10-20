@@ -163,7 +163,7 @@ export default class RangeFacetBase extends React.PureComponent<Props> {
     return (
       <FacetBox className={className} data-key={property} name={header} open>
         {description && (
-          <Text className="sw-mb-4 sw--mt-2 sw-block" isSubtle>
+          <Text className="sw:mb-4 sw:-mt-2 sw:block" isSubtle>
             {description}
           </Text>
         )}

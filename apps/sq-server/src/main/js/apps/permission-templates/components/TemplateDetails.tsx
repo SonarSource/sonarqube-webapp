@@ -27,19 +27,19 @@ interface Props {
 
 export default function TemplateDetails({ template }: Props) {
   return (
-    <div className="sw-mb-4">
+    <div className="sw:mb-4">
       {template.defaultFor.length > 0 && (
-        <div className="sw-mt-2 js-defaults">
+        <div className="sw:mt-2 js-defaults">
           <Defaults template={template} />
         </div>
       )}
 
       {!!template.description && (
-        <div className="sw-mt-2 js-description">{template.description}</div>
+        <div className="sw:mt-2 js-description">{template.description}</div>
       )}
 
       {!!template.projectKeyPattern && (
-        <div className="sw-mt-2 js-project-key-pattern">
+        <div className="sw:mt-2 js-project-key-pattern">
           Project Key Pattern: <code>{template.projectKeyPattern}</code>
         </div>
       )}

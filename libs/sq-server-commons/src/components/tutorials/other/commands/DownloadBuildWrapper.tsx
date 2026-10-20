@@ -36,13 +36,13 @@ export interface DownloadBuildWrapperProps {
 export default function DownloadBuildWrapper(props: Readonly<DownloadBuildWrapperProps>) {
   const { os, arch, isLocal, baseUrl } = props;
   return (
-    <div className="sw-mb-4">
-      <Heading as="h2" className="sw-mb-2">
+    <div className="sw:mb-4">
+      <Heading as="h2" className="sw:mb-2">
         {translate('onboarding.analysis.build_wrapper.header', os)}
       </Heading>
       {isLocal ? (
         <>
-          <p className="sw-mb-2">
+          <p className="sw:mb-2">
             <FormattedMessage
               id="onboarding.analysis.build_wrapper.text"
               values={{
@@ -50,7 +50,7 @@ export default function DownloadBuildWrapper(props: Readonly<DownloadBuildWrappe
               }}
             />
           </p>
-          <p className="sw-mb-2">
+          <p className="sw:mb-2">
             <Button
               download={`${getBuildWrapperFolder(os, arch)}.zip`}
               to={`/static/cpp/${getBuildWrapperFolder(os, arch)}.zip`}
@@ -62,7 +62,7 @@ export default function DownloadBuildWrapper(props: Readonly<DownloadBuildWrappe
         </>
       ) : (
         <CodeSnippet
-          className="sw-p-4"
+          className="sw:p-4"
           language={os === OSs.Windows ? 'powershell' : 'bash'}
           snippet={getRemoteDownloadSnippet(os, arch, baseUrl)}
         />

@@ -43,7 +43,7 @@ export default function RuleDetailsHeaderMeta(props: Readonly<Props>) {
   return (
     <Text
       as="ul"
-      className="sw-list-none sw-flex sw-flex-row sw-flex-wrap sw-items-center sw-gap-2 sw-p-0 sw-m-0"
+      className="sw:list-none sw:flex sw:flex-row sw:flex-wrap sw:items-center sw:gap-2 sw:p-0 sw:m-0"
       isSubtle
       size="small"
     >
@@ -64,7 +64,7 @@ export default function RuleDetailsHeaderMeta(props: Readonly<Props>) {
       {!ruleDetails.isExternal && ruleDetails.templateKey && (
         <>
           <li
-            className="it__coding-rules-detail-property sw-flex sw-items-center sw-gap-1"
+            className="it__coding-rules-detail-property sw:flex sw:items-center sw:gap-1"
             data-meta="parent"
           >
             <span>
@@ -82,21 +82,21 @@ export default function RuleDetailsHeaderMeta(props: Readonly<Props>) {
         </>
       )}
       {/* Key */}
-      <li className="sw-flex sw-gap-1">
+      <li className="sw:flex sw:gap-1">
         <span>
           <FormattedMessage id="coding_rules.rule_id" />
         </span>
-        <span className="sw-font-semibold">{ruleDetails.key}</span>
+        <span className="sw:font-semibold">{ruleDetails.key}</span>
       </li>
       {/* Scope */}
       {ruleDetails.scope && (
         <>
           <SeparatorCircleIcon aria-hidden as="li" />
-          <li className="sw-flex sw-gap-1">
+          <li className="sw:flex sw:gap-1">
             <span>
               <FormattedMessage id="coding_rules.analysis_scope" />
             </span>
-            <span className="sw-font-semibold">
+            <span className="sw:font-semibold">
               {translate('coding_rules.scope', ruleDetails.scope)}
             </span>
           </li>
@@ -106,12 +106,12 @@ export default function RuleDetailsHeaderMeta(props: Readonly<Props>) {
       {repository && (
         <>
           <SeparatorCircleIcon aria-hidden as="li" />
-          <li className="sw-flex sw-gap-1">
+          <li className="sw:flex sw:gap-1">
             <span>
               <FormattedMessage id="coding_rules.repository" />
             </span>
             <span
-              className="it__coding-rules-detail-property sw-font-semibold"
+              className="it__coding-rules-detail-property sw:font-semibold"
               data-meta="repository"
             >
               {repository.name} ({ruleDetails.langName})
@@ -130,12 +130,12 @@ export default function RuleDetailsHeaderMeta(props: Readonly<Props>) {
                 externalEngine,
               )}
             >
-              <div className="sw-flex sw-gap-1">
+              <div className="sw:flex sw:gap-1">
                 <span>
                   <FormattedMessage id="coding_rules.external_rule.engine" />
                 </span>
                 <span
-                  className="it__coding-rules-detail-property sw-font-semibold"
+                  className="it__coding-rules-detail-property sw:font-semibold"
                   data-meta="engine"
                 >
                   <Badge>{externalEngine}</Badge>
@@ -159,12 +159,12 @@ export default function RuleDetailsHeaderMeta(props: Readonly<Props>) {
       {ruleDetails.remFnType && isDefined(ruleDetails.remFnBaseEffort) && (
         <>
           <SeparatorCircleIcon aria-hidden as="li" />
-          <li className="sw-flex sw-gap-1">
+          <li className="sw:flex sw:gap-1">
             <span>
               <FormattedMessage id="coding_rules.remediation_effort" />
             </span>
             <span
-              className="it__coding-rules-detail-property sw-font-semibold"
+              className="it__coding-rules-detail-property sw:font-semibold"
               data-meta="remediation-function"
             >
               {` ${ruleDetails.remFnBaseEffort}`}

@@ -36,7 +36,7 @@ export function PageDescription({ canAdmin }: Readonly<PageDescriptionProps>) {
         <FormattedMessage id="project_baseline.page.description" />
       </Text>
 
-      <Text as="p" className="sw-mt-4">
+      <Text as="p" className="sw:mt-4">
         <FormattedMessage id="project_baseline.page.description2" />
 
         {canAdmin && (
@@ -57,7 +57,7 @@ export function PageDescription({ canAdmin }: Readonly<PageDescriptionProps>) {
       </Text>
 
       <Link
-        className="sw-block"
+        className="sw:block"
         enableOpenInNewTab
         highlight={LinkHighlight.CurrentColor}
         to={toUrl}

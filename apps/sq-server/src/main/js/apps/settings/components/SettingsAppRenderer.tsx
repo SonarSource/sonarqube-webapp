@@ -93,7 +93,7 @@ function SettingsAppRenderer(props: Readonly<SettingsAppRendererProps>) {
   return (
     <Wrapper
       asideLeft={
-        <div className="sw-flex sw-flex-col sw-gap-4">
+        <div className="sw:flex sw:flex-col sw:gap-4">
           <SettingsSearch
             component={component}
             definitions={definitions}
@@ -115,7 +115,7 @@ function SettingsAppRenderer(props: Readonly<SettingsAppRendererProps>) {
       <div>
         {/* Adding a key to force re-rendering of the category content, so that it resets the scroll position */}
         <PageContentCard
-          className="it__settings_list sw-flex-1 sw-p-6 sw-min-w-0"
+          className="it__settings_list sw:flex-1 sw:p-6 sw:min-w-0"
           key={selectedCategory}
         >
           {shouldRenderAdditionalCategory ? (

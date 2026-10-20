@@ -178,7 +178,7 @@ export default function ActivatedRuleActions(props: Readonly<Props>) {
               { id: 'coding_rules.see_actions_for_profile_x' },
               { x: profile.name },
             )}
-            className="sw-ml-1"
+            className="sw:ml-1"
             size={ButtonSize.Medium}
             variety={ButtonVariety.DefaultGhost}
           />
@@ -188,7 +188,7 @@ export default function ActivatedRuleActions(props: Readonly<Props>) {
 
     // Buttons mode: render actions as horizontal buttons
     return (
-      <div className="sw-flex sw-gap-2 sw-ml-4">
+      <div className="sw:flex sw:gap-2 sw:ml-4">
         {canChangeQp && renderActivationButton(false)}
 
         {canRevertToParent &&

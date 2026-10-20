@@ -35,8 +35,8 @@ export default function IssueTitleBar(props: Readonly<IssueTitleBarProps>) {
   const { data: isStandardMode } = useStandardExperienceModeQuery();
 
   return (
-    <div className="sw-mt-1 sw-flex sw-items-start sw-justify-between sw-gap-8">
-      <div className="sw-w-fit">
+    <div className="sw:mt-1 sw:flex sw:items-start sw:justify-between sw:gap-8">
+      <div className="sw:w-fit">
         <IssueMessage
           branchLike={branchLike}
           displayWhyIsThisAnIssue={displayWhyIsThisAnIssue}

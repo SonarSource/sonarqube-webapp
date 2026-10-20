@@ -48,7 +48,7 @@ export function AdvancedSast() {
       </Text>
       <Checkbox
         checked={asastEnabled}
-        className="sw-mt-6"
+        className="sw:mt-6"
         isDisabled
         label={<FormattedMessage id="property.asast.admin.checkbox.label" />}
         onCheck={noop}

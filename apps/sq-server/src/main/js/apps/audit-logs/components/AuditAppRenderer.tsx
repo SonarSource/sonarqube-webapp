@@ -101,7 +101,7 @@ export default function AuditAppRenderer(props: Readonly<AuditAppRendererProps>)
       }
       title={formatMessage({ id: 'audit_logs.page' })}
     >
-      <div className="sw-mb-6">
+      <div className="sw:mb-6">
         <Heading as="h2" hasMarginBottom id="audit-logs-housekeeping-radio-label" size="medium">
           <FormattedMessage id="audit_logs.download" />
         </Heading>
@@ -119,7 +119,7 @@ export default function AuditAppRenderer(props: Readonly<AuditAppRendererProps>)
         />
 
         <DateRangePicker
-          className="sw-w-abs-350 sw-mt-4"
+          className="sw:w-abs-350 sw:mt-4"
           endClearButtonLabel={formatMessage({ id: 'clear.end' })}
           fromLabel={formatMessage({ id: 'start_date' })}
           maxDate={now()}

@@ -46,10 +46,10 @@ export default function QualityGatePermissionsRenderer(props: QualityGatePermiss
       <Heading as="h3" hasMarginBottom>
         <FormattedMessage id="quality_gates.permissions" />
       </Heading>
-      <p className="sw-typo-default">
+      <p className="sw:typo-default">
         <FormattedMessage id="quality_gates.permissions.help" />
       </p>
-      <div className={classNames({ 'sw-my-2': users.length + groups.length > 0 })}>
+      <div className={classNames({ 'sw:my-2': users.length + groups.length > 0 })}>
         <Spinner isLoading={loading}>
           <Table columnCount={3} columnWidths={['40px', 'auto', '1%']} width="100%">
             {users.map((user) => (

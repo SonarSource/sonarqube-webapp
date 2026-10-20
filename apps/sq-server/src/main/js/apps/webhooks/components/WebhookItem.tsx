@@ -39,7 +39,7 @@ export default function WebhookItem({ onDelete, onUpdate, webhook }: Props) {
       <ContentCell>
         <WebhookItemLatestDelivery webhook={webhook} />
       </ContentCell>
-      <ActionCell className="sw-text-right">
+      <ActionCell className="sw:text-right">
         <WebhookActions onDelete={onDelete} onUpdate={onUpdate} webhook={webhook} />
       </ActionCell>
     </TableRowInteractive>

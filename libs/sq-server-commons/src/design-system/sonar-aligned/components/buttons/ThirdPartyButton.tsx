@@ -37,7 +37,7 @@ export function ThirdPartyButton({
   const size = 16;
   return (
     <ThirdPartyButtonStyled {...buttonProps}>
-      <Image alt={name} className="sw-mr-2" height={size} src={iconPath} width={size} />
+      <Image alt={name} className="sw:mr-2" height={size} src={iconPath} width={size} />
       {children}
     </ThirdPartyButtonStyled>
   );

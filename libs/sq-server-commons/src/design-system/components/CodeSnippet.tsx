@@ -75,9 +75,9 @@ export function CodeSnippet(props: Readonly<Props>) {
     <Wrapper
       as={isSimpleOneLine ? 'span' : undefined}
       className={classNames(
-        'sw-code',
+        'sw:code',
         {
-          'sw-py-6': isOneLine && !noCopy,
+          'sw:py-6': isOneLine && !noCopy,
           'code-snippet-highlighted-oneline': isOneLine,
           'code-snippet-simple-oneline': isSimpleOneLine,
         },
@@ -87,9 +87,9 @@ export function CodeSnippet(props: Readonly<Props>) {
     >
       {!noCopy && copyButton}
       <CodeSyntaxHighlighter
-        className={classNames('sw-overflow-auto', {
-          'sw-pr-24': !noCopy,
-          'sw-flex': !noCopy,
+        className={classNames('sw:overflow-auto', {
+          'sw:pr-24': !noCopy,
+          'sw:flex': !noCopy,
         })}
         htmlAsString={renderSnippet}
         language={language}

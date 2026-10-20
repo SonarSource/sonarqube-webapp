@@ -57,9 +57,9 @@ function SelectListListElement(props: Readonly<Props>) {
     item = item[0];
   }
   return (
-    <li className="sw-flex sw-justify-between">
+    <li className="sw:flex sw:justify-between">
       <Checkbox checked={selected} disabled={disabled} loading={loading} onCheck={handleCheck}>
-        <span className="sw-ml-4">{item}</span>
+        <span className="sw:ml-4">{item}</span>
       </Checkbox>
       {extra && <span>{extra}</span>}
     </li>

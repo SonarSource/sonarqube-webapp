@@ -87,7 +87,7 @@ export default function DefinitionDescription({ component, definition }: Readonl
           { 0: definition.key },
         )}
       >
-        <Text as="div" className="sw-mt-4" isSubtle>
+        <Text as="div" className="sw:mt-4" isSubtle>
           <FormattedMessage id="settings.key_x" values={{ 0: definition.key }} />
         </Text>
       </Tooltip>

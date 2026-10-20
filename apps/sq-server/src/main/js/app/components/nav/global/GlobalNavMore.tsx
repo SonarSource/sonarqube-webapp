@@ -85,7 +85,7 @@ function GlobalNavMore({ appState: { globalPages = [] } }: Readonly<{ appState: 
     >
       {/* DropdownItem's children render inside a plain, non-flex span, so the badge needs its
           own gap here — DropdownItem hardcodes the chevron as its suffix, leaving no other slot. */}
-      <span className="sw-inline-flex sw-items-center sw-gap-2">
+      <span className="sw:inline-flex sw:items-center sw:gap-2">
         <FormattedMessage id="more" />
         {vortexBadge}
       </span>

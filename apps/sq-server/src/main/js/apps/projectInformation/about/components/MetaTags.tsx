@@ -81,7 +81,7 @@ export default function MetaTags(props: Props) {
 
   return (
     <>
-      <Heading as="h3" className="sw-mb-2">
+      <Heading as="h3" className="sw:mb-2">
         <FormattedMessage id="tags" />
       </Heading>
       <Tags

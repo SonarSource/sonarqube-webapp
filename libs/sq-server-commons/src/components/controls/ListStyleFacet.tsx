@@ -340,7 +340,7 @@ export class ListStyleFacet<S> extends React.Component<Props<S>, State<S>> {
 
         {selectedBelowLimit.length > 0 && (
           <>
-            <Text as="div" className="sw-mb-2 sw-text-center" isSubtle>
+            <Text as="div" className="sw:mb-2 sw:text-center" isSubtle>
               ⋯
             </Text>
 
@@ -378,7 +378,7 @@ export class ListStyleFacet<S> extends React.Component<Props<S>, State<S>> {
         />
 
         {mightHaveMoreResults && this.state.showFullList && (
-          <FlagMessage className="sw-flex sw-my-4" variant="warning">
+          <FlagMessage className="sw:flex sw:my-4" variant="warning">
             {translate('facet_might_have_more_results')}
           </FlagMessage>
         )}
@@ -391,7 +391,7 @@ export class ListStyleFacet<S> extends React.Component<Props<S>, State<S>> {
     return (
       <InputSearch
         autoFocus={this.state.autoFocus}
-        className="it__search-box-input sw-mb-4 sw-w-full"
+        className="it__search-box-input sw:mb-4 sw:w-full"
         minLength={minSearchLength}
         onChange={this.search}
         placeholder={this.props.searchPlaceholder}
@@ -407,7 +407,7 @@ export class ListStyleFacet<S> extends React.Component<Props<S>, State<S>> {
     const { searching, searchMaxResults, searchResults, searchPaging } = this.state;
 
     if (!searching && !searchResults?.length) {
-      return <div className="sw-mb-2">{translate('no_results')}</div>;
+      return <div className="sw:mb-2">{translate('no_results')}</div>;
     }
 
     if (!searchResults) {
@@ -422,14 +422,14 @@ export class ListStyleFacet<S> extends React.Component<Props<S>, State<S>> {
         </FacetItemsList>
 
         {searchMaxResults && (
-          <FlagMessage className="sw-flex sw-my-4" variant="warning">
+          <FlagMessage className="sw:flex sw:my-4" variant="warning">
             {translate('facet_might_have_more_results')}
           </FlagMessage>
         )}
 
         {searchPaging && (
           <ListFooter
-            className="sw-mb-2"
+            className="sw:mb-2"
             count={searchResults.length}
             loadMore={this.searchMore}
             loadMoreAriaLabel={showMoreAriaLabel}
@@ -516,7 +516,7 @@ export class ListStyleFacet<S> extends React.Component<Props<S>, State<S>> {
             </output>
 
             <MultipleSelectionHint
-              className="sw-pt-4"
+              className="sw:pt-4"
               selectedItems={nbSelectedItems}
               totalItems={nbSelectableItems}
             />

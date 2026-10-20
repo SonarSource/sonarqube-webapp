@@ -41,7 +41,7 @@ export default function GradleBuild({ component }: Props) {
             <>
               <InlineSnippet snippet={GradleBuildDSL.Groovy} />
               <ClipboardIconButton
-                className="sw-ml-2 sw-align-sub"
+                className="sw:ml-2 sw:align-sub"
                 copyValue={GradleBuildDSL.Groovy}
               />
             </>
@@ -50,7 +50,7 @@ export default function GradleBuild({ component }: Props) {
             <>
               <InlineSnippet snippet={GradleBuildDSL.Kotlin} />
               <ClipboardIconButton
-                className="sw-ml-2 sw-align-sub"
+                className="sw:ml-2 sw:align-sub"
                 copyValue={GradleBuildDSL.Kotlin}
               />
             </>
@@ -58,10 +58,10 @@ export default function GradleBuild({ component }: Props) {
           sq: <InlineSnippet snippet="org.sonarqube" />,
         }}
       />
-      <GradleBuildSelection className="sw-my-4">
+      <GradleBuildSelection className="sw:my-4">
         {(build) => (
           <CodeSnippet
-            className="sw-p-6"
+            className="sw:p-6"
             language={build === GradleBuildDSL.Groovy ? 'groovy' : 'kotlin'}
             snippet={buildGradleSnippet(component.key, component.name, build)}
           />

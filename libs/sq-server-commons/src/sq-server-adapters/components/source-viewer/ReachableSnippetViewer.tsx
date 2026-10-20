@@ -111,7 +111,7 @@ export function ReachableSnippetViewer({
         />
       */}
       <span>{sourceViewerFile.path}</span>
-      <SonarCodeColorizer className="sw-flex sw-flex-col sw-gap-6">
+      <SonarCodeColorizer className="sw:flex sw:flex-col sw:gap-6">
         <SnippetViewer
           component={sourceViewerFile}
           displayLineNumberOptions={false}

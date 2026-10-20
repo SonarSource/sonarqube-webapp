@@ -105,7 +105,7 @@ function ChangeProjectsForm({ profile }: Readonly<Props>) {
   return (
     <Modal
       content={
-        <div className="sw-mt-1" id="profile-projects">
+        <div className="sw:mt-1" id="profile-projects">
           <SelectList
             allowBulkSelection
             elements={projects.map((project) => project.key)}

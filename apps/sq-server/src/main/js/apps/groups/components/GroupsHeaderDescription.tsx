@@ -34,14 +34,14 @@ export function GroupsHeaderDescription({ manageProvider }: Readonly<Props>) {
       {manageProvider === undefined ? (
         <FormattedMessage id="user_groups.page.description" />
       ) : (
-        <div className="sw-max-w-3/4">
+        <div className="sw:max-w-3/4">
           <FormattedMessage
             id="user_groups.page.managed_description"
             values={{
               provider: <FormattedMessage id={`managed.${manageProvider}`} />,
             }}
           />
-          <div className="sw-mt-2">
+          <div className="sw:mt-2">
             <FormattedMessage
               id="user_groups.page.managed_description.recommendation"
               values={{

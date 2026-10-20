@@ -133,27 +133,27 @@ export default function EmailNotificationConfiguration(props: Readonly<Props>) {
   return (
     <form id={FORM_ID} onSubmit={onSubmit}>
       <NumberedList>
-        <NumberedListItem className="sw-pt-6">
-          <span className="sw-typo-semibold">
+        <NumberedListItem className="sw:pt-6">
+          <span className="sw:typo-semibold">
             <FormattedMessage id="email_notification.subheading.1" />
           </span>
           <AuthenticationSelector configuration={newConfiguration} onChange={onChange} />
         </NumberedListItem>
-        <NumberedListItem className="sw-pt-6">
-          <span className="sw-typo-semibold">
+        <NumberedListItem className="sw:pt-6">
+          <span className="sw:typo-semibold">
             <FormattedMessage id="email_notification.subheading.2" />
           </span>
           <CommonSMTP configuration={newConfiguration} onChange={onChange} />
         </NumberedListItem>
-        <NumberedListItem className="sw-pt-6">
-          <span className="sw-typo-semibold">
+        <NumberedListItem className="sw:pt-6">
+          <span className="sw:typo-semibold">
             <FormattedMessage id="email_notification.subheading.3" />
           </span>
           <SenderInformation configuration={newConfiguration} onChange={onChange} />
         </NumberedListItem>
       </NumberedList>
       <Button
-        className="sw-ml-4"
+        className="sw:ml-4"
         isDisabled={!canSave}
         type="submit"
         variety={ButtonVariety.Primary}
@@ -161,7 +161,7 @@ export default function EmailNotificationConfiguration(props: Readonly<Props>) {
         <FormattedMessage id="email_notification.form.save_configuration" />
       </Button>
       {hasConfiguration && (
-        <Button className="sw-ml-2" onClick={onCancel} variety={ButtonVariety.Primary}>
+        <Button className="sw:ml-2" onClick={onCancel} variety={ButtonVariety.Primary}>
           Cancel
         </Button>
       )}

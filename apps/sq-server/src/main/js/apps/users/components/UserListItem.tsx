@@ -68,8 +68,8 @@ export default function UserListItem(props: Readonly<UserListItemProps>) {
   return (
     <TableRow>
       <ContentCell>
-        <div className="sw-flex sw-items-center">
-          <Avatar className="sw-shrink-0 sw-mr-4" hash={avatar} name={name} size="md" />
+        <div className="sw:flex sw:items-center">
+          <Avatar className="sw:shrink-0 sw:mr-4" hash={avatar} name={name} size="md" />
           <UserListItemIdentity
             identityProvider={identityProvider}
             manageProvider={manageProvider}
@@ -97,7 +97,7 @@ export default function UserListItem(props: Readonly<UserListItemProps>) {
                 : 'users.view_users_groups',
               user.login,
             )}
-            className="it__user-groups sw-ml-2"
+            className="it__user-groups sw:ml-2"
             onClick={() => {
               setOpenGroupForm(true);
             }}
@@ -118,7 +118,7 @@ export default function UserListItem(props: Readonly<UserListItemProps>) {
           <ButtonIcon
             Icon={IconMoreVertical}
             ariaLabel={translateWithParameters('users.update_tokens_for_x', name ?? login)}
-            className="it__user-tokens sw-ml-2"
+            className="it__user-tokens sw:ml-2"
             onClick={() => {
               setOpenTokenForm(true);
             }}

@@ -141,7 +141,7 @@ export default function RatingComponent(props: Readonly<Props>) {
           </Tooltip>
 
           {/* The badge is not interactive, so show the tooltip content for screen-readers only */}
-          <span className="sw-sr-only">
+          <span className="sw:sr-only">
             {getTooltip(rating, value, measure?.metric as MetricKey)}
           </span>
         </>

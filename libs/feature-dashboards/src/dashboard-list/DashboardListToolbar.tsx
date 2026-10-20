@@ -40,13 +40,13 @@ export function DashboardListToolbar({
   onFilter,
   onSearch,
   placeholderLabel,
-  searchClassName = 'sw-flex-1',
+  searchClassName = 'sw:flex-1',
   searchInput,
   total,
   totalLabel,
 }: Readonly<Props>) {
   return (
-    <div className="sw-flex sw-items-center sw-gap-2 sw-mb-4">
+    <div className="sw:flex sw:items-center sw:gap-2 sw:mb-4">
       <ToggleButtonGroup onChange={onFilter} options={filterOptions} selected={filter} />
       <div className={searchClassName}>
         <SearchInput

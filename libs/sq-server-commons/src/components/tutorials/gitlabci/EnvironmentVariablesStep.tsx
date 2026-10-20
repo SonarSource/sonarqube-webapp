@@ -59,13 +59,13 @@ export default function EnvironmentVariablesStep(props: EnvironmentVariablesStep
           }}
         />
 
-        <Text as="ul" className="sw-max-w-full sw-ml-4">
+        <Text as="ul" className="sw:max-w-full sw:ml-4">
           <li>
             <FormattedMessage
               id="onboarding.tutorial.with.gitlab_ci.variables.step1"
               values={{
                 extra: (
-                  <ClipboardIconButton className="sw-ml-1 sw-align-sub" copyValue="SONAR_TOKEN" />
+                  <ClipboardIconButton className="sw:ml-1 sw:align-sub" copyValue="SONAR_TOKEN" />
                 ),
 
                 value: <InlineSnippet snippet="SONAR_TOKEN" />,
@@ -98,7 +98,7 @@ export default function EnvironmentVariablesStep(props: EnvironmentVariablesStep
             />
           </li>
         </Text>
-        <BasicSeparator className="sw-my-6" />
+        <BasicSeparator className="sw:my-6" />
       </NumberedListItem>
       <NumberedListItem>
         {translate('onboarding.tutorial.with.gitlab_ci.variables.section2.title')}
@@ -111,14 +111,14 @@ export default function EnvironmentVariablesStep(props: EnvironmentVariablesStep
           }}
         />
 
-        <Text as="ul" className="sw-max-w-full sw-ml-4">
+        <Text as="ul" className="sw:max-w-full sw:ml-4">
           <li>
             <FormattedMessage
               id="onboarding.tutorial.with.gitlab_ci.variables.step1"
               values={{
                 extra: (
                   <ClipboardIconButton
-                    className="sw-ml-1 sw-align-sub"
+                    className="sw:ml-1 sw:align-sub"
                     copyValue="SONAR_HOST_URL"
                   />
                 ),
@@ -130,7 +130,7 @@ export default function EnvironmentVariablesStep(props: EnvironmentVariablesStep
             <FormattedMessage
               id="onboarding.tutorial.env_variables"
               values={{
-                extra: <ClipboardIconButton className="sw-ml-1 sw-align-sub" copyValue={baseUrl} />,
+                extra: <ClipboardIconButton className="sw:ml-1 sw:align-sub" copyValue={baseUrl} />,
                 field: <b>{translate('onboarding.tutorial.env_variables.field')}</b>,
                 value: <InlineSnippet snippet={baseUrl} />,
               }}

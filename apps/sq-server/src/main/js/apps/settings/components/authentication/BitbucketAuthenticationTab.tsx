@@ -47,7 +47,7 @@ export default function BitbucketAuthenticationTab(props: Readonly<Props>) {
   return (
     <>
       {isConfigurationUnsafe && (
-        <FlagMessage className="sw-mb-2" variant="error">
+        <FlagMessage className="sw:mb-2" variant="error">
           <div>
             <FormattedMessage
               id="settings.authentication.gitlab.configuration.insecure"

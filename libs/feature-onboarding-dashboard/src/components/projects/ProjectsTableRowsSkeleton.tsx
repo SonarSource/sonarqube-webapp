@@ -45,9 +45,9 @@ export function ProjectsTableRowsSkeleton({
           {Array.from({ length: columns }, (_, columnIndex) => (
             <Table.Cell key={`skeleton-cell-${rowIndex}-${columnIndex}`}>
               {hasSelectionColumn && columnIndex === 0 ? (
-                <LoadingSkeleton className="sw-size-4" variety="rectangle" />
+                <LoadingSkeleton className="sw:size-4" variety="rectangle" />
               ) : (
-                <LoadingSkeleton className="sw-w-3/4" variety="text" />
+                <LoadingSkeleton className="sw:w-3/4" variety="text" />
               )}
             </Table.Cell>
           ))}

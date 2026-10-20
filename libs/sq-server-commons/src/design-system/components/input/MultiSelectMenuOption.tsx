@@ -63,7 +63,7 @@ export function MultiSelectMenuOption(props: Readonly<MultiSelectOptionProps>) {
     <Tooltip content={renderTooltip?.(element, disabled)} placement={PopupPlacement.Right}>
       <ItemCheckbox
         checked={Boolean(selected)}
-        className={classNames('sw-flex sw-py-2 sw-px-4', { active })}
+        className={classNames('sw:flex sw:py-2 sw:px-4', { active })}
         disabled={disabled}
         id={element}
         label={ariaLabel}
@@ -74,16 +74,16 @@ export function MultiSelectMenuOption(props: Readonly<MultiSelectOptionProps>) {
         {custom ? (
           <span
             aria-label={`${createElementLabel}: ${element}`}
-            className="sw-ml-3"
+            className="sw:ml-3"
             title={createElementLabel}
           >
-            <span aria-hidden className="sw-mr-1">
+            <span aria-hidden className="sw:mr-1">
               +
             </span>
             {element}
           </span>
         ) : (
-          <span className="sw-ml-3">{label}</span>
+          <span className="sw:ml-3">{label}</span>
         )}
       </ItemCheckbox>
     </Tooltip>

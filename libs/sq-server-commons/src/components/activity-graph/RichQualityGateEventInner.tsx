@@ -58,14 +58,14 @@ export class RichQualityGateEventInner extends React.PureComponent<Props, State>
     const { event, readonly } = this.props;
     const { expanded } = this.state;
     return (
-      <div className="sw-w-full sw-typo-default sw-py-1/2">
-        <div className="sw-flex sw-justify-between">
-          <div className="sw-flex sw-items-center">
-            <Text className="sw-mr-1" isHighlighted isSubtle>
+      <div className="sw:w-full sw:typo-default sw:py-1/2">
+        <div className="sw:flex sw:justify-between">
+          <div className="sw:flex sw:items-center">
+            <Text className="sw:mr-1" isHighlighted isSubtle>
               {translate('event.category', event.category)}
             </Text>
 
-            <div className="sw-ml-2 sw-flex sw-items-center">
+            <div className="sw:ml-2 sw:flex sw:items-center">
               {event.qualityGate.stillFailing ? (
                 <FormattedMessage
                   id="event.quality_gate.still_x"
@@ -77,7 +77,7 @@ export class RichQualityGateEventInner extends React.PureComponent<Props, State>
                 <QualityGateIndicator size="sm" status={event.qualityGate.status} />
               )}
 
-              <span className="sw-ml-1">
+              <span className="sw:ml-1">
                 {translate(`event.quality_gate.${event.qualityGate.status}`)}
               </span>
             </div>
@@ -86,7 +86,7 @@ export class RichQualityGateEventInner extends React.PureComponent<Props, State>
           {!readonly && event.qualityGate.failing.length > 0 && (
             <ClickEventBoundary>
               <BareButton
-                className="sw-flex sw-items-center sw-ml-2"
+                className="sw:flex sw:items-center sw:ml-2"
                 onClick={this.toggleProjectsList}
               >
                 {expanded ? translate('hide') : translate('more')}
@@ -97,10 +97,10 @@ export class RichQualityGateEventInner extends React.PureComponent<Props, State>
         </div>
 
         {expanded && (
-          <ul className="sw-mt-2">
+          <ul className="sw:mt-2">
             {event.qualityGate.failing.map((project) => (
-              <li className="sw-flex sw-justify-between sw-p-1" key={project.key}>
-                <div className="sw-truncate">
+              <li className="sw:flex sw:justify-between sw:p-1" key={project.key}>
+                <div className="sw:truncate">
                   <ClickEventBoundary>
                     <StandoutLink
                       title={project.name}
@@ -112,9 +112,9 @@ export class RichQualityGateEventInner extends React.PureComponent<Props, State>
                     </StandoutLink>
                   </ClickEventBoundary>
                 </div>
-                <div className="sw-flex sw-items-center sw-ml-2">
+                <div className="sw:flex sw:items-center sw:ml-2">
                   <QualityGateIndicator size="sm" status={event.qualityGate.status} />
-                  <span className="sw-ml-2">
+                  <span className="sw:ml-2">
                     {translate(`event.quality_gate.${event.qualityGate.status}`)}
                   </span>
                 </div>

@@ -36,7 +36,7 @@ export default function GithubForm(props: GithubFormProps) {
 
   return (
     <>
-      <Text as="p" className="sw-mb-8" isSubtle>
+      <Text as="p" className="sw:mb-8" isSubtle>
         <FormattedMessage
           id="settings.almintegration.github.info"
           values={{

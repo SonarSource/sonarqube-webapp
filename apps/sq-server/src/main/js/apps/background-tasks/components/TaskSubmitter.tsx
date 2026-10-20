@@ -37,7 +37,7 @@ export default function TaskSubmitter(props: Readonly<Props>) {
   return (
     <ContentCell>
       <div>
-        <div className="sw-whitespace-nowrap">
+        <div className="sw:whitespace-nowrap">
           {isValidDate(parseDate(submittedAt)) ? (
             <FormattedMessage
               id="background_tasks.date_and_time"

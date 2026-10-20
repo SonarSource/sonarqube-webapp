@@ -403,8 +403,8 @@ describe('aggregate ratings for portfolios with AICA enabled projects', () => {
     const aicaDisabledRow = screen.getByRole('row', { name: /code.aica_disabled_projects/ });
 
     expect(toggleRow).toHaveAttribute('aria-expanded', 'true');
-    expect(aicaEnabledRow).not.toHaveClass('sw-collapse');
-    expect(aicaDisabledRow).not.toHaveClass('sw-collapse');
+    expect(aicaEnabledRow).not.toHaveClass('sw:collapse');
+    expect(aicaDisabledRow).not.toHaveClass('sw:collapse');
   });
 
   it("should collapse the aggregate ratings by default if there's a only AICA enabled projects", async () => {
@@ -414,8 +414,8 @@ describe('aggregate ratings for portfolios with AICA enabled projects', () => {
     const aicaDisabledRow = screen.getByRole('row', { name: /code.aica_disabled_projects/ });
 
     expect(toggleRow).toHaveAttribute('aria-expanded', 'false');
-    expect(aicaEnabledRow).toHaveClass('sw-collapse');
-    expect(aicaDisabledRow).toHaveClass('sw-collapse');
+    expect(aicaEnabledRow).toHaveClass('sw:collapse');
+    expect(aicaDisabledRow).toHaveClass('sw:collapse');
   });
 
   it('should toggle the visibility of the aggregate ratings when clicking on the portfolio row', async () => {
@@ -425,14 +425,14 @@ describe('aggregate ratings for portfolios with AICA enabled projects', () => {
     const aicaDisabledRow = screen.getByRole('row', { name: /code.aica_disabled_projects/ });
 
     expect(toggleRow).toHaveAttribute('aria-expanded', 'false');
-    expect(aicaEnabledRow).toHaveClass('sw-collapse');
-    expect(aicaDisabledRow).toHaveClass('sw-collapse');
+    expect(aicaEnabledRow).toHaveClass('sw:collapse');
+    expect(aicaDisabledRow).toHaveClass('sw:collapse');
 
     await userEvent.click(toggleRow);
 
     expect(toggleRow).toHaveAttribute('aria-expanded', 'true');
-    expect(aicaEnabledRow).not.toHaveClass('sw-collapse');
-    expect(aicaDisabledRow).not.toHaveClass('sw-collapse');
+    expect(aicaEnabledRow).not.toHaveClass('sw:collapse');
+    expect(aicaDisabledRow).not.toHaveClass('sw:collapse');
   });
 
   it('should display a tooltip when hovering the info icon for AICA enabled projects', async () => {

@@ -41,7 +41,7 @@ describe('SectionTargetPreview', () => {
     expect(screen.getByText('This is a test section description')).toBeInTheDocument();
 
     // With a description, title–description spacing uses the column gap, not heading padding.
-    expect(screen.getByRole('heading', { level: 2 })).not.toHaveClass('sw-pb-2');
+    expect(screen.getByRole('heading', { level: 2 })).not.toHaveClass('sw:pb-2');
   });
 
   it('should handle different section content correctly', () => {
@@ -57,7 +57,7 @@ describe('SectionTargetPreview', () => {
 
     expect(screen.getByRole('heading', { level: 2 })).toHaveTextContent('Analytics Dashboard');
     expect(screen.getByText('Comprehensive analytics and metrics overview')).toBeInTheDocument();
-    expect(screen.getByRole('heading', { level: 2 })).not.toHaveClass('sw-pb-2');
+    expect(screen.getByRole('heading', { level: 2 })).not.toHaveClass('sw:pb-2');
   });
 
   it('should handle empty or minimal section content', () => {
@@ -72,6 +72,6 @@ describe('SectionTargetPreview', () => {
     render(<SectionTargetPreview section={minimalSection} />);
 
     // Empty description: no heading bottom padding (SC-47131; header row vertically centered).
-    expect(screen.getByRole('heading', { level: 2 })).not.toHaveClass('sw-pb-2');
+    expect(screen.getByRole('heading', { level: 2 })).not.toHaveClass('sw:pb-2');
   });
 });

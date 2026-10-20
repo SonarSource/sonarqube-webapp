@@ -118,9 +118,9 @@ export function DevopsConfigurationsModal({
             id: 'onboarding_dashboard.journey.binding.modal.loading',
           })}
         >
-          <div className="sw-flex sw-max-h-[calc(80vh-10rem)] sw-flex-col sw-gap-4">
-            <div className="sw-flex sw-w-full sw-items-center sw-justify-between sw-gap-4">
-              <div className="sw-flex sw-items-center sw-gap-4">
+          <div className="sw:flex sw:max-h-[calc(80vh-10rem)] sw:flex-col sw:gap-4">
+            <div className="sw:flex sw:w-full sw:items-center sw:justify-between sw:gap-4">
+              <div className="sw:flex sw:items-center sw:gap-4">
                 <SearchInput
                   onChange={onSearchChange}
                   placeholderLabel={formatMessage({
@@ -149,7 +149,7 @@ export function DevopsConfigurationsModal({
 
             <Table
               ariaLabel={title}
-              className="sw-content-start sw-overflow-y-auto"
+              className="sw:content-start sw:overflow-y-auto"
               gridTemplate={GRID_TEMPLATE}
               variety={TableVariety.Surface}
             >
@@ -175,7 +175,7 @@ export function DevopsConfigurationsModal({
             </Table>
 
             {totalPages > 1 && (
-              <div className="sw-flex sw-shrink-0 sw-justify-center">
+              <div className="sw:flex sw:shrink-0 sw:justify-center">
                 <Pagination onChange={onPageChange} page={pageIndex} totalPages={totalPages} />
               </div>
             )}
@@ -204,7 +204,7 @@ function DevopsConfigurationTableRow({ onSelectStep, row }: Readonly<RowProps>) 
 
   return (
     <Table.Row>
-      <Table.Cell className="sw-justify-start">
+      <Table.Cell className="sw:justify-start">
         <RepositoryCell
           alm={row.alm}
           name={row.key}

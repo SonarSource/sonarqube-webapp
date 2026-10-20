@@ -40,7 +40,7 @@ export default function BitbucketRepositories(props: Readonly<BitbucketRepositor
 
   return (
     <Spinner isLoading={isLoading && repositories.length === 0}>
-      <ul className="sw-flex sw-flex-col sw-gap-3">
+      <ul className="sw:flex sw:flex-col sw:gap-3">
         {repositories.map((r) => (
           <AlmRepoItem
             almIconSrc={iconUrl}
@@ -58,7 +58,7 @@ export default function BitbucketRepositories(props: Readonly<BitbucketRepositor
 
       <ListFooter
         canFetchMore={canFetchMore}
-        className="sw-mb-12"
+        className="sw:mb-12"
         count={repositories.length}
         loadMore={onFetchMore}
       />

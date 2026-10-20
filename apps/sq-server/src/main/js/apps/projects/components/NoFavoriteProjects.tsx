@@ -23,7 +23,7 @@ import { FormattedMessage } from 'react-intl';
 
 export default function NoFavoriteProjects() {
   return (
-    <div className="sw-flex sw-justify-center sw-py-16">
+    <div className="sw:flex sw:justify-center sw:py-16">
       <EmptyState
         action={
           <Button to="/projects/all" variety={ButtonVariety.Primary}>

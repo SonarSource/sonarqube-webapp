@@ -50,7 +50,7 @@ function renderDevOpsIcon(theme: Theme, key: AlmKeys) {
   return (
     <Image
       alt={key}
-      className="sw-mr-2"
+      className="sw:mr-2"
       height={16}
       src={almIconUrl(theme, almKeyToIconKey(key))}
     />
@@ -126,7 +126,7 @@ export function Authentication(props: Props & WithAvailableFeaturesProps) {
           />
         </MessageInline>
       )}
-      <Text as="p" className="sw-my-6">
+      <Text as="p" className="sw:my-6">
         <FormattedMessage id="settings.authentication.description" />
       </Text>
       <ToggleButton
@@ -140,15 +140,15 @@ export function Authentication(props: Props & WithAvailableFeaturesProps) {
       {tabs.map((tab) => (
         <div
           aria-labelledby={getTabId(tab.value)}
-          className={classNames('sw-overflow-y-auto', {
-            'sw-hidden': currentTab !== tab.value,
+          className={classNames('sw:overflow-y-auto', {
+            'sw:hidden': currentTab !== tab.value,
           })}
           id={getTabPanelId(tab.value)}
           key={tab.value}
           role="tabpanel"
         >
           {currentTab === tab.value && (
-            <div className="sw-mt-6">
+            <div className="sw:mt-6">
               {tab.value === SAML && <SamlAuthenticationTab definitions={samlDefinitions} />}
 
               {tab.value === AlmKeys.GitHub && <GitHubAuthenticationTab />}

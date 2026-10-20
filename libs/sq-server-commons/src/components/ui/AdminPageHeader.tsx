@@ -33,16 +33,16 @@ interface Props {
 
 export function AdminPageHeader({ children, className, description, title }: Readonly<Props>) {
   return (
-    <div className={classNames('sw-flex sw-justify-between', className)}>
-      <header className="sw-flex-1">
-        <AdminPageTitle className="sw-heading-xl">{title}</AdminPageTitle>
+    <div className={classNames('sw:flex sw:justify-between', className)}>
+      <header className="sw:flex-1">
+        <AdminPageTitle className="sw:heading-xl">{title}</AdminPageTitle>
         {description && (
-          <AdminPageDescription className="sw-typo-default sw-pt-4 sw-max-w-3/4">
+          <AdminPageDescription className="sw:typo-default sw:pt-4 sw:max-w-3/4">
             {description}
           </AdminPageDescription>
         )}
       </header>
-      {children && <div className="sw-flex sw-gap-2">{children}</div>}
+      {children && <div className="sw:flex sw:gap-2">{children}</div>}
     </div>
   );
 }

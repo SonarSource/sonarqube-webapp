@@ -56,15 +56,15 @@ export function Accordion(props: AccordionProps) {
         aria-controls={`${id}-panel`}
         aria-expanded={open}
         aria-label={ariaLabel}
-        className="sw-flex sw-items-center sw-justify-between sw-p-4 sw-box-border sw-w-full"
+        className="sw:flex sw:items-center sw:justify-between sw:p-4 sw:box-border sw:w-full"
         id={`${id}-header`}
         onClick={handleClick}
       >
         {header}
-        <OpenCloseIndicator aria-hidden className="sw-ml-2" open={open} />
+        <OpenCloseIndicator aria-hidden className="sw:ml-2" open={open} />
       </BareButton>
       <div aria-labelledby={`${id}-header`} id={`${id}-panel`} role="region">
-        {open && <div className="sw-p-4">{props.children}</div>}
+        {open && <div className="sw:p-4">{props.children}</div>}
       </div>
     </Container>
   );

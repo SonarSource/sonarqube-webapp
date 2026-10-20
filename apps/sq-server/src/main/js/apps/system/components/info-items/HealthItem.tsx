@@ -37,10 +37,10 @@ export default function HealthItem({ className, name, health, healthCauses }: Re
 
   const statusIndicator = <StatusIndicator color={health} />;
   return (
-    <div className={classNames('sw-flex sw-items-center', className)}>
+    <div className={classNames('sw:flex sw:items-center', className)}>
       {hasHealthCauses &&
         healthCauses.map((cause) => (
-          <HealthCauseItem className="sw-mr-2" health={health} healthCause={cause} key={cause} />
+          <HealthCauseItem className="sw:mr-2" health={health} healthCause={cause} key={cause} />
         ))}
 
       <Tooltip

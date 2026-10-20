@@ -81,7 +81,7 @@ export default function ProvisioningSection(props: Readonly<Props>) {
   } = props;
 
   return (
-    <div className="sw-mb-2">
+    <div className="sw:mb-2">
       <form onSubmit={onSave}>
         <Heading as="h5" hasMarginBottom>
           <FormattedMessage id="settings.authentication.form.provisioning" />
@@ -92,38 +92,38 @@ export default function ProvisioningSection(props: Readonly<Props>) {
               <li>
                 <RadioButton
                   checked={provisioningType === ProvisioningType.jit}
-                  className="sw-items-start"
+                  className="sw:items-start"
                   id="jit"
                   onCheck={onChangeProvisioningType}
                   value={ProvisioningType.jit}
                 >
                   <div>
-                    <div className="sw-typo-semibold">{jitTitle}</div>
+                    <div className="sw:typo-semibold">{jitTitle}</div>
 
-                    <div className="sw-mt-1">{jitDescription}</div>
+                    <div className="sw:mt-1">{jitDescription}</div>
                   </div>
                 </RadioButton>
                 {provisioningType === ProvisioningType.jit && jitSettings && (
-                  <div className="sw-ml-12 sw-mt-6 sw-max-w-[435px]">{jitSettings}</div>
+                  <div className="sw:ml-12 sw:mt-6 sw:max-w-[435px]">{jitSettings}</div>
                 )}
-                <Divider className="sw-my-4" />
+                <Divider className="sw:my-4" />
               </li>
               <li>
                 <RadioButton
                   checked={provisioningType === ProvisioningType.auto}
-                  className="sw-items-start"
+                  className="sw:items-start"
                   disabled={!hasFeatureEnabled || hasDifferentProvider}
                   id="github-auto"
                   onCheck={onChangeProvisioningType}
                   value={ProvisioningType.auto}
                 >
                   <div>
-                    <div className="sw-typo-semibold">{autoTitle}</div>
-                    <div className="sw-mt-1">
+                    <div className="sw:typo-semibold">{autoTitle}</div>
+                    <div className="sw:mt-1">
                       {hasFeatureEnabled ? (
                         <>
                           {hasDifferentProvider && (
-                            <p className="sw-mb-2 sw-typo-semibold">
+                            <p className="sw:mb-2 sw:typo-semibold">
                               <FormattedMessage id="settings.authentication.form.other_provisioning_enabled" />
                             </p>
                           )}
@@ -136,10 +136,10 @@ export default function ProvisioningSection(props: Readonly<Props>) {
                   </div>
                 </RadioButton>
                 {provisioningType === ProvisioningType.auto && (
-                  <div className="sw-ml-12 sw-mt-6">
+                  <div className="sw:ml-12 sw:mt-6">
                     {synchronizationDetails}
                     {onSyncNow && (
-                      <div className="sw-mb-4 sw-mt-6">
+                      <div className="sw:mb-4 sw:mt-6">
                         <Button
                           isDisabled={!canSync}
                           onClick={onSyncNow}
@@ -149,13 +149,13 @@ export default function ProvisioningSection(props: Readonly<Props>) {
                         </Button>
                       </div>
                     )}
-                    <div className="sw-mt-8 sw-max-w-[435px]">{autoSettings}</div>
+                    <div className="sw:mt-8 sw:max-w-[435px]">{autoSettings}</div>
                   </div>
                 )}
-                <Divider className="sw-my-4" />
+                <Divider className="sw:my-4" />
               </li>
             </ul>
-            <div className="sw-flex sw-gap-2 sw-h-800 sw-items-center">
+            <div className="sw:flex sw:gap-2 sw:h-800 sw:items-center">
               <Button
                 isDisabled={!hasUnsavedChanges || !canSave}
                 type="submit"
@@ -170,7 +170,7 @@ export default function ProvisioningSection(props: Readonly<Props>) {
             </div>
           </>
         ) : (
-          <MessageCallout className="sw-mt-4" variety="info">
+          <MessageCallout className="sw:mt-4" variety="info">
             {disabledConfigText}
           </MessageCallout>
         )}

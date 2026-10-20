@@ -134,11 +134,11 @@ export default class IssueLocationsCrossFile extends PureComponent<Props, State>
 
     return (
       <div key={groupIndex}>
-        <ComponentName className="sw-pb-1 sw-typo-semibold">
+        <ComponentName className="sw:pb-1 sw:typo-semibold">
           {collapsePath(group.componentName ?? '', COLLAPSE_PATH_LIMIT)}
         </ComponentName>
         {group.locations.length > 0 && (
-          <GroupBody className="sw-ml-2 sw-pl-2">
+          <GroupBody className="sw:ml-2 sw:pl-2">
             {onlyFirst && this.renderLocation(firstLocationIndex, group.locations[0].msg)}
 
             {onlyLast &&
@@ -170,7 +170,7 @@ export default class IssueLocationsCrossFile extends PureComponent<Props, State>
       const firstGroup = groups[0];
       const lastGroup = groups[groups.length - 1];
       return (
-        <div className="sw-flex sw-flex-col sw-gap-4">
+        <div className="sw:flex sw:flex-col sw:gap-4">
           {this.renderGroup(firstGroup, 0, { onlyFirst: true })}
           <div>
             <ExpandButton onClick={this.handleMoreLocationsClick}>
@@ -185,7 +185,7 @@ export default class IssueLocationsCrossFile extends PureComponent<Props, State>
       );
     }
     return (
-      <div className="sw-flex sw-flex-col sw-gap-4">
+      <div className="sw:flex sw:flex-col sw:gap-4">
         {groups.map((group, groupIndex) => this.renderGroup(group, groupIndex))}
       </div>
     );

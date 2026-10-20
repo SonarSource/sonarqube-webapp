@@ -32,12 +32,12 @@ export function AnalysisScope(props: AdditionalCategoryComponentProps) {
 
   return (
     <>
-      <StyledGrid className="sw-pt-1 sw-px-1 sw-gap-2">
-        <Heading as="h2" className="sw-col-span-2">
+      <StyledGrid className="sw:pt-1 sw:px-1 sw:gap-2">
+        <Heading as="h2" className="sw:col-span-2">
           <FormattedMessage id="property.category.exclusions" />
         </Heading>
 
-        <Text className="sw-col-span-2 sw-mt-4 sw-mb-3">
+        <Text className="sw:col-span-2 sw:mt-4 sw:mb-3">
           {intl.formatMessage(
             { id: 'settings.analysis_scope.introduction' },
             {
@@ -54,7 +54,7 @@ export function AnalysisScope(props: AdditionalCategoryComponentProps) {
           )}
         </Text>
 
-        <Text as="p" className="sw-col-span-2">
+        <Text as="p" className="sw:col-span-2">
           {intl.formatMessage(
             { id: 'settings.analysis_scope.wildcards.introduction' },
             {

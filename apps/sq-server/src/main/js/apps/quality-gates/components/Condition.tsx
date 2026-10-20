@@ -81,10 +81,10 @@ export function Condition({
 
   return (
     <StyledTableRow className={classNames({ disabled: isDisabled })}>
-      <ContentCell className="sw-gap-2">
+      <ContentCell className="sw:gap-2">
         {getLocalizedMetricNameNoDiffMetric(metric, metrics)}
         {isMetricFromOtherMode && canEdit && (
-          <Badge className="sw-ml-2" variety="neutral">
+          <Badge className="sw:ml-2" variety="neutral">
             {intl.formatMessage({
               id: `quality_gates.metric.${isStandard ? 'mqr' : 'standard'}_mode_short`,
             })}
@@ -97,8 +97,8 @@ export function Condition({
         )}
         {suffix}
       </ContentCell>
-      <ContentCell className="sw-whitespace-nowrap">{getOperatorLabel(op, metric)}</ContentCell>
-      <NumericalCell className="sw-whitespace-nowrap">
+      <ContentCell className="sw:whitespace-nowrap">{getOperatorLabel(op, metric)}</ContentCell>
+      <NumericalCell className="sw:whitespace-nowrap">
         <ConditionValue
           condition={condition}
           isCaycCompliantAndOverCompliant={isCaycCompliantAndOverCompliant}
@@ -125,7 +125,7 @@ export function Condition({
                       }),
                     },
                   )}
-                  className="sw-mr-4"
+                  className="sw:mr-4"
                   variety={ButtonVariety.PrimaryGhost}
                 />
               </UpdateConditionsFromOtherModeModal>

@@ -189,7 +189,7 @@ class TreeMapView extends React.PureComponent<Props, State> {
     const formatted =
       colorMetric && colorValue !== undefined ? formatMeasure(colorValue, colorMetric.type) : '—';
     return (
-      <div className="sw-text-left">
+      <div className="sw:text-left">
         {[component.name, component.branch].filter((s) => !isEmpty(s)).join(' / ')}
         <br />
         {`${getLocalizedMetricName(sizeMetric)}: ${formatMeasure(sizeValue, sizeMetric.type)}`}
@@ -234,15 +234,15 @@ class TreeMapView extends React.PureComponent<Props, State> {
         : null;
     return (
       <div data-testid="treemap">
-        <Text as="div" className="sw-flex sw-items-start sw-mb-2" isSubtle>
+        <Text as="div" className="sw:flex sw:items-start sw:mb-2" isSubtle>
           <span>
-            <strong className="sw-mr-1">
+            <strong className="sw:mr-1">
               <FormattedMessage id="component_measures.legend.color" />
             </strong>
             {getLocalizedMetricName(metric)}
           </span>
-          <span className="sw-ml-2 sw-flex-1">
-            <strong className="sw-mr-1">
+          <span className="sw:ml-2 sw:flex-1">
+            <strong className="sw:mr-1">
               <FormattedMessage id="component_measures.legend.size" />
             </strong>
             {translate(
@@ -275,8 +275,8 @@ function TreeMapAutoSizer({
   const containerRef = React.useRef<HTMLDivElement>(null);
   const [containerWidth] = useResizeObserver(containerRef);
   return (
-    <div className="sw-min-w-full sw-overflow-hidden sw-w-0" ref={containerRef}>
-      <div className="sw-overflow-hidden sw-w-full">
+    <div className="sw:min-w-full sw:overflow-hidden sw:w-0" ref={containerRef}>
+      <div className="sw:overflow-hidden sw:w-full">
         {containerWidth !== undefined && (
           <TreeMap<ComponentMeasureIntern>
             height={height}

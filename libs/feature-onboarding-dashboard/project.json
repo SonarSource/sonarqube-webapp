@@ -5,6 +5,7 @@
   "sourceRoot": "libs/feature-onboarding-dashboard/src",
   "tags": ["type:feature", "visibility:public", "scope:shared"],
   "targets": {
+    "validate-tailwind-prefixes": {},
     "format-check": {},
     "lint": {},
     "lint-report": {}

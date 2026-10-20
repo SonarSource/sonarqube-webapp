@@ -401,7 +401,7 @@ export default function CustomRuleFormModal(props: Readonly<Props>) {
     <Modal
       content={
         <Form
-          className="sw-flex sw-flex-col sw-justify-stretch sw-pb-4"
+          className="sw:flex sw:flex-col sw:justify-stretch sw:pb-4"
           id={FORM_ID}
           onSubmit={(event: SyntheticEvent<HTMLFormElement>) => {
             event.preventDefault();
@@ -411,7 +411,7 @@ export default function CustomRuleFormModal(props: Readonly<Props>) {
           {reactivating && (
             <div ref={warningRef}>
               <MessageInline
-                className="sw-mb-6"
+                className="sw:mb-6"
                 data-testid="coding-rules-reactivate"
                 variety={MessageVariety.Warning}
               >
@@ -433,7 +433,7 @@ export default function CustomRuleFormModal(props: Readonly<Props>) {
               {CCTIssueTypeField}
               {cctType !== 'SECURITY_HOTSPOT' && (
                 <>
-                  <div className="sw-flex sw-justify-between sw-gap-6">
+                  <div className="sw:flex sw:justify-between sw:gap-6">
                     <CleanCodeCategoryField
                       disabled={isDisabledInUpdate}
                       onChange={setCCCategory}

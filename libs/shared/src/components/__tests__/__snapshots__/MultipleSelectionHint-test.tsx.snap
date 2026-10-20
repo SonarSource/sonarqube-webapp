@@ -45,12 +45,12 @@ exports[`should render for mac 1`] = `
       role="note"
     >
       <span
-        class="sw-truncate"
+        class="sw:truncate"
       >
         shortcuts.section.global.facets.multiselection
       </span>
       <div
-        class="sw-flex sw-gap-1"
+        class="sw:flex sw:gap-1"
         role="group"
       >
         <span
@@ -117,12 +117,12 @@ exports[`should render for windows 1`] = `
       role="note"
     >
       <span
-        class="sw-truncate"
+        class="sw:truncate"
       >
         shortcuts.section.global.facets.multiselection
       </span>
       <div
-        class="sw-flex sw-gap-1"
+        class="sw:flex sw:gap-1"
         role="group"
       >
         <span

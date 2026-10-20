@@ -58,7 +58,7 @@ function PrepareDart() {
 
   return (
     <>
-      <Heading as="h3" className="sw-mt-4 sw-mb-2">
+      <Heading as="h3" className="sw:mt-4 sw:mb-2">
         {intl.formatMessage({ id: 'onboarding.analysis.sq_scanner.prepare' })}
       </Heading>
       <Text as="div">
@@ -67,7 +67,7 @@ function PrepareDart() {
             id: 'onboarding.analysis.sq_scanner.prepare.flutter',
           })}
         </p>
-        <ol className="sw-list-inside sw-my-2">
+        <ol className="sw:list-inside sw:my-2">
           <li>
             {intl.formatMessage(
               { id: 'onboarding.analysis.sq_scanner.prepare.flutter.pub_get' },

@@ -75,7 +75,7 @@ export default function TaskStatus({ status }: Readonly<Props>) {
 
   return (
     <ContentCell>
-      <div className="sw-flex sw-gap-1 sw-items-center">
+      <div className="sw:flex sw:gap-1 sw:items-center">
         {statusData.iconComponent}
         {translate(statusData.textKey)}
       </div>

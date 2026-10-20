@@ -24,13 +24,13 @@ import { FlagMessage } from '../../design-system';
 
 export default function IgnoredConditionWarning() {
   return (
-    <FlagMessage className="sw-mb-4" variant="info">
+    <FlagMessage className="sw:mb-4" variant="info">
       <span>
         <FormattedMessage id="overview.quality_gate.ignored_conditions" />
       </span>
 
       <ToggleTip
-        className="it__overview-ignored-conditions-help sw-ml-2"
+        className="it__overview-ignored-conditions-help sw:ml-2"
         description={<FormattedMessage id="overview.quality_gate.ignored_conditions.tooltip" />}
       />
     </FlagMessage>

@@ -305,7 +305,7 @@ export function ProjectValidationCard<I extends string | number>({
         onChange={onChange}
         projectId={projectId}
       />
-      <Button className="sw-mt-4 sw-mr-4" onClick={onRemove} prefix={<IconDelete />} type="button">
+      <Button className="sw:mt-4 sw:mr-4" onClick={onRemove} prefix={<IconDelete />} type="button">
         <FormattedMessage id="onboarding.create_project.monorepo.remove_project" />
       </Button>
     </Card>

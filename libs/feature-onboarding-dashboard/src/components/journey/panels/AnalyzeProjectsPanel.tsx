@@ -181,7 +181,7 @@ export function AnalyzeProjectsPanel({ state }: Readonly<Props>) {
   ];
 
   return (
-    <div className="sw-flex sw-items-start sw-gap-8">
+    <div className="sw:flex sw:items-start sw:gap-8">
       <PanelDonut
         centerLabel={formatMessage(
           { id: 'onboarding_dashboard.percent' },
@@ -193,8 +193,8 @@ export function AnalyzeProjectsPanel({ state }: Readonly<Props>) {
         segments={segments}
       />
 
-      <div className="sw-flex sw-min-w-0 sw-flex-1 sw-flex-col sw-gap-4 sw-py-4">
-        <div className="sw-flex sw-flex-col sw-gap-2">
+      <div className="sw:flex sw:min-w-0 sw:flex-1 sw:flex-col sw:gap-4 sw:py-4">
+        <div className="sw:flex sw:flex-col sw:gap-2">
           <Heading as="h3" size={HeadingSize.Medium}>
             {formatMessage({ id: 'onboarding_dashboard.journey.analyze.title' })}
           </Heading>
@@ -204,15 +204,15 @@ export function AnalyzeProjectsPanel({ state }: Readonly<Props>) {
           </Text>
         </div>
 
-        <div className="sw-flex sw-flex-col sw-gap-3">
+        <div className="sw:flex sw:flex-col sw:gap-3">
           {rows.map((row) => (
             <Card key={row.key}>
               <Card.Body>
-                <div className="sw-flex sw-items-center sw-justify-between sw-gap-4">
-                  <div className="sw-flex sw-min-w-0 sw-max-w-[540px] sw-items-start sw-gap-2">
-                    <span className="sw-flex sw-shrink-0">{row.icon}</span>
-                    <div className="sw-flex sw-min-w-0 sw-flex-col sw-gap-1">
-                      <span className="sw-flex sw-items-center sw-gap-2">
+                <div className="sw:flex sw:items-center sw:justify-between sw:gap-4">
+                  <div className="sw:flex sw:min-w-0 sw:max-w-[540px] sw:items-start sw:gap-2">
+                    <span className="sw:flex sw:shrink-0">{row.icon}</span>
+                    <div className="sw:flex sw:min-w-0 sw:flex-col sw:gap-1">
+                      <span className="sw:flex sw:items-center sw:gap-2">
                         <Text isHighlighted>{formatMessage({ id: row.titleId })}</Text>
                         {row.badge}
                       </span>

@@ -47,7 +47,7 @@ export default function GitLabCITutorial(props: Readonly<GitLabCITutorialProps>)
 
   return (
     <>
-      <TutorialStepList className="sw-mb-8">
+      <TutorialStepList className="sw:mb-8">
         <EnvironmentVariablesStep
           baseUrl={baseUrl}
           component={component}
@@ -59,7 +59,7 @@ export default function GitLabCITutorial(props: Readonly<GitLabCITutorialProps>)
 
       {done && (
         <>
-          <BasicSeparator className="sw-my-10" />
+          <BasicSeparator className="sw:my-10" />
           <AllSet alm={AlmKeys.GitLab} willRefreshAutomatically={willRefreshAutomatically} />
         </>
       )}

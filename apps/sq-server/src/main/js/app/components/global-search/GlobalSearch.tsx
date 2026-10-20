@@ -338,7 +338,7 @@ export class GlobalSearch extends React.PureComponent<Props, State> {
   );
 
   renderNoResults = () => (
-    <div className="sw-px-3 sw-py-2">
+    <div className="sw:px-3 sw:py-2">
       <FormattedMessage id="no_results_for_x" values={{ 0: this.state.query }} />
     </div>
   );
@@ -366,7 +366,7 @@ export class GlobalSearch extends React.PureComponent<Props, State> {
                   open && (
                     <DropdownMenu
                       aria-owns="global-search-input"
-                      className="it__global-navbar-search-dropdown sw-overflow-y-auto sw-overflow-x-hidden"
+                      className="it__global-navbar-search-dropdown sw:overflow-y-auto sw:overflow-x-hidden"
                       innerRef={(node: HTMLUListElement | null) => {
                         this.node = node;
                       }}
@@ -385,7 +385,7 @@ export class GlobalSearch extends React.PureComponent<Props, State> {
                         selected={selected}
                       />
                       {list.length > 0 && (
-                        <li className="sw-px-3 sw-pt-1">
+                        <li className="sw:px-3 sw:pt-1">
                           <Text isSubtle>
                             <FormattedMessage id="global_search.shortcut_hint" />
                           </Text>

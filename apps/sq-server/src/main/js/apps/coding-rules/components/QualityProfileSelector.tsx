@@ -94,7 +94,7 @@ export function QualityProfileSelector(props: Readonly<Props>) {
     >
       {({ onToggleClick }): JSX.Element => (
         <InputMultiSelect
-          className="sw-w-full sw-mb-2"
+          className="sw:w-full sw:mb-2"
           count={selectedProfiles.length}
           id={inputId}
           onClick={onToggleClick}

@@ -107,7 +107,7 @@ export default function ProjectActivityAnalysis(props: Readonly<ProjectActivityA
             analysis.buildString ?? formatDate(parsedDate, defaultFormatterOptions),
           )}
           className={classNames(
-            'it__project-activity-analysis sw-flex sw-cursor-pointer sw-p-1 sw-relative',
+            'it__project-activity-analysis sw:flex sw:cursor-pointer sw:p-1 sw:relative',
             {
               active: selected,
             },
@@ -122,7 +122,7 @@ export default function ProjectActivityAnalysis(props: Readonly<ProjectActivityA
           }}
         >
           <div className="it__project-activity-time">
-            <ActivityTime className="sw-h-500 sw-typo-semibold sw-text-right sw-mr-2 sw-py-1/2">
+            <ActivityTime className="sw:h-500 sw:typo-semibold sw:text-right sw:mr-2 sw:py-1/2">
               <TimeFormatter date={parsedDate} long={false}>
                 {(formattedTime) => (
                   <time dateTime={parsedDate.toISOString()}>{formattedTime}</time>
@@ -133,7 +133,7 @@ export default function ProjectActivityAnalysis(props: Readonly<ProjectActivityA
 
           {(canAddVersion || canAddEvent || canDeleteAnalyses) && (
             <ClickEventBoundary>
-              <div className="sw-h-500 sw-grow-0 sw-shrink-0 sw-mr-4 sw-relative">
+              <div className="sw:h-500 sw:grow-0 sw:shrink-0 sw:mr-4 sw:relative">
                 <DropdownMenu
                   id="it__analysis-actions"
                   items={
@@ -180,7 +180,7 @@ export default function ProjectActivityAnalysis(props: Readonly<ProjectActivityA
                       'project_activity.analysis_X_actions',
                       analysis.buildString ?? formatDate(parsedDate, defaultFormatterOptions),
                     )}
-                    className="-sw-mt-1"
+                    className="sw:-mt-1"
                     size={ButtonSize.Medium}
                     variety={ButtonVariety.PrimaryGhost}
                   />
@@ -221,14 +221,14 @@ export default function ProjectActivityAnalysis(props: Readonly<ProjectActivityA
         </ActivityAnalysisListItem>
       </Tooltip>
       {isBaseline && (
-        <BaselineMarker className="sw-typo-default sw-mt-2">
-          <span className="sw-py-1/2 sw-px-1">
+        <BaselineMarker className="sw:typo-default sw:mt-2">
+          <span className="sw:py-1/2 sw:px-1">
             {translate('project_activity.new_code_period_start')}
           </span>
           <Tooltip content={translate('project_activity.new_code_period_start.help')} side="top">
             <Button
               ariaLabel={formatMessage({ id: 'help' })}
-              className="sw-ml-1 sw-h-fit sw-min-h-fit sw-p-0"
+              className="sw:ml-1 sw:h-fit sw:min-h-fit sw:p-0"
               variety={ButtonVariety.DefaultGhost}
             >
               <IconQuestionMark color="echoes-color-icon-subtle" />

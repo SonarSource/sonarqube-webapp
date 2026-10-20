@@ -5,6 +5,7 @@
   "sourceRoot": "libs/feature-dashboards/src",
   "tags": ["type:feature", "visibility:public", "scope:shared"],
   "targets": {
+    "validate-tailwind-prefixes": {},
     "format-check": {},
     "lint": {},
     "lint-report": {}

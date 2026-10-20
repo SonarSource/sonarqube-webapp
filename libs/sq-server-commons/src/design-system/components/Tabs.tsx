@@ -81,7 +81,7 @@ export function Tabs<T extends TabValueType>(props: PropsWithChildren<TabsProps<
           >
             {option.label}
             {option.counter ? (
-              <Badge className="sw-ml-2" variety="danger">
+              <Badge className="sw:ml-2" variety="danger">
                 <FormattedMessage id="overview.failed.badge" values={{ counter: option.counter }} />
               </Badge>
             ) : null}

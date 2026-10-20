@@ -136,9 +136,9 @@ export function IssueAssign(props: Readonly<IssueAssignProps>) {
   const renderAssignee = useCallback(() => {
     if (assigneeName) {
       return (
-        <span className="sw-flex sw-items-center sw-gap-1">
-          <Avatar className="sw-mr-1" hash={issue.assigneeAvatar} name={assigneeName} size="xs" />
-          <span className="sw-truncate sw-max-w-abs-300 fs-mask">
+        <span className="sw:flex sw:items-center sw:gap-1">
+          <Avatar className="sw:mr-1" hash={issue.assigneeAvatar} name={assigneeName} size="xs" />
+          <span className="sw:truncate sw:max-w-abs-300 fs-mask">
             {issue.assigneeActive
               ? assigneeName
               : formatMessage({ id: 'user.x_deleted' }, { 0: assigneeName })}
@@ -148,7 +148,7 @@ export function IssueAssign(props: Readonly<IssueAssignProps>) {
     }
 
     return (
-      <span className="sw-flex sw-items-center sw-gap-1">
+      <span className="sw:flex sw:items-center sw:gap-1">
         <FormattedMessage id="unassigned" />
       </span>
     );

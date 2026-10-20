@@ -98,7 +98,7 @@ export function ProjectRatingBadgeWidgetWrapper(props: Readonly<Props>) {
       : undefined;
 
   return (
-    <div className="sw-text-[3rem] sw-leading-none sw-h-full sw-flex sw-flex-col sw-items-center sw-justify-center">
+    <div className="sw:text-[3rem] sw:leading-none sw:h-full sw:flex sw:flex-col sw:items-center sw:justify-center">
       {metricTypeForMeasure === MetricType.Rating ? (
         <RatingBadgeDisplay
           badgeSize={RatingBadgeSize.ExtraLarge}

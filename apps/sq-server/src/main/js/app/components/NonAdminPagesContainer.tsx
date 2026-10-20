@@ -42,7 +42,7 @@ export default function NonAdminPagesContainer() {
       <Layout.PageGrid>
         <Layout.PageContent>
           <MessageCallout
-            className="it__alert-no-access-all-child-project sw-mt-10"
+            className="it__alert-no-access-all-child-project sw:mt-10"
             variety="danger"
           >
             <FormattedMessage id="application.cannot_access_all_child_projects1" />

@@ -167,7 +167,7 @@ export default function GitHubConfigurationForm(props: Readonly<Props>) {
   const formBody = (
     <form id={FORM_ID} onSubmit={handleSubmit}>
       {isStandardModeConfiguration ? (
-        <MessageCallout className="sw-mb-8" variety="warning">
+        <MessageCallout className="sw:mb-8" variety="warning">
           <FormattedMessage
             id={`settings.authentication.${helpMessage}`}
             values={{
@@ -180,7 +180,7 @@ export default function GitHubConfigurationForm(props: Readonly<Props>) {
           />
         </MessageCallout>
       ) : (
-        <Text as="p" className="sw-mb-8" isSubtle>
+        <Text as="p" className="sw:mb-8" isSubtle>
           <FormattedMessage
             id={`settings.authentication.${helpMessage}`}
             values={{
@@ -198,7 +198,7 @@ export default function GitHubConfigurationForm(props: Readonly<Props>) {
         const { value, required, definition } = formData[key];
 
         return (
-          <div className="sw-mb-8" key={key}>
+          <div className="sw:mb-8" key={key}>
             <AuthenticationFormField
               definition={definition}
               error={errors[key]?.message}

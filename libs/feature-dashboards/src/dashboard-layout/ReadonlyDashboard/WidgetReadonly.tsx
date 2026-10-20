@@ -46,7 +46,7 @@ export function WidgetReadonly<WidgetPropMap extends {}>(props: Readonly<Props<W
     >
       <WidgetInstanceProvider dimensions={widget.dimensions} widgetKey={widget.key}>
         <div
-          className="sw-w-full"
+          className="sw:w-full"
           style={{
             alignItems: 'flex-start',
             display: 'flex',

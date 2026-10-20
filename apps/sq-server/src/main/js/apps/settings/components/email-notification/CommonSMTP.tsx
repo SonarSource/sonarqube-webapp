@@ -27,7 +27,7 @@ export function CommonSMTP(props: Readonly<EmailNotificationGroupProps>) {
   const { configuration, onChange } = props;
 
   return (
-    <div className="sw-pt-6">
+    <div className="sw:pt-6">
       <EmailNotificationFormField
         description={translate('email_notification.form.host.description')}
         id={HOST}

@@ -45,7 +45,7 @@ export default function GroupHolder(props: Props) {
 
   return (
     <Table.Row>
-      <Table.Cell className="sw-typo-lg">
+      <Table.Cell className="sw:typo-lg">
         <IconPeople />
       </Table.Cell>
 

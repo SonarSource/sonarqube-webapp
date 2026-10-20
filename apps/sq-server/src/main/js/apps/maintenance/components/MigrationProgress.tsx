@@ -40,7 +40,7 @@ export function MigrationProgress({ progress }: Props) {
         <MigrationBackgroundBar />
         <MigrationForegroundBar width={percentage} />
       </MigrationProgressContainer>
-      <div className="sw-mt-2">
+      <div className="sw:mt-2">
         <FormattedMessage
           id="maintenance.running.progress"
           values={{
@@ -49,7 +49,7 @@ export function MigrationProgress({ progress }: Props) {
           }}
         />
       </div>
-      <div className="sw-mt-4">
+      <div className="sw:mt-4">
         <FormattedMessage
           id="maintenance.running.estimate"
           values={{

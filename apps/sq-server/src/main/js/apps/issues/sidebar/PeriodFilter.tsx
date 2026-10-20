@@ -61,7 +61,7 @@ export function PeriodFilter(props: PeriodFilterProps) {
           value={newCodeSelected ? CodeScope.New : CodeScope.Overall}
         />
       </FacetItemsList>
-      <BasicSeparator className="sw-mb-5 sw-mt-4" />
+      <BasicSeparator className="sw:mb-5 sw:mt-4" />
     </>
   );
 }

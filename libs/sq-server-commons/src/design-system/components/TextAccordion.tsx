@@ -67,12 +67,12 @@ export function TextAccordion(props: Readonly<Props>) {
           aria-controls={`${id}-panel`}
           aria-expanded={open}
           aria-label={ariaLabel}
-          className="sw-flex sw-items-center sw-px-2 sw-py-2 sw-box-border sw-w-full"
+          className="sw:flex sw:items-center sw:px-2 sw:py-2 sw:box-border sw:w-full"
           id={`${id}-header`}
           onClick={handleClick}
         >
           <AccordionTitle>
-            <OpenCloseIndicator className="sw-mr-1" open={open} />
+            <OpenCloseIndicator className="sw:mr-1" open={open} />
             {title}
           </AccordionTitle>
           {renderHeader?.()}

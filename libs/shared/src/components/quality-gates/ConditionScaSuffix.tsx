@@ -71,7 +71,7 @@ export function ConditionScaSuffix({
         <Tooltip content={formatMessage({ id: 'toggle_tip.aria_label.sca_condition' })}>
           <span
             aria-label={formatMessage({ id: 'quality_gates.upgrade_badge.tooltip.aria' })}
-            className="hover:sw-cursor-pointer"
+            className="sw:hover:cursor-pointer"
             role="img"
           >
             {upgradeIcon}

@@ -97,7 +97,7 @@ function Xvalues<T>(
 
     return (
       <BarChartTick
-        className="sw-typo-default sw-cursor-pointer"
+        className="sw:typo-default sw:cursor-pointer"
         dy="-0.5em"
         key={index}
         onClick={() => {
@@ -131,7 +131,7 @@ function Bars<T>(
       <Tooltip content={point.tooltip} key={index}>
         <BarChartBar
           aria-label={point.description}
-          className="sw-cursor-pointer"
+          className="sw:cursor-pointer"
           height={height}
           onClick={() => {
             props.onBarClick(point);

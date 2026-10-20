@@ -677,9 +677,9 @@ export class CodingRulesApp extends React.PureComponent<Props, State> {
                 <div>
                   <A11ySkipTarget anchor="rules_main" />
 
-                  <div className="sw-flex sw-justify-between sw-py-4">
+                  <div className="sw:flex sw:justify-between sw:py-4">
                     <InputSearch
-                      className="sw-min-w-abs-250 sw-max-w-abs-350 sw-mr-4"
+                      className="sw:min-w-abs-250 sw:max-w-abs-350 sw:mr-4"
                       id="coding-rules-search"
                       maxLength={MAX_SEARCH_LENGTH}
                       minLength={2}
@@ -728,7 +728,7 @@ export class CodingRulesApp extends React.PureComponent<Props, State> {
                   </ul>
                   {paging !== undefined && (
                     <ListFooter
-                      className="sw-mb-4"
+                      className="sw:mb-4"
                       count={rules.length}
                       loadMore={this.fetchMoreRules}
                       ready={!this.state.loading}

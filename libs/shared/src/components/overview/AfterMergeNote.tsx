@@ -29,8 +29,8 @@ interface Props {
 
 export default function AfterMergeNote({ className, formattedValue }: Readonly<Props>) {
   return (
-    <HelperText className={classNames('sw-mt-2 sw-inline-block', className)}>
-      <strong className="sw-mr-1">{formattedValue}</strong>
+    <HelperText className={classNames('sw:mt-2 sw:inline-block', className)}>
+      <strong className="sw:mr-1">{formattedValue}</strong>
       <FormattedMessage id="component_measures.facet_category.overall_category.estimated" />
     </HelperText>
   );

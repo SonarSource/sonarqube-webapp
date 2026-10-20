@@ -210,7 +210,7 @@ function AllProjects({ isFavorite }: Readonly<{ isFavorite: boolean }>) {
   return (
     <Layout.ContentGrid id="projects-page">
       <Helmet defer={false} title={pageTitle} />
-      <Heading as="h1" className="sw-sr-only">
+      <Heading as="h1" className="sw:sr-only">
         {pageTitle}
       </Heading>
 
@@ -237,7 +237,7 @@ function AllProjects({ isFavorite }: Readonly<{ isFavorite: boolean }>) {
 
       <Layout.PageGrid>
         <A11ySkipTarget anchor="projects_main" />
-        <Heading as="h2" className="sw-sr-only">
+        <Heading as="h2" className="sw:sr-only">
           <FormattedMessage id="list_of_projects" />
         </Heading>
 
@@ -263,7 +263,7 @@ function AllProjects({ isFavorite }: Readonly<{ isFavorite: boolean }>) {
                 {readyProjects.length === 0 && !isFiltered && isFavorite && <NoFavoriteProjects />}
                 {readyProjects.length === 0 && !isFiltered && !isFavorite && <EmptyInstance />}
                 {readyProjects.length > 0 && (
-                  <span className="sw-sr-only">
+                  <span className="sw:sr-only">
                     {intl.formatMessage(
                       { id: 'projects.x_projects_found' },
                       { count: paging?.total },
@@ -283,7 +283,7 @@ function AllProjects({ isFavorite }: Readonly<{ isFavorite: boolean }>) {
                   query={parsedQuery}
                 />
                 <ListFooter
-                  className="sw-pt-4"
+                  className="sw:pt-4"
                   count={isDefined(readyProjects) ? readyProjects.length : 0}
                   loadMore={fetchNextPage}
                   loadMoreAriaLabel={intl.formatMessage({ id: 'projects.show_more' })}

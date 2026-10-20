@@ -34,9 +34,9 @@ export default function NewCodeDefinition() {
       <Helmet defer={false} title={intl.formatMessage({ id: 'new_code_definition.page.title' })} />
 
       {/* Main Content Card */}
-      <div className="sw-max-w-abs-800">
-        <div className="sw-mb-8">
-          <Heading as="h1" className="sw-mb-4">
+      <div className="sw:max-w-abs-800">
+        <div className="sw:mb-8">
+          <Heading as="h1" className="sw:mb-4">
             <FormattedMessage id="new_code_definition.page.title" />
           </Heading>
           <Text>

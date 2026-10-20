@@ -91,13 +91,13 @@ export default function UpdateWebhookSecretField(props: Props) {
     >
       {() => (
         <div>
-          <FlagMessage className="sw-w-full" variant="info">
+          <FlagMessage className="sw:w-full" variant="info">
             <FormattedMessage
               id="webhooks.secret.field_mask.description"
               values={{
                 link: (
                   <DiscreetLink
-                    className="sw-ml-1"
+                    className="sw:ml-1"
                     onClick={showSecretInput}
                     preventDefault
                     to={{}}

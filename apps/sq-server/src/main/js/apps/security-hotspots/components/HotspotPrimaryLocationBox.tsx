@@ -58,7 +58,7 @@ export default function HotspotPrimaryLocationBox(props: HotspotPrimaryLocationB
       }}
     >
       <LineFinding
-        className="sw-cursor-default"
+        className="sw:cursor-default"
         issueKey={hotspot.key}
         message={
           <IssueMessageHighlighting

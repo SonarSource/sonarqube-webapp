@@ -272,6 +272,6 @@ export const SETTING_CONFIRMATION_MESSAGE_IDS: Record<
   [SettingsKey.AutodetectAICode]: (value: string, intl) =>
     intl.formatMessage(
       { id: 'property.sonar.autodetect.ai.code.confirmation' },
-      { value, p1: (text) => <p>{text}</p>, p: (text) => <p className="sw-mt-2">{text}</p> },
+      { value, p1: (text) => <p>{text}</p>, p: (text) => <p className="sw:mt-2">{text}</p> },
     ),
 };

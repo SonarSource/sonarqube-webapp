@@ -34,10 +34,10 @@ export default function MetaQualityGate({ qualityGate }: Props) {
       <Heading as="h3">
         <FormattedMessage id="project.info.quality_gate" />
       </Heading>
-      <ul className="sw-mt-2 sw-flex sw-flex-col sw-gap-3">
+      <ul className="sw:mt-2 sw:flex sw:flex-col sw:gap-3">
         <li>
           {qualityGate.isDefault && (
-            <Text className="sw-mr-2" isSubtle>
+            <Text className="sw:mr-2" isSubtle>
               (<FormattedMessage id="default" />)
             </Text>
           )}

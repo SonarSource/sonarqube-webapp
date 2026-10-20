@@ -71,10 +71,10 @@ export default function ProfileModalForm(props: Readonly<ProfileModalFormProps>)
       content={
         <Form.Section>
           {showBuiltInWarning && (
-            <MessageCallout className="sw-mb-4" variety={MessageVariety.Info}>
-              <div className="sw-flex sw-flex-col">
+            <MessageCallout className="sw:mb-4" variety={MessageVariety.Info}>
+              <div className="sw:flex sw:flex-col">
                 <FormattedMessage id="quality_profiles.no_built_in_updates_warning.new_profile" />
-                <span className="sw-mt-2">
+                <span className="sw:mt-2">
                   <FormattedMessage id="quality_profiles.no_built_in_updates_warning.new_profile.2" />
                 </span>
               </div>
@@ -82,7 +82,7 @@ export default function ProfileModalForm(props: Readonly<ProfileModalFormProps>)
           )}
 
           {action === ProfileActionModals.Copy && (
-            <p className="sw-mb-8">
+            <p className="sw:mb-8">
               <FormattedMessage
                 id="quality_profiles.copy_help"
                 values={{ profile: profile.name }}
@@ -90,7 +90,7 @@ export default function ProfileModalForm(props: Readonly<ProfileModalFormProps>)
             </p>
           )}
           {action === ProfileActionModals.Extend && (
-            <p className="sw-mb-8">
+            <p className="sw:mb-8">
               <FormattedMessage
                 id="quality_profiles.extend_help"
                 values={{ profile: profile.name }}

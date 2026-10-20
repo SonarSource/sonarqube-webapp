@@ -137,19 +137,19 @@ export default function RegulatoryReport({ component, branchLike }: Readonly<Pro
         </ul>
       </div>
 
-      <p className="sw-mb-4">
+      <p className="sw:mb-4">
         <FormattedMessage id="regulatory_report.description2" />
       </p>
 
-      <Divider className="sw-mb-4" />
+      <Divider className="sw:mb-4" />
 
       {isEmpty(branchOptions) ? (
-        <MessageCallout className="sw-mb-4" variety={MessageVariety.Warning}>
+        <MessageCallout className="sw:mb-4" variety={MessageVariety.Warning}>
           <FormattedMessage id="regulatory_page.no_available_branch" />
         </MessageCallout>
       ) : (
         <>
-          <div className="sw-grid sw-mb-4">
+          <div className="sw:grid sw:mb-4">
             <Select
               data={branchOptions}
               id="regulatory-report-branch-select"
@@ -164,7 +164,7 @@ export default function RegulatoryReport({ component, branchLike }: Readonly<Pro
               width={FormFieldWidth.Large}
             />
           </div>
-          <MessageCallout className="sw-mb-4" variety={MessageVariety.Info}>
+          <MessageCallout className="sw:mb-4" variety={MessageVariety.Info}>
             <div>
               <FormattedMessage id="regulatory_page.available_branches_info.only_keep_when_inactive" />{' '}
               <FormattedMessage

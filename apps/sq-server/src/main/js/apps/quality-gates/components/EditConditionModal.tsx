@@ -123,7 +123,7 @@ export default function EditConditionModal({ condition, metric, qualityGate }: R
         description={<Text isSubtle>{getLocalizedMetricName(metric)}</Text>}
         title={translate('quality_gates.conditions.fails_when')}
       >
-        <div className="sw-flex sw-justify-between sw-w-3/4">
+        <div className="sw:flex sw:justify-between sw:w-3/4">
           <ConditionOperator
             metric={metric}
             onOperatorChange={handleOperatorChange}
@@ -169,7 +169,7 @@ export default function EditConditionModal({ condition, metric, qualityGate }: R
           { id: 'quality_gates.condition.edit' },
           { metric: metric.name },
         )}
-        className="sw-mr-4"
+        className="sw:mr-4"
         data-test="quality-gates__condition-update"
         size={ButtonSize.Medium}
         variety={ButtonVariety.PrimaryGhost}

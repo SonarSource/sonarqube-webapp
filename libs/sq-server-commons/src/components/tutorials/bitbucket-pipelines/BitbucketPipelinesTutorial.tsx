@@ -63,7 +63,7 @@ export default function BitbucketPipelinesTutorial(
   }, [config.buildTool]);
 
   return (
-    <TutorialStepList className="sw-mb-8">
+    <TutorialStepList className="sw:mb-8">
       <TutorialStep
         title={translate('onboarding.tutorial.with.bitbucket_pipelines.variables.title')}
       >
@@ -81,11 +81,11 @@ export default function BitbucketPipelinesTutorial(
               {shouldShowGithubCFamilyExampleRepositories(config) && (
                 <GithubCFamilyExampleRepositories
                   ci={TutorialModes.BitbucketPipelines}
-                  className="sw-my-4 sw-w-abs-600"
+                  className="sw:my-4 sw:w-abs-600"
                 />
               )}
               {shouldShowArchSelector(OSs.Linux, config) && (
-                <div className="sw-my-4">
+                <div className="sw:my-4">
                   <RenderOptions
                     checked={arch}
                     label={translate('onboarding.build.other.architecture')}
@@ -111,7 +111,7 @@ export default function BitbucketPipelinesTutorial(
 
       {done && (
         <>
-          <BasicSeparator className="sw-my-10" />
+          <BasicSeparator className="sw:my-10" />
           <AllSet
             alm={AlmKeys.BitbucketCloud}
             willRefreshAutomatically={willRefreshAutomatically}

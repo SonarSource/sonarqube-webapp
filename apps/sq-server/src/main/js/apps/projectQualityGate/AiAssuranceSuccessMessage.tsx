@@ -29,7 +29,7 @@ export default function AiAssuranceSuccessMessage({ className }: Readonly<Props>
   return (
     <div className={className}>
       <IconCheck color="echoes-color-icon-success" />
-      <Text className="sw-ml-1" colorOverride="echoes-color-text-success">
+      <Text className="sw:ml-1" colorOverride="echoes-color-text-success">
         <FormattedMessage id="project_quality_gate.ai_assured_quality_gate" />
       </Text>
     </div>

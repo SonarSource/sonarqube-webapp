@@ -73,9 +73,9 @@ export function PluginRiskConsent(props: Readonly<PluginRiskConsentProps>) {
     <>
       <Helmet defer={false} title={formatMessage({ id: 'plugin_risk_consent.page' })} />
 
-      <div className="sw-mt-40">
+      <div className="sw:mt-40">
         <Card
-          className="sw-typo-lg sw-min-w-[500px] sw-mx-auto sw-w-[40%] sw-text-center"
+          className="sw:typo-lg sw:min-w-[500px] sw:mx-auto sw:w-[40%] sw:text-center"
           data-testid="plugin-risk-consent-page"
         >
           <Card.Body>
@@ -83,15 +83,15 @@ export function PluginRiskConsent(props: Readonly<PluginRiskConsentProps>) {
               <FormattedMessage id="plugin_risk_consent.title" />
             </Heading>
 
-            <p className="sw-mb-4">
+            <p className="sw:mb-4">
               <FormattedMessage id="plugin_risk_consent.description" />
             </p>
 
-            <p className="sw-mb-6">
+            <p className="sw:mb-6">
               <FormattedMessage id="plugin_risk_consent.description2" />
             </p>
 
-            <Button className="sw-my-4" onClick={acknowledgeRisk} variety={ButtonVariety.Primary}>
+            <Button className="sw:my-4" onClick={acknowledgeRisk} variety={ButtonVariety.Primary}>
               <FormattedMessage id="plugin_risk_consent.action" />
             </Button>
           </Card.Body>

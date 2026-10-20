@@ -33,7 +33,7 @@ export function SectionModalFormFields(props: Readonly<SectionModalFormFieldsPro
   const { formatMessage } = useIntl();
 
   return (
-    <div className="sw-space-y-6">
+    <div className="sw:space-y-6">
       <TextInput
         isRequired
         label={formatMessage({ id: 'dashboard.section_name' })}

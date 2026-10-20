@@ -160,7 +160,7 @@ export default class EditTokenModal extends React.PureComponent<Props, State> {
     const { loading, token, tokenName, tokenExpiration, tokenExpirationOptions } = this.state;
 
     return (
-      <div className="sw-typo-default">
+      <div className="sw:typo-default">
         {token ? (
           <>
             <span>
@@ -169,24 +169,24 @@ export default class EditTokenModal extends React.PureComponent<Props, State> {
             </span>
             <div>
               <InlineSnippet snippet={token} />
-              <ClipboardIconButton className="sw-ml-2" copyValue={token} />
+              <ClipboardIconButton className="sw:ml-2" copyValue={token} />
               <ButtonIcon
                 Icon={IconDelete}
                 ariaLabel={translate('onboarding.token.delete')}
-                className="sw-ml-1"
+                className="sw:ml-1"
                 onClick={this.handleTokenRevoke}
                 variety={ButtonVariety.DangerGhost}
               />
             </div>
-            <MessageCallout className="sw-mt-2" variety={MessageVariety.Warning}>
+            <MessageCallout className="sw:mt-2" variety={MessageVariety.Warning}>
               {translateWithParameters('users.tokens.new_token_created', token)}
             </MessageCallout>
           </>
         ) : (
           <>
-            <div className="sw-flex sw-pt-4">
+            <div className="sw:flex sw:pt-4">
               <Spinner isLoading={loading}>
-                <div className="sw-flex-col sw-mr-2">
+                <div className="sw:flex-col sw:mr-2">
                   <TextInput
                     autoFocus
                     id="generate-token-input"
@@ -199,10 +199,10 @@ export default class EditTokenModal extends React.PureComponent<Props, State> {
                     width="medium"
                   />
                 </div>
-                <div className="sw-flex-col">
-                  <div className="sw-flex sw-items-end">
+                <div className="sw:flex-col">
+                  <div className="sw:flex sw:items-end">
                     <Select
-                      className="sw-w-abs-150 sw-mr-2"
+                      className="sw:w-abs-150 sw:mr-2"
                       data={tokenExpirationOptions}
                       id="token-select-expiration"
                       isNotClearable
@@ -252,7 +252,7 @@ export default class EditTokenModal extends React.PureComponent<Props, State> {
         secondaryButton={<Button isDisabled={loading}>{translate('continue')}</Button>}
         title={header}
       >
-        <Button className="sw-ml-2">{translate('onboarding.token.generate.long')}</Button>
+        <Button className="sw:ml-2">{translate('onboarding.token.generate.long')}</Button>
       </Modal>
     );
   }

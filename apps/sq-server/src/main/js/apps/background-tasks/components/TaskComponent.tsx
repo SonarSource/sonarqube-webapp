@@ -44,23 +44,23 @@ export default function TaskComponent({ task }: Readonly<Props>) {
       <div>
         <p>
           {task.componentKey && (
-            <span className="sw-mr-2">
+            <span className="sw:mr-2">
               <TaskComponentIndicator task={task} />
 
               {task.componentName && (
-                <StandoutLink className="sw-ml-2" to={getTaskComponentUrl(task.componentKey, task)}>
+                <StandoutLink className="sw:ml-2" to={getTaskComponentUrl(task.componentKey, task)}>
                   <StyledSpan title={task.componentName}>{task.componentName}</StyledSpan>
 
                   {task.branch && (
                     <StyledSpan title={task.branch}>
-                      <span className="sw-mx-1">/</span>
+                      <span className="sw:mx-1">/</span>
                       {task.branch}
                     </StyledSpan>
                   )}
 
                   {task.pullRequest && (
                     <StyledSpan title={task.pullRequestTitle}>
-                      <span className="sw-mx-1">/</span>
+                      <span className="sw:mx-1">/</span>
                       {task.pullRequest}
                     </StyledSpan>
                   )}
@@ -72,7 +72,7 @@ export default function TaskComponent({ task }: Readonly<Props>) {
           <span>{translate('background_task.type', task.type)}</span>
         </p>
 
-        <Text as="div" className="sw-mt-2" isSubtle>
+        <Text as="div" className="sw:mt-2" isSubtle>
           <FormattedMessage id="background_tasks.table.id" />: {task.id}
         </Text>
       </div>

@@ -44,7 +44,7 @@ exports[`renders on mac 1`] = `
     role="note"
   >
     <div
-      class="sw-flex sw-gap-1"
+      class="sw:flex sw:gap-1"
       role="group"
     >
       <span
@@ -106,7 +106,7 @@ exports[`renders on windows 1`] = `
     role="note"
   >
     <div
-      class="sw-flex sw-gap-1"
+      class="sw:flex sw:gap-1"
       role="group"
     >
       <span
@@ -168,11 +168,11 @@ exports[`renders with command 1`] = `
     role="note"
   >
     <div
-      class="sw-flex sw-gap-1"
+      class="sw:flex sw:gap-1"
       role="group"
     >
       <span
-        class="sw-px-1 emotion-2 emotion-3"
+        class="sw:px-1 emotion-2 emotion-3"
       >
         command
       </span>
@@ -225,12 +225,12 @@ exports[`renders with title 1`] = `
     role="note"
   >
     <span
-      class="sw-truncate"
+      class="sw:truncate"
     >
       title
     </span>
     <div
-      class="sw-flex sw-gap-1"
+      class="sw:flex sw:gap-1"
       role="group"
     >
       <span
@@ -287,7 +287,7 @@ exports[`renders without title 1`] = `
     role="note"
   >
     <div
-      class="sw-flex sw-gap-1"
+      class="sw:flex sw:gap-1"
       role="group"
     >
       <span

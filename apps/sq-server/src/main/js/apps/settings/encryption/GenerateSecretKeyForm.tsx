@@ -56,20 +56,20 @@ export default function GenerateSecretKeyForm({ secretKey, generateSecretKey }: 
     <div id="generate-secret-key-form-container">
       {secretKey ? (
         <>
-          <div className="sw-mb-4">
+          <div className="sw:mb-4">
             <SubHeading id="secret-key-title">
               <FormattedMessage id="encryption.secret_key" />
             </SubHeading>
-            <div className="sw-flex">
-              <CodeSnippet className="it__secret-key sw-p-1" isOneLine noCopy snippet={secretKey} />
+            <div className="sw:flex">
+              <CodeSnippet className="it__secret-key sw:p-1" isOneLine noCopy snippet={secretKey} />
               <ClipboardIconButton
                 aria-label={translate('copy_to_clipboard')}
-                className="sw-ml-2"
+                className="sw:ml-2"
                 copyValue={secretKey}
               />
             </div>
           </div>
-          <SubHeading className="sw-mb-2">
+          <SubHeading className="sw:mb-2">
             <FormattedMessage id="encryption.how_to_use" />
           </SubHeading>
           <div>
@@ -120,7 +120,7 @@ export default function GenerateSecretKeyForm({ secretKey, generateSecretKey }: 
             />
           </p>
           <Button
-            className="sw-mt-4"
+            className="sw:mt-4"
             isDisabled={submitting}
             type="submit"
             variety={ButtonVariety.Primary}

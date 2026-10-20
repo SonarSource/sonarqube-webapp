@@ -62,7 +62,7 @@ export default function ProjectCard({ project }: Readonly<Props>) {
 
   return (
     <Card>
-      <aside className="sw-float-right sw-flex sw-flex-col sw-items-end sw-gap-2">
+      <aside className="sw:float-right sw:flex sw:flex-col sw:items-end sw:gap-2">
         {lastAnalysisDate !== undefined ? (
           <Text isSubtle>
             <DateFromNow date={lastAnalysisDate}>
@@ -78,9 +78,9 @@ export default function ProjectCard({ project }: Readonly<Props>) {
         {project.qualityGate !== undefined && (
           <div>
             <Tooltip content={qualityGateLabel}>
-              <span className="sw-flex sw-items-center">
+              <span className="sw:flex sw:items-center">
                 <QualityGateIndicator status={(project.qualityGate as QGStatus) ?? 'NONE'} />
-                <Text className="sw-ml-2" isHighlighted>
+                <Text className="sw:ml-2" isHighlighted>
                   {formatted}
                 </Text>
               </span>
@@ -94,9 +94,9 @@ export default function ProjectCard({ project }: Readonly<Props>) {
         </Link>
       </SubHeading>
       <Text isSubtle>{project.key}</Text>
-      {!!project.description && <div className="sw-mt-2">{project.description}</div>}
+      {!!project.description && <div className="sw:mt-2">{project.description}</div>}
       {orderedLinks.length > 0 && (
-        <ul className="sw-list-none sw-flex sw-flex-row sw-gap-4 sw-mt-2">
+        <ul className="sw:list-none sw:flex sw:flex-row sw:gap-4 sw:mt-2">
           {orderedLinks.map((link) => (
             <MetaLink key={link.id} link={link} />
           ))}

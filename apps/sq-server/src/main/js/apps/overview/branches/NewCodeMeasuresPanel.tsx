@@ -118,7 +118,7 @@ export default function NewCodeMeasuresPanel(props: Readonly<Props>) {
   let acceptedIssuesFooter = null;
   if (isEmpty(newAcceptedIssues)) {
     acceptedIssuesFooter = (
-      <StyledInfoMessage className="sw-rounded-2 sw-p-4">
+      <StyledInfoMessage className="sw:rounded-2 sw:p-4">
         <Text size={TextSize.Small}>
           <FormattedMessage id={`overview.run_analysis_to_compute.${component.qualifier}`} />
         </Text>
@@ -139,18 +139,18 @@ export default function NewCodeMeasuresPanel(props: Readonly<Props>) {
   return (
     <div id={getTabPanelId(CodeScope.New)}>
       {leakPeriod && (
-        <div className="sw-flex sw-items-center sw-mr-6">
-          <Text className="sw-mr-1" isSubtle size={TextSize.Small}>
+        <div className="sw:flex sw:items-center sw:mr-6">
+          <Text className="sw:mr-1" isSubtle size={TextSize.Small}>
             <FormattedMessage id="overview.new_code" />
           </Text>
-          <Text className="sw-flex" isHighlighted size={TextSize.Small}>
+          <Text className="sw:flex" isHighlighted size={TextSize.Small}>
             <LeakPeriodInfo leakPeriod={leakPeriod} />
           </Text>
         </div>
       )}
-      <GridContainer className="sw-relative sw-overflow-hidden sw-mt-8 js-summary">
+      <GridContainer className="sw:relative sw:overflow-hidden sw:mt-8 js-summary">
         {!noConditionsAndWarningForNewCode && (
-          <StyledConditionsCard className="sw-row-span-5 sw-col-span-4">
+          <StyledConditionsCard className="sw:row-span-5 sw:col-span-4">
             <QualityGatePanel
               component={component}
               isNewCode
@@ -162,14 +162,14 @@ export default function NewCodeMeasuresPanel(props: Readonly<Props>) {
             />
           </StyledConditionsCard>
         )}
-        <StyleMeasuresCard className="sw-col-span-4">
+        <StyleMeasuresCard className="sw:col-span-4">
           <IssueMeasuresCardInner
             data-testid="overview__measures-new_issues"
             disabled={component.needIssueSync}
             extraLine={
               <IssuesLinkCausedByUpgrade
                 branchLike={branch}
-                className="sw-mt-1"
+                className="sw:mt-1"
                 component={component}
                 fromSonarQubeUpdateIssuesMeasure={fromSonarQubeUpdateIssuesMeasure}
                 isNewCodePeriod
@@ -191,7 +191,7 @@ export default function NewCodeMeasuresPanel(props: Readonly<Props>) {
             value={formatMeasure(newIssues, MetricType.ShortInteger)}
           />
         </StyleMeasuresCard>
-        <StyleMeasuresCard className="sw-col-span-4">
+        <StyleMeasuresCard className="sw:col-span-4">
           <IssueMeasuresCardInner
             data-testid="overview__measures-accepted_issues"
             disabled={Boolean(component.needIssueSync) || isEmpty(newAcceptedIssues)}
@@ -209,7 +209,7 @@ export default function NewCodeMeasuresPanel(props: Readonly<Props>) {
             value={formatMeasure(newAcceptedIssues, MetricType.ShortInteger)}
           />
         </StyleMeasuresCard>
-        <StyleMeasuresCard className="sw-col-span-4">
+        <StyleMeasuresCard className="sw:col-span-4">
           <CoverageMeasureCard
             branchLike={branch}
             componentKey={component.key}
@@ -228,7 +228,7 @@ export default function NewCodeMeasuresPanel(props: Readonly<Props>) {
             useDiffMetric
           />
         </StyleMeasuresCard>
-        <StyleMeasuresCard className="sw-col-span-4">
+        <StyleMeasuresCard className="sw:col-span-4">
           <MeasuresCardPercent
             branchLike={branch}
             componentKey={component.key}
@@ -248,7 +248,7 @@ export default function NewCodeMeasuresPanel(props: Readonly<Props>) {
             useDiffMetric
           />
         </StyleMeasuresCard>
-        <StyleMeasuresCard className="sw-col-span-4">
+        <StyleMeasuresCard className="sw:col-span-4">
           <MeasuresCardNumber
             conditionMetric={MetricKey.new_security_hotspots_reviewed}
             conditions={conditions}
@@ -280,7 +280,7 @@ export default function NewCodeMeasuresPanel(props: Readonly<Props>) {
         </StyleMeasuresCard>
         <MeasuresCardDependencyRisk
           branchLike={branch}
-          className="sw-col-span-4"
+          className="sw:col-span-4"
           component={component}
           conditions={conditions}
           countMetricKey={MetricKey.new_sca_count_any_issue}
@@ -288,7 +288,7 @@ export default function NewCodeMeasuresPanel(props: Readonly<Props>) {
           dependencyRiskRating={dependencyRiskRating}
           ratingMetricKey={MetricKey.new_sca_rating_any_issue}
         />
-        <IssuesInSandboxSection className="sw-col-span-8" inNewCodePeriod measures={measures} />
+        <IssuesInSandboxSection className="sw:col-span-8" inNewCodePeriod measures={measures} />
       </GridContainer>
     </div>
   );

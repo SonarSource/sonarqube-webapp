@@ -47,7 +47,7 @@ export function SystemUpgradeButton(props: Readonly<Props>) {
   if (systemUpgrades.length === 0) {
     return (
       <Link
-        className="sw-ml-2"
+        className="sw:ml-2"
         enableOpenInNewTab
         to="https://www.sonarsource.com/products/sonarqube/downloads/?referrer=sonarqube"
       >
@@ -58,7 +58,7 @@ export function SystemUpgradeButton(props: Readonly<Props>) {
 
   return (
     <>
-      <Button className="sw-ml-2" onClick={openSystemUpgradeForm} variety="default-ghost">
+      <Button className="sw:ml-2" onClick={openSystemUpgradeForm} variety="default-ghost">
         <FormattedMessage id="learn_more" />
       </Button>
 

@@ -72,16 +72,16 @@ export default function HotspotSimpleList(props: HotspotSimpleListProps) {
 
   return (
     <StyledContainer>
-      <div className="sw-mt-8 sw-mb-4">
+      <div className="sw:mt-8 sw:mb-4">
         <SubnavigationAccordion
           expanded
           header={
-            <SubNavigationContainer className="sw-flex sw-justify-between">
-              <div className="sw-flex sw-items-center">
+            <SubNavigationContainer className="sw:flex sw:justify-between">
+              <div className="sw:flex sw:items-center">
                 {filterByFile ? (
                   <Tooltip content={filterByFile}>
                     <span>
-                      <QualifierIcon className="sw-mr-1" qualifier={ComponentQualifier.File} />
+                      <QualifierIcon className="sw:mr-1" qualifier={ComponentQualifier.File} />
                       {fileFromPath(filterByFile)}
                     </span>
                   </Tooltip>

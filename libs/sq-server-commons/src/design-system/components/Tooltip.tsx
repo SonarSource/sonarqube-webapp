@@ -398,7 +398,7 @@ export class TooltipInner extends React.Component<TooltipProps, State> {
         {this.isVisible() && (
           <TooltipPortal>
             <TooltipWrapper
-              className={classNames(placement, 'sw-z-tooltip')}
+              className={classNames(placement, 'sw:z-tooltip')}
               onPointerEnter={this.handleOverlayPointerEnter}
               onPointerLeave={this.handleOverlayPointerLeave}
               ref={this.tooltipNodeRef}

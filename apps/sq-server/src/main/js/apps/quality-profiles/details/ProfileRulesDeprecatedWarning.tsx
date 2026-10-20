@@ -31,7 +31,7 @@ interface Props {
 export default function ProfileRulesDeprecatedWarning(props: Readonly<Props>) {
   return (
     <FlagMessage variant="warning">
-      <div className="sw-flex sw-gap-1">
+      <div className="sw:flex sw:gap-1">
         <FormattedMessage
           id="quality_profiles.x_deprecated_rules"
           values={{

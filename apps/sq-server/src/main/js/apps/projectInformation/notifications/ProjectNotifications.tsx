@@ -45,7 +45,7 @@ export default function ProjectNotifications(props: Readonly<Props>) {
       </MessageCallout>
 
       <NotificationsList
-        className="sw-mt-6"
+        className="sw:mt-6"
         projectKey={component.key}
         projectName={component.name}
       />

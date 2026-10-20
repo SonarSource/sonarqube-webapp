@@ -81,7 +81,7 @@ export function Mode() {
 
   return (
     <>
-      <Heading as="h2" className="sw-mb-4" id={MODE_HEADING_ID}>
+      <Heading as="h2" className="sw:mb-4" id={MODE_HEADING_ID}>
         {intl.formatMessage({ id: 'settings.mode.title' })}
       </Heading>
       <Text>
@@ -103,7 +103,7 @@ export function Mode() {
       </Text>
       <br />
       <br />
-      <Text as="div" className="sw-max-w-full sw-mb-6">
+      <Text as="div" className="sw:max-w-full sw:mb-6">
         {intl.formatMessage({ id: 'settings.mode.description.line2' })}
       </Text>
       <Spinner isLoading={isLoading}>
@@ -147,11 +147,11 @@ export function Mode() {
           value={selectedMode}
         />
       </Spinner>
-      <Text as="div" className="sw-mt-6" isSubtle>
+      <Text as="div" className="sw:mt-6" isSubtle>
         <FormattedMessage id="settings.key_x" values={{ '0': SettingsKey.MQRMode }} />
       </Text>
       {changedMode && (
-        <div className="sw-mt-6">
+        <div className="sw:mt-6">
           <Spinner
             isLoading={loadingGates}
             label={intl.formatMessage({ id: 'settings.mode.checking_instance' })}
@@ -181,14 +181,14 @@ export function Mode() {
             </ButtonGroup>
             <div>
               {hasQGConditionsFromOtherMode ? (
-                <FlagMessage className="sw-mt-6" variant="info">
+                <FlagMessage className="sw:mt-6" variant="info">
                   {intl.formatMessage(
                     { id: 'settings.mode.instance_conditions_from_other_mode' },
                     { isStandardMode: isStandardMode && changedMode },
                   )}
                 </FlagMessage>
               ) : (
-                <Text className="sw-mt-2" size={TextSize.Small}>
+                <Text className="sw:mt-2" size={TextSize.Small}>
                   {intl.formatMessage({ id: 'settings.mode.save.warning' })}
                 </Text>
               )}

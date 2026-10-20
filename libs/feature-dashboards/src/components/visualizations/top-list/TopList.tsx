@@ -40,7 +40,7 @@ function TopListTruncatedRuleLabel({ label }: Readonly<{ label: string }>) {
 
   const text = (
     <span
-      className="sw-block sw-min-w-0 sw-w-full sw-overflow-hidden sw-truncate sw-text-start"
+      className="sw:block sw:min-w-0 sw:w-full sw:overflow-hidden sw:truncate sw:text-start"
       ref={textRef}
       {...(isTruncated ? { 'aria-label': label } : {})}
     >
@@ -49,7 +49,7 @@ function TopListTruncatedRuleLabel({ label }: Readonly<{ label: string }>) {
   );
 
   const labelContent = (
-    <div className="sw-block sw-min-w-0 sw-w-full sw-overflow-hidden">{text}</div>
+    <div className="sw:block sw:min-w-0 sw:w-full sw:overflow-hidden">{text}</div>
   );
 
   if (!isTruncated) {
@@ -58,7 +58,7 @@ function TopListTruncatedRuleLabel({ label }: Readonly<{ label: string }>) {
 
   return (
     <Tooltip content={label} delayDuration={300}>
-      <div className="sw-block sw-min-w-0 sw-w-full sw-overflow-hidden">{text}</div>
+      <div className="sw:block sw:min-w-0 sw:w-full sw:overflow-hidden">{text}</div>
     </Tooltip>
   );
 }
@@ -80,9 +80,9 @@ function TopListRankByCell({
 
   if (linkTo !== undefined) {
     return (
-      <Table.Cell className="sw-box-border sw-max-h-[37px] sw-min-h-0 sw-min-w-0 sw-overflow-hidden">
+      <Table.Cell className="sw:box-border sw:max-h-[37px] sw:min-h-0 sw:min-w-0 sw:overflow-hidden">
         <LinkStandalone
-          className="sw-block sw-min-w-0 sw-w-full sw-overflow-hidden"
+          className="sw:block sw:min-w-0 sw:w-full sw:overflow-hidden"
           highlight={LinkHighlight.CurrentColor}
           to={linkTo}
         >
@@ -94,23 +94,23 @@ function TopListRankByCell({
 
   if (onRowClick !== undefined) {
     return (
-      <Table.Cell className="sw-box-border sw-max-h-[37px] sw-min-h-0 sw-min-w-0 sw-overflow-hidden">
+      <Table.Cell className="sw:box-border sw:max-h-[37px] sw:min-h-0 sw:min-w-0 sw:overflow-hidden">
         <button
-          className="sw-block sw-min-w-0 sw-w-full sw-cursor-pointer sw-overflow-hidden sw-border-0 sw-bg-transparent sw-p-0 sw-text-start"
+          className="sw:block sw:min-w-0 sw:w-full sw:cursor-pointer sw:overflow-hidden sw:border-0 sw:bg-transparent sw:p-0 sw:text-start"
           onClick={() => {
             onRowClick(row);
           }}
           type="button"
           {...(isSelected ? { 'aria-current': 'true' as const } : {})}
         >
-          <span className={isSelected ? 'sw-font-semibold' : undefined}>{ruleLabel}</span>
+          <span className={isSelected ? 'sw:font-semibold' : undefined}>{ruleLabel}</span>
         </button>
       </Table.Cell>
     );
   }
 
   return (
-    <Table.Cell className="sw-box-border sw-max-h-[37px] sw-min-h-0 sw-min-w-0 sw-overflow-hidden">
+    <Table.Cell className="sw:box-border sw:max-h-[37px] sw:min-h-0 sw:min-w-0 sw:overflow-hidden">
       {ruleLabel}
     </Table.Cell>
   );
@@ -136,7 +136,7 @@ function TopListCountCell({
 
   return (
     <Table.CellNumber
-      className="sw-box-border sw-max-h-[37px] sw-min-h-0 sw-shrink-0 sw-justify-end sw-overflow-hidden sw-whitespace-nowrap"
+      className="sw:box-border sw:max-h-[37px] sw:min-h-0 sw:shrink-0 sw:justify-end sw:overflow-hidden sw:whitespace-nowrap"
       content={cellContent}
     />
   );
@@ -162,7 +162,7 @@ function TopListTable({
   return (
     <Table
       ariaLabel={ariaLabel}
-      className="sw-min-w-0 sw-w-full"
+      className="sw:min-w-0 sw:w-full"
       data-testid="top-list-table"
       gridTemplate={
         showTrendColumn ? 'minmax(0, 1fr) max-content max-content' : 'minmax(0, 1fr) max-content'
@@ -172,17 +172,17 @@ function TopListTable({
       <Table.Header>
         <Table.Row>
           <Table.ColumnHeaderCell
-            className="sw-min-w-0 sw-overflow-hidden"
+            className="sw:min-w-0 sw:overflow-hidden"
             label={columnHeaders.rankBy}
           />
           <Table.ColumnHeaderCell
-            className="sw-shrink-0"
+            className="sw:shrink-0"
             justify="end"
             label={columnHeaders.metric}
           />
           {showTrendColumn && (
             <Table.ColumnHeaderCell
-              className="sw-shrink-0"
+              className="sw:shrink-0"
               justify="end"
               label={columnHeaders.trend}
               toggleTip={{
@@ -196,7 +196,7 @@ function TopListTable({
       <Table.Body>
         {rows.map((row) => (
           <Table.Row
-            className="sw-max-h-[37px]"
+            className="sw:max-h-[37px]"
             data-testid={`top-list-row-${row.rank}`}
             key={row.value}
           >
@@ -223,7 +223,7 @@ function TopListTable({
               countLinkTo={row.countLinkTo}
             />
             {showTrendColumn && (
-              <Table.Cell className="sw-box-border sw-flex sw-max-h-[37px] sw-min-h-0 sw-shrink-0 sw-items-center sw-justify-end sw-overflow-hidden sw-whitespace-nowrap">
+              <Table.Cell className="sw:box-border sw:flex sw:max-h-[37px] sw:min-h-0 sw:shrink-0 sw:items-center sw:justify-end sw:overflow-hidden sw:whitespace-nowrap">
                 <TrendIndicator
                   compact
                   isHistoryIncomplete
@@ -251,7 +251,7 @@ export function TopList({
   showTrendColumn = true,
 }: Readonly<TopListProps>) {
   if (hasFetchError) {
-    return <WidgetNoData className="sw-my-0 sw-h-full" />;
+    return <WidgetNoData className="sw:my-0 sw:h-full" />;
   }
 
   if (isPending) {
@@ -259,12 +259,12 @@ export function TopList({
   }
 
   if (rows.length === 0) {
-    return <WidgetNoData className="sw-my-0 sw-h-full" />;
+    return <WidgetNoData className="sw:my-0 sw:h-full" />;
   }
 
   return (
     <div
-      className="sw-h-full sw-min-h-0 sw-w-full sw-min-w-0 sw-overflow-x-hidden sw-overflow-y-auto"
+      className="sw:h-full sw:min-h-0 sw:w-full sw:min-w-0 sw:overflow-x-hidden sw:overflow-y-auto"
       data-testid="top-list"
     >
       <TopListTable

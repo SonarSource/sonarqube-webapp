@@ -37,25 +37,25 @@ interface Props {
 export default function DeliveryItem({ className, delivery, loading, payload }: Props) {
   return (
     <div className={className}>
-      <p className="sw-mb-2">
+      <p className="sw:mb-2">
         {translateWithParameters(
           'webhooks.delivery.response_x',
           delivery.httpStatus ?? translate('webhooks.delivery.server_unreachable'),
         )}
       </p>
-      <p className="sw-mb-2">
+      <p className="sw:mb-2">
         {translateWithParameters(
           'webhooks.delivery.duration_x',
           formatMeasure(delivery.durationMs, 'MILLISEC'),
         )}
       </p>
-      <p className="sw-mb-2">
+      <p className="sw:mb-2">
         <FormattedMessage id="webhooks.delivery.payload" />
       </p>
       <Spinner isLoading={loading}>
         {payload !== undefined && (
           <CodeSnippet
-            className="sw-p-2 sw-max-h-abs-200 sw-overflow-y-scroll"
+            className="sw:p-2 sw:max-h-abs-200 sw:overflow-y-scroll"
             noCopy
             snippet={formatPayload(payload)}
           />

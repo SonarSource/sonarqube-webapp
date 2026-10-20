@@ -415,7 +415,7 @@ export function DefineWidgetAccordion({
       }}
       title={<FormattedMessage id="dashboard.add_widget_modal.define_widget" />}
     >
-      <Text as="div" className="sw-mb-6" isSubtle size={TextSize.Small}>
+      <Text as="div" className="sw:mb-6" isSubtle size={TextSize.Small}>
         <FormattedMessage
           id={defineWidgetDescriptionId}
           values={{
@@ -429,7 +429,7 @@ export function DefineWidgetAccordion({
       </Text>
 
       <div
-        className="sw-flex sw-flex-col sw-gap-3"
+        className="sw:flex sw:flex-col sw:gap-3"
         onClick={(e) => {
           e.stopPropagation();
         }}

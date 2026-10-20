@@ -49,7 +49,7 @@ export function Languages(props: Readonly<LanguagesProps>) {
 
   return (
     <>
-      <Heading as="h2" className="sw-mb-4" id="languages-category-title">
+      <Heading as="h2" className="sw:mb-4" id="languages-category-title">
         <FormattedMessage id="property.category.languages" />
       </Heading>
       <div data-test="language-select">

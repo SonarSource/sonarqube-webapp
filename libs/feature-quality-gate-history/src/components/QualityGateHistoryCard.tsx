@@ -75,7 +75,7 @@ export function QualityGateHistoryCard(props: Readonly<Props>) {
   return (
     <Card>
       <Card.Body>
-        <div className="sw-flex sw-flex-wrap sw-items-center sw-justify-between sw-gap-4">
+        <div className="sw:flex sw:flex-wrap sw:items-center sw:justify-between sw:gap-4">
           <ToggleButtonGroup
             onChange={(value) => {
               setPeriod(value as ReleasePeriod);
@@ -103,7 +103,7 @@ export function QualityGateHistoryCard(props: Readonly<Props>) {
 
         {filteredReleases.length === 0 ? (
           <EmptyState
-            className="sw-mt-6"
+            className="sw:mt-6"
             graphic={<IconActivity />}
             text={
               <FormattedMessage id="quality_gate_history.empty.no_releases_in_period.description" />
@@ -119,14 +119,14 @@ export function QualityGateHistoryCard(props: Readonly<Props>) {
             titleSize="medium"
           />
         ) : (
-          <div className="sw-mt-6 sw-flex sw-flex-col sw-gap-6">
+          <div className="sw:mt-6 sw:flex sw:flex-col sw:gap-6">
             <ReleaseSummaryCards stats={stats} />
 
             <ReleaseTimeline releases={filteredReleases} />
 
-            <div className="sw-flex sw-w-auto sw-justify-center sw-gap-6">
+            <div className="sw:flex sw:w-auto sw:justify-center sw:gap-6">
               {(['OK', 'ERROR'] as const).map((status) => (
-                <span className="sw-flex sw-items-center sw-gap-1" key={status}>
+                <span className="sw:flex sw:items-center sw:gap-1" key={status}>
                   <QualityGateIndicator size="sm" status={status} />
                   <Text isSubtle size="small">
                     <FormattedMessage id={`quality_gate_history.legend.${status}`} />

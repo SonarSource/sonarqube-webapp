@@ -60,7 +60,7 @@ export default function MetaContentHeader({ branch, measures, component }: Reado
       {containsAiCode && (
         <>
           <Tooltip content={<FormattedMessage id="projects.ai_code.tooltip.content" />}>
-            <Badge IconLeft={IconSparkle} className="sw-ml-3" isInteractive variety="neutral">
+            <Badge IconLeft={IconSparkle} className="sw:ml-3" isInteractive variety="neutral">
               <FormattedMessage id={MetricKey.contains_ai_code} />
             </Badge>
           </Tooltip>

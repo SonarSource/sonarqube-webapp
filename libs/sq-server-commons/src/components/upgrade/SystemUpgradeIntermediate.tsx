@@ -63,9 +63,9 @@ export default class SystemUpgradeIntermediate extends React.PureComponent<Props
           open={showMore}
         >
           {displayable.map((upgrade, index) => (
-            <Text className="sw-block sw-mb-4" isSubtle key={upgrade.version}>
+            <Text className="sw:block sw:mb-4" isSubtle key={upgrade.version}>
               <p>
-                <b className="sw-mr-1">
+                <b className="sw:mr-1">
                   {ProductName.SonarQubeServer} {upgrade.version}
                 </b>
                 {upgrade.releaseDate && (
@@ -74,12 +74,12 @@ export default class SystemUpgradeIntermediate extends React.PureComponent<Props
                   </DateFormatter>
                 )}
                 {upgrade.changeLogUrl && (
-                  <Link className="sw-ml-2" to={upgrade.changeLogUrl}>
+                  <Link className="sw:ml-2" to={upgrade.changeLogUrl}>
                     {translate('system.release_notes')}
                   </Link>
                 )}
               </p>
-              {upgrade.description && <p className="sw-mt-2">{upgrade.description}</p>}
+              {upgrade.description && <p className="sw:mt-2">{upgrade.description}</p>}
 
               {index !== displayable.length - 1 && <Divider />}
             </Text>

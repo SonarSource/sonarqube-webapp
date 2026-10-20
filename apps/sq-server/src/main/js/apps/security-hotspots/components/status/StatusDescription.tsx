@@ -38,7 +38,7 @@ export default function StatusDescription(props: StatusDescriptionProps) {
           {translate('hotspots.status_option', statusOption)}
         </Text>
       </h2>
-      <Description className="sw-mt-1">
+      <Description className="sw:mt-1">
         <Text isSubtle>{translate('hotspots.status_option', statusOption, 'description')}</Text>
       </Description>
     </div>

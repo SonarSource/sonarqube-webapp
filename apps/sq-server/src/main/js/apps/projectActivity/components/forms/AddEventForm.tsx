@@ -62,7 +62,7 @@ export default function AddEventForm(props: Readonly<Props>) {
           </label>
           <InputField
             autoFocus
-            className="sw-my-2"
+            className="sw:my-2"
             id="name"
             onChange={handleNameChange}
             size="full"

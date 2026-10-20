@@ -79,7 +79,7 @@ export default function RuleDetailsCustomRules(props: Readonly<Props>) {
           <CustomRuleButton templateRule={ruleDetails}>
             {({ onClick }) => (
               <Button
-                className="js-create-custom-rule sw-mt-6"
+                className="js-create-custom-rule sw:mt-6"
                 onClick={onClick}
                 variety={ButtonVariety.Default}
               >
@@ -91,7 +91,7 @@ export default function RuleDetailsCustomRules(props: Readonly<Props>) {
         {rules.length > 0 && (
           <>
             <Table
-              className="sw-my-6"
+              className="sw:my-6"
               columnCount={canChange ? COLUMN_COUNT_WITH_EDIT_PERMISSIONS : COLUMN_COUNT}
               columnWidths={canChange ? ['auto', 'auto', '1%'] : ['auto', 'auto']}
               id="coding-rules-detail-custom-rules"
@@ -116,7 +116,7 @@ export default function RuleDetailsCustomRules(props: Readonly<Props>) {
             )}
           </>
         )}
-        <Spinner className="sw-my-6" isLoading={loading} />
+        <Spinner className="sw:my-6" isLoading={loading} />
       </div>
     </div>
   );
@@ -140,14 +140,14 @@ function RuleListItem(
       </ContentCell>
 
       <ContentCell>
-        <Text as="ul" className="sw-list-none sw-mt-0">
+        <Text as="ul" className="sw:list-none sw:mt-0">
           {rule.params
             ?.filter((param) => param.defaultValue)
             .map((param) => (
               <li key={param.key}>
                 <b>{param.key}</b>
                 <span>:&nbsp;</span>
-                <span className="sw-break-all" title={param.defaultValue}>
+                <span className="sw:break-all" title={param.defaultValue}>
                   {param.defaultValue}
                 </span>
               </li>
@@ -168,7 +168,7 @@ function RuleListItem(
             )}
             primaryButton={
               <Button
-                className="sw-ml-2 js-delete"
+                className="sw:ml-2 js-delete"
                 id="coding-rules-detail-rule-delete"
                 onClick={() => {
                   props.onDelete(rule.key);

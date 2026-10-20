@@ -33,10 +33,10 @@ export default function DotNetPrereqsScanner() {
         translationKey="onboarding.tutorial.with.jenkins.dotnet.scanner.prereqs.title"
       />
       <br />
-      <MessageCallout className="sw-mt-2" variety={MessageVariety.Info}>
+      <MessageCallout className="sw:mt-2" variety={MessageVariety.Info}>
         {translate('onboarding.tutorial.with.jenkins.dotnet.scanner.prereqs.info')}
       </MessageCallout>
-      <Text as="ol" className="sw-ml-12 sw-list-[lower-alpha]">
+      <Text as="ol" className="sw:ml-12 sw:list-[lower-alpha]">
         <li>
           <SentenceWithHighlights
             highlightKeys={['path']}
@@ -54,8 +54,8 @@ export default function DotNetPrereqsScanner() {
             highlightKeys={['name']}
             translationKey="onboarding.tutorial.with.jenkins.dotnet.scanner.prereqs.step3"
           />
-          <InlineSnippet className="sw-ml-1" snippet="SonarScanner for .NET" />
-          <ClipboardIconButton className="sw-ml-2 sw-align-sub" copyValue="SonarScanner for .NET" />
+          <InlineSnippet className="sw:ml-1" snippet="SonarScanner for .NET" />
+          <ClipboardIconButton className="sw:ml-2 sw:align-sub" copyValue="SonarScanner for .NET" />
         </li>
         <li>
           <SentenceWithHighlights

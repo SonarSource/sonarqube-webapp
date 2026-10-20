@@ -97,7 +97,7 @@ export default function ComponentsHeader(props: ComponentsHeaderProps) {
       <ContentCell aria-label={translate('code.name')}>{title}</ContentCell>
       {baseComponent &&
         columns.map((column) => (
-          <Cell className="sw-whitespace-nowrap" key={column}>
+          <Cell className="sw:whitespace-nowrap" key={column}>
             {column}
           </Cell>
         ))}

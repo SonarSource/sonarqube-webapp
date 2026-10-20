@@ -43,24 +43,24 @@ export function SQIDEPromotionNotification() {
   }
 
   return (
-    <PromotionNotificationWrapper className="it__promotion_notification sw-z-global-popup sw-rounded-1 sw-flex sw-items-center sw-px-4">
-      <div className="sw-mr-2">
+    <PromotionNotificationWrapper className="it__promotion_notification sw:z-global-popup sw:rounded-1 sw:flex sw:items-center sw:px-4">
+      <div className="sw:mr-2">
         <SonarQubeIDEPromotionIllustration />
       </div>
 
-      <div className="sw-flex-1 sw-px-2 sw-py-4">
+      <div className="sw:flex-1 sw:px-2 sw:py-4">
         <Text isHighlighted>
           <FormattedMessage id="promotion.sqide.title" />
         </Text>
 
-        <Text as="p" className="sw-mt-2" isSubtle>
+        <Text as="p" className="sw:mt-2" isSubtle>
           <FormattedMessage id="promotion.sqide.content" />
         </Text>
       </div>
 
-      <div className="sw-ml-2 sw-pl-2 sw-flex sw-flex-col sw-items-stretch">
+      <div className="sw:ml-2 sw:pl-2 sw:flex sw:flex-col sw:items-stretch">
         <Button
-          className="sw-mb-4"
+          className="sw:mb-4"
           enableOpenInNewTab
           onClick={onClick}
           to="https://www.sonarsource.com/products/sonarlint/?referrer=sonarqube-welcome"
@@ -69,7 +69,7 @@ export function SQIDEPromotionNotification() {
           <FormattedMessage id="learn_more" />
         </Button>
 
-        <Button className="sw-justify-center" onClick={onClick}>
+        <Button className="sw:justify-center" onClick={onClick}>
           <FormattedMessage id="dismiss" />
         </Button>
       </div>

@@ -271,7 +271,7 @@ class RuleTabViewer extends React.PureComponent<RuleTabViewerProps, State> {
 
     return (
       <>
-        <div className="sw-mt-4">
+        <div className="sw:mt-4">
           {/* This toggle button is used as tabs, do not replace it with Echoes ToggleButtonGroup */}
           <ToggleButton
             onChange={this.handleSelectTabs}
@@ -283,7 +283,7 @@ class RuleTabViewer extends React.PureComponent<RuleTabViewerProps, State> {
 
         <div
           aria-labelledby={getTabId(selectedTab.value)}
-          className="sw-flex sw-flex-col"
+          className="sw:flex sw:flex-col"
           id={getTabPanelId(selectedTab.value)}
           role="tabpanel"
         >
@@ -292,7 +292,7 @@ class RuleTabViewer extends React.PureComponent<RuleTabViewerProps, State> {
             tabs.map((tab) => (
               <div
                 className={classNames({
-                  'sw-hidden': tab.value !== selectedTab.value,
+                  'sw:hidden': tab.value !== selectedTab.value,
                 })}
                 key={tab.value}
               >

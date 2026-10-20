@@ -105,11 +105,11 @@ export function PanelDonut({ centerLabel, centerSubLabel, segments, viewAll }: R
 
   return (
     <StyledCard>
-      <StyledCardBody className="sw-flex sw-items-center sw-justify-center sw-gap-8">
-        <div className="sw-flex sw-flex-col sw-items-center sw-gap-4">
+      <StyledCardBody className="sw:flex sw:items-center sw:justify-center sw:gap-8">
+        <div className="sw:flex sw:flex-col sw:items-center sw:gap-4">
           <div
             aria-hidden
-            className="sw-relative sw-shrink-0"
+            className="sw:relative sw:shrink-0"
             style={{ height: DONUT_SIZE, width: DONUT_SIZE }}
           >
             <DonutChart
@@ -123,13 +123,13 @@ export function PanelDonut({ centerLabel, centerSubLabel, segments, viewAll }: R
               thickness={DONUT_THICKNESS}
               width={DONUT_SIZE}
             />
-            <div className="sw-pointer-events-none sw-absolute sw-inset-0 sw-flex sw-flex-col sw-items-center sw-justify-center">
+            <div className="sw:pointer-events-none sw:absolute sw:inset-0 sw:flex sw:flex-col sw:items-center sw:justify-center">
               <DonutValue>{centerLabel}</DonutValue>
               <Text isSubtle>{centerSubLabel}</Text>
             </div>
           </div>
 
-          <div className="sw-flex sw-flex-wrap sw-justify-center sw-gap-4 sw-mt-2">
+          <div className="sw:flex sw:flex-wrap sw:justify-center sw:gap-4 sw:mt-2">
             {segments.map((segment, index) => (
               <LegendItem
                 key={segment.label}
@@ -142,7 +142,7 @@ export function PanelDonut({ centerLabel, centerSubLabel, segments, viewAll }: R
               >
                 <span
                   aria-hidden
-                  className="sw-inline-block sw-shrink-0 sw-rounded-pill"
+                  className="sw:inline-block sw:shrink-0 sw:rounded-pill"
                   style={{
                     backgroundColor: segment.color,
                     height: '0.625rem',
@@ -166,7 +166,7 @@ export function PanelDonut({ centerLabel, centerSubLabel, segments, viewAll }: R
 
       {hoveredSegment !== null && tooltipPos !== null && (
         <div
-          className="sw-fixed sw-z-popup sw-rounded-1 sw-whitespace-nowrap sw-flex sw-flex-col sw-p-3"
+          className="sw:fixed sw:z-popup sw:rounded-1 sw:whitespace-nowrap sw:flex sw:flex-col sw:p-3"
           style={{
             background: cssVar('color-surface-canvas-default'),
             border: `1px solid ${cssVar('color-border-weak')}`,

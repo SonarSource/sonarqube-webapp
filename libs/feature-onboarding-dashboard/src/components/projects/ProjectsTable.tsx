@@ -142,9 +142,9 @@ export function ProjectsTable({
       isLoading={isLoading}
       loadingMessage={formatMessage({ id: loadingMessageKey ?? 'loading' })}
     >
-      <div className={`sw-flex sw-flex-col sw-gap-4 ${containerClassName ?? ''}`.trim()}>
-        <div className="sw-flex sw-w-full sw-items-center sw-justify-between">
-          <div className="sw-flex sw-items-center sw-gap-4">
+      <div className={`sw:flex sw:flex-col sw:gap-4 ${containerClassName ?? ''}`.trim()}>
+        <div className="sw:flex sw:w-full sw:items-center sw:justify-between">
+          <div className="sw:flex sw:items-center sw:gap-4">
             {searchPlaceholderKey !== undefined && (
               <SearchInput
                 onChange={onSearchChange}
@@ -156,7 +156,7 @@ export function ProjectsTable({
             {toolbarControls}
           </div>
 
-          <Text as="span" className="sw-ml-auto" isSubtle size={TextSize.Small}>
+          <Text as="span" className="sw:ml-auto" isSubtle size={TextSize.Small}>
             {formatMessage(
               { id: 'onboarding_dashboard.table.results_size' },
               { size: projects.length, total },
@@ -166,7 +166,7 @@ export function ProjectsTable({
 
         <Table
           ariaLabel={ariaLabel}
-          className="sw-overflow-y-auto sw-content-start"
+          className="sw:overflow-y-auto sw:content-start"
           gridTemplate={gridTemplate}
           ref={tableRef}
           variety={TableVariety.Surface}
@@ -187,7 +187,7 @@ export function ProjectsTable({
         </Table>
 
         {totalPages > 1 && (
-          <div className="sw-shrink-0 sw-flex sw-justify-center">
+          <div className="sw:shrink-0 sw:flex sw:justify-center">
             <Pagination onChange={onPageChange} page={pageIndex} totalPages={totalPages} />
           </div>
         )}

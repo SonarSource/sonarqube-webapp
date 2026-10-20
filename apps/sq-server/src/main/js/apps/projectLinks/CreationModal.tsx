@@ -58,11 +58,11 @@ export default class CreationModal extends React.PureComponent<Props, State> {
     const header = translate('project_links.create_new_project_link');
 
     const formBody = (
-      <form className="sw-mb-2" id={FORM_ID} onSubmit={this.handleSubmit}>
+      <form className="sw:mb-2" id={FORM_ID} onSubmit={this.handleSubmit}>
         <MandatoryFieldsExplanation />
 
         <FormField
-          className="sw-mt-4"
+          className="sw:mt-4"
           htmlFor="create-link-name"
           label={translate('project_links.name')}
           required

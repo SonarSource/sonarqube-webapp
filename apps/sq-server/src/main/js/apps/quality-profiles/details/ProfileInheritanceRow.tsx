@@ -57,7 +57,7 @@ export default function ProfileInheritanceRow(props: Readonly<Props>) {
   return (
     <TableRow className={classNames(`it__quality-profiles__inheritance-${type}`, className)}>
       <ContentCell>
-        <div className="sw-flex sw-items-center sw-gap-2" style={{ paddingLeft: offset }}>
+        <div className="sw:flex sw:items-center sw:gap-2" style={{ paddingLeft: offset }}>
           {displayLink ? (
             <ProfileLink language={language} name={profile.name}>
               {profile.name}

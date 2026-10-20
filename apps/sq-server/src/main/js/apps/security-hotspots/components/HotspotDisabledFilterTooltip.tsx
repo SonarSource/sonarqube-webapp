@@ -27,17 +27,17 @@ export function HotspotDisabledFilterTooltip() {
   const docUrl = useDocUrl(DocLink.InstanceAdminReindexation);
 
   return (
-    <div className="sw-typo-default sw-w-[190px]">
+    <div className="sw:typo-default sw:w-[190px]">
       <p>
         <FormattedMessage id="indexation.page_unavailable.description" />{' '}
         <FormattedMessage id="indexation.filter_unavailable.description" />
       </p>
-      <hr className="sw-mx-0 sw-my-3 sw-p-0 sw-w-full" />
-      <span className="sw-typo-semibold">
+      <hr className="sw:mx-0 sw:my-3 sw:p-0 sw:w-full" />
+      <span className="sw:typo-semibold">
         <FormattedMessage id="indexation.learn_more" />
       </span>
       <Link
-        className="sw-ml-1"
+        className="sw:ml-1"
         onMouseDown={(e) => {
           // This tooltip content is rendered in the context of a <Dropdown>, and <DropdownToggler>
           // captures the "focus out" event and closes the dropdown, preventing us from clicking

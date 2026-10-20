@@ -54,7 +54,7 @@ export default function DotNetCore({ component, os }: DotNetCoreFrameworkProps) 
           translationKey="onboarding.tutorial.with.jenkins.jenkinsfile.jenkinsfile_step"
         />
         <CodeSnippet
-          className="sw-p-6"
+          className="sw:p-6"
           language="groovy"
           snippet={jenkinsfileSnippet(component.key, os)}
         />

@@ -110,8 +110,8 @@ export default function ConfigurationBanner({ qualityGate }: Readonly<Props>) {
 
 function GateBuiltInBanner() {
   return (
-    <CardWithPrimaryBackground className="sw-p-4 sw-pl-6">
-      <QGRecommendedIcon className="sw-mr-2" />
+    <CardWithPrimaryBackground className="sw:p-4 sw:pl-6">
+      <QGRecommendedIcon className="sw:mr-2" />
       <Text>
         <FormattedMessage
           id="quality_gates.banner.builtin.title"
@@ -136,10 +136,10 @@ function GateBuiltInAiBanner() {
   const { canAdmin } = useAppState();
 
   return (
-    <CardWithPrimaryBackground className="sw-flex sw-my-8 sw-p-6">
-      <AiCodeAssuredIcon className="sw-mr-2" />
+    <CardWithPrimaryBackground className="sw:flex sw:my-8 sw:p-6">
+      <AiCodeAssuredIcon className="sw:mr-2" />
       <div>
-        <Heading as="h3" className="sw-mb-4">
+        <Heading as="h3" className="sw:mb-4">
           <FormattedMessage id="quality_gates.aica.builtin.title" />
         </Heading>
         <FormattedMessage
@@ -158,7 +158,7 @@ function GateBuiltInAiBanner() {
           }}
         />
         {canAdmin && (
-          <p className="sw-mt-4">
+          <p className="sw:mt-4">
             <FormattedMessage
               id="quality_gates.aica.builtin.description.admin"
               values={{
@@ -224,7 +224,7 @@ function GateRecommendationBanner({
               { id: 'quality_gates.fix_modal.review_update_x' },
               { name: qualityGate.name },
             )}
-            className="sw-mt-4"
+            className="sw:mt-4"
           >
             <FormattedMessage id="quality_gates.fix_modal.review_update" />
           </Button>
@@ -254,8 +254,8 @@ function GateRecommendationBanner({
 
 function GateAiQualifiedBanner() {
   return (
-    <CardWithPrimaryBackground className="sw-p-4 sw-pl-6">
-      <AIAssuredIcon className="sw-mr-2" />
+    <CardWithPrimaryBackground className="sw:p-4 sw:pl-6">
+      <AIAssuredIcon className="sw:mr-2" />
       <Text>
         <FormattedMessage
           id="quality_gates.info.aica.title"
@@ -278,8 +278,8 @@ function GateAiQualifiedBanner() {
 
 function GateRecommendedBanner() {
   return (
-    <CardWithPrimaryBackground className="sw-p-4 sw-pl-6">
-      <QGRecommendedIcon className="sw-mr-2" />
+    <CardWithPrimaryBackground className="sw:p-4 sw:pl-6">
+      <QGRecommendedIcon className="sw:mr-2" />
       <Text>
         <FormattedMessage
           id="quality_gates.info.recommended.title"
@@ -302,12 +302,12 @@ function GateRecommendedBanner() {
 
 function GateRecommendedWithAIBanner() {
   return (
-    <CardWithPrimaryBackground className="sw-p-4 sw-pl-6">
+    <CardWithPrimaryBackground className="sw:p-4 sw:pl-6">
       <Text isHighlighted>
         <FormattedMessage id="quality_gates.banner.info.multiple.title" />
       </Text>
-      <Text as="p" className="sw-mt-4 sw-mb-2">
-        <AIAssuredIcon className="sw-mr-2" />
+      <Text as="p" className="sw:mt-4 sw:mb-2">
+        <AIAssuredIcon className="sw:mr-2" />
         <FormattedMessage
           id="quality_gates.banner.info.multiple.aica"
           values={{
@@ -324,7 +324,7 @@ function GateRecommendedWithAIBanner() {
         />
       </Text>
       <Text as="p">
-        <QGRecommendedIcon className="sw-mr-2" />
+        <QGRecommendedIcon className="sw:mr-2" />
         <FormattedMessage
           id="quality_gates.banner.info.multiple.sonar"
           values={{

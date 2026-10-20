@@ -202,7 +202,7 @@ export default function UserForm(props: Readonly<Props>) {
         <>
           <Form.Section>
             {user && !user.local && (
-              <MessageCallout className="sw-mb-4" variety={MessageVariety.Warning}>
+              <MessageCallout className="sw:mb-4" variety={MessageVariety.Warning}>
                 <FormattedMessage id="users.cannot_update_delegated_user" />
               </MessageCallout>
             )}

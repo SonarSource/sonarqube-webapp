@@ -109,7 +109,7 @@ export function EmptyOverview(props: Readonly<EmptyOverviewProps>) {
   if (hasPermissionSyncInProgess) {
     return (
       <SynchInProgress>
-        <Spinner className="sw-mr-2" />
+        <Spinner className="sw:mr-2" />
         {translateWithParameters(
           'provisioning.permission_synch_in_progress',
           translate('alm', permissionInSyncFor),

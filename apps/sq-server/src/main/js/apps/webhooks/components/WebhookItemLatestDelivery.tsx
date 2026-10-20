@@ -44,15 +44,15 @@ export default function WebhookItemLatestDelivery({ webhook }: Props) {
   }
 
   return (
-    <div className="sw-flex sw-items-center">
+    <div className="sw:flex sw:items-center">
       {webhook.latestDelivery.success ? <FlagSuccessIcon /> : <FlagErrorIcon />}
-      <div className="sw-ml-2 sw-flex sw-items-center">
+      <div className="sw:ml-2 sw:flex sw:items-center">
         <DateTimeFormatter date={webhook.latestDelivery.at} />
         <span title={translateWithParameters('webhooks.last_execution.open_for_x', webhook.name)}>
           <ButtonIcon
             Icon={IconMoreVertical}
             ariaLabel={translateWithParameters('webhooks.last_execution.open_for_x', webhook.name)}
-            className="sw-ml-2"
+            className="sw:ml-2"
             onClick={() => {
               setModalOpen(true);
             }}

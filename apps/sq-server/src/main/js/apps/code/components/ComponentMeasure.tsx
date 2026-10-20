@@ -67,9 +67,9 @@ export default function ComponentMeasure(props: Readonly<Props>) {
       const formatted = formatMeasure(value, MetricType.Level);
 
       return (
-        <ContentCell className="sw-whitespace-nowrap">
+        <ContentCell className="sw:whitespace-nowrap">
           <QualityGateIndicator
-            className="sw-mr-2"
+            className="sw:mr-2"
             size="sm"
             status={(value as QGStatus) ?? 'NONE'}
           />
@@ -79,7 +79,7 @@ export default function ComponentMeasure(props: Readonly<Props>) {
     }
     case MetricType.Rating:
       return (
-        <RatingCell className="sw-whitespace-nowrap">
+        <RatingCell className="sw:whitespace-nowrap">
           <RatingComponent
             branchLike={branchLike}
             componentKey={component.key}
@@ -89,7 +89,7 @@ export default function ComponentMeasure(props: Readonly<Props>) {
       );
     default:
       return (
-        <NumericalCell className="sw-whitespace-nowrap">
+        <NumericalCell className="sw:whitespace-nowrap">
           <Measure
             branchLike={branchLike}
             componentKey={component.key}

@@ -58,7 +58,7 @@ function StatusDescription({
   switch (status) {
     case 'OK':
       return (
-        <Text className="sw-text-sm" isSubtle>
+        <Text className="sw:text-sm" isSubtle>
           <ConditionLink to={summaryUrl}>
             {intl.formatMessage({ id: 'overview.quality_gate.all_conditions_passed' })}
           </ConditionLink>
@@ -74,7 +74,7 @@ function StatusDescription({
       // Show failed conditions count with link to summary
       if (failedConditionsCount) {
         return (
-          <Text className="sw-text-sm" colorOverride="echoes-color-text-danger">
+          <Text className="sw:text-sm" colorOverride="echoes-color-text-danger">
             <ConditionLink to={summaryUrl}>
               <FormattedMessage
                 id="summary.x_conditions_failed.formatted"
@@ -90,7 +90,7 @@ function StatusDescription({
 
       // Fallback if we don't have the count
       return (
-        <Text className="sw-text-sm" colorOverride="echoes-color-text-danger">
+        <Text className="sw:text-sm" colorOverride="echoes-color-text-danger">
           <ConditionLink to={summaryUrl}>
             {intl.formatMessage({ id: 'overview.quality_gate.conditions_failed' })}
           </ConditionLink>
@@ -102,7 +102,7 @@ function StatusDescription({
     case 'NOT_COMPUTED':
     case 'NONE':
       return (
-        <Text className="sw-text-sm" isSubtle>
+        <Text className="sw:text-sm" isSubtle>
           <ConditionLink to={summaryUrl}>
             {intl.formatMessage({ id: 'overview.quality_gate.run_analysis' })}
           </ConditionLink>
@@ -134,11 +134,11 @@ export function ProjectQualityGateStatusBadge({
   const conditions = qualityGateStatus?.conditions ?? [];
 
   return (
-    <div className="sw-h-full sw-flex sw-flex-col sw-items-center sw-justify-center sw-gap-4">
-      <div className="sw-flex sw-items-center sw-justify-center sw-gap-4">
+    <div className="sw:h-full sw:flex sw:flex-col sw:items-center sw:justify-center sw:gap-4">
+      <div className="sw:flex sw:items-center sw:justify-center sw:gap-4">
         <QualityGateIndicator size="xl" status={status} />
-        <div className="sw-flex sw-flex-col">
-          <Text className="sw-typo-lg-semibold sw-text-2xl">{statusLabel}</Text>
+        <div className="sw:flex sw:flex-col">
+          <Text className="sw:typo-lg-semibold sw:text-2xl">{statusLabel}</Text>
           <StatusDescription
             branchLike={branchLike}
             component={component}

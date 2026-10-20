@@ -92,7 +92,7 @@ export default function ComponentCell(props: ComponentCellProps) {
   }
 
   return (
-    <ContentCell className="sw-py-3">
+    <ContentCell className="sw:py-3">
       <HoverLink
         aria-hidden
         icon={<QualifierIcon qualifier={component.qualifier} />}
@@ -100,7 +100,7 @@ export default function ComponentCell(props: ComponentCellProps) {
         title={component.path}
         to={path}
       />
-      <HoverLink className="sw-flex sw-flex-wrap" title={component.path} to={path}>
+      <HoverLink className="sw:flex sw:flex-wrap" title={component.path} to={path}>
         {head.length > 0 && (
           <Text isSubtle>{limitComponentName(head, COMPONENT_PATH_MAX_CHARS)}/</Text>
         )}

@@ -102,7 +102,7 @@ export function ConfigureProjectsModal({
         <ProjectsTable
           ariaLabel={title}
           columns={COLUMNS}
-          containerClassName="sw-max-h-[calc(80vh-12rem)]"
+          containerClassName="sw:max-h-[calc(80vh-12rem)]"
           filters={{
             scanStatus: scanStatus === ANY_PROJECTS_FILTER ? undefined : scanStatus,
             analysisMode: analysisMode === ANY_PROJECTS_FILTER ? undefined : analysisMode,
@@ -174,7 +174,7 @@ function ConfigureProjectRow({ project }: Readonly<{ project: OnboardingProject 
 
   return (
     <Table.Row>
-      <Table.Cell className="sw-justify-start">
+      <Table.Cell className="sw:justify-start">
         <RepositoryCell alm={project.alm} name={project.name} subtitle={project.path} />
       </Table.Cell>
 
@@ -188,7 +188,7 @@ function ConfigureProjectRow({ project }: Readonly<{ project: OnboardingProject 
           : formatMessage({ id: 'none' })}
       </Table.CellBadge>
 
-      <Table.Cell className="sw-justify-start">
+      <Table.Cell className="sw:justify-start">
         {isDefined(project.lastScan) ? (
           <DateFormatter date={project.lastScan} />
         ) : (

@@ -81,10 +81,10 @@ function CardTitle({ project, isNewCode }: Readonly<ProjectCardSectionProps>) {
     measures.ncloc !== undefined;
 
   return (
-    <div className="sw-flex sw-items-center">
+    <div className="sw:flex sw:items-center">
       {isDefined(isFavorite) && (
         <Favorite
-          className="sw-mr-2"
+          className="sw:mr-2"
           component={key}
           componentName={name}
           favorite={isFavorite}
@@ -113,7 +113,7 @@ function CardTitle({ project, isNewCode }: Readonly<ProjectCardSectionProps>) {
           }
           title={<FormattedMessage id="qualifier.APP" />}
         >
-          <Badge className="sw-ml-2" isInteractive variety="neutral">
+          <Badge className="sw:ml-2" isInteractive variety="neutral">
             <FormattedMessage id="qualifier.APP" />
           </Badge>
         </Popover>
@@ -122,14 +122,14 @@ function CardTitle({ project, isNewCode }: Readonly<ProjectCardSectionProps>) {
       <Popover
         description={<FormattedMessage id={`visibility.${visibility}.description.${qualifier}`} />}
       >
-        <Badge className="sw-ml-2" isInteractive variety="neutral">
+        <Badge className="sw:ml-2" isInteractive variety="neutral">
           <FormattedMessage id={`visibility.${visibility}`} />
         </Badge>
       </Popover>
 
       {project.containsAiCode && (
         <Popover description={<FormattedMessage id="projects.ai_code.tooltip.content" />}>
-          <ContainsAICodeBadge className="sw-ml-2" isInteractive />
+          <ContainsAICodeBadge className="sw:ml-2" isInteractive />
         </Popover>
       )}
 
@@ -159,22 +159,22 @@ function CardInfo({ project, isNewCode }: Readonly<ProjectCardSectionProps>) {
 
   return (
     <div
-      className="sw-flex sw-justify-between sw-items-center sw-mt-3"
+      className="sw:flex sw:justify-between sw:items-center sw:mt-3"
       data-testid="project-card-description"
     >
       <Text
         as="div"
-        className="sw-flex sw-max-w-full sw-flex-wrap sw-items-center sw-min-w-0"
+        className="sw:flex sw:max-w-full sw:flex-wrap sw:items-center sw:min-w-0"
         isSubtle
       >
         {isDefined(analysisDate) && analysisDate !== '' && (
           <DateTimeFormatter date={analysisDate}>
             {(formattedAnalysisDate) => (
-              <span className="sw-typo-semibold" title={formattedAnalysisDate}>
+              <span className="sw:typo-semibold" title={formattedAnalysisDate}>
                 <FormattedMessage
                   id="projects.last_analysis_on_x"
                   values={{
-                    date: <DateFromNow className="sw-typo-default" date={analysisDate} />,
+                    date: <DateFromNow className="sw:typo-default" date={analysisDate} />,
                   }}
                 />
               </span>
@@ -185,10 +185,10 @@ function CardInfo({ project, isNewCode }: Readonly<ProjectCardSectionProps>) {
         {isNewCode
           ? measures[MetricKey.new_ncloc] != null && (
               <>
-                <SeparatorCircleIcon className="sw-mx-1" />
+                <SeparatorCircleIcon className="sw:mx-1" />
 
                 <div>
-                  <span className="sw-typo-semibold sw-mr-1" data-key={MetricKey.new_ncloc}>
+                  <span className="sw:typo-semibold sw:mr-1" data-key={MetricKey.new_ncloc}>
                     <Measure
                       componentKey={key}
                       metricKey={MetricKey.new_ncloc}
@@ -197,7 +197,7 @@ function CardInfo({ project, isNewCode }: Readonly<ProjectCardSectionProps>) {
                     />
                   </span>
 
-                  <span className="sw-typo-default">
+                  <span className="sw:typo-default">
                     <FormattedMessage id="metric.new_ncloc.name" />
                   </span>
                 </div>
@@ -205,10 +205,10 @@ function CardInfo({ project, isNewCode }: Readonly<ProjectCardSectionProps>) {
             )
           : measures[MetricKey.ncloc] != null && (
               <>
-                <SeparatorCircleIcon className="sw-mx-1" />
+                <SeparatorCircleIcon className="sw:mx-1" />
 
                 <div>
-                  <span className="sw-typo-semibold sw-mr-1" data-key={MetricKey.ncloc}>
+                  <span className="sw:typo-semibold sw:mr-1" data-key={MetricKey.ncloc}>
                     <Measure
                       componentKey={key}
                       metricKey={MetricKey.ncloc}
@@ -217,14 +217,14 @@ function CardInfo({ project, isNewCode }: Readonly<ProjectCardSectionProps>) {
                     />
                   </span>
 
-                  <span className="sw-typo-default">
+                  <span className="sw:typo-default">
                     <FormattedMessage id="metric.ncloc.name" />
                   </span>
                 </div>
 
-                <SeparatorCircleIcon className="sw-mx-1" />
+                <SeparatorCircleIcon className="sw:mx-1" />
 
-                <span className="sw-typo-default" data-key={MetricKey.ncloc_language_distribution}>
+                <span className="sw:typo-default" data-key={MetricKey.ncloc_language_distribution}>
                   <ProjectCardLanguages distribution={measures.ncloc_language_distribution} />
                 </span>
               </>
@@ -232,9 +232,9 @@ function CardInfo({ project, isNewCode }: Readonly<ProjectCardSectionProps>) {
 
         {tags.length > 0 && (
           <>
-            <SeparatorCircleIcon className="sw-mx-1" />
+            <SeparatorCircleIcon className="sw:mx-1" />
 
-            <Tags className="sw-typo-default" tags={tags} tagsToDisplay={2} />
+            <Tags className="sw:typo-default" tags={tags} tagsToDisplay={2} />
           </>
         )}
       </Text>
@@ -260,8 +260,8 @@ function CardDetails({ project, isNewCode }: Readonly<ProjectCardSectionProps>) 
   }
 
   return (
-    <div className="sw-flex sw-items-center">
-      <Text className="sw-py-4" isSubtle>
+    <div className="sw:flex sw:items-center">
+      <Text className="sw:py-4" isSubtle>
         {isNewCode && analysisDate ? (
           <FormattedMessage id={`projects.no_new_code_period.${qualifier}`} />
         ) : (
@@ -278,7 +278,7 @@ function CardDetails({ project, isNewCode }: Readonly<ProjectCardSectionProps>) 
               { id: 'projects.configure_analysis_for_x' },
               { project: project.name },
             )}
-            className="sw-ml-2 sw-typo-semibold"
+            className="sw:ml-2 sw:typo-semibold"
             to={getProjectOverviewUrl(key)}
           >
             <FormattedMessage id="projects.configure_analysis" />
@@ -305,11 +305,11 @@ export default function ProjectCard(props: Readonly<ProjectCardProps>) {
                 <FormattedMessage id="overview.quality_gate_x" values={{ status: formatted }} />
               }
             >
-              <span className="sw-flex sw-items-center">
+              <span className="sw:flex sw:items-center">
                 <QualityGateIndicator
                   status={(project.measures[MetricKey.alert_status] as QGStatus) ?? 'NONE'}
                 />
-                <Text className="sw-ml-2 sw-font-semibold">{formatted}</Text>
+                <Text className="sw:ml-2 sw:font-semibold">{formatted}</Text>
               </span>
             </Tooltip>
           )

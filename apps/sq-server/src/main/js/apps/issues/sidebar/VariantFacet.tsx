@@ -92,7 +92,7 @@ export function VariantFacet(props: VariantFacetProps) {
     >
       <FacetItemsList labelledby={id}>
         {nbSelectableItems === 0 && (
-          <Text as="div" className="sw-mb-2 sw-text-center" isSubtle>
+          <Text as="div" className="sw:mb-2 sw:text-center" isSubtle>
             <FormattedMessage id="no_results" />
           </Text>
         )}
@@ -114,7 +114,7 @@ export function VariantFacet(props: VariantFacetProps) {
         ))}
       </FacetItemsList>
       <MultipleSelectionHint
-        className="sw-pt-4"
+        className="sw:pt-4"
         selectedItems={nbSelectedItems}
         totalItems={nbSelectableItems}
       />

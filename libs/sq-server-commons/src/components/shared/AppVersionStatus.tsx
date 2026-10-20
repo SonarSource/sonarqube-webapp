@@ -55,7 +55,7 @@ export default function AppVersionStatus({ linkStyleProps, statusOnly }: Readonl
       version: getInstanceVersionNumber(version),
       status: edition && edition !== EditionKey.community && (
         <LinkStandalone
-          className="sw-ml-1"
+          className="sw:ml-1"
           highlight={LinkHighlight.CurrentColor}
           to={docUrl}
           {...linkStyleProps}

@@ -6,6 +6,7 @@
   "tags": ["type:bridge", "visibility:public", "scope:server"],
   "// targets": "to see all targets run: nx show project sq-server-addons --web",
   "targets": {
+    "validate-tailwind-prefixes": {},
     "format-check": {},
     "lint": {
       "command": "echo 'Linting skipped for sq-server-addons'"

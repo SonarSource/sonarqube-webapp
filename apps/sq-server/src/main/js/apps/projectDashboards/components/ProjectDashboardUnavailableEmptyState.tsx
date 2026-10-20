@@ -44,7 +44,7 @@ export function ProjectDashboardUnavailableEmptyState(props: Readonly<Props>) {
   const targetBranch = isPullRequest(branchLike) ? branchLike.target : undefined;
 
   return (
-    <div className="sw-flex sw-h-full sw-justify-center">
+    <div className="sw:flex sw:h-full sw:justify-center">
       <EmptyState
         action={
           <ButtonGroup>
@@ -62,7 +62,7 @@ export function ProjectDashboardUnavailableEmptyState(props: Readonly<Props>) {
             </Button>
           </ButtonGroup>
         }
-        className="sw-my-24"
+        className="sw:my-24"
         graphic={<IconInfo />}
         text={
           <FormattedMessage

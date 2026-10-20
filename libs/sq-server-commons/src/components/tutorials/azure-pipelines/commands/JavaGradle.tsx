@@ -39,7 +39,7 @@ export default function JavaGradle(props: JavaGradleProps) {
   return (
     <>
       <AlertClassicEditor />
-      <NumberedList className="sw-mt-4">
+      <NumberedList className="sw:mt-4">
         <NumberedListItem>
           <SentenceWithHighlights
             highlightKeys={['pipeline', 'task', 'before']}
@@ -60,7 +60,7 @@ export default function JavaGradle(props: JavaGradleProps) {
             'onboarding.tutorial.with.azure_pipelines.BranchAnalysis.java',
             translate('onboarding.build', BuildTools.Gradle),
           )}
-          <Text as="ul" className="sw-max-w-full sw-ml-6 sw-mb-4">
+          <Text as="ul" className="sw:max-w-full sw:ml-6 sw:mb-4">
             <li>
               <SentenceWithHighlights
                 highlightKeys={['section', 'option']}

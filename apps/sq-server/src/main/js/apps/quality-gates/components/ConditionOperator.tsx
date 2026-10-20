@@ -41,7 +41,7 @@ export default function ConditionOperator(props: Readonly<Props>) {
         <Heading as="h4" hasMarginBottom>
           <FormattedMessage id="quality_gates.conditions.operator" />
         </Heading>
-        <Text className="sw-w-abs-150" isSubtle>
+        <Text className="sw:w-abs-150" isSubtle>
           {getOperatorLabel(operators, props.metric)}
         </Text>
       </div>

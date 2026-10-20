@@ -211,7 +211,7 @@ export function CreateProfileForm(props: Readonly<Props>) {
                   label: intl.formatMessage({ id: 'quality_profiles.creation_from_extend' }),
                   helpText: (
                     <>
-                      <p className="sw-mb-2">
+                      <p className="sw:mb-2">
                         {intl.formatMessage({
                           id: 'quality_profiles.creation_from_extend_description_1',
                         })}
@@ -229,7 +229,7 @@ export function CreateProfileForm(props: Readonly<Props>) {
                   label: intl.formatMessage({ id: 'quality_profiles.creation_from_copy' }),
                   helpText: (
                     <>
-                      <p className="sw-mb-2">
+                      <p className="sw:mb-2">
                         {intl.formatMessage({
                           id: 'quality_profiles.creation_from_copy_description_1',
                         })}
@@ -254,12 +254,12 @@ export function CreateProfileForm(props: Readonly<Props>) {
             />
 
             {!isLoadingInheritance && showBuiltInWarning && (
-              <MessageCallout className="sw-block sw-my-4" variety={MessageVariety.Info}>
-                <div className="sw-flex sw-flex-col">
+              <MessageCallout className="sw:block sw:my-4" variety={MessageVariety.Info}>
+                <div className="sw:flex sw:flex-col">
                   {intl.formatMessage({
                     id: 'quality_profiles.no_built_in_updates_warning.new_profile',
                   })}
-                  <span className="sw-mt-1">
+                  <span className="sw:mt-1">
                     {intl.formatMessage({
                       id: 'quality_profiles.no_built_in_updates_warning.new_profile.2',
                     })}
@@ -268,7 +268,7 @@ export function CreateProfileForm(props: Readonly<Props>) {
               </MessageCallout>
             )}
             <Select
-              className="sw-mb-4"
+              className="sw:mb-4"
               data={languagesOptions}
               id="create-profile-language-input"
               isRequired
@@ -287,7 +287,7 @@ export function CreateProfileForm(props: Readonly<Props>) {
                       ? 'quality_profiles.creation.choose_copy_quality_profile'
                       : 'quality_profiles.creation.choose_parent_quality_profile',
                 })}
-                className="sw-mb-4"
+                className="sw:mb-4"
                 data={profileOptions}
                 id="create-profile-parent-input"
                 isRequired

@@ -45,22 +45,22 @@ export function GraphsLegendItem({
 
   return (
     <StyledLegendItem
-      className={classNames('sw-px-2 sw-py-1 sw-rounded-2', className)}
+      className={classNames('sw:px-2 sw:py-1 sw:rounded-2', className)}
       isActionable={isActionable}
     >
       {showWarning ? (
-        <IconWarning className="sw-mr-2" color="echoes-color-icon-warning" />
+        <IconWarning className="sw:mr-2" color="echoes-color-icon-warning" />
       ) : (
-        <ChartLegend className="sw-mr-2" index={index} />
+        <ChartLegend className="sw:mr-2" index={index} />
       )}
-      <span className="sw-typo-default" style={{ color: cssVar('color-text-subtle') }}>
+      <span className="sw:typo-default" style={{ color: cssVar('color-text-subtle') }}>
         {name}
       </span>
       {isActionable && (
         <ButtonIcon
           Icon={IconX}
           ariaLabel={translateWithParameters('project_activity.graphs.custom.remove_metric', name)}
-          className="sw-ml-2 sw-border-0"
+          className="sw:ml-2 sw:border-0"
           onClick={() => {
             removeMetric(metric);
           }}

@@ -32,22 +32,22 @@ export function IssueTitle({ title, issuePermalink, closeIssue }: Readonly<Props
   const { formatMessage } = useIntl();
 
   return (
-    <div className="sw-flex sw-items-start sw-mb-2">
+    <div className="sw:flex sw:items-start sw:mb-2">
       <ButtonIcon
         Icon={IconArrowLeft}
         ariaLabel={formatMessage({ id: 'issue.back_to_issues_list' })}
-        className="sw-align-middle sw-mr-3 sw-mb-1"
+        className="sw:align-middle sw:mr-3 sw:mb-1"
         onClick={closeIssue}
         size="medium"
         tooltipContent={formatMessage({ id: 'issue.back_to_issues_list' })}
       />
-      <Layout.PageHeader.Title className="sw-flex sw-justify-center" headingLevel="h3">
+      <Layout.PageHeader.Title className="sw:flex sw:justify-center" headingLevel="h3">
         {title}
 
         <ClipboardIconButton
           Icon={IconLink}
           aria-label={formatMessage({ id: 'permalink' })}
-          className="sw-align-middle sw-ml-2 sw-mb-1"
+          className="sw:align-middle sw:ml-2 sw:mb-1"
           copyValue={issuePermalink}
           discreet
         />

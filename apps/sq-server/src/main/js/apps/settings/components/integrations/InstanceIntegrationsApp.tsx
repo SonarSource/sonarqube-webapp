@@ -28,8 +28,8 @@ export function InstanceIntegrationsApp() {
   const { hasFeature } = useAvailableFeatures();
 
   return (
-    <div className="sw-flex sw-flex-col sw-gap-8">
-      <Heading as="h2" className="sw-mb-4" hasMarginBottom size={HeadingSize.ExtraLarge}>
+    <div className="sw:flex sw:flex-col sw:gap-8">
+      <Heading as="h2" className="sw:mb-4" hasMarginBottom size={HeadingSize.ExtraLarge}>
         <FormattedMessage id="settings.instance_integrations.title" />
       </Heading>
 

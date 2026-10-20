@@ -93,21 +93,21 @@ export function IssueSourceViewerHeader(props: Readonly<Props>) {
     <IssueSourceViewerStyle
       aria-label={sourceViewerFile.path}
       className={classNames(
-        'sw-flex sw-justify-space-between sw-items-center sw-px-4 sw-py-3 sw-text-sm',
+        'sw:flex sw:justify-space-between sw:items-center sw:px-4 sw:py-3 sw:text-sm',
         className,
       )}
     >
-      <div className="sw-flex-1">
+      <div className="sw:flex-1">
         {displayProjectName && (
           <>
             {linkToProject ? (
               <Text isSubtle>
-                <HoverLink className="sw-mr-2" to={getBranchLikeUrl(project, branchLike)}>
+                <HoverLink className="sw:mr-2" to={getBranchLikeUrl(project, branchLike)}>
                   {projectName}
                 </HoverLink>
               </Text>
             ) : (
-              <Text className="sw-ml-1 sw-mr-2" isSubtle>
+              <Text className="sw:ml-1 sw:mr-2" isSubtle>
                 {projectName}
               </Text>
             )}
@@ -115,15 +115,15 @@ export function IssueSourceViewerHeader(props: Readonly<Props>) {
         )}
 
         {!isProjectRoot && (
-          <span className="sw-whitespace-nowrap">
-            {displayProjectName && <ChevronRightIcon className="sw-mr-2" />}
+          <span className="sw:whitespace-nowrap">
+            {displayProjectName && <ChevronRightIcon className="sw:mr-2" />}
 
             <Text isSubtle>
               {collapsedDirFromPath(path)}
               {fileFromPath(path)}
             </Text>
             <ClipboardIconButton
-              className="sw-h-600 sw-mx-2"
+              className="sw:h-600 sw:mx-2"
               copyLabel={translate('source_viewer.click_to_copy_filepath')}
               copyValue={path}
             />
@@ -144,8 +144,8 @@ export function IssueSourceViewerHeader(props: Readonly<Props>) {
 
       {!isProjectRoot && shouldShowViewAllIssues && measures.issues !== undefined && (
         <div
-          className={classNames('sw-ml-4', {
-            'sw-mr-1': (!expandable || loading) ?? isLoadingBranches,
+          className={classNames('sw:ml-4', {
+            'sw:mr-1': (!expandable || loading) ?? isLoadingBranches,
           })}
         >
           <Link
@@ -160,10 +160,10 @@ export function IssueSourceViewerHeader(props: Readonly<Props>) {
         </div>
       )}
 
-      <Spinner className="sw-mr-1" isLoading={loading ?? isLoadingBranches} />
+      <Spinner className="sw:mr-1" isLoading={loading ?? isLoadingBranches} />
 
       {expandable && !(loading ?? isLoadingBranches) && (
-        <div className="sw-ml-4">
+        <div className="sw:ml-4">
           <ButtonIcon
             Icon={IconUnfold}
             ariaLabel={translate('source_viewer.expand_all_lines')}

@@ -53,8 +53,8 @@ export default function PermissionItem(props: PermissionItemProps) {
         )}
       </ContentCell>
       <ContentCell>
-        <div className="sw-flex sw-flex-col">
-          <strong className="sw-typo-semibold">{item.name}</strong>
+        <div className="sw:flex sw:flex-col">
+          <strong className="sw:typo-semibold">{item.name}</strong>
           {isUser(item) && <Text isSubtle>{item.login}</Text>}
         </div>
       </ContentCell>

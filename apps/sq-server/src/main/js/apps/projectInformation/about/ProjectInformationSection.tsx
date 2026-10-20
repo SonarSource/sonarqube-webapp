@@ -33,7 +33,7 @@ export function ProjectInformationSection(
   const { children, className, last = false } = props;
   return (
     <>
-      <section className={classNames('sw-py-4', className)}>{children}</section>
+      <section className={classNames('sw:py-4', className)}>{children}</section>
       {!last && <BasicSeparator />}
     </>
   );

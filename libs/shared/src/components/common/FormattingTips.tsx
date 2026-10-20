@@ -44,19 +44,19 @@ export default function FormattingTips({ className }: Readonly<FormattingTipsPro
 
   return (
     <Text className={className} isSubtle>
-      <Link className="sw-mr-1" onClick={handleClick} to={formattingHelpUrl}>
+      <Link className="sw:mr-1" onClick={handleClick} to={formattingHelpUrl}>
         <FormattedMessage id="formatting.helplink" />
       </Link>
       {':'}
-      <span className="sw-ml-2">
+      <span className="sw:ml-2">
         *<FormattedMessage id="bold" />*
       </span>
-      <span className="sw-ml-2">
+      <span className="sw:ml-2">
         ``
         <FormattedMessage id="code" />
         ``
       </span>
-      <span className="sw-ml-2">
+      <span className="sw:ml-2">
         * <FormattedMessage id="bulleted_point" />
       </span>
     </Text>

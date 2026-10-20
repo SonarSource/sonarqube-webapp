@@ -193,7 +193,7 @@ export function MultigridSectionEditable(props: Readonly<Props>) {
         data-testid="dashboard-implicit-section-shell"
         ref={sectionRef}
       >
-        <Heading as="h2" className="sw-sr-only" id={headingId} size={HeadingSize.Medium}>
+        <Heading as="h2" className="sw:sr-only" id={headingId} size={HeadingSize.Medium}>
           {formatMessage({ id: 'dashboard.implicit_section' })}
         </Heading>
         {/*
@@ -297,7 +297,7 @@ export function MultigridSectionEditable(props: Readonly<Props>) {
                     {sectionName}
                   </button>
                 </Heading>
-                <span className="sw-sr-only" id={dragDescriptionId}>
+                <span className="sw:sr-only" id={dragDescriptionId}>
                   {formatMessage({ id: 'dashboard.drag_section_to_reorder' })}
                 </span>
               </>

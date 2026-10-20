@@ -35,7 +35,7 @@ export default function Status(props: StatusProps) {
   const statusOption = getStatusOptionFromStatusAndResolution(hotspot.status, hotspot.resolution);
 
   return (
-    <HighlightedSection className="sw-flex sw-rounded-1 sw-p-4 sw-items-center sw-justify-between sw-gap-2 sw-flex-row">
+    <HighlightedSection className="sw:flex sw:rounded-1 sw:p-4 sw:items-center sw:justify-between sw:gap-2 sw:flex-row">
       <StatusDescription statusOption={statusOption} />
       <StatusReviewButton hotspot={hotspot} onStatusChange={props.onStatusChange} />
     </HighlightedSection>

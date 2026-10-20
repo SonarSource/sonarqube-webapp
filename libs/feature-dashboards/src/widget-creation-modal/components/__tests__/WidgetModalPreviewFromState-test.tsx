@@ -88,11 +88,11 @@ describe('WidgetModalPreviewFromState', () => {
 
     expect(screen.getByText('dashboard.widget.no_data')).toBeInTheDocument();
     expect(screen.getByTestId('widget-preview-body')).toHaveClass(
-      'sw-flex',
-      'sw-flex-1',
-      'sw-min-h-0',
-      'sw-flex-col',
-      'sw-justify-center',
+      'sw:flex',
+      'sw:flex-1',
+      'sw:min-h-0',
+      'sw:flex-col',
+      'sw:justify-center',
     );
   });
 });

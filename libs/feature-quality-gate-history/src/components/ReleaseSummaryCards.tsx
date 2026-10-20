@@ -34,7 +34,7 @@ export function ReleaseSummaryCards(props: Readonly<Props>) {
   const docUrl = useSharedDocUrl(SharedDocLink.FailedPipelineGate);
 
   return (
-    <div className="sw-grid sw-grid-cols-2 sw-gap-4">
+    <div className="sw:grid sw:grid-cols-2 sw:gap-4">
       <SummaryCard
         count={stats.safeCount}
         dotColor="echoes-color-icon-success"
@@ -79,8 +79,8 @@ function SummaryCard(props: Readonly<SummaryCardProps>) {
   const { formatMessage } = useIntl();
 
   return (
-    <Card className="sw-gap-2 sw-p-4">
-      <div className="sw-flex sw-items-center sw-gap-1">
+    <Card className="sw:gap-2 sw:p-4">
+      <div className="sw:flex sw:items-center sw:gap-1">
         <IconDot color={dotColor} isFilled />
 
         <Text isSubtle size="small">
@@ -88,7 +88,7 @@ function SummaryCard(props: Readonly<SummaryCardProps>) {
         </Text>
       </div>
 
-      <div className="sw-flex sw-items-center sw-gap-1">
+      <div className="sw:flex sw:items-center sw:gap-1">
         <Heading as="h3" size="large">
           {formatMessage({ id: 'quality_gate_history.percent' }, { value: percent })}
         </Heading>

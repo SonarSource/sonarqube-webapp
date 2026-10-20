@@ -122,7 +122,7 @@ export function Sidebar(props: Readonly<Props>) {
       <>
         {showVariantsFilter && isProject(component?.qualifier) && (
           <>
-            <Divider className="sw-my-2" />
+            <Divider className="sw:my-2" />
 
             <VariantFacet
               fetching={loadingFacets.codeVariants === true}
@@ -136,7 +136,7 @@ export function Sidebar(props: Readonly<Props>) {
 
         {component.qualifier !== ComponentQualifier.Directory && (
           <>
-            <Divider className="sw-my-2" />
+            <Divider className="sw:my-2" />
 
             <DirectoryFacet
               branchLike={branchLike}
@@ -149,7 +149,7 @@ export function Sidebar(props: Readonly<Props>) {
           </>
         )}
 
-        <Divider className="sw-my-2" />
+        <Divider className="sw:my-2" />
 
         <FileFacet
           branchLike={branchLike}
@@ -197,7 +197,7 @@ export function Sidebar(props: Readonly<Props>) {
             stats={facets.impactSoftwareQualities}
           />
 
-          <Divider className="sw-my-2" />
+          <Divider className="sw:my-2" />
 
           <SeverityFacet
             fetching={props.loadingFacets.impactSeverities === true}
@@ -208,7 +208,7 @@ export function Sidebar(props: Readonly<Props>) {
             values={query.impactSeverities}
           />
 
-          <Divider className="sw-my-2" />
+          <Divider className="sw:my-2" />
 
           {query.types.length > 0 && (
             <>
@@ -222,7 +222,7 @@ export function Sidebar(props: Readonly<Props>) {
                 stats={facets.types}
                 types={query.types}
               />
-              <Divider className="sw-my-2" />
+              <Divider className="sw:my-2" />
             </>
           )}
 
@@ -239,7 +239,7 @@ export function Sidebar(props: Readonly<Props>) {
                 values={query.severities}
               />
 
-              <Divider className="sw-my-2" />
+              <Divider className="sw:my-2" />
             </>
           )}
 
@@ -253,7 +253,7 @@ export function Sidebar(props: Readonly<Props>) {
             stats={facets.cleanCodeAttributeCategories}
           />
 
-          <Divider className="sw-my-2" />
+          <Divider className="sw:my-2" />
         </>
       )}
       {isStandardMode && (
@@ -267,7 +267,7 @@ export function Sidebar(props: Readonly<Props>) {
             stats={facets.types}
             types={query.types}
           />
-          <Divider className="sw-my-2" />
+          <Divider className="sw:my-2" />
 
           {!needIssueSync && (
             <>
@@ -281,7 +281,7 @@ export function Sidebar(props: Readonly<Props>) {
                 values={query.severities}
               />
 
-              <Divider className="sw-my-2" />
+              <Divider className="sw:my-2" />
 
               {query.impactSoftwareQualities.length > 0 && (
                 <>
@@ -296,7 +296,7 @@ export function Sidebar(props: Readonly<Props>) {
                     stats={facets.impactSoftwareQualities}
                   />
 
-                  <Divider className="sw-my-2" />
+                  <Divider className="sw:my-2" />
                 </>
               )}
 
@@ -312,7 +312,7 @@ export function Sidebar(props: Readonly<Props>) {
                     values={query.impactSeverities}
                   />
 
-                  <Divider className="sw-my-2" />
+                  <Divider className="sw:my-2" />
                 </>
               )}
             </>
@@ -330,7 +330,7 @@ export function Sidebar(props: Readonly<Props>) {
             stats={facets.scopes}
           />
 
-          <Divider className="sw-my-2" />
+          <Divider className="sw:my-2" />
 
           <IssueStatusFacet
             component={component}
@@ -354,7 +354,7 @@ export function Sidebar(props: Readonly<Props>) {
             />
           )}
 
-          <Divider className="sw-my-2" />
+          <Divider className="sw:my-2" />
 
           <StandardFacet
             loadSearchResultCount={props.loadSearchResultCount}
@@ -371,7 +371,7 @@ export function Sidebar(props: Readonly<Props>) {
             )}
           />
 
-          <Divider className="sw-my-2" />
+          <Divider className="sw:my-2" />
 
           <CreationDateFacet
             createdAfter={query.createdAfter}
@@ -389,7 +389,7 @@ export function Sidebar(props: Readonly<Props>) {
 
           {hasFeature(Feature.FromSonarQubeUpdate) && (
             <>
-              <Divider className="sw-my-2" />
+              <Divider className="sw:my-2" />
 
               <DetectionCauseFacet
                 fetching={props.loadingFacets.fromSonarQubeUpdate === true}
@@ -402,7 +402,7 @@ export function Sidebar(props: Readonly<Props>) {
             </>
           )}
 
-          <Divider className="sw-my-2" />
+          <Divider className="sw:my-2" />
 
           <LanguageFacet
             fetching={props.loadingFacets.languages === true}
@@ -416,7 +416,7 @@ export function Sidebar(props: Readonly<Props>) {
             stats={facets.languages}
           />
 
-          <Divider className="sw-my-2" />
+          <Divider className="sw:my-2" />
 
           <RuleFacet
             fetching={props.loadingFacets.rules === true}
@@ -429,7 +429,7 @@ export function Sidebar(props: Readonly<Props>) {
             stats={facets.rules}
           />
 
-          <Divider className="sw-my-2" />
+          <Divider className="sw:my-2" />
 
           <TagFacet
             branch={branch}
@@ -446,7 +446,7 @@ export function Sidebar(props: Readonly<Props>) {
 
           {displayProjectsFacet && (
             <>
-              <Divider className="sw-my-2" />
+              <Divider className="sw:my-2" />
 
               <ProjectFacet
                 component={component}
@@ -469,7 +469,7 @@ export function Sidebar(props: Readonly<Props>) {
             <>
               {!props.myIssues && (
                 <>
-                  <Divider className="sw-my-2" />
+                  <Divider className="sw:my-2" />
 
                   <AssigneeFacet
                     assigned={query.assigned}
@@ -488,9 +488,9 @@ export function Sidebar(props: Readonly<Props>) {
 
               {currentUser.isLoggedIn && (
                 <>
-                  <Divider className="sw-my-2" />
+                  <Divider className="sw:my-2" />
 
-                  <div className="sw-mb-4">
+                  <div className="sw:mb-4">
                     <AuthorFacet
                       author={query.author}
                       component={component}
@@ -509,9 +509,9 @@ export function Sidebar(props: Readonly<Props>) {
           )}
           {hasFeature(Feature.PrioritizedRules) && (
             <>
-              <Divider className="sw-my-2" />
+              <Divider className="sw:my-2" />
 
-              <div className="sw-mb-4">
+              <div className="sw:mb-4">
                 <PrioritizedRuleFacet
                   fetching={props.loadingFacets.prioritizedRule === true}
                   onChange={props.onFilterChange}
@@ -527,12 +527,12 @@ export function Sidebar(props: Readonly<Props>) {
       )}
       {needIssueSync && (
         <>
-          <Divider className="sw-my-2" />
+          <Divider className="sw:my-2" />
 
-          <FlagMessage className="sw-my-6" variant="info">
+          <FlagMessage className="sw:my-6" variant="info">
             <div>
               <FormattedMessage id="indexation.page_unavailable.description" />
-              <span className="sw-ml-1">
+              <span className="sw:ml-1">
                 <FormattedMessage
                   id="indexation.filters_unavailable"
                   values={{

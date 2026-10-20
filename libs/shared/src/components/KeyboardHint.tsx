@@ -36,7 +36,7 @@ export function KeyboardHint({ title, command, className }: Readonly<KeyboardHin
 
   return (
     <Body className={className} role="note">
-      {title && <span className="sw-truncate">{title}</span>}
+      {title && <span className="sw:truncate">{title}</span>}
       <KeyboardHintKeys command={normalizedCommand} />
     </Body>
   );

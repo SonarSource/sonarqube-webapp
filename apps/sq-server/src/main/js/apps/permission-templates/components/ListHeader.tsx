@@ -35,7 +35,7 @@ export default function ListHeader({ permissions }: Readonly<Props>) {
   const cells = permissions.map((permission) => (
     <ContentCell key={permission.key}>
       <span>{intl.formatMessage({ id: `projects_role.${permission.key}` })}</span>
-      <ToggleTip className="sw-ml-2" description={renderTooltip({ permission, intl })} />
+      <ToggleTip className="sw:ml-2" description={renderTooltip({ permission, intl })} />
     </ContentCell>
   ));
 
@@ -57,7 +57,7 @@ function renderTooltip({ permission, intl }: { intl: IntlShape; permission: Perm
         <InstanceMessage
           message={intl.formatMessage({ id: `projects_role.${permission.key}.desc` })}
         />
-        <MessageInline className="sw-mt-2" variety={MessageVariety.Warning}>
+        <MessageInline className="sw:mt-2" variety={MessageVariety.Warning}>
           <FormattedMessage id="projects_role.public_projects_warning" />
         </MessageInline>
       </div>

@@ -349,7 +349,7 @@ export function TrendIndicator({
             ? formatMessage({ id: 'dashboard.widget.trend_indicator.badge.unavailable' })
             : undefined
         }
-        className="sw-inline-flex sw-cursor-pointer sw-appearance-none sw-border-0 sw-bg-transparent sw-p-0"
+        className="sw:inline-flex sw:cursor-pointer sw:appearance-none sw:border-0 sw:bg-transparent sw:p-0"
         type="button"
       >
         {badge}

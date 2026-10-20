@@ -54,10 +54,10 @@ export function AnalysisStatus(props: Readonly<HeaderMetaProps>) {
 
   if (isInProgress || isPending) {
     return (
-      <div className={classNames('sw-flex sw-items-center', className)} data-test="analysis-status">
+      <div className={classNames('sw:flex sw:items-center', className)} data-test="analysis-status">
         <Spinner />
 
-        <span className="sw-ml-1">
+        <span className="sw:ml-1">
           {isInProgress
             ? translate('project_navigation.analysis_status.in_progress')
             : translate('project_navigation.analysis_status.pending')}
@@ -76,7 +76,7 @@ export function AnalysisStatus(props: Readonly<HeaderMetaProps>) {
           {/* when it is available in Echoes */}
           <Link
             aria-label={translate('project_navigation.analysis_status.details_link.label')}
-            className="sw-ml-1"
+            className="sw:ml-1"
             enableBlurAfterClick
             enablePreventDefault
             onClick={openModal}
@@ -107,7 +107,7 @@ export function AnalysisStatus(props: Readonly<HeaderMetaProps>) {
           {/* when it is available in Echoes */}
           <Link
             aria-label={translate('project_navigation.analysis_status.details_link.label')}
-            className="sw-ml-1"
+            className="sw:ml-1"
             enableBlurAfterClick
             enablePreventDefault
             onClick={openModal}

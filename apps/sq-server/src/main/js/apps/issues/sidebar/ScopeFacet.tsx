@@ -76,8 +76,8 @@ export function ScopeFacet(props: ScopeFacetProps) {
                 className="it__search-navigator-facet"
                 icon={
                   {
-                    MAIN: <IconFile className="sw-mr-1" />,
-                    TEST: <IconFileCode className="sw-mr-1" />,
+                    MAIN: <IconFile className="sw:mr-1" />,
+                    TEST: <IconFileCode className="sw:mr-1" />,
                   }[scope]
                 }
                 key={scope}
@@ -101,7 +101,7 @@ export function ScopeFacet(props: ScopeFacetProps) {
         </FacetItemsList>
 
         <MultipleSelectionHint
-          className="sw-pt-4"
+          className="sw:pt-4"
           selectedItems={nbSelectedItems}
           totalItems={nbSelectableItems}
         />

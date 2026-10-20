@@ -67,7 +67,7 @@ export function MetaQualityProfiles({ profiles }: Readonly<Props>) {
       <Heading as="h3">
         <FormattedMessage id="overview.quality_profiles" />
       </Heading>
-      <ul className="sw-mt-2 sw-flex sw-flex-col sw-gap-3">
+      <ul className="sw:mt-2 sw:flex sw:flex-col sw:gap-3">
         {profiles.map((profile) => (
           <ProfileItem
             deprecatedByKey={deprecatedByKey}
@@ -95,7 +95,7 @@ function ProfileItem({
   const count = deprecatedByKey[profile.key] || 0;
 
   return (
-    <li className="sw-grid sw-grid-cols-[1fr_3fr]">
+    <li className="sw:grid sw:grid-cols-[1fr_3fr]">
       <span>{languageName}</span>
       <div>
         {profile.deleted ? (
@@ -123,7 +123,7 @@ function ProfileItem({
                 key={profile.key}
               >
                 <span>
-                  <Badge className="sw-ml-6" variant="deleted">
+                  <Badge className="sw:ml-6" variant="deleted">
                     <FormattedMessage id="deprecated" />
                   </Badge>
                 </span>

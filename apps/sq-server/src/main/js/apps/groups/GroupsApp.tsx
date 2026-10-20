@@ -65,7 +65,7 @@ export default function GroupsApp() {
 
         <Card>
           <Card.Body>
-            <div className="sw-flex sw-mb-4">
+            <div className="sw:flex sw:mb-4">
               <ManagedFilter
                 loading={isLoading}
                 manageProvider={manageProvider?.provider}

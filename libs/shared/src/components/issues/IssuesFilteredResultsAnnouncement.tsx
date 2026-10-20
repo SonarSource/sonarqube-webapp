@@ -41,7 +41,7 @@ export function IssuesFilteredResultsAnnouncement({ isFiltered, loading, total }
 
   return (
     // Always mounted so screen readers detect the content change when results go empty
-    <output aria-atomic="true" aria-live="polite" className="sw-sr-only">
+    <output aria-atomic="true" aria-live="polite" className="sw:sr-only">
       {message}
     </output>
   );

@@ -128,7 +128,7 @@ export default function GithubManifestCreationModal({ onClose, primaryScope }: R
   };
 
   const configurationNameField = keyRequired && (
-    <div className="sw-mb-6">
+    <div className="sw:mb-6">
       <TextInput
         helpText={formatMessage({ id: 'settings.almintegration.github.manifest.name.help' })}
         id="github-manifest-key"
@@ -147,7 +147,7 @@ export default function GithubManifestCreationModal({ onClose, primaryScope }: R
   );
 
   const allowedOrganizationsField = auth && (
-    <div className="sw-mb-6">
+    <div className="sw:mb-6">
       <AuthenticationFormField
         definition={getGitHubAllowedOrganizationsDefinition()}
         isNotSet
@@ -166,11 +166,11 @@ export default function GithubManifestCreationModal({ onClose, primaryScope }: R
         void handleSubmit(event);
       }}
     >
-      <Text as="p" className="sw-mb-6" isSubtle>
+      <Text as="p" className="sw:mb-6" isSubtle>
         <FormattedMessage id="settings.almintegration.github.manifest.info" />
       </Text>
 
-      <div className="sw-mb-6">
+      <div className="sw:mb-6">
         <TextInput
           helpText={formatMessage({
             id: 'settings.almintegration.github.manifest.organization.help',
@@ -190,7 +190,7 @@ export default function GithubManifestCreationModal({ onClose, primaryScope }: R
 
       {isDevopsPrimary ? configurationNameField : allowedOrganizationsField}
 
-      <div className="sw-mb-6">
+      <div className="sw:mb-6">
         <Checkbox
           checked={alsoSetupOther}
           label={formatMessage(

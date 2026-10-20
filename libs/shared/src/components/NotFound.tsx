@@ -25,7 +25,7 @@ import { FormattedMessage, useIntl } from 'react-intl';
 export default function NotFound() {
   const { formatMessage } = useIntl();
   return (
-    <div className="sw-flex sw-flex-col sw-items-center sw-justify-start sw-pt-40">
+    <div className="sw:flex sw:flex-col sw:items-center sw:justify-start sw:pt-40">
       <Helmet defaultTitle={formatMessage({ id: '404_not_found' })} defer={false} />
       <EmptyState
         action={
@@ -33,7 +33,7 @@ export default function NotFound() {
             <FormattedMessage id="go_back_to_homepage" />
           </Button>
         }
-        className="sw-max-w-[32rem]"
+        className="sw:max-w-[32rem]"
         graphic={<IconWarning />}
         text={<FormattedMessage id="address_mistyped_or_page_moved" />}
         title={<FormattedMessage id="page_not_found" />}

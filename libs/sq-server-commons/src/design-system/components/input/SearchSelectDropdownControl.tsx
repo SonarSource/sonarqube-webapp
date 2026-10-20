@@ -83,15 +83,15 @@ export function SearchSelectDropdownControl(props: SearchSelectDropdownControlPr
     >
       <InputValue
         className={classNames(
-          'it__js-search-input-value sw-flex sw-justify-between sw-items-center',
+          'it__js-search-input-value sw:flex sw:justify-between sw:items-center',
           {
             'is-disabled': disabled,
             'is-placeholder': !label,
           },
         )}
       >
-        <span className="sw-flex-1 sw-truncate">{label ?? placeholder}</span>
-        <div className="sw-flex sw-items-center">
+        <span className="sw:flex-1 sw:truncate">{label ?? placeholder}</span>
+        <div className="sw:flex sw:items-center">
           {isClearable && (
             <ButtonIcon
               Icon={IconX}

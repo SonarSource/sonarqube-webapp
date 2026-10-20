@@ -42,10 +42,10 @@ export default function TabHeader({
 }: Readonly<Props>) {
   return (
     <>
-      <div className="sw-mb-4">
+      <div className="sw:mb-4">
         <SubHeading as="h4">{title}</SubHeading>
         {(showCreate || extraAction) && (
-          <div className="sw-mt-2 sw-flex sw-gap-2">
+          <div className="sw:mt-2 sw:flex sw:gap-2">
             {showCreate && (
               <Button
                 onClick={onCreate}
@@ -65,7 +65,7 @@ export default function TabHeader({
         )}
       </div>
       {configurationValidity}
-      <BasicSeparator className="sw-my-6" />
+      <BasicSeparator className="sw:my-6" />
     </>
   );
 }

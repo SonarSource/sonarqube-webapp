@@ -84,7 +84,7 @@ export default function AlmIntegrationRenderer(props: Readonly<AlmIntegrationRen
           <>
             <Image
               alt={almKey}
-              className="sw-mr-2"
+              className="sw:mr-2"
               height={16}
               src={almIconUrl(currentTheme, almKeyToIconKey(almKey))}
             />
@@ -101,7 +101,7 @@ export default function AlmIntegrationRenderer(props: Readonly<AlmIntegrationRen
 
   return (
     <>
-      <header className="sw-mb-5">
+      <header className="sw:mb-5">
         <SubTitle>
           <FormattedMessage id="settings.almintegration.title" />
         </SubTitle>
@@ -122,10 +122,10 @@ export default function AlmIntegrationRenderer(props: Readonly<AlmIntegrationRen
           </p>
         </FlagMessage>
       )}
-      <div className="sw-my-4">
+      <div className="sw:my-4">
         <FormattedMessage id="settings.almintegration.description" />
       </div>
-      <div className="sw-mb-6">
+      <div className="sw:mb-6">
         <ToggleButton
           onChange={props.onSelectAlmTab}
           options={tabs}

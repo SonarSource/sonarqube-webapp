@@ -40,7 +40,7 @@ export function GlobalSearchResult(props: Readonly<Props>) {
 
   return (
     <ItemLink
-      className={classNames('sw-flex sw-flex-col sw-items-start sw-space-y-1', {
+      className={classNames('sw:flex sw:flex-col sw:items-start sw:space-y-1', {
         active: selected,
       })}
       innerRef={(node: HTMLAnchorElement | null) => {
@@ -50,13 +50,13 @@ export function GlobalSearchResult(props: Readonly<Props>) {
       onClick={onClose}
       to={getComponentOverviewUrl(component.key, component.qualifier)}
     >
-      <div className="sw-flex sw-justify-between sw-items-center sw-w-full">
+      <div className="sw:flex sw:justify-between sw:items-center sw:w-full">
         <SearchedText match={component.match} name={component.name} />
 
-        <div className="sw-ml-2">
+        <div className="sw:ml-2">
           {component.isFavorite && (
             <>
-              <span className="sw-sr-only">{formatMessage({ id: 'favorite' })}</span>
+              <span className="sw:sr-only">{formatMessage({ id: 'favorite' })}</span>
 
               <StyledFavoriteIcon isFilled />
             </>
@@ -64,7 +64,7 @@ export function GlobalSearchResult(props: Readonly<Props>) {
 
           {!component.isFavorite && component.isRecentlyBrowsed && (
             <>
-              <span className="sw-sr-only">{formatMessage({ id: 'recently_browsed' })}</span>
+              <span className="sw:sr-only">{formatMessage({ id: 'recently_browsed' })}</span>
 
               <IconClock />
             </>
@@ -85,10 +85,10 @@ interface SearchedTextProps {
 function SearchedText({ match, name }: SearchedTextProps) {
   return match ? (
     <SafeHTMLInjection htmlAsString={match}>
-      <StyledText className="sw-truncate" isHighlighted />
+      <StyledText className="sw:truncate" isHighlighted />
     </SafeHTMLInjection>
   ) : (
-    <Text className="sw-truncate" isHighlighted>
+    <Text className="sw:truncate" isHighlighted>
       {name}
     </Text>
   );

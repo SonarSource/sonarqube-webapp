@@ -82,7 +82,7 @@ export default class Form extends React.PureComponent<Props, State> {
     const formBody = (
       <form id="permission-template-form" onSubmit={this.handleSubmit}>
         <div>
-          <div className="sw-mb-4">
+          <div className="sw:mb-4">
             <MandatoryFieldsExplanation />
           </div>
 

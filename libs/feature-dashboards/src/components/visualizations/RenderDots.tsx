@@ -60,9 +60,9 @@ export function RenderDots({
   return (
     <Popover
       description={
-        <div className="sw-flex sw-items-center sw-gap-1">
+        <div className="sw:flex sw:items-center sw:gap-1">
           <SquareFillIcon fill={color} size={16} />
-          <div className="sw-flex sw-justify-between sw-w-full sw-gap-2">
+          <div className="sw:flex sw:justify-between sw:w-full sw:gap-2">
             <div>
               <Text isSubtle>{metricName}</Text>
             </div>

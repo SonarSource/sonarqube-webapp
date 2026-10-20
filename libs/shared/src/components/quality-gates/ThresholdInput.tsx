@@ -88,7 +88,7 @@ export default function ThresholdInput({
     return (
       <Select
         {...commonInputProps}
-        className="sw-w-abs-150"
+        className="sw:w-abs-150"
         data={options}
         onChange={handleSelectChange}
       />
@@ -110,13 +110,13 @@ export default function ThresholdInput({
       <div>
         <Select
           {...commonInputProps}
-          className="sw-w-abs-150"
+          className="sw:w-abs-150"
           data={options}
           onChange={handleSelectChange}
           value={normalizedValue}
         />
         {options.length === 1 && types && (
-          <Text as="p" className="sw-mt-3" size={TextSize.Small}>
+          <Text as="p" className="sw:mt-3" size={TextSize.Small}>
             <FormattedMessage id={`${RISK_TYPE_QUALITY_GATE_LABEL[types]}.description`} />
           </Text>
         )}

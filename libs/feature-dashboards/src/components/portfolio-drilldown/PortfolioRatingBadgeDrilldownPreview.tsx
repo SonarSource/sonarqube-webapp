@@ -38,7 +38,7 @@ import { PieChart } from '../visualizations/pie-chart/PieChart';
 import { useActiveSegmentIndex } from '../visualizations/pie-chart/useActiveSegmentIndex';
 import { PortfolioDrilldownEmptyState } from './portfolioDrilldownEmptyState';
 
-const previewCardBodyClassName = 'sw-pb-16';
+const previewCardBodyClassName = 'sw:pb-16';
 
 interface Props {
   centerRating: RatingBadgeRating | undefined;
@@ -69,11 +69,11 @@ function RatingBadgeChart(
 
   return (
     <div
-      className="sw-flex sw-h-full sw-w-full sw-flex-col sw-items-center sw-justify-center sw-gap-4"
+      className="sw:flex sw:h-full sw:w-full sw:flex-col sw:items-center sw:justify-center sw:gap-4"
       ref={containerRef}
     >
       <div
-        className="sw-relative sw-flex sw-items-center sw-justify-center"
+        className="sw:relative sw:flex sw:items-center sw:justify-center"
         style={{
           height: PORTFOLIO_RATING_BADGE_DONUT_SIZE_PX,
           width: PORTFOLIO_RATING_BADGE_DONUT_SIZE_PX,
@@ -92,7 +92,7 @@ function RatingBadgeChart(
           tooltipCountMessageKey="portfolio_dashboard.widget.tooltip.count"
           width={PORTFOLIO_RATING_BADGE_DONUT_SIZE_PX}
         />
-        <div className="sw-pointer-events-none sw-absolute sw-inset-0 sw-flex sw-items-center sw-justify-center">
+        <div className="sw:pointer-events-none sw:absolute sw:inset-0 sw:flex sw:items-center sw:justify-center">
           <PortfolioDashboardRatingBadge
             ariaLabel={formatMessage({ id: 'metric.has_rating_X' }, { 0: centerRating })}
             rating={centerRating}
@@ -142,7 +142,7 @@ export function PortfolioRatingBadgeDrilldownPreview(props: Readonly<Props>) {
           title={title}
         />
         <Card.Body className={previewCardBodyClassName}>
-          <div className="sw-flex sw-h-full sw-items-center sw-justify-center">
+          <div className="sw:flex sw:h-full sw:items-center sw:justify-center">
             <RatingBadge
               ariaLabel={formatMessage({
                 id: 'portfolio_dashboard.breakdown.empty_state.no_computed_rating.label',

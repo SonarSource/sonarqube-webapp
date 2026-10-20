@@ -168,7 +168,7 @@ export default function IssueView(props: Readonly<Props>) {
 
   return (
     <IssueItem
-      className={classNames('it__issue-item sw-p-3 sw-mb-4 sw-rounded-1', {
+      className={classNames('it__issue-item sw:p-3 sw:mb-4 sw:rounded-1', {
         selected,
       })}
       onClick={() => {
@@ -176,9 +176,9 @@ export default function IssueView(props: Readonly<Props>) {
       }}
       ref={nodeRef}
     >
-      <section aria-label={issue.message} className="sw-flex sw-gap-3">
+      <section aria-label={issue.message} className="sw:flex sw:gap-3">
         {hasCheckbox && (
-          <span className="sw-mt-1/2 sw-ml-1 sw-self-start">
+          <span className="sw:mt-1/2 sw:ml-1 sw:self-start">
             <Checkbox
               ariaLabel={translateWithParameters('issues.action_select.label', issue.message)}
               checked={checked ?? false}
@@ -188,14 +188,14 @@ export default function IssueView(props: Readonly<Props>) {
           </span>
         )}
 
-        <div className="sw-flex sw-flex-col sw-grow sw-min-w-0">
+        <div className="sw:flex sw:flex-col sw:grow sw:min-w-0">
           <IssueTitleBar
             branchLike={branchLike}
             displayWhyIsThisAnIssue={displayWhyIsThisAnIssue}
             issue={issue}
           />
 
-          <div className="sw-mt-3 sw-flex sw-items-start">
+          <div className="sw:mt-3 sw:flex sw:items-start">
             <SoftwareImpactPillList
               data-guiding-id="issue-2"
               issueSeverity={issue.severity as IssueSeverity}
@@ -203,10 +203,10 @@ export default function IssueView(props: Readonly<Props>) {
               onSetSeverity={canSetSeverity ? setSeverity : undefined}
               softwareImpacts={issue.impacts}
             />
-            <div className="sw-grow-0 sw-ml-auto sw-whitespace-nowrap">
+            <div className="sw:grow-0 sw:ml-auto sw:whitespace-nowrap">
               <IssueTags
                 canSetTags={canSetTags}
-                className="js-issue-edit-tags sw-typo-sm"
+                className="js-issue-edit-tags sw:typo-sm"
                 isOpen={currentPopup === 'edit-tags' && canSetTags}
                 isShortcutEnabled={isShortcutEnabled}
                 issue={issue}
@@ -217,9 +217,9 @@ export default function IssueView(props: Readonly<Props>) {
             </div>
           </div>
 
-          <BasicSeparator className="sw-mt-3 sw-mb-1" />
+          <BasicSeparator className="sw:mt-3 sw:mb-1" />
 
-          <div className="sw-flex sw-gap-2 sw-flex-nowrap sw-items-center sw-justify-between">
+          <div className="sw:flex sw:gap-2 sw:flex-nowrap sw:items-center sw:justify-between">
             <IssueActionsBar
               additionalIssueActions={additionalIssueActions}
               currentPopup={currentPopup}

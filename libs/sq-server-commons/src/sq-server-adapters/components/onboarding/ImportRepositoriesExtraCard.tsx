@@ -43,10 +43,10 @@ export function ImportRepositoriesExtraCard({ isFullyImported }: Readonly<Props>
   }
 
   return (
-    <Card className="sw-max-w-[650px]">
-      <Card.Body className="sw-flex sw-items-center sw-justify-between">
-        <div className="sw-flex sw-flex-col sw-gap-2">
-          <span className="sw-flex sw-min-w-0 sw-items-center sw-gap-2">
+    <Card className="sw:max-w-[650px]">
+      <Card.Body className="sw:flex sw:items-center sw:justify-between">
+        <div className="sw:flex sw:flex-col sw:gap-2">
+          <span className="sw:flex sw:min-w-0 sw:items-center sw:gap-2">
             <IconRecommended color="echoes-color-icon-accent" isFilled />
             <Text isHighlighted>
               {formatMessage({ id: 'onboarding_dashboard.journey.import.cli_title' })}

@@ -33,7 +33,7 @@ export default function SeverityHelper({ className, severity }: Readonly<Props>)
   }
   return (
     <span className={className}>
-      <SeverityIcon aria-hidden className="sw-mr-1" severity={severity} />
+      <SeverityIcon aria-hidden className="sw:mr-1" severity={severity} />
       {translate('severity', severity)}
     </span>
   );

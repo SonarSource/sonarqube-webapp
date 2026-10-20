@@ -60,7 +60,7 @@ export default function Members(props: Readonly<Props>) {
       <ButtonIcon
         Icon={isReadonly ? IconMoreVertical : IconEdit}
         ariaLabel={title}
-        className="sw-ml-2"
+        className="sw:ml-2"
         onClick={() => {
           setOpenModal(true);
         }}

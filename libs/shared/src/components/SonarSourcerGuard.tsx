@@ -46,7 +46,7 @@ export function SonarSourcerGuard({ children }: Readonly<PropsWithChildren<{}>>)
       {isSonarSourcer ? (
         children
       ) : (
-        <div className="sw-fixed sw-inset-0 sw-flex sw-items-center sw-justify-center sw-left-[240px]">
+        <div className="sw:fixed sw:inset-0 sw:flex sw:items-center sw:justify-center sw:left-[240px]">
           <NotFound />
         </div>
       )}

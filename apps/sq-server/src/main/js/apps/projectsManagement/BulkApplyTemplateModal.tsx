@@ -143,7 +143,7 @@ export default class BulkApplyTemplateModal extends React.PureComponent<Props, S
       return (
         <UseQuery query={useGithubProvisioningEnabledQuery}>
           {({ data: githubProvisioningStatus }) => (
-            <FlagMessage className="sw-my-2" variant="error">
+            <FlagMessage className="sw:my-2" variant="error">
               {translateWithParameters(
                 'permission_templates.bulk_apply_permission_template.apply_to_only_managed_projects',
                 githubProvisioningStatus ? translate('alm.github') : translate('alm.gitlab'),
@@ -154,7 +154,7 @@ export default class BulkApplyTemplateModal extends React.PureComponent<Props, S
       );
     } else if (isSelectionOnlyLocal) {
       return (
-        <FlagMessage className="sw-my-2" variant="warning">
+        <FlagMessage className="sw:my-2" variant="warning">
           {this.props.selection.length
             ? translateWithParameters(
                 'permission_templates.bulk_apply_permission_template.apply_to_selected',
@@ -171,7 +171,7 @@ export default class BulkApplyTemplateModal extends React.PureComponent<Props, S
     return (
       <UseQuery query={useGithubProvisioningEnabledQuery}>
         {({ data: githubProvisioningStatus }) => (
-          <FlagMessage className="sw-my-2" variant="warning">
+          <FlagMessage className="sw:my-2" variant="warning">
             {translateWithParameters(
               'permission_templates.bulk_apply_permission_template.apply_to_selected',
               localProjects.length,
@@ -222,11 +222,11 @@ export default class BulkApplyTemplateModal extends React.PureComponent<Props, S
           </FlagMessage>
         )}
 
-        <Spinner className="sw-mr-1" isLoading={loading} />
+        <Spinner className="sw:mr-1" isLoading={loading} />
 
         {!loading && !done && permissionTemplates && (
           <>
-            <MandatoryFieldsExplanation className="sw-mb-2" />
+            <MandatoryFieldsExplanation className="sw:mb-2" />
             {this.renderWarning()}
             {this.renderSelect(isSelectionOnlyManaged)}
           </>

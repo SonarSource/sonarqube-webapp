@@ -40,12 +40,12 @@ export function WidgetHeaderTitle({ title }: Readonly<WidgetHeaderTitleProps>) {
   const heading = (
     <Heading
       as="h3"
-      className="sw-min-w-0 sw-w-full"
+      className="sw:min-w-0 sw:w-full"
       id={widgetKey ? getWidgetTitleId(widgetKey) : undefined}
       size={HeadingSize.Small}
     >
       <span
-        className="sw-block sw-truncate sw-text-start"
+        className="sw:block sw:truncate sw:text-start"
         ref={textRef}
         {...(isTruncated ? { 'aria-label': sentenceCaseTitle } : {})}
       >
@@ -55,7 +55,7 @@ export function WidgetHeaderTitle({ title }: Readonly<WidgetHeaderTitleProps>) {
   );
 
   return (
-    <div className="sw-min-w-0" data-testid="widget-header-title">
+    <div className="sw:min-w-0" data-testid="widget-header-title">
       {isTruncated ? (
         <Tooltip content={sentenceCaseTitle} delayDuration={300}>
           {heading}

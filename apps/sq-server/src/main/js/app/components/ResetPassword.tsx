@@ -35,12 +35,12 @@ export function ResetPassword({ currentUser }: Readonly<ResetPasswordProps>) {
   return (
     <>
       <Helmet defer={false} title={formatMessage({ id: 'my_account.reset_password.page' })} />
-      <div className="sw-flex sw-justify-center">
+      <div className="sw:flex sw:justify-center">
         <div>
           <Heading as="h1">
             <FormattedMessage id="my_account.reset_password" />
           </Heading>
-          <MessageCallout className="sw-mb-4" variety="warning">
+          <MessageCallout className="sw:mb-4" variety="warning">
             <FormattedMessage id="my_account.reset_password.explain" />
           </MessageCallout>
           <Heading as="h2">

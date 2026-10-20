@@ -87,7 +87,7 @@ export function ProjectsFilterSelect<T extends FilterValue>({
   );
 
   return (
-    <div className="sw-flex sw-items-center sw-gap-2">
+    <div className="sw:flex sw:items-center sw:gap-2">
       <Label htmlFor={id}>{formatMessage({ id: labelKey })}</Label>
 
       <Select

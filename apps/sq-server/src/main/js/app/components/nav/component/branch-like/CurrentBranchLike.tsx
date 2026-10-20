@@ -36,13 +36,13 @@ export function CurrentBranchLike(props: CurrentBranchLikeProps) {
   const displayName = getBranchLikeDisplayName(currentBranchLike);
 
   return (
-    <div className="sw-flex sw-items-center sw-truncate">
+    <div className="sw:flex sw:items-center sw:truncate">
       <BranchLikeIcon branchLike={currentBranchLike} />
-      <Text className="sw-ml-3" isSubtle>
+      <Text className="sw:ml-3" isSubtle>
         {displayName}
       </Text>
-      <QualityGateStatus branchLike={currentBranchLike} className="sw-ml-4" />
-      <ChevronDownIcon className="sw-ml-1" />
+      <QualityGateStatus branchLike={currentBranchLike} className="sw:ml-4" />
+      <ChevronDownIcon className="sw:ml-1" />
     </div>
   );
 }

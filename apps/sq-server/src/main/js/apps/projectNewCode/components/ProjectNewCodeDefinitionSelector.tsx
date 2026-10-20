@@ -102,7 +102,7 @@ export default function ProjectNewCodeDefinitionSelector(
     <>
       <Heading
         as="h2"
-        className="sw-mb-2 sw-mt-4"
+        className="sw:mb-2 sw:mt-4"
         id="selection-cards-label"
         size={HeadingSize.Medium}
       >
@@ -164,7 +164,7 @@ export default function ProjectNewCodeDefinitionSelector(
             branch={branch.name}
             branchList={branchList}
             branchesEnabled={branchesEnabled}
-            className="sw-mt-6"
+            className="sw:mt-6"
             isValid={isValid}
             numberOfDaysInput={days}
             onNumberOfDaysChange={props.onSelectDays}
@@ -181,7 +181,7 @@ export default function ProjectNewCodeDefinitionSelector(
 
         {isChanged && (
           <>
-            <ButtonGroup className="sw-flex sw-mt-6">
+            <ButtonGroup className="sw:flex sw:mt-6">
               <Button
                 isDisabled={!isValid || saving}
                 isLoading={saving}
@@ -195,7 +195,7 @@ export default function ProjectNewCodeDefinitionSelector(
                 <FormattedMessage id="cancel" />
               </Button>
             </ButtonGroup>
-            <MessageInline className="sw-mt-2" variety={MessageVariety.Info}>
+            <MessageInline className="sw:mt-2" variety={MessageVariety.Info}>
               <FormattedMessage id="baseline.next_analysis_notice" />
             </MessageInline>
           </>

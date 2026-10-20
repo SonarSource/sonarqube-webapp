@@ -64,7 +64,7 @@ export function HomeContainerHeader(props: Readonly<Props>) {
     <Layout.PageHeader
       actions={
         actions.create && (
-          <div className="sw-flex sw-flex-col sw-items-end sw-justify-center">
+          <div className="sw:flex sw:flex-col sw:items-end sw:justify-center">
             <Layout.PageHeader.Actions>
               <CreateProfileForm
                 languages={languages}
@@ -89,7 +89,7 @@ export function HomeContainerHeader(props: Readonly<Props>) {
             </Layout.PageHeader.Actions>
 
             {languages.length === 0 && (
-              <MessageCallout className="sw-mt-2" variety={MessageVariety.Warning}>
+              <MessageCallout className="sw:mt-2" variety={MessageVariety.Warning}>
                 {intl.formatMessage({ id: 'quality_profiles.no_languages_available' })}
               </MessageCallout>
             )}
@@ -112,12 +112,12 @@ export function HomeContainerHeader(props: Readonly<Props>) {
               ),
               p1: (text) =>
                 showAICA ? (
-                  <Text as="p" className="sw-mt-4 sw-max-w-full">
+                  <Text as="p" className="sw:mt-4 sw:max-w-full">
                     {text}
                   </Text>
                 ) : null,
               p2: (text) => (
-                <Text as="p" className="sw-mt-4">
+                <Text as="p" className="sw:mt-4">
                   {text}
                 </Text>
               ),

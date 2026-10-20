@@ -43,7 +43,7 @@ export function ProfileProjects({ profile }: Readonly<Props>) {
 
   const renderDefault = () => (
     <>
-      <Badge className="sw-mr-2">
+      <Badge className="sw:mr-2">
         <FormattedMessage id="default" />
       </Badge>
       <FormattedMessage id="quality_profiles.projects_for_default" />
@@ -96,10 +96,10 @@ export function ProfileProjects({ profile }: Readonly<Props>) {
   return (
     // eslint-disable-next-line local-rules/use-metrickey-enum
     <section aria-label={translate('projects')} className="it__quality-profiles__projects">
-      <div className="sw-flex sw-items-center sw-gap-3 sw-mb-6">
+      <div className="sw:flex sw:items-center sw:gap-3 sw:mb-6">
         {
           // eslint-disable-next-line local-rules/use-metrickey-enum
-          <SubTitle className="sw-mb-0">
+          <SubTitle className="sw:mb-0">
             <FormattedMessage id="projects" />
           </SubTitle>
         }

@@ -35,7 +35,7 @@ export default function WrongBindingCountAlert(props: WrongBindingCountAlertProp
   const { canAdmin } = useAppState();
 
   return (
-    <MessageCallout className="sw-mb-2" variety={MessageVariety.Danger}>
+    <MessageCallout className="sw:mb-2" variety={MessageVariety.Danger}>
       {canAdmin ? (
         <FormattedMessage
           id="onboarding.create_project.wrong_binding_count.admin"

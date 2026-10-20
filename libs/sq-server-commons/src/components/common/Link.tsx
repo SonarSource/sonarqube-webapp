@@ -55,7 +55,7 @@ function Link({ children, size, ...props }: LinkProps, ref: React.ForwardedRef<H
         {...anchorProps}
       >
         {anchorProps.target === '_blank' && (
-          <OpenNewTabIcon aria-label={translate('opens_in_new_window')} className="sw-mr-1" />
+          <OpenNewTabIcon aria-label={translate('opens_in_new_window')} className="sw:mr-1" />
         )}
         {children}
       </a>

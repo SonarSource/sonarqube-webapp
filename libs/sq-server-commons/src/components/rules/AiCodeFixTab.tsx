@@ -57,13 +57,13 @@ export function AiCodeFixTab({ branchLike, issue, language }: Readonly<Props>) {
   return (
     <>
       {isPending && !isLoading && !isError && (
-        <div className="sw-flex sw-flex-col sw-items-center">
-          <OverviewQGPassedIcon className="sw-mt-6" />
-          <p className="sw-typo-semibold sw-mt-4">
+        <div className="sw:flex sw:flex-col sw:items-center">
+          <OverviewQGPassedIcon className="sw:mt-6" />
+          <p className="sw:typo-semibold sw:mt-4">
             {translate('issues.code_fix.let_us_suggest_fix')}
           </p>
           <Button
-            className="sw-mt-4"
+            className="sw:mt-4"
             onClick={() => {
               prefetchSuggestion();
             }}
@@ -74,30 +74,30 @@ export function AiCodeFixTab({ branchLike, issue, language }: Readonly<Props>) {
         </div>
       )}
       {isLoading && (
-        <div className="sw-flex sw-pt-6 sw-flex-col sw-items-center">
+        <div className="sw:flex sw:pt-6 sw:flex-col sw:items-center">
           <InProgressVisual />
-          <p className="sw-typo-semibold sw-mt-4">
+          <p className="sw:typo-semibold sw:mt-4">
             {translate('issues.code_fix.fix_is_being_generated')}
           </p>
         </div>
       )}
       {isTooManyRequestsError && (
-        <div className="sw-flex sw-flex-col sw-items-center">
-          <OverviewQGNotComputedIcon className="sw-mt-6" />
-          <p className="sw-typo-semibold sw-mt-4">{translate('issues.code_fix.not_available')}</p>
-          <p className="sw-my-4">{translate('issues.code_fix.reached_usage_limit')}</p>
+        <div className="sw:flex sw:flex-col sw:items-center">
+          <OverviewQGNotComputedIcon className="sw:mt-6" />
+          <p className="sw:typo-semibold sw:mt-4">{translate('issues.code_fix.not_available')}</p>
+          <p className="sw:my-4">{translate('issues.code_fix.reached_usage_limit')}</p>
         </div>
       )}
       {isGenericError && (
-        <div className="sw-flex sw-flex-col sw-items-center">
-          <OverviewQGNotComputedIcon className="sw-mt-6" />
-          <p className="sw-typo-semibold sw-mt-4">
+        <div className="sw:flex sw:flex-col sw:items-center">
+          <OverviewQGNotComputedIcon className="sw:mt-6" />
+          <p className="sw:typo-semibold sw:mt-4">
             {translate('issues.code_fix.something_went_wrong')}
           </p>
-          <p className="sw-my-4">{translate('issues.code_fix.not_able_to_generate_fix')}</p>
+          <p className="sw:my-4">{translate('issues.code_fix.not_able_to_generate_fix')}</p>
           {translate('issues.code_fix.check_how_to_fix')}
           {!isIssueRawError && (
-            <Button className="sw-mt-4" onClick={() => refetch()} variety={ButtonVariety.Default}>
+            <Button className="sw:mt-4" onClick={() => refetch()} variety={ButtonVariety.Default}>
               <FormattedMessage id="issues.code_fix.get_fix_suggestion" />
             </Button>
           )}

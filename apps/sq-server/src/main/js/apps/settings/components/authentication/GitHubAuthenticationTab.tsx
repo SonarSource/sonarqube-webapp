@@ -283,16 +283,16 @@ export default function GitHubAuthenticationTab() {
                     }}
                     settingValue={projectVisibility}
                   />
-                  <div className="sw-mt-6">
-                    <div className="sw-flex">
+                  <div className="sw:mt-6">
+                    <div className="sw:flex">
                       <Text
-                        className="sw-mb-4 sw-mr-4 sw-flex sw-items-center sw-gap-2"
+                        className="sw:mb-4 sw:mr-4 sw:flex sw:items-center sw:gap-2"
                         isHighlighted
                       >
                         <FormattedMessage id="settings.authentication.configuration.roles_mapping.title" />
                       </Text>
                       <Button
-                        className="sw--mt-2"
+                        className="sw:-mt-2"
                         onClick={() => {
                           setIsMappingModalOpen(true);
                         }}
@@ -300,7 +300,7 @@ export default function GitHubAuthenticationTab() {
                         <FormattedMessage id="settings.authentication.configuration.roles_mapping.button_label" />
                       </Button>
                     </div>
-                    <Text className="sw-mt-2" isSubtle>
+                    <Text className="sw:mt-2" isSubtle>
                       <FormattedMessage id="settings.authentication.github.configuration.roles_mapping.description" />
                     </Text>
                   </div>

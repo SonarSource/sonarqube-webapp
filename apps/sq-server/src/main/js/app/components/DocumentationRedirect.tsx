@@ -34,7 +34,7 @@ export default function DocumentationRedirect() {
       <Helmet>
         <meta content={`${PAUSE_REDIRECT}; url='${url}'`} httpEquiv="refresh" />
       </Helmet>
-      <div className="sw-flex sw-flex-col sw-items-center sw-gap-4 sw-h-[100vh]">
+      <div className="sw:flex sw:flex-col sw:items-center sw:gap-4 sw:h-[100vh]">
         <div className="global-loading">
           <i className="global-loading-spinner" />
           <span className="global-loading-text">Redirecting...</span>

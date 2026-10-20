@@ -84,7 +84,7 @@ export function Table(props: Readonly<TableProps>) {
 
       {caption && (
         <caption>
-          <div className="sw-py-4 sw-text-middle sw-flex sw-justify-center sw-typo-semibold">
+          <div className="sw:py-4 sw:text-middle sw:flex sw:justify-center sw:typo-semibold">
             {caption}
           </div>
         </caption>
@@ -215,7 +215,7 @@ export function ContentCell({
   return (
     <CellComponent className={cellClassName} {...props}>
       <div
-        className={classNames('sw-text-left sw-justify-start sw-flex sw-items-center', className)}
+        className={classNames('sw:text-left sw:justify-start sw:flex sw:items-center', className)}
       >
         {children}
       </div>
@@ -226,7 +226,7 @@ export function ContentCell({
 export function NumericalCell({ children, ...props }: CellComponentProps) {
   return (
     <CellComponent {...props}>
-      <div className="sw-text-right sw-justify-end sw-flex sw-items-center">{children}</div>
+      <div className="sw:text-right sw:justify-end sw:flex sw:items-center">{children}</div>
     </CellComponent>
   );
 }
@@ -234,7 +234,7 @@ export function NumericalCell({ children, ...props }: CellComponentProps) {
 export function RatingCell({ children, ...props }: CellComponentProps) {
   return (
     <CellComponent {...props}>
-      <div className="sw-text-right sw-justify-end sw-flex sw-items-center">{children}</div>
+      <div className="sw:text-right sw:justify-end sw:flex sw:items-center">{children}</div>
     </CellComponent>
   );
 }
@@ -242,7 +242,7 @@ export function RatingCell({ children, ...props }: CellComponentProps) {
 export function ActionCell({ children, ...props }: CellComponentProps) {
   return (
     <CellComponent {...props}>
-      <div className="sw-text-right sw-justify-end sw-flex sw-items-center">{children}</div>
+      <div className="sw:text-right sw:justify-end sw:flex sw:items-center">{children}</div>
     </CellComponent>
   );
 }
@@ -250,7 +250,7 @@ export function ActionCell({ children, ...props }: CellComponentProps) {
 export function CheckboxCell({ children, ...props }: CellComponentProps) {
   return (
     <CellComponent {...props}>
-      <div className="sw-text-center sw-justify-center sw-flex sw-items-center">{children}</div>
+      <div className="sw:text-center sw:justify-center sw:flex sw:items-center">{children}</div>
     </CellComponent>
   );
 }

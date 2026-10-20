@@ -74,26 +74,26 @@ export function Analysis(props: Readonly<AnalysisProps>) {
   );
 
   return (
-    <div className="sw-typo-default" data-analysis-key={analysis.key}>
-      <div className="sw-flex sw-justify-between sw-mb-1">
+    <div className="sw:typo-default" data-analysis-key={analysis.key}>
+      <div className="sw:flex sw:justify-between sw:mb-1">
         <Heading as="h3">
           <DateTimeFormatter date={analysis.date} />
         </Heading>
         {qualityGateStatus !== undefined && (
-          <div className="sw-flex sw-items-center">
+          <div className="sw:flex sw:items-center">
             <FormattedMessage
               id="overview.quality_gate_x"
               values={{
                 status: (
                   <QualityGateIndicator
-                    className="sw-mx-2"
+                    className="sw:mx-2"
                     size="sm"
                     status={qualityGateStatus as QGStatus}
                   />
                 ),
               }}
             />
-            <span className="sw-typo-semibold">
+            <span className="sw:typo-semibold">
               <FormattedMessage id={`metric.level.${qualityGateStatus}`} />
             </span>
           </div>

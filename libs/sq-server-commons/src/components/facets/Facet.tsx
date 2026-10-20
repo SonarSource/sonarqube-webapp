@@ -153,7 +153,7 @@ export default class Facet extends React.PureComponent<Props> {
         {open && this.props.renderFooter?.()}
 
         <MultipleSelectionHint
-          className="sw-pt-4"
+          className="sw:pt-4"
           selectedItems={nbSelectedItems}
           totalItems={nbSelectableItems}
         />

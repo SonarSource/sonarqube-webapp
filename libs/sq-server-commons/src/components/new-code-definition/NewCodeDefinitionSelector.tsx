@@ -154,7 +154,7 @@ export default function NewCodeDefinitionSelector(props: Props) {
         <NewCodeDefinitionSpecificGroup
           ariaLabelledBy="specific-definition-label"
           branchesEnabled
-          className="sw-mt-6"
+          className="sw:mt-6"
           isValid={isCompliant}
           numberOfDaysInput={days}
           onNumberOfDaysChange={setDays}

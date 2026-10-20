@@ -71,7 +71,7 @@ export default class SingleFileLocationNavigator extends React.PureComponent<Pro
     return (
       <StyledButton
         aria-current={selected ? 'location' : false}
-        className={classNames('sw-p-1 sw-flex sw-items-center sw-gap-2', {
+        className={classNames('sw:p-1 sw:flex sw:items-center sw:gap-2', {
           selected,
         })}
         onClick={this.handleClick}

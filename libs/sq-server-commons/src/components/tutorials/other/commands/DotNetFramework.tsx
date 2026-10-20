@@ -41,7 +41,7 @@ export default function DotNetFramework(props: Readonly<DotNetProps>) {
   return (
     <div>
       <div>
-        <Heading as="h2" className=" sw-mb-2 sw-mt-8">
+        <Heading as="h2" className=" sw:mb-2 sw:mt-8">
           {translate('onboarding.analysis.msbuild.header')}
         </Heading>
         <p>

@@ -61,29 +61,29 @@ export function HotspotHeader(props: HotspotHeaderProps) {
   };
 
   return (
-    <div className="sw-flex sw-justify-between sw-gap-8 hotspot-header">
-      <div className="sw-flex-1">
-        <div className="sw-flex sw-items-center">
-          <Heading as="h1" className="sw-whitespace-normal sw-overflow-visible" size="medium">
+    <div className="sw:flex sw:justify-between sw:gap-8 hotspot-header">
+      <div className="sw:flex-1">
+        <div className="sw:flex sw:items-center">
+          <Heading as="h1" className="sw:whitespace-normal sw:overflow-visible" size="medium">
             <IssueMessageHighlighting message={message} messageFormattings={messageFormattings} />
           </Heading>
           <ClipboardIconButton
             Icon={IconLink}
             aria-label={intl.formatMessage({ id: 'hotspots.permalink_copy' }, { title: message })}
-            className="sw-ml-1"
+            className="sw:ml-1"
             copyValue={permalink}
             discreet
           />
         </div>
-        <div className="sw-mt-2 sw-mb-4 sw-typo-default">
+        <div className="sw:mt-2 sw:mb-4 sw:typo-default">
           <Text isSubtle>{rule.name}</Text>
-          <Link className="sw-ml-1" enableOpenInNewTab to={getRuleUrl(rule.key)}>
+          <Link className="sw:ml-1" enableOpenInNewTab to={getRuleUrl(rule.key)}>
             {rule.key}
           </Link>
         </div>
         <Status hotspot={hotspot} onStatusChange={handleStatusChange} />
       </div>
-      <div className="sw-flex sw-flex-col sw-gap-4">
+      <div className="sw:flex sw:flex-col sw:gap-4">
         <HotspotHeaderRightSection
           categoryStandard={categoryStandard}
           hotspot={hotspot}

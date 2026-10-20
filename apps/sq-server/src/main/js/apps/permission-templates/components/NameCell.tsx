@@ -34,7 +34,7 @@ export default function NameCell({ template }: Props) {
 
   return (
     <ContentCell>
-      <div className="sw-flex sw-flex-col sw-items-start">
+      <div className="sw:flex sw:flex-col sw:items-start">
         <span>
           <Link to={{ pathname, search: queryToSearchString({ id: template.id }) }}>
             <span className="js-name">{template.name}</span>
@@ -42,17 +42,17 @@ export default function NameCell({ template }: Props) {
         </span>
 
         {template.defaultFor.length > 0 && (
-          <div className="js-defaults sw-mt-2">
+          <div className="js-defaults sw:mt-2">
             <Defaults template={template} />
           </div>
         )}
 
         {!!template.description && (
-          <div className="js-description sw-mt-2">{template.description}</div>
+          <div className="js-description sw:mt-2">{template.description}</div>
         )}
 
         {!!template.projectKeyPattern && (
-          <div className="js-project-key-pattern sw-mt-2">
+          <div className="js-project-key-pattern sw:mt-2">
             <FormattedMessage id="permission_template.key_pattern" />:{' '}
             <CodeSnippet isOneLine noCopy snippet={template.projectKeyPattern} />
           </div>

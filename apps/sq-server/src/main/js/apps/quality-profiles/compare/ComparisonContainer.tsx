@@ -59,7 +59,7 @@ export default function ComparisonContainer() {
       )}
       hideMetadata
     >
-      <div className="sw-flex sw-items-center">
+      <div className="sw:flex sw:items-center">
         <ComparisonForm
           onCompare={handleCompare}
           profile={profile}
@@ -67,7 +67,7 @@ export default function ComparisonContainer() {
           withKey={withKey}
         />
 
-        <Spinner className="sw-ml-2" isLoading={isLoading} />
+        <Spinner className="sw:ml-2" isLoading={isLoading} />
       </div>
 
       {compareResults && (

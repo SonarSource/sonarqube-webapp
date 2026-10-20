@@ -104,12 +104,12 @@ export default function Import(props: Readonly<Props>) {
   function renderImportForm() {
     return (
       <>
-        <div className="sw-mt-4">
+        <div className="sw:mt-4">
           <FormattedMessage id="project_dump.import_form_description" />
         </div>
         <Button
           ariaLabel={translate('project_dump.do_import')}
-          className="sw-mt-4"
+          className="sw:mt-4"
           onClick={handleImport}
         >
           <FormattedMessage id="project_dump.do_import" />
@@ -174,7 +174,7 @@ export default function Import(props: Readonly<Props>) {
       <div>
         <FlagMessage variant="error">
           <FormattedMessage id="project_dump.failed_import" />
-          <Link className="sw-ml-1" to={detailsUrl}>
+          <Link className="sw:ml-1" to={detailsUrl}>
             <FormattedMessage id="project_dump.see_details" />
           </Link>
         </FlagMessage>
@@ -208,8 +208,8 @@ export default function Import(props: Readonly<Props>) {
 
   return (
     <>
-      <div className="sw-my-4">
-        <h2 className="sw-heading-lg">
+      <div className="sw:my-4">
+        <h2 className="sw:heading-lg">
           <FormattedMessage id="project_dump.import" />
         </h2>
       </div>

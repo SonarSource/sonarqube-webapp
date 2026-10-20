@@ -70,15 +70,15 @@ export default class EditionBoxes extends React.PureComponent<Props, State> {
     }
 
     return (
-      <div className="sw-mt-4 sw-flex sw-gap-4">
+      <div className="sw:mt-4 sw:flex sw:gap-4">
         {visibleEditions.map((edition) => (
           <Card
-            className="sw-max-w-1/2 sw-flex-1 sw-flex sw-flex-col sw-justify-between"
+            className="sw:max-w-1/2 sw:flex-1 sw:flex sw:flex-col sw:justify-between"
             key={edition.key}
           >
             <EditionBox edition={edition} />
 
-            <div className="sw-mt-8">
+            <div className="sw:mt-8">
               <LinkStandalone
                 enableOpenInNewTab
                 to={getEditionUrl(edition, { ncloc, serverId, sourceEdition: currentEdition })}

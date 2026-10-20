@@ -87,13 +87,13 @@ export function EmailNotificationFormField(props: Readonly<Props>) {
 
   return (
     <FormField
-      className="sw-grid sw-grid-cols-2 sw-gap-x-4 sw-py-6 sw-px-4"
+      className="sw:grid sw:grid-cols-2 sw:gap-x-4 sw:py-6 sw:px-4"
       htmlFor={id}
       label={name}
       required={required}
       requiredAriaLabel={translate('field_required')}
     >
-      <div className="sw-row-span-2 sw-grid">
+      <div className="sw:row-span-2 sw:grid">
         <EmailInput
           hasValue={hasValue}
           id={id}
@@ -107,14 +107,14 @@ export function EmailNotificationFormField(props: Readonly<Props>) {
         />
 
         {hasValidationMessage && (
-          <Text className="sw-mt-2" colorOverride="echoes-color-text-danger">
+          <Text className="sw:mt-2" colorOverride="echoes-color-text-danger">
             {translateWithParameters('settings.state.validation_failed', validationMessage)}
           </Text>
         )}
       </div>
 
-      <div className="sw-w-abs-300">
-        {!isUndefined(description) && <div className="markdown sw-mt-1">{description}</div>}
+      <div className="sw:w-abs-300">
+        {!isUndefined(description) && <div className="markdown sw:mt-1">{description}</div>}
       </div>
     </FormField>
   );
@@ -198,7 +198,7 @@ function PasswordInput(
   }, [hasValue, requiresRevaluation]);
 
   return (
-    <div className="sw-flex">
+    <div className="sw:flex">
       <InputField
         disabled={!isEditing && !requiresRevaluation}
         id={id}
@@ -219,7 +219,7 @@ function PasswordInput(
         <ButtonIcon
           Icon={isEditing ? IconDelete : IconEdit}
           ariaLabel={isEditing ? translate('reset_verb') : translate('edit')}
-          className="sw-ml-2"
+          className="sw:ml-2"
           data-testid={`${name}-${isEditing ? 'reset' : 'edit'}`}
           onClick={() => {
             if (isEditing) {

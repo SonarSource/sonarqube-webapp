@@ -37,21 +37,21 @@ export default function EmptyHotspotsPage(props: EmptyHotspotsPageProps) {
   const { filtered, filterByFile, emptyTranslationKey, isStaticListOfHotspots } = props;
 
   return (
-    <div className="sw-items-center sw-justify-center sw-flex-col sw-flex sw-pt-16">
+    <div className="sw:items-center sw:justify-center sw:flex-col sw:flex sw:pt-16">
       <Image
         alt={translate('hotspots.page')}
-        className="sw-mt-8"
+        className="sw:mt-8"
         height={100}
         src={`/images/${filtered && !filterByFile ? 'filter-large' : 'hotspot-large'}.svg`}
       />
-      <span className="sw-mt-10 sw-typo-semibold">
+      <span className="sw:mt-10 sw:typo-semibold">
         {translate(`hotspots.${emptyTranslationKey}.title`)}
       </span>
-      <Text className="sw-w-abs-400 sw-text-center sw-mt-4" isSubtle>
+      <Text className="sw:w-abs-400 sw:text-center sw:mt-4" isSubtle>
         {translate(`hotspots.${emptyTranslationKey}.description`)}
       </Text>
       {!(filtered || isStaticListOfHotspots) && (
-        <DocumentationLink className="sw-mt-4" to={DocLink.SecurityHotspots}>
+        <DocumentationLink className="sw:mt-4" to={DocLink.SecurityHotspots}>
           <FormattedMessage id="hotspots.learn_more" />
         </DocumentationLink>
       )}

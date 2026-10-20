@@ -48,14 +48,14 @@ export default function JavaMaven(props: Readonly<JavaMavenProps>) {
 
   return (
     <div>
-      <Heading as="h2" className="sw-mb-2">
+      <Heading as="h2" className="sw:mb-2">
         {translate('onboarding.analysis.java.maven.header')}
       </Heading>
-      <p className="sw-mb-2">
+      <p className="sw:mb-2">
         <InstanceMessage message={translate('onboarding.analysis.java.maven.text')} />
       </p>
-      <CodeSnippet className="sw-p-4" snippet={command} />
-      <p className="sw-mt-4">
+      <CodeSnippet className="sw:p-4" snippet={command} />
+      <p className="sw:mt-4">
         <FormattedMessage
           id="onboarding.analysis.docs"
           values={{

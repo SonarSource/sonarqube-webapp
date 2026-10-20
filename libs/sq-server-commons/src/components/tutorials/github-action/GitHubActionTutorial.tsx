@@ -59,7 +59,7 @@ export default function GitHubActionTutorial(props: Readonly<GitHubActionTutoria
   }, [config.buildTool]);
 
   return (
-    <TutorialStepList className="sw-mb-8">
+    <TutorialStepList className="sw:mb-8">
       <TutorialStep title={translate('onboarding.tutorial.with.github_action.create_secret.title')}>
         <SecretStep
           almBinding={almBinding}
@@ -83,7 +83,7 @@ export default function GitHubActionTutorial(props: Readonly<GitHubActionTutoria
       </TutorialStep>
       {done && (
         <>
-          <BasicSeparator className="sw-my-10" />
+          <BasicSeparator className="sw:my-10" />
           <AllSet
             alm={almBinding?.alm || AlmKeys.GitHub}
             willRefreshAutomatically={willRefreshAutomatically}

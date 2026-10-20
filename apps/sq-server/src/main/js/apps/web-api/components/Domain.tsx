@@ -37,8 +37,8 @@ export default function Domain({ domain, query }: Props) {
 
   return (
     <div>
-      <header className="sw-flex sw-items-baseline sw-gap-3">
-        <Heading as="h1" className="sw-m-0" size="large">
+      <header className="sw:flex sw:items-baseline sw:gap-3">
+        <Heading as="h1" className="sw:m-0" size="large">
           {domain.path}
         </Heading>
 
@@ -49,11 +49,11 @@ export default function Domain({ domain, query }: Props) {
 
       {!isEmpty(domain.description) && (
         <SafeHTMLInjection htmlAsString={domain.description}>
-          <div className="sw-mt-3 markdown" />
+          <div className="sw:mt-3 markdown" />
         </SafeHTMLInjection>
       )}
 
-      <div className="sw-mt-4 sw-flex sw-flex-col sw-gap-4">
+      <div className="sw:mt-4 sw:flex sw:flex-col sw:gap-4">
         {filteredActions.map((action) => (
           <Action
             action={action}

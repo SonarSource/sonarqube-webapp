@@ -120,7 +120,7 @@ export function RuleDetails(props: Readonly<Props>) {
             {params.length > 0 && <RuleDetailsParameters params={params} />}
 
             {isEditable && (
-              <div className="coding-rules-detail-description sw-flex sw-items-center">
+              <div className="coding-rules-detail-description sw:flex sw:items-center">
                 {/* `templateRule` is used to get rule meta data, `customRule` is used to get parameter values */}
                 {/* it's expected to pass the same rule to both parameters */}
                 <CustomRuleButton customRule={ruleDetails} templateRule={ruleDetails}>
@@ -147,7 +147,7 @@ export function RuleDetails(props: Readonly<Props>) {
                   )}
                   primaryButton={
                     <Button
-                      className="sw-ml-2 js-delete"
+                      className="sw:ml-2 js-delete"
                       id="coding-rules-detail-rule-delete"
                       onClick={() => {
                         deleteRule({ key: ruleKey });
@@ -161,7 +161,7 @@ export function RuleDetails(props: Readonly<Props>) {
                   title={intl.formatMessage({ id: 'coding_rules.delete_rule' })}
                 >
                   <Button
-                    className="sw-ml-2 js-delete"
+                    className="sw:ml-2 js-delete"
                     id="coding-rules-detail-rule-delete"
                     variety={ButtonVariety.DangerOutline}
                   >
@@ -170,9 +170,9 @@ export function RuleDetails(props: Readonly<Props>) {
                 </ModalAlert>
 
                 <ToggleTip
-                  className="sw-ml-2"
+                  className="sw:ml-2"
                   extraContent={
-                    <div className="sw-py-4">
+                    <div className="sw:py-4">
                       {intl.formatMessage({ id: 'coding_rules.custom_rule.removal' })}
                     </div>
                   }
@@ -202,7 +202,7 @@ export function RuleDetails(props: Readonly<Props>) {
               <RuleDetailsIssues ruleDetails={ruleDetails} />
             )}
 
-            <div className="sw-flex sw-flex-col sw-gap-2 sw-mt-6" data-meta="available-since">
+            <div className="sw:flex sw:flex-col sw:gap-2 sw:mt-6" data-meta="available-since">
               <Heading as="h3">
                 {intl.formatMessage({ id: 'coding_rules.available_since' })}
               </Heading>

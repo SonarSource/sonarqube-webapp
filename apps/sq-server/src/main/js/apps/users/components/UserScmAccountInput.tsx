@@ -42,7 +42,7 @@ export default function UserScmAccountInput(props: Readonly<Props>) {
     : translate('users.create_user.scm_account_new');
 
   return (
-    <div className="it__scm-account sw-flex sw-mb-2 sw-items-end">
+    <div className="it__scm-account sw:flex sw:mb-2 sw:items-end">
       <TextInput
         aria-label={inputAriaLabel}
         id="scm-account"
@@ -57,7 +57,7 @@ export default function UserScmAccountInput(props: Readonly<Props>) {
       <ButtonIcon
         Icon={IconDelete}
         ariaLabel={translateWithParameters('remove_x', inputAriaLabel)}
-        className="sw-ml-1"
+        className="sw:ml-1"
         onClick={() => {
           props.onRemove(idx);
         }}

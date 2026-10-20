@@ -97,7 +97,7 @@ export function IssueMessageHighlighting(props: Readonly<IssueMessageHighlightin
           <React.Fragment key={`${message}-${start}-${end}`}>
             {message.slice(beginning, start)}
             {type === MessageFormattingType.CODE ? (
-              <SingleLineSnippet className="sw-code sw-rounded-1 sw-px-1 sw-border sw-border-solid">
+              <SingleLineSnippet className="sw:code sw:rounded-1 sw:px-1 sw:border sw:border-solid">
                 {message.slice(start, end)}
               </SingleLineSnippet>
             ) : (

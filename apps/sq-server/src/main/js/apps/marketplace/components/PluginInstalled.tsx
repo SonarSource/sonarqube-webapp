@@ -49,7 +49,7 @@ export default function PluginInstalled({
       <ContentCell>
         <StyledUnorderedList as="ul">
           <li>
-            <strong className="sw-mr-1">{plugin.version}</strong>
+            <strong className="sw:mr-1">{plugin.version}</strong>
             <FormattedMessage id="marketplace._installed" />
           </li>
           <PluginUpdates pluginName={plugin.name} updates={plugin.updates} />

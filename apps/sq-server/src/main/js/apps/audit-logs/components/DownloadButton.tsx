@@ -87,7 +87,7 @@ export default function DownloadButton(props: Readonly<DownloadButtonProps>) {
         <FormattedMessage id="download_verb" />
       </Button>
       {downloadStarted && (
-        <div className="sw-mt-2">
+        <div className="sw:mt-2">
           <p>
             <FormattedMessage id="audit_logs.download_start.sentence.1" />
           </p>

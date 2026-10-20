@@ -60,7 +60,7 @@ export default function MultiBranchPipelineStep(props: MultiBranchPipelineStepPr
 
   return (
     <TutorialStep title={translate('onboarding.tutorial.with.jenkins.multi_branch_pipeline.title')}>
-      <p className="sw-mb-4">
+      <p className="sw:mb-4">
         {translate('onboarding.tutorial.with.jenkins.multi_branch_pipeline.intro')}
       </p>
       <NumberedList>
@@ -75,7 +75,7 @@ export default function MultiBranchPipelineStep(props: MultiBranchPipelineStepPr
             highlightKeys={['tab', 'source']}
             translationKey={`onboarding.tutorial.with.jenkins.multi_branch_pipeline.step2.${alm}`}
           />
-          <Text as="ul" className="sw-max-w-full sw-ml-6">
+          <Text as="ul" className="sw:max-w-full sw:ml-6">
             {isBitbucketServer && (
               <>
                 <li>
@@ -175,7 +175,7 @@ export default function MultiBranchPipelineStep(props: MultiBranchPipelineStepPr
                 )}
                 :
               </strong>
-              <Text as="ul" className="sw-max-w-full sw-ml-4 sw-mt-1">
+              <Text as="ul" className="sw:max-w-full sw:ml-4 sw:mt-1">
                 <li>
                   <LabelActionPair
                     translationKey={`onboarding.tutorial.with.jenkins.multi_branch_pipeline.step2.behaviors.${
@@ -197,7 +197,7 @@ export default function MultiBranchPipelineStep(props: MultiBranchPipelineStepPr
                     )}
                     :
                   </strong>
-                  <Text as="ul" className="sw-list-none sw-max-w-full sw-ml-4 sw-mt-1">
+                  <Text as="ul" className="sw:list-none sw:max-w-full sw:ml-4 sw:mt-1">
                     <li>
                       <SentenceWithHighlights
                         highlightKeys={['add', 'ref_spec']}
@@ -212,7 +212,7 @@ export default function MultiBranchPipelineStep(props: MultiBranchPipelineStepPr
                         }`}
                       />
                       <CodeSnippet
-                        className="sw-p-4"
+                        className="sw:p-4"
                         isOneLine
                         snippet="+refs/heads/*:refs/remotes/@{remote}/*"
                       />
@@ -222,7 +222,7 @@ export default function MultiBranchPipelineStep(props: MultiBranchPipelineStepPr
               </Text>
             </li>
           </Text>
-          <p className="sw-ml-12">
+          <p className="sw:ml-12">
             {translate(
               'onboarding.tutorial.with.jenkins.multi_branch_pipeline.step2.leave_defaults',
             )}
@@ -233,7 +233,7 @@ export default function MultiBranchPipelineStep(props: MultiBranchPipelineStepPr
             highlightKeys={['tab']}
             translationKey="onboarding.tutorial.with.jenkins.multi_branch_pipeline.step3"
           />
-          <Text as="ul" className="sw-max-w-full sw-ml-6">
+          <Text as="ul" className="sw:max-w-full sw:ml-6">
             <li>
               <LabelActionPair translationKey="onboarding.tutorial.with.jenkins.multi_branch_pipeline.step3.mode" />
             </li>

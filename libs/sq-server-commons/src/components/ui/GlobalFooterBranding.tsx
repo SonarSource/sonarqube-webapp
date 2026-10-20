@@ -27,9 +27,9 @@ export default function GlobalFooterBranding() {
   const official = isOfficial();
 
   return (
-    <div className="sw-flex sw-items-center">
+    <div className="sw:flex sw:items-center">
       {official ? (
-        <span className="sw-text-nowrap">
+        <span className="sw:text-nowrap">
           SonarQube&trade; technology is powered by{' '}
           <LinkStandalone
             highlight={LinkHighlight.CurrentColor}
@@ -40,7 +40,7 @@ export default function GlobalFooterBranding() {
           </LinkStandalone>
         </span>
       ) : (
-        <span className="sw-text-nowrap">
+        <span className="sw:text-nowrap">
           This application is based on{' '}
           <LinkStandalone
             highlight={LinkHighlight.CurrentColor}

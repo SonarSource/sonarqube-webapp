@@ -28,7 +28,7 @@ export function InlineSnippet({
 }: Pick<FCProps<typeof CodeSnippet>, 'snippet'> & { className?: string }) {
   return (
     <CodeSnippet
-      className={classNames('sw-code sw-inline-block sw-px-1', className)}
+      className={classNames('sw:code sw:inline-block sw:px-1', className)}
       isOneLine
       noCopy
       snippet={snippet}

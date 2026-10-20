@@ -61,7 +61,7 @@ export default function IssueLocation(props: Readonly<Props>) {
     <StyledButton aria-current={selected} aria-label={normalizedMessage} onClick={handleClick}>
       <StyledLocation
         className={classNames(
-          'sw-p-1 sw-rounded-1/2 sw-flex sw-gap-2 sw-typo-default sw-text-left',
+          'sw:p-1 sw:rounded-1/2 sw:flex sw:gap-2 sw:typo-default sw:text-left',
           {
             selected,
           },
@@ -74,7 +74,7 @@ export default function IssueLocation(props: Readonly<Props>) {
         <span>
           {locationType && (
             <LocationMarker
-              className="sw-inline sw-mr-2"
+              className="sw:inline sw:mr-2"
               selected={selected}
               text={locationType.toUpperCase()}
             />

@@ -47,27 +47,27 @@ export default function ModalValidationField(props: Readonly<Props>) {
       required={required}
       requiredAriaLabel={translate('field_required')}
     >
-      <div className="sw-flex sw-items-center sw-justify-between">
+      <div className="sw:flex sw:items-center sw:justify-between">
         {props.children({ isInvalid: showError, isValid })}
-        {showError && <IconError className="sw-ml-2" color="echoes-color-icon-danger" />}
-        {isValid && <IconCheckCircle className="sw-ml-2" color="echoes-color-icon-success" />}
+        {showError && <IconError className="sw:ml-2" color="echoes-color-icon-danger" />}
+        {isValid && <IconCheckCircle className="sw:ml-2" color="echoes-color-icon-success" />}
       </div>
 
       <div aria-live="assertive">
         {isValid && (
-          <span className="sw-mt-2 sw-sr-only">
+          <span className="sw:mt-2 sw:sr-only">
             <FormattedMessage id="valid_input" />
           </span>
         )}
         {showError && (
-          <Text className="sw-mt-2" colorOverride="echoes-color-text-danger">
+          <Text className="sw:mt-2" colorOverride="echoes-color-text-danger">
             {error}
           </Text>
         )}
       </div>
 
       {description !== undefined && (
-        <Text className="sw-mt-2" isSubtle>
+        <Text className="sw:mt-2" isSubtle>
           {description}
         </Text>
       )}

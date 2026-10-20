@@ -147,13 +147,13 @@ export const SECTIONS: Array<Section> = [
 
 function renderSection() {
   return SECTIONS.map((section) => (
-    <div className="sw-mb-4" key={section.subTitle}>
+    <div className="sw:mb-4" key={section.subTitle}>
       <SubTitle>{translate(section.subTitle)}</SubTitle>
 
       <Table columnCount={2} columnWidths={['30%', '70%']}>
         {section.rows.map((row) => (
           <TableRow key={row.command}>
-            <ContentCell className="sw-justify-center">
+            <ContentCell className="sw:justify-center">
               <KeyboardHint command={row.command} title="" />
             </ContentCell>
 
@@ -208,7 +208,7 @@ export default function KeyboardShortcutsModal() {
         <FormattedMessage id="keyboard_shortcuts_modal.disable_link" />
       </LinkStandalone>
 
-      <div className="sw-mt-4">{renderSection()}</div>
+      <div className="sw:mt-4">{renderSection()}</div>
     </>
   );
 

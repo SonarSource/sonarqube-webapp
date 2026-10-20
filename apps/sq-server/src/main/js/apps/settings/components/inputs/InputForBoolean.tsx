@@ -35,7 +35,7 @@ function InputForBoolean(
   const toggleValue = getToggleValue(value != null ? value : false);
 
   return (
-    <div className="sw-flex sw-items-center">
+    <div className="sw:flex sw:items-center">
       <Tooltip content={isDisabled ? disabledReason : undefined}>
         <div>
           <Switch
@@ -50,7 +50,7 @@ function InputForBoolean(
         </div>
       </Tooltip>
       {value == null && (
-        <Text className="sw-ml-2" isSubtle>
+        <Text className="sw:ml-2" isSubtle>
           <FormattedMessage id="settings.not_set" />
         </Text>
       )}

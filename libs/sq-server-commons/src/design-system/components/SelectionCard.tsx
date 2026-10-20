@@ -80,7 +80,7 @@ export function SelectionCard(props: Readonly<SelectionCardProps>) {
     >
       <StyledContent>
         {isActionable && (
-          <div className="sw-items-start sw-mt-1/2 sw-mr-2">
+          <div className="sw:items-start sw:mt-1/2 sw:mr-2">
             <RadioButtonStyled
               as="i"
               className={classNames({
@@ -100,8 +100,8 @@ export function SelectionCard(props: Readonly<SelectionCardProps>) {
       </StyledContent>
       {recommended && (
         <StyledRecommended>
-          <StyledRecommendedIcon className="sw-mr-1" />
-          <span className="sw-align-middle">
+          <StyledRecommendedIcon className="sw:mr-1" />
+          <span className="sw:align-middle">
             <strong>{intl.formatMessage({ id: 'recommended' })}</strong> {recommendedReason}
           </span>
         </StyledRecommended>

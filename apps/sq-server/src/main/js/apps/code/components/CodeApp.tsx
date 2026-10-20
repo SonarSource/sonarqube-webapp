@@ -183,7 +183,7 @@ function withComponentGuard<P extends { component?: Component }>(
 ): React.ComponentType<React.PropsWithChildren<Omit<P, 'branchLike' | 'branchLikes'>>> {
   return function WithBranchLike(props: P) {
     return (
-      <Spinner className="sw-p-4" isLoading={!isDefined(props.component)}>
+      <Spinner className="sw:p-4" isLoading={!isDefined(props.component)}>
         <WrappedComponent {...props} />
       </Spinner>
     );

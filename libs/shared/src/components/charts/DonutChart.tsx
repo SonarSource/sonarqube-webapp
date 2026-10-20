@@ -148,7 +148,7 @@ export function DonutChart(props: Readonly<DonutChartProps>) {
       {svgElement}
       <div
         aria-hidden
-        className="sw-pointer-events-none sw-absolute sw-inset-0 sw-flex sw-items-center sw-justify-center"
+        className="sw:pointer-events-none sw:absolute sw:inset-0 sw:flex sw:items-center sw:justify-center"
       >
         {centerContent}
       </div>

@@ -605,7 +605,7 @@ class SourceViewerClass extends React.PureComponent<Props, State> {
 
     if (this.state.notExist) {
       return (
-        <MessageCallout className="sw-mt-2" variety="warning">
+        <MessageCallout className="sw:mt-2" variety="warning">
           <FormattedMessage id="component_viewer.no_component" />
         </MessageCallout>
       );
@@ -613,7 +613,7 @@ class SourceViewerClass extends React.PureComponent<Props, State> {
 
     if (notAccessible) {
       return (
-        <MessageCallout className="sw-mt-2" variety="warning">
+        <MessageCallout className="sw:mt-2" variety="warning">
           <FormattedMessage id="code_viewer.no_source_code_displayed_due_to_security" />
         </MessageCallout>
       );
@@ -629,7 +629,7 @@ class SourceViewerClass extends React.PureComponent<Props, State> {
           {!hideHeader && this.renderHeader(component)}
 
           {sourceRemoved && (
-            <MessageCallout className="sw-mt-4 sw-ml-4" variety="warning">
+            <MessageCallout className="sw:mt-4 sw:ml-4" variety="warning">
               <FormattedMessage id="code_viewer.no_source_code_displayed_due_to_source_removed" />
             </MessageCallout>
           )}

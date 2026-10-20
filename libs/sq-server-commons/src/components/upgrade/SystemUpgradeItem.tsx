@@ -72,7 +72,7 @@ export function SystemUpgradeItem(props: Readonly<SystemUpgradeItemProps>) {
 
         {!isPatchOnly && (
           <LinkStandalone
-            className="sw-ml-2"
+            className="sw:ml-2"
             to="https://www.sonarsource.com/products/sonarqube/whats-new/?referrer=sonarqube"
           >
             {translate('system.see_whats_new')}
@@ -97,9 +97,9 @@ export function SystemUpgradeItem(props: Readonly<SystemUpgradeItemProps>) {
         />
       </p>
 
-      <p className="sw-mt-2">{lastUpgrade.description}</p>
+      <p className="sw:mt-2">{lastUpgrade.description}</p>
 
-      <div className="sw-mt-4">
+      <div className="sw:mt-4">
         {lastUpgrade.releaseDate !== undefined && (
           <DateFormatter date={lastUpgrade.releaseDate} long>
             {(formattedDate) => (
@@ -109,15 +109,15 @@ export function SystemUpgradeItem(props: Readonly<SystemUpgradeItemProps>) {
         )}
 
         {lastUpgrade.changeLogUrl !== undefined && (
-          <LinkStandalone className="sw-ml-2" to={lastUpgrade.changeLogUrl}>
+          <LinkStandalone className="sw:ml-2" to={lastUpgrade.changeLogUrl}>
             {translate('system.release_notes')}
           </LinkStandalone>
         )}
       </div>
 
-      <SystemUpgradeIntermediate className="sw-mt-2" upgrades={systemUpgrades.slice(1)} />
+      <SystemUpgradeIntermediate className="sw:mt-2" upgrades={systemUpgrades.slice(1)} />
 
-      <div className="sw-mt-4">
+      <div className="sw:mt-4">
         {isCommunityBuildRunning ? (
           <Button
             // WARNING! A button acting as a link is bad a11y. We should replace this with a
@@ -140,7 +140,7 @@ export function SystemUpgradeItem(props: Readonly<SystemUpgradeItemProps>) {
               {translateWithParameters('system.download_x', lastUpgrade.version)}
             </Button>
 
-            <DocumentationLink className="sw-ml-4" to={DocLink.ServerUpgradeRoadmap}>
+            <DocumentationLink className="sw:ml-4" to={DocLink.ServerUpgradeRoadmap}>
               {translate('system.how_to_upgrade')}
             </DocumentationLink>
           </>

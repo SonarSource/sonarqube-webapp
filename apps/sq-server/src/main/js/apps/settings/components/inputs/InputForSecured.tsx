@@ -78,7 +78,7 @@ class InputForSecured extends React.PureComponent<InternalProps, State> {
     return (
       // The input hidden will prevent browser asking for saving login information
       <>
-        <input aria-hidden className="sw-hidden" tabIndex={-1} type="password" />
+        <input aria-hidden className="sw:hidden" tabIndex={-1} type="password" />
         <Input
           aria-label={getPropertyName(setting.definition)}
           autoComplete="off"
@@ -103,8 +103,8 @@ class InputForSecured extends React.PureComponent<InternalProps, State> {
     }
 
     return (
-      <div className="sw-flex sw-items-center">
-        <LockIcon className="sw-mr-4" />
+      <div className="sw:flex sw:items-center">
+        <LockIcon className="sw:mr-4" />
         <Button onClick={this.handleChangeClick}>
           <FormattedMessage id="change_verb" />
         </Button>

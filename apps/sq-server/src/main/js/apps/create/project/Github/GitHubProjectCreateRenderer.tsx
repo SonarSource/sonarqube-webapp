@@ -151,7 +151,7 @@ export default function GitHubProjectCreateRenderer(
           )}
         </Layout.PageHeader.Description>
       }
-      pageClassName={classNames({ 'sw-hidden': isProjectSetupDone(location) })}
+      pageClassName={classNames({ 'sw:hidden': isProjectSetupDone(location) })}
       title={formatMessage({ id: 'onboarding.create_project.github.title' })}
     >
       <AlmSettingsInstanceDropdown
@@ -161,7 +161,7 @@ export default function GitHubProjectCreateRenderer(
         selectedAlmInstance={selectedAlmInstance}
       />
       {error && selectedAlmInstance && (
-        <MessageCallout className="sw-my-2" variety={MessageVariety.Warning}>
+        <MessageCallout className="sw:my-2" variety={MessageVariety.Warning}>
           <span>
             {canAdmin ? (
               <FormattedMessage
@@ -182,7 +182,7 @@ export default function GitHubProjectCreateRenderer(
       )}
       <Spinner isLoading={loadingOrganizations && !error}>
         {!error && (
-          <div className="sw-flex sw-flex-col">
+          <div className="sw:flex sw:flex-col">
             {organizations && organizations.length > 0 ? (
               <Select
                 data={organizations.map(orgToOption)}
@@ -197,7 +197,7 @@ export default function GitHubProjectCreateRenderer(
               />
             ) : (
               !loadingOrganizations && (
-                <MessageCallout className="sw-mb-2" variety={MessageVariety.Danger}>
+                <MessageCallout className="sw:mb-2" variety={MessageVariety.Danger}>
                   <span>
                     {canAdmin ? (
                       <FormattedMessage

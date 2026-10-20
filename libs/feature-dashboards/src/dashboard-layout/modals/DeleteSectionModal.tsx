@@ -39,7 +39,7 @@ export function DeleteSectionModal(props: Readonly<Props>) {
   return (
     <Modal
       content={
-        <div className="sw-space-y-4">
+        <div className="sw:space-y-4">
           <Text>{intl.formatMessage({ id: 'dashboard.delete_section_confirm' })}</Text>
         </div>
       }

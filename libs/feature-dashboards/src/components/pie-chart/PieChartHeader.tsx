@@ -59,8 +59,8 @@ export function PieChartHeader({
   });
 
   return (
-    <div className="sw-flex sw-w-full sw-min-w-0 sw-flex-col sw-gap-1">
-      <div className="sw-flex sw-w-full sw-items-center sw-justify-between sw-gap-4">
+    <div className="sw:flex sw:w-full sw:min-w-0 sw:flex-col sw:gap-1">
+      <div className="sw:flex sw:w-full sw:items-center sw:justify-between sw:gap-4">
         <WidgetHeaderTitle title={title} />
       </div>
       <WidgetFilterLine segments={filterSegments} />

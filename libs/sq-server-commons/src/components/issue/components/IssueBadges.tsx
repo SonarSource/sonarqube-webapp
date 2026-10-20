@@ -40,7 +40,7 @@ function IssueBadges(props: Readonly<IssueBadgesProps>) {
   }
 
   return (
-    <div className="sw-flex sw-gap-2">
+    <div className="sw:flex sw:gap-2">
       {isPrioritizedRule && (
         <Tooltip content={<FormattedMessage id="issue.prioritized_rule.description" />}>
           <Badge variety="highlight">

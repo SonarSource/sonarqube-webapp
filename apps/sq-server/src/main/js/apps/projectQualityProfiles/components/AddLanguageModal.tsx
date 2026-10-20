@@ -63,7 +63,7 @@ export function AddLanguageModal(props: AddLanguageModalProps) {
       content={
         <Form.Section>
           <Select
-            className="sw-mb-4"
+            className="sw:mb-4"
             data={languageOptions}
             label={
               <FormattedMessage id="project_quality_profile.add_language_modal.choose_language" />
@@ -75,7 +75,7 @@ export function AddLanguageModal(props: AddLanguageModalProps) {
             width="full"
           />
           <ProfileSelect
-            className="sw-mb-4"
+            className="sw:mb-4"
             id="profiles"
             isDisabled={!language}
             label={

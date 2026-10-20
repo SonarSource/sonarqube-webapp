@@ -30,7 +30,7 @@ export interface PageCounterProps {
 export default function PageCounter({ className, label, total }: Readonly<PageCounterProps>) {
   return (
     <div className={className}>
-      <strong className="sw-mr-1">
+      <strong className="sw:mr-1">
         <span data-testid="page-counter-total">{formatMeasure(total, MetricType.Integer)}</span>
       </strong>
       {label}

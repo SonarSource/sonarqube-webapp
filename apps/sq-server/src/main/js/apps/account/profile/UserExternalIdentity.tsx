@@ -46,7 +46,7 @@ function IdentityProviderIcon({ identityProvider }: Readonly<IdentityProviderIco
   return (
     <Image
       alt={identityProvider.name}
-      className="sw-mr-1"
+      className="sw:mr-1"
       height="14"
       src={identityProviderIconUrl(currentTheme, identityProvider)}
       width="14"
@@ -116,9 +116,9 @@ export default class UserExternalIdentity extends React.PureComponent<
     }
 
     return (
-      <div className="sw-mt-1 sw-ml-2">
+      <div className="sw:mt-1 sw:ml-2">
         <span
-          className="sw-inline-flex sw-items-center sw-px-1"
+          className="sw:inline-flex sw:items-center sw:px-1"
           style={{
             backgroundColor: identityProvider.backgroundColor,
             color: getTextColor(identityProvider.backgroundColor, '#656565'),

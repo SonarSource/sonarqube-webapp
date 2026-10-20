@@ -39,7 +39,7 @@ function OnboardingDashboardPage() {
     <AdminPageTemplate
       actions={
         journeyState?.level === JourneyLevel.BoundNoImport ? (
-          <div className="sw-w-[500px] sw-whitespace-normal">
+          <div className="sw:w-[500px] sw:whitespace-normal">
             <OnboardingCongratsCallout discovered={journeyState.discovered} />
           </div>
         ) : undefined
@@ -54,7 +54,7 @@ function OnboardingDashboardPage() {
       title={title}
       titlePrefix={
         isPending ? (
-          <LoadingSkeleton className="sw-h-[40px] sw-w-[40px] sw-shrink-0" variety="disk" />
+          <LoadingSkeleton className="sw:h-[40px] sw:w-[40px] sw:shrink-0" variety="disk" />
         ) : (
           journeyState?.isBound === true && (
             <OnboardingProgressDonut size={40} thickness={5} value={journeyState.overallPct} />

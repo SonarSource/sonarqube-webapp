@@ -43,24 +43,24 @@ export function DetailsContent(props: DetailsContentProps) {
     <div>
       {qualityGate.isDefault &&
         (qualityGate.conditions === undefined || qualityGate.conditions.length === 0) && (
-          <MessageCallout className="sw-mb-4" variety={MessageVariety.Warning}>
+          <MessageCallout className="sw:mb-4" variety={MessageVariety.Warning}>
             <FormattedMessage id="quality_gates.is_default_no_conditions" />
           </MessageCallout>
         )}
       <Conditions isFetching={isFetching} qualityGate={qualityGate} />
-      <div className="sw-mt-10">
-        <div className="sw-flex sw-flex-col">
-          <Heading as="h3" className="sw-flex sw-items-center sw-typo-lg-semibold sw-mb-4">
+      <div className="sw:mt-10">
+        <div className="sw:flex sw:flex-col">
+          <Heading as="h3" className="sw:flex sw:items-center sw:typo-lg-semibold sw:mb-4">
             <FormattedMessage id="quality_gates.projects" />
             <ToggleTip
               ariaLabel={translate('toggle_tip.aria_label.quality_gate')}
-              className="sw-ml-2"
+              className="sw:ml-2"
               description={translate('quality_gates.projects.help')}
             />
           </Heading>
 
           {qualityGate.isDefault ? (
-            <p className="sw-typo-default sw-mb-2">
+            <p className="sw:typo-default sw:mb-2">
               <FormattedMessage id="quality_gates.projects_for_default" />
             </p>
           ) : (
@@ -75,7 +75,7 @@ export function DetailsContent(props: DetailsContentProps) {
         </div>
 
         {actions.delegate && (
-          <div className="sw-mt-10">
+          <div className="sw:mt-10">
             <QualityGatePermissions qualityGate={qualityGate} />
           </div>
         )}

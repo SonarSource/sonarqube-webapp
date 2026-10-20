@@ -205,7 +205,7 @@ export default class CrossComponentSourceViewer extends React.PureComponent<Prop
 
     if (notAccessible) {
       return (
-        <FlagMessage className="sw-mt-2" variant="warning">
+        <FlagMessage className="sw:mt-2" variant="warning">
           {translate('code_viewer.no_source_code_displayed_due_to_security')}
         </FlagMessage>
       );

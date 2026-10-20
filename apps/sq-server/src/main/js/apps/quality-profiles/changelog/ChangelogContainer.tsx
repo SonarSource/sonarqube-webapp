@@ -88,7 +88,7 @@ export default function ChangelogContainer() {
       )}
       hideChangelogLink
     >
-      <div className="sw-mb-2 sw-flex sw-gap-4 sw-items-center">
+      <div className="sw:mb-2 sw:flex sw:gap-4 sw:items-center">
         <ChangelogSearch
           dateRange={{
             from: since ? parseDate(since) : undefined,
@@ -102,7 +102,7 @@ export default function ChangelogContainer() {
       {isDefined(events) && events.length === 0 && <ChangelogEmpty />}
       {isDefined(events) && events.length > 0 && <Changelog events={events} />}
       {shouldDisplayFooter && (
-        <footer className="sw-text-center sw-mt-2">
+        <footer className="sw:text-center sw:mt-2">
           <Button onClick={() => fetchNextPage()}>
             <FormattedMessage id="show_more" />
           </Button>

@@ -98,21 +98,21 @@ export default function DataTableModal(props: DataTableModalProps) {
     MAX_DATA_TABLE_ROWS,
   ).map(({ date, ...values }) => (
     <tr key={date.getTime()}>
-      <td className="sw-whitespace-nowrap">
+      <td className="sw:whitespace-nowrap">
         <DateFormatter date={date} long />
-        <div className="sw-text-xs">
+        <div className="sw:text-xs">
           <TimeFormatter date={date} />
         </div>
       </td>
       {metrics.map((metric) => (
-        <td className="sw-whitespace-nowrap sw-w-[80px]" key={metric}>
+        <td className="sw:whitespace-nowrap sw:w-[80px]" key={metric}>
           {values[metric] ?? '-'}
         </td>
       ))}
       <td>
         <ul>
           {getAnalysisEventsForDate(analyses, date).map((event) => (
-            <li className="sw-mb-1" key={event.key}>
+            <li className="sw:mb-1" key={event.key}>
               <EventInner event={event} readonly />
             </li>
           ))}
@@ -156,12 +156,12 @@ export default function DataTableModal(props: DataTableModalProps) {
           )}
         </FlagMessage>
       )}
-      <StyledTable className="sw-mt-2">
+      <StyledTable className="sw:mt-2">
         <thead>
           <tr>
             <th>{translate('date')}</th>
             {series.map((serie) => (
-              <th className="sw-whitespace-nowrap sw-w-[80px]" key={serie.name}>
+              <th className="sw:whitespace-nowrap sw:w-[80px]" key={serie.name}>
                 {serie.translatedName}
               </th>
             ))}

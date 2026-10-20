@@ -44,7 +44,7 @@ export default function MeasureCell({
   const value = getValue(measure);
 
   return (
-    <NumericalCell className="sw-py-3">
+    <NumericalCell className="sw:py-3">
       <Measure
         branchLike={branchLike}
         componentKey={componentKey}

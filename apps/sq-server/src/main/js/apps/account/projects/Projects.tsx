@@ -43,7 +43,7 @@ export default function Projects(props: Readonly<Props>) {
 
       {projects.length > 0 && (
         <>
-          <ul className="sw-mt-4 sw-flex sw-flex-col sw-gap-4">
+          <ul className="sw:mt-4 sw:flex sw:flex-col sw:gap-4">
             {projects.map((project) => (
               <li key={project.key}>
                 <ProjectCard project={project} />

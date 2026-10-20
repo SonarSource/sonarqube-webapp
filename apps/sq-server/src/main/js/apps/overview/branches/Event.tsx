@@ -43,7 +43,7 @@ export function Event({ event }: Props) {
   if (event.category === ProjectAnalysisEventCategory.Version) {
     return (
       <div>
-        <Badge className="sw-px-1 sw-mb-1" variety="highlight">
+        <Badge className="sw:px-1 sw:mb-1" variety="highlight">
           {event.name}
         </Badge>
       </div>
@@ -58,22 +58,22 @@ export function Event({ event }: Props) {
 
   if (isRichQualityProfileEvent(event)) {
     return (
-      <div className="sw-mb-1">
-        <span className="sw-mr-2">{eventCategory}:</span>
+      <div className="sw:mb-1">
+        <span className="sw:mr-2">{eventCategory}:</span>
         <RichQualityProfileEventInner event={event} />
       </div>
     );
   }
 
   if (isDefinitionChangeEvent(event)) {
-    return <div className="sw-mb-1">{eventCategory}</div>;
+    return <div className="sw:mb-1">{eventCategory}</div>;
   }
 
   if (isRichQualityGateEvent(event)) {
     return (
-      <div className="sw-flex sw-items-center sw-mb-1">
+      <div className="sw:flex sw:items-center sw:mb-1">
         <span>{eventCategory}:</span>
-        <div className="sw-mx-2">
+        <div className="sw:mx-2">
           {event.qualityGate.stillFailing ? (
             <FormattedMessage
               id="event.quality_gate.still_x"
@@ -85,7 +85,7 @@ export function Event({ event }: Props) {
             <QualityGateIndicator size="sm" status={event.qualityGate.status} />
           )}
         </div>
-        <span className="sw-typo-semibold">
+        <span className="sw:typo-semibold">
           {translate(`event.quality_gate.${event.qualityGate.status}`)}
         </span>
       </div>
@@ -93,8 +93,8 @@ export function Event({ event }: Props) {
   }
 
   return (
-    <div className="sw-mb-1">
-      <span className="sw-text-ellipsis sw-mr-2">{eventCategory}:</span>
+    <div className="sw:mb-1">
+      <span className="sw:text-ellipsis sw:mr-2">{eventCategory}:</span>
       {event.description ? (
         <span title={event.description}>{event.name}</span>
       ) : (

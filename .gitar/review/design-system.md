@@ -2,7 +2,7 @@
 
 ## Echoes component usage
 
-- **ALWAYS** prefer semantic Echoes component properties over low-level Tailwind styling classes — e.g. `isSubtle` instead of `sw-text-gray-600`, `size="small"` instead of `sw-text-sm`, `colorOverride="danger"` instead of `sw-text-red-600`.
+- **ALWAYS** prefer semantic Echoes component properties over low-level Tailwind styling classes — e.g. `isSubtle` instead of `sw:text-gray-600`, `size="small"` instead of `sw:text-sm`, `colorOverride="danger"` instead of `sw:text-red-600`.
 - **ALWAYS** prefer echoes components over legacy `design-system` components for new code.
 - Use component-specific props for visual styling (colors, fonts, sizes, emphasis) rather than manual CSS classes.
 - Reserve custom Tailwind only for layout concerns (spacing, positioning, dimensions).
@@ -15,5 +15,5 @@
 
 ## Tailwind and CSS
 
-- `sw-*` is the custom tailwind prefix — use it consistently.
+- `sw:*` is the custom tailwind prefix — use it consistently.
 - Prefer Tailwind helper classes over custom CSS (using emotion) when possible.

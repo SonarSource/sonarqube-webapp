@@ -117,7 +117,7 @@ export function WidgetHeaderTooltip({
 
   return (
     <ToggleTip
-      className="sw-shrink-0"
+      className="sw:shrink-0"
       description={
         <FormattedMessage
           id={tooltipConfig.messageId}

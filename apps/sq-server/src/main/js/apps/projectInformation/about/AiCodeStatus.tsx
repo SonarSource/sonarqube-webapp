@@ -78,12 +78,12 @@ export default function AiCodeStatus(props: Readonly<Props>) {
   return (
     <>
       {(aiCodeAssuranceStatus !== AiCodeAssuranceStatus.NONE || detectedAiCode) && (
-        <section className="sw-py-4">
-          <Heading as="h3" className="sw-mb-2">
+        <section className="sw:py-4">
+          <Heading as="h3" className="sw:mb-2">
             <FormattedMessage id="project.info.contain_ai_code.title" />
           </Heading>
           <Text>
-            <IconSparkle className="sw-mr-2" color="echoes-color-icon-accent" />
+            <IconSparkle className="sw:mr-2" color="echoes-color-icon-accent" />
             <FormattedMessage
               id={
                 detectedAiCode
@@ -93,7 +93,7 @@ export default function AiCodeStatus(props: Readonly<Props>) {
             />
           </Text>
           {detectedAiCode && (
-            <div className="sw-mt-2">
+            <div className="sw:mt-2">
               <Link
                 to={addons?.aica?.getAICodeSettingsUrl(component.key, component.qualifier) ?? ''}
               >
@@ -104,7 +104,7 @@ export default function AiCodeStatus(props: Readonly<Props>) {
         </section>
       )}
       {aiCodeAssuranceStatus !== AiCodeAssuranceStatus.NONE && (
-        <ProjectInformationSection className="sw-flex sw-flex-col sw-gap-2">
+        <ProjectInformationSection className="sw:flex sw:flex-col sw:gap-2">
           <Heading as="h3">
             <FormattedMessage id="project.info.ai_code_assurance.title" />
           </Heading>
@@ -140,7 +140,7 @@ export default function AiCodeStatus(props: Readonly<Props>) {
                   values={{
                     link: (text) => (
                       <DocumentationLink
-                        className="sw-text-nowrap"
+                        className="sw:text-nowrap"
                         enableOpenInNewTab
                         highlight={LinkHighlight.Subtle}
                         to={DocLink.AiCodeAssuranceQualifyQualityGate}

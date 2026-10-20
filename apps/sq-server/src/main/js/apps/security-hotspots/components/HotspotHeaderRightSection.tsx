@@ -38,8 +38,8 @@ export default function HotspotHeaderRightSection(props: Props) {
   return (
     <>
       <HotspotHeaderInfo title={translate('hotspots.risk_exposure')}>
-        <div className="sw-flex sw-items-center">
-          <HotspotRating className="sw-mr-1" rating={hotspot.rule.vulnerabilityProbability} />
+        <div className="sw:flex sw:items-center">
+          <HotspotRating className="sw:mr-1" rating={hotspot.rule.vulnerabilityProbability} />
           <Text isSubtle>{translate('risk_exposure', hotspot.rule.vulnerabilityProbability)}</Text>
         </div>
       </HotspotHeaderInfo>
@@ -47,7 +47,7 @@ export default function HotspotHeaderRightSection(props: Props) {
         <Text isSubtle>{categoryStandard}</Text>
       </HotspotHeaderInfo>
       {hotspot.codeVariants && hotspot.codeVariants.length > 0 && (
-        <HotspotHeaderInfo className="sw-truncate" title={translate('issues.facet.codeVariants')}>
+        <HotspotHeaderInfo className="sw:truncate" title={translate('issues.facet.codeVariants')}>
           <Text isSubtle>
             <Tooltip content={hotspot.codeVariants.join(', ')}>
               <span>{hotspot.codeVariants.join(', ')}</span>
@@ -70,8 +70,8 @@ interface HotspotHeaderInfoProps {
 
 function HotspotHeaderInfo({ children, title, className }: HotspotHeaderInfoProps) {
   return (
-    <div className={classNames('sw-min-w-abs-150 sw-max-w-abs-250', className)}>
-      <div className="sw-typo-semibold">{title}:</div>
+    <div className={classNames('sw:min-w-abs-150 sw:max-w-abs-250', className)}>
+      <div className="sw:typo-semibold">{title}:</div>
       {children}
     </div>
   );

@@ -28,10 +28,10 @@ export interface PageActionsProps {
 
 export default function PageActions(props: Readonly<PageActionsProps>) {
   return (
-    <div className="sw-typo-default sw-flex sw-items-center sw-gap-6 sw-justify-end sw-flex-1">
+    <div className="sw:typo-default sw:flex sw:items-center sw:gap-6 sw:justify-end sw:flex-1">
       {props.paging && (
         <PageCounter
-          className="sw-ml-2"
+          className="sw:ml-2"
           label={translate('coding_rules._rules')}
           total={props.paging.total}
         />

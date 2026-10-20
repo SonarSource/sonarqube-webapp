@@ -91,7 +91,7 @@ describe('TopList', () => {
 
     const topList = screen.getByTestId('top-list');
     const table = screen.getByTestId('top-list-table');
-    expect(topList).toHaveClass('sw-overflow-x-hidden');
+    expect(topList).toHaveClass('sw:overflow-x-hidden');
     expect(topList).toContainElement(table);
   });
 

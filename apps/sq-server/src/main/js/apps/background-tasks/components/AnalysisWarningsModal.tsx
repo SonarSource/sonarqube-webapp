@@ -119,7 +119,7 @@ export class AnalysisWarningsModal extends React.PureComponent<Props, State> {
         <ul>
           {warnings.map(({ dismissable, key, message }) => (
             <li key={key}>
-              <div className="sw-flex sw-items-center sw-mt-2">
+              <div className="sw:flex sw:items-center sw:mt-2">
                 <FlagMessage variant="warning">
                   <HtmlFormatter
                     htmlAsString={message.trim().replace(/\n/g, '<br />')}
@@ -129,7 +129,7 @@ export class AnalysisWarningsModal extends React.PureComponent<Props, State> {
               </div>
               <div>
                 {dismissable && currentUser.isLoggedIn && (
-                  <div className="sw-mt-4">
+                  <div className="sw:mt-4">
                     <Button
                       isDisabled={Boolean(dismissedWarning)}
                       onClick={() => {
@@ -140,7 +140,7 @@ export class AnalysisWarningsModal extends React.PureComponent<Props, State> {
                       <FormattedMessage id="dismiss_permanently" />
                     </Button>
 
-                    <Spinner className="sw-ml-2" isLoading={dismissedWarning === key} />
+                    <Spinner className="sw:ml-2" isLoading={dismissedWarning === key} />
                   </div>
                 )}
               </div>

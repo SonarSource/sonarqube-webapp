@@ -23,7 +23,7 @@ import { Title } from '~design-system';
 
 export default function PageHeader() {
   return (
-    <header className="sw-mb-2 sw-flex sw-flex-col sw-justify-between sw-mb-4">
+    <header className="sw:mb-2 sw:flex sw:flex-col sw:justify-between sw:mb-4">
       <div>
         <Title>
           <FormattedMessage id="global_permissions.page" />

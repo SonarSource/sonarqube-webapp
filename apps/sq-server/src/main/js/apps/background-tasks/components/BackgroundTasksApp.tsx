@@ -289,9 +289,9 @@ export class BackgroundTasksApp extends React.PureComponent<Props, State> {
           />
 
           <Spinner
-            className="sw-mt-2"
+            className="sw:mt-2"
             isLoading={loading}
-            wrapperClassName="sw-flex sw-justify-center"
+            wrapperClassName="sw:flex sw:justify-center"
           >
             <Tasks
               component={component}
@@ -302,7 +302,7 @@ export class BackgroundTasksApp extends React.PureComponent<Props, State> {
           </Spinner>
 
           {pagination.total > 0 && (
-            <div className="sw-mt-8 sw-flex sw-justify-center">
+            <div className="sw:mt-8 sw:flex sw:justify-center">
               <Pagination
                 isDisabled={loading}
                 onChange={this.loadMoreTasks}

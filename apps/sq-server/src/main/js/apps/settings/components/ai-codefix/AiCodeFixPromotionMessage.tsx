@@ -51,7 +51,7 @@ export function AiCodeFixPromotionMessage() {
           </DocumentationLink>
         }
         badgeText={formatMessage({ id: 'property.aicodefix.admin.promotion.enterprise_only' })}
-        className="sw-inline-block"
+        className="sw:inline-block"
         headerText={formatMessage({ id: 'property.aicodefix.admin.promotion.subtitle' })}
         illustration={<LockIllustration height={84} width={84} />}
         text={

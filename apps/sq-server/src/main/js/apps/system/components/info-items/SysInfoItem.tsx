@@ -37,7 +37,7 @@ export default function SysInfoItem({ name, value }: Readonly<Props>) {
     return <HealthItem health={value as HealthTypes} />;
   }
   if (value instanceof Array) {
-    return <span className="sw-code">{JSON.stringify(value)}</span>;
+    return <span className="sw:code">{JSON.stringify(value)}</span>;
   }
   switch (typeof value) {
     case 'boolean':
@@ -47,7 +47,7 @@ export default function SysInfoItem({ name, value }: Readonly<Props>) {
         <Table columnCount={COLUMNS.length} columnWidths={COLUMNS}>
           {map(value, (v, n) => (
             <TableRow key={n}>
-              <ContentCell className="sw-whitespace-nowrap">{n}</ContentCell>
+              <ContentCell className="sw:whitespace-nowrap">{n}</ContentCell>
               <ContentCell>
                 <SysInfoItem name={n} value={v} />
               </ContentCell>
@@ -56,6 +56,6 @@ export default function SysInfoItem({ name, value }: Readonly<Props>) {
         </Table>
       );
     default:
-      return <span className="sw-code">{value}</span>;
+      return <span className="sw:code">{value}</span>;
   }
 }

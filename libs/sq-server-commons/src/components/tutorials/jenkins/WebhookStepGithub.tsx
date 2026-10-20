@@ -54,18 +54,18 @@ export default function WebhookStepGithub(props: Readonly<WebhookStepGithubProps
                 {translate('onboarding.tutorial.with.jenkins.webhook.github.step1.link')}
               </Link>
             ) : (
-              <strong className="sw-font-semibold">
+              <strong className="sw:font-semibold">
                 {translate('onboarding.tutorial.with.jenkins.webhook.github.step1.link')}
               </strong>
             ),
           }}
         />
-        <Text as="ul" className="sw-max-w-full sw-ml-6">
+        <Text as="ul" className="sw:max-w-full sw:ml-6">
           <li>
             <p>
               <LabelActionPair translationKey="onboarding.tutorial.with.jenkins.webhook.github.step1.url" />
             </p>
-            <CodeSnippet className="sw-p-4" isOneLine snippet={webhookUrl} />
+            <CodeSnippet className="sw:p-4" isOneLine snippet={webhookUrl} />
           </li>
         </Text>
       </NumberedListItem>
@@ -74,7 +74,7 @@ export default function WebhookStepGithub(props: Readonly<WebhookStepGithubProps
           highlightKeys={['events', 'option']}
           translationKey="onboarding.tutorial.with.jenkins.webhook.github.step2"
         />
-        <Text as="ul" className="sw-max-w-full sw-ml-6">
+        <Text as="ul" className="sw:max-w-full sw:ml-6">
           <li>
             <strong>
               {translate('onboarding.tutorial.with.jenkins.webhook.github.step2.repo')}

@@ -81,8 +81,8 @@ export default function AuthenticationSecuredField(props: Readonly<SamlToggleFie
           />
         ))}
       {showSecretField && (
-        <div className="sw-flex sw-items-center">
-          <p className="sw-mr-2">
+        <div className="sw:flex sw:items-center">
+          <p className="sw:mr-2">
             {formatMessage({ id: 'settings.almintegration.form.secret.field' })}
           </p>
           <Button onClick={handleUpdateField}>

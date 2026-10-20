@@ -50,7 +50,7 @@ export default function ApiRequestSchema(props: Readonly<Props>) {
         </span>
         <CodeSnippet isOneLine noCopy snippet={requestMediaType} />
       </div>
-      <CodeSnippet className="sw-p-6" language="json" snippet={schema} wrap="words" {...other} />
+      <CodeSnippet className="sw:p-6" language="json" snippet={schema} wrap="words" {...other} />
     </Card>
   ));
 }

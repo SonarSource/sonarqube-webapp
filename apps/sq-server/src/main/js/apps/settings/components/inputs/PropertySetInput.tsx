@@ -68,7 +68,7 @@ class PropertySetInput extends React.PureComponent<Props> {
               value: fieldValues[field.key],
             };
             return (
-              <ContentCell className="sw-py-2 sw-border-0" key={field.key}>
+              <ContentCell className="sw:py-2 sw:border-0" key={field.key}>
                 <PrimitiveInput
                   ariaDescribedBy={ariaDescribedBy}
                   hasValueChanged={this.props.hasValueChanged}
@@ -86,8 +86,8 @@ class PropertySetInput extends React.PureComponent<Props> {
               </ContentCell>
             );
           })}
-        <ActionCell className="sw-border-0">
-          <div className="sw-w-450">
+        <ActionCell className="sw:border-0">
+          <div className="sw:w-450">
             {!isLast && (
               <ButtonIcon
                 Icon={IconDelete}
@@ -127,10 +127,10 @@ class PropertySetInput extends React.PureComponent<Props> {
               {isCategoryDefinition(definition) &&
                 definition.fields.map((field) => (
                   <ContentCell key={field.key}>
-                    <div className="sw-text-start sw-h-full">
+                    <div className="sw:text-start sw:h-full">
                       {field.name}
                       {field.description != null && (
-                        <Text as="p" className="sw-mt-2" isSubtle>
+                        <Text as="p" className="sw:mt-2" isSubtle>
                           {field.description}
                         </Text>
                       )}

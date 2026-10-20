@@ -38,8 +38,8 @@ function StatPendingCount({ appState, onCancelAllPending, pendingCount }: Readon
   }
 
   return (
-    <div className="sw-flex sw-items-center">
-      <span className="sw-typo-lg-semibold sw-mr-1">{pendingCount}</span>
+    <div className="sw:flex sw:items-center">
+      <span className="sw:typo-lg-semibold sw:mr-1">{pendingCount}</span>
       <FormattedMessage id="background_tasks.pending" />
       {appState.canAdmin && pendingCount > 0 && (
         <ConfirmButton
@@ -54,7 +54,7 @@ function StatPendingCount({ appState, onCancelAllPending, pendingCount }: Readon
             <ButtonIcon
               Icon={IconDelete}
               ariaLabel={translate('background_tasks.cancel_all_tasks')}
-              className="sw-ml-1"
+              className="sw:ml-1"
               onClick={onClick}
               variety={ButtonVariety.DangerGhost}
             />

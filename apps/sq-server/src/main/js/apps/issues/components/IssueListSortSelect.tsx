@@ -50,7 +50,7 @@ export function IssueListSortSelect({ knownField, onChange, rawValue }: Readonly
   }
 
   return (
-    <div className="sw-flex sw-items-center sw-gap-2">
+    <div className="sw:flex sw:items-center sw:gap-2">
       <Text id={SORT_LABEL_ID} isSubtle>
         {formatMessage({ id: 'issues.sort.label' })}
       </Text>

@@ -63,14 +63,14 @@ export function KeyboardHintKeys({ command }: Readonly<KeyboardHintKeysProps>) {
       );
 
       return (
-        <KeyBox className={classNames({ 'sw-px-1': isNonMappedKey })} key={uniqueKey}>
+        <KeyBox className={classNames({ 'sw:px-1': isNonMappedKey })} key={uniqueKey}>
           {Object.keys(mappedKeys).includes(key) ? mappedKeys[key as keyof typeof mappedKeys] : key}
         </KeyBox>
       );
     });
 
   return (
-    <div className="sw-flex sw-gap-1" role="group">
+    <div className="sw:flex sw:gap-1" role="group">
       {keys}
     </div>
   );

@@ -44,7 +44,7 @@ export default function IndexationNotificationRenderer(
   const { type } = props;
 
   return (
-    <div className={classNames({ 'sw-hidden': type === undefined })}>
+    <div className={classNames({ 'sw:hidden': type === undefined })}>
       <Layout.Banner
         aria-live="assertive"
         onDismiss={
@@ -100,7 +100,7 @@ function SurveyLink() {
   const url = SPRIG_SURVEY_LINK.concat(`?edition=${edition}&version=${version}&loc=${loc}`);
 
   return (
-    <span className="sw-ml-2">
+    <span className="sw:ml-2">
       <FormattedMessage
         id="indexation.upgrade_survey_link"
         values={{
@@ -123,7 +123,7 @@ function CompletedBanner(
   const { shouldDisplaySurveyLink } = props;
 
   return (
-    <div className="sw-flex sw-flex-1 sw-items-center">
+    <div className="sw:flex sw:flex-1 sw:items-center">
       <FormattedMessage id="indexation.completed" />
       {shouldDisplaySurveyLink && <SurveyLink />}
     </div>
@@ -161,7 +161,7 @@ function InProgressBanner(props: Readonly<{ completedCount: number; total: numbe
   const { formatMessage } = useIntl();
 
   return (
-    <span className="sw-inline-flex sw-gap-4">
+    <span className="sw:inline-flex sw:gap-4">
       <span>
         <FormattedMessage id="indexation.in_progress" />{' '}
         <FormattedMessage
@@ -172,8 +172,8 @@ function InProgressBanner(props: Readonly<{ completedCount: number; total: numbe
         />
       </span>
 
-      <span className="sw-flex sw-items-center">
-        <Spinner className="sw-mr-1" />
+      <span className="sw:flex sw:items-center">
+        <Spinner className="sw:mr-1" />
         <FormattedMessage
           id="indexation.progression"
           values={{
@@ -206,7 +206,7 @@ function InProgressWithFailureBanner(props: Readonly<{ completedCount: number; t
   const { formatMessage } = useIntl();
 
   return (
-    <span className="sw-inline-flex sw-gap-4">
+    <span className="sw:inline-flex sw:gap-4">
       <span>
         <FormattedMessage id="indexation.in_progress" />{' '}
         <FormattedMessage
@@ -217,8 +217,8 @@ function InProgressWithFailureBanner(props: Readonly<{ completedCount: number; t
         />
       </span>
 
-      <span className="sw-flex sw-items-center">
-        <Spinner className="sw-mr-1" />
+      <span className="sw:flex sw:items-center">
+        <Spinner className="sw:mr-1" />
         <FormattedMessage
           id="indexation.progression_with_error"
           tagName="span"
@@ -262,7 +262,7 @@ function BackgroundTasksPageLink(props: Readonly<{ hasError: boolean; text: stri
 function IndexationDocPageLink() {
   return (
     <DocumentationLink
-      className="sw-whitespace-nowrap"
+      className="sw:whitespace-nowrap"
       highlight={LinkHighlight.CurrentColor}
       to={DocLink.InstanceAdminReindexation}
     >

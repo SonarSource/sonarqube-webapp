@@ -100,7 +100,7 @@ export default class DeleteModal extends React.PureComponent<Props, State> {
         body={
           <>
             {this.renderWarning()}
-            <p className="sw-mt-2">
+            <p className="sw:mt-2">
               {translate('qualifiers.delete_confirm', this.props.qualifier)}
             </p>
           </>

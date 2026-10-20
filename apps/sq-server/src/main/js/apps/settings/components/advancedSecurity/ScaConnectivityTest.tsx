@@ -56,16 +56,16 @@ function ScaConnectivityTest() {
   }, []);
 
   return (
-    <div className="sw-ml-12">
-      <hr className="sw-mx-0 sw-my-6 sw-p-0" />
-      <div className="sw-my-8">
+    <div className="sw:ml-12">
+      <hr className="sw:mx-0 sw:my-6 sw:p-0" />
+      <div className="sw:my-8">
         <Heading as="h3" hasMarginBottom>
           <FormattedMessage id="property.sca.admin.selftest.title" />
         </Heading>
-        <Text as="p" className="sw-mb-6">
+        <Text as="p" className="sw:mb-6">
           <FormattedMessage id="property.sca.admin.selftest.description" />
         </Text>
-        <div className="sw-my-4">
+        <div className="sw:my-4">
           <Spinner
             ariaLabel="Checking connectivity"
             isLoading={isLoading}
@@ -75,12 +75,12 @@ function ScaConnectivityTest() {
               <>
                 {!isPaused && !isError && scaSelfTestResults?.selfTestPassed ? (
                   <>
-                    <IconCheck className="sw-mr-1" color="echoes-color-icon-success" />
+                    <IconCheck className="sw:mr-1" color="echoes-color-icon-success" />
                     <FormattedMessage id="property.sca.admin.selftest.success" />
                   </>
                 ) : (
                   <>
-                    <IconError className="sw-mr-1" color="echoes-color-icon-danger" />
+                    <IconError className="sw:mr-1" color="echoes-color-icon-danger" />
                     <FormattedMessage id="property.sca.admin.selftest.failure" />{' '}
                     {isPaused && (
                       <FormattedMessage id="property.sca.admin.selftest.failure.offline" />
@@ -93,7 +93,7 @@ function ScaConnectivityTest() {
         </div>
         <div>
           <Button
-            className="sw-mr-4"
+            className="sw:mr-4"
             isDisabled={isLoading || isPaused}
             onClick={handleShowDetails}
           >
@@ -103,7 +103,7 @@ function ScaConnectivityTest() {
             <FormattedMessage id="property.sca.admin.selftest.recheck" />
           </Button>
         </div>
-        <div className="sw-flex">
+        <div className="sw:flex">
           <Modal
             content={
               <>

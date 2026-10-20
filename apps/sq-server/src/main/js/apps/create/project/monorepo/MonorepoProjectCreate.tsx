@@ -230,14 +230,14 @@ export default function MonorepoProjectCreate(props: Readonly<MonorepoProjectCre
       description={
         <Layout.PageHeader.Description>
           <FormattedMessage id="onboarding.create_project.monorepo.subtitle" />
-          <p className="sw-mt-3">
+          <p className="sw:mt-3">
             <LinkStandalone enableOpenInNewTab to={docUrl(DocLink.Monorepos)}>
               <FormattedMessage id="onboarding.create_project.monorepo.doc_link" />
             </LinkStandalone>
           </p>
         </Layout.PageHeader.Description>
       }
-      pageClassName={classNames({ 'sw-hidden': isProjectSetupDone(location) })}
+      pageClassName={classNames({ 'sw:hidden': isProjectSetupDone(location) })}
       title={formatMessage(
         {
           id: 'onboarding.create_project.monorepo.title',
@@ -257,7 +257,7 @@ export default function MonorepoProjectCreate(props: Readonly<MonorepoProjectCre
 
       {selectedRepository !== undefined && (
         <>
-          <BlueGreySeparator className="sw-my-5" />
+          <BlueGreySeparator className="sw:my-5" />
 
           <MonorepoProjectsList
             onAddProject={onAddProject}
@@ -269,12 +269,12 @@ export default function MonorepoProjectCreate(props: Readonly<MonorepoProjectCre
         </>
       )}
 
-      <div className="sw-my-5">
+      <div className="sw:my-5">
         <Button onClick={cancelMonorepoSetup}>
           <FormattedMessage id="cancel" />
         </Button>
         <Button
-          className="sw-ml-3"
+          className="sw:ml-3"
           isDisabled={isSetupInvalid}
           onClick={submitProjects}
           variety={ButtonVariety.Primary}

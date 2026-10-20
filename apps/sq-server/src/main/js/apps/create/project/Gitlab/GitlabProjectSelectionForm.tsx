@@ -52,7 +52,7 @@ export default function GitlabProjectSelectionForm(
 
   if (projects.length === 0 && searchQuery.length === 0 && !searching) {
     return (
-      <FlagMessage className="sw-mt-2" variant="warning">
+      <FlagMessage className="sw:mt-2" variant="warning">
         <span>
           <FormattedMessage
             id="onboarding.create_project.gitlab.no_projects"
@@ -77,7 +77,7 @@ export default function GitlabProjectSelectionForm(
   return (
     <>
       <InputSearch
-        className="sw-mb-6"
+        className="sw:mb-6"
         loading={searching}
         minLength={3}
         onChange={props.onSearch}
@@ -86,13 +86,13 @@ export default function GitlabProjectSelectionForm(
         value={searchQuery}
       />
       {projects.length === 0 ? (
-        <div className="sw-py-6 sw-px-2">
+        <div className="sw:py-6 sw:px-2">
           <Text isHighlighted>
             <FormattedMessage id="no_results" />
           </Text>
         </div>
       ) : (
-        <ul className="sw-flex sw-flex-col sw-gap-3">
+        <ul className="sw:flex sw:flex-col sw:gap-3">
           {projects.map((project) => (
             <AlmRepoItem
               almIconSrc={iconUrl}
@@ -117,7 +117,7 @@ export default function GitlabProjectSelectionForm(
         </ul>
       )}
       <ListFooter
-        className="sw-mb-10"
+        className="sw:mb-10"
         count={projects.length}
         loadMore={props.onLoadMore}
         loading={loadingMore}

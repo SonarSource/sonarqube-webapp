@@ -34,17 +34,17 @@ export function RuleDetailsParameters({ params }: Readonly<Props>) {
 
   return (
     <div className="js-rule-parameters">
-      <Heading as="h3" className="sw-mb-2">
+      <Heading as="h3" className="sw:mb-2">
         {intl.formatMessage({ id: 'coding_rules.parameters' })}
       </Heading>
 
-      <Table className="sw-my-4" columnCount={2} columnWidths={[0, 'auto']}>
+      <Table className="sw:my-4" columnCount={2} columnWidths={[0, 'auto']}>
         {params.map((param) => (
           <TableRow key={param.key}>
-            <CellComponent className="sw-align-top sw-font-semibold">{param.key}</CellComponent>
+            <CellComponent className="sw:align-top sw:font-semibold">{param.key}</CellComponent>
 
             <CellComponent>
-              <div className="sw-flex sw-flex-col sw-gap-2">
+              <div className="sw:flex sw:flex-col sw:gap-2">
                 {isDefined(param.htmlDesc) && (
                   <SafeHTMLInjection
                     htmlAsString={param.htmlDesc}
@@ -60,7 +60,7 @@ export function RuleDetailsParameters({ params }: Readonly<Props>) {
 
                     <br />
 
-                    <span className="sw-code sw-break-all">{param.defaultValue}</span>
+                    <span className="sw:code sw:break-all">{param.defaultValue}</span>
                   </Text>
                 )}
               </div>

@@ -28,7 +28,7 @@ export default function AlertClassicEditor() {
   const docUrl = useDocUrl(DocLink.AlmAzureIntegration);
 
   return (
-    <MessageCallout className="sw-mt-4" variety={MessageVariety.Info}>
+    <MessageCallout className="sw:mt-4" variety={MessageVariety.Info}>
       <span>
         <FormattedMessage
           id="onboarding.tutorial.with.azure_pipelines.BranchAnalysis.info"

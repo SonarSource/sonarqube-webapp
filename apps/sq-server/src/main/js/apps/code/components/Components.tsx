@@ -91,7 +91,7 @@ function Components(props: ComponentsProps) {
   );
 
   return (
-    <div className="sw-mb-4">
+    <div className="sw:mb-4">
       <Table
         columnCount={columnCount}
         columnWidths={[
@@ -149,7 +149,7 @@ function Components(props: ComponentsProps) {
               )
             }
             <TableRow>
-              <SubHeader className="sw-font-semibold" colSpan={columnCount}>
+              <SubHeader className="sw:font-semibold" colSpan={columnCount}>
                 {isPortfolio && translate('portfolio.details.breakdown')}
               </SubHeader>
             </TableRow>

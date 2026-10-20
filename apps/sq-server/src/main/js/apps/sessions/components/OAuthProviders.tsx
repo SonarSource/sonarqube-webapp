@@ -43,11 +43,11 @@ export default function OAuthProviders({ identityProviders, returnTo }: Readonly
 
   return (
     <>
-      <div className="sw-w-full sw-flex sw-flex-col sw-gap-4" id="oauth-providers">
+      <div className="sw:w-full sw:flex sw:flex-col sw:gap-4" id="oauth-providers">
         {identityProviders.map(({ key, name, iconPath, helpMessage }) => (
           <div key={key}>
             <ThirdPartyButton
-              className="sw-w-full sw-justify-center"
+              className="sw:w-full sw:justify-center"
               iconPath={identityProviderIconUrl(currentTheme, { iconPath, key })}
               name={name}
               onClick={() => {
@@ -65,9 +65,9 @@ export default function OAuthProviders({ identityProviders, returnTo }: Readonly
         ))}
       </div>
       <Divider
-        className="sw-mt-8 sw-w-full"
+        className="sw:mt-8 sw:w-full"
         text={
-          <Text className="sw-mx-4" size={TextSize.Small}>
+          <Text className="sw:mx-4" size={TextSize.Small}>
             <FormattedMessage id="login.or" />
           </Text>
         }

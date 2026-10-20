@@ -162,15 +162,15 @@ export function SoftwareQualitiesFields(
   };
 
   return (
-    <fieldset className="sw-mt-2 sw-mb-4 sw-relative">
-      <legend className="sw-w-full sw-flex sw-justify-between sw-gap-6 sw-mb-4">
-        <Text className="sw-w-full" isHighlighted>
+    <fieldset className="sw:mt-2 sw:mb-4 sw:relative">
+      <legend className="sw:w-full sw:flex sw:justify-between sw:gap-6 sw:mb-4">
+        <Text className="sw:w-full" isHighlighted>
           {intl.formatMessage({ id: 'software_quality' })}
-          <RequiredIcon aria-label={intl.formatMessage({ id: 'required' })} className="sw-ml-1" />
+          <RequiredIcon aria-label={intl.formatMessage({ id: 'required' })} className="sw:ml-1" />
         </Text>
-        <Text className="sw-w-full" isHighlighted>
+        <Text className="sw:w-full" isHighlighted>
           {intl.formatMessage({ id: 'severity' })}
-          <RequiredIcon aria-label={intl.formatMessage({ id: 'required' })} className="sw-ml-1" />
+          <RequiredIcon aria-label={intl.formatMessage({ id: 'required' })} className="sw:ml-1" />
         </Text>
       </legend>
       {SOFTWARE_QUALITIES.map((quality) => {
@@ -180,8 +180,8 @@ export function SoftwareQualitiesFields(
           : null;
 
         return (
-          <fieldset className="sw-flex sw-justify-between sw-gap-6 sw-mb-4" key={quality}>
-            <legend className="sw-sr-only">
+          <fieldset className="sw:flex sw:justify-between sw:gap-6 sw:mb-4" key={quality}>
+            <legend className="sw:sr-only">
               {intl.formatMessage(
                 { id: 'coding_rules.custom_rule.software_quality_x' },
                 { quality },
@@ -189,10 +189,10 @@ export function SoftwareQualitiesFields(
             </legend>
             <Checkbox
               checked={Boolean(selectedQuality)}
-              className="sw-w-full sw-items-center"
+              className="sw:w-full sw:items-center"
               isDisabled={qualityUpdateDisabled}
               label={
-                <Text className="sw-ml-3">
+                <Text className="sw:ml-3">
                   {intl.formatMessage({ id: SOFTWARE_QUALITY_LABELS[quality] })}
                 </Text>
               }
@@ -203,7 +203,7 @@ export function SoftwareQualitiesFields(
 
             <Select
               aria-label={intl.formatMessage({ id: 'severity' })}
-              className="sw-w-full"
+              className="sw:w-full"
               data={severities}
               id={`coding-rules-custom-software-impact-severity-${quality}`}
               isDisabled={disabled || !selectedQuality}
@@ -221,7 +221,7 @@ export function SoftwareQualitiesFields(
       })}
       {error && (
         <Text
-          className="sw-font-regular sw-absolute sw--bottom-3"
+          className="sw:font-regular sw:absolute sw:-bottom-3"
           colorOverride="echoes-color-text-danger"
         >
           {intl.formatMessage({ id: 'coding_rules.custom_rule.select_software_quality' })}

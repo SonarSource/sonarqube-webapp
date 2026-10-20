@@ -35,16 +35,16 @@ export default function DotNetCore(props: Readonly<DotNetProps>) {
 
   return (
     <div>
-      <Heading as="h2" className="sw-mt-8 sw-mb-2">
+      <Heading as="h2" className="sw:mt-8 sw:mb-2">
         {translate('onboarding.analysis.dotnetcore.global')}
       </Heading>
-      <p className="sw-mt-4">{translate('onboarding.analysis.dotnetcore.global.text')}</p>
+      <p className="sw:mt-4">{translate('onboarding.analysis.dotnetcore.global.text')}</p>
       <CodeSnippet
-        className="sw-px-4"
+        className="sw:px-4"
         isOneLine
         snippet="dotnet tool install --global dotnet-sonarscanner"
       />
-      <MessageCallout className="sw-mt-2" variety={MessageVariety.Info}>
+      <MessageCallout className="sw:mt-2" variety={MessageVariety.Info}>
         {translate('onboarding.analysis.dotnetcore.global.text.path')}
       </MessageCallout>
       <DotNetExecute commands={commands} />

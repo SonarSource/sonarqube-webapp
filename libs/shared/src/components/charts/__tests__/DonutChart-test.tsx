@@ -162,7 +162,7 @@ it('renders centerContent as a non-interactive, aria-hidden overlay', () => {
   // eslint-disable-next-line testing-library/no-node-access -- overlay div has no accessible role
   const overlay = screen.getByText('83%').parentElement;
   expect(overlay).toHaveAttribute('aria-hidden', 'true');
-  expect(overlay).toHaveClass('sw-pointer-events-none');
+  expect(overlay).toHaveClass('sw:pointer-events-none');
 });
 
 it('renders the final sector geometry immediately when reduced motion is preferred', () => {

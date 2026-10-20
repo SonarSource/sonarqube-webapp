@@ -44,7 +44,7 @@ export default function RuleDetailsHeaderSide({ ruleDetails }: Readonly<Props>) 
   }
 
   return (
-    <StyledSection className="sw-flex sw-flex-col sw-pl-4 sw-gap-6 sw-max-w-[250px]">
+    <StyledSection className="sw:flex sw:flex-col sw:pl-4 sw:gap-6 sw:max-w-[250px]">
       {hasSoftwareImpact && (
         <RuleHeaderInfo
           title={
@@ -52,7 +52,7 @@ export default function RuleDetailsHeaderSide({ ruleDetails }: Readonly<Props>) 
           }
         >
           <SoftwareImpactPillList
-            className="sw-flex-wrap"
+            className="sw:flex-wrap"
             issueSeverity={ruleDetails.severity as IssueSeverity}
             issueType={ruleDetails.type}
             softwareImpacts={ruleDetails.impacts}
@@ -85,7 +85,7 @@ interface RuleHeaderMetaItemProps {
 function RuleHeaderInfo({ children, title, ...props }: Readonly<RuleHeaderMetaItemProps>) {
   return (
     <div {...props}>
-      <Text as="div" className="sw-mb-1" isHighlighted isSubtle size="small">
+      <Text as="div" className="sw:mb-1" isHighlighted isSubtle size="small">
         {title}
       </Text>
       {children}

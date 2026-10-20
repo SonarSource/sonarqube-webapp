@@ -129,7 +129,7 @@ export function ProjectContentHeader(props: Readonly<Props>) {
             <>
               {hasBranchSelector && isDefined(ProjectBranchSelector) && branchLike && component && (
                 <ProjectBranchSelector
-                  className="sw-ml-4 sw-mr-2"
+                  className="sw:ml-4 sw:mr-2"
                   component={component}
                   currentBranchLike={branchLike}
                   linkToAll={

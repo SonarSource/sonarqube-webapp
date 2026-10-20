@@ -34,12 +34,12 @@ export default function OtherContextOption() {
         <FormattedMessage id="coding_rules.context.others.description.second" />
       </p>
       <p>
-        <span className="sw-flex sw-items-center sw-ml-4">
-          <IconCheck className="sw-mr-2" color="echoes-color-icon-success" />
+        <span className="sw:flex sw:items-center sw:ml-4">
+          <IconCheck className="sw:mr-2" color="echoes-color-icon-success" />
           <FormattedMessage id="coding_rules.context.others.description.do" />
         </span>
-        <span className="sw-flex sw-items-center sw-ml-4">
-          <IconX className="sw-mr-2" color="echoes-color-icon-danger" />
+        <span className="sw:flex sw:items-center sw:ml-4">
+          <IconX className="sw:mr-2" color="echoes-color-icon-danger" />
           <FormattedMessage id="coding_rules.context.others.description.dont" />
         </span>
       </p>

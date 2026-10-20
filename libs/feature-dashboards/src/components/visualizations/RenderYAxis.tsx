@@ -58,7 +58,7 @@ export function RenderYAxis({
             />
             <foreignObject height="24" pointerEvents="none" width="90" x={-95} y={y - 12}>
               <div
-                className="sw-flex sw-items-center sw-justify-end sw-text-xs"
+                className="sw:flex sw:items-center sw:justify-end sw:text-xs"
                 style={{ color: cssVar('color-text-subtle') }}
               >
                 {formatTick(tick)}

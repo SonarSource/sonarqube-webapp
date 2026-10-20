@@ -1096,18 +1096,18 @@ export class App extends React.PureComponent<Props, State> {
     const remediationAgentProjectKey = this.getRemediationAgentProjectKey();
 
     return (
-      <div className="sw-float-left sw-flex sw-items-center">
+      <div className="sw:float-left sw:flex sw:items-center">
         <Checkbox
           ariaLabel={translate('issues.select_all_issues')}
           checked={thirdState ? 'indeterminate' : isChecked}
-          className="sw-ml-4 sw-mr-3"
+          className="sw:ml-4 sw:mr-3"
           id="issues-selection"
           isDisabled={issues.length === 0}
           onCheck={this.handleCheckAll}
           title={translate('issues.select_all_issues')}
         />
 
-        <div className="sw-flex sw-gap-2">
+        <div className="sw:flex sw:gap-2">
           <Button
             id="issues-bulk-change"
             isDisabled={checked.length === 0}
@@ -1171,11 +1171,11 @@ export class App extends React.PureComponent<Props, State> {
           />
 
           {!canBrowseAllChildProjects && isPortfolioLike(qualifier) && (
-            <MessageCallout className="it__portfolio_warning sw-pb-4" variety="warning">
-              <span className="sw-flex sw-items-center sw-text-nowrap">
+            <MessageCallout className="it__portfolio_warning sw:pb-4" variety="warning">
+              <span className="sw:flex sw:items-center sw:text-nowrap">
                 <FormattedMessage id="issues.not_all_issue_show" />
                 <ToggleTip
-                  className="sw-ml-1"
+                  className="sw:ml-1"
                   description={<FormattedMessage id="issues.not_all_issue_show_why" />}
                 />
               </span>
@@ -1183,7 +1183,7 @@ export class App extends React.PureComponent<Props, State> {
           )}
 
           {currentUser.isLoggedIn && !component?.needIssueSync && (
-            <div className="sw-flex sw-justify-start sw-mb-4">
+            <div className="sw:flex sw:justify-start sw:mb-4">
               <ToggleButtonGroup
                 onChange={this.handleMyIssuesChange}
                 options={[
@@ -1308,7 +1308,7 @@ export class App extends React.PureComponent<Props, State> {
     const showMaxBulkItemsMessage = checkAll && paging && paging.total > MAX_PAGE_SIZE;
     const remediationAgentProjectKey = this.getRemediationAgentProjectKey();
     const bulkIssuesLimitMessage = showMaxBulkItemsMessage ? (
-      <MessageCallout className="sw-mt-3" variety={MessageVariety.Info}>
+      <MessageCallout className="sw:mt-3" variety={MessageVariety.Info}>
         <FormattedMessage
           id="issue_bulk_change.max_issues_reached"
           values={{ max: <strong>{MAX_PAGE_SIZE}</strong> }}
@@ -1319,17 +1319,17 @@ export class App extends React.PureComponent<Props, State> {
     return (
       <div className="it__layout-page-main-inner" id="issues-page">
         <A11ySkipTarget anchor="issues_main" />
-        <div className="sw-pb-2">
+        <div className="sw:pb-2">
           {showSecurityDevPromotion && hasSecurityFilter && (
-            <SecurityDevEditionPromoteBanner className="sw-mb-4 sw-w-full sw-box-border" isWide />
+            <SecurityDevEditionPromoteBanner className="sw:mb-4 sw:w-full sw:box-border" isWide />
           )}
           {remediationAgentProjectKey && addons.remediationAgent && component && (
             <addons.remediationAgent.AssignToAgentDopPermissionWarning
-              className="sw-mb-4 sw-w-full sw-box-border"
+              className="sw:mb-4 sw:w-full sw:box-border"
               component={component}
             />
           )}
-          <div className="sw-flex sw-w-full sw-items-center sw-justify-between sw-box-border">
+          <div className="sw:flex sw:w-full sw:items-center sw:justify-between sw:box-border">
             {this.renderBulkChange()}
 
             <PageActions
@@ -1355,7 +1355,7 @@ export class App extends React.PureComponent<Props, State> {
 
         <Spinner
           ariaLabel={translate('issues.loading_issues')}
-          className="sw-mt-4"
+          className="sw:mt-4"
           isLoading={loading}
         >
           <output>
@@ -1364,7 +1364,7 @@ export class App extends React.PureComponent<Props, State> {
                 allIssues={issues}
                 branch={branch}
                 checkedKeys={checked}
-                className="sw-mt-3"
+                className="sw:mt-3"
                 maxBulkIssues={MAX_PAGE_SIZE}
                 pullRequestKey={pullRequestKey}
                 showBulkIssuesLimit={Boolean(showMaxBulkItemsMessage)}
@@ -1373,7 +1373,7 @@ export class App extends React.PureComponent<Props, State> {
               bulkIssuesLimitMessage
             )}
             {!showMaxBulkItemsMessage && (
-              <span className="sw-sr-only">
+              <span className="sw:sr-only">
                 <FormattedMessage
                   id="issue_bulk_change.selected"
                   values={{
@@ -1393,7 +1393,7 @@ export class App extends React.PureComponent<Props, State> {
               allIssues={issues}
               branch={branch}
               checkedKeys={checked}
-              className="sw-mt-3"
+              className="sw:mt-3"
               pullRequestKey={pullRequestKey}
             />
           )}
@@ -1462,7 +1462,7 @@ function WrappedApp(props: Readonly<Omit<Props, 'isStandard'>>) {
   return (
     <Spinner
       ariaLabel={translate('issues.loading_issues')}
-      className="sw-m-4"
+      className="sw:m-4"
       isLoading={isLoading}
     >
       <App {...props} isStandard={isStandard} />

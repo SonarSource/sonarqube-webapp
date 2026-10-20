@@ -32,7 +32,7 @@ export default function SubnavigationIssuesListHeader(props: Props) {
   const { loading, paging } = props;
 
   return (
-    <SubnavigationHeading className="sw-py-0">
+    <SubnavigationHeading className="sw:py-0">
       <Spinner isLoading={loading}>{paging && <IssuesCounter total={paging.total} />}</Spinner>
     </SubnavigationHeading>
   );

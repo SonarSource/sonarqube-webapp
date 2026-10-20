@@ -83,17 +83,17 @@ export default function Changelog(props: Readonly<Props>) {
     return (
       <TableRowInteractive key={index}>
         <ContentCell
-          cellClassName={classNames({ 'sw-border-transparent': !shouldDisplayDate })}
-          className={classNames('sw-align-top')}
+          cellClassName={classNames({ 'sw:border-transparent': !shouldDisplayDate })}
+          className={classNames('sw:align-top')}
         >
           {shouldDisplayDate && (
             <div>
-              <span className="sw-whitespace-nowrap">
+              <span className="sw:whitespace-nowrap">
                 <DateTimeFormatter date={event.date} />
               </span>
 
               {isNewSonarQubeVersion && (
-                <div className="sw-mt-2 sw-whitespace-nowrap">
+                <div className="sw:mt-2 sw:whitespace-nowrap">
                   <FlagMessage variant="info">
                     <FormattedMessage
                       id="quality_profiles.changelog.sq_upgrade"
@@ -109,23 +109,23 @@ export default function Changelog(props: Readonly<Props>) {
         </ContentCell>
 
         <ContentCell
-          cellClassName={classNames({ 'sw-border-transparent': !shouldDisplayDate })}
-          className={classNames('sw-whitespace-nowrap sw-align-top sw-max-w-[120px]')}
+          cellClassName={classNames({ 'sw:border-transparent': !shouldDisplayDate })}
+          className={classNames('sw:whitespace-nowrap sw:align-top sw:max-w-[120px]')}
         >
           {shouldDisplayAuthor &&
             (event.authorName ? event.authorName : <Text isSubtle>System</Text>)}
         </ContentCell>
 
         <ContentCell
-          cellClassName={classNames({ 'sw-border-transparent': !shouldDisplayDate })}
-          className={classNames('sw-whitespace-nowrap sw-align-top')}
+          cellClassName={classNames({ 'sw:border-transparent': !shouldDisplayDate })}
+          className={classNames('sw:whitespace-nowrap sw:align-top')}
         >
           {shouldDisplayAction &&
             intl.formatMessage({ id: `quality_profiles.changelog.${event.action}` })}
         </ContentCell>
 
         <CellComponent
-          className={classNames('sw-align-top', { 'sw-border-transparent': !shouldDisplayDate })}
+          className={classNames('sw:align-top', { 'sw:border-transparent': !shouldDisplayDate })}
         >
           {isDefined(event.ruleName) && (
             <LinkStandalone to={getRulesUrl({ rule_key: event.ruleKey })}>
@@ -135,8 +135,8 @@ export default function Changelog(props: Readonly<Props>) {
         </CellComponent>
 
         <ContentCell
-          cellClassName={classNames({ 'sw-border-transparent': !shouldDisplayDate })}
-          className={classNames('sw-align-top sw-max-w-[400px]')}
+          cellClassName={classNames({ 'sw:border-transparent': !shouldDisplayDate })}
+          className={classNames('sw:align-top sw:max-w-[400px]')}
         >
           {event.params && <ChangesList action={event.action} changes={event.params} />}
         </ContentCell>

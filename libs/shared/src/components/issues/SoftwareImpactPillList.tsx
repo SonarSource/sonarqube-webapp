@@ -67,7 +67,7 @@ export function SoftwareImpactPillList({
   return (
     <ul
       aria-label={ariaLabel}
-      className={classNames('sw-flex sw-gap-2', className)}
+      className={classNames('sw:flex sw:gap-2', className)}
       data-guiding-id={dataGuidingId}
       data-spotlight-id={dataSpotlightId}
     >

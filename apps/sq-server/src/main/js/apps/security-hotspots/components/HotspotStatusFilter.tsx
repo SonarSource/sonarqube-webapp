@@ -50,13 +50,13 @@ export default function HotspotFilterByStatus(props: FilterBarProps) {
   const { filters, isStaticListOfHotspots } = props;
 
   return (
-    <div className="sw-flex sw-flex-col sw-justify-between sw-py-4">
+    <div className="sw:flex sw:flex-col sw:justify-between sw:py-4">
       {isStaticListOfHotspots ? (
         <FormattedMessage
           id="hotspot.filters.by_file_or_list_x"
           values={{
             show_all_link: (
-              <Link className="sw-ml-1" highlight="current-color" onClick={props.onShowAllHotspots}>
+              <Link className="sw:ml-1" highlight="current-color" onClick={props.onShowAllHotspots}>
                 <FormattedMessage id="hotspot.filters.show_all" />
               </Link>
             ),

@@ -138,13 +138,13 @@ export default function GitlabProjectCreateRenderer(
           )}
           {selectedAlmInstance && !showPersonalAccessTokenForm && (
             <PersonalAccessTokenResetLink
-              className="sw-mt-4"
+              className="sw:mt-4"
               createProjectMode={CreateProjectModes.GitLab}
             />
           )}
         </Layout.PageHeader.Description>
       }
-      pageClassName={classNames({ 'sw-hidden': isProjectSetupDone(location) })}
+      pageClassName={classNames({ 'sw:hidden': isProjectSetupDone(location) })}
       title={formatMessage({ id: 'onboarding.create_project.gitlab.title' })}
     >
       <AlmSettingsInstanceDropdown

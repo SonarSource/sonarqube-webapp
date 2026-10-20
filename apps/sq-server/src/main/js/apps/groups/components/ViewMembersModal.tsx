@@ -51,20 +51,20 @@ export default function ViewMembersModal(props: Readonly<Props>) {
       body={
         <>
           <InputSearch
-            className="sw-w-full sw-top-0 sw-sticky"
+            className="sw:w-full sw:top-0 sw:sticky"
             loading={isLoading}
             onChange={setQuery}
             placeholder={translate('search_verb')}
             value={query}
           />
-          <div className="sw-mt-6">
+          <div className="sw:mt-6">
             <Spinner isLoading={isLoading}>
               <ul>
                 {users.map((user) => (
-                  <li className="sw-flex sw-items-center" key={user.login}>
-                    <span className="sw-ml-1 sw-w-full">
-                      <span className="sw-flex sw-justify-between sw-items-center">
-                        <span className="sw-mr-2">
+                  <li className="sw:flex sw:items-center" key={user.login}>
+                    <span className="sw:ml-1 sw:w-full">
+                      <span className="sw:flex sw:justify-between sw:items-center">
+                        <span className="sw:mr-2">
                           {user.name}
                           <br />
                           <Text isSubtle>{user.login}</Text>

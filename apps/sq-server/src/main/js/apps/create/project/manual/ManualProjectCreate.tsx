@@ -139,10 +139,10 @@ export default function ManualProjectCreate(props: Readonly<Props>) {
   return (
     <GlobalPageTemplate
       hidePageHeader
-      pageClassName={classNames({ 'sw-hidden': isProjectSetupDone(location) })}
+      pageClassName={classNames({ 'sw:hidden': isProjectSetupDone(location) })}
       title={intl.formatMessage({ id: 'onboarding.create_project.manual.title' })}
     >
-      <div className="sw-flex sw-justify-between">
+      <div className="sw:flex sw:justify-between">
         <FormattedMessage id="onboarding.create_project.manual.step1" />
         <ButtonIcon
           Icon={IconX}
@@ -152,7 +152,7 @@ export default function ManualProjectCreate(props: Readonly<Props>) {
           variety={ButtonVariety.DefaultGhost}
         />
       </div>
-      <Form className="sw-typo-default" id="create-project-manual" onSubmit={handleFormSubmit}>
+      <Form className="sw:typo-default" id="create-project-manual" onSubmit={handleFormSubmit}>
         <Form.Header
           description={
             branchesEnabled && (

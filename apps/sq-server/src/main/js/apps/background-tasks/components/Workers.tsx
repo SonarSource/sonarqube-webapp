@@ -88,10 +88,10 @@ export default class Workers extends React.PureComponent<{}, State> {
     const { canSetWorkerCount, formOpen, loading, workerCount } = this.state;
 
     return (
-      <div className="sw-flex sw-items-center">
+      <div className="sw:flex sw:items-center">
         {!loading && workerCount > 1 && (
           <Tooltip content={<FormattedMessage id="background_tasks.number_of_workers.warning" />}>
-            <div className="sw-py-1/2 sw-mr-1">
+            <div className="sw:py-1/2 sw:mr-1">
               <FlagWarningIcon />
             </div>
           </Tooltip>
@@ -99,8 +99,8 @@ export default class Workers extends React.PureComponent<{}, State> {
         <span id="ww">
           <FormattedMessage id="background_tasks.number_of_workers" />
         </span>
-        <Spinner className="sw-ml-1" isLoading={loading}>
-          <strong aria-labelledby="ww" className="sw-ml-1">
+        <Spinner className="sw:ml-1" isLoading={loading}>
+          <strong aria-labelledby="ww" className="sw:ml-1">
             {workerCount}
           </strong>
         </Spinner>
@@ -108,13 +108,13 @@ export default class Workers extends React.PureComponent<{}, State> {
           <ButtonIcon
             Icon={IconEdit}
             ariaLabel={translate('background_tasks.change_number_of_workers')}
-            className="js-edit sw-ml-2"
+            className="js-edit sw:ml-2"
             onClick={this.handleChangeClick}
             variety={ButtonVariety.DefaultGhost}
           />
         )}
         {!loading && !canSetWorkerCount && (
-          <ToggleTip className="sw-ml-2" extraContent={<NoWorkersSupportPopup />} />
+          <ToggleTip className="sw:ml-2" extraContent={<NoWorkersSupportPopup />} />
         )}
         {formOpen && <WorkersForm onClose={this.closeForm} workerCount={this.state.workerCount} />}
       </div>

@@ -62,7 +62,7 @@ export function FileInput(props: Readonly<Props>) {
   }, [fileInputRef]);
 
   return (
-    <div className={classNames('sw-flex sw-items-center sw-gap-2', className)}>
+    <div className={classNames('sw:flex sw:items-center sw:gap-2', className)}>
       {selectedFileName ? (
         <>
           <Button onClick={handleFileInputReset}>{clearLabel}</Button>

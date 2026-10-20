@@ -43,16 +43,16 @@ export default function GraphsTooltipsContentCoverage(props: GraphsTooltipsConte
     <>
       {addSeparator && <TableSeparator />}
       {uncoveredValue && (
-        <tr className="sw-h-800">
-          <td className="sw-font-bold sw-text-right sw-pr-2 thin" colSpan={2}>
+        <tr className="sw:h-800">
+          <td className="sw:font-bold sw:text-right sw:pr-2 thin" colSpan={2}>
             {formatMeasure(uncoveredValue, MetricType.ShortInteger)}
           </td>
           <td>{translate('metric.uncovered_lines.name')}</td>
         </tr>
       )}
       {coverageValue && (
-        <tr className="sw-h-800">
-          <td className="sw-font-bold sw-text-right sw-pr-2 thin" colSpan={2}>
+        <tr className="sw:h-800">
+          <td className="sw:font-bold sw:text-right sw:pr-2 thin" colSpan={2}>
             {formatMeasure(coverageValue, MetricType.Percent)}
           </td>
           <td>{translate('metric.coverage.name')}</td>

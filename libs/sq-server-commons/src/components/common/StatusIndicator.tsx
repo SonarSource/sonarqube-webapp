@@ -38,7 +38,7 @@ export default function StatusIndicator({ color }: Readonly<StatusIndicatorProps
   return (
     <>
       {translate('system.current_health', color.toLowerCase())}
-      <Icon aria-hidden className="sw-ml-2" />
+      <Icon aria-hidden className="sw:ml-2" />
     </>
   );
 }

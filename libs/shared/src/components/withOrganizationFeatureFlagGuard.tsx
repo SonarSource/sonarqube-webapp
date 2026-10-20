@@ -47,7 +47,7 @@ export function withOrganizationFeatureFlagGuard<P extends object>(
     // Show loading while waiting for context
     if (isWaitingForOrganizationContext) {
       return (
-        <div className="sw-flex sw-items-center sw-justify-center sw-min-h-screen">
+        <div className="sw:flex sw:items-center sw:justify-center sw:min-h-screen">
           <Spinner />
         </div>
       );

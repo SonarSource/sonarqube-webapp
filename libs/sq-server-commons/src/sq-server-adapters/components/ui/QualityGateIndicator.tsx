@@ -109,7 +109,7 @@ export function QualityGateIndicator(props: Readonly<Props>) {
       break;
   }
   return (
-    <div className="sw-flex sw-justify-center sw-items-center">
+    <div className="sw:flex sw:justify-center sw:items-center">
       <svg className={className} {...COMMON_PROPS} {...sizeProps}>
         <title>{title}</title>
 

@@ -44,7 +44,7 @@ export default function GraphsLegendCustom(props: GraphsLegendCustomProps) {
   const { leakPeriodDate, series, removeMetric } = props;
 
   return (
-    <ul className="activity-graph-legends sw-flex sw-justify-center sw-items-center sw-pb-4">
+    <ul className="activity-graph-legends sw:flex sw:justify-center sw:items-center sw:pb-4">
       {series.map((serie, idx) => {
         const hasData = hasDataValues(serie);
 
@@ -61,7 +61,7 @@ export default function GraphsLegendCustom(props: GraphsLegendCustomProps) {
         if (!hasData) {
           const noHistoryMessage = getNoHistoryMessage(serie.name);
           return (
-            <li aria-label={noHistoryMessage} className="sw-mx-2" key={serie.name}>
+            <li aria-label={noHistoryMessage} className="sw:mx-2" key={serie.name}>
               <Tooltip content={noHistoryMessage}>
                 <span>{legendItem}</span>
               </Tooltip>
@@ -70,7 +70,7 @@ export default function GraphsLegendCustom(props: GraphsLegendCustomProps) {
         }
 
         return (
-          <li className="sw-ml-3" key={serie.name}>
+          <li className="sw:ml-3" key={serie.name}>
             {legendItem}
           </li>
         );
@@ -78,7 +78,7 @@ export default function GraphsLegendCustom(props: GraphsLegendCustomProps) {
       {leakPeriodDate && (
         <li key={translate('hotspot.filters.period.since_leak_period')}>
           <NewCodeLegend
-            className="sw-ml-3 sw-mr-4"
+            className="sw:ml-3 sw:mr-4"
             text={translate('hotspot.filters.period.since_leak_period')}
           />
         </li>

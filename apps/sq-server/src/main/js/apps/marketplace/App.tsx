@@ -168,7 +168,7 @@ class App extends React.PureComponent<Props, State> {
                 <FormattedMessage id={`marketplace.page.you_are_running.${currentEdition}`} />
               </Text>
             )}
-            <p className="sw-mt-2">
+            <p className="sw:mt-2">
               {currentEdition === 'datacenter' ? (
                 <FormattedMessage id="marketplace.page.description_best_edition" />
               ) : (
@@ -181,18 +181,18 @@ class App extends React.PureComponent<Props, State> {
       >
         <EditionBoxes currentEdition={currentEdition} />
 
-        <Divider className="sw-my-6" />
+        <Divider className="sw:my-6" />
 
         <div>
           <Heading as="h2" hasMarginBottom>
             <FormattedMessage id="marketplace.page.plugins" />
           </Heading>
-          <div className="sw-mt-2 sw-max-w-abs-600 ">
+          <div className="sw:mt-2 sw:max-w-abs-600 ">
             <p>
               <FormattedMessage id="marketplace.page.plugins.description" />
             </p>
             {currentEdition !== EditionKey.community && (
-              <FlagMessage className="sw-mt-2" variant="info">
+              <FlagMessage className="sw:mt-2" variant="info">
                 <p>
                   <FormattedMessage
                     id="marketplace.page.plugins.description2"
@@ -221,7 +221,7 @@ class App extends React.PureComponent<Props, State> {
           updateCenterActive={this.props.updateCenterActive}
           updateQuery={this.updateQuery}
         />
-        <div className="sw-mt-4">
+        <div className="sw:mt-4">
           <Spinner isLoading={loadingPlugins}>
             {filteredPlugins.length === 0 && (
               <FormattedMessage id={`marketplace.plugin_list.no_plugins.${query.filter}`} />

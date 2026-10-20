@@ -48,7 +48,7 @@ export default class ProjectActivityDateInput extends React.PureComponent<Props>
           <FormattedMessage id="project_activity.filter_date_range" />
         </Label>
         <DateRangePicker
-          className="sw-w-abs-350"
+          className="sw:w-abs-350"
           endClearButtonLabel={translate('clear.end')}
           fromLabel={translate('start_date')}
           onChange={this.handleChange}
@@ -58,7 +58,7 @@ export default class ProjectActivityDateInput extends React.PureComponent<Props>
           value={{ from: this.props.from, to: this.props.to }}
         />
         <Button
-          className="sw-ml-2"
+          className="sw:ml-2"
           isDisabled={this.props.from === undefined && this.props.to === undefined}
           onClick={this.handleResetClick}
         >

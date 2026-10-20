@@ -100,7 +100,7 @@ export default class DefinitionActions extends React.PureComponent<Props, State>
 
     return (
       <div>
-        <ButtonGroup className="sw-mr-3">
+        <ButtonGroup className="sw:mr-3">
           {hasValueChanged && (
             <Button
               ariaLabel={saveButtonLabel}

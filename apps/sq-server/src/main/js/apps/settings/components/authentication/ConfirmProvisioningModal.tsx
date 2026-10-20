@@ -66,7 +66,7 @@ export default function ConfirmProvisioningModal(props: Readonly<Props>) {
           id: `settings.authentication.${provider}.confirm.${provisioningStatus}.description`,
         })}
       {(provisioningStatus === ProvisioningType.auto || allowUsersToSignUp) && isAllowListEmpty && (
-        <FlagMessage className="sw-mt-2" variant="warning">
+        <FlagMessage className="sw:mt-2" variant="warning">
           {intl.formatMessage({
             id: `settings.authentication.${provider}.provisioning_change.insecure_config`,
           })}

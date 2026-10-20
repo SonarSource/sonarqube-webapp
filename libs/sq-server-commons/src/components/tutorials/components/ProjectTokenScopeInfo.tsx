@@ -33,7 +33,7 @@ export default function ProjectTokenScopeInfo({ className }: Readonly<ProjectTok
   const docUrl = useDocUrl(DocLink.AccountTokens);
 
   return (
-    <MessageCallout className={classNames('sw-mt-2', className)} variety={MessageVariety.Info}>
+    <MessageCallout className={classNames('sw:mt-2', className)} variety={MessageVariety.Info}>
       <FormattedMessage
         id="onboarding.token.warning_project_token_scope"
         tagName="span"

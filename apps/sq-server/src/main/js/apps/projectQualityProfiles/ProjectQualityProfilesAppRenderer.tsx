@@ -132,14 +132,14 @@ export default function ProjectQualityProfilesAppRenderer(
         )}
         <Spinner isLoading={loading}>
           {!loading && orderedProfiles.length > 0 && (
-            <Card className="sw-mt-6">
+            <Card className="sw:mt-6">
               <Card.Header
                 description={
                   <FormattedMessage id="project_quality_profile.profiles_by_languages.description" />
                 }
                 title={<FormattedMessage id="project_quality_profile.profiles_by_languages" />}
               />
-              <Card.Body className="sw-px-2">
+              <Card.Body className="sw:px-2">
                 <Table
                   columnCount={COLUMN_WIDTHS_WITH_PURGE_SETTING.length}
                   columnWidths={COLUMN_WIDTHS_WITH_PURGE_SETTING}
@@ -157,13 +157,13 @@ export default function ProjectQualityProfilesAppRenderer(
                         <ContentCell>
                           <span>
                             {!selected && profile.isDefault && (
-                              <em className="sw-mr-1">
+                              <em className="sw:mr-1">
                                 <FormattedMessage id="project_quality_profile.instance_default" />
                               </em>
                             )}
                             {profile.name}
                             {profile.isBuiltIn && (
-                              <BuiltInQualityProfileBadge className="sw-ml-1" />
+                              <BuiltInQualityProfileBadge className="sw:ml-1" />
                             )}
                             {hasAICAFeature &&
                               isDefined(addons.aica?.ProfileRecommendedForAiIcon) && (
@@ -199,7 +199,7 @@ export default function ProjectQualityProfilesAppRenderer(
             </Card>
           )}
 
-          <Card className="sw-mt-6 sw-p-4 sw-flex-row sw-items-center sw-justify-between">
+          <Card className="sw:mt-6 sw:p-4 sw:flex-row sw:items-center sw:justify-between">
             <div>
               <Heading as="h3">
                 <FormattedMessage id="project_quality_profile.add_language.title" />

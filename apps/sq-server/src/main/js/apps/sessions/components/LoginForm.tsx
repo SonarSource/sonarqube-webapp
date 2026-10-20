@@ -94,12 +94,12 @@ export default function LoginForm({ collapsed, onExpandClick }: Readonly<Props>)
     <>
       <div role="alert">
         {showAuthenticationError && (
-          <MessageCallout className="sw-mt-6" variety={MessageVariety.Danger}>
+          <MessageCallout className="sw:mt-6" variety={MessageVariety.Danger}>
             {formatMessage({ id: 'login.authentication_failed' })}
           </MessageCallout>
         )}
       </div>
-      <Form className="sw-w-full" onSubmit={handleSubmit}>
+      <Form className="sw:w-full" onSubmit={handleSubmit}>
         <LoginFormCollapseContainer isCollapsed={collapsed}>
           <LoginFormCollapseUsername isCollapsed={collapsed}>
             <TextInput
@@ -152,7 +152,7 @@ export default function LoginForm({ collapsed, onExpandClick }: Readonly<Props>)
           </LoginFormCollapsePassword>
         </LoginFormCollapseContainer>
 
-        <Form.Footer className="sw-w-full">
+        <Form.Footer className="sw:w-full">
           <LoginFormButton
             aria-expanded={collapsed ? false : undefined}
             isDisabled={

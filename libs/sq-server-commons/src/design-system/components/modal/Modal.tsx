@@ -113,12 +113,12 @@ export function Modal({
 
       <ReactModal
         aria={{ labelledby: 'modal_header_title' }}
-        className={classNames('design-system-modal-contents', 'sw-z-modal', {
+        className={classNames('design-system-modal-contents', 'sw:z-modal', {
           large: isLarge,
         })}
         isOpen={isOpen}
         onRequestClose={onClose}
-        overlayClassName="design-system-modal-overlay sw-z-modal-overlay"
+        overlayClassName="design-system-modal-overlay sw:z-modal-overlay"
         shouldCloseOnEsc
         shouldCloseOnOverlayClick={closeOnOverlayClick}
         shouldFocusAfterRender
@@ -137,7 +137,7 @@ export function Modal({
               primaryButton={props.primaryButton}
               secondaryButton={
                 <Button
-                  className="js-modal-close sw-capitalize"
+                  className="js-modal-close sw:capitalize"
                   isDisabled={props.loading}
                   onClick={onClose}
                   type="reset"

@@ -71,7 +71,7 @@ export function OpenFixInIde({ aiSuggestion, issue }: Readonly<Props>) {
 
   const triggerButton = (
     <Button
-      className="sw-whitespace-nowrap"
+      className="sw:whitespace-nowrap"
       isDisabled={isLoading}
       isLoading={isLoading}
       onClick={findAvailableIDEs}

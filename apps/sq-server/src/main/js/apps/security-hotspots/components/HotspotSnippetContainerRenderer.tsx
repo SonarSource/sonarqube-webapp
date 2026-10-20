@@ -147,7 +147,7 @@ export default function HotspotSnippetContainerRenderer(
       : undefined;
 
   return (
-    <Spinner className="sw-mt-6" isLoading={loading}>
+    <Spinner className="sw:mt-6" isLoading={loading}>
       {sourceLines.length === 0 && (
         <FlagMessage variant="info">
           <FormattedMessage id="hotspots.no_associated_lines" />
@@ -156,7 +156,7 @@ export default function HotspotSnippetContainerRenderer(
       {sourceLines.length > 0 && (
         <>
           <HotspotSnippetHeader branchLike={branchLike} component={component} hotspot={hotspot} />
-          <SourceFileWrapper className="sw-box-border sw-w-full sw-rounded-1" ref={scrollableRef}>
+          <SourceFileWrapper className="sw:box-border sw:w-full sw:rounded-1" ref={scrollableRef}>
             <SnippetViewer
               component={sourceViewerFile}
               displayLineNumberOptions={false}

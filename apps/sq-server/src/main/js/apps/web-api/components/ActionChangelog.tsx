@@ -28,10 +28,10 @@ interface Props {
 
 export default function ActionChangelog({ changelog }: Props) {
   return (
-    <Text as="ul" className="sw-list-none sw-max-w-full sw-pl-0">
+    <Text as="ul" className="sw:list-none sw:max-w-full sw:pl-0">
       {changelog.map((item, index) => (
         <li key={index}>
-          <Badge className="sw-mr-2" variant="default">
+          <Badge className="sw:mr-2" variant="default">
             {item.version}
           </Badge>
           {item.description}

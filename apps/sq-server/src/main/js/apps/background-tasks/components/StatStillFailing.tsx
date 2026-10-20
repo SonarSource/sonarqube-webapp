@@ -34,10 +34,10 @@ export default function StatStillFailing({ failingCount, onShowFailing }: Readon
   }
 
   return (
-    <div className="sw-flex sw-items-center">
+    <div className="sw:flex sw:items-center">
       {failingCount > 0 ? (
         <LinkStandalone
-          className="sw-typo-lg-semibold sw-align-baseline"
+          className="sw:typo-lg-semibold sw:align-baseline"
           highlight={LinkHighlight.Accent}
           onClick={onShowFailing}
           to="#"
@@ -45,14 +45,14 @@ export default function StatStillFailing({ failingCount, onShowFailing }: Readon
           {failingCount}
         </LinkStandalone>
       ) : (
-        <span className="sw-typo-lg-semibold">{failingCount}</span>
+        <span className="sw:typo-lg-semibold">{failingCount}</span>
       )}
-      <span className="sw-ml-1">
+      <span className="sw:ml-1">
         <FormattedMessage id="background_tasks.failures" />
       </span>
 
       <ToggleTip
-        className="sw-ml-1"
+        className="sw:ml-1"
         description={<FormattedMessage id="background_tasks.failing_count" />}
       />
     </div>

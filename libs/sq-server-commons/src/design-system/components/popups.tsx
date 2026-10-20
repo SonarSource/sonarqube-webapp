@@ -71,10 +71,10 @@ const PopupWithRef = React.forwardRef(PopupBase);
 PopupWithRef.displayName = 'Popup';
 
 const POPUP_Z_LEVEL_CLASS_NAMES: Record<PopupZLevel, string> = {
-  [PopupZLevel.Default]: 'sw-z-popup',
-  [PopupZLevel.Global]: 'sw-z-global-popup',
-  [PopupZLevel.Content]: 'sw-z-content-popup',
-  [PopupZLevel.Absolute]: 'sw-z-global-popup',
+  [PopupZLevel.Default]: 'sw:z-popup',
+  [PopupZLevel.Global]: 'sw:z-global-popup',
+  [PopupZLevel.Content]: 'sw:z-content-popup',
+  [PopupZLevel.Absolute]: 'sw:z-global-popup',
 };
 
 interface PopupProps extends Omit<PopupBaseProps, 'style'> {

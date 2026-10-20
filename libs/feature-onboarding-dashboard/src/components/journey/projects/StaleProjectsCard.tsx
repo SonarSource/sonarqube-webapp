@@ -93,20 +93,20 @@ function StaleProjectRow({ project }: Readonly<ProjectsTableRowProps>) {
 
   return (
     <Table.Row>
-      <Table.Cell className="sw-justify-start">
+      <Table.Cell className="sw:justify-start">
         <RepositoryCell alm={alm} name={name} projectKey={key} subtitle={path} />
       </Table.Cell>
 
-      <Table.Cell className="sw-justify-start">
+      <Table.Cell className="sw:justify-start">
         <GateStatusBadge status={project.gateStatus} />
       </Table.Cell>
 
       {isDefined(project.lastScan) ? (
-        <Table.CellBadge cellClassName="sw-justify-start" variety={BadgeVariety.Neutral}>
+        <Table.CellBadge cellClassName="sw:justify-start" variety={BadgeVariety.Neutral}>
           <DateFormatter date={project.lastScan} />
         </Table.CellBadge>
       ) : (
-        <Table.Cell className="sw-justify-start">{NO_DATA}</Table.Cell>
+        <Table.Cell className="sw:justify-start">{NO_DATA}</Table.Cell>
       )}
 
       <ProjectRowActionsCell project={project} />

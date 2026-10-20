@@ -50,14 +50,14 @@ export default function SubnavigationIssue(props: ConciseIssueProps) {
   return (
     <li ref={element}>
       <SubnavigationItem active={selected} onClick={props.onClick} value={issue.key}>
-        <div className="sw-w-full">
-          <BareButton aria-current={selected} className="sw-mb-2 sw-break-words sw-p-1">
+        <div className="sw:w-full">
+          <BareButton aria-current={selected} className="sw:mb-2 sw:break-words sw:p-1">
             <IssueMessageHighlighting
               message={issue.message}
               messageFormattings={issue.messageFormattings}
             />
           </BareButton>
-          <IssueInfo className="sw-flex sw-justify-between sw-gap-2">
+          <IssueInfo className="sw:flex sw:justify-between sw:gap-2">
             <IssueItemLocationsQuantity issue={issue} />
           </IssueInfo>
           {selected && (

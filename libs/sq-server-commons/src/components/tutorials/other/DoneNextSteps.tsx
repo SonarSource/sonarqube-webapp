@@ -53,29 +53,29 @@ function DoneNextSteps({ appState }: Readonly<Props>) {
 
   return (
     <animated.div
-      className="sw-flex sw-flex-col sw-items-center sw-relative"
+      className="sw:flex sw:flex-col sw:items-center sw:relative"
       ref={outroRef}
       style={outroAnimation}
     >
-      <BasicSeparator className="sw-my-8" />
+      <BasicSeparator className="sw:my-8" />
       <StyledDiv>
-        <div className="sw-flex sw-justify-center sw-mb-12">
+        <div className="sw:flex sw:justify-center sw:mb-12">
           <FlagVisual />
         </div>
 
         <p>
-          <strong className="sw-font-semibold sw-mr-1">
+          <strong className="sw:font-semibold sw:mr-1">
             {translate('onboarding.analysis.auto_refresh_after_analysis.done')}
           </strong>
           {translate('onboarding.analysis.auto_refresh_after_analysis.auto_refresh')}
         </p>
-        <div className="sw-mt-4">
+        <div className="sw:mt-4">
           {hasLicensedEdition ? (
             <>
               <span>
                 {translate('onboarding.analysis.auto_refresh_after_analysis.check_these_links')}
               </span>
-              <ul className="sw-flex sw-flex-col sw-gap-2 sw-mt-2">
+              <ul className="sw:flex sw:flex-col sw:gap-2 sw:mt-2">
                 <li>
                   <Link enableOpenInNewTab to={docUrl(DocLink.BranchAnalysis)}>
                     {translate(

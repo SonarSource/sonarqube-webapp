@@ -128,11 +128,11 @@ export default class ProjectActivityAnalysesList extends React.PureComponent<Pro
 
     return (
       // Top padding is handled by the sticky version tags
-      <Layout.AsideLeft className="sw-pt-0" size="large">
+      <Layout.AsideLeft className="sw:pt-0" size="large">
         <output>
-          <Spinner className="sw-my-4" isLoading={initializing}>
+          <Spinner className="sw:my-4" isLoading={initializing}>
             {!hasData && (
-              <div className="sw-my-4">
+              <div className="sw:my-4">
                 <Text isSubtle>
                   <FormattedMessage id="no_results" />
                 </Text>
@@ -145,15 +145,15 @@ export default class ProjectActivityAnalysesList extends React.PureComponent<Pro
           <ul className="it__project-activity-versions-list">
             {newCodePeriod.baselineAnalysisKey !== undefined &&
               newCodePeriod.firstNewCodeAnalysisKey === undefined && (
-                <BaselineMarker className="sw-typo-default sw-mb-2">
-                  <span className="sw-py-1/2 sw-px-1">
+                <BaselineMarker className="sw:typo-default sw:mb-2">
+                  <span className="sw:py-1/2 sw:px-1">
                     <FormattedMessage id="project_activity.new_code_period_start" />
                   </span>
                   <Tooltip
                     content={<FormattedMessage id="project_activity.new_code_period_start.help" />}
                     side="top"
                   >
-                    <HelperHintIcon className="sw-ml-1" />
+                    <HelperHintIcon className="sw:ml-1" />
                   </Tooltip>
                 </BaselineMarker>
               )}
@@ -169,7 +169,7 @@ export default class ProjectActivityAnalysesList extends React.PureComponent<Pro
                   {version.version && (
                     <VersionTagStyled
                       className={classNames(
-                        'sw-sticky sw-top-0 sw-left-0 sw-pt-4 sw-pb-1 sw--ml-4 sw-z-normal',
+                        'sw:sticky sw:top-0 sw:left-0 sw:pt-4 sw:pb-1 sw:-ml-4 sw:z-normal',
                       )}
                     >
                       <Tooltip
@@ -178,18 +178,18 @@ export default class ProjectActivityAnalysesList extends React.PureComponent<Pro
                         }
                         mouseEnterDelay={0.5}
                       >
-                        <Badge className="sw-p-1">{version.version}</Badge>
+                        <Badge className="sw:p-1">{version.version}</Badge>
                       </Tooltip>
                     </VersionTagStyled>
                   )}
                   <ul className="it__project-activity-days-list">
                     {days.map((day) => (
                       <li
-                        className="it__project-activity-day sw-mt-1 sw-mb-4"
+                        className="it__project-activity-day sw:mt-1 sw:mb-4"
                         data-day={toShortISO8601String(Number(day))}
                         key={day}
                       >
-                        <div className="sw-typo-lg-semibold sw-mb-3">
+                        <div className="sw:typo-lg-semibold sw:mb-3">
                           <DateFormatter date={Number(day)} long />
                         </div>
                         <ul className="it__project-activity-analyses-list">
@@ -204,7 +204,7 @@ export default class ProjectActivityAnalysesList extends React.PureComponent<Pro
               );
             })}
             {this.props.analysesLoading && (
-              <li className="sw-text-center">
+              <li className="sw:text-center">
                 <Spinner />
               </li>
             )}

@@ -65,19 +65,19 @@ export default function DeliveryAccordion({ delivery }: Props) {
         delivery.success ? (
           <FlagSuccessIcon
             aria-label={translate('success')}
-            className="sw-pt-4 sw-pb-2 sw-pr-4 sw-float-right it__success"
+            className="sw:pt-4 sw:pb-2 sw:pr-4 sw:float-right it__success"
           />
         ) : (
           <FlagErrorIcon
             aria-label={translate('error')}
-            className="sw-pt-4 sw-pb-2 sw-pr-4 sw-float-right js-error"
+            className="sw:pt-4 sw:pb-2 sw:pr-4 sw:float-right js-error"
           />
         )
       }
       title={<DateTimeFormatter date={delivery.at} />}
     >
       <DeliveryItem
-        className="it__accordion-content sw-ml-4"
+        className="it__accordion-content sw:ml-4"
         delivery={delivery}
         loading={loading}
         payload={payload}

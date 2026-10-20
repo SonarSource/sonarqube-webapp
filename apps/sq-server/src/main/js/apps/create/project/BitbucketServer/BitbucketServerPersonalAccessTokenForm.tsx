@@ -57,7 +57,7 @@ export default function BitbucketServerPersonalAccessTokenForm({
   } = usePersonalAccessToken(almSetting, resetPat, onPersonalAccessTokenCreated);
 
   if (checkingPat) {
-    return <Spinner className="sw-ml-2" isLoading />;
+    return <Spinner className="sw:ml-2" isLoading />;
   }
 
   const { url } = almSetting;
@@ -71,7 +71,7 @@ export default function BitbucketServerPersonalAccessTokenForm({
   return (
     <PersonalAccessTokenForm
       almKey={AlmKeys.BitbucketServer}
-      className="sw-w-[50%]"
+      className="sw:w-[50%]"
       errorMessage={errorMessage}
       firstConnection={firstConnection}
       handleSubmit={handleSubmit}

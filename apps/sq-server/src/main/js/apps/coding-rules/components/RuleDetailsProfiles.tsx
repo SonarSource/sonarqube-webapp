@@ -101,7 +101,7 @@ export default function RuleDetailsProfiles(props: Readonly<Props>) {
 
   const renderRowActions = (activation: RuleActivationAdvanced, profile: BaseProfile) => {
     return (
-      <ActionCell className="sw-align-top">
+      <ActionCell className="sw:align-top">
         <ActivatedRuleActions
           activation={activation}
           canDeactivateInherited={canDeactivateInherited}
@@ -127,7 +127,7 @@ export default function RuleDetailsProfiles(props: Readonly<Props>) {
 
     const inheritedProfileSection = profile.parentName
       ? (activation.inherit === 'OVERRIDES' || activation.inherit === 'INHERITED') && (
-          <Text as="div" className="sw-flex sw-items-center sw-w-full" isSubtle>
+          <Text as="div" className="sw:flex sw:items-center sw:w-full" isSubtle>
             <IconInheritance
               color={
                 activation.inherit === 'OVERRIDES'
@@ -138,7 +138,7 @@ export default function RuleDetailsProfiles(props: Readonly<Props>) {
 
             <DiscreetLink
               aria-label={`${translate('quality_profiles.parent')} ${profile.parentName}`}
-              className="sw-ml-1 sw-truncate"
+              className="sw:ml-1 sw:truncate"
               title={profile.parentName}
               to={getQualityProfileUrl(profile.parentName, profile.language)}
             >
@@ -156,8 +156,8 @@ export default function RuleDetailsProfiles(props: Readonly<Props>) {
 
     return (
       <TableRowInteractive key={profile.key}>
-        <ContentCell cellClassName="sw-align-top">
-          <div className="sw-flex-col sw-flex sw-gap-1">
+        <ContentCell cellClassName="sw:align-top">
+          <div className="sw:flex-col sw:flex sw:gap-1">
             <span>
               <LinkStandalone
                 aria-label={profile.name}
@@ -166,7 +166,7 @@ export default function RuleDetailsProfiles(props: Readonly<Props>) {
               >
                 {profile.name}
               </LinkStandalone>
-              {profile.isBuiltIn && <BuiltInQualityProfileBadge className="sw-ml-1" />}
+              {profile.isBuiltIn && <BuiltInQualityProfileBadge className="sw:ml-1" />}
             </span>
             {inheritedProfileSection}
 
@@ -214,7 +214,7 @@ export default function RuleDetailsProfiles(props: Readonly<Props>) {
                                   ),
                                   recommended: (
                                     <Text
-                                      className="sw-lowercase"
+                                      className="sw:lowercase"
                                       colorOverride="echoes-color-text-on-color"
                                       isHighlighted
                                     >
@@ -225,7 +225,7 @@ export default function RuleDetailsProfiles(props: Readonly<Props>) {
                                   ),
                                   customized: (
                                     <Text
-                                      className="sw-lowercase"
+                                      className="sw:lowercase"
                                       colorOverride="echoes-color-text-on-color"
                                       isHighlighted
                                     >
@@ -257,12 +257,12 @@ export default function RuleDetailsProfiles(props: Readonly<Props>) {
                       id="coding_rules.severity_customized.message"
                       values={{
                         recommended: (
-                          <Text className="sw-lowercase" isHighlighted>
+                          <Text className="sw:lowercase" isHighlighted>
                             <FormattedMessage id={`severity.${ruleDetails.severity}`} />
                           </Text>
                         ),
                         customized: (
-                          <Text className="sw-lowercase" isHighlighted>
+                          <Text className="sw:lowercase" isHighlighted>
                             <FormattedMessage id={`severity.${activation.severity}`} />
                           </Text>
                         ),
@@ -280,24 +280,24 @@ export default function RuleDetailsProfiles(props: Readonly<Props>) {
 
               return (
                 <StyledParameter key={param.key}>
-                  <div className="sw-flex">
-                    <Text className="sw-min-w-[100px]" isHighlighted>
+                  <div className="sw:flex">
+                    <Text className="sw:min-w-[100px]" isHighlighted>
                       {param.key}:
                     </Text>
 
                     <span
-                      className="sw-inline-block sw-code sw-ml-2 sw-break-all"
+                      className="sw:inline-block sw:code sw:ml-2 sw:break-all"
                       title={param.value}
                     >
                       {param.value}
                     </span>
                   </div>
                   {parentActivation && param.value !== parentValue && (
-                    <Text className="sw-flex sw-mt-1" isSubtle>
-                      <div className="sw-min-w-[100px]">
+                    <Text className="sw:flex sw:mt-1" isSubtle>
+                      <div className="sw:min-w-[100px]">
                         <FormattedMessage id="coding_rules.original" />
                       </div>
-                      <span className="sw-code sw-ml-2 sw-break-all">{parentValue}</span>
+                      <span className="sw:code sw:ml-2 sw:break-all">{parentValue}</span>
                     </Text>
                   )}
                 </StyledParameter>
@@ -311,8 +311,8 @@ export default function RuleDetailsProfiles(props: Readonly<Props>) {
   };
 
   return (
-    <div className="js-rule-profiles sw-mb-8">
-      <div className="sw-flex sw-justify-between sw-items-end">
+    <div className="js-rule-profiles sw:mb-8">
+      <div className="sw:flex sw:justify-between sw:items-end">
         <div>
           <SubTitle id={PROFILES_HEADING_ID}>
             <FormattedMessage id="coding_rules.quality_profiles" />
@@ -338,7 +338,7 @@ export default function RuleDetailsProfiles(props: Readonly<Props>) {
       {activations.length > 0 && (
         <Table
           aria-labelledby={PROFILES_HEADING_ID}
-          className="sw-my-6"
+          className="sw:my-6"
           columnCount={MANDATORY_COLUMNS_COUNT + +showParamsColumn}
           header={
             <TableRow>

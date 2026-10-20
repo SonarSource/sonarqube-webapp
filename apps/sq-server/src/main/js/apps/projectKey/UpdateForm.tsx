@@ -61,7 +61,7 @@ export function UpdateForm({ component, onKeyChange }: Readonly<UpdateFormProps>
 
   return (
     <form
-      className="sw-mt-8"
+      className="sw:mt-8"
       onSubmit={(e) => {
         e.preventDefault();
       }}
@@ -78,26 +78,26 @@ export function UpdateForm({ component, onKeyChange }: Readonly<UpdateFormProps>
         width={FormFieldWidth.Large}
       />
 
-      <div className="sw-mb-4 sw-mt-4 sw-w-abs-600">
+      <div className="sw:mb-4 sw:mt-4 sw:w-abs-600">
         <Text as="p" isSubtle>
           <FormattedMessage id="onboarding.create_project.project_key.description" />
         </Text>
       </div>
 
-      <div className="sw-mt-8">
+      <div className="sw:mt-8">
         <ModalAlert
           content={
             <>
               <span>
                 <FormattedMessage id="update_key.old_key" />
                 :&nbsp;
-                <strong className="sw-typo-lg-semibold">{component.key}</strong>
+                <strong className="sw:typo-lg-semibold">{component.key}</strong>
               </span>
 
-              <div className="sw-mt-2">
+              <div className="sw:mt-2">
                 <FormattedMessage id="update_key.new_key" />
                 :&nbsp;
-                <strong className="sw-typo-lg-semibold">{newKey}</strong>
+                <strong className="sw:typo-lg-semibold">{newKey}</strong>
               </div>
             </>
           }
@@ -123,7 +123,7 @@ export function UpdateForm({ component, onKeyChange }: Readonly<UpdateFormProps>
         </ModalAlert>
 
         <Button
-          className="sw-ml-2"
+          className="sw:ml-2"
           id="update-key-reset"
           isDisabled={!hasChanged}
           onClick={() => {

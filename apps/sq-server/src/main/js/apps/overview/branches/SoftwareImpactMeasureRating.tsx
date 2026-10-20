@@ -112,7 +112,7 @@ function SoftwareImpactMeasureRating(props: Readonly<SoftwareImpactMeasureRating
   return (
     <RatingComponent
       branchLike={branch}
-      className="sw-text-sm"
+      className="sw:text-sm"
       componentKey={componentKey}
       getLabel={getLabel}
       getTooltip={getSoftwareImpactRatingTooltip}

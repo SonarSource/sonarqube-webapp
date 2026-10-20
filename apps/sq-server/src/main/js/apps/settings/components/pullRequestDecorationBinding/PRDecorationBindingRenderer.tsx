@@ -107,14 +107,14 @@ export default function PRDecorationBindingRenderer(props: PRDecorationBindingRe
   const selected = formData.key ? instances.find((i) => i.key === formData.key) : undefined;
 
   return (
-    <div className="sw-p-6">
+    <div className="sw:p-6">
       <SubTitle as="h3">
         <FormattedMessage id="settings.pr_decoration.binding.title" />
       </SubTitle>
       <Text className="markdown" isSubtle>
         <FormattedMessage id="settings.pr_decoration.binding.description" />
       </Text>
-      <BasicSeparator className="sw-my-6" />
+      <BasicSeparator className="sw:my-6" />
       <form
         onSubmit={(event: React.SyntheticEvent<HTMLFormElement>) => {
           event.preventDefault();
@@ -123,21 +123,21 @@ export default function PRDecorationBindingRenderer(props: PRDecorationBindingRe
       >
         <MandatoryFieldsExplanation />
 
-        <div className="sw-p-6 sw-flex sw-gap-12">
-          <div className="sw-w-abs-300">
+        <div className="sw:p-6 sw:flex sw:gap-12">
+          <div className="sw:w-abs-300">
             <SubHeading>
               <label htmlFor="name">
                 <FormattedMessage id="settings.pr_decoration.binding.form.name" />
-                <RequiredIcon className="sw-mr-2" />
+                <RequiredIcon className="sw:mr-2" />
               </label>
             </SubHeading>
             <div className="markdown">
               <FormattedMessage id="settings.pr_decoration.binding.form.name.help" />
             </div>
           </div>
-          <div className="sw-flex-1">
+          <div className="sw:flex-1">
             <AlmSettingsInstanceSelector
-              className="sw-w-abs-400 it__configuration-name-select"
+              className="sw:w-abs-400 it__configuration-name-select"
               initialValue={formData.key}
               inputId="name"
               instances={instances}
@@ -157,7 +157,7 @@ export default function PRDecorationBindingRenderer(props: PRDecorationBindingRe
           />
         )}
 
-        <div className="sw-flex sw-items-center sw-mt-8 sw-gap-2">
+        <div className="sw:flex sw:items-center sw:mt-8 sw:gap-2">
           {isChanged && (
             <>
               <Button
@@ -196,9 +196,9 @@ export default function PRDecorationBindingRenderer(props: PRDecorationBindingRe
           )}
         </div>
         {!checkingConfiguration && configurationErrors?.errors && (
-          <FlagMessage className="sw-mt-6" variant="error">
+          <FlagMessage className="sw:mt-6" variant="error">
             <div>
-              <p className="sw-mb-2">
+              <p className="sw:mb-2">
                 <FormattedMessage id="settings.pr_decoration.binding.check_configuration.failure" />
               </p>
               <ul className="list-styled">
@@ -233,7 +233,7 @@ export default function PRDecorationBindingRenderer(props: PRDecorationBindingRe
           </FlagMessage>
         )}
         {isConfigured && !isChanged && !checkingConfiguration && !configurationErrors && (
-          <FlagMessage className="sw-mt-6" variant="success">
+          <FlagMessage className="sw:mt-6" variant="success">
             <FormattedMessage id="settings.pr_decoration.binding.check_configuration.success" />
           </FlagMessage>
         )}

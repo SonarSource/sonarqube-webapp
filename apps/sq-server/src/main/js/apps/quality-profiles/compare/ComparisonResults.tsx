@@ -85,7 +85,7 @@ export default function ComparisonResults(props: Readonly<Props>) {
               <RuleCell rule={rule} />
             </ContentCell>
             {canRenderSecondColumn && (
-              <ContentCell className="sw-px-0">
+              <ContentCell className="sw:px-0">
                 <ComparisonResultDeactivation
                   key={rule.key}
                   onDone={props.refresh}
@@ -114,7 +114,7 @@ export default function ComparisonResults(props: Readonly<Props>) {
         header={
           <TableRowInteractive>
             <ContentCell aria-label={intl.formatMessage({ id: 'actions' })}>&nbsp;</ContentCell>
-            <ContentCell className="sw-pl-4">
+            <ContentCell className="sw:pl-4">
               {intl.formatMessage(
                 {
                   id: 'quality_profiles.x_rules_only_in',
@@ -128,7 +128,7 @@ export default function ComparisonResults(props: Readonly<Props>) {
       >
         {inRight.map((rule) => (
           <TableRowInteractive key={`right-${rule.key}`}>
-            <ActionCell className="sw-px-0">
+            <ActionCell className="sw:px-0">
               {renderFirstColumn && (
                 <ComparisonResultActivation
                   key={rule.key}
@@ -138,7 +138,7 @@ export default function ComparisonResults(props: Readonly<Props>) {
                 />
               )}
             </ActionCell>
-            <ContentCell className="sw-pl-4">
+            <ContentCell className="sw:pl-4">
               <RuleCell rule={rule} />
             </ContentCell>
           </TableRowInteractive>
@@ -167,7 +167,7 @@ export default function ComparisonResults(props: Readonly<Props>) {
         header={
           <TableRowInteractive>
             <ContentCell>{left.name}</ContentCell>
-            <ContentCell className="sw-pl-4">{right.name}</ContentCell>
+            <ContentCell className="sw:pl-4">{right.name}</ContentCell>
           </TableRowInteractive>
         }
         noSidePadding
@@ -180,7 +180,7 @@ export default function ComparisonResults(props: Readonly<Props>) {
                 <Parameters params={rule.left.params} />
               </div>
             </ContentCell>
-            <ContentCell className="sw-pl-4">
+            <ContentCell className="sw:pl-4">
               <div>
                 <RuleCell impacts={rule.right.impacts} rule={rule} severity={rule.right.severity} />
                 <Parameters params={rule.right.params} />
@@ -193,7 +193,7 @@ export default function ComparisonResults(props: Readonly<Props>) {
   };
 
   return (
-    <div className="sw-mt-8">
+    <div className="sw:mt-8">
       {emptyComparison ? (
         intl.formatMessage({ id: 'quality_profile.empty_comparison' })
       ) : (
@@ -234,11 +234,11 @@ function RuleCell({ rule, severity, impacts }: Readonly<RuleCellProps>) {
   return (
     <div>
       {shouldRenderSeverity && <IssueSeverityIcon severity={severity as IssueSeverity} />}
-      <LinkStandalone className="sw-ml-1" to={getRulesUrl({ rule_key: rule.key, open: rule.key })}>
+      <LinkStandalone className="sw:ml-1" to={getRulesUrl({ rule_key: rule.key, open: rule.key })}>
         {rule.name}
       </LinkStandalone>
       {!isStandardMode && (rule.cleanCodeAttributeCategory || shouldRenderImpacts) && (
-        <ul className="sw-mt-3 sw-flex sw-items-center">
+        <ul className="sw:mt-3 sw:flex sw:items-center">
           {rule.cleanCodeAttributeCategory && (
             <li>
               <CleanCodeAttributePill
@@ -250,7 +250,7 @@ function RuleCell({ rule, severity, impacts }: Readonly<RuleCellProps>) {
           {((impacts && impacts.length > 0) || rule.impacts) && (
             <li>
               <SoftwareImpactPillList
-                className="sw-ml-2"
+                className="sw:ml-2"
                 softwareImpacts={impacts ?? rule.impacts ?? []}
               />
             </li>
@@ -269,8 +269,8 @@ function Parameters({ params }: Readonly<{ params?: Params }>) {
   return (
     <ul>
       {Object.keys(params).map((key) => (
-        <li className="sw-mt-2 sw-break-all" key={key}>
-          <code className="sw-typo-default">
+        <li className="sw:mt-2 sw:break-all" key={key}>
+          <code className="sw:typo-default">
             {key}
             {': '}
             {params[key]}

@@ -59,11 +59,11 @@ export function FormField({
 }: Readonly<Props>) {
   return (
     <FieldWrapper className={className} id={id}>
-      <Text className="sw-mb-2 sw-flex sw-items-center sw-gap-2" isHighlighted>
+      <Text className="sw:mb-2 sw:flex sw:items-center sw:gap-2" isHighlighted>
         <StyledLabel aria-label={ariaLabel} disabled={disabled} htmlFor={htmlFor} title={title}>
           {label}
           {required && (
-            <RequiredIcon aria-label={requiredAriaLabel ?? 'required'} className="sw-ml-1" />
+            <RequiredIcon aria-label={requiredAriaLabel ?? 'required'} className="sw:ml-1" />
           )}
         </StyledLabel>
         {help}
@@ -72,7 +72,7 @@ export function FormField({
       {children}
 
       {description && (
-        <Text className="sw-mt-2" isSubtle>
+        <Text className="sw:mt-2" isSubtle>
           {description}
         </Text>
       )}

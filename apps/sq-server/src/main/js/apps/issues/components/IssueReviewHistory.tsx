@@ -79,16 +79,16 @@ export default function IssueReviewHistory(props: Readonly<HotspotReviewHistoryP
       <ul>
         {history.map(({ user, type, diffs, date, html, key, updatable, markdown }) => {
           return (
-            <li className="sw-p-2 sw-typo-default" key={`${user.name}${type}${date}`}>
-              <div className="sw-typo-semibold sw-mb-1">
+            <li className="sw:p-2 sw:typo-default" key={`${user.name}${type}${date}`}>
+              <div className="sw:typo-semibold sw:mb-1">
                 <DateTimeFormatter date={date} />
               </div>
 
-              <Text as="div" className="sw-mb-1" isSubtle>
+              <Text as="div" className="sw:mb-1" isSubtle>
                 {user.name !== undefined && (
-                  <div className="sw-flex sw-items-center sw-gap-1">
+                  <div className="sw:flex sw:items-center sw:gap-1">
                     <Avatar hash={user.avatar} name={user.name} size="xs" />
-                    <span className="sw-typo-semibold">
+                    <span className="sw:typo-semibold">
                       {user.active
                         ? user.name
                         : translateWithParameters('user.x_deleted', user.name)}
@@ -104,7 +104,7 @@ export default function IssueReviewHistory(props: Readonly<HotspotReviewHistoryP
               </Text>
 
               {type === ReviewHistoryType.Diff && diffs && (
-                <div className="sw-mt-2">
+                <div className="sw:mt-2">
                   {diffs.map((diff) => (
                     <IssueChangelogDiff
                       diff={diff}
@@ -115,9 +115,9 @@ export default function IssueReviewHistory(props: Readonly<HotspotReviewHistoryP
               )}
 
               {type === ReviewHistoryType.Comment && key && html && markdown && (
-                <div className="sw-mt-2 sw-flex sw-justify-between">
+                <div className="sw:mt-2 sw:flex sw:justify-between">
                   <SafeHTMLInjection htmlAsString={html} sanitizeLevel={SanitizeLevel.USER_INPUT}>
-                    <CommentBox className="sw-pl-2 sw-ml-2 sw-typo-default" />
+                    <CommentBox className="sw:pl-2 sw:ml-2 sw:typo-default" />
                   </SafeHTMLInjection>
 
                   {updatable && (

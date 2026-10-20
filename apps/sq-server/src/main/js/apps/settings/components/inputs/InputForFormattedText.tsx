@@ -46,7 +46,7 @@ function InputForFormattedText(
     <div>
       <TextArea
         aria-label={getPropertyName(setting.definition)}
-        className="settings-large-input sw-mr-2"
+        className="settings-large-input sw:mr-2"
         id={id ?? ''}
         name={name}
         onChange={handleInputChange}
@@ -55,7 +55,7 @@ function InputForFormattedText(
         value={value ?? ''}
         width="large"
       />
-      <FormattingTipsWithLink className="sw-mt-2" />
+      <FormattingTipsWithLink className="sw:mt-2" />
     </div>
   ) : (
     <>
@@ -68,7 +68,7 @@ function InputForFormattedText(
 
       <Button
         ariaLabel={`${formatMessage({ id: 'edit' })} ${getPropertyName(setting.definition)}`}
-        className="sw-mt-2 sw-self-start"
+        className="sw:mt-2 sw:self-start"
         onClick={props.onEditing}
         prefix={<IconEdit />}
       >

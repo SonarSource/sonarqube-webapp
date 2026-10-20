@@ -51,11 +51,11 @@ it('collapses the item of an action that renders nothing', () => {
   renderActionsBar([HiddenAction]);
 
   const [item] = getAdditionalActionItems();
-  // The <li> stays in the DOM (the parent owns it), so `empty:sw-hidden` is what stops it
+  // The <li> stays in the DOM (the parent owns it), so `sw:empty:hidden` is what stops it
   // from consuming a flex gap. jsdom loads no Tailwind stylesheet, hence asserting the hook
   // rather than a computed display value.
   expect(item).toBeEmptyDOMElement();
-  expect(item).toHaveClass('empty:sw-hidden');
+  expect(item).toHaveClass('sw:empty:hidden');
 });
 
 it('renders a visible action inside its own list item without needing the action to emit one', () => {

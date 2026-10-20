@@ -88,15 +88,15 @@ export function OnboardingJourney({ state, timeline }: Readonly<Props>) {
 
   return (
     <>
-      <div className="sw-flex sw-flex-col sw-gap-6">
+      <div className="sw:flex sw:flex-col sw:gap-6">
         <JourneyStepper onSelectStep={setSelectedStep} selectedStep={step} state={state} />
 
         <DetailPanel onSelectStep={setSelectedStep} selectedStep={step} state={state} />
       </div>
 
-      <Divider className="sw-my-10" role="separator" />
+      <Divider className="sw:my-10" role="separator" />
 
-      <div className="sw-mb-6 sw-flex sw-flex-col sw-gap-6">
+      <div className="sw:mb-6 sw:flex sw:flex-col sw:gap-6">
         {state.level !== JourneyLevel.Unbound && (
           <OnboardingOverTimeCard
             showImportedSeries={state.level === JourneyLevel.Imported}

@@ -57,7 +57,7 @@ class RepositoryFacet extends React.PureComponent<Props> {
     return repository ? (
       <>
         {repository.name}
-        <Text className="sw-ml-1" isSubtle>
+        <Text className="sw:ml-1" isSubtle>
           {this.getLanguageName(repository.language)}
         </Text>
       </>
@@ -79,7 +79,7 @@ class RepositoryFacet extends React.PureComponent<Props> {
     return repository ? (
       <>
         {highlightTerm(repository.name, query)}
-        <Text className="sw-ml-1" isSubtle>
+        <Text className="sw:ml-1" isSubtle>
           {this.getLanguageName(repository.language)}
         </Text>
       </>

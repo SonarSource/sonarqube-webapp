@@ -195,7 +195,7 @@ class SubCategoryDefinitionsList extends React.PureComponent<SubCategoryDefiniti
     );
 
     return (
-      <ul className={classNames({ 'sw-mx-6': !noPadding })}>
+      <ul className={classNames({ 'sw:mx-6': !noPadding })}>
         {allSubCategories.map((subCategory, index) => {
           const isLast = index === allSubCategories.length - 1;
           const SubCategoryComponent = subCategory.isFrontendDefined
@@ -204,7 +204,7 @@ class SubCategoryDefinitionsList extends React.PureComponent<SubCategoryDefiniti
 
           return (
             <li
-              className={classNames({ 'sw-py-6': !noPadding })}
+              className={classNames({ 'sw:py-6': !noPadding })}
               data-scroll-key={
                 subCategory.isFrontendDefined
                   ? subCategory.customSubCategorySection['data-scroll-key']?.toLowerCase()
@@ -229,7 +229,7 @@ class SubCategoryDefinitionsList extends React.PureComponent<SubCategoryDefiniti
                   <Text className="markdown" isSubtle />
                 </SafeHTMLInjection>
               )}
-              <Divider className="sw-mt-6" />
+              <Divider className="sw:mt-6" />
               {SubCategoryComponent ? (
                 <SubCategoryComponent component={component} />
               ) : (

@@ -34,8 +34,8 @@ interface Props {
 
 export default function FilesCounter({ className, current, total }: Props) {
   return (
-    <Text className={classNames('sw-whitespace-nowrap', className)} isSubtle>
-      <Counter className="sw-typo-semibold">
+    <Text className={classNames('sw:whitespace-nowrap', className)} isSubtle>
+      <Counter className="sw:typo-semibold">
         {isDefined(current) && formatMeasure(current, MetricType.Integer) + '/'}
         {formatMeasure(total, MetricType.Integer)}
       </Counter>{' '}

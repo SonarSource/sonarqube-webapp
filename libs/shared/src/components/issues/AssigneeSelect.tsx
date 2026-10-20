@@ -120,9 +120,9 @@ function AssigneeOption(props: Readonly<AssigneeSelectOption>) {
   const { Icon, label } = props;
 
   return (
-    <div className="sw-flex sw-flex-nowrap sw-items-center sw-overflow-hidden">
-      {isDefined(Icon) && <span className="sw-mr-2">{Icon}</span>}
-      <span className="sw-whitespace-nowrap sw-text-ellipsis">{label}</span>
+    <div className="sw:flex sw:flex-nowrap sw:items-center sw:overflow-hidden">
+      {isDefined(Icon) && <span className="sw:mr-2">{Icon}</span>}
+      <span className="sw:whitespace-nowrap sw:text-ellipsis">{label}</span>
     </div>
   );
 }
@@ -133,7 +133,7 @@ export function userToOption(user: {
   name?: string;
 }): AssigneeSelectOption {
   return {
-    Icon: <Avatar className="sw-my-1" hash={user.avatar} name={user.name} size="xs" />,
+    Icon: <Avatar className="sw:my-1" hash={user.avatar} name={user.name} size="xs" />,
     label: user.name ?? user.login,
     value: user.login,
   };

@@ -27,7 +27,7 @@ interface Props {
 
 export default function ParameterChange({ name, value }: Props) {
   return (
-    <p className="sw-break-words">
+    <p className="sw:break-words">
       {value == null
         ? translateWithParameters(
             'quality_profiles.changelog.parameter_reset_to_default_value',

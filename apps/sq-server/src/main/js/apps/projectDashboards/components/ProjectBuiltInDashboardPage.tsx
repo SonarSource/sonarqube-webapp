@@ -266,7 +266,7 @@ function ProjectBuiltInDashboardContent(props: Readonly<ProjectBuiltInDashboardC
     dashboardContent = (
       <>
         <A11ySkipTarget anchor="project_dashboard_main" />
-        <div className="sw-flex sw-flex-col sw-gap-6">
+        <div className="sw:flex sw:flex-col sw:gap-6">
           <ProjectDashboardHeader
             branchLike={branchLike}
             canViewAllDashboards={canViewAllDashboards}
@@ -298,8 +298,8 @@ function ProjectBuiltInDashboardContent(props: Readonly<ProjectBuiltInDashboardC
       callout={callout}
       contentHeaderTitle={
         !isProjectOverview && dashboard ? (
-          <div className="sw-flex sw-min-w-0 sw-items-center sw-gap-2 sw-pr-2">
-            <span className="sw-min-w-0 sw-flex-1 sw-truncate" title={dashboard.name}>
+          <div className="sw:flex sw:min-w-0 sw:items-center sw:gap-2 sw:pr-2">
+            <span className="sw:min-w-0 sw:flex-1 sw:truncate" title={dashboard.name}>
               {dashboard.name}
             </span>
             <DashboardTypeBadge dashboardType={dashboard.type} />
@@ -386,8 +386,8 @@ function ProjectDashboardHeader(props: Readonly<ProjectDashboardHeaderProps>) {
   }
 
   return (
-    <div className="sw-flex sw-items-start sw-justify-between sw-gap-4">
-      <div className="sw-flex sw-flex-col sw-gap-2">
+    <div className="sw:flex sw:items-start sw:justify-between sw:gap-4">
+      <div className="sw:flex sw:flex-col sw:gap-2">
         <Heading as="h2">{dashboardName}</Heading>
         {isStringDefined(dashboardDescription) && <Text isSubtle>{dashboardDescription}</Text>}
       </div>

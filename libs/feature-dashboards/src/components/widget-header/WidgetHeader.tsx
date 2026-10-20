@@ -101,20 +101,20 @@ export function WidgetHeader(props: Readonly<WidgetHeaderProps>) {
     'metric' in props ? { metric: props.metric } : { metricKey: props.metricKey };
 
   return (
-    <div className="sw-flex sw-w-full sw-min-w-0 sw-flex-col sw-gap-1" data-testid="widget-header">
+    <div className="sw:flex sw:w-full sw:min-w-0 sw:flex-col sw:gap-1" data-testid="widget-header">
       <div
-        className="sw-flex sw-w-full sw-items-center sw-justify-between sw-gap-2"
+        className="sw:flex sw:w-full sw:items-center sw:justify-between sw:gap-2"
         data-testid="widget-header-title-row"
       >
         <div
-          className="sw-flex sw-min-w-0 sw-flex-1 sw-items-center sw-gap-1"
+          className="sw:flex sw:min-w-0 sw:flex-1 sw:items-center sw:gap-1"
           data-testid="widget-header-title-container"
         >
           <WidgetHeaderTitle title={title} />
           <WidgetHeaderTooltip {...tooltipProps} isPortfolio={props.isPortfolio} />
         </div>
         {contextualRatingBadge ? (
-          <RatingBadgeDisplay {...contextualRatingBadge} className="sw-flex-shrink-0" />
+          <RatingBadgeDisplay {...contextualRatingBadge} className="sw:flex-shrink-0" />
         ) : null}
       </div>
       <WidgetFilterLine segments={headerText.filterSegments} />

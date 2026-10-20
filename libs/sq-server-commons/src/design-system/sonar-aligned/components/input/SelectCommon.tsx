@@ -66,7 +66,7 @@ export function IconOption<
 
   return (
     <components.Option {...props}>
-      <div className="sw-flex sw-items-center sw-gap-1">
+      <div className="sw:flex sw:items-center sw:gap-1">
         {Icon}
         <SearchHighlighter>{label}</SearchHighlighter>
       </div>
@@ -84,7 +84,7 @@ export function SingleValue<
 
   return (
     <components.SingleValue {...props}>
-      <div className="sw-flex sw-items-center sw-gap-1">
+      <div className="sw:flex sw:items-center sw:gap-1">
         {Icon}
         {label}
       </div>
@@ -126,7 +126,7 @@ export function DropdownIndicator<
 >(props: OptionProps<Option, IsMulti, Group>) {
   return (
     <components.DropdownIndicator {...props}>
-      <div className="sw-pr-2 sw-flex">
+      <div className="sw:pr-2 sw:flex">
         <ChevronDownIcon />
       </div>
     </components.DropdownIndicator>

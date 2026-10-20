@@ -76,8 +76,8 @@ export default function ComponentName({
     )
   ) {
     return (
-      <span className="sw-inline-flex sw-items-center sw-overflow-hidden">
-        <div aria-label={ariaLabel} className="sw-truncate" title={getTooltip(component)}>
+      <span className="sw:inline-flex sw:items-center sw:overflow-hidden">
+        <div aria-label={ariaLabel} className="sw:truncate" title={getTooltip(component)}>
           {renderNameWithIcon(
             branchLike,
             component,
@@ -91,14 +91,14 @@ export default function ComponentName({
         </div>
 
         {component.branch ? (
-          <div className="sw-truncate sw-ml-2">
+          <div className="sw:truncate sw:ml-2">
             <Text isSubtle>
               <IconBranch />
               {component.branch}
             </Text>
           </div>
         ) : (
-          <Badge className="sw-ml-2" variety="neutral">
+          <Badge className="sw:ml-2" variety="neutral">
             <FormattedMessage id="branches.main_branch" />
           </Badge>
         )}
@@ -111,7 +111,7 @@ export default function ComponentName({
   return (
     <span
       aria-label={ariaLabel}
-      className="sw-inline-flex sw-items-center "
+      className="sw:inline-flex sw:items-center "
       title={getTooltip(component)}
     >
       {renderNameWithIcon(
@@ -149,7 +149,7 @@ function AIBadgeWithTooltip({ componentQualifier }: Readonly<AIBadgeWithTooltipP
 
   return (
     <Popover description={content}>
-      <ContainsAICodeBadge className="sw-ml-2" isInteractive />
+      <ContainsAICodeBadge className="sw:ml-2" isInteractive />
     </Popover>
   );
 }
@@ -204,7 +204,7 @@ function renderNameWithIcon(
     return (
       <LinkStandalone
         highlight={LinkHighlight.CurrentColor}
-        iconLeft={showIcon && <QualifierIcon className="sw-mr-2" qualifier={component.qualifier} />}
+        iconLeft={showIcon && <QualifierIcon className="sw:mr-2" qualifier={component.qualifier} />}
         to={getComponentOverviewUrl(
           component.refKey ?? component.key,
           component.qualifier,
@@ -225,7 +225,7 @@ function renderNameWithIcon(
     return (
       <LinkStandalone
         highlight={LinkHighlight.CurrentColor}
-        iconLeft={showIcon && <QualifierIcon className="sw-mr-2" qualifier={component.qualifier} />}
+        iconLeft={showIcon && <QualifierIcon className="sw:mr-2" qualifier={component.qualifier} />}
         to={{ pathname: '/code', search: queryToSearchString(query) }}
       >
         {name}
@@ -236,7 +236,7 @@ function renderNameWithIcon(
   return (
     <span>
       {showIcon && (
-        <QualifierIcon className="sw-mr-2 sw-align-text-bottom" qualifier={component.qualifier} />
+        <QualifierIcon className="sw:mr-2 sw:align-text-bottom" qualifier={component.qualifier} />
       )}
 
       {name}

@@ -30,7 +30,7 @@ export function SqUpgradeActivityEventMessage({
   event,
 }: Readonly<SqUpgradeActivityEventMessageProps>) {
   return (
-    <FlagMessage className="sw-my-1" id={event.key} variant="info">
+    <FlagMessage className="sw:my-1" id={event.key} variant="info">
       <FormattedMessage
         id="event.sqUpgrade"
         values={{

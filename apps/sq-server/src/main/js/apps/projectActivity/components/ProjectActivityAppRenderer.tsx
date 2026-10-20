@@ -86,7 +86,7 @@ export default function ProjectActivityAppRenderer(props: Props) {
       width="fluid"
     >
       <A11ySkipTarget anchor="activity_main" />
-      <Layout.PageContent className="sw-flex sw-flex-col">
+      <Layout.PageContent className="sw:flex sw:flex-col">
         <ProjectActivityPageFilters
           category={query.category}
           from={query.from}

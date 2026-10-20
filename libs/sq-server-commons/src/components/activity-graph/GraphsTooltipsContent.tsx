@@ -29,11 +29,11 @@ interface Props {
 
 export default function GraphsTooltipsContent({ name, index, translatedName, value }: Props) {
   return (
-    <tr className="sw-h-800" key={name}>
+    <tr className="sw:h-800" key={name}>
       <td className="thin">
-        <ChartLegend className="sw-mr-2" index={index} />
+        <ChartLegend className="sw:mr-2" index={index} />
       </td>
-      <td className="sw-font-bold sw-text-right sw-pr-2 thin">{value}</td>
+      <td className="sw:font-bold sw:text-right sw:pr-2 thin">{value}</td>
       <td>{translatedName}</td>
     </tr>
   );

@@ -52,8 +52,8 @@ export function PortfolioPieChartDrilldownPreview(props: Readonly<Props>) {
     return (
       <Card>
         <Card.Header description={description} title={title} />
-        <Card.Body className="sw-pb-16">
-          <div className="sw-flex sw-h-full sw-items-center sw-justify-center">
+        <Card.Body className="sw:pb-16">
+          <div className="sw:flex sw:h-full sw:items-center sw:justify-center">
             <PortfolioDrilldownEmptyStateContent
               title={formatMessage({
                 id: 'portfolio_dashboard.breakdown.empty_state.no_data.title',
@@ -68,7 +68,7 @@ export function PortfolioPieChartDrilldownPreview(props: Readonly<Props>) {
   return (
     <Card>
       <Card.Header description={description} title={title} />
-      <Card.Body className="sw-pb-16">
+      <Card.Body className="sw:pb-16">
         <InteractivePieChart
           ariaLabel={buildPieChartAriaLabel(formatMessage, { segments, title })}
           getSegmentUrl={() => undefined}

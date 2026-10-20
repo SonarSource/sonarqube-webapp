@@ -97,10 +97,10 @@ function AllowedGroupsField(props: Readonly<AllowedGroupsFieldProps>) {
 
   return (
     <div className={className}>
-      <Text className="sw-mb-1 sw-flex sw-items-center" isHighlighted>
+      <Text className="sw:mb-1 sw:flex sw:items-center" isHighlighted>
         {name}
         {mandatory && (
-          <RequiredIcon aria-label={formatMessage({ id: 'required' })} className="sw-ml-1" />
+          <RequiredIcon aria-label={formatMessage({ id: 'required' })} className="sw:ml-1" />
         )}
       </Text>
       {isAutoProvisioning && isGitLabCom ? (
@@ -116,7 +116,7 @@ function AllowedGroupsField(props: Readonly<AllowedGroupsFieldProps>) {
       {isAutoProvisioning && !isGitLabCom && (
         <RadioButtonGroup
           ariaLabel={name}
-          className="sw-mt-3"
+          className="sw:mt-3"
           onChange={(value) => {
             onAllowAllGroupsChange(value === ALLOW_ALL);
           }}
@@ -132,7 +132,7 @@ function AllowedGroupsField(props: Readonly<AllowedGroupsFieldProps>) {
                     id: 'settings.authentication.gitlab.form.allowedGroups.allow_all.help',
                   })}
                   {allowAllGroups && isAutoProvisioning && (
-                    <MessageCallout className="sw-my-2" variety="warning">
+                    <MessageCallout className="sw:my-2" variety="warning">
                       <FormattedMessage id="settings.authentication.gitlab.form.allowedGroups.allow_all.warning" />
                     </MessageCallout>
                   )}
@@ -154,8 +154,8 @@ function AllowedGroupsField(props: Readonly<AllowedGroupsFieldProps>) {
       )}
 
       {(!allowAllGroups || !isAutoProvisioning) && (
-        <div className={classNames('sw-mt-3', { 'sw-ml-6': isAutoProvisioning && !isGitLabCom })}>
-          <label className="sw-sr-only" htmlFor={definition.key}>
+        <div className={classNames('sw:mt-3', { 'sw:ml-6': isAutoProvisioning && !isGitLabCom })}>
+          <label className="sw:sr-only" htmlFor={definition.key}>
             {name}
           </label>
           <AuthenticationMultiValueField
@@ -446,7 +446,7 @@ export default function GitLabAuthenticationTab() {
                   <AllowedGroupsField
                     allowAllGroups={allowAllGroups}
                     allowedGroups={allowedGroups}
-                    className="sw-mt-8"
+                    className="sw:mt-8"
                     definition={allowedGroupsDefinition}
                     isAutoProvisioning
                     isGitLabCom={isGitLabCom}
@@ -464,8 +464,8 @@ export default function GitLabAuthenticationTab() {
                       });
                     }}
                   />
-                  <div className="sw-mt-8">
-                    <div className="sw-flex sw-flex-col sw-gap-2 sw-items-start">
+                  <div className="sw:mt-8">
+                    <div className="sw:flex sw:flex-col sw:gap-2 sw:items-start">
                       <Text isHighlighted>
                         <FormattedMessage id="settings.authentication.configuration.roles_mapping.title" />
                       </Text>
@@ -477,7 +477,7 @@ export default function GitLabAuthenticationTab() {
                         <FormattedMessage id="settings.authentication.configuration.roles_mapping.button_label" />
                       </Button>
                     </div>
-                    <Text as="p" className="sw-mt-3" isSubtle>
+                    <Text as="p" className="sw:mt-3" isSubtle>
                       <FormattedMessage id="settings.authentication.gitlab.configuration.roles_mapping.description" />
                     </Text>
                   </div>
@@ -523,14 +523,14 @@ export default function GitLabAuthenticationTab() {
                     settingValue={allowUsersToSignUp}
                   />
                   {allowUsersToSignUp && !synchronizeGroups && (
-                    <MessageCallout className="sw-mt-3" variety="warning">
+                    <MessageCallout className="sw:mt-3" variety="warning">
                       <FormattedMessage id="settings.authentication.gitlab.form.allowUsersToSignUp.info" />
                     </MessageCallout>
                   )}
                   <AllowedGroupsField
                     allowAllGroups={allowAllGroups}
                     allowedGroups={allowedGroups}
-                    className="sw-mt-8"
+                    className="sw:mt-8"
                     definition={allowedGroupsDefinition}
                     isGitLabCom={false}
                     onAllowAllGroupsChange={(value) => {

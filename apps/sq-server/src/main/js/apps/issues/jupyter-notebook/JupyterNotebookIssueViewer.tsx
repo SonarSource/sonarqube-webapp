@@ -54,7 +54,7 @@ export function JupyterNotebookIssueViewer(props: Readonly<JupyterNotebookIssueV
   return (
     <Spinner isLoading={isLoading}>
       {!renderedCells ? (
-        <FlagMessage className="sw-mt-2" variant="warning">
+        <FlagMessage className="sw:mt-2" variant="warning">
           <FormattedMessage id="issue.preview.jupyter_notebook.error" />
         </FlagMessage>
       ) : (
@@ -63,14 +63,14 @@ export function JupyterNotebookIssueViewer(props: Readonly<JupyterNotebookIssueV
             <JupyterCodeCell
               className={
                 index === renderedCells.before.length - 1
-                  ? '-sw-mb-8 sw-relative sw-pb-1'
+                  ? 'sw:-mb-8 sw:relative sw:pb-1'
                   : undefined
               }
               key={'cell-' + index}
               source={cell.source as string[]}
             />
           ))}
-          <div className="sw--mt-4 sw--mb-4 sw--ml-1 sw-mr-5 sw-relative sw-z-normal">
+          <div className="sw:-mt-4 sw:-mb-4 sw:-ml-1 sw:mr-5 sw:relative sw:z-normal">
             <LineFinding
               as="div"
               issueKey={issue.key}
@@ -84,7 +84,7 @@ export function JupyterNotebookIssueViewer(props: Readonly<JupyterNotebookIssueV
             />
           </div>
           <JupyterCodeCell
-            className="-sw-mt-6 sw-relative"
+            className="sw:-mt-6 sw:relative"
             outputs={renderedCells.after.outputs}
             source={renderedCells.after.source as string[]}
           />

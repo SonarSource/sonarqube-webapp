@@ -53,13 +53,13 @@ const PAGE_SIZE = 50;
  */
 const COLUMNS: ProjectsTableColumn[] = [
   { labelKey: 'onboarding_dashboard.projects.col.repository' },
-  { className: 'sw-justify-center', labelKey: 'onboarding_dashboard.projects.col.onboarding' },
-  { className: 'sw-justify-center', labelKey: 'onboarding_dashboard.projects.col.analysis_mode' },
+  { className: 'sw:justify-center', labelKey: 'onboarding_dashboard.projects.col.onboarding' },
+  { className: 'sw:justify-center', labelKey: 'onboarding_dashboard.projects.col.analysis_mode' },
   { justify: TableCellJustify.Start, labelKey: 'onboarding_dashboard.stale.col.last_scan' },
   ...(PROJECT_HEALTH_FEATURE_ENABLED
     ? [
         {
-          className: 'sw-justify-center',
+          className: 'sw:justify-center',
           labelKey: 'onboarding_dashboard.projects.col.gate_status',
         },
       ]
@@ -120,7 +120,7 @@ function ProjectRow({ project }: Readonly<ProjectsTableRowProps>) {
 
   return (
     <Table.Row>
-      <Table.Cell className="sw-justify-start">
+      <Table.Cell className="sw:justify-start">
         <RepositoryCell alm={alm} name={name} projectKey={key} subtitle={path} />
       </Table.Cell>
 
@@ -140,7 +140,7 @@ function ProjectRow({ project }: Readonly<ProjectsTableRowProps>) {
         )}
       </Table.Cell>
 
-      <Table.Cell className="sw-justify-start">
+      <Table.Cell className="sw:justify-start">
         {isDefined(project.lastScan) ? (
           <DateFormatter date={project.lastScan} />
         ) : (

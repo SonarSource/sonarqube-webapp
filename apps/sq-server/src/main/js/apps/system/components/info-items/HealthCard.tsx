@@ -56,12 +56,12 @@ export default function HealthCard({
       data={name}
       header={
         <>
-          <div className="sw-flex-1 sw-flex sw-items-center">
-            <SubHeadingHighlight as="h2" className="sw-mb-0">
+          <div className="sw:flex-1 sw:flex sw:items-center">
+            <SubHeadingHighlight as="h2" className="sw:mb-0">
               {name}
             </SubHeadingHighlight>
             {showLogLevelWarning && (
-              <FlagMessage className="sw-ml-4" variant="warning">
+              <FlagMessage className="sw:ml-4" variant="warning">
                 <FormattedMessage id="system.log_level.warning.short" />
               </FlagMessage>
             )}

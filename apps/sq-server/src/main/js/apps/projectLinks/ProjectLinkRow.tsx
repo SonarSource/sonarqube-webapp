@@ -46,7 +46,7 @@ export default class LinkRow extends React.PureComponent<Props> {
         <div>
           <span>{getLinkName(link)}</span>
         </div>
-        <Text className="sw-mt-1" isSubtle>
+        <Text className="sw:mt-1" isSubtle>
           <span>{`sonar.links.${link.type}`}</span>
         </Text>
       </div>
@@ -97,7 +97,7 @@ export default class LinkRow extends React.PureComponent<Props> {
             </div>
           )}
         </ContentCell>
-        <ContentCell className="sw-break-all">
+        <ContentCell className="sw:break-all">
           {isValidUri(link.url) ? (
             <Link enableOpenInNewTab to={link.url}>
               {link.url}

@@ -57,7 +57,7 @@ export default function FailedConditions({
     <>
       {!isApplication && (
         <>
-          <Text className="sw-mb-3" colorOverride="echoes-color-text-danger">
+          <Text className="sw:mb-3" colorOverride="echoes-color-text-danger">
             <FormattedMessage
               id="quality_gates.conditions.x_conditions_failed"
               values={{

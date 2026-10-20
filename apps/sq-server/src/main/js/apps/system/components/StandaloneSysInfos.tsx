@@ -44,7 +44,7 @@ export default function StandAloneSysInfos({
   toggleCard,
 }: Readonly<Props>) {
   return (
-    <ul className="sw-list-none sw-flex sw-flex-col sw-gap-4 sw-w-3/4">
+    <ul className="sw:list-none sw:flex sw:flex-col sw:gap-4 sw:w-3/4">
       <HealthCard
         health={getHealth(sysInfoData)}
         healthCauses={getHealthCauses(sysInfoData)}

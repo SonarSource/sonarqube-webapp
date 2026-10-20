@@ -45,7 +45,7 @@ export default function ProjectAnalysisStep(props: Readonly<Props>) {
 
   function renderForm() {
     return (
-      <div className="sw-pb-4">
+      <div className="sw:pb-4">
         <BuildToolForm
           arch={arch}
           config={config}
@@ -57,7 +57,7 @@ export default function ProjectAnalysisStep(props: Readonly<Props>) {
         />
 
         {config && (
-          <div className="sw-mt-4">
+          <div className="sw:mt-4">
             <AnalysisCommand
               arch={arch}
               baseUrl={baseUrl}

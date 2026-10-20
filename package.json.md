@@ -164,6 +164,10 @@ This package is needed for any worker.ts functions outside of react and reports 
 
 A Vite plugin that provides source map and release management support for Sentry.
 
+### @tailwindcss/vite
+
+Tailwind CSS v4 Vite plugin used by the SQS and SQC Vite builds to compile Tailwind CSS.
+
 ### @types/d3-selection
 
 d3-zoom expects @types/d3-selection@3.0.x, so it may install a different version that breaks type resolution.

@@ -125,14 +125,14 @@ export function Sca({
 
   return (
     <div>
-      <div className="sw-my-8">
+      <div className="sw:my-8">
         <Heading as="h3" hasMarginBottom>
           <FormattedMessage id="property.sca.admin.title" />
         </Heading>
         <Text as="p">
           <FormattedMessage id="property.sca.admin.description" />
         </Text>
-        <p className="sw-mt-4">
+        <p className="sw:mt-4">
           <FormattedMessage
             id="property.sca.admin.description2"
             values={{
@@ -150,13 +150,13 @@ export function Sca({
         </p>
         <Checkbox
           checked={isEnabled}
-          className="sw-mt-6"
+          className="sw:mt-6"
           label={<FormattedMessage id="property.sca.admin.checkbox.label" />}
           onCheck={onChangeIsEnabled}
         />
-        <div className="sw-flex">
+        <div className="sw:flex">
           {!isChanged && (
-            <div className="sw-flex sw-mt-6">
+            <div className="sw:flex sw:mt-6">
               <ModalAlert
                 description={
                   isEnabled
@@ -183,7 +183,7 @@ export function Sca({
                   <FormattedMessage id="save" />
                 </Button>
               </ModalAlert>
-              <Button className="sw-ml-3" onClick={onCancel} variety={ButtonVariety.Default}>
+              <Button className="sw:ml-3" onClick={onCancel} variety={ButtonVariety.Default}>
                 <FormattedMessage id="cancel" />
               </Button>
               <ModalAlert
@@ -205,11 +205,11 @@ export function Sca({
       {showEnabledMessage && isEnabled && (
         <MessageCallout
           action={
-            <LinkStandalone className="sw-ml-3" to={docUrl(SharedDocLink.AnalyzingDependencies)}>
+            <LinkStandalone className="sw:ml-3" to={docUrl(SharedDocLink.AnalyzingDependencies)}>
               <FormattedMessage id="property.sca.admin.enabled.message.link" />
             </LinkStandalone>
           }
-          className="sw-max-w-abs-600"
+          className="sw:max-w-abs-600"
           onDismiss={onDismissSuccessMessage}
           title={
             isOnByDefault
@@ -235,18 +235,18 @@ export function Sca({
         </MessageCallout>
       )}
       {isEnabled && (
-        <div className="sw-ml-12 sw-mt-6">
-          {!showEnabledMessage && <hr className="sw-mx-0 sw-mb-6 sw-p-0" />}
+        <div className="sw:ml-12 sw:mt-6">
+          {!showEnabledMessage && <hr className="sw:mx-0 sw:mb-6 sw:p-0" />}
           <Heading as="h3" hasMarginBottom>
             <FormattedMessage id="property.sca.default.title" />
           </Heading>
-          <div className="sw-my-6 sw-flex sw-flex-col sw-gap-6">
+          <div className="sw:my-6 sw:flex sw:flex-col sw:gap-6">
             {scaOtherDefinitions.map((definition) => (
               <Definition definition={definition} key={definition.key} />
             ))}
             {scaAnalysisModeDefinition && (
               <div>
-                <BetaBadge className="sw-mb-2" />
+                <BetaBadge className="sw:mb-2" />
                 <Definition definition={scaAnalysisModeDefinition} />
               </div>
             )}

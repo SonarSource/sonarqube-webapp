@@ -41,10 +41,10 @@ export default function IssuesListTitle({
 
   return pullRequest && !component?.needIssueSync ? (
     <>
-      <Heading as="h2" className="sw-mt-6 sw-mb-2">
+      <Heading as="h2" className="sw:mt-6 sw:mb-2">
         <FormattedMessage id="issues.fixed_issues" />
       </Heading>
-      <Text as="p" className="sw-mb-2 sw-max-w-full">
+      <Text as="p" className="sw:mb-2 sw:max-w-full">
         <FormattedMessage
           id="issues.fixed_issues.description"
           values={{
@@ -61,7 +61,7 @@ export default function IssuesListTitle({
       </Text>
     </>
   ) : (
-    <Heading as="h2" className="sw-sr-only">
+    <Heading as="h2" className="sw:sr-only">
       {intl.formatMessage({ id: 'list_of_issues' })}
     </Heading>
   );

@@ -44,7 +44,7 @@ function PublishSteps(props: Readonly<PublishStepsProps>) {
           highlightKeys={['task']}
           translationKey="onboarding.tutorial.with.azure_pipelines.BranchAnalysis.publish_qg"
         />
-        <MessageCallout className="sw-mt-2" variety={MessageVariety.Info}>
+        <MessageCallout className="sw:mt-2" variety={MessageVariety.Info}>
           {translate(
             'onboarding.tutorial.with.azure_pipelines.BranchAnalysis.publish_qg.info.sentence1',
           )}
@@ -62,7 +62,7 @@ function PublishSteps(props: Readonly<PublishStepsProps>) {
       </NumberedListItem>
       {branchSupportEnabled && (
         <>
-          <BasicSeparator className="sw-my-4" />
+          <BasicSeparator className="sw:my-4" />
           <div>
             <FormattedMessage
               id="onboarding.tutorial.with.azure_pipelines.BranchAnalysis.branch_protection"

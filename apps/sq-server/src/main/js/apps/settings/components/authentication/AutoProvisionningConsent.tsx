@@ -121,7 +121,7 @@ export default function AutoProvisioningConsent(props: Readonly<Props>) {
           id="settings.authentication.confirm_auto_provisioning.description1"
           tagName="p"
         />
-        <div className="sw-mt-3">
+        <div className="sw:mt-3">
           <FormattedMessage
             id="settings.authentication.confirm_auto_provisioning.description2"
             tagName="p"
@@ -137,7 +137,7 @@ export default function AutoProvisioningConsent(props: Readonly<Props>) {
           />
         </div>
 
-        <div className="sw-mt-12">
+        <div className="sw:mt-12">
           <FormField
             htmlFor="consent-provisioning-method"
             label={formatMessage({

@@ -74,7 +74,7 @@ export function ImportRepositoriesPanel({ state }: Readonly<Props>) {
   ];
 
   return (
-    <div className="sw-flex sw-items-start sw-gap-8">
+    <div className="sw:flex sw:items-start sw:gap-8">
       <PanelDonut
         centerLabel={formatMessage(
           { id: 'onboarding_dashboard.percent' },
@@ -103,8 +103,8 @@ export function ImportRepositoriesPanel({ state }: Readonly<Props>) {
         }
       />
 
-      <div className="sw-flex sw-min-w-0 sw-flex-1 sw-flex-col sw-gap-4 sw-py-4">
-        <div className="sw-flex sw-flex-col sw-gap-2">
+      <div className="sw:flex sw:min-w-0 sw:flex-1 sw:flex-col sw:gap-4 sw:py-4">
+        <div className="sw:flex sw:flex-col sw:gap-2">
           <Heading as="h3" size={HeadingSize.Medium}>
             {formatMessage({ id: 'onboarding_dashboard.journey.import.title' })}
           </Heading>

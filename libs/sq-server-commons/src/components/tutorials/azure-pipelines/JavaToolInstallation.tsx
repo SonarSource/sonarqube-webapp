@@ -33,8 +33,8 @@ function renderSentenceWithFieldAndValue(props: {
     <FormattedMessage
       id="onboarding.tutorial.with.azure_pipelines.BranchAnalysis.java_installer.sentence"
       values={{
-        field: <b className="sw-font-semibold">{field}</b>,
-        value: <b className="sw-font-semibold">{value}</b>,
+        field: <b className="sw:font-semibold">{field}</b>,
+        value: <b className="sw:font-semibold">{value}</b>,
       }}
     />
   );
@@ -44,7 +44,7 @@ export default function JavaToolInstallation() {
   return (
     <NumberedListItem>
       {translate('onboarding.tutorial.with.azure_pipelines.BranchAnalysis.java_installer.title')}
-      <Text as="ul" className="sw-max-w-full sw-ml-6">
+      <Text as="ul" className="sw:max-w-full sw:ml-6">
         <li>
           {renderSentenceWithFieldAndValue({
             field: translate(

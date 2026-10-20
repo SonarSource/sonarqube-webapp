@@ -64,7 +64,7 @@ export default function ProfileRulesRow(props: Readonly<Props>) {
 
   return (
     <TableRow className={className}>
-      <ContentCell className="sw-pl-4">{title}</ContentCell>
+      <ContentCell className="sw:pl-4">{title}</ContentCell>
       <NumericalCell>
         {isDefined(count) && count > 0 ? (
           <Link
@@ -81,7 +81,7 @@ export default function ProfileRulesRow(props: Readonly<Props>) {
           <Text isSubtle>0</Text>
         )}
       </NumericalCell>
-      <NumericalCell className="sw-pr-4">
+      <NumericalCell className="sw:pr-4">
         {isDefined(inactiveCount) && inactiveCount > 0 ? (
           <Link
             aria-label={translateWithParameters(

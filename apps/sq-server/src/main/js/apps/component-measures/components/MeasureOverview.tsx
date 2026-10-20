@@ -162,7 +162,7 @@ export default function MeasureOverview(props: Readonly<Props>) {
         }
       />
 
-      <div className="sw-p-6">
+      <div className="sw:p-6">
         <Spinner isLoading={loading}>
           {isFileComponent && (
             <div className="measure-details-viewer">

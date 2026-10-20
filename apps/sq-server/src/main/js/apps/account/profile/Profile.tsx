@@ -39,10 +39,10 @@ export function Profile({ currentUser }: ProfileProps) {
     <AccountPageTemplate title={formatMessage({ id: 'my_account.profile' })}>
       {renderLogin()}
       {renderEmail()}
-      <GreySeparator className="sw-my-4" />
+      <GreySeparator className="sw:my-4" />
       {renderUserGroups()}
       {renderScmAccounts()}
-      <GreySeparator className="sw-my-4" />
+      <GreySeparator className="sw:my-4" />
       <Preferences />
     </AccountPageTemplate>
   );
@@ -53,8 +53,8 @@ export function Profile({ currentUser }: ProfileProps) {
     }
 
     return (
-      <div className="sw-flex sw-items-center sw-mb-2">
-        <strong className="sw-typo-semibold sw-mr-1">
+      <div className="sw:flex sw:items-center sw:mb-2">
+        <strong className="sw:typo-semibold sw:mr-1">
           <FormattedMessage id="my_profile.login" />:
         </strong>
         {currentUser.login && <span id="login">{currentUser.login}</span>}
@@ -69,8 +69,8 @@ export function Profile({ currentUser }: ProfileProps) {
     }
 
     return (
-      <div className="sw-mb-2">
-        <strong className="sw-typo-semibold sw-mr-1">
+      <div className="sw:mb-2">
+        <strong className="sw:typo-semibold sw:mr-1">
           <FormattedMessage id="my_profile.email" />:
         </strong>
         <span id="email">{currentUser.email}</span>
@@ -91,12 +91,12 @@ export function Profile({ currentUser }: ProfileProps) {
 
         <ul id="groups">
           {currentUser.groups.map((group) => (
-            <li className="sw-mb-2" key={group} title={group}>
+            <li className="sw:mb-2" key={group} title={group}>
               {group}
             </li>
           ))}
         </ul>
-        <GreySeparator className="sw-my-4" />
+        <GreySeparator className="sw:my-4" />
       </>
     );
   }
@@ -114,7 +114,7 @@ export function Profile({ currentUser }: ProfileProps) {
       <>
         <Heading
           as="h2"
-          className="sw-flex sw-items-center sw-gap-2"
+          className="sw:flex sw:items-center sw:gap-2"
           hasMarginBottom
           size={HeadingSize.Medium}
         >

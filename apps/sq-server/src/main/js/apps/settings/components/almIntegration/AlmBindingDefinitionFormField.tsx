@@ -65,19 +65,19 @@ export function AlmBindingDefinitionFormField<B extends AlmBindingDefinitionBase
   });
 
   return (
-    <div className="sw-mb-8">
+    <div className="sw:mb-8">
       {!showField && overwriteOnly ? (
         <>
-          <Label className="sw-mb-2 sw-block" htmlFor={id}>
+          <Label className="sw:mb-2 sw:block" htmlFor={id}>
             {label}
           </Label>
           {help && (
-            <Text as="p" className="sw-mb-2" isSubtle>
+            <Text as="p" className="sw:mb-2" isSubtle>
               {help}
             </Text>
           )}
-          <div className="sw-flex sw-items-center">
-            <p className="sw-mr-2">
+          <div className="sw:flex sw:items-center">
+            <p className="sw:mr-2">
               <FormattedMessage id="settings.almintegration.form.secret.field" />
             </p>
             <Button
@@ -134,7 +134,7 @@ export function AlmBindingDefinitionFormField<B extends AlmBindingDefinitionBase
               />
             )}
             {isSecret && (
-              <Text as="p" className="sw-mt-2" isSubtle>
+              <Text as="p" className="sw:mt-2" isSubtle>
                 <FormattedMessage
                   id="settings.almintegration.form.secret.can_encrypt"
                   values={{

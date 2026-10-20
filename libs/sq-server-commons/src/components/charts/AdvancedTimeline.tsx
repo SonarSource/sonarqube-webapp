@@ -336,7 +336,7 @@ export class AdvancedTimeline extends React.PureComponent<Props, State> {
             <g key={tick}>
               {formatYTick != null && (
                 <text
-                  className="line-chart-tick line-chart-tick-x sw-typo-default"
+                  className="line-chart-tick line-chart-tick-x sw:typo-default"
                   dx="-1em"
                   dy="0.3em"
                   textAnchor="end"
@@ -373,7 +373,7 @@ export class AdvancedTimeline extends React.PureComponent<Props, State> {
 
           return (
             <text
-              className="line-chart-tick sw-typo-default"
+              className="line-chart-tick sw:typo-default"
               // eslint-disable-next-line react/no-array-index-key
               key={index}
               textAnchor="end"
@@ -625,7 +625,7 @@ export class AdvancedTimeline extends React.PureComponent<Props, State> {
     const isZoomed = Boolean(startDate ?? endDate);
 
     return (
-      <div className="sw-relative">
+      <div className="sw:relative">
         <svg
           aria-label={graphDescription}
           className={classNames('line-chart', { 'chart-zoomed': isZoomed })}

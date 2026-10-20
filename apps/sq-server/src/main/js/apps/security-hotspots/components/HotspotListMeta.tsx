@@ -43,19 +43,19 @@ export default function HotspotListMeta(props: Readonly<HotspotListMetaProps>) {
 
   return (
     <output>
-      <span className="sw-sr-only">
+      <span className="sw:sr-only">
         {(hotspotsTotal === 0 || !hasSelectedHotspot) &&
           !loading &&
           translate(`hotspots.${emptyTranslationKey}.title`)}
       </span>
       {(hotspotsTotal > 0 || hasSelectedHotspot) && (
-        <span className="sw-typo-default">
+        <span className="sw:typo-default">
           <FormattedMessage
             id={
               isStaticListOfHotspots ? 'hotspots.list_title' : `hotspots.list_title.${statusFilter}`
             }
             values={{
-              0: <strong className="sw-typo-semibold">{hotspotsTotal}</strong>,
+              0: <strong className="sw:typo-semibold">{hotspotsTotal}</strong>,
             }}
           />
         </span>

@@ -75,8 +75,8 @@ export default function IssueLocationsNavigator(props: Readonly<Props>) {
 
     return (
       <>
-        <SubnavigationFlowSeparator className="sw-my-2" />
-        <div className="sw-flex sw-flex-col sw-gap-1">
+        <SubnavigationFlowSeparator className="sw:my-2" />
+        <div className="sw:flex sw:flex-col sw:gap-1">
           <IssueLocations
             concealed={hasSecondaryLocations}
             issue={issue}
@@ -96,7 +96,7 @@ export default function IssueLocationsNavigator(props: Readonly<Props>) {
 
   if (flows.length > 0) {
     return (
-      <div className="sw-flex sw-flex-col sw-gap-4 sw-mt-4">
+      <div className="sw:flex sw:flex-col sw:gap-4 sw:mt-4">
         {flows.map((flow, index) => (
           <Fragment key={`${issue.key}-flow-${index}`}>
             <ExecutionFlowAccordion

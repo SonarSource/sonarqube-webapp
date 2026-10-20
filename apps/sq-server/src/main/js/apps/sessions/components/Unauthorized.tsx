@@ -32,21 +32,21 @@ export default function Unauthorized() {
     <Layout.PageGrid>
       <Layout.PageContent id="bd">
         <Helmet defer={false} title={translate('unauthorized.page')} />
-        <div className="sw-typo-lg sw-flex sw-justify-center" id="nonav">
-          <Card className="sw-w-abs-500 sw-my-40 sw-text-center">
+        <div className="sw:typo-lg sw:flex sw:justify-center" id="nonav">
+          <Card className="sw:w-abs-500 sw:my-40 sw:text-center">
             <Card.Body>
               <p id="unauthorized">
                 <FormattedMessage id="unauthorized.message" />
               </p>
 
               {Boolean(message) && (
-                <p className="sw-mt-4">
+                <p className="sw:mt-4">
                   <FormattedMessage id="unauthorized.reason" />
                   <br /> {message}
                 </p>
               )}
 
-              <div className="sw-mt-8">
+              <div className="sw:mt-8">
                 <LinkStandalone to="/">
                   <FormattedMessage id="layout.home" />
                 </LinkStandalone>

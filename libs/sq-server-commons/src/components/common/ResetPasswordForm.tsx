@@ -88,7 +88,7 @@ export default function ResetPasswordForm({
     <Form className={className} onSubmit={handleChangePassword}>
       <Form.Section>
         {success && (
-          <div className="sw-pb-4">
+          <div className="sw:pb-4">
             <MessageInline variety={MessageVariety.Success}>
               {translate('my_profile.password.changed')}
             </MessageInline>
@@ -96,7 +96,7 @@ export default function ResetPasswordForm({
         )}
 
         {error !== undefined && (
-          <div className="sw-pb-4">
+          <div className="sw:pb-4">
             <MessageInline variety={MessageVariety.Danger}>{error}</MessageInline>
           </div>
         )}

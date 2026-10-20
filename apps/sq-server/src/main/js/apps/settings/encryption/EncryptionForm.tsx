@@ -78,7 +78,7 @@ export default function EncryptionForm({ generateSecretKey }: Readonly<Props>) {
 
   return (
     <div id="encryption-form-container">
-      <div className="sw-mb-2">
+      <div className="sw:mb-2">
         <FormattedMessage id="encryption.form_intro" />
       </div>
       <form id="encryption-form" onSubmit={handleEncrypt}>
@@ -92,32 +92,32 @@ export default function EncryptionForm({ generateSecretKey }: Readonly<Props>) {
           value={value}
         />
         <div>
-          <Button className="sw-my-2" isDisabled={encrypting || generating} type="submit">
+          <Button className="sw:my-2" isDisabled={encrypting || generating} type="submit">
             <FormattedMessage id="encryption.encrypt" />
           </Button>
           <Spinner isLoading={encrypting} />
         </div>
       </form>
       {encryptedValue && (
-        <div className="sw-my-2">
+        <div className="sw:my-2">
           <label>{translate('encryption.encrypted_value')}</label>
-          <div className="sw-flex">
+          <div className="sw:flex">
             <CodeSnippet
-              className="it__encrypted-value sw-max-w-full sw-break-words sw-p-1"
+              className="it__encrypted-value sw:max-w-full sw:break-words sw:p-1"
               isOneLine
               noCopy
               snippet={encryptedValue}
             />
             <ClipboardIconButton
               aria-label={translate('copy_to_clipboard')}
-              className="sw-ml-4"
+              className="sw:ml-4"
               copyValue={encryptedValue}
             />
           </div>
         </div>
       )}
       <form id="encryption-new-key-form" onSubmit={handleGenerateSecretKey}>
-        <p className="sw-my-2">
+        <p className="sw:my-2">
           <FormattedMessage
             id="encryption.form_note"
             values={{

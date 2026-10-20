@@ -88,7 +88,7 @@ export class FileFacet extends React.PureComponent<Props> {
 
   renderFile = (file: React.ReactNode) => (
     <>
-      <QualifierIcon className="sw-mr-1" qualifier="fil" />
+      <QualifierIcon className="sw:mr-1" qualifier="fil" />
 
       {file}
     </>

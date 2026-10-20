@@ -69,7 +69,7 @@ export class FavoriteFilter extends React.PureComponent<Props> {
 
     return (
       <ToggleButtonGroup
-        className="sw-mb-8"
+        className="sw:mb-8"
         onChange={this.onFavoriteChange}
         options={[
           { value: OPTION.Favorite, label: translate('my_favorites') },

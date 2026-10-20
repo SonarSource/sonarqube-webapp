@@ -53,28 +53,28 @@ function AllSet(props: Readonly<AllSetProps>) {
 
   return (
     <animated.div
-      className="sw-flex sw-flex-col sw-items-center sw-relative"
+      className="sw:flex sw:flex-col sw:items-center sw:relative"
       ref={outroRef}
       style={outroAnimation}
     >
       <FlagVisual />
-      <Heading as="h2" className="sw-mt-3 sw-mb-12">
+      <Heading as="h2" className="sw:mt-3 sw:mb-12">
         {translate('onboarding.tutorial.ci_outro.done')}
       </Heading>
       <MessageContainer>
-        <p className="sw-typo-default sw-mb-4">
+        <p className="sw:typo-default sw:mb-4">
           {translate('onboarding.tutorial.ci_outro.refresh_text')}
         </p>
-        <ul className="sw-mb-6">
-          <li className="sw-mb-4 sw-flex">
-            <IconCheck className="sw-mr-2 sw-pt-1/2" />
+        <ul className="sw:mb-6">
+          <li className="sw:mb-4 sw:flex">
+            <IconCheck className="sw:mr-2 sw:pt-1/2" />
             {branchSupportEnabled
               ? translate('onboarding.tutorial.ci_outro.commit.why', alm)
               : translate('onboarding.tutorial.ci_outro.commit.why.no_branches')}
           </li>
           {willRefreshAutomatically && (
-            <li className="sw-mb-4 sw-flex">
-              <IconCheck className="sw-mr-2 sw-pt-1/2" />
+            <li className="sw:mb-4 sw:flex">
+              <IconCheck className="sw:mr-2 sw:pt-1/2" />
               {translate('onboarding.tutorial.ci_outro.refresh.why')}
             </li>
           )}

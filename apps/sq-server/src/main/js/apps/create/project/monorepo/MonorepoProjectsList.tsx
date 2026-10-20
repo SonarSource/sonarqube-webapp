@@ -46,7 +46,7 @@ export function MonorepoProjectsList({
       <div>
         {projects.map(({ id, key, name }) => (
           <ProjectValidationCard
-            className="sw-mt-4"
+            className="sw:mt-4"
             initialKey={key}
             initialName={name}
             key={id}
@@ -60,7 +60,7 @@ export function MonorepoProjectsList({
         ))}
       </div>
 
-      <div className="sw-flex sw-justify-end sw-mt-4">
+      <div className="sw:flex sw:justify-end sw:mt-4">
         <Button onClick={onAddProject}>
           <FormattedMessage id="onboarding.create_project.monorepo.add_project" />
         </Button>

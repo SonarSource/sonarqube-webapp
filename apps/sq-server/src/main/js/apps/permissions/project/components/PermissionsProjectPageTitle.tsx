@@ -55,7 +55,7 @@ export function PermissionsProjectPageTitle(props: Readonly<Props>) {
                 : intl.formatMessage({ id: 'alm.gitlab' }),
             },
           )}
-          className="sw-mx-2 sw-align-baseline"
+          className="sw:mx-2 sw:align-baseline"
           height={16}
           src={iconUrl}
         />

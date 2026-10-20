@@ -66,16 +66,16 @@ function Event(props: Readonly<EventProps>) {
   );
 
   return (
-    <div className="it__project-activity-event sw-flex sw-justify-between">
+    <div className="it__project-activity-event sw:flex sw:justify-between">
       <EventInner event={event} />
 
       {showActions && (
-        <div className="sw-grow-0 sw-shrink-0 sw-ml-2">
+        <div className="sw:grow-0 sw:shrink-0 sw:ml-2">
           {canChange && (
             <ButtonIcon
               Icon={IconEdit}
               ariaLabel={editEventLabel}
-              className="-sw-mt-1"
+              className="sw:-mt-1"
               data-test="project-activity__edit-event"
               onClick={() => {
                 setChanging(true);
@@ -89,7 +89,7 @@ function Event(props: Readonly<EventProps>) {
             <ButtonIcon
               Icon={IconDelete}
               ariaLabel={deleteEventLabel}
-              className="-sw-mt-1"
+              className="sw:-mt-1"
               data-test="project-activity__delete-event"
               onClick={() => {
                 setDeleting(true);

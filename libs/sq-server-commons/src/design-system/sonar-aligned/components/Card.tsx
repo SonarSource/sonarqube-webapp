@@ -48,10 +48,10 @@ export function LightGreyCard(props: Readonly<CardProps>) {
 export function LightGreyCardTitle({ children }: Readonly<React.PropsWithChildren>) {
   return (
     <>
-      <div className="sw-flex sw-items-center sw-justify-between sw-w-full sw-mb-4 sw-min-h-600">
+      <div className="sw:flex sw:items-center sw:justify-between sw:w-full sw:mb-4 sw:min-h-600">
         {children}
       </div>
-      <BasicSeparator className="sw--mx-6 sw-my-0" />
+      <BasicSeparator className="sw:-mx-6 sw:my-0" />
     </>
   );
 }

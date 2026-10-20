@@ -28,13 +28,13 @@ interface Props {
 
 export function RescanSettings({ children }: Readonly<Props>) {
   return (
-    <div className="sw-ml-12">
-      <hr className="sw-mx-0 sw-my-6 sw-p-0" />
-      <div className="sw-my-8">
+    <div className="sw:ml-12">
+      <hr className="sw:mx-0 sw:my-6 sw:p-0" />
+      <div className="sw:my-8">
         <Heading as="h3" hasMarginBottom>
           <FormattedMessage id="property.sca.admin.rescan.title" />
         </Heading>
-        <Text as="p" className="sw-mb-6">
+        <Text as="p" className="sw:mb-6">
           <FormattedMessage id="property.sca.admin.rescan.description" />
         </Text>
 

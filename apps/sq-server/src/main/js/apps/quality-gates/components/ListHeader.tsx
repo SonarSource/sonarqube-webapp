@@ -32,9 +32,9 @@ interface Props {
 export default function ListHeader({ canCreate }: Readonly<Props>) {
   const intl = useIntl();
   return (
-    <div className="sw-flex sw-justify-between sw-pb-4">
-      <div className="sw-flex sw-items-center sw-gap-1 sw-justify-between">
-        <Heading as="h1" className="sw-flex sw-items-center sw-typo-lg-semibold sw-mb-0">
+    <div className="sw:flex sw:justify-between sw:pb-4">
+      <div className="sw:flex sw:items-center sw:gap-1 sw:justify-between">
+        <Heading as="h1" className="sw:flex sw:items-center sw:typo-lg-semibold sw:mb-0">
           {intl.formatMessage({ id: 'quality_gates.page' })}
         </Heading>
         <ToggleTip

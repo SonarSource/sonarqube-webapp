@@ -66,7 +66,7 @@ export default function EmailTestModal() {
   };
 
   const body = (
-    <form className="sw-flex-1" id={FORM_ID} onSubmit={handleFormSubmit}>
+    <form className="sw:flex-1" id={FORM_ID} onSubmit={handleFormSubmit}>
       <FormField
         htmlFor="test-email-to"
         label={formatMessage({ id: 'email_notification.test.to_address' })}
@@ -146,8 +146,8 @@ export default function EmailTestModal() {
       }
       title={formatMessage({ id: 'email_notification.test.modal_title' })}
     >
-      <div className="sw-flex sw-justify-between sw-items-center">
-        <span className="sw-typo-lg-semibold">
+      <div className="sw:flex sw:justify-between sw:items-center">
+        <span className="sw:typo-lg-semibold">
           {formatMessage({ id: 'email_notification.test.title' })}
         </span>
         <Button

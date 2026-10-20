@@ -78,15 +78,15 @@ function renderAccessibleLabel(option: number) {
 
 function renderOption(option: number) {
   return (
-    <div className="sw-flex sw-items-center">
+    <div className="sw:flex sw:items-center">
       {option < NO_DATA_OPTION && (
         <CoverageIndicator size="xs" value={getCoverageRatingAverageValue(option)} />
       )}
-      <span className="sw-ml-2">
+      <span className="sw:ml-2">
         {option < NO_DATA_OPTION ? (
           getCoverageRatingLabel(option)
         ) : (
-          <span className="sw-ml-4">
+          <span className="sw:ml-4">
             <FormattedMessage id="no_data" />
           </span>
         )}

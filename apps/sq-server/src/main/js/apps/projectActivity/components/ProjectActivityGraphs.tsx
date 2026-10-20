@@ -231,7 +231,7 @@ export default class ProjectActivityGraphs extends React.PureComponent<Props, St
             tagName="div"
             values={{
               learn_more: (
-                <DocumentationLink className="sw-whitespace-nowrap" to={DocLink.CleanCode}>
+                <DocumentationLink className="sw:whitespace-nowrap" to={DocLink.CleanCode}>
                   <FormattedMessage id="learn_more" />
                 </DocumentationLink>
               ),
@@ -249,9 +249,9 @@ export default class ProjectActivityGraphs extends React.PureComponent<Props, St
     const { graphEndDate, graphStartDate, series } = this.state;
 
     return (
-      <ProjectActivityWrapper className="sw-flex sw-flex-col sw-grow sw-min-h-[30rem] sw-min-w-0 sw-p-4">
+      <ProjectActivityWrapper className="sw:flex sw:flex-col sw:grow sw:min-h-[30rem] sw:min-w-0 sw:p-4">
         <GraphsHeader
-          className="sw-mb-4"
+          className="sw:mb-4"
           graph={query.graph}
           metrics={metrics}
           metricsTypeFilter={this.getMetricsTypeFilter()}

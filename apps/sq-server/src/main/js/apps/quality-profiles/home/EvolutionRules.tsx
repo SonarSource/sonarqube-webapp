@@ -68,14 +68,14 @@ export function EvolutionRules() {
         {intl.formatMessage({ id: 'quality_profiles.latest_new_rules' })}
       </Heading>
 
-      <ul className="sw-flex sw-flex-col sw-gap-4 sw-typo-default">
+      <ul className="sw:flex sw:flex-col sw:gap-4 sw:typo-default">
         {latestRules.map((rule) => (
-          <li className="sw-flex sw-flex-col sw-gap-1" key={rule.key}>
-            <div className="sw-truncate">
+          <li className="sw:flex sw:flex-col sw:gap-1" key={rule.key}>
+            <div className="sw:truncate">
               <DiscreetLink to={getRulesUrl({ rule_key: rule.key })}>{rule.name}</DiscreetLink>
             </div>
 
-            <Text className="sw-truncate" isSubtle>
+            <Text className="sw:truncate" isSubtle>
               {rule.activations
                 ? translateWithParameters(
                     'quality_profiles.latest_new_rules.activated',
@@ -92,7 +92,7 @@ export function EvolutionRules() {
       </ul>
 
       {latestRulesTotal > RULES_LIMIT && (
-        <div className="sw-mt-6 sw-typo-semibold">
+        <div className="sw:mt-6 sw:typo-semibold">
           <Link to={getRulesUrl({ available_since: periodStartDate })}>
             {intl.formatMessage(
               { id: 'quality_profiles.latest_new_rules.see_all_x' },

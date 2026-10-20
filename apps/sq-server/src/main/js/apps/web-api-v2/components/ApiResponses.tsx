@@ -59,7 +59,7 @@ export default function ApiResponses({ responses }: Props) {
         <ul aria-labelledby={titleId}>
           {Object.entries(responses).map(([code, response]) => (
             <Accordion
-              className="sw-mt-2"
+              className="sw:mt-2"
               data={code}
               header={<ApiResponseTitle code={code} codeDescription={response.description} />}
               key={code}

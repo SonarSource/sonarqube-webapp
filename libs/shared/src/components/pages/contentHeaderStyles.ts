@@ -19,6 +19,6 @@
  */
 
 export const CONTENT_HEADER_TITLE_CLASS_NAME =
-  'sw-min-w-0 sw-w-full [&>h1]:sw-min-w-0 [&>h1]:sw-truncate';
+  'sw:min-w-0 sw:w-full sw:[&>h1]:min-w-0 sw:[&>h1]:truncate';
 
-export const CONTENT_HEADER_BREADCRUMBS_CLASS_NAME = 'sw-min-w-0 sw-w-full sw-max-w-full';
+export const CONTENT_HEADER_BREADCRUMBS_CLASS_NAME = 'sw:min-w-0 sw:w-full sw:max-w-full';

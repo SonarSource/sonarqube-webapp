@@ -45,10 +45,10 @@ export default function ProfileExporters({ exporters, profile }: Readonly<Props>
           <FormattedMessage id="quality_profiles.exporters" />
         </SubTitle>
       </div>
-      <FlagMessage className="sw-mb-4" variant="warning">
+      <FlagMessage className="sw:mb-4" variant="warning">
         <FormattedMessage id="quality_profiles.exporters.deprecated" />
       </FlagMessage>
-      <ul className="sw-flex sw-flex-col sw-gap-2">
+      <ul className="sw:flex sw:flex-col sw:gap-2">
         {exportersForLanguage.map((exporter) => (
           <li data-key={exporter.key} key={exporter.key}>
             <LinkStandalone enableOpenInNewTab to={getQualityProfileExporterUrl(exporter, profile)}>

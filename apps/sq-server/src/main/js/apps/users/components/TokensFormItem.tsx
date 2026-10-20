@@ -60,23 +60,23 @@ export default function TokensFormItem(props: Readonly<Props>) {
     }
   };
 
-  const className = classNames('sw-mr-2', {
-    'sw-text-gray-400': token.isExpired,
+  const className = classNames('sw:mr-2', {
+    'sw:text-gray-400': token.isExpired,
   });
 
   return (
     <TableRow>
       <ContentCell
-        className={classNames('sw-flex-col sw-items-center sw-w-[256px]', className)}
+        className={classNames('sw:flex-col sw:items-center sw:w-[256px]', className)}
         title={token.name}
       >
-        <div className="sw-w-full sw-truncate">
+        <div className="sw:w-full sw:truncate">
           {token.name}
 
           {token.isExpired && (
             <StyledSpan tokenIsExpired>
-              <div className="sw-mt-1">
-                <IconWarning className="sw-mr-1" color="echoes-color-icon-warning" />
+              <div className="sw:mt-1">
+                <IconWarning className="sw:mr-1" color="echoes-color-icon-warning" />
 
                 <FormattedMessage id="my_account.tokens.expired" />
               </div>
@@ -87,8 +87,8 @@ export default function TokensFormItem(props: Readonly<Props>) {
       <ContentCell className={className} title={translate('users.tokens', token.type)}>
         {translate('users.tokens', token.type, 'short')}
       </ContentCell>
-      <ContentCell className={classNames('sw-w-[128px]', className)} title={token.project?.name}>
-        <div className="sw-w-full sw-truncate">{token.project?.name}</div>
+      <ContentCell className={classNames('sw:w-[128px]', className)} title={token.project?.name}>
+        <div className="sw:w-full sw:truncate">{token.project?.name}</div>
       </ContentCell>
       <ContentCell className={className}>
         <DateFromNow date={token.lastConnectionDate} hourPrecision />

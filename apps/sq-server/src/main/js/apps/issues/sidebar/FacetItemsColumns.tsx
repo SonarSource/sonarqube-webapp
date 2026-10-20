@@ -22,8 +22,8 @@ import * as React from 'react';
 
 export function FacetItemsColumns({ children }: React.PropsWithChildren<{}>) {
   return (
-    <div className="it__search-navigator-facet-list sw-flex sw-flex-wrap sw-gap-1" role="list">
-      <div className="sw-gap-1 sw-grid sw-grid-cols-2 sw-w-full">{children}</div>
+    <div className="it__search-navigator-facet-list sw:flex sw:flex-wrap sw:gap-1" role="list">
+      <div className="sw:gap-1 sw:grid sw:grid-cols-2 sw:w-full">{children}</div>
     </div>
   );
 }

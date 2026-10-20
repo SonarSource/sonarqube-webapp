@@ -84,7 +84,7 @@ export function WorkspaceHeader({
   return (
     <ThemeProvider theme={inverseTheme}>
       <StyledWorkSpaceHeader>
-        <StyledWorkspaceName className="sw-typo-default sw-inline-flex sw-items-center fs-mask">
+        <StyledWorkspaceName className="sw:typo-default sw:inline-flex sw:items-center fs-mask">
           {children}
         </StyledWorkspaceName>
 
@@ -94,7 +94,7 @@ export function WorkspaceHeader({
           onPointerUp={handlePointerUp}
         />
 
-        <div className="it__workspace-viewer-actions sw-flex sw-gap-1">
+        <div className="it__workspace-viewer-actions sw:flex sw:gap-1">
           <WorkspaceHeaderButton
             icon={IconDash}
             onClick={onCollapse}

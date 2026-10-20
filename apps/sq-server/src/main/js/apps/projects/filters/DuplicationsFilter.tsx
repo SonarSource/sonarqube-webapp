@@ -76,16 +76,16 @@ function renderAccessibleLabel(option: number) {
 
 function renderOption(option: number) {
   return (
-    <div className="sw-flex sw-items-center">
+    <div className="sw:flex sw:items-center">
       {option < NO_DATA_OPTION && (
         /* Adjust option to skip the 0 */
         <DuplicationsIndicator rating={duplicationValueToRating(option + 1)} size="xs" />
       )}
-      <span className="sw-ml-2">
+      <span className="sw:ml-2">
         {option < NO_DATA_OPTION ? (
           getDuplicationsRatingLabel(option)
         ) : (
-          <span className="sw-ml-4">
+          <span className="sw:ml-4">
             <FormattedMessage id="no_data" />
           </span>
         )}

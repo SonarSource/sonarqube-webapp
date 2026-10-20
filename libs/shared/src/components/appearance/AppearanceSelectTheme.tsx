@@ -28,7 +28,7 @@ export function AppearanceSelectTheme() {
       <Heading as="h2" hasMarginBottom>
         <FormattedMessage id="my_account.appearance.customize_theme" />
       </Heading>
-      <Text as="p" className="sw-mb-6" isSubtle>
+      <Text as="p" className="sw:mb-6" isSubtle>
         <FormattedMessage id="my_account.appearance.description" />
       </Text>
       <ThemeModeSelect />

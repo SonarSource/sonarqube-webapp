@@ -64,11 +64,11 @@ export default function Rust(props: Readonly<RustProps>) {
 
   return (
     <div>
-      <Heading as="h3" className="sw-mb-2">
+      <Heading as="h3" className="sw:mb-2">
         <FormattedMessage id="onboarding.analysis.rust.install.header" />
       </Heading>
-      <CodeSnippet className="sw-p-4" language="shell" snippet={installCommand} />
-      <p className="sw-mb-2">
+      <CodeSnippet className="sw:p-4" language="shell" snippet={installCommand} />
+      <p className="sw:mb-2">
         <FormattedMessage
           id="onboarding.analysis.rust.install.text"
           values={{
@@ -76,16 +76,16 @@ export default function Rust(props: Readonly<RustProps>) {
           }}
         />
       </p>
-      <p className="sw-mb-2">
+      <p className="sw:mb-2">
         <FormattedMessage
           id="onboarding.analysis.rust.step.footer"
           values={{ link: documentationLink }}
         />
       </p>
-      <Heading as="h3" className="sw-mb-2">
+      <Heading as="h3" className="sw:mb-2">
         <FormattedMessage id="onboarding.analysis.rust.configure.header" />
       </Heading>
-      <p className="sw-mb-2">
+      <p className="sw:mb-2">
         <FormattedMessage
           id="onboarding.analysis.rust.configure.text"
           values={{
@@ -95,15 +95,15 @@ export default function Rust(props: Readonly<RustProps>) {
         />
       </p>
       {/* No `toml` grammar is registered; `properties` covers the key/value lines. */}
-      <CodeSnippet className="sw-p-4" language="properties" snippet={manifestSnippet} />
-      <Heading as="h3" className="sw-mb-2">
+      <CodeSnippet className="sw:p-4" language="properties" snippet={manifestSnippet} />
+      <Heading as="h3" className="sw:mb-2">
         <FormattedMessage id="onboarding.analysis.rust.execute.header" />
       </Heading>
-      <p className="sw-mb-2">
+      <p className="sw:mb-2">
         <FormattedMessage id="onboarding.analysis.rust.execute.text" />
       </p>
-      <CodeSnippet className="sw-p-4" language="shell" snippet={executeCommand} />
-      <p className="sw-mt-4">
+      <CodeSnippet className="sw:p-4" language="shell" snippet={executeCommand} />
+      <p className="sw:mt-4">
         <FormattedMessage
           id="onboarding.analysis.rust.step.footer"
           values={{ link: documentationLink }}

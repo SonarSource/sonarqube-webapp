@@ -59,7 +59,7 @@ export default class LeakPeriodLegend extends React.PureComponent<LeakPeriodLege
 
     if (component.qualifier === ComponentQualifier.Application) {
       return (
-        <LeakPeriodLabel className="sw-px-2 sw-py-1 sw-rounded-1">
+        <LeakPeriodLabel className="sw:px-2 sw:py-1 sw:rounded-1">
           {translate('issues.new_code_period')}
         </LeakPeriodLabel>
       );
@@ -71,7 +71,7 @@ export default class LeakPeriodLegend extends React.PureComponent<LeakPeriodLege
     );
 
     const label = (
-      <LeakPeriodLabel className="sw-px-2 sw-py-1 sw-rounded-1" isSubtle>
+      <LeakPeriodLabel className="sw:px-2 sw:py-1 sw:rounded-1" isSubtle>
         <Text isHighlighted isSubtle>
           {translate('component_measures.leak_legend.new_code')}
         </Text>{' '}

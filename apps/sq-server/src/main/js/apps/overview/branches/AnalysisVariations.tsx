@@ -56,7 +56,7 @@ function Variation(props: Readonly<VariationProps>) {
 
   if (!showVariationIcon) {
     return (
-      <span className="sw-flex sw-items-center sw-mx-2">
+      <span className="sw:flex sw:items-center sw:mx-2">
         {formattedValue} {<FormattedMessage id={label} />}
       </span>
     );
@@ -73,7 +73,7 @@ function Variation(props: Readonly<VariationProps>) {
   const variationToDisplay = formattedValue.startsWith('-') ? formattedValue : `+${formattedValue}`;
 
   return (
-    <span className="sw-flex sw-items-center sw-mx-1">
+    <span className="sw:flex sw:items-center sw:mx-1">
       {variationIcon} {variationToDisplay} {<FormattedMessage id={label} />}
     </span>
   );
@@ -87,7 +87,7 @@ export function AnalysisVariations(props: Readonly<AnalysisVariationsProps>) {
   const duplicationsVariation = variations.duplicated_lines_density;
 
   return (
-    <div className="sw-flex sw-items-center sw-mt-1">
+    <div className="sw:flex sw:items-center sw:mt-1">
       <FormattedMessage
         id={
           isFirstAnalysis

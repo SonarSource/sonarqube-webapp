@@ -66,7 +66,7 @@ export function ProjectLeakPeriodInfo(props: Readonly<ProjectLeakPeriodInfoProps
 
   return (
     <>
-      <div className="sw-mr-2 sw-text-ellipsis" title={leakPeriodLabel}>
+      <div className="sw:mr-2 sw:text-ellipsis" title={leakPeriodLabel}>
         {leakPeriodLabel}
       </div>
 

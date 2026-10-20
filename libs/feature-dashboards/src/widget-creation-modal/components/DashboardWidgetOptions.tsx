@@ -55,7 +55,7 @@ export function DashboardWidgetOptions({
 }: Readonly<Props>) {
   return (
     <div
-      className="sw-basis-[40%] sw-flex-[2] sw-min-h-0 sw-min-w-0 sw-flex sw-flex-col sw-gap-3 sw-overflow-y-auto sw-overflow-x-hidden sw-p-1"
+      className="sw:basis-[40%] sw:flex-[2] sw:min-h-0 sw:min-w-0 sw:flex sw:flex-col sw:gap-3 sw:overflow-y-auto sw:overflow-x-hidden sw:p-1"
       data-testid="widget-options-pane"
     >
       <DefineWidgetAccordion

@@ -248,7 +248,7 @@ export default class ComponentSourceSnippetGroupViewer extends React.PureCompone
                 {(ctx) => (
                   <LineFinding
                     as={isSelectedIssue ? 'div' : undefined}
-                    className="sw-justify-between"
+                    className="sw:justify-between"
                     getFixButton={
                       isSelectedIssue ? <GetFixButton issue={issueToDisplay} /> : undefined
                     }
@@ -294,8 +294,8 @@ export default class ComponentSourceSnippetGroupViewer extends React.PureCompone
     return (
       <>
         {issueIsClosed && (
-          <FlagMessage className="sw-mb-2 sw-flex" variant="success">
-            <div className="sw-block">
+          <FlagMessage className="sw:mb-2 sw:flex" variant="success">
+            <div className="sw:block">
               <FormattedMessage
                 id={closedIssueMessageKey}
                 values={{
@@ -312,7 +312,7 @@ export default class ComponentSourceSnippetGroupViewer extends React.PureCompone
         )}
 
         <IssueSourceViewerHeader
-          className={issueIsClosed && !issueIsFileLevel ? 'sw-mb-0' : ''}
+          className={issueIsClosed && !issueIsFileLevel ? 'sw:mb-0' : ''}
           issueKey={issue.key}
           loading={loading}
           sourceViewerFile={snippetGroup.component}
@@ -321,11 +321,11 @@ export default class ComponentSourceSnippetGroupViewer extends React.PureCompone
         {issue.component === snippetGroup.component.key &&
           issue.textRange === undefined &&
           !issueIsClosed && (
-            <FileLevelIssueStyle className="sw-py-2">
+            <FileLevelIssueStyle className="sw:py-2">
               <IssueSourceViewerScrollContext.Consumer>
                 {(ctx) => (
                   <LineFinding
-                    className="sw-m-0 sw-cursor-default sw-justify-between"
+                    className="sw:m-0 sw:cursor-default sw:justify-between"
                     getFixButton={<GetFixButton issue={issue} />}
                     issueKey={issue.key}
                     message={
@@ -345,7 +345,7 @@ export default class ComponentSourceSnippetGroupViewer extends React.PureCompone
 
         {snippetLines.map(({ snippet, sourcesMap }, index) => (
           <SnippetViewer
-            className={classNames({ 'sw-mt-2': index !== 0 })}
+            className={classNames({ 'sw:mt-2': index !== 0 })}
             component={this.props.snippetGroup.component}
             duplications={this.props.duplications}
             duplicationsByLine={this.props.duplicationsByLine}
@@ -421,7 +421,7 @@ function GetFixButton({ issue }: Readonly<{ issue: TypeIssue }>) {
     <Spinner ariaLabel={translate('issues.code_fix.fix_is_being_generated')} isLoading={isLoading}>
       {suggestion !== undefined && (
         <Button
-          className="sw-shrink-0"
+          className="sw:shrink-0"
           onClick={() => {
             handler(TabKeys.CodeFix);
           }}
@@ -431,7 +431,7 @@ function GetFixButton({ issue }: Readonly<{ issue: TypeIssue }>) {
       )}
       {suggestion === undefined && (
         <Button
-          className="sw-ml-2 sw-shrink-0"
+          className="sw:ml-2 sw:shrink-0"
           onClick={() => {
             handler(TabKeys.CodeFix);
             prefetchSuggestion();

@@ -75,7 +75,7 @@ export default function WebhookStep(props: WebhookStepProps) {
 
   return (
     <TutorialStep title={translate('onboarding.tutorial.with.jenkins.webhook', alm, 'title')}>
-      <p className="sw-mb-4">
+      <p className="sw:mb-4">
         {translate('onboarding.tutorial.with.jenkins.webhook.intro.sentence')}
       </p>
       <NumberedList>{renderAlmSpecificInstructions(props)}</NumberedList>

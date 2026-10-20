@@ -58,7 +58,7 @@ export default function SecretStep(props: Readonly<SecretStepProps>) {
                 {translate('onboarding.tutorial.with.github_action.secret.intro.link')}
               </LinkStandalone>
             ) : (
-              <span className="sw-typo-semibold">
+              <span className="sw:typo-semibold">
                 {translate('onboarding.tutorial.with.github_action.secret.intro.link')}
               </span>
             ),
@@ -76,8 +76,8 @@ export default function SecretStep(props: Readonly<SecretStepProps>) {
             highlightKeys={['name']}
             translationKey="onboarding.tutorial.with.github_action.secret.name"
           />
-          <InlineSnippet className="sw-ml-1" snippet="SONAR_TOKEN" />
-          <ClipboardIconButton className="sw-ml-2 sw-align-sub" copyValue="SONAR_TOKEN" />
+          <InlineSnippet className="sw:ml-1" snippet="SONAR_TOKEN" />
+          <ClipboardIconButton className="sw:ml-2 sw:align-sub" copyValue="SONAR_TOKEN" />
         </NumberedListItem>
         <NumberedListItem>
           <TokenStepGenerator component={component} currentUser={currentUser} />
@@ -88,7 +88,7 @@ export default function SecretStep(props: Readonly<SecretStepProps>) {
             translationKey="onboarding.tutorial.with.github_action.secret.add"
           />
           {monorepo && (
-            <MessageCallout className="sw-block sw-w-fit sw-mt-4" variety={MessageVariety.Info}>
+            <MessageCallout className="sw:block sw:w-fit sw:mt-4" variety={MessageVariety.Info}>
               <div>
                 <div>
                   <FormattedMessage
@@ -102,7 +102,7 @@ export default function SecretStep(props: Readonly<SecretStepProps>) {
                     }}
                   />
                 </div>
-                <div className="sw-mt-2">
+                <div className="sw:mt-2">
                   <FormattedMessage id="onboarding.tutorial.with.github_action.create_secret.monorepo_global_token_info" />
                 </div>
               </div>
@@ -110,7 +110,7 @@ export default function SecretStep(props: Readonly<SecretStepProps>) {
           )}
         </NumberedListItem>
       </NumberedList>
-      <BasicSeparator className="sw-my-6" />
+      <BasicSeparator className="sw:my-6" />
       <NumberedList>
         <NumberedListItem>
           <SentenceWithHighlights
@@ -123,20 +123,20 @@ export default function SecretStep(props: Readonly<SecretStepProps>) {
             highlightKeys={['name']}
             translationKey="onboarding.tutorial.with.github_action.secret.name"
           />
-          <InlineSnippet className="sw-ml-1" snippet="SONAR_HOST_URL" />
-          <ClipboardIconButton className="sw-ml-2 sw-align-sub" copyValue="SONAR_HOST_URL" />
+          <InlineSnippet className="sw:ml-1" snippet="SONAR_HOST_URL" />
+          <ClipboardIconButton className="sw:ml-2 sw:align-sub" copyValue="SONAR_HOST_URL" />
         </NumberedListItem>
         <NumberedListItem>
           <FormattedMessage
             id="onboarding.tutorial.env_variables"
             values={{
-              extra: <ClipboardIconButton className="sw-ml-1 sw-align-sub" copyValue={baseUrl} />,
+              extra: <ClipboardIconButton className="sw:ml-1 sw:align-sub" copyValue={baseUrl} />,
               field: (
-                <span className="sw-typo-semibold">
+                <span className="sw:typo-semibold">
                   {translate('onboarding.tutorial.env_variables.field')}
                 </span>
               ),
-              value: <InlineSnippet className="sw-ml-1" snippet={baseUrl} />,
+              value: <InlineSnippet className="sw:ml-1" snippet={baseUrl} />,
             }}
           />
         </NumberedListItem>

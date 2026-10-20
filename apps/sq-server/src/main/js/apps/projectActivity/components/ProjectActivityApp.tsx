@@ -169,7 +169,7 @@ export function ProjectActivityApp() {
 
   return (
     component && (
-      <Spinner className="sw-m-4" isLoading={isLoadingStandardMode}>
+      <Spinner className="sw:m-4" isLoading={isLoadingStandardMode}>
         <ProjectActivityAppRenderer
           analyses={analyses}
           analysesLoading={isLoadingAnalyses}

@@ -233,7 +233,7 @@ export class BulkChangeModal extends React.PureComponent<Props, State> {
     input: React.ReactNode,
   ) => (
     <FormField htmlFor={`issues-bulk-change-${field}`} label={translate(label)}>
-      <div className="sw-flex sw-items-center sw-justify-between">
+      <div className="sw:flex sw:items-center sw:justify-between">
         {input}
 
         {affected !== undefined && (
@@ -253,9 +253,9 @@ export class BulkChangeModal extends React.PureComponent<Props, State> {
     }
 
     return (
-      <div className="sw-flex sw-items-center sw-justify-between sw-mb-6">
+      <div className="sw:flex sw:items-center sw:justify-between sw:mb-6">
         <AssigneeSelect
-          className="sw-max-w-abs-300"
+          className="sw:max-w-abs-300"
           inputId={`issues-bulk-change-${field}`}
           issues={issues}
           label={translate('issue.assign.formlink')}
@@ -310,23 +310,23 @@ export class BulkChangeModal extends React.PureComponent<Props, State> {
     }
 
     return (
-      <div className="sw-mb-6">
+      <div className="sw:mb-6">
         <fieldset>
           <legend id="bulk-change-transition-label">
-            <Text className="sw-mb-2" isHighlighted>
+            <Text className="sw:mb-2" isHighlighted>
               <FormattedMessage id="issue.change_status" />
             </Text>
           </legend>
 
           {someIssueHasInSandboxStatus && (
-            <MessageCallout className="sw-mt-3 sw-mb-6" variety={MessageVariety.Info}>
+            <MessageCallout className="sw:mt-3 sw:mb-6" variety={MessageVariety.Info}>
               <FormattedMessage id="issue.transition.in_sandbox_helptext" />
             </MessageCallout>
           )}
 
           <RadioButtonGroup
             ariaLabelledBy="bulk-change-transition-label"
-            className="sw-mt-1"
+            className="sw:mt-1"
             id="bulk-change-transition"
             onChange={this.handleRadioTransitionChange}
             options={transitions.map(({ transition, count }) => ({
@@ -355,7 +355,7 @@ export class BulkChangeModal extends React.PureComponent<Props, State> {
       <FormField label={translate('issue_bulk_change.resolution_comment')}>
         <InputTextArea
           aria-label={translate('issue_bulk_change.resolution_comment')}
-          className="sw-resize-y sw-w-full"
+          className="sw:resize-y sw:w-full"
           onChange={this.handleCommentChange}
           placeholder={translate(
             'issue.transition.comment.placeholder',
@@ -365,7 +365,7 @@ export class BulkChangeModal extends React.PureComponent<Props, State> {
           size="auto"
           value={this.state.comment}
         />
-        <FormattingTips className="sw-mt-2" />
+        <FormattingTips className="sw:mt-2" />
       </FormField>
     );
   };
@@ -388,7 +388,7 @@ export class BulkChangeModal extends React.PureComponent<Props, State> {
     return (
       <Spinner isLoading={loading}>
         {limitReached && (
-          <FlagMessage className="sw-mb-4" variant="warning">
+          <FlagMessage className="sw:mb-4" variant="warning">
             <span>
               <FormattedMessage
                 id="issue_bulk_change.max_issues_reached"

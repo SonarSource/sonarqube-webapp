@@ -63,7 +63,7 @@ export class DefinitionChangeEventInner extends React.PureComponent<Props, State
   renderProjectLink = (project: { key: string; name: string }, branch: string | undefined) => (
     <ClickEventBoundary>
       <StandoutLink
-        className="sw-truncate sw-mr-1"
+        className="sw:truncate sw:mr-1"
         title={project.name}
         to={getProjectUrl(project.key, branch)}
       >
@@ -73,8 +73,8 @@ export class DefinitionChangeEventInner extends React.PureComponent<Props, State
   );
 
   renderBranch = (branch = translate('branches.main_branch')) => (
-    <span className="sw-flex sw-items-center sw-mr-1" title={branch}>
-      <BranchIcon className="sw-ml-1" />
+    <span className="sw:flex sw:items-center sw:mr-1" title={branch}>
+      <BranchIcon className="sw:ml-1" />
       {branch}
     </span>
   );
@@ -138,16 +138,16 @@ export class DefinitionChangeEventInner extends React.PureComponent<Props, State
     const { event, readonly } = this.props;
     const { expanded } = this.state;
     return (
-      <div className="sw-w-full sw-typo-default sw-py-1/2">
-        <div className="sw-flex sw-justify-between">
-          <Text className="sw-mr-1" isHighlighted isSubtle>
+      <div className="sw:w-full sw:typo-default sw:py-1/2">
+        <div className="sw:flex sw:justify-between">
+          <Text className="sw:mr-1" isHighlighted isSubtle>
             {translate('event.category', event.category)}
           </Text>
 
           {!readonly && (
             <ClickEventBoundary>
               <BareButton
-                className="sw-flex sw-items-center sw-ml-2"
+                className="sw:flex sw:items-center sw:ml-2"
                 onClick={this.toggleProjectsList}
               >
                 {expanded ? translate('hide') : translate('more')}
@@ -158,9 +158,9 @@ export class DefinitionChangeEventInner extends React.PureComponent<Props, State
         </div>
 
         {expanded && (
-          <ul className="sw-mt-2">
+          <ul className="sw:mt-2">
             {event.definitionChange.projects.map((project) => (
-              <li className="sw-flex sw-items-center sw-flex-wrap sw-p-1 sw-mb-1" key={project.key}>
+              <li className="sw:flex sw:items-center sw:flex-wrap sw:p-1 sw:mb-1" key={project.key}>
                 {this.renderProjectChange(project)}
               </li>
             ))}

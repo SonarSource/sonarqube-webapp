@@ -58,14 +58,14 @@ export default function ExecScanner(props: ExecScannerProps) {
 
   return (
     <div>
-      <Heading as="h3" className="sw-mt-4 sw-mb-2">
+      <Heading as="h3" className="sw:mt-4 sw:mb-2">
         {translate('onboarding.analysis.sq_scanner.execute')}
       </Heading>
       <InstanceMessage message={translate('onboarding.analysis.sq_scanner.execute.text')}>
-        {(transformedMessage) => <p className="sw-mb-2">{transformedMessage}</p>}
+        {(transformedMessage) => <p className="sw:mb-2">{transformedMessage}</p>}
       </InstanceMessage>
-      <CodeSnippet className="sw-p-4" isOneLine={os === OSs.Windows} snippet={command} />
-      <p className="sw-mt-4">
+      <CodeSnippet className="sw:p-4" isOneLine={os === OSs.Windows} snippet={command} />
+      <p className="sw:mt-4">
         <FormattedMessage
           id="onboarding.analysis.sq_scanner.docs"
           values={{

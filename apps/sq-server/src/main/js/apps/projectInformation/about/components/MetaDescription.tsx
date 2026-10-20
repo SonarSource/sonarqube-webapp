@@ -34,7 +34,7 @@ export default function MetaDescription({ description, isApp }: Props) {
       <Heading as="h3">
         <FormattedMessage id="project.info.description" />
       </Heading>
-      <Text as="p" className="it__project-description sw-mt-2" isSubtle>
+      <Text as="p" className="it__project-description sw:mt-2" isSubtle>
         {description ?? translate(isApp ? 'application' : 'project', 'info.empty_description')}
       </Text>
     </>

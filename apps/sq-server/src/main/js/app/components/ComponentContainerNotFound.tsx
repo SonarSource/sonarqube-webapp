@@ -35,7 +35,7 @@ export default function ComponentContainerNotFound({
   return (
     <Layout.ContentGrid>
       <Layout.PageGrid>
-        <Layout.PageContent className="sw-flex sw-flex-col sw-items-center sw-justify-start sw-pt-40">
+        <Layout.PageContent className="sw:flex sw:flex-col sw:items-center sw:justify-start sw:pt-40">
           <Helmet defaultTitle={formatMessage({ id: '404_not_found' })} defer={false} />
           <EmptyState
             action={
@@ -43,7 +43,7 @@ export default function ComponentContainerNotFound({
                 <FormattedMessage id="go_back_to_homepage" />
               </Button>
             }
-            className="sw-max-w-[32rem]"
+            className="sw:max-w-[32rem]"
             graphic={<IconWarning />}
             text={<FormattedMessage id={`dashboard.${componentType}.not_found.2`} />}
             title={<FormattedMessage id={`dashboard.${componentType}.not_found`} />}

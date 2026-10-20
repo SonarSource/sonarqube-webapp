@@ -95,7 +95,7 @@ export default function ConfigurationForm(props: Readonly<Props>) {
         ariaLabel={formatMessage({ id: 'settings.authentication.form.loading' })}
         isLoading={loading}
       >
-        <Text as="p" className="sw-mb-8" isSubtle>
+        <Text as="p" className="sw:mb-8" isSubtle>
           <FormattedMessage
             id="settings.authentication.help"
             values={{
@@ -114,7 +114,7 @@ export default function ConfigurationForm(props: Readonly<Props>) {
           }
 
           return (
-            <div className="sw-mb-8" key={val.key}>
+            <div className="sw:mb-8" key={val.key}>
               <AuthenticationFormField
                 definition={val.definition}
                 error={errors[val.key]?.message}

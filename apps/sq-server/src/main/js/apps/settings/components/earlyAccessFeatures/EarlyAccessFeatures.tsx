@@ -26,10 +26,10 @@ export function EarlyAccessFeatures() {
 
   return (
     <>
-      <Heading as="h2" className="sw-mb-4">
+      <Heading as="h2" className="sw:mb-4">
         {intl.formatMessage({ id: 'settings.early_access.title' })}
       </Heading>
-      <Text as="p" className="sw-mb-4" size={TextSize.Large}>
+      <Text as="p" className="sw:mb-4" size={TextSize.Large}>
         {intl.formatMessage({ id: 'settings.early_access.description' })}
       </Text>
     </>

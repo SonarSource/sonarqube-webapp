@@ -65,13 +65,13 @@ export default function ChangeAdminPasswordAppRenderer(
     <>
       <Helmet defer={false} title={formatMessage({ id: 'users.change_admin_password.page' })} />
 
-      <div className="sw-flex sw-flex-col sw-items-center sw-justify-center">
-        <Card className="sw-mx-auto sw-mt-24 sw-w-abs-600">
+      <div className="sw:flex sw:flex-col sw:items-center sw:justify-center">
+        <Card className="sw:mx-auto sw:mt-24 sw:w-abs-600">
           <Card.Body>
             {success ? (
               <MessageCallout variety="success">
                 <div>
-                  <p className="sw-mb-2">
+                  <p className="sw:mb-2">
                     <FormattedMessage id="users.change_admin_password.form.success" />
                   </p>
 

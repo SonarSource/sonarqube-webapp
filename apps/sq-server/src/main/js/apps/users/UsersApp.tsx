@@ -119,12 +119,12 @@ export default function UsersApp() {
       title={formatMessage({ id: 'users.page' })}
       width="fluid"
     >
-      <div className="sw-mb-8">
+      <div className="sw:mb-8">
         {manageProvider?.provider === Provider.Github && <GitHubSynchronisationWarning short />}
         {manageProvider?.provider === Provider.Gitlab && <GitLabSynchronisationWarning short />}
         <Card>
           <Card.Body>
-            <div className="sw-flex sw-mb-4">
+            <div className="sw:flex sw:mb-4">
               <ManagedFilter
                 loading={isLoading}
                 manageProvider={manageProvider?.provider}
@@ -135,20 +135,20 @@ export default function UsersApp() {
               />
 
               <SearchInput
-                className="sw-mr-2"
+                className="sw:mr-2"
                 id="users-search"
                 onChange={handleSearch}
                 placeholderLabel={formatMessage({ id: 'search.search_by_login_or_name' })}
                 value={search}
                 width="large"
               />
-              <div className="sw-flex sw-items-center sw-ml-4">
-                <Label as="label" className="sw-mr-2">
+              <div className="sw:flex sw:items-center sw:ml-4">
+                <Label as="label" className="sw:mr-2">
                   <FormattedMessage id="users.filter.by" />
                 </Label>
                 <InputSelect
                   aria-label={formatMessage({ id: 'users.activity_filter.label' })}
-                  className="sw-typo-default"
+                  className="sw:typo-default"
                   id="users-activity-filter"
                   isDisabled={isLoading}
                   isSearchable={false}
@@ -163,7 +163,7 @@ export default function UsersApp() {
                   }
                 />
                 <ToggleTip
-                  className="sw-ml-2"
+                  className="sw:ml-2"
                   description={
                     <>
                       <p>

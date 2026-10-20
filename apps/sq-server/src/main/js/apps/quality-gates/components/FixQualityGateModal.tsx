@@ -146,7 +146,7 @@ export default function FixQualityGateModal(props: Readonly<Props>) {
             />
           </Heading>
 
-          <Text aria-labelledby="missing-conditions" as="ul" className="sw-list-decimal sw-mt-0">
+          <Text aria-labelledby="missing-conditions" as="ul" className="sw:list-decimal sw:mt-0">
             {missingConditions.map((condition) => (
               <li key={condition.metric}>
                 <span id={`missing-${condition.metric}`}>
@@ -157,7 +157,7 @@ export default function FixQualityGateModal(props: Readonly<Props>) {
                 {condition.metric === MetricKey.new_coverage && (
                   <Select
                     ariaLabelledBy={`missing-${condition.metric}`}
-                    className="sw-mt-1 -sw-ml-4"
+                    className="sw:mt-1 sw:-ml-4"
                     data={COVERAGE_VALUES}
                     isNotClearable
                     onChange={(value) => {
@@ -173,7 +173,7 @@ export default function FixQualityGateModal(props: Readonly<Props>) {
                 {condition.metric === MetricKey.new_duplicated_lines_density && (
                   <Select
                     ariaLabelledBy={`missing-${condition.metric}`}
-                    className="sw-mt-1 -sw-ml-4"
+                    className="sw:mt-1 sw:-ml-4"
                     data={DUPLICATION_VALUES}
                     isNotClearable
                     onChange={(value) => {
@@ -204,10 +204,10 @@ export default function FixQualityGateModal(props: Readonly<Props>) {
             />
           </Heading>
 
-          <Text aria-labelledby="modified-conditions" as="ul" className="sw-list-decimal sw-mt-0">
+          <Text aria-labelledby="modified-conditions" as="ul" className="sw:list-decimal sw:mt-0">
             {modifiedConditions.map(({ caycCondition, modifiedCondition }) => (
               <li key={modifiedCondition.id}>
-                <span className="sw-sr-only">
+                <span className="sw:sr-only">
                   <FormattedMessage
                     id="quality_gates.fix_modal.to_modify.accessible_item"
                     values={{
@@ -237,7 +237,7 @@ export default function FixQualityGateModal(props: Readonly<Props>) {
                   <Text colorOverride="echoes-color-text-success" isHighlighted>
                     {formatMeasure(caycCondition.error, metrics[caycCondition.metric]?.type)}
                   </Text>{' '}
-                  <Text className="sw-line-through" colorOverride="echoes-color-text-danger">
+                  <Text className="sw:line-through" colorOverride="echoes-color-text-danger">
                     {formatMeasure(
                       modifiedCondition.error,
                       metrics[modifiedCondition.metric]?.type,

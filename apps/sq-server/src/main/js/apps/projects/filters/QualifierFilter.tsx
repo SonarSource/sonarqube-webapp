@@ -83,5 +83,5 @@ export default function QualifierFacet(props: QualifierFacetProps) {
 }
 
 function renderOption(option: string) {
-  return <div className="sw-flex sw-items-center">{translate('qualifier', option)}</div>;
+  return <div className="sw:flex sw:items-center">{translate('qualifier', option)}</div>;
 }

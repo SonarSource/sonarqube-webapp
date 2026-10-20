@@ -28,15 +28,15 @@ interface Props {
 
 export default function TokensFormNewToken({ token }: Readonly<Props>) {
   return (
-    <div className="sw-mt-4">
+    <div className="sw:mt-4">
       <FlagMessage variant="success">
         {translateWithParameters('users.tokens.new_token_created', token.name)}
       </FlagMessage>
 
-      <div aria-label={translate('users.new_token')} className="sw-flex sw-items-center sw-mt-3">
-        <CodeSnippet className="sw-p-1" isOneLine noCopy snippet={token.token} />
+      <div aria-label={translate('users.new_token')} className="sw:flex sw:items-center sw:mt-3">
+        <CodeSnippet className="sw:p-1" isOneLine noCopy snippet={token.token} />
 
-        <ClipboardIconButton className="sw-ml-4" copyValue={token.token} />
+        <ClipboardIconButton className="sw:ml-4" copyValue={token.token} />
       </div>
     </div>
   );

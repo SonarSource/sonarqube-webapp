@@ -42,11 +42,11 @@ export function AuthenticationSelector(props: Readonly<EmailNotificationGroupPro
   const isOAuth = configuration?.authMethod === AuthMethod.OAuth;
 
   return (
-    <div className="sw-pt-6">
+    <div className="sw:pt-6">
       <SelectionCards
         alignment="horizontal"
         ariaLabel={intl.formatMessage({ id: 'email_notification.form.auth_type' })}
-        className="sw-mb-8"
+        className="sw:mb-8"
         onChange={(v: AuthMethod) => {
           onChange({ authMethod: v });
         }}
@@ -66,7 +66,7 @@ export function AuthenticationSelector(props: Readonly<EmailNotificationGroupPro
                 <FormattedMessage id="email_notification.form.oauth_auth.supported" />
                 <br />
 
-                <Badge className="sw-mt-4 sw-mr-1" variety="info">
+                <Badge className="sw:mt-4 sw:mr-1" variety="info">
                   <FormattedMessage id="recommended" />
                 </Badge>
 
@@ -78,7 +78,7 @@ export function AuthenticationSelector(props: Readonly<EmailNotificationGroupPro
         value={isOAuth ? AuthMethod.OAuth : AuthMethod.Basic}
       />
 
-      <Divider className="sw-my-1" />
+      <Divider className="sw:my-1" />
       <EmailNotificationFormField
         description={translate('email_notification.form.username.description')}
         id={USERNAME}
@@ -89,7 +89,7 @@ export function AuthenticationSelector(props: Readonly<EmailNotificationGroupPro
         required
         value={configuration.username}
       />
-      <Divider className="sw-my-1" />
+      <Divider className="sw:my-1" />
       {isOAuth ? (
         <>
           <EmailNotificationFormField
@@ -102,7 +102,7 @@ export function AuthenticationSelector(props: Readonly<EmailNotificationGroupPro
             required
             value={configuration.oauthAuthenticationHost ?? ''}
           />
-          <Divider className="sw-my-1" />
+          <Divider className="sw:my-1" />
           <EmailNotificationFormField
             description={translate('email_notification.form.oauth_client_id.description')}
             hasValue={configuration.isOauthClientIdSet}
@@ -115,7 +115,7 @@ export function AuthenticationSelector(props: Readonly<EmailNotificationGroupPro
             type="password"
             value={configuration.oauthClientId ?? ''}
           />
-          <Divider className="sw-my-1" />
+          <Divider className="sw:my-1" />
           <EmailNotificationFormField
             description={translate('email_notification.form.oauth_client_secret.description')}
             hasValue={configuration.isOauthClientSecretSet}
@@ -129,7 +129,7 @@ export function AuthenticationSelector(props: Readonly<EmailNotificationGroupPro
             type="password"
             value={configuration.oauthClientSecret ?? ''}
           />
-          <Divider className="sw-my-1" />
+          <Divider className="sw:my-1" />
           <EmailNotificationFormField
             description={translate('email_notification.form.oauth_tenant.description')}
             id={OAUTH_TENANT}
@@ -140,7 +140,7 @@ export function AuthenticationSelector(props: Readonly<EmailNotificationGroupPro
             required
             value={configuration.oauthTenant ?? ''}
           />
-          <Divider className="sw-my-1" />
+          <Divider className="sw:my-1" />
           <EmailNotificationFormField
             description={intl.formatMessage({
               id: 'email_notification.form.oauth_scope.description',
@@ -168,7 +168,7 @@ export function AuthenticationSelector(props: Readonly<EmailNotificationGroupPro
           value={configuration.basicPassword ?? ''}
         />
       )}
-      <Divider className="sw-my-1" />
+      <Divider className="sw:my-1" />
     </div>
   );
 }

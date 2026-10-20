@@ -31,7 +31,7 @@ interface Props {
 export default function HealthCauseItem({ className, health, healthCause }: Readonly<Props>) {
   return (
     <FlagMessage
-      className={classNames('-sw-my-2', className)}
+      className={classNames('sw:-my-2', className)}
       variant={health === HealthTypes.RED ? 'error' : 'warning'}
     >
       {healthCause}

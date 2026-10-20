@@ -31,7 +31,7 @@ export function ReadonlyDashboard<WidgetPropMap extends {}>(props: Readonly<Prop
   const { dashboard, width } = props;
 
   return (
-    <div className="sw-py-4">
+    <div className="sw:py-4">
       {dashboard.children.map((section) => {
         if (section.type === 'explicit') {
           return <ExplicitSection gridWidth={width} key={section.key} section={section} />;

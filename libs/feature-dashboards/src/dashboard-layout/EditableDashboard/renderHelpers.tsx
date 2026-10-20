@@ -92,11 +92,11 @@ function WidgetCardHeader<WPM extends {}>(
 
   return (
     <div
-      className="sw-flex sw-items-start sw-justify-between sw-w-full sw-gap-2"
+      className="sw:flex sw:items-start sw:justify-between sw:w-full sw:gap-2"
       style={{ marginBottom: cssVar('dimension-space-100'), position: 'relative' }}
     >
       <div
-        className="drag-handle-container sw-flex sw-justify-center sw-items-start"
+        className="drag-handle-container sw:flex sw:justify-center sw:items-start"
         style={{
           position: 'absolute',
           top: '-16px',
@@ -107,7 +107,7 @@ function WidgetCardHeader<WPM extends {}>(
         <button
           aria-label="Drag widget. Press Enter to start dragging, arrow keys to move, Enter to confirm, Escape to cancel."
           aria-pressed={isKeyboardDragging}
-          className="sw-flex sw-flex-1 sw-min-w-0 sw-items-start sw-gap-2 sw-mt-1.5 sw-border-none sw-bg-transparent"
+          className="sw:flex sw:flex-1 sw:min-w-0 sw:items-start sw:gap-2 sw:mt-1.5 sw:border-none sw:bg-transparent"
           onKeyDown={onKeyDown}
           ref={dragHandleRef}
           style={{
@@ -122,7 +122,7 @@ function WidgetCardHeader<WPM extends {}>(
         </button>
       </div>
 
-      <div className="sw-flex-1 sw-min-w-0">
+      <div className="sw:flex-1 sw:min-w-0">
         <WidgetHeader widget={widgetWithEditMode} />
       </div>
       <DropdownMenu
@@ -183,11 +183,11 @@ export function renderDragPreviewContent<WPM extends {}>(
       }}
     >
       <div
-        className="sw-flex sw-w-full sw-items-start sw-gap-2"
+        className="sw:flex sw:w-full sw:items-start sw:gap-2"
         style={{ marginBottom: cssVar('dimension-space-100'), position: 'relative' }}
       >
         <div
-          className="drag-handle-container sw-flex sw-justify-center sw-items-start"
+          className="drag-handle-container sw:flex sw:justify-center sw:items-start"
           style={{
             position: 'absolute',
             top: '-16px',
@@ -199,7 +199,7 @@ export function renderDragPreviewContent<WPM extends {}>(
         >
           <DragHandle isHorizontal titleMessageId="dashboard.drag_to_reorder" />
         </div>
-        <div className="sw-flex-1 sw-min-w-0">
+        <div className="sw:flex-1 sw:min-w-0">
           <WidgetHeader widget={widget} />
         </div>
       </div>
@@ -238,7 +238,7 @@ export function renderResizeHandleContent(handleProps: ResizeHandleElementProps)
     <button
       aria-label="Resize widget. Press Enter to start resizing, arrow keys to adjust size, Enter to confirm, Escape to cancel."
       aria-pressed={handleProps.isResizing}
-      className="sw-border-none sw-bg-transparent sw-p-0"
+      className="sw:border-none sw:bg-transparent sw:p-0"
       onKeyDown={handleProps.onKeyDown}
       ref={handleProps.resizeHandleRef}
       style={{

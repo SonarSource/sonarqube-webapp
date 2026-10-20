@@ -120,7 +120,7 @@ export default function RuleDescription({
         }}
       >
         {!isHunterAgent && (
-          <h2 className="sw-typo-semibold sw-mb-4">
+          <h2 className="sw:typo-semibold sw:mb-4">
             {translate('coding_rules.description_context.title')}
           </h2>
         )}
@@ -133,7 +133,7 @@ export default function RuleDescription({
           />
         )}
         {!isHunterAgent && defaultContext && (
-          <FlagMessage className="sw-mb-4" variant="info">
+          <FlagMessage className="sw:mb-4" variant="info">
             {translateWithParameters(
               'coding_rules.description_context.default_information',
               defaultContext.displayName,
@@ -141,7 +141,7 @@ export default function RuleDescription({
           </FlagMessage>
         )}
         {!isHunterAgent && (
-          <div className="sw-mb-4">
+          <div className="sw:mb-4">
             {/* Changing this ToggleButton to the Echoes ToggleButtonGroup requires changing the one
                 from RuleTabViewer, which is supposed to be Tabs. */}
             <ToggleButton

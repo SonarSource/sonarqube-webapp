@@ -95,10 +95,10 @@ function SoftwareImpactMeasureCard(props: Readonly<SoftwareImpactBreakdownCardPr
 
   return (
     <div
-      className="sw-overflow-hidden sw-rounded-2 sw-flex-col"
+      className="sw:overflow-hidden sw:rounded-2 sw:flex-col"
       data-testid={`overview__software-impact-card-${softwareQuality}`}
     >
-      <div className="sw-flex sw-items-center sw-gap-2">
+      <div className="sw:flex sw:items-center sw:gap-2">
         <Label as="span">
           {!isStandardMode && intl.formatMessage({ id: SOFTWARE_QUALITY_LABELS[softwareQuality] })}
           {alternativeMeasure && isStandardMode && alternativeMeasure.metric.name}
@@ -109,10 +109,10 @@ function SoftwareImpactMeasureCard(props: Readonly<SoftwareImpactBreakdownCardPr
           </Badge>
         )}
       </div>
-      <div className="sw-flex sw-flex-col sw-gap-3">
-        <div className="sw-flex sw-mt-4">
+      <div className="sw:flex sw:flex-col sw:gap-3">
+        <div className="sw:flex sw:mt-4">
           <div>
-            <div className="sw-flex sw-gap-1 sw-items-center">
+            <div className="sw:flex sw:gap-1 sw:items-center">
               {count ? (
                 <Tooltip content={countTooltipOverlay} isOpen={isStandardMode ? false : undefined}>
                   <LinkStandalone
@@ -127,7 +127,7 @@ function SoftwareImpactMeasureCard(props: Readonly<SoftwareImpactBreakdownCardPr
                         }),
                       },
                     )}
-                    className="sw-text-lg sw-font-semibold"
+                    className="sw:text-lg sw:font-semibold"
                     data-testid={`overview__software-impact-${softwareQuality}`}
                     highlight={LinkHighlight.CurrentColor}
                     to={totalLinkHref}
@@ -138,14 +138,14 @@ function SoftwareImpactMeasureCard(props: Readonly<SoftwareImpactBreakdownCardPr
               ) : (
                 <StyledDash isHighlighted>-</StyledDash>
               )}
-              <Text className="sw-self-end sw-pb-1" isSubtle>
+              <Text className="sw:self-end sw:pb-1" isSubtle>
                 {intl.formatMessage({ id: 'overview.measures.software_impact.total_open_issues' })}
               </Text>
             </div>
 
             <IssuesLinkCausedByUpgrade
               branchLike={branch}
-              className="sw-mt-1"
+              className="sw:mt-1"
               component={component}
               fromSonarQubeUpdateIssuesMeasure={fromSonarQubeUpdateIssuesMeasure}
               isNewCodePeriod={false}
@@ -153,7 +153,7 @@ function SoftwareImpactMeasureCard(props: Readonly<SoftwareImpactBreakdownCardPr
             />
           </div>
 
-          <div className="sw-flex-grow sw-flex sw-justify-end">
+          <div className="sw:flex-grow sw:flex sw:justify-end">
             <SoftwareImpactMeasureRating
               branch={branch}
               componentKey={component.key}

@@ -103,7 +103,7 @@ export function DashboardTable<TDashboard extends DashboardTableItem>(
         {isLoadingDashboards && (
           <Table.Row>
             <Table.CellText
-              content={<Spinner isLoading={isLoadingDashboards} wrapperClassName="sw-my-2" />}
+              content={<Spinner isLoading={isLoadingDashboards} wrapperClassName="sw:my-2" />}
             />
             <Table.Cell />
             {isMemberOfOrganization && <Table.Cell />}
@@ -114,7 +114,7 @@ export function DashboardTable<TDashboard extends DashboardTableItem>(
           <Table.Row>
             <Table.CellText
               content={
-                <div className="sw-flex sw-justify-center">
+                <div className="sw:flex sw:justify-center">
                   <Text isSubtle>{intl.formatMessage({ id: 'dashboard.list.no_results' })}</Text>
                 </div>
               }
@@ -130,7 +130,7 @@ export function DashboardTable<TDashboard extends DashboardTableItem>(
             <Table.Row key={dashboard.id}>
               <Table.CellText
                 content={
-                  <div className="sw-flex sw-items-center sw-gap-2 sw-my-3">
+                  <div className="sw:flex sw:items-center sw:gap-2 sw:my-3">
                     <Link highlight={LinkHighlight.Default} to={getDashboardUrl(dashboard)}>
                       {dashboard.name}
                     </Link>
@@ -139,7 +139,7 @@ export function DashboardTable<TDashboard extends DashboardTableItem>(
                 }
                 description={
                   <Tooltip content={dashboard.description} side={TooltipSide.Right}>
-                    <div className="sw-mb-3 sw-truncate">{dashboard.description}</div>
+                    <div className="sw:mb-3 sw:truncate">{dashboard.description}</div>
                   </Tooltip>
                 }
               />

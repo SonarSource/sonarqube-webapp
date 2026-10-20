@@ -36,10 +36,10 @@ exports[`renders correctly for failed quality gate 1`] = `
 <body>
   <div>
     <div
-      class="sw-flex sw-justify-center sw-items-center"
+      class="sw:flex sw:justify-center sw:items-center"
     >
       <svg
-        class="sw-mr-2"
+        class="sw:mr-2"
         fill="none"
         height="1rem"
         role="img"
@@ -78,10 +78,10 @@ exports[`renders correctly for passed quality gate 1`] = `
 <body>
   <div>
     <div
-      class="sw-flex sw-justify-center sw-items-center"
+      class="sw:flex sw:justify-center sw:items-center"
     >
       <svg
-        class="sw-mr-2"
+        class="sw:mr-2"
         fill="none"
         height="1.5rem"
         role="img"
@@ -108,7 +108,7 @@ exports[`renders correctly for passed quality gate 1`] = `
       </svg>
     </div>
     <span
-      class="sw-typo-lg"
+      class="sw:typo-lg"
     >
       OK
     </span>

@@ -47,7 +47,7 @@ export default class FormattingTipsWithLink extends React.PureComponent<Props> {
           {translate('formatting.helplink')}
         </LinkStandalone>
 
-        <p className="sw-mt-2">
+        <p className="sw:mt-2">
           <FormattedMessage
             id="formatting.example.link"
             values={{

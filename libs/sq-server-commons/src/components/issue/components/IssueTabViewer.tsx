@@ -197,8 +197,8 @@ function IssueTabViewer(props: Readonly<IssueTabViewerProps>) {
         closeIssue={closeIssue}
         issue={issue}
         navigation={
-          // No bottom margin here: IssueHeader already wraps `navigation` in `sw-mb-300`.
-          <div className="sw-flex sw-justify-between sw-items-center">
+          // No bottom margin here: IssueHeader already wraps `navigation` in `sw:mb-300`.
+          <div className="sw:flex sw:justify-between sw:items-center">
             {/* This toggle button is used as tabs, do not replace it with Echoes ToggleButtonGroup */}
             <ToggleButton
               onChange={handleSelectTabs}
@@ -213,10 +213,10 @@ function IssueTabViewer(props: Readonly<IssueTabViewerProps>) {
         ruleDetails={ruleDetails}
       />
 
-      <Layout.PageContent className="sw-grid sw-grid-cols-5 sw-gap-6">
+      <Layout.PageContent className="sw:grid sw:grid-cols-5 sw:gap-6">
         <div
           aria-labelledby={`tab-${selectedTab.key}`}
-          className="sw-flex sw-flex-col sw-col-span-4"
+          className="sw:flex sw:flex-col sw:col-span-4"
           id={`tabpanel-${selectedTab.key}`}
           role="tabpanel"
         >
@@ -225,7 +225,7 @@ function IssueTabViewer(props: Readonly<IssueTabViewerProps>) {
             .map((tab) => (
               <div
                 className={classNames({
-                  'sw-hidden': tab.key !== selectedTab.key,
+                  'sw:hidden': tab.key !== selectedTab.key,
                 })}
                 key={tab.key}
               >
@@ -235,7 +235,7 @@ function IssueTabViewer(props: Readonly<IssueTabViewerProps>) {
               </div>
             ))}
         </div>
-        <div className="sw-col-span-1">
+        <div className="sw:col-span-1">
           <IssuePopupContext.Consumer>
             {(popupContext) => (
               <IssueMetadata
@@ -272,7 +272,7 @@ function IssueTabViewer(props: Readonly<IssueTabViewerProps>) {
                           severity={issue.severity}
                         />
                       </dd>
-                      <Divider className="sw-my-1" />
+                      <Divider className="sw:my-1" />
                     </>
                   )
                 }

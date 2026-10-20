@@ -52,10 +52,10 @@ export default function GraphsZoom(props: GraphsZoomProps) {
     // We hide this for screen readers; they should use date inputs instead.
     <div
       aria-hidden
-      className="activity-graph-zoom sw-min-w-full sw-overflow-hidden sw-w-0"
+      className="activity-graph-zoom sw:min-w-full sw:overflow-hidden sw:w-0"
       ref={containerRef}
     >
-      <div className="sw-overflow-hidden sw-w-full">
+      <div className="sw:overflow-hidden sw:w-full">
         {!loading && hasHistoryData(series) && containerWidth !== undefined && (
           <ZoomTimeLine
             endDate={graphEndDate}

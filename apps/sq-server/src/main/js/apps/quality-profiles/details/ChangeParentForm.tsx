@@ -63,7 +63,7 @@ export function ChangeParentForm({ onClose, profile, profiles }: Readonly<Props>
       body={
         <>
           {profile.parentKey !== undefined && (
-            <FlagMessage className="sw-mb-8" variant="info">
+            <FlagMessage className="sw:mb-8" variant="info">
               <FormattedMessage id="quality_profiles.change_parent_warning" />
             </FlagMessage>
           )}
@@ -71,7 +71,7 @@ export function ChangeParentForm({ onClose, profile, profiles }: Readonly<Props>
           <MandatoryFieldsExplanation />
 
           <FormField
-            className="sw-mt-2"
+            className="sw:mt-2"
             htmlFor="quality-profile-new-parent"
             label={formatMessage({ id: 'quality_profiles.parent' })}
             required

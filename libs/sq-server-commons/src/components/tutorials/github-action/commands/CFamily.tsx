@@ -91,7 +91,7 @@ export default function CFamily(props: Readonly<CFamilyProps>) {
         />
         {os === OSs.Linux && (
           <>
-            <div className="sw-mt-4">{translate('onboarding.build.other.architecture')}</div>
+            <div className="sw:mt-4">{translate('onboarding.build.other.architecture')}</div>
             <RenderOptions
               checked={arch}
               label={translate('onboarding.build.other.architecture')}
@@ -105,7 +105,7 @@ export default function CFamily(props: Readonly<CFamilyProps>) {
         )}
         <GithubCFamilyExampleRepositories
           ci={TutorialModes.GitHubActions}
-          className="sw-mt-4 sw-w-abs-600"
+          className="sw:mt-4 sw:w-abs-600"
           os={os}
         />
       </NumberedListItem>

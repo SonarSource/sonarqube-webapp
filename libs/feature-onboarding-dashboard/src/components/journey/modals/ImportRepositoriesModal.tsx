@@ -44,11 +44,11 @@ const PAGE_SIZE = 25;
 const COLUMNS: RepositoriesTableColumn[] = [
   { labelKey: 'onboarding_dashboard.journey.import.modal.col.repository' },
   {
-    className: 'sw-justify-center',
+    className: 'sw:justify-center',
     labelKey: 'onboarding_dashboard.journey.import.modal.col.visibility',
   },
   {
-    className: 'sw-justify-center',
+    className: 'sw:justify-center',
     labelKey: 'onboarding_dashboard.journey.import.modal.col.status',
   },
 ];
@@ -88,7 +88,7 @@ export function ImportRepositoriesModal({
                 ? [{ ...COLUMNS[0], labelKey: selection.headerLabelKey }, ...COLUMNS.slice(1)]
                 : COLUMNS
             }
-            containerClassName="sw-max-h-[calc(80vh-10rem)]"
+            containerClassName="sw:max-h-[calc(80vh-10rem)]"
             pageSize={PAGE_SIZE}
             renderCells={(repository) => <RepositoryCells repository={repository} />}
             selection={selection}
@@ -110,7 +110,7 @@ function RepositoryCells({ repository }: Readonly<{ repository: OnboardingReposi
 
   return (
     <>
-      <Table.Cell className="sw-justify-start">
+      <Table.Cell className="sw:justify-start">
         <RepositoryCell alm={alm} name={name} subtitle={slug} />
       </Table.Cell>
       <Table.Cell>

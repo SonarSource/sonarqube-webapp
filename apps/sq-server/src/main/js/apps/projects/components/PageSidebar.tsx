@@ -79,7 +79,7 @@ export default function PageSidebar(props: PageSidebarProps) {
   return (
     <>
       <FavoriteFilter />
-      <div className="sw-flex sw-items-center sw-justify-between">
+      <div className="sw:flex sw:items-center sw:justify-between">
         <Heading as="h2" ref={heading} size="medium">
           <FormattedMessage id="filters" />
         </Heading>
@@ -90,13 +90,13 @@ export default function PageSidebar(props: PageSidebarProps) {
           </Button>
         )}
       </div>
-      <Divider className="sw-my-2" />
+      <Divider className="sw:my-2" />
       <QualityGateFacet
         {...facetProps}
         facet={getFacet(facets, 'gate')}
         value={query.gate?.split(',')}
       />
-      <Divider className="sw-my-2" />
+      <Divider className="sw:my-2" />
       {!isLeakView && (
         <>
           <RatingFilter
@@ -106,7 +106,7 @@ export default function PageSidebar(props: PageSidebarProps) {
             value={query.security}
           />
 
-          <Divider className="sw-my-2" />
+          <Divider className="sw:my-2" />
 
           <RatingFilter
             {...facetProps}
@@ -115,7 +115,7 @@ export default function PageSidebar(props: PageSidebarProps) {
             value={query.reliability}
           />
 
-          <Divider className="sw-my-2" />
+          <Divider className="sw:my-2" />
 
           <RatingFilter
             {...facetProps}
@@ -126,7 +126,7 @@ export default function PageSidebar(props: PageSidebarProps) {
 
           {scaEnabled && (
             <>
-              <Divider className="sw-my-2" />
+              <Divider className="sw:my-2" />
 
               <RatingFilter
                 {...facetProps}
@@ -137,7 +137,7 @@ export default function PageSidebar(props: PageSidebarProps) {
             </>
           )}
 
-          <Divider className="sw-my-2" />
+          <Divider className="sw:my-2" />
 
           <RatingFilter
             {...facetProps}
@@ -146,7 +146,7 @@ export default function PageSidebar(props: PageSidebarProps) {
             value={query.security_review}
           />
 
-          <Divider className="sw-my-2" />
+          <Divider className="sw:my-2" />
 
           <CoverageFilter
             {...facetProps}
@@ -154,7 +154,7 @@ export default function PageSidebar(props: PageSidebarProps) {
             value={query.coverage}
           />
 
-          <Divider className="sw-my-2" />
+          <Divider className="sw:my-2" />
 
           <DuplicationsFilter
             {...facetProps}
@@ -162,7 +162,7 @@ export default function PageSidebar(props: PageSidebarProps) {
             value={query.duplications}
           />
 
-          <Divider className="sw-my-2" />
+          <Divider className="sw:my-2" />
 
           <SizeFilter {...facetProps} facet={getFacet(facets, 'size')} value={query.size} />
         </>
@@ -176,7 +176,7 @@ export default function PageSidebar(props: PageSidebarProps) {
             value={query.new_security}
           />
 
-          <Divider className="sw-my-2" />
+          <Divider className="sw:my-2" />
 
           <RatingFilter
             {...facetProps}
@@ -185,7 +185,7 @@ export default function PageSidebar(props: PageSidebarProps) {
             value={query.new_reliability}
           />
 
-          <Divider className="sw-my-2" />
+          <Divider className="sw:my-2" />
 
           <RatingFilter
             {...facetProps}
@@ -196,7 +196,7 @@ export default function PageSidebar(props: PageSidebarProps) {
 
           {scaEnabled && (
             <>
-              <Divider className="sw-my-2" />
+              <Divider className="sw:my-2" />
 
               <RatingFilter
                 {...facetProps}
@@ -207,7 +207,7 @@ export default function PageSidebar(props: PageSidebarProps) {
             </>
           )}
 
-          <Divider className="sw-my-2" />
+          <Divider className="sw:my-2" />
 
           <RatingFilter
             {...facetProps}
@@ -216,7 +216,7 @@ export default function PageSidebar(props: PageSidebarProps) {
             value={query.new_security_review}
           />
 
-          <Divider className="sw-my-2" />
+          <Divider className="sw:my-2" />
 
           <NewCoverageFilter
             {...facetProps}
@@ -224,7 +224,7 @@ export default function PageSidebar(props: PageSidebarProps) {
             value={query.new_coverage}
           />
 
-          <Divider className="sw-my-2" />
+          <Divider className="sw:my-2" />
 
           <NewDuplicationsFilter
             {...facetProps}
@@ -232,7 +232,7 @@ export default function PageSidebar(props: PageSidebarProps) {
             value={query.new_duplications}
           />
 
-          <Divider className="sw-my-2" />
+          <Divider className="sw:my-2" />
 
           <NewLinesFilter
             {...facetProps}
@@ -241,7 +241,7 @@ export default function PageSidebar(props: PageSidebarProps) {
           />
         </>
       )}
-      <Divider className="sw-my-2" />
+      <Divider className="sw:my-2" />
       <LanguagesFilter
         {...facetProps}
         facet={getFacet(facets, 'languages')}
@@ -249,7 +249,7 @@ export default function PageSidebar(props: PageSidebarProps) {
         query={query}
         value={query.languages}
       />
-      <Divider className="sw-my-2" />
+      <Divider className="sw:my-2" />
       {applicationsEnabled && (
         <>
           <QualifierFacet
@@ -258,7 +258,7 @@ export default function PageSidebar(props: PageSidebarProps) {
             value={query.qualifier}
           />
 
-          <Divider className="sw-my-2" />
+          <Divider className="sw:my-2" />
         </>
       )}
       <TagsFacet

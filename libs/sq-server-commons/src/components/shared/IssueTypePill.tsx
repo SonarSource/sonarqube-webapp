@@ -72,7 +72,7 @@ export default function IssueTypePill(props: Readonly<Props>) {
             key={severityItem}
             onClick={() => handleSetSeverity(severityItem)}
           >
-            <div className="sw-flex sw-items-center sw-gap-2">
+            <div className="sw:flex sw:items-center sw:gap-2">
               <SoftwareImpactSeverityIcon severity={severityItem} />
               {intl.formatMessage({ id: `severity.${severityItem}` })}
             </div>

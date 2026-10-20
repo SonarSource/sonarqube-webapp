@@ -25,7 +25,7 @@ import { ContentCell, TableRow } from '~design-system';
 export default function ComponentsEmpty() {
   return (
     <TableRow>
-      <ContentCell className="sw-col-span-full">
+      <ContentCell className="sw:col-span-full">
         <Text isSubtle>
           <FormattedMessage id="no_results" />
         </Text>

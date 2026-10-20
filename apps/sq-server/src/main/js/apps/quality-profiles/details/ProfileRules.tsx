@@ -128,7 +128,7 @@ export default function ProfileRules({ profile }: Readonly<Props>) {
   return (
     <section aria-label={formatMessage({ id: 'rules' })} className="it__quality-profiles__rules">
       <Spinner isLoading={isActivatedRulesLoading || isAllRulesLoading || isShowProfileLoading}>
-        <Heading as="h2" className="sw-mb-4">
+        <Heading as="h2" className="sw:mb-4">
           <FormattedMessage id="quality_profile.rules.breakdown" />
         </Heading>
 
@@ -138,13 +138,13 @@ export default function ProfileRules({ profile }: Readonly<Props>) {
             columnWidths={['50%', '25%', '25%']}
             header={
               <StyledTableRowHeader>
-                <ContentCell className="sw-font-semibold sw-pl-4">
+                <ContentCell className="sw:font-semibold sw:pl-4">
                   <FormattedMessage id="type" />
                 </ContentCell>
-                <NumericalCell className="sw-font-regular">
+                <NumericalCell className="sw:font-regular">
                   <FormattedMessage id="active" />
                 </NumericalCell>
-                <NumericalCell className="sw-pr-4 sw-font-regular">
+                <NumericalCell className="sw:pr-4 sw:font-regular">
                   <FormattedMessage id="inactive" />
                 </NumericalCell>
               </StyledTableRowHeader>
@@ -169,18 +169,18 @@ export default function ProfileRules({ profile }: Readonly<Props>) {
         {!isStandardMode && (
           <>
             <Table
-              className="sw-mb-4"
+              className="sw:mb-4"
               columnCount={3}
               columnWidths={['50%', '25%', '25%']}
               header={
                 <StyledTableRowHeader>
-                  <ContentCell className="sw-font-semibold sw-pl-4">
+                  <ContentCell className="sw:font-semibold sw:pl-4">
                     <FormattedMessage id="quality_profile.rules.software_qualities_title" />
                   </ContentCell>
-                  <NumericalCell className="sw-font-regular">
+                  <NumericalCell className="sw:font-regular">
                     <FormattedMessage id="active" />
                   </NumericalCell>
-                  <NumericalCell className="sw-pr-4 sw-font-regular">
+                  <NumericalCell className="sw:pr-4 sw:font-regular">
                     <FormattedMessage id="inactive" />
                   </NumericalCell>
                 </StyledTableRowHeader>
@@ -207,13 +207,13 @@ export default function ProfileRules({ profile }: Readonly<Props>) {
               columnWidths={['50%', '25%', '25%']}
               header={
                 <StyledTableRowHeader>
-                  <ContentCell className="sw-font-semibold sw-pl-4">
+                  <ContentCell className="sw:font-semibold sw:pl-4">
                     <FormattedMessage id="quality_profile.rules.cct_categories_title" />
                   </ContentCell>
-                  <NumericalCell className="sw-font-regular">
+                  <NumericalCell className="sw:font-regular">
                     <FormattedMessage id="active" />
                   </NumericalCell>
-                  <NumericalCell className="sw-pr-4 sw-font-regular">
+                  <NumericalCell className="sw:pr-4 sw:font-regular">
                     <FormattedMessage id="inactive" />
                   </NumericalCell>
                 </StyledTableRowHeader>
@@ -237,7 +237,7 @@ export default function ProfileRules({ profile }: Readonly<Props>) {
           </>
         )}
 
-        <div className="sw-mt-6 sw-flex sw-flex-col sw-gap-4 sw-items-start">
+        <div className="sw:mt-6 sw:flex sw:flex-col sw:gap-4 sw:items-start">
           {profile.activeDeprecatedRuleCount > 0 && (
             <ProfileRulesDeprecatedWarning
               activeDeprecatedRules={profile.activeDeprecatedRuleCount}
@@ -268,7 +268,7 @@ export default function ProfileRules({ profile }: Readonly<Props>) {
           {/* this user could potentially activate more rules if the profile was not built-in */}
           {/* in such cases it's better to show the button but disable it with a tooltip */}
           {actions.copy && profile.isBuiltIn && (
-            <div className="sw-inline-flex sw-items-center sw-gap-2">
+            <div className="sw:inline-flex sw:items-center sw:gap-2">
               <Button
                 className="it__quality-profiles__activate-rules"
                 isDisabled

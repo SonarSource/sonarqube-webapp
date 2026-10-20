@@ -61,7 +61,7 @@ export default function EncryptionApp() {
 
   return (
     <AdminPageTemplate breadcrumbs={[{ linkElement: pageTitle }]} title={pageTitle}>
-      <div className="sw-my-8" id="encryption-page">
+      <div className="sw:my-8" id="encryption-page">
         <Spinner isLoading={loading}>
           {!secretKeyAvailable && (
             <GenerateSecretKeyForm generateSecretKey={doGenerateSecretKey} secretKey={secretKey} />

@@ -24,8 +24,8 @@ import { FormattedMessage } from 'react-intl';
 export function NotEnoughLinesCoverageCard() {
   return (
     <div>
-      <div className="sw-flex sw-items-center sw-gap-2 sw-mb-2">
-        <Label as="span" className="sw-whitespace-nowrap">
+      <div className="sw:flex sw:items-center sw:gap-2 sw:mb-2">
+        <Label as="span" className="sw:whitespace-nowrap">
           <FormattedMessage id="metric_domain.Coverage" />
         </Label>
       </div>

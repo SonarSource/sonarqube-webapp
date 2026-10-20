@@ -108,7 +108,7 @@ export function CustomizeVisualizationAccordion({
       title={<FormattedMessage id="dashboard.add_widget_modal.customize_visualization" />}
     >
       <div
-        className="sw-flex sw-flex-col sw-gap-4"
+        className="sw:flex sw:flex-col sw:gap-4"
         onClick={(e) => {
           e.stopPropagation();
         }}

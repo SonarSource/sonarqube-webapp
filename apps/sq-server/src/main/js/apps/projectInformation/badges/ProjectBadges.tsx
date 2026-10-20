@@ -100,10 +100,10 @@ export default function ProjectBadges(props: ProjectBadgesProps) {
 
   return (
     <div>
-      <Heading as="h2" className="sw-mb-2">
+      <Heading as="h2" className="sw:mb-2">
         <FormattedMessage id="overview.badges.get_badge" />
       </Heading>
-      <p className="sw-mb-4">
+      <p className="sw:mb-4">
         <FormattedMessage id={`overview.badges.description.${qualifier}`} />
       </p>
 
@@ -111,13 +111,13 @@ export default function ProjectBadges(props: ProjectBadgesProps) {
         <SelectionCards
           alignment="horizontal"
           ariaLabel={intl.formatMessage({ id: 'overview.badges.type' })}
-          className="sw-mb-4"
+          className="sw:mb-4"
           onChange={handleSelectType}
           options={[
             {
               value: BadgeType.measure,
               illustration: (
-                <StyledBadgeWrapper className="sw-flex sw-items-center sw-justify-center">
+                <StyledBadgeWrapper className="sw:flex sw:items-center sw:justify-center">
                   <Image
                     alt={intl.formatMessage(
                       { id: `overview.badges.${BadgeType.measure}.alt` },
@@ -137,7 +137,7 @@ export default function ProjectBadges(props: ProjectBadgesProps) {
             {
               value: BadgeType.qualityGate,
               illustration: (
-                <StyledBadgeWrapper className="sw-flex sw-items-center sw-justify-center">
+                <StyledBadgeWrapper className="sw:flex sw:items-center sw:justify-center">
                   <Image
                     alt={intl.formatMessage({ id: `overview.badges.${BadgeType.qualityGate}.alt` })}
                     src={getBadgeUrl(BadgeType.qualityGate, fullBadgeOptions, token, true)}
@@ -156,7 +156,7 @@ export default function ProjectBadges(props: ProjectBadgesProps) {
               ? {
                   value: BadgeType.aiCodeAssurance,
                   illustration: (
-                    <StyledBadgeWrapper className="sw-flex sw-items-center sw-justify-center">
+                    <StyledBadgeWrapper className="sw:flex sw:items-center sw:justify-center">
                       <Image
                         alt={intl.formatMessage({
                           id: `overview.badges.${BadgeType.aiCodeAssurance}.alt`,
@@ -180,7 +180,7 @@ export default function ProjectBadges(props: ProjectBadgesProps) {
 
       {BadgeType.measure === selectedType && (
         <Select
-          className="sw-w-abs-300 sw-mb-4"
+          className="sw:w-abs-300 sw:mb-4"
           data={metricOptions}
           id="badge-param-customize"
           isNotClearable
@@ -194,10 +194,10 @@ export default function ProjectBadges(props: ProjectBadgesProps) {
         />
       )}
 
-      <Divider className="sw-mb-4" />
+      <Divider className="sw:mb-4" />
 
       <div>
-        <Label className="sw-block">
+        <Label className="sw:block">
           <FormattedMessage id="overview.badges.format" />
         </Label>
         <ToggleButtonGroup
@@ -210,10 +210,10 @@ export default function ProjectBadges(props: ProjectBadgesProps) {
         />
       </div>
 
-      <Spinner className="sw-my-2" isLoading={isFetchingToken || isRenewing}>
+      <Spinner className="sw:my-2" isLoading={isFetchingToken || isRenewing}>
         {!isLoading && (
           <CodeSnippet
-            className="sw-p-6 it__code-snippet"
+            className="sw:p-6 it__code-snippet"
             copyAriaLabel={intl.formatMessage({ id: 'overview.badges.copy_snippet' })}
             language="plaintext"
             snippet={getBadgeSnippet(selectedType, fullBadgeOptions, token)}
@@ -222,14 +222,14 @@ export default function ProjectBadges(props: ProjectBadgesProps) {
         )}
       </Spinner>
 
-      <FlagMessage className="sw-w-full" variant="warning">
+      <FlagMessage className="sw:w-full" variant="warning">
         <p>
           <FormattedMessage id="overview.badges.leak_warning" />
           {canRenew && (
-            <span className="sw-flex sw-flex-col">
+            <span className="sw:flex sw:flex-col">
               <FormattedMessage id="overview.badges.renew.description" />
               <Button
-                className="sw-mt-2 it__project-info-renew-badge sw-mr-auto"
+                className="sw:mt-2 it__project-info-renew-badge sw:mr-auto"
                 isDisabled={isLoading}
                 onClick={() => {
                   renewToken(project);

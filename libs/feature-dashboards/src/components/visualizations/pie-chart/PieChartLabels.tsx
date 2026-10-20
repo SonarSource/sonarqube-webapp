@@ -139,7 +139,7 @@ export function PieChartLabels(props: Readonly<PieChartLabelsProps>) {
 
         return (
           <g
-            className="sw-cursor-pointer"
+            className="sw:cursor-pointer"
             data-testid={`pie-chart-label-${label.index}`}
             key={label.segment.value}
             onClick={() => {

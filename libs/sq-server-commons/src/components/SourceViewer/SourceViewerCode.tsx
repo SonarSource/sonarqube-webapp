@@ -287,11 +287,11 @@ export default class SourceViewerCode extends React.PureComponent<Props, State> 
       <SonarCodeColorizer>
         <div className="it__source-viewer-code">
           {hasSourcesBefore && (
-            <div className="sw-flex sw-justify-center sw-p-6">
+            <div className="sw:flex sw:justify-center sw:p-6">
               {loadingSourcesBefore ? (
-                <div className="sw-flex sw-items-center">
+                <div className="sw:flex sw:items-center">
                   <Spinner isLoading />
-                  <Text className="sw-ml-2" isSubtle>
+                  <Text className="sw:ml-2" isSubtle>
                     {translate('source_viewer.loading_more_code')}
                   </Text>
                 </div>
@@ -326,11 +326,11 @@ export default class SourceViewerCode extends React.PureComponent<Props, State> 
           </table>
 
           {hasSourcesAfter && (
-            <div className="sw-flex sw-justify-center sw-p-6">
+            <div className="sw:flex sw:justify-center sw:p-6">
               {loadingSourcesAfter ? (
-                <div className="sw-flex sw-items-center">
+                <div className="sw:flex sw:items-center">
                   <Spinner isLoading />
-                  <Text className="sw-ml-2" isSubtle>
+                  <Text className="sw:ml-2" isSubtle>
                     {translate('source_viewer.loading_more_code')}
                   </Text>
                 </div>

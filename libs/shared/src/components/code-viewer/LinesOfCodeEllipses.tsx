@@ -38,7 +38,7 @@ export function LinesOfCodeEllipses(props: Readonly<LinesOfCodeEllipsesProps>) {
   const { direction, handleClick, handleShowAllClick, isLoading } = props;
 
   return (
-    <LinesOfCodeEllipsesStyled className="sw-typo-sm-semibold" direction={direction}>
+    <LinesOfCodeEllipsesStyled className="sw:typo-sm-semibold" direction={direction}>
       <ExpandLink
         direction={direction}
         isLoading={isLoading}
@@ -67,7 +67,7 @@ function ExpandLink(props: Readonly<ExpandLinkProps>) {
   const { direction, isLoading, label, onClick } = props;
   return isLoading ? (
     <Text
-      className="sw-inline-flex sw-gap-1"
+      className="sw:inline-flex sw:gap-1"
       colorOverride="echoes-color-text-disabled"
       size="small"
     >
@@ -75,7 +75,7 @@ function ExpandLink(props: Readonly<ExpandLinkProps>) {
       {label}
     </Text>
   ) : (
-    <LinkStandaloneStyled className="sw-flex sw-gap-1" highlight="subtle" onClick={onClick}>
+    <LinkStandaloneStyled className="sw:flex sw:gap-1" highlight="subtle" onClick={onClick}>
       <LinesOfCodeEllipsesIcon color="echoes-color-icon-subtle" direction={direction} />
       {label}
     </LinkStandaloneStyled>

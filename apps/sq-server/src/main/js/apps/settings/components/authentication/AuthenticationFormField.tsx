@@ -52,12 +52,12 @@ export default function AuthenticationFormField(props: Readonly<Props>) {
   if (!isSecuredDefinition(definition) && definition.type === SettingType.BOOLEAN) {
     return (
       <>
-        <div className="sw-flex">
-          <Text className="sw-mb-4 sw-mr-4 sw-flex sw-items-center" isHighlighted>
+        <div className="sw:flex">
+          <Text className="sw:mb-4 sw:mr-4 sw:flex sw:items-center" isHighlighted>
             <StyledLabel aria-label={name} htmlFor={definition.key}>
               {name}
               {mandatory && (
-                <RequiredIcon aria-label={formatMessage({ id: 'required' })} className="sw-ml-1" />
+                <RequiredIcon aria-label={formatMessage({ id: 'required' })} className="sw:ml-1" />
               )}
             </StyledLabel>
           </Text>
@@ -71,7 +71,7 @@ export default function AuthenticationFormField(props: Readonly<Props>) {
           />
         </div>
         {description !== undefined && (
-          <Text className="sw-mt-2" id={`switch-${definition.key}`} isSubtle>
+          <Text className="sw:mt-2" id={`switch-${definition.key}`} isSubtle>
             {description}
           </Text>
         )}
@@ -82,10 +82,10 @@ export default function AuthenticationFormField(props: Readonly<Props>) {
   if (definition.multiValues || isSecuredDefinition(definition)) {
     return (
       <FieldWrapper className={className}>
-        <Label className="sw-mb-2 sw-flex sw-items-center" htmlFor={definition.key}>
+        <Label className="sw:mb-2 sw:flex sw:items-center" htmlFor={definition.key}>
           {name}
           {mandatory && (
-            <RequiredIcon aria-label={formatMessage({ id: 'required' })} className="sw-ml-1" />
+            <RequiredIcon aria-label={formatMessage({ id: 'required' })} className="sw:ml-1" />
           )}
         </Label>
         {definition.multiValues && (
@@ -107,15 +107,15 @@ export default function AuthenticationFormField(props: Readonly<Props>) {
               settingValue={String(settingValue ?? '')}
             />
             {hasError && (
-              <Text className="sw-mt-2" colorOverride="echoes-color-text-danger">
-                <IconError className="sw-mr-1" />
+              <Text className="sw:mt-2" colorOverride="echoes-color-text-danger">
+                <IconError className="sw:mr-1" />
                 {error}
               </Text>
             )}
           </>
         )}
         {description !== undefined && (
-          <Text className="sw-mt-2" isSubtle>
+          <Text className="sw:mt-2" isSubtle>
             {description}
           </Text>
         )}

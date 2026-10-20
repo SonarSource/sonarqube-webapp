@@ -159,7 +159,7 @@ export default function ComponentMeasuresApp() {
 
     if (hideDrilldown) {
       return (
-        <Text as="div" className="sw-my-3 sw-mx-6" isSubtle>
+        <Text as="div" className="sw:my-3 sw:mx-6" isSubtle>
           <FormattedMessage id="component_measures.details_are_not_available" />
         </Text>
       );
@@ -191,19 +191,19 @@ export default function ComponentMeasuresApp() {
       <Suggestions suggestionGroup="component_measures" />
 
       <Card>
-        <Spinner className="sw-my-3 sw-mx-6" isLoading={isLoading}>
+        <Spinner className="sw:my-3 sw:mx-6" isLoading={isLoading}>
           <Card.Body insetContent>
             {measures.length > 0 ? (
               <div id="component-measures">
                 {!component?.canBrowseAllChildProjects && isPortfolioLike(component?.qualifier) && (
                   <MessageCallout
-                    className="sw-my-3 sw-mx-6 it__portfolio_warning"
+                    className="sw:my-3 sw:mx-6 it__portfolio_warning"
                     variety="warning"
                   >
-                    <div className="sw-flex sw-items-center">
+                    <div className="sw:flex sw:items-center">
                       <FormattedMessage id="component_measures.not_all_measures_are_shown" />
                       <ToggleTip
-                        className="sw-ml-2"
+                        className="sw:ml-2"
                         description={
                           <FormattedMessage id="component_measures.not_all_measures_are_shown.help" />
                         }

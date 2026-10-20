@@ -59,12 +59,12 @@ export default function MetaLink({ link }: Readonly<Props>) {
       </LinkStandalone>
 
       {expanded && (
-        <div className="sw-mt-1 sw-flex sw-items-center">
+        <div className="sw:mt-1 sw:flex sw:items-center">
           <InputField onClick={handleSelect} readOnly size="large" type="text" value={link.url} />
           <ButtonIcon
             Icon={IconX}
             ariaLabel={translate('hide')}
-            className="sw-ml-1"
+            className="sw:ml-1"
             onClick={handleCollapse}
             variety={ButtonVariety.DefaultGhost}
           />

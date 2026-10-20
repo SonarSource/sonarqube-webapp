@@ -89,7 +89,7 @@ export default class IssueReviewHistoryAndComments extends React.PureComponent<P
           <FormattedMessage id="hotspot.section.activity" />
         </Heading>
         {issue.actions.includes(IssueActions.Comment) && (
-          <Button className="sw-mt-4 sw-mb-2" onClick={this.handleShowCommentModal}>
+          <Button className="sw:mt-4 sw:mb-2" onClick={this.handleShowCommentModal}>
             <FormattedMessage id="issue.activity.add_comment" />
           </Button>
         )}

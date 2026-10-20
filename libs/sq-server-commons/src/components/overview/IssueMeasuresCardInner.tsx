@@ -56,15 +56,15 @@ export function IssueMeasuresCardInner(props: Readonly<IssueMeasuresCardInnerPro
   } = props;
 
   return (
-    <div className={classNames('sw-flex sw-flex-col sw-gap-3', className)} {...rest}>
+    <div className={classNames('sw:flex sw:flex-col sw:gap-3', className)} {...rest}>
       <div>
         <div
-          className={classNames('sw-flex sw-flex-col sw-gap-2 sw-font-semibold', {
-            'sw-opacity-60': disabled,
+          className={classNames('sw:flex sw:flex-col sw:gap-2 sw:font-semibold', {
+            'sw:opacity-60': disabled,
           })}
         >
-          <div className="sw-flex sw-items-center sw-gap-2">
-            <Label as="span" className="sw-whitespace-nowrap">
+          <div className="sw:flex sw:items-center sw:gap-2">
+            <Label as="span" className="sw:whitespace-nowrap">
               {header}
             </Label>
 
@@ -74,8 +74,8 @@ export function IssueMeasuresCardInner(props: Readonly<IssueMeasuresCardInnerPro
               </Badge>
             )}
           </div>
-          <div className="sw-flex sw-justify-between sw-items-center sw-h-900">
-            <div className="sw-h-fit">
+          <div className="sw:flex sw:justify-between sw:items-center sw:h-900">
+            <div className="sw:h-fit">
               <LinkStandalone
                 aria-label={
                   value
@@ -86,7 +86,7 @@ export function IssueMeasuresCardInner(props: Readonly<IssueMeasuresCardInnerPro
                       )
                     : translateWithParameters('no_measure_value_x', localizeMetric(metric))
                 }
-                className="it__overview-measures-value sw-w-fit sw-text-lg"
+                className="it__overview-measures-value sw:w-fit sw:text-lg"
                 highlight={LinkHighlight.Default}
                 to={url}
               >

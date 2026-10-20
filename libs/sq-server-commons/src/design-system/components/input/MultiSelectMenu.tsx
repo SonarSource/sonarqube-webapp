@@ -297,10 +297,10 @@ export class MultiSelectMenu extends PureComponent<Props, State> {
       >
         {allowSearch && (
           <>
-            <div className="sw-px-3">
+            <div className="sw:px-3">
               <InputSearch
                 autoFocus
-                className="sw-mt-1"
+                className="sw:mt-1"
                 id={inputId}
                 loading={this.state.loading}
                 onChange={this.handleSearchChange}
@@ -315,8 +315,8 @@ export class MultiSelectMenu extends PureComponent<Props, State> {
         )}
         <ul
           className={classNames({
-            'sw-mt-2': allowSearch,
-            'sw-max-h-abs-200 sw-overflow-y-auto': isFixedHeight,
+            'sw:mt-2': allowSearch,
+            'sw:max-h-abs-200 sw:overflow-y-auto': isFixedHeight,
           })}
         >
           {selectedElements.length > 0 &&
@@ -378,10 +378,10 @@ export class MultiSelectMenu extends PureComponent<Props, State> {
           {!showNewElement &&
             selectedElements.length < 1 &&
             unselectedElements.length < 1 &&
-            (elementsDisabled ?? []).length < 1 && <li className="sw-ml-2">{noResultsLabel}</li>}
+            (elementsDisabled ?? []).length < 1 && <li className="sw:ml-2">{noResultsLabel}</li>}
         </ul>
-        {hasFooter && <ItemDivider className="sw-mt-2" />}
-        <div className="sw-px-3">{footerNode}</div>
+        {hasFooter && <ItemDivider className="sw:mt-2" />}
+        <div className="sw:px-3">{footerNode}</div>
       </div>
     );
   }

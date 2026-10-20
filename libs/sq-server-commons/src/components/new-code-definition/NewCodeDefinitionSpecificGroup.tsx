@@ -121,7 +121,7 @@ export default function NewCodeDefinitionSpecificGroup({
                 id="new_code_definition.specific_setting.previous_version.description"
                 values={{ b: HighlightedSmallText }}
               />
-              <Divider className="sw-mt-4 sw-mb-2 -sw-ml-6" />
+              <Divider className="sw:mt-4 sw:mb-2 sw:-ml-6" />
             </>
           ),
           value: NewCodeDefinitionType.PreviousVersion,
@@ -143,7 +143,7 @@ export default function NewCodeDefinitionSpecificGroup({
                   <TextInput
                     isRequired
                     label={
-                      <Label className="sw-mt-3 sw-inline-block">
+                      <Label className="sw:mt-3 sw:inline-block">
                         <FormattedMessage id="new_code_definition.specific_setting.number_of_days.input.label" />
                       </Label>
                     }
@@ -165,7 +165,7 @@ export default function NewCodeDefinitionSpecificGroup({
                   />
                   {shouldShowBanner && (
                     <MessageCallout
-                      className="sw-mt-4"
+                      className="sw:mt-4"
                       onDismiss={dismissBanner}
                       variety={MessageVariety.Info}
                     >
@@ -187,7 +187,7 @@ export default function NewCodeDefinitionSpecificGroup({
                   )}
                 </>
               )}
-              <Divider className="sw-mt-4 sw-mb-2 -sw-ml-6" />
+              <Divider className="sw:mt-4 sw:mb-2 sw:-ml-6" />
             </>
           ),
           value: NewCodeDefinitionType.NumberOfDays,
@@ -208,7 +208,7 @@ export default function NewCodeDefinitionSpecificGroup({
                     {typeValue === NewCodeDefinitionType.ReferenceBranch && (
                       <>
                         {settingsLevel === NewCodeDefinitionLevels.NewProject ? (
-                          <MessageCallout className="sw-mt-2" variety={MessageVariety.Info}>
+                          <MessageCallout className="sw:mt-2" variety={MessageVariety.Info}>
                             <FormattedMessage id="new_code_definition.reference_branch.notice" />
                           </MessageCallout>
                         ) : (
@@ -228,7 +228,7 @@ export default function NewCodeDefinitionSpecificGroup({
                             }
                             isRequired
                             label={
-                              <Label className="sw-mt-3 sw-inline-block">
+                              <Label className="sw:mt-3 sw:inline-block">
                                 <FormattedMessage id="new_code_definition.specific_setting.reference_branch.input.label" />
                               </Label>
                             }
@@ -260,18 +260,18 @@ export default function NewCodeDefinitionSpecificGroup({
                       values={{ b: HighlightedSmallText }}
                     />
                     {specificAnalysisDate && (
-                      <Text as="p" className="sw-mt-3">
+                      <Text as="p" className="sw:mt-3">
                         <Text isHighlighted>
                           <FormattedMessage id="new_code_definition.specific_setting.specific_analysis.label" />
                         </Text>
                         :
-                        <span className="sw-ml-1">
+                        <span className="sw:ml-1">
                           <DateTimeFormatter date={specificAnalysisDate} />
                         </span>
                       </Text>
                     )}
                     <MessageCallout
-                      className="sw-mt-3"
+                      className="sw:mt-3"
                       title={intl.formatMessage({
                         id: 'new_code_definition.specific_setting.specific_analysis.warning.label',
                       })}
@@ -281,7 +281,7 @@ export default function NewCodeDefinitionSpecificGroup({
                         <FormattedMessage id="new_code_definition.specific_setting.specific_analysis.warning.description" />
                       </Text>
                       <Link
-                        className="sw-ml-1"
+                        className="sw:ml-1"
                         enableOpenInNewTab
                         highlight={LinkHighlight.CurrentColor}
                         to={getDocUrl(DocLink.NewCodeDefinition)}

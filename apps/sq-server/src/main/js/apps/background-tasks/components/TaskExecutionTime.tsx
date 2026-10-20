@@ -27,7 +27,7 @@ interface Props {
 
 export default function TaskExecutionTime({ ms }: Readonly<Props>) {
   return (
-    <NumericalCell className="sw-whitespace-nowrap">
+    <NumericalCell className="sw:whitespace-nowrap">
       {ms !== undefined && formatDurationShort(ms)}
     </NumericalCell>
   );

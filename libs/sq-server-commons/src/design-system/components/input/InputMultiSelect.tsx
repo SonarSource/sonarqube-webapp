@@ -39,7 +39,7 @@ export function InputMultiSelect(props: Props) {
 
   return (
     <StyledWrapper
-      className={classNames('sw-flex sw-justify-between sw-px-2 sw-typo-default', className)}
+      className={classNames('sw:flex sw:justify-between sw:px-2 sw:typo-default', className)}
       id={id}
       onClick={props.onClick}
       role="combobox"
@@ -48,7 +48,7 @@ export function InputMultiSelect(props: Props) {
 
       <div>
         {count !== undefined && count > 0 && <Badge variant="counter">{count}</Badge>}
-        <ChevronDownIcon className="sw-ml-2" />
+        <ChevronDownIcon className="sw:ml-2" />
       </div>
     </StyledWrapper>
   );

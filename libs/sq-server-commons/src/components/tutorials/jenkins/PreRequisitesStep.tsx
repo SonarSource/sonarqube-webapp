@@ -39,7 +39,7 @@ export default function PreRequisitesStep(props: Readonly<PreRequisitesStepProps
 
   return (
     <TutorialStep title={translate('onboarding.tutorial.with.jenkins.prereqs.title')}>
-      <MessageCallout className="sw-mb-4" variety={MessageVariety.Warning}>
+      <MessageCallout className="sw:mb-4" variety={MessageVariety.Warning}>
         <span>
           <SentenceWithHighlights
             highlightKeys={['installed', 'configured']}
@@ -48,7 +48,7 @@ export default function PreRequisitesStep(props: Readonly<PreRequisitesStepProps
         </span>
       </MessageCallout>
       <Text as="div">
-        <ul className="sw-mb-4">
+        <ul className="sw:mb-4">
           {branchesEnabled && (
             <li>
               {translate('onboarding.tutorial.with.jenkins.prereqs.plugins.branch_source', alm)}
@@ -59,7 +59,7 @@ export default function PreRequisitesStep(props: Readonly<PreRequisitesStepProps
           )}
           <li>{translate('onboarding.tutorial.with.jenkins.prereqs.plugins.sonar_scanner')}</li>
         </ul>
-        <p className="sw-mb-4">
+        <p className="sw:mb-4">
           <FormattedMessage
             id="onboarding.tutorial.with.jenkins.prereqs.step_by_step_guide"
             values={{
@@ -71,7 +71,7 @@ export default function PreRequisitesStep(props: Readonly<PreRequisitesStepProps
             }}
           />
         </p>
-        <p className="sw-mb-4">
+        <p className="sw:mb-4">
           {translate('onboarding.tutorial.with.jenkins.prereqs.following_are_recommendations')}
         </p>
       </Text>

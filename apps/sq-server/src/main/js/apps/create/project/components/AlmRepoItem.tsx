@@ -74,9 +74,9 @@ export default function AlmRepoItem({
   return (
     <RepositoryItem
       aria-labelledby={labelId}
-      className={classNames('sw-flex sw-items-center sw-w-full sw-p-4 sw-rounded-1', {
-        'sw-py-4': multiple || sqProjectKey !== undefined,
-        'sw-py-2': !multiple && sqProjectKey === undefined,
+      className={classNames('sw:flex sw:items-center sw:w-full sw:p-4 sw:rounded-1', {
+        'sw:py-4': multiple || sqProjectKey !== undefined,
+        'sw:py-2': !multiple && sqProjectKey === undefined,
       })}
       imported={sqProjectKey !== undefined}
       onClick={() => multiple && sqProjectKey === undefined && onCheck(almKey)}
@@ -85,7 +85,7 @@ export default function AlmRepoItem({
       {multiple && (
         <Checkbox
           checked={selected || sqProjectKey !== undefined}
-          className="sw-p-1 sw-mr-2"
+          className="sw:p-1 sw:mr-2"
           disabled={sqProjectKey !== undefined}
           onCheck={() => {
             onCheck(almKey);
@@ -95,37 +95,37 @@ export default function AlmRepoItem({
           }}
         />
       )}
-      <div className="sw-w-[70%] sw-min-w-0 sw-flex sw-mr-1">
-        <div className="sw-max-w-full sw-flex sw-items-center" id={labelId}>
+      <div className="sw:w-[70%] sw:min-w-0 sw:flex sw:mr-1">
+        <div className="sw:max-w-full sw:flex sw:items-center" id={labelId}>
           <Image
             alt="" // Should be ignored by screen readers
-            className="sw-h-400 sw-w-200 sw-mr-2"
+            className="sw:h-400 sw:w-200 sw:mr-2"
             src={almIconSrc}
           />
           {sqProjectKey ? (
             <LinkStandalone
-              className="sw-truncate sw-font-semibold"
+              className="sw:truncate sw:font-semibold"
               highlight={LinkHighlight.Default}
               to={getProjectOverviewUrl(sqProjectKey)}
             >
               {primaryTextNode}
             </LinkStandalone>
           ) : (
-            <Text className="sw-truncate" isHighlighted>
+            <Text className="sw:truncate" isHighlighted>
               {primaryTextNode}
             </Text>
           )}
         </div>
-        <div className="sw-max-w-full sw-min-w-0 sw-ml-2 sw-flex sw-items-center">
-          <Text className="sw-truncate" isSubtle>
+        <div className="sw:max-w-full sw:min-w-0 sw:ml-2 sw:flex sw:items-center">
+          <Text className="sw:truncate" isSubtle>
             {secondaryTextNode}
           </Text>
         </div>
       </div>
       {almUrl !== undefined && (
-        <div className="sw-flex sw-items-center sw-flex-shrink-0 sw-ml-2">
+        <div className="sw:flex sw:items-center sw:flex-shrink-0 sw:ml-2">
           <Link
-            className="sw-typo-semibold"
+            className="sw:typo-semibold"
             enableOpenInNewTab
             onClick={(e) => {
               e.stopPropagation();
@@ -136,11 +136,11 @@ export default function AlmRepoItem({
           </Link>
         </div>
       )}
-      <div className="sw-ml-2 sw-flex sw-justify-end sw-flex-grow sw-flex-shrink-0 sw-w-abs-150">
+      <div className="sw:ml-2 sw:flex sw:justify-end sw:flex-grow sw:flex-shrink-0 sw:w-abs-150">
         {sqProjectKey ? (
-          <div className="sw-flex sw-items-center">
+          <div className="sw:flex sw:items-center">
             <CheckIcon />
-            <Text className="sw-ml-2">
+            <Text className="sw:ml-2">
               <FormattedMessage id="onboarding.create_project.repository_imported" />
             </Text>
           </div>

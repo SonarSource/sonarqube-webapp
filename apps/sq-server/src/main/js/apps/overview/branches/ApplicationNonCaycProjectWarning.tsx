@@ -32,21 +32,21 @@ interface Props {
 export default function ApplicationNonCaycProjectWarning({ projects }: Props) {
   return (
     <>
-      <p className="sw-font-bold">
+      <p className="sw:font-bold">
         <FormattedMessage
           id={`overview.quality_gate.conditions.cayc.warning.title.${ComponentQualifier.Application}`}
         />
       </p>
 
-      <p className="sw-my-4">
+      <p className="sw:my-4">
         <FormattedMessage
           id={`overview.quality_gate.conditions.cayc.details.${ComponentQualifier.Application}`}
         />
       </p>
 
-      <ul className="sw-ml-2 sw-list-disc sw-list-inside">
+      <ul className="sw:ml-2 sw:list-disc sw:list-inside">
         {projects.map(({ key, name, branchLike }) => (
-          <li className="sw-text-ellipsis" key={key} title={name}>
+          <li className="sw:text-ellipsis" key={key} title={name}>
             <Link to={getProjectQueryUrl(key, getBranchLikeQuery(branchLike))}>{name}</Link>
           </li>
         ))}

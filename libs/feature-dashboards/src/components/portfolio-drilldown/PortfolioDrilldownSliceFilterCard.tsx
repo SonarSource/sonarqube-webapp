@@ -75,13 +75,13 @@ export function PortfolioDrilldownSliceFilterCard(props: Readonly<Props>) {
 
   return (
     <Card size={CardSize.Small}>
-      <Card.Body className="sw-flex sw-items-center">
-        <div className="sw-flex sw-max-w-full sw-flex-wrap sw-items-center sw-gap-3">
-          <Text className="sw-text-center">
+      <Card.Body className="sw:flex sw:items-center">
+        <div className="sw:flex sw:max-w-full sw:flex-wrap sw:items-center sw:gap-3">
+          <Text className="sw:text-center">
             <FormattedMessage
               id={descriptionMessageId}
               values={{
-                dim: (chunks) => <span className="sw-font-regular">{chunks}</span>,
+                dim: (chunks) => <span className="sw:font-regular">{chunks}</span>,
                 dimension: dimensionLabel,
               }}
             />
@@ -131,9 +131,9 @@ export function PortfolioDrilldownSliceFilterCard(props: Readonly<Props>) {
               <FormattedMessage
                 id="portfolio_dashboard.breakdown.slice_filter.dimension_with_value"
                 values={{
-                  b: (chunks) => <span className="sw-font-semibold">{chunks}</span>,
+                  b: (chunks) => <span className="sw:font-semibold">{chunks}</span>,
                   dim: (chunks) => (
-                    <Text as="span" className="sw-font-semibold" isSubtle>
+                    <Text as="span" className="sw:font-semibold" isSubtle>
                       {chunks}
                     </Text>
                   ),

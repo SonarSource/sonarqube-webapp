@@ -71,7 +71,7 @@ export default function Export({ componentKey }: Readonly<Props>) {
 
   function renderWhenCanNotExport() {
     return (
-      <FlagMessage className="sw-mb-4" variant="warning">
+      <FlagMessage className="sw:mb-4" variant="warning">
         <FormattedMessage id="project_dump.can_not_export" />
       </FlagMessage>
     );
@@ -79,7 +79,7 @@ export default function Export({ componentKey }: Readonly<Props>) {
 
   function renderWhenExportPending(task: DumpTask) {
     return (
-      <div className="sw-flex sw-gap-2">
+      <div className="sw:flex sw:gap-2">
         <Spinner />
         <DateTimeFormatter date={task.submittedAt}>
           {(formatted) => (
@@ -92,7 +92,7 @@ export default function Export({ componentKey }: Readonly<Props>) {
 
   function renderWhenExportInProgress(task: DumpTask) {
     return (
-      <div className="sw-flex sw-gap-2">
+      <div className="sw:flex sw:gap-2">
         <Spinner />
         {task.startedAt && (
           <DateFromNow date={task.startedAt}>
@@ -112,9 +112,9 @@ export default function Export({ componentKey }: Readonly<Props>) {
 
     return (
       <div>
-        <FlagMessage className="sw-mb-4" variant="error">
+        <FlagMessage className="sw:mb-4" variant="error">
           <FormattedMessage id="project_dump.failed_export" />
-          <Link className="sw-ml-1" to={detailsUrl}>
+          <Link className="sw:ml-1" to={detailsUrl}>
             <FormattedMessage id="project_dump.see_details" />
           </Link>
         </FlagMessage>
@@ -125,7 +125,7 @@ export default function Export({ componentKey }: Readonly<Props>) {
 
   function renderDump(task?: DumpTask | null) {
     return (
-      <FlagMessage className="sw-mb-4" variant="success">
+      <FlagMessage className="sw:mb-4" variant="success">
         <div>
           {task?.executedAt && (
             <DateTimeFormatter date={task.executedAt}>
@@ -143,7 +143,7 @@ export default function Export({ componentKey }: Readonly<Props>) {
               </div>
             )}
 
-            <p className="sw-mt-2">{status?.exportedDump}</p>
+            <p className="sw:mt-2">{status?.exportedDump}</p>
           </div>
         </div>
       </FlagMessage>
@@ -158,7 +158,7 @@ export default function Export({ componentKey }: Readonly<Props>) {
         </div>
         <Button
           ariaLabel={translate('project_dump.do_export')}
-          className="sw-mt-4"
+          className="sw:mt-4"
           onClick={handleExport}
         >
           <FormattedMessage id="project_dump.do_export" />

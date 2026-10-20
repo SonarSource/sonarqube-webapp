@@ -69,7 +69,7 @@ export default function ModeBanner({ as }: Readonly<Props>) {
   }
 
   return as === 'wideBanner' ? (
-    <MessageCallout className="sw-mt-8" onDismiss={onDismiss} variety={MessageVariety.Info}>
+    <MessageCallout className="sw:mt-8" onDismiss={onDismiss} variety={MessageVariety.Info}>
       {intl.formatMessage(
         {
           id: `settings.mode.${isStandardMode ? 'standard' : 'mqr'}.advertisement`,
@@ -81,7 +81,7 @@ export default function ModeBanner({ as }: Readonly<Props>) {
     </MessageCallout>
   ) : (
     <FacetBanner role="alert">
-      <div className="sw-flex sw-gap-2">
+      <div className="sw:flex sw:gap-2">
         <div>
           {intl.formatMessage(
             { id: `mode.${isStandardMode ? 'standard' : 'mqr'}.advertisement` },
@@ -93,7 +93,7 @@ export default function ModeBanner({ as }: Readonly<Props>) {
         <ButtonIcon
           Icon={IconX}
           ariaLabel={intl.formatMessage({ id: 'dismiss' })}
-          className="sw-flex-none"
+          className="sw:flex-none"
           onClick={onDismiss}
           size={ButtonSize.Medium}
           variety={ButtonVariety.DefaultGhost}

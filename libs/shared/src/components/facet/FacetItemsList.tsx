@@ -36,7 +36,7 @@ export function FacetItemsList({ children, labelledby, label }: FacetItemsListPr
   const props = labelledby ? { 'aria-labelledby': labelledby } : { 'aria-label': label };
 
   return (
-    <ul className="sw-flex sw-flex-col sw-gap-1" {...props}>
+    <ul className="sw:flex sw:flex-col sw:gap-1" {...props}>
       {children}
     </ul>
   );

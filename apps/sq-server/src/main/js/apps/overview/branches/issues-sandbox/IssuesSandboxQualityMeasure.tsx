@@ -83,7 +83,7 @@ export function IssuesSandboxQualityMeasure({
               hasBlockers,
             },
           )}
-          className="sw-text-lg sw-font-semibold"
+          className="sw:text-lg sw:font-semibold"
           highlight={LinkHighlight.CurrentColor}
           to={link}
         >
@@ -91,7 +91,7 @@ export function IssuesSandboxQualityMeasure({
         </LinkStandalone>
       </Text>
       <Text
-        className="sw-ml-1"
+        className="sw:ml-1"
         colorOverride={hasBlockers ? 'echoes-color-text-danger' : 'echoes-color-text-subtle'}
         size={TextSize.Small}
       >

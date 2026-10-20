@@ -75,8 +75,8 @@ export default class ProjectsSortingSelect extends React.PureComponent<Props> {
     const intl = getIntl();
 
     return (
-      <div className="sw-flex sw-items-center sw-gap-1">
-        <Label className="sw-whitespace-nowrap" id="aria-projects-sort">
+      <div className="sw:flex sw:items-center sw:gap-1">
+        <Label className="sw:whitespace-nowrap" id="aria-projects-sort">
           <FormattedMessage id="projects.sort_by" />
         </Label>
         <Select

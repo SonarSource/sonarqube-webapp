@@ -95,9 +95,9 @@ export class TypeFacet extends React.PureComponent<Props> {
         className="it__search-navigator-facet"
         icon={
           {
-            BUG: <IconBug className="sw-mr-1" />,
-            CODE_SMELL: <IconCodeSmell className="sw-mr-1" />,
-            VULNERABILITY: <IconVulnerability className="sw-mr-1" />,
+            BUG: <IconBug className="sw:mr-1" />,
+            CODE_SMELL: <IconCodeSmell className="sw:mr-1" />,
+            VULNERABILITY: <IconVulnerability className="sw:mr-1" />,
           }[type]
         }
         key={type}
@@ -136,7 +136,7 @@ export class TypeFacet extends React.PureComponent<Props> {
         </FacetItemsList>
 
         <MultipleSelectionHint
-          className="sw-pt-4"
+          className="sw:pt-4"
           selectedItems={nbSelectedItems}
           totalItems={nbSelectableItems}
         />

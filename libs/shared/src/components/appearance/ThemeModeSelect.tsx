@@ -41,7 +41,7 @@ export function ThemeModeSelect() {
     <SelectionCards
       alignment="horizontal"
       ariaLabel={formatMessage({ id: 'my_account.appearance.customize_theme' })}
-      className="sw-mt-4"
+      className="sw:mt-4"
       onChange={handleThemeSelect}
       options={Object.values(ThemeMode).map((theme) => ({
         value: theme,

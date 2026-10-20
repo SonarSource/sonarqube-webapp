@@ -114,17 +114,17 @@ function BeamerWidgetContent({ filter, hideCounter, userId }: Readonly<ContentPr
   const unreadCount = unreadCountData?.count ?? 0;
 
   return (
-    <div className="sw-relative">
+    <div className="sw:relative">
       <NewsPanel
         content={
           <div>
             <Divider />
-            <div className="sw-flex sw-justify-center">
-              <Spinner className="sw-mt-4" isLoading={isNewsListLoading} />
+            <div className="sw:flex sw:justify-center">
+              <Spinner className="sw:mt-4" isLoading={isNewsListLoading} />
             </div>
 
             {newsListError && (
-              <MessageCallout className="sw-m-2" variety="danger">
+              <MessageCallout className="sw:m-2" variety="danger">
                 <FormattedMessage id="beamer.news.error" />
               </MessageCallout>
             )}
@@ -133,8 +133,8 @@ function BeamerWidgetContent({ filter, hideCounter, userId }: Readonly<ContentPr
               ?.filter((newsItem) => isDefined(newsItem.translations[0]))
               .map((newsItem) => (
                 <NewsItem key={newsItem.id}>
-                  <div className="sw-flex sw-justify-between">
-                    <div className="sw-flex sw-flex-wrap sw-gap-4">
+                  <div className="sw:flex sw:justify-between">
+                    <div className="sw:flex sw:flex-wrap sw:gap-4">
                       {newsItem.category.split(';').map((category) => (
                         <Badge
                           key={category}
@@ -145,12 +145,12 @@ function BeamerWidgetContent({ filter, hideCounter, userId }: Readonly<ContentPr
                         </Badge>
                       ))}
                     </div>
-                    <Text className="sw-text-nowrap sw-ml-2">
+                    <Text className="sw:text-nowrap sw:ml-2">
                       <DateFormatter date={newsItem.date} long />
                     </Text>
                   </div>
 
-                  <Heading as="h3" className="sw-my-4">
+                  <Heading as="h3" className="sw:my-4">
                     {newsItem.translations[0].title}
                   </Heading>
 
@@ -162,7 +162,7 @@ function BeamerWidgetContent({ filter, hideCounter, userId }: Readonly<ContentPr
                   </HtmlFormatter>
 
                   {isStringDefined(newsItem.translations[0].linkUrl) && (
-                    <div className="sw-mt-8">
+                    <div className="sw:mt-8">
                       <Link enableOpenInNewTab to={newsItem.translations[0].linkUrl}>
                         {newsItem.translations[0].linkText ?? newsItem.translations[0].linkUrl}
                       </Link>
@@ -172,7 +172,7 @@ function BeamerWidgetContent({ filter, hideCounter, userId }: Readonly<ContentPr
               ))}
 
             {isEmpty(flattenedNewsData) && (
-              <div className="sw-p-5 sw-text-center">
+              <div className="sw:p-5 sw:text-center">
                 <Text>
                   <FormattedMessage id="beamer.news.no_news" />
                 </Text>
@@ -180,7 +180,7 @@ function BeamerWidgetContent({ filter, hideCounter, userId }: Readonly<ContentPr
             )}
 
             {hasNextPageOfNews && (
-              <div className="sw-flex sw-justify-center">
+              <div className="sw:flex sw:justify-center">
                 <Button
                   isDisabled={isFetchingNews}
                   isLoading={isFetchingNews}

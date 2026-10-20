@@ -63,7 +63,7 @@ export function ProfilesListRow(props: Readonly<ProfilesListRowProps>) {
       data-name={profile.name}
     >
       <ContentCell>
-        <div className="sw-flex sw-items-center sw-gap-2" style={{ paddingLeft: offset }}>
+        <div className="sw:flex sw:items-center sw:gap-2" style={{ paddingLeft: offset }}>
           <ProfileLink language={profile.language} name={profile.name}>
             {profile.name}
           </ProfileLink>
@@ -92,9 +92,9 @@ export function ProfilesListRow(props: Readonly<ProfilesListRowProps>) {
           <Link to={activeRulesUrl}>{profile.activeRuleCount}</Link>
 
           {profile.activeDeprecatedRuleCount > 0 && (
-            <span className="sw-ml-2">
+            <span className="sw:ml-2">
               <Tooltip content={intl.formatMessage({ id: 'quality_profiles.deprecated_rules' })}>
-                <BaseLink className="sw-border-0" to={deprecatedRulesUrl}>
+                <BaseLink className="sw:border-0" to={deprecatedRulesUrl}>
                   <Badge variant="deleted">{profile.activeDeprecatedRuleCount}</Badge>
                 </BaseLink>
               </Tooltip>

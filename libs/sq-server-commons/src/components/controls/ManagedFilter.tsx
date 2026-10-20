@@ -40,7 +40,7 @@ export function ManagedFilter(props: Readonly<ManagedFilterProps>) {
 
   return (
     <ToggleButtonGroup
-      className="sw-mr-4"
+      className="sw:mr-4"
       isDisabled={loading}
       onChange={(filterOption) => {
         if (filterOption === 'all') {

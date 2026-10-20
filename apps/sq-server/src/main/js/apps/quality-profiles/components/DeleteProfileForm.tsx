@@ -45,8 +45,8 @@ export default function DeleteProfileForm(props: Readonly<DeleteProfileFormProps
       content={
         <>
           {profile.childrenCount > 0 ? (
-            <div className="sw-flex sw-flex-col">
-              <MessageInline className="sw-mb-4" variety={MessageVariety.Warning}>
+            <div className="sw:flex sw:flex-col">
+              <MessageInline className="sw:mb-4" variety={MessageVariety.Warning}>
                 <FormattedMessage id="quality_profiles.this_profile_has_descendants" />
               </MessageInline>
               <FormattedMessage

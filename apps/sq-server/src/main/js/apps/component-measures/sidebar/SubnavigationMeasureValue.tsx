@@ -39,7 +39,7 @@ export default function SubnavigationMeasureValue({ measure, componentKey }: Rea
 
   return (
     <Text
-      className="sw-flex sw-items-center sw-mr-1"
+      className="sw:flex sw:items-center sw:mr-1"
       id={`measure-${measure.metric.key}-${isDiff ? 'leak' : 'value'}`}
       isSubtle
     >

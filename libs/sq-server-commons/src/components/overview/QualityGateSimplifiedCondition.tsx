@@ -67,12 +67,12 @@ export default function QualityGateSimplifiedCondition({
       })}
       {...forwardedProps}
     >
-      <div className="sw-flex sw-p-2 sw-items-baseline">
-        <Text className="sw-mx-4 sw-w-300 sw-my-0 sw-text-right" isHighlighted>
+      <div className="sw:flex sw:p-2 sw:items-baseline">
+        <Text className="sw:mx-4 sw:w-300 sw:my-0 sw:text-right" isHighlighted>
           {formattedValue}
         </Text>
         <Text
-          className="sw-text-ellipsis sw-pr-4"
+          className="sw:text-ellipsis sw:pr-4"
           data-guiding-id={
             metric.key === MetricKey.new_violations
               ? 'overviewZeroNewIssuesSimplification'

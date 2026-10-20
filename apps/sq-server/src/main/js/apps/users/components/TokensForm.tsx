@@ -207,18 +207,18 @@ export function TokensForm(props: Readonly<Props>) {
 
   return (
     <>
-      <GreySeparator className="sw-my-4" />
+      <GreySeparator className="sw:my-4" />
       <Heading as="h2" hasMarginBottom>
         <FormattedMessage id="users.tokens.generate" />
       </Heading>
-      <form autoComplete="off" className="sw-flex sw-items-center" onSubmit={handleGenerateToken}>
-        <div className="sw-flex sw-flex-col sw-mr-2">
+      <form autoComplete="off" className="sw:flex sw:items-center" onSubmit={handleGenerateToken}>
+        <div className="sw:flex sw:flex-col sw:mr-2">
           <Label htmlFor="token-name">
             <FormattedMessage id="users.tokens.name" />
           </Label>
 
           <InputField
-            className="sw-mt-2 sw-w-auto it__token-name"
+            className="sw:mt-2 sw:w-auto it__token-name"
             id="token-name"
             maxLength={100}
             onChange={handleNewTokenChange}
@@ -231,13 +231,13 @@ export function TokensForm(props: Readonly<Props>) {
 
         {displayTokenTypeInput && (
           <>
-            <div className="sw-flex sw-flex-col sw-mr-2">
+            <div className="sw:flex sw:flex-col sw:mr-2">
               <Label htmlFor="token-select-type">
                 <FormattedMessage id="users.tokens.type" />
               </Label>
 
               <InputSelect
-                className="sw-mt-2 it__token-type"
+                className="sw:mt-2 it__token-type"
                 inputId="token-select-type"
                 isSearchable={false}
                 onChange={handleNewTokenTypeChange}
@@ -252,13 +252,13 @@ export function TokensForm(props: Readonly<Props>) {
             </div>
 
             {newTokenType === TokenType.Project && (
-              <div className="sw-flex sw-flex-col sw-mr-2">
+              <div className="sw:flex sw:flex-col sw:mr-2">
                 <Label htmlFor="token-select-project">
                   <FormattedMessage id="users.tokens.project" />
                 </Label>
 
                 <InputSelect
-                  className="sw-mt-2 it__project"
+                  className="sw:mt-2 it__project"
                   inputId="token-select-project"
                   onChange={handleProjectChange}
                   options={projects}
@@ -270,13 +270,13 @@ export function TokensForm(props: Readonly<Props>) {
           </>
         )}
 
-        <div className="sw-flex sw-flex-col sw-mr-2">
+        <div className="sw:flex sw:flex-col sw:mr-2">
           <Label htmlFor="token-select-expiration">
             <FormattedMessage id="users.tokens.expires_in" />
           </Label>
 
           <InputSelect
-            className="sw-mt-2"
+            className="sw:mt-2"
             inputId="token-select-expiration"
             isSearchable={false}
             onChange={handleNewTokenExpirationChange}
@@ -296,10 +296,10 @@ export function TokensForm(props: Readonly<Props>) {
         </Button>
       </form>
       {newToken && <TokensFormNewToken token={newToken} />}
-      <GreySeparator className="sw-mb-4 sw-mt-6" />
+      <GreySeparator className="sw:mb-4 sw:mt-6" />
       <Spinner isLoading={loading}>
         <Table
-          className="sw-min-h-[160px] sw-w-full"
+          className="sw:min-h-[160px] sw:w-full"
           columnCount={COLUMN_WIDTHS.length}
           columnWidths={COLUMN_WIDTHS}
           header={tableHeader}

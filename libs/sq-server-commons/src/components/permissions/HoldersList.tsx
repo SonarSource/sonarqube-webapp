@@ -204,7 +204,7 @@ export default class HoldersList extends React.PureComponent<
           </Table.Body>
         </Table>
         {items.length === 0 && !loading && (
-          <div className="sw-my-8">
+          <div className="sw:my-8">
             <FormattedMessage id="no_results_search" />
           </div>
         )}

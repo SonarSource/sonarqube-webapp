@@ -54,7 +54,7 @@ function OverallBuiltInCondition({ condition, metric, metrics }: Readonly<Props>
         <Text isHighlighted>{translate(`metric.${metric.key}.description.positive`)}</Text>
       </span>
 
-      <BuiltInStyledContentCell className="sw-flex sw-justify-end sw-items-center">
+      <BuiltInStyledContentCell className="sw:flex sw:justify-end sw:items-center">
         <FormattedMessage
           id="quality_gates.conditions.builtin_overall.metric"
           values={{
@@ -65,7 +65,7 @@ function OverallBuiltInCondition({ condition, metric, metrics }: Readonly<Props>
         />
         <ToggleTip
           ariaLabel={translate('toggle_tip.aria_label.threshold')}
-          className="sw-ml-2"
+          className="sw:ml-2"
           description={translate('quality_gates.conditions.cayc.threshold.hint')}
         />
       </BuiltInStyledContentCell>

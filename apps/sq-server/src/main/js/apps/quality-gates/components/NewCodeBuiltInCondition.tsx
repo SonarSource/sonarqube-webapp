@@ -59,7 +59,7 @@ function NewCodeBuiltInCondition({ condition, metric, metrics }: Readonly<Props>
 
   return (
     <BuiltInStyledItem>
-      <span className="sw-flex sw-items-center sw-gap-2">
+      <span className="sw:flex sw:items-center sw:gap-2">
         <Text colorOverride={colorOverride}>
           {formatMessage(
             { id: `metric.${metric.key}.description.positive` },
@@ -69,7 +69,7 @@ function NewCodeBuiltInCondition({ condition, metric, metrics }: Readonly<Props>
 
         {suffix}
       </span>
-      <div className="sw-flex sw-items-center sw-gap-1">
+      <div className="sw:flex sw:items-center sw:gap-1">
         {(isIssueSeverityMetric(metric.key) ||
           metric.key === MetricKey.new_sca_severity_any_issue) && (
           <Text colorOverride={colorOverride}>
@@ -95,7 +95,7 @@ function NewCodeBuiltInCondition({ condition, metric, metrics }: Readonly<Props>
             </Text>
             <ToggleTip
               ariaLabel={formatMessage({ id: 'toggle_tip.aria_label.threshold' })}
-              className="sw-ml-2"
+              className="sw:ml-2"
               description={formatMessage({ id: 'quality_gates.conditions.threshold.hint' })}
             />
           </BuiltInStyledContentCell>
@@ -103,7 +103,7 @@ function NewCodeBuiltInCondition({ condition, metric, metrics }: Readonly<Props>
 
         {metric.key === MetricKey.new_sca_severity_any_issue && (
           <ToggleTip
-            className="sw-ml-1"
+            className="sw:ml-1"
             description={formatMessage({
               id: 'quality_gates.conditions.new_sca_severity_any_issue.hint',
             })}

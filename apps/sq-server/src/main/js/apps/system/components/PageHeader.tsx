@@ -37,30 +37,30 @@ export interface Props {
 function PageHeader(props: Readonly<Props>) {
   const { serverId, version, appState } = props;
   return (
-    <Card className="sw-max-w-1/2 sw-mb-8">
+    <Card className="sw:max-w-1/2 sw:mb-8">
       {!appState.productionDatabase && (
-        <FlagMessage className="sw-mb-2" variant="warning">
+        <FlagMessage className="sw:mb-2" variant="warning">
           <FormattedMessage id="system.not_production_database_warning" />
         </FlagMessage>
       )}
-      <div className="sw-flex sw-items-center sw-justify-between">
+      <div className="sw:flex sw:items-center sw:justify-between">
         <div>
-          <div className="sw-flex sw-items-center">
-            <strong className="sw-w-[128px]">
+          <div className="sw:flex sw:items-center">
+            <strong className="sw:w-[128px]">
               <FormattedMessage id="system.server_id" />
             </strong>
-            <span className="sw-code">
-              <LoadingSkeleton className="sw-w-[200px]" variety="text">
+            <span className="sw:code">
+              <LoadingSkeleton className="sw:w-[200px]" variety="text">
                 {serverId}
               </LoadingSkeleton>
             </span>
           </div>
-          <div className="sw-flex sw-items-center">
-            <strong className="sw-w-[128px]">
+          <div className="sw:flex sw:items-center">
+            <strong className="sw:w-[128px]">
               <FormattedMessage id="system.version" />
             </strong>
             <span>
-              <LoadingSkeleton className="sw-w-[200px]" variety="text">
+              <LoadingSkeleton className="sw:w-[200px]" variety="text">
                 <AppVersionStatus />
               </LoadingSkeleton>
             </span>
@@ -68,7 +68,7 @@ function PageHeader(props: Readonly<Props>) {
         </div>
 
         <ClipboardButton
-          className="sw-ml-4"
+          className="sw:ml-4"
           copyValue={`SonarQube ID information
 Server ID: ${serverId}
 Version: ${version}
@@ -76,7 +76,7 @@ Date: ${toShortISO8601String(Date.now())}
 `}
           isDisabled={!serverId || !version}
         >
-          <span className="sw-ml-1 sw-whitespace-nowrap">
+          <span className="sw:ml-1 sw:whitespace-nowrap">
             <FormattedMessage id="system.copy_id_info" />
           </span>
         </ClipboardButton>

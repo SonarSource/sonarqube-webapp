@@ -40,7 +40,7 @@ function WidgetErrorDisplay() {
   const intl = useIntl();
 
   return (
-    <div className="sw-flex sw-flex-col sw-align-center sw-items-center sw-my-12">
+    <div className="sw:flex sw:flex-col sw:align-center sw:items-center sw:my-12">
       <div>
         <Text colorOverride="echoes-color-text-danger" isHighlighted>
           {intl.formatMessage({ id: 'dashboard.widget.error' })}

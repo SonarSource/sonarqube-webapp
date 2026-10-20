@@ -40,7 +40,7 @@ export default function Section({ name, items }: Readonly<Props>) {
             <TableRow key={name}>
               <ContentCell className="it__system-info-section-item-name">{name}</ContentCell>
               <ContentCell>
-                <span className="sw-break-all">
+                <span className="sw:break-all">
                   <SysInfoItem name={name} value={value} />
                 </span>
               </ContentCell>

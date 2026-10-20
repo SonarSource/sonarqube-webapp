@@ -83,7 +83,7 @@ export default function GlobalSearchResults(props: Props): React.ReactElement<Pr
       <output aria-busy={props.loading || Boolean(props.loadingMore)}>
         {renderedComponents.length === 0 && props.renderNoResults()}
         {renderedComponents.length > 0 && (
-          <span className="sw-sr-only">
+          <span className="sw:sr-only">
             {intl.formatMessage({ id: 'results_shown_x' }, { count: resultCount })}
           </span>
         )}

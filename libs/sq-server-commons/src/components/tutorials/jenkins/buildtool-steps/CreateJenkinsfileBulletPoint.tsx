@@ -45,7 +45,7 @@ export default function CreateJenkinsfileBulletPoint(
       />
       <br />
       {alertTranslationKeyPart && (
-        <MessageCallout className="sw-mt-2" variety={MessageVariety.Info}>
+        <MessageCallout className="sw:mt-2" variety={MessageVariety.Info}>
           <div>
             <SentenceWithHighlights
               highlightKeys={['default', 'in_jenkins']}
@@ -53,10 +53,10 @@ export default function CreateJenkinsfileBulletPoint(
             />
             <ToggleTip
               ariaLabel={formatMessage({ id: 'toggle_tip.aria_label.onboarding' })}
-              className="sw-ml-1"
+              className="sw:ml-1"
               description={
                 <>
-                  <p className="sw-mb-2">
+                  <p className="sw:mb-2">
                     <SentenceWithHighlights
                       highlightKeys={['path']}
                       translationKey={`${alertTranslationKeyPart}.help1`}
@@ -74,7 +74,7 @@ export default function CreateJenkinsfileBulletPoint(
           </div>
         </MessageCallout>
       )}
-      <CodeSnippet className="sw-p-6" language="groovy" snippet={snippet} />
+      <CodeSnippet className="sw:p-6" language="groovy" snippet={snippet} />
       {children}
     </NumberedListItem>
   );

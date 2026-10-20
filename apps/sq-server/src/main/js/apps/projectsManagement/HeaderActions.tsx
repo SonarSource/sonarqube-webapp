@@ -41,10 +41,10 @@ export function HeaderActions(props: Readonly<Props>) {
 
   return (
     <Layout.PageHeader.Actions className="it__page-actions">
-      <div className="sw-mr-2 sw-flex sw-items-center">
-        <span className="sw-mr-1">
+      <div className="sw:mr-2 sw:flex sw:items-center">
+        <span className="sw:mr-1">
           <FormattedMessage id="settings.projects.default_visibility_of_new_projects" />{' '}
-          <strong className="sw-typo-semibold">
+          <strong className="sw:typo-semibold">
             {defaultProjectVisibility ? (
               <FormattedMessage id={`visibility.${defaultProjectVisibility}`} />
             ) : (

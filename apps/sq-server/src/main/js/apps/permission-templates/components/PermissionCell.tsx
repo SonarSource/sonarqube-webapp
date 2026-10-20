@@ -33,22 +33,22 @@ interface Props {
 
 export default function PermissionCell({ permission: p }: Props) {
   return (
-    <ContentCell className="sw-px-2">
+    <ContentCell className="sw:px-2">
       <div>
         <ul>
           {p.withProjectCreator && (
-            <li className="sw-mb-2">
+            <li className="sw:mb-2">
               <FormattedMessage id="permission_templates.project_creators" />
 
               <ToggleTip
-                className="sw-ml-2"
+                className="sw:ml-2"
                 description={
                   <FormattedMessage id="permission_templates.project_creators.explanation" />
                 }
               />
             </li>
           )}
-          <li className="sw-mb-2">
+          <li className="sw:mb-2">
             <strong>{p.usersCount}</strong>
             {'  user(s)'}
           </li>

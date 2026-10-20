@@ -37,8 +37,8 @@ export default function HomeContainer() {
     <Layout.PageGrid width="fluid">
       <HomeContainerHeader {...context} />
 
-      <Layout.PageContent className="sw-grid sw-grid-cols-3 sw-gap-12 sw-mt-12">
-        <div className="sw-col-span-2">
+      <Layout.PageContent className="sw:grid sw:grid-cols-3 sw:gap-12 sw:mt-12">
+        <div className="sw:col-span-2">
           <LanguageSelect currentFilter={selectedLanguage} languages={context.languages} />
           <ProfilesList {...context} language={selectedLanguage} />
         </div>

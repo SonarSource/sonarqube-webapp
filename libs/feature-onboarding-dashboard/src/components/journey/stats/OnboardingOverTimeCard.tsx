@@ -68,12 +68,12 @@ export function OnboardingOverTimeCard({ showImportedSeries, timeline }: Readonl
     : 'onboarding_dashboard.journey.overtime.description.analysis_only';
 
   return (
-    <Card className="sw-flex sw-h-full sw-flex-col">
+    <Card className="sw:flex sw:h-full sw:flex-col">
       <Card.Header
         description={formatMessage({ id: descriptionId })}
         title={formatMessage({ id: 'onboarding_dashboard.journey.overtime.title' })}
       />
-      <Card.Body className="sw-flex sw-min-h-0 sw-grow sw-flex-col">
+      <Card.Body className="sw:flex sw:min-h-0 sw:grow sw:flex-col">
         <OverTimeChart showImportedSeries={showImportedSeries} timeline={timeline} />
       </Card.Body>
     </Card>
@@ -120,8 +120,8 @@ function OverTimeChart({ showImportedSeries, timeline }: Readonly<ChartProps>) {
   const canRender = width !== undefined && width > 0 && points.length > 0;
 
   return (
-    <div className="sw-flex sw-h-full sw-flex-col sw-gap-4">
-      <div className="sw-relative sw-min-h-0 sw-w-full sw-min-w-0 sw-grow" ref={containerRef}>
+    <div className="sw:flex sw:h-full sw:flex-col sw:gap-4">
+      <div className="sw:relative sw:min-h-0 sw:w-full sw:min-w-0 sw:grow" ref={containerRef}>
         {canRender && (
           <OverTimeGraph
             height={chartHeight}
@@ -318,7 +318,7 @@ function OverTimeTooltip({ cursorX, date, hoverIndex, series, width }: Readonly<
 
   return (
     <div
-      className="sw-pointer-events-none sw-absolute sw-flex sw-flex-col sw-gap-1 sw-whitespace-nowrap sw-rounded-2 sw-border sw-px-3 sw-py-2 sw-shadow-sm"
+      className="sw:pointer-events-none sw:absolute sw:flex sw:flex-col sw:gap-1 sw:whitespace-nowrap sw:rounded-2 sw:border sw:px-3 sw:py-2 sw:shadow-sm"
       role="tooltip"
       style={{
         background: COLOR_SURFACE,
@@ -334,11 +334,11 @@ function OverTimeTooltip({ cursorX, date, hoverIndex, series, width }: Readonly<
       </Text>
 
       {series.map((s) => (
-        <div className="sw-flex sw-items-center sw-justify-between sw-gap-4" key={s.labelId}>
-          <span className="sw-flex sw-items-center sw-gap-1">
+        <div className="sw:flex sw:items-center sw:justify-between sw:gap-4" key={s.labelId}>
+          <span className="sw:flex sw:items-center sw:gap-1">
             <span
               aria-hidden
-              className="sw-inline-block sw-shrink-0 sw-rounded-pill"
+              className="sw:inline-block sw:shrink-0 sw:rounded-pill"
               style={{ backgroundColor: s.color, height: '0.625rem', width: '0.625rem' }}
             />
             <Text isSubtle size={TextSize.Small}>
@@ -362,16 +362,16 @@ function OverTimeLegend({ series }: Readonly<LegendProps>) {
   const { formatMessage } = useIntl();
 
   return (
-    <div className="sw-flex sw-flex-wrap sw-justify-start sw-gap-2">
+    <div className="sw:flex sw:flex-wrap sw:justify-start sw:gap-2">
       {series.map((s) => (
         <div
-          className="sw-flex sw-items-center sw-gap-1 sw-rounded-pill sw-border sw-px-2 sw-py-1"
+          className="sw:flex sw:items-center sw:gap-1 sw:rounded-pill sw:border sw:px-2 sw:py-1"
           key={s.labelId}
           style={{ borderColor: COLOR_AXIS }}
         >
           <span
             aria-hidden
-            className="sw-inline-block sw-shrink-0 sw-rounded-pill"
+            className="sw:inline-block sw:shrink-0 sw:rounded-pill"
             style={{ backgroundColor: s.color, height: '0.5rem', width: '0.5rem' }}
           />
           <Text isSubtle size={TextSize.Small}>

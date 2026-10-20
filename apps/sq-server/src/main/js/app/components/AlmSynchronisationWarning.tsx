@@ -72,7 +72,7 @@ function ShortLastSyncAlert({
   const formattedDate = finishedAt ? formatDistance(new Date(finishedAt), new Date()) : '';
 
   const detailsLink = isGlobalAdmin ? (
-    <Link className="sw-ml-2" to={`/admin/settings?category=authentication&tab=${provisionedBy}`}>
+    <Link className="sw:ml-2" to={`/admin/settings?category=authentication&tab=${provisionedBy}`}>
       <FormattedMessage id="settings.authentication.synchronization_details_link" />
     </Link>
   ) : (
@@ -91,11 +91,11 @@ function ShortLastSyncAlert({
   }
 
   return (
-    <div className="sw-flex sw-items-center">
+    <div className="sw:flex sw:items-center">
       {warningMessage ? (
-        <IconWarning className="sw-mr-2" color="echoes-color-icon-warning" />
+        <IconWarning className="sw:mr-2" color="echoes-color-icon-warning" />
       ) : (
-        <IconCheck className="sw-mr-2" color="echoes-color-icon-success" />
+        <IconCheck className="sw:mr-2" color="echoes-color-icon-success" />
       )}
 
       <i>
@@ -169,7 +169,7 @@ export default function AlmSynchronisationWarning(props: Readonly<Synchronisatio
   return (
     <>
       {!short && (
-        <div className={data.nextSync ? 'sw-flex sw-gap-2 sw-mb-4' : ''}>
+        <div className={data.nextSync ? 'sw:flex sw:gap-2 sw:mb-4' : ''}>
           <Spinner ariaLabel={loadingLabel} isLoading={!!data.nextSync} />
 
           <div>{data.nextSync && loadingLabel}</div>

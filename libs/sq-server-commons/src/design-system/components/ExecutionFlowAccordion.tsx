@@ -39,7 +39,7 @@ export function ExecutionFlowAccordion(props: Readonly<Props>) {
   const { children, expanded, header, hidden, id, innerRef, onClick } = props;
 
   return (
-    <Accordion className={classNames({ expanded, 'sw-hidden': hidden })} ref={innerRef}>
+    <Accordion className={classNames({ expanded, 'sw:hidden': hidden })} ref={innerRef}>
       <Expander
         aria-controls={`${id}-flow-accordion`}
         aria-expanded={expanded}

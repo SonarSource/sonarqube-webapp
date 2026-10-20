@@ -72,7 +72,7 @@ export default function GroupForm(props: Props) {
     <Modal
       body={
         <>
-          <MandatoryFieldsExplanation className="sw-block sw-mb-4" />
+          <MandatoryFieldsExplanation className="sw:block sw:mb-4" />
           <FormField htmlFor="create-group-name" label={translate('name')} required>
             <InputField
               autoFocus

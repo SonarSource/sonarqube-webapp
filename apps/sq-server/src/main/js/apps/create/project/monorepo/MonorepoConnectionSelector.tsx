@@ -82,7 +82,7 @@ export function MonorepoConnectionSelector({
   showOrganizations,
 }: Readonly<Props>) {
   return (
-    <div className="sw-flex sw-flex-col sw-gap-6">
+    <div className="sw:flex sw:flex-col sw:gap-6">
       <Heading as="h2">
         <FormattedMessage
           id={
@@ -109,7 +109,7 @@ export function MonorepoConnectionSelector({
           )}
 
           {showOrganizations && organizationOptions && (
-            <div className="sw-flex sw-flex-col">
+            <div className="sw:flex sw:flex-col">
               <MonorepoOrganisationSelector
                 almKey={almKey}
                 error={error}
@@ -121,7 +121,7 @@ export function MonorepoConnectionSelector({
             </div>
           )}
 
-          <div className="sw-flex sw-flex-col">
+          <div className="sw:flex sw:flex-col">
             <MonorepoRepositorySelector
               almKey={almKey}
               alreadyBoundProjects={alreadyBoundProjects}

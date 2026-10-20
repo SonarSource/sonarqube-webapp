@@ -44,8 +44,8 @@ export default function FiltersHeader({
   title = translate('filters'),
 }: Readonly<Props>) {
   return (
-    <div className="sw-mb-5">
-      <div className="sw-flex sw-h-900 sw-items-center sw-justify-between">
+    <div className="sw:mb-5">
+      <div className="sw:flex sw:h-900 sw:items-center sw:justify-between">
         <Heading as="h2" size="medium">
           {title}
         </Heading>
@@ -58,7 +58,7 @@ export default function FiltersHeader({
       </div>
 
       {displayModeBanner && <ModeBanner as="facetBanner" />}
-      <BasicSeparator className="sw-mt-4" />
+      <BasicSeparator className="sw:mt-4" />
     </div>
   );
 }

@@ -27,7 +27,7 @@ interface Props {
 
 export default function SeverityChange({ severity }: Readonly<Props>) {
   return (
-    <div className="sw-whitespace-nowrap">
+    <div className="sw:whitespace-nowrap">
       <FormattedMessage id="quality_profiles.severity_set_to" />{' '}
       <SeverityHelper severity={severity} />
     </div>

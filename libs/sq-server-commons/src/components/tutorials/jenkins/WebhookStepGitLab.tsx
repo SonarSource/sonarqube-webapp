@@ -39,14 +39,14 @@ export default function WebhookStepGitLab({ branchesEnabled }: WebhookStepGitLab
             link: translate('onboarding.tutorial.with.jenkins.webhook.gitlab.step1.link'),
           }}
         />
-        <Text as="ul" className="sw-max-w-full sw-ml-6">
+        <Text as="ul" className="sw:max-w-full sw:ml-6">
           {branchesEnabled ? (
             <li>
               <p>
                 <LabelActionPair translationKey="onboarding.tutorial.with.jenkins.webhook.gitlab.step1.url_with_branches" />
               </p>
               <CodeSnippet
-                className="sw-p-4"
+                className="sw:p-4"
                 isOneLine
                 snippet="***JENKINS_SERVER_URL***/gitlab-webhook/post"
               />
@@ -68,7 +68,7 @@ export default function WebhookStepGitLab({ branchesEnabled }: WebhookStepGitLab
           highlightKeys={['trigger']}
           translationKey="onboarding.tutorial.with.jenkins.webhook.gitlab.step2"
         />
-        <Text as="ul" className="sw-max-w-full sw-ml-6">
+        <Text as="ul" className="sw:max-w-full sw:ml-6">
           <li>
             <strong>
               {translate('onboarding.tutorial.with.jenkins.webhook.gitlab.step2.repo')}

@@ -98,14 +98,14 @@ export default class WorkersForm extends React.PureComponent<Props, State> {
           <form id={WORKERS_FORM_ID} onSubmit={this.handleSubmit}>
             <InputSelect
               aria-label={translate('background_tasks.change_number_of_workers')}
-              className="sw-mt-2"
+              className="sw:mt-2"
               isSearchable={false}
               onChange={this.handleWorkerCountChange}
               options={options}
               size="medium"
               value={options.find((o) => o.value === newWorkerCount)}
             />
-            <FlagMessage className="sw-mt-4" variant="info">
+            <FlagMessage className="sw:mt-4" variant="info">
               <FormattedMessage id="background_tasks.change_number_of_workers.hint" />
             </FlagMessage>
           </form>

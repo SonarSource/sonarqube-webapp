@@ -45,7 +45,7 @@ export function CommunityBuildSecurityNotice({
       title={formatMessage({ id: 'promotion.community_build_security.title' })}
       variety={MessageVariety.Warning}
     >
-      <div className="sw-flex sw-flex-col sw-items-start sw-gap-2">
+      <div className="sw:flex sw:flex-col sw:items-start sw:gap-2">
         <FormattedMessage id="promotion.community_build_security.text" />
         <LinkStandalone enableOpenInNewTab to={getSonarSourceComUrl(SonarSourceLink.WhyUpgrade)}>
           <FormattedMessage id="promotion.community_build_security.action" />

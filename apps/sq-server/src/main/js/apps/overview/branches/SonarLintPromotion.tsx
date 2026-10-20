@@ -55,14 +55,14 @@ export function SonarLintPromotion({ currentUser, qgConditions }: SonarLintPromo
     return null;
   }
   return (
-    <InfoCard className="it__overview__sonarlint-promotion sw-typo-default">
+    <InfoCard className="it__overview__sonarlint-promotion sw:typo-default">
       <FormattedMessage
         id="overview.fix_failed_conditions_with_sonarlint"
         values={{
           link: (
             <>
               <DiscreetLink
-                className="sw-mr-1"
+                className="sw:mr-1"
                 rel="noopener noreferrer"
                 showExternalIcon={false}
                 target="_blank"
@@ -70,7 +70,7 @@ export function SonarLintPromotion({ currentUser, qgConditions }: SonarLintPromo
               >
                 SonarQube for IDE
               </DiscreetLink>
-              <span className="sw-align-middle">
+              <span className="sw:align-middle">
                 <SonarLintLogo />
               </span>
             </>

@@ -57,7 +57,7 @@ function Ring({ center, ringColor }: Readonly<{ center: ReactNode; ringColor: st
   return (
     <div
       aria-hidden
-      className="sw-relative sw-shrink-0"
+      className="sw:relative sw:shrink-0"
       style={{ height: DONUT_SIZE, width: DONUT_SIZE }}
     >
       <DonutChart
@@ -66,7 +66,7 @@ function Ring({ center, ringColor }: Readonly<{ center: ReactNode; ringColor: st
         thickness={DONUT_THICKNESS}
         width={DONUT_SIZE}
       />
-      <div className="sw-absolute sw-inset-0 sw-flex sw-items-center sw-justify-center">
+      <div className="sw:absolute sw:inset-0 sw:flex sw:items-center sw:justify-center">
         {center}
       </div>
     </div>
@@ -173,8 +173,8 @@ export function StepCard({
       aria-label={accessibleName}
       aria-pressed={isSelected}
       className={classNames(
-        'sw-flex sw-items-center sw-w-full sw-rounded-2 sw-border-0 sw-bg-transparent sw-p-0 sw-text-left',
-        isLocked ? 'sw-cursor-not-allowed' : 'sw-cursor-pointer',
+        'sw:flex sw:items-center sw:w-full sw:rounded-2 sw:border-0 sw:bg-transparent sw:p-0 sw:text-left',
+        isLocked ? 'sw:cursor-not-allowed' : 'sw:cursor-pointer',
       )}
       onClick={isLocked ? undefined : onSelect}
       style={{
@@ -182,11 +182,11 @@ export function StepCard({
       }}
       type="button"
     >
-      <Card className="sw-min-w-0">
-        <Card.Body className="sw-flex sw-items-center">
-          <div className="sw-flex sw-items-center sw-gap-4 sw-py-2">
+      <Card className="sw:min-w-0">
+        <Card.Body className="sw:flex sw:items-center">
+          <div className="sw:flex sw:items-center sw:gap-4 sw:py-2">
             <VisualSlot donutPercent={donutPercent} ringLabel={ringLabel} visual={visual} />
-            <div className="sw-flex sw-min-w-0 sw-flex-col">
+            <div className="sw:flex sw:min-w-0 sw:flex-col">
               <Text isHighlighted size={TextSize.Large}>
                 {title}
               </Text>

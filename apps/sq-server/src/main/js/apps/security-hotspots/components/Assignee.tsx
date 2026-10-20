@@ -77,7 +77,7 @@ export default function Assignee(props: Props) {
 
   const controlLabel = assigneeUser ? (
     <>
-      <Avatar className="sw-mt-1" hash={assigneeUser.avatar} name={assigneeUser?.name} size="xs" />{' '}
+      <Avatar className="sw:mt-1" hash={assigneeUser.avatar} name={assigneeUser?.name} size="xs" />{' '}
       {assigneeUser.name}
     </>
   ) : (

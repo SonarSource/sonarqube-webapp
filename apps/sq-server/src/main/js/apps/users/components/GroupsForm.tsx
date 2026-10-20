@@ -119,9 +119,9 @@ export default function GroupsForm(props: Props) {
   return (
     <Modal
       body={
-        <div className="sw-pt-1">
+        <div className="sw:pt-1">
           {samlEnabled && (
-            <FlagMessage className="sw-mb-2" variant="warning">
+            <FlagMessage className="sw:mb-2" variant="warning">
               <FormattedMessage id="users.update_groups.saml_enabled" />
             </FlagMessage>
           )}

@@ -79,28 +79,28 @@ export function CountWidget({
       ? getWidgetTitleId(widgetInstance.widgetKey)
       : undefined;
 
-  const countTypographyClassName = isTallLayout ? 'sw-typo-display' : 'sw-heading-xl';
+  const countTypographyClassName = isTallLayout ? 'sw:typo-display' : 'sw:heading-xl';
 
   const measureEl = isNonEmptyLinkTarget(linkTo) ? (
     <LinkStandalone
       aria-labelledby={widgetTitleId ? `${measureTextId} ${widgetTitleId}` : undefined}
-      className="sw-font-inherit sw-text-inherit sw-no-underline hover:sw-underline"
+      className="sw:font-inherit sw:text-inherit sw:no-underline sw:hover:underline"
       to={linkTo}
     >
-      <span className="sw-contents" id={measureTextId}>
+      <span className="sw:contents" id={measureTextId}>
         <Measure badgeSize="xl" metricKey={metricKey} metricType={metricType} value={value} />
       </span>
     </LinkStandalone>
   ) : (
-    <span className="sw-font-inherit">
+    <span className="sw:font-inherit">
       <Measure badgeSize="xl" metricKey={metricKey} metricType={metricType} value={value} />
     </span>
   );
 
   const measureWithUnitEl = unitLabel ? (
-    <span className="sw-flex sw-items-baseline sw-gap-2">
+    <span className="sw:flex sw:items-baseline sw:gap-2">
       {measureEl}
-      <span className="sw-typo-sm sw-whitespace-nowrap sw-text-subtext sw-font-normal">
+      <span className="sw:typo-sm sw:whitespace-nowrap sw:text-subtext sw:font-normal">
         {unitLabel}
       </span>
     </span>
@@ -111,7 +111,7 @@ export function CountWidget({
   if (!showTrendIndicator || !trendIndicatorData) {
     return (
       <div
-        className={`sw-flex sw-h-full sw-flex-1 sw-flex-col sw-items-center sw-justify-center sw-leading-none ${countTypographyClassName}`}
+        className={`sw:flex sw:h-full sw:flex-1 sw:flex-col sw:items-center sw:justify-center sw:leading-none ${countTypographyClassName}`}
         data-testid="count-widget"
       >
         {measureWithUnitEl}
@@ -131,10 +131,10 @@ export function CountWidget({
   if (sparklineSeries === undefined) {
     return (
       <div
-        className="sw-flex sw-h-full sw-min-h-0 sw-flex-col sw-items-center sw-justify-center sw-gap-1 sw-leading-none"
+        className="sw:flex sw:h-full sw:min-h-0 sw:flex-col sw:items-center sw:justify-center sw:gap-1 sw:leading-none"
         data-testid="count-widget"
       >
-        <div className={`sw-leading-none ${countTypographyClassName}`}>{measureWithUnitEl}</div>
+        <div className={`sw:leading-none ${countTypographyClassName}`}>{measureWithUnitEl}</div>
         <TrendIndicator {...trendProps} />
       </div>
     );
@@ -146,14 +146,14 @@ export function CountWidget({
   if (isTallLayout) {
     return (
       <div
-        className="sw-flex sw-h-full sw-min-h-0 sw-flex-col sw-justify-center"
+        className="sw:flex sw:h-full sw:min-h-0 sw:flex-col sw:justify-center"
         data-testid="count-widget"
       >
-        <div className="sw-flex sw-shrink-0 sw-flex-col sw-items-center sw-gap-1 sw-py-1">
-          <div className={`sw-leading-none ${countTypographyClassName}`}>{measureWithUnitEl}</div>
+        <div className="sw:flex sw:shrink-0 sw:flex-col sw:items-center sw:gap-1 sw:py-1">
+          <div className={`sw:leading-none ${countTypographyClassName}`}>{measureWithUnitEl}</div>
           <TrendIndicator {...trendProps} />
         </div>
-        <div className="sw-box-border sw-flex sw-w-full sw-shrink-0 sw-items-end sw-max-h-[80px] sw-justify-center sw-overflow-hidden">
+        <div className="sw:box-border sw:flex sw:w-full sw:shrink-0 sw:items-end sw:max-h-[80px] sw:justify-center sw:overflow-hidden">
           <Sparkline
             data={sparklineData}
             fullWidth={isTallLayout}
@@ -167,15 +167,15 @@ export function CountWidget({
 
   return (
     <div
-      className="sw-flex sw-h-full sw-min-h-0 sw-flex-col sw-items-center sw-justify-center sw-gap-2 sw-leading-none"
+      className="sw:flex sw:h-full sw:min-h-0 sw:flex-col sw:items-center sw:justify-center sw:gap-2 sw:leading-none"
       data-testid="count-widget"
     >
       <div
-        className={`sw-flex sw-w-full sw-items-center sw-justify-center sw-gap-2 sw-leading-none ${countTypographyClassName}`}
+        className={`sw:flex sw:w-full sw:items-center sw:justify-center sw:gap-2 sw:leading-none ${countTypographyClassName}`}
       >
         {measureWithUnitEl}
         <Sparkline
-          className="sw-min-w-0 sw-max-w-[80px] sw-flex-1"
+          className="sw:min-w-0 sw:max-w-[80px] sw:flex-1"
           data={sparklineData}
           fullWidth={isTallLayout}
           height={sparklineHeight}

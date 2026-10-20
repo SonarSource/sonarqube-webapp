@@ -209,10 +209,10 @@ exports[`should highlight code content correctly 1`] = `
 
 <div>
   <div
-    class="sw-code fs-mask emotion-0 emotion-1"
+    class="sw:code fs-mask emotion-0 emotion-1"
   >
     <button
-      class="sw-select-none emotion-2 emotion-3 emotion-4"
+      class="sw:select-none emotion-2 emotion-3 emotion-4"
       data-state="closed"
       type="button"
     >
@@ -233,7 +233,7 @@ exports[`should highlight code content correctly 1`] = `
       </span>
     </button>
     <span
-      class="hljs sw-overflow-auto sw-pr-24 sw-flex emotion-11 emotion-12"
+      class="hljs sw:overflow-auto sw:pr-24 sw:flex emotion-11 emotion-12"
     >
       <pre>
         &lt;prop&gt;foobar&lt;prop&gt;
@@ -459,10 +459,10 @@ exports[`should show full size when multiline with no editing 1`] = `
 
 <div>
   <div
-    class="sw-code fs-mask emotion-0 emotion-1"
+    class="sw:code fs-mask emotion-0 emotion-1"
   >
     <button
-      class="sw-select-none emotion-2 emotion-3 emotion-4"
+      class="sw:select-none emotion-2 emotion-3 emotion-4"
       data-state="closed"
       type="button"
     >
@@ -483,7 +483,7 @@ exports[`should show full size when multiline with no editing 1`] = `
       </span>
     </button>
     <span
-      class="hljs sw-overflow-auto sw-pr-24 sw-flex emotion-11 emotion-12"
+      class="hljs sw:overflow-auto sw:pr-24 sw:flex emotion-11 emotion-12"
     >
       <pre>
         foo
@@ -712,10 +712,10 @@ exports[`should show reduced size when single line with no editing 1`] = `
 
 <div>
   <div
-    class="sw-code sw-py-6 code-snippet-highlighted-oneline fs-mask emotion-0 emotion-1"
+    class="sw:code sw:py-6 code-snippet-highlighted-oneline fs-mask emotion-0 emotion-1"
   >
     <button
-      class="sw-select-none emotion-2 emotion-3 emotion-4"
+      class="sw:select-none emotion-2 emotion-3 emotion-4"
       data-state="closed"
       type="button"
     >
@@ -736,7 +736,7 @@ exports[`should show reduced size when single line with no editing 1`] = `
       </span>
     </button>
     <span
-      class="hljs sw-overflow-auto sw-pr-24 sw-flex emotion-11 emotion-12"
+      class="hljs sw:overflow-auto sw:pr-24 sw:flex emotion-11 emotion-12"
     >
       <code>
         foobar

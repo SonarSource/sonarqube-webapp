@@ -177,8 +177,8 @@ export default class MaintenanceApp extends React.PureComponent<Props, State> {
     return (
       <>
         <Helmet defaultTitle={translate('maintenance.page')} defer={false} />
-        <div className="sw-flex sw-justify-around sw-mt-32" id="bd">
-          <Card className="sw-typo-default sw-p-10 sw-w-abs-400" id="nonav">
+        <div className="sw:flex sw:justify-around sw:mt-32" id="bd">
+          <Card className="sw:typo-default sw:p-10 sw:w-abs-400" id="nonav">
             {systemStatus === 'OFFLINE' && (
               <>
                 <MaintenanceTitle className="text-danger">
@@ -189,7 +189,7 @@ export default class MaintenanceApp extends React.PureComponent<Props, State> {
                   <FormattedMessage id="maintenance.sonarqube_is_offline.text" />
                 </MaintenanceText>
 
-                <div className="sw-text-center">
+                <div className="sw:text-center">
                   <LinkStandalone reloadDocument to="/">
                     <FormattedMessage id="maintenance.try_again" />
                   </LinkStandalone>
@@ -203,11 +203,11 @@ export default class MaintenanceApp extends React.PureComponent<Props, State> {
                   <InstanceMessage message={translate('maintenance.is_up')} />
                 </MaintenanceTitle>
 
-                <MaintenanceText className="sw-text-center">
+                <MaintenanceText className="sw:text-center">
                   <FormattedMessage id="maintenance.all_systems_opetational" />
                 </MaintenanceText>
 
-                <div className="sw-text-center">
+                <div className="sw:text-center">
                   <LinkStandalone to="/">
                     <FormattedMessage id="layout.home" />
                   </LinkStandalone>
@@ -237,7 +237,7 @@ export default class MaintenanceApp extends React.PureComponent<Props, State> {
                   <FormattedMessage id="maintenance.sonarqube_is_down.text" />
                 </MaintenanceText>
 
-                <MaintenanceText className="sw-text-center">
+                <MaintenanceText className="sw:text-center">
                   <LinkStandalone reloadDocument to="/">
                     <FormattedMessage id="maintenance.try_again" />
                   </LinkStandalone>
@@ -286,7 +286,7 @@ export default class MaintenanceApp extends React.PureComponent<Props, State> {
                   <FormattedMessage id="maintenance.database_is_up_to_date" />
                 </MaintenanceTitle>
 
-                <div className="sw-text-center">
+                <div className="sw:text-center">
                   <LinkStandalone to="/">
                     <FormattedMessage id="layout.home" />
                   </LinkStandalone>
@@ -317,11 +317,11 @@ export default class MaintenanceApp extends React.PureComponent<Props, State> {
                 </MaintenanceTitle>
 
                 {isDefined(this.state.message) && (
-                  <MaintenanceText className="sw-text-center">{this.state.message}</MaintenanceText>
+                  <MaintenanceText className="sw:text-center">{this.state.message}</MaintenanceText>
                 )}
 
                 {isDefined(this.state.startedAt) && (
-                  <MaintenanceText className="sw-text-center">
+                  <MaintenanceText className="sw:text-center">
                     <FormattedMessage id="background_tasks.table.started" />{' '}
                     <DateFromNow date={this.state.startedAt} />
                     <br />
@@ -332,7 +332,7 @@ export default class MaintenanceApp extends React.PureComponent<Props, State> {
                 )}
 
                 <MaintenanceSpinner>
-                  <Spinner className="sw-mb-4" />
+                  <Spinner className="sw:mb-4" />
                   {progress && <MigrationProgress progress={progress} />}
                 </MaintenanceSpinner>
               </>
@@ -344,7 +344,7 @@ export default class MaintenanceApp extends React.PureComponent<Props, State> {
                   <FormattedMessage id="maintenance.database_is_up_to_date" />
                 </MaintenanceTitle>
 
-                <div className="sw-text-center">
+                <div className="sw:text-center">
                   <LinkStandalone to="/">
                     <FormattedMessage id="layout.home" />
                   </LinkStandalone>

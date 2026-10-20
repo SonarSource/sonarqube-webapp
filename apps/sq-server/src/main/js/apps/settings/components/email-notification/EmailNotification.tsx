@@ -30,8 +30,8 @@ export default function EmailNotification() {
   const { data: configuration, isLoading } = useEmailConfigurationQuery();
 
   return (
-    <div className="sw-p-6">
-      <Heading as="h3" className="sw-mb-3" size="large">
+    <div className="sw:p-6">
+      <Heading as="h3" className="sw:mb-3" size="large">
         <FormattedMessage id="email_notification.header" />
       </Heading>
       <Text>

@@ -82,6 +82,21 @@
       "cache": true,
       "parallelism": true
     },
+    "validate-tailwind-prefixes": {
+      "executor": "nx:run-commands",
+      "options": {
+        "cwd": "{workspaceRoot}",
+        "command": "node ./config/validate-tailwind-prefixes.mjs {projectRoot}"
+      },
+      "inputs": [
+        "productionWithShared",
+        "^productionWithShared",
+        "{projectRoot}/**/*.{cjs,css,cts,html,js,json,jsx,md,mdx,mjs,mts,scss,snap,ts,tsx,yaml,yml}",
+        "{workspaceRoot}/config/validate-tailwind-prefixes.mjs"
+      ],
+      "cache": true,
+      "parallelism": true
+    },
     "lint": {
       "options": {
         "cwd": "{projectRoot}",

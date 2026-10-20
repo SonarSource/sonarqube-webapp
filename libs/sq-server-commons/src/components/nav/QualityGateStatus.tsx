@@ -42,7 +42,7 @@ export default function QualityGateStatus(props: Readonly<Props>) {
   return (
     <div className={classNames(`it__level-${branchLike.status.qualityGateStatus}`, className)}>
       <QualityGateIndicator
-        className="sw-mr-2"
+        className="sw:mr-2"
         size={indicatorSize}
         status={branchLike.status?.qualityGateStatus}
       />

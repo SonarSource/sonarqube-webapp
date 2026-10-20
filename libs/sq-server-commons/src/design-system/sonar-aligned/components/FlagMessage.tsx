@@ -147,7 +147,7 @@ export function DismissableFlagMessage(
       <DismissIcon
         Icon={CloseIcon}
         aria-label={intl.formatMessage({ id: 'dismiss' })}
-        className="sw-ml-3"
+        className="sw:ml-3"
         onClick={onDismiss}
         size="small"
       />

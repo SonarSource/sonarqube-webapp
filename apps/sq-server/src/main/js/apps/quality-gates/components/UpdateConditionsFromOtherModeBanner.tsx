@@ -37,8 +37,8 @@ export default function UpdateConditionsFromOtherModeBanner(props: Readonly<Prop
   const { data: isStandard } = useStandardExperienceModeQuery();
   const intl = useIntl();
   return (
-    <CardWithPrimaryBackground className="sw-mt-9 sw-p-8">
-      <Heading as="h3" className="sw-mb-2 sw-max-w-full">
+    <CardWithPrimaryBackground className="sw:mt-9 sw:p-8">
+      <Heading as="h3" className="sw:mb-2 sw:max-w-full">
         {intl.formatMessage(
           { id: 'quality_gates.mode_banner.title' },
           {
@@ -66,7 +66,7 @@ export default function UpdateConditionsFromOtherModeBanner(props: Readonly<Prop
         />
       </div>
       <UpdateConditionsFromOtherModeModal {...props}>
-        <Button className="sw-mt-4" prefix={<IconRefresh />} variety={ButtonVariety.Primary}>
+        <Button className="sw:mt-4" prefix={<IconRefresh />} variety={ButtonVariety.Primary}>
           {intl.formatMessage({ id: 'quality_gates.mode_banner.button' })}
         </Button>
       </UpdateConditionsFromOtherModeModal>

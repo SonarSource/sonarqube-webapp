@@ -88,11 +88,11 @@ export default class Search extends React.PureComponent<Props> {
     } = this.props;
 
     return (
-      <section className="sw-my-4">
-        <ul className="sw-flex sw-items-center sw-flex-wrap sw-gap-4">
-          <li className="sw-flex sw-items-center">
+      <section className="sw:my-4">
+        <ul className="sw:flex sw:items-center sw:flex-wrap sw:gap-4">
+          <li className="sw:flex sw:items-center">
             <Label
-              className="sw-mr-2"
+              className="sw:mr-2"
               htmlFor="status-filter"
               id="background-task-status-filter-label"
             >
@@ -103,9 +103,9 @@ export default class Search extends React.PureComponent<Props> {
           </li>
 
           {types.length > 1 && (
-            <li className="sw-flex sw-items-center">
+            <li className="sw:flex sw:items-center">
               <Label
-                className="sw-mr-2"
+                className="sw:mr-2"
                 htmlFor="types-filter"
                 id="background-task-type-filter-label"
               >
@@ -122,8 +122,8 @@ export default class Search extends React.PureComponent<Props> {
           )}
 
           {!component && (
-            <li className="sw-flex sw-items-center">
-              <Label className="sw-mr-2">
+            <li className="sw:flex sw:items-center">
+              <Label className="sw:mr-2">
                 <FormattedMessage id="background_tasks.currents_filter.ONLY_CURRENTS" />
               </Label>
 
@@ -131,8 +131,8 @@ export default class Search extends React.PureComponent<Props> {
             </li>
           )}
 
-          <li className="sw-flex sw-items-center">
-            <Label className="sw-mr-2">
+          <li className="sw:flex sw:items-center">
+            <Label className="sw:mr-2">
               <FormattedMessage id="background_tasks.date_filter" />
             </Label>
 
@@ -154,7 +154,7 @@ export default class Search extends React.PureComponent<Props> {
           )}
 
           <li>
-            <Button className="js-reload sw-mr-2" isDisabled={loading} onClick={this.handleReload}>
+            <Button className="js-reload sw:mr-2" isDisabled={loading} onClick={this.handleReload}>
               <FormattedMessage id="reload" />
             </Button>
 

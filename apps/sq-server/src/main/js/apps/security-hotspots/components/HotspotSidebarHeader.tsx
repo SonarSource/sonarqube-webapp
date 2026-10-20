@@ -71,7 +71,7 @@ function HotspotSidebarHeader(props: SecurityHotspotsAppRendererProps) {
   const isFiltered = Boolean(filtersCount);
 
   return (
-    <StyledSidebarHeader className="sw-flex sw-items-center">
+    <StyledSidebarHeader className="sw:flex sw:items-center">
       <Spinner isLoading={loadingMeasure}>
         {hotspotsReviewedMeasure !== undefined && (
           <CoverageIndicator value={hotspotsReviewedMeasure} />
@@ -80,7 +80,7 @@ function HotspotSidebarHeader(props: SecurityHotspotsAppRendererProps) {
         {component && (
           <Measure
             branchLike={branchLike}
-            className="it__hs-review-percentage sw-typo-semibold sw-ml-2"
+            className="it__hs-review-percentage sw:typo-semibold sw:ml-2"
             componentKey={component.key}
             metricKey={
               isBranch(branchLike) && !filters.inNewCodePeriod
@@ -93,19 +93,19 @@ function HotspotSidebarHeader(props: SecurityHotspotsAppRendererProps) {
         )}
       </Spinner>
 
-      <span className="sw-typo-default sw-ml-1">
+      <span className="sw:typo-default sw:ml-1">
         {intl.formatMessage({ id: 'metric.security_hotspots_reviewed.name' })}
       </span>
 
       <ToggleTip
         ariaLabel={intl.formatMessage({ id: 'toggle_tip.aria_label.security_hotspots' })}
-        className="sw-ml-2"
+        className="sw:ml-2"
         description={intl.formatMessage({ id: 'hotspots.reviewed.tooltip' })}
         title={intl.formatMessage({ id: 'metric.security_hotspots_reviewed.name' })}
       />
 
       {!isStaticListOfHotspots && (isBranch(branchLike) || userLoggedIn || isFiltered) && (
-        <div className="sw-flex sw-flex-grow sw-justify-end sw-items-center">
+        <div className="sw:flex sw:flex-grow sw:justify-end sw:items-center">
           <DropdownMenu
             id="filter-hotspots-menu"
             items={

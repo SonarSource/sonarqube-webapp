@@ -110,7 +110,7 @@ export class ProjectCreationMenu extends React.PureComponent<Props, State> {
         size="auto"
         zLevel={PopupZLevel.Global}
       >
-        <Button suffix={<IconChevronDown className="sw-ml-1" />}>
+        <Button suffix={<IconChevronDown className="sw:ml-1" />}>
           <FormattedMessage id="projects.add" />
         </Button>
       </Dropdown>

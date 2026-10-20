@@ -48,35 +48,35 @@ export default class Params extends React.PureComponent<Props> {
           </HtmlFormatter>
 
           {param.internal && (
-            <div className="sw-mt-1">
+            <div className="sw:mt-1">
               <InternalBadge />
             </div>
           )}
 
           {param.deprecatedSince && (
-            <div className="sw-mt-1">
+            <div className="sw:mt-1">
               <DeprecatedBadge since={param.deprecatedSince} />
             </div>
           )}
 
-          <Text as="div" className="sw-mt-1" isSubtle>
+          <Text as="div" className="sw:mt-1" isSubtle>
             {param.required ? 'required' : 'optional'}
           </Text>
 
           {param.since && (
-            <Text as="div" className="sw-mt-1" isSubtle>
+            <Text as="div" className="sw:mt-1" isSubtle>
               {translateWithParameters('since_x', param.since)}
             </Text>
           )}
 
           {this.props.showDeprecated && param.deprecatedKey && (
-            <div className="sw-ml-2 sw-mt-4">
-              <Text as="div" className="sw-mb-1" isSubtle>
+            <div className="sw:ml-2 sw:mt-4">
+              <Text as="div" className="sw:mb-1" isSubtle>
                 <FormattedMessage id="replaces" />:
               </Text>
-              <code className="sw-code">{param.deprecatedKey}</code>
+              <code className="sw:code">{param.deprecatedKey}</code>
               {param.deprecatedKeySince && (
-                <div className="sw-mt-1">
+                <div className="sw:mt-1">
                   <DeprecatedBadge since={param.deprecatedKeySince} />
                 </div>
               )}
@@ -91,9 +91,9 @@ export default class Params extends React.PureComponent<Props> {
     const value = param[field];
     if (value !== undefined) {
       return (
-        <div className="sw-mt-1">
+        <div className="sw:mt-1">
           <Label as="div">{translate('api_documentation', label)}</Label>
-          <code className="sw-code">{value}</code>
+          <code className="sw:code">{value}</code>
         </div>
       );
     }
@@ -106,7 +106,7 @@ export default class Params extends React.PureComponent<Props> {
       .filter((p) => showDeprecated || !p.deprecatedSince)
       .filter((p) => showInternal || !p.internal);
     return (
-      <div className="sw-mt-6">
+      <div className="sw:mt-6">
         <Table columnCount={TABLE_COLUMNS.length} columnWidths={TABLE_COLUMNS}>
           {displayedParameters.map((param) => (
             <TableRow key={param.key}>
@@ -127,7 +127,7 @@ export default class Params extends React.PureComponent<Props> {
                       </Label>
                       <ul>
                         {param.possibleValues.map((value) => (
-                          <li className="sw-mt-1" key={value}>
+                          <li className="sw:mt-1" key={value}>
                             <code>{value}</code>
                           </li>
                         ))}

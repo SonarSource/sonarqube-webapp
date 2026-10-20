@@ -166,23 +166,23 @@ export default function BubbleChartView(props: Readonly<Props>) {
     const description = getDescription(domain);
 
     return (
-      <div className="sw-flex sw-justify-between sw-gap-3">
+      <div className="sw:flex sw:justify-between sw:gap-3">
         <div>
-          <div className="sw-flex sw-items-center sw-whitespace-nowrap">
+          <div className="sw:flex sw:items-center sw:whitespace-nowrap">
             <Heading as="h3" className="it__measure-overview-bubble-chart-title">
               {title}
             </Heading>
 
-            {description && <ToggleTip className="sw-ml-2" description={description} />}
+            {description && <ToggleTip className="sw:ml-2" description={description} />}
           </div>
 
           {paging?.total && paging?.total > BUBBLES_FETCH_LIMIT && (
-            <div className="sw-mt-2">
+            <div className="sw:mt-2">
               (<FormattedMessage id="component_measures.legend.only_first_500_files" />)
             </div>
           )}
           {(isView(component?.qualifier) || isProject(component?.qualifier)) && (
-            <div className="sw-mt-2">
+            <div className="sw:mt-2">
               <LinkStandalone
                 to={getComponentDrilldownUrl({
                   componentKey: component.key,
@@ -196,11 +196,11 @@ export default function BubbleChartView(props: Readonly<Props>) {
             </div>
           )}
         </div>
-        <div className="sw-flex sw-flex-col sw-items-end">
-          <div className="sw-text-right">
+        <div className="sw:flex sw:flex-col sw:items-end">
+          <div className="sw:text-right">
             {bubbleMetrics.colors && (
-              <span className="sw-mr-3">
-                <strong className="sw-typo-semibold">
+              <span className="sw:mr-3">
+                <strong className="sw:typo-semibold">
                   <FormattedMessage id="component_measures.legend.color" />
                 </strong>{' '}
                 {bubbleMetrics.colors.length > 1
@@ -211,14 +211,14 @@ export default function BubbleChartView(props: Readonly<Props>) {
                   : getLocalizedMetricName(bubbleMetrics.colors[0])}
               </span>
             )}
-            <strong className="sw-typo-semibold">
+            <strong className="sw:typo-semibold">
               <FormattedMessage id="component_measures.legend.size" />
             </strong>{' '}
             {getLocalizedMetricName(bubbleMetrics.size)}
           </div>
           {bubbleMetrics.colors && (
             <ColorRatingsLegend
-              className="sw-mt-2"
+              className="sw:mt-2"
               filters={ratingFilters}
               onRatingClick={handleRatingFilterClick}
             />
@@ -233,11 +233,11 @@ export default function BubbleChartView(props: Readonly<Props>) {
   }
 
   return (
-    <BubbleChartWrapper className="sw-relative sw-typo-default">
+    <BubbleChartWrapper className="sw:relative sw:typo-default">
       {renderChartHeader()}
       {renderBubbleChart()}
-      <div className="sw-text-center">{getLocalizedMetricName(bubbleMetrics.x)}</div>
-      <YAxis className="sw-absolute sw-top-1/2 sw-left-3">
+      <div className="sw:text-center">{getLocalizedMetricName(bubbleMetrics.x)}</div>
+      <YAxis className="sw:absolute sw:top-1/2 sw:left-3">
         {getLocalizedMetricName(bubbleMetrics.y)}
       </YAxis>
     </BubbleChartWrapper>
@@ -285,7 +285,7 @@ const getTooltip = (
     });
   }
   return (
-    <div className="sw-text-left">
+    <div className="sw:text-left">
       {inner.map((line, index) => (
         <React.Fragment key={index}>
           {line}

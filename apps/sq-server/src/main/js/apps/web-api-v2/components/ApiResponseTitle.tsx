@@ -27,7 +27,7 @@ interface Props {
 
 export default function ApiResponseTitle({ code, codeDescription }: Props) {
   return (
-    <div className="sw-flex sw-items-center sw-gap-2">
+    <div className="sw:flex sw:items-center sw:gap-2">
       <Badge variety={getResponseCodeVariety(code)}>{code}</Badge>
       <span>{codeDescription}</span>
     </div>

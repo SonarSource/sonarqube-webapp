@@ -46,7 +46,7 @@ export default function ChangeInCalculation({ qualifier }: Readonly<Props>) {
       }
       title={<FormattedMessage id="projects.awaiting_scan.title" />}
     >
-      <Badge className="sw-ml-2" isInteractive variety={BadgeVariety.Info}>
+      <Badge className="sw:ml-2" isInteractive variety={BadgeVariety.Info}>
         <FormattedMessage id="projects.awaiting_scan" />
       </Badge>
     </Popover>

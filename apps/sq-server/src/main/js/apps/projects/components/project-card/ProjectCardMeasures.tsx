@@ -49,7 +49,7 @@ export default function ProjectCardMeasures(props: Readonly<ProjectCardMeasuresP
 
   if (!isNewCode && !ncloc) {
     return (
-      <Text className="sw-py-4" isSubtle>
+      <Text className="sw:py-4" isSubtle>
         {componentQualifier === ComponentQualifier.Application
           ? formatMessage({ id: 'portfolio.app.empty' })
           : formatMessage({ id: 'overview.project.main_branch_empty' })}
@@ -74,7 +74,7 @@ export default function ProjectCardMeasures(props: Readonly<ProjectCardMeasuresP
   });
 
   return (
-    <div className="sw-flex sw-items-center sw-gap-6">
+    <div className="sw:flex sw:items-center sw:gap-6">
       {measureList.map(({ labelKey, metricKey, metricRatingKey, metricType }) => (
         <ProjectCardMeasure
           key={metricKey}
@@ -85,7 +85,7 @@ export default function ProjectCardMeasures(props: Readonly<ProjectCardMeasuresP
             <RatingComponent componentKey={componentKey} ratingMetric={metricRatingKey} />
           )}
           <Measure
-            className="sw-ml-2 sw-typo-lg-semibold"
+            className="sw:ml-2 sw:typo-lg-semibold"
             componentKey={componentKey}
             metricKey={metricKey}
             metricType={metricType}
@@ -100,7 +100,7 @@ export default function ProjectCardMeasures(props: Readonly<ProjectCardMeasuresP
         <div>
           {measures[coverageMetric] && <CoverageIndicator value={measures[coverageMetric]} />}
           <Measure
-            className="sw-ml-2 sw-typo-lg-semibold"
+            className="sw:ml-2 sw:typo-lg-semibold"
             componentKey={componentKey}
             decimals={2}
             metricKey={coverageMetric}
@@ -118,7 +118,7 @@ export default function ProjectCardMeasures(props: Readonly<ProjectCardMeasuresP
             <DuplicationsIndicator rating={duplicationRating} />
           )}
           <Measure
-            className="sw-ml-2 sw-typo-lg-semibold"
+            className="sw:ml-2 sw:typo-lg-semibold"
             componentKey={componentKey}
             decimals={2}
             metricKey={duplicationMetric}

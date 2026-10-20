@@ -108,7 +108,7 @@ export default function GraphHistory(props: Readonly<Props>) {
             '0': isCustom ? series.map((s) => s.translatedName).join(',') : graph,
           },
         )} ${intl.formatMessage({ id: 'project_activity.graphs.open_in_table' })}`}
-        className="sw-flex sw-flex-col sw-justify-center sw-items-stretch sw-grow sw-py-2"
+        className="sw:flex sw:flex-col sw:justify-center sw:items-stretch sw:grow sw:py-2"
         onKeyUp={(event) => {
           if (event.key === KeyboardKeys.Enter) {
             setTableIsVisible(true);
@@ -126,9 +126,9 @@ export default function GraphHistory(props: Readonly<Props>) {
           <GraphsLegendStatic leakPeriodDate={leakPeriodDate} series={series} />
         )}
 
-        <div className="sw-flex-1 sw-min-w-full sw-overflow-hidden sw-w-0" ref={graphContainerRef}>
+        <div className="sw:flex-1 sw:min-w-full sw:overflow-hidden sw:w-0" ref={graphContainerRef}>
           {graphWidth !== undefined && graphHeight !== undefined && (
-            <div className="sw-overflow-hidden sw-w-full" onMouseLeave={hideTooltip}>
+            <div className="sw:overflow-hidden sw:w-full" onMouseLeave={hideTooltip}>
               <AdvancedTimeline
                 endDate={graphEndDate}
                 formatYTick={formatValue}

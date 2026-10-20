@@ -118,13 +118,13 @@ export default function AzureProjectCreateRenderer(
           )}
           {selectedAlmInstance && !showPersonalAccessTokenForm && (
             <PersonalAccessTokenResetLink
-              className="sw-mt-4"
+              className="sw:mt-4"
               createProjectMode={CreateProjectModes.AzureDevOps}
             />
           )}
         </Layout.PageHeader.Description>
       }
-      pageClassName={classNames({ 'sw-hidden': isProjectSetupDone(location) })}
+      pageClassName={classNames({ 'sw:hidden': isProjectSetupDone(location) })}
       title={formatMessage({ id: 'onboarding.create_project.azure.title' })}
     >
       <AlmSettingsInstanceDropdown
@@ -137,7 +137,7 @@ export default function AzureProjectCreateRenderer(
       <Spinner isLoading={loading} />
 
       {showUrlError && (
-        <MessageCallout className="sw-mb-2" variety={MessageVariety.Danger}>
+        <MessageCallout className="sw:mb-2" variety={MessageVariety.Danger}>
           {canAdmin ? (
             <FormattedMessage
               id="onboarding.create_project.azure.no_url.admin"
@@ -170,7 +170,7 @@ export default function AzureProjectCreateRenderer(
           </div>
         ) : (
           <>
-            <div className="sw-mb-10 sw-w-abs-400">
+            <div className="sw:mb-10 sw:w-abs-400">
               <InputSearch
                 onChange={props.onSearch}
                 placeholder={formatMessage({

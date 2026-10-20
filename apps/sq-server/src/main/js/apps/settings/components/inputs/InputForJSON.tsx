@@ -64,7 +64,7 @@ class InputForJSON extends React.PureComponent<Props, State> {
 
     return (
       <>
-        <div className="sw-flex sw-items-end">
+        <div className="sw:flex sw:items-end">
           <TextArea
             aria-label={getPropertyName(setting.definition)}
             id={id ?? ''}
@@ -76,14 +76,14 @@ class InputForJSON extends React.PureComponent<Props, State> {
             value={value ?? ''}
             width="large"
           />
-          <div className="sw-ml-2">
-            <Button className="sw-mt-2" onClick={this.format} variety={ButtonVariety.Primary}>
+          <div className="sw:ml-2">
+            <Button className="sw:mt-2" onClick={this.format} variety={ButtonVariety.Primary}>
               <FormattedMessage id="settings.json.format" />
             </Button>
           </div>
         </div>
         {formatError && (
-          <MessageInline className="sw-mt-2 sw-block" variety={MessageVariety.Warning}>
+          <MessageInline className="sw:mt-2 sw:block" variety={MessageVariety.Warning}>
             <FormattedMessage id="settings.json.format_error" />
           </MessageInline>
         )}

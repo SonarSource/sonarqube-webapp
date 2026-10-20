@@ -49,15 +49,15 @@ export function EditToolbar({
 
   return (
     <div>
-      <div className="sw-flex sw-gap-2 sw-items-center">
+      <div className="sw:flex sw:gap-2 sw:items-center">
         {hasUnsavedChanges && (
-          <MessageInline className="sw-text-nowrap" variety={MessageVariety.Warning}>
+          <MessageInline className="sw:text-nowrap" variety={MessageVariety.Warning}>
             {formatMessage({ id: 'project_dashboard.save_changes_message' })}
           </MessageInline>
         )}
         <ExitWithoutSavingModal hasUnsavedChanges={hasUnsavedChanges} onConfirm={onExitEdit} />
         <Button
-          className="sw-min-w-min"
+          className="sw:min-w-min"
           data-testid="project-dashboard-save-changes-button"
           isDisabled={isUpdatingDashboard}
           isLoading={isUpdatingDashboard}
@@ -66,9 +66,9 @@ export function EditToolbar({
         >
           {formatMessage({ id: 'project_dashboard.save_changes' })}
         </Button>
-        <Divider className="sw-min-h-[36px]" isVertical />
+        <Divider className="sw:min-h-[36px]" isVertical />
         <Button
-          className="sw-min-w-min"
+          className="sw:min-w-min"
           data-testid="project-dashboard-add-widget-button"
           onClick={() => {
             onSetIsAddWidgetModalOpen(true);
@@ -77,7 +77,7 @@ export function EditToolbar({
           {formatMessage({ id: 'dashboard.add_widget' })}
         </Button>
         <Button
-          className="sw-min-w-min"
+          className="sw:min-w-min"
           data-testid="project-dashboard-new-section-button"
           onClick={() => {
             onSetIsCreateSectionModalOpen(true);

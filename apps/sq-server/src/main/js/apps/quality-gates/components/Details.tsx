@@ -33,7 +33,7 @@ export default function Details({ qualityGateName }: Readonly<Props>) {
   const { data: qualityGate, isLoading, isFetching } = useQualityGateQuery(qualityGateName);
 
   return (
-    <Spinner isLoading={isLoading} wrapperClassName="sw-block sw-text-center">
+    <Spinner isLoading={isLoading} wrapperClassName="sw:block sw:text-center">
       {qualityGate && (
         <main>
           <Helmet defer={false} title={qualityGate.name} />

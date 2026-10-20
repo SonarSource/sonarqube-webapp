@@ -42,7 +42,7 @@ import { InputSelect } from '../../sonar-aligned/components/input';
 
 function CompactDropdownIndicator() {
   return (
-    <div className="sw-flex sw-pr-1">
+    <div className="sw:flex sw:pr-1">
       <IconChevronDown />
     </div>
   );
@@ -95,7 +95,7 @@ export function CustomCalendarNavigation(props: MonthCaptionProps) {
   });
 
   return (
-    <nav className="sw-flex sw-items-center sw-gap-1 sw-pt-2 sw-px-2">
+    <nav className="sw:flex sw:items-center sw:gap-1 sw:pt-2 sw:px-2">
       <ButtonIcon
         Icon={IconChevronLeft}
         ariaLabel={intl.formatMessage(
@@ -114,7 +114,7 @@ export function CustomCalendarNavigation(props: MonthCaptionProps) {
 
       <span data-testid="month-select">
         <InputSelect
-          className="sw-w-[5rem]"
+          className="sw:w-[5rem]"
           components={{ DropdownIndicator: CompactDropdownIndicator }}
           isClearable={false}
           onChange={(value) => {
@@ -129,7 +129,7 @@ export function CustomCalendarNavigation(props: MonthCaptionProps) {
 
       <span data-testid="year-select">
         <InputSelect
-          className="sw-w-[5rem]"
+          className="sw:w-[5rem]"
           components={{ DropdownIndicator: CompactDropdownIndicator }}
           data-testid="year-select"
           isClearable={false}

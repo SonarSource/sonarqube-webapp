@@ -156,18 +156,18 @@ export function RepositoriesTable({
       isLoading={isPlatformsLoading || isFetching}
       loadingMessage={formatMessage({ id: 'onboarding_dashboard.repositories.loading' })}
     >
-      <div className={`sw-flex sw-flex-col sw-gap-4 ${containerClassName ?? ''}`.trim()}>
-        <div className="sw-flex sw-flex-col sw-gap-2">
+      <div className={`sw:flex sw:flex-col sw:gap-4 ${containerClassName ?? ''}`.trim()}>
+        <div className="sw:flex sw:flex-col sw:gap-2">
           {/* This label is placed separately so that 'x/y results' is aligned with the controls */}
           {showPlatformSelect && (
-            <Label className="sw-w-fit" htmlFor="import-repositories-platform-select">
+            <Label className="sw:w-fit" htmlFor="import-repositories-platform-select">
               {formatMessage({
                 id: 'onboarding_dashboard.journey.import.modal.platform_select.label',
               })}
             </Label>
           )}
-          <div className="sw-flex sw-w-full sw-items-center sw-justify-between">
-            <div className="sw-flex sw-items-center sw-gap-4">
+          <div className="sw:flex sw:w-full sw:items-center sw:justify-between">
+            <div className="sw:flex sw:items-center sw:gap-4">
               {showPlatformSelect && (
                 <Select
                   data={platformSelectData}
@@ -201,7 +201,7 @@ export function RepositoriesTable({
               />
             </div>
 
-            <Text as="span" className="sw-ml-auto" isSubtle size={TextSize.Small}>
+            <Text as="span" className="sw:ml-auto" isSubtle size={TextSize.Small}>
               {formatMessage(
                 { id: 'onboarding_dashboard.table.results_size' },
                 { size: repositories.length, total },
@@ -212,7 +212,7 @@ export function RepositoriesTable({
 
         <Table
           ariaLabel={ariaLabel}
-          className="sw-overflow-y-auto sw-content-start"
+          className="sw:overflow-y-auto sw:content-start"
           gridTemplate={gridTemplate}
           ref={tableRef}
           variety={TableVariety.Surface}
@@ -242,7 +242,7 @@ export function RepositoriesTable({
         </Table>
 
         {totalPages > 1 && (
-          <div className="sw-shrink-0 sw-flex sw-justify-center">
+          <div className="sw:shrink-0 sw:flex sw:justify-center">
             <Pagination onChange={onPageChange} page={pageIndex} totalPages={totalPages} />
           </div>
         )}

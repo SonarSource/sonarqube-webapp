@@ -64,8 +64,8 @@ export default function ProfileInheritance(props: Readonly<Props>) {
       aria-label={translate('quality_profiles.profile_inheritance')}
       className="it__quality-profiles__inheritance"
     >
-      <div className="sw-flex sw-items-center sw-gap-3 sw-mb-6">
-        <SubTitle className="sw-mb-0">
+      <div className="sw:flex sw:items-center sw:gap-3 sw:mb-6">
+        <SubTitle className="sw:mb-0">
           <FormattedMessage id="quality_profiles.profile_inheritance" />
         </SubTitle>
         {profile.actions?.edit && !profile.isBuiltIn && (
@@ -75,11 +75,11 @@ export default function ProfileInheritance(props: Readonly<Props>) {
         )}
       </div>
       {!extendsBuiltIn && !profile.isBuiltIn && (
-        <FlagMessage className="sw-mb-4" variant="info">
-          <div className="sw-flex sw-flex-col">
+        <FlagMessage className="sw:mb-4" variant="info">
+          <div className="sw:flex sw:flex-col">
             <FormattedMessage id="quality_profiles.no_built_in_updates_warning" />
             {profile.actions?.edit && (
-              <span className="sw-mt-1">
+              <span className="sw:mt-1">
                 <FormattedMessage id="quality_profiles.no_built_in_updates_warning_admin" />
               </span>
             )}

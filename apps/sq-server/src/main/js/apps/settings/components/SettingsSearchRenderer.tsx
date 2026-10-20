@@ -62,7 +62,7 @@ export default function SettingsSearchRenderer(props: Readonly<SettingsSearchRen
   return (
     <OutsideClickHandler onClickOutside={props.onClickOutside}>
       {/* Always mounted so VoiceOver detects the content change when results go empty */}
-      <output aria-atomic="true" aria-live="polite" className="sw-sr-only">
+      <output aria-atomic="true" aria-live="polite" className="sw:sr-only">
         {showResults && results?.length === 0 && (
           <FormattedMessage id="no_results_for_x" values={{ 0: searchQuery }} />
         )}
@@ -73,7 +73,7 @@ export default function SettingsSearchRenderer(props: Readonly<SettingsSearchRen
           showResults && (
             <DropdownMenu
               aria-owns={SEARCH_INPUT_ID}
-              className="sw-overflow-y-auto sw-overflow-x-hidden"
+              className="sw:overflow-y-auto sw:overflow-x-hidden"
               maxHeight="50vh"
               size="auto"
             >
@@ -87,11 +87,11 @@ export default function SettingsSearchRenderer(props: Readonly<SettingsSearchRen
                     resultKey={r.key}
                   >
                     <LinkBox
-                      className="sw-block sw-py-2 sw-px-4"
+                      className="sw:block sw:py-2 sw:px-4"
                       onClick={props.onClickOutside}
                       to={buildSettingLink(r, component)}
                     >
-                      <h3 className="sw-typo-semibold">{r.name ?? r.subCategory}</h3>
+                      <h3 className="sw:typo-semibold">{r.name ?? r.subCategory}</h3>
                       {isRealSettingKey(r.key) && (
                         <Text isSubtle>
                           <FormattedMessage id="settings.key_x" values={{ 0: r.key }} />
@@ -101,7 +101,7 @@ export default function SettingsSearchRenderer(props: Readonly<SettingsSearchRen
                   </ResultItem>
                 ))
               ) : (
-                <div aria-hidden="true" className="sw-p-4">
+                <div aria-hidden="true" className="sw:p-4">
                   <FormattedMessage id="no_results" />
                 </div>
               )}
@@ -111,7 +111,7 @@ export default function SettingsSearchRenderer(props: Readonly<SettingsSearchRen
         placement={PopupPlacement.BottomLeft}
         zLevel={PopupZLevel.Global}
       >
-        <div className="sw-relative">
+        <div className="sw:relative">
           <SearchInput
             id={SEARCH_INPUT_ID}
             onChange={props.onSearchInputChange}

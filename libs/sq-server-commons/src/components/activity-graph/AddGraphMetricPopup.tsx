@@ -47,13 +47,13 @@ export default function AddGraphMetricPopup({
 
   if (props.selectedElements.length >= 6) {
     footerNode = (
-      <FlagMessage className="sw-m-2" variant="info">
+      <FlagMessage className="sw:m-2" variant="info">
         {translate('project_activity.graphs.custom.add_metric_info')}
       </FlagMessage>
     );
   } else if (metricsTypeFilter && metricsTypeFilter.length > 0) {
     footerNode = (
-      <FlagMessage className="sw-m-2" variant="info">
+      <FlagMessage className="sw:m-2" variant="info">
         {translateWithParameters(
           'project_activity.graphs.custom.type_x_message',
           metricsTypeFilter
@@ -82,7 +82,7 @@ export default function AddGraphMetricPopup({
       <>
         {metricName}
         {isDeprecated && (
-          <Badge className="sw-ml-1">{intl.formatMessage({ id: 'deprecated' })}</Badge>
+          <Badge className="sw:ml-1">{intl.formatMessage({ id: 'deprecated' })}</Badge>
         )}
       </>
     );

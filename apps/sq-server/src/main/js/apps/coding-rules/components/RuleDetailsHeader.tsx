@@ -42,20 +42,20 @@ export default function RuleDetailsMeta(props: Readonly<Props>) {
 
   const hasTypeData = !ruleDetails.isExternal || ruleDetails.type !== 'UNKNOWN';
   return (
-    <header className="sw-flex sw-mb-6">
-      <div className="sw-mr-8 sw-grow sw-flex sw-flex-col sw-gap-4">
-        <Title className="sw-mb-0">
+    <header className="sw:flex sw:mb-6">
+      <div className="sw:mr-8 sw:grow sw:flex sw:flex-col sw:gap-4">
+        <Title className="sw:mb-0">
           <IssueMessageHighlighting message={ruleDetails.name} />
           <ClipboardIconButton
             Icon={IconLink}
             aria-label={translate('permalink')}
-            className="sw-ml-1 sw-align-bottom"
+            className="sw:ml-1 sw:align-bottom"
             copyValue={getPathUrlAsString(ruleUrl, ruleDetails.isExternal)}
             discreet
           />
         </Title>
 
-        <div className="sw-flex sw-flex-wrap sw-gap-2">
+        <div className="sw:flex sw:flex-wrap sw:gap-2">
           {hasTypeData && (
             <RuleDetailsHeaderMeta
               referencedRepositories={referencedRepositories}

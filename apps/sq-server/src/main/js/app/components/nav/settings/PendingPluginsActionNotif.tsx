@@ -49,9 +49,9 @@ export default class PendingPluginsActionNotif extends React.PureComponent<Props
     }
 
     return (
-      <FlagMessage className="sw-w-full" variant="info">
-        <div className="sw-flex sw-items-center">
-          <span className="sw-mr-1">
+      <FlagMessage className="sw:w-full" variant="info">
+        <div className="sw:flex sw:items-center">
+          <span className="sw:mr-1">
             <InstanceMessage message={translate('marketplace.instance_needs_to_be_restarted_to')} />
           </span>
           {[
@@ -66,7 +66,7 @@ export default class PendingPluginsActionNotif extends React.PureComponent<Props
                 <FormattedMessage id={msg} values={{ nb: <strong>{length}</strong> }} />
               </span>
             ))}
-          <ButtonGroup className="sw-ml-2">
+          <ButtonGroup className="sw:ml-2">
             <RestartButton
               fetchSystemStatus={this.props.fetchSystemStatus}
               systemStatus={this.props.systemStatus}

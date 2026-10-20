@@ -37,7 +37,7 @@ export function PermissionsProjectLocalProjectWarning(props: Readonly<Props>) {
 
   if (githubProvisioningStatus && !isGitHubProject && isProject(component.qualifier)) {
     return (
-      <MessageCallout className="sw-mb-2 sw-max-w-max" variety="warning">
+      <MessageCallout className="sw:mb-2 sw:max-w-max" variety="warning">
         <FormattedMessage id="project_permission.local_project_with_github_provisioning" />
       </MessageCallout>
     );
@@ -45,7 +45,7 @@ export function PermissionsProjectLocalProjectWarning(props: Readonly<Props>) {
 
   if (gitlabProvisioningStatus && !isGitLabProject && isProject(component.qualifier)) {
     return (
-      <MessageCallout className="sw-mb-2 sw-max-w-max" variety="warning">
+      <MessageCallout className="sw:mb-2 sw:max-w-max" variety="warning">
         <FormattedMessage id="project_permission.local_project_with_gitlab_provisioning" />
       </MessageCallout>
     );

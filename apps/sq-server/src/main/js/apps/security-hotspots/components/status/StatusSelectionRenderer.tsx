@@ -60,7 +60,7 @@ export default function StatusSelectionRenderer(props: StatusSelectionRendererPr
         <>
           <SelectionCards
             ariaLabel={intl.formatMessage({ id: 'hotspots.status.select' })}
-            className="sw-mb-4"
+            className="sw:mb-4"
             onChange={props.onStatusChange}
             options={options}
             value={status}
@@ -70,7 +70,7 @@ export default function StatusSelectionRenderer(props: StatusSelectionRendererPr
             label={intl.formatMessage({ id: 'hotspots.status.add_comment_optional' })}
           >
             <InputTextArea
-              className="sw-mb-2 sw-resize-y"
+              className="sw:mb-2 sw:resize-y"
               id="comment-textarea"
               onChange={(event: React.ChangeEvent<HTMLTextAreaElement>) => {
                 props.onCommentChange(event.currentTarget.value);

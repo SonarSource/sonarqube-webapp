@@ -99,7 +99,7 @@ export default function BranchHelpTooltip({
         <ToggleTip
           description={<FormattedMessage id="branch_like_navigation.only_one_branch.content" />}
           footer={
-            <div className="sw-flex sw-flex-col sw-items-start sw-gap-1">
+            <div className="sw:flex sw:flex-col sw:items-start sw:gap-1">
               <DocumentationLink to={DocLink.BranchAnalysis}>
                 <FormattedMessage id="branch_like_navigation.only_one_branch.documentation" />
               </DocumentationLink>

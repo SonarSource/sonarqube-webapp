@@ -33,9 +33,9 @@ export default function IssueItemLocationsQuantity(props: Props) {
 
   if (id) {
     return (
-      <div className="sw-flex sw-items-center sw-justify-center sw-gap-1 sw-overflow-hidden">
+      <div className="sw:flex sw:items-center sw:justify-center sw:gap-1 sw:overflow-hidden">
         <ExecutionFlowIcon />
-        <span className="sw-truncate" title={formatMessage({ id }, titleValues)}>
+        <span className="sw:truncate" title={formatMessage({ id }, titleValues)}>
           <FormattedMessage id={id} values={values} />
         </span>
       </div>
@@ -57,7 +57,7 @@ function getLocationsText(issue: Props['issue']) {
       },
       values: {
         flowsCount: flows.length,
-        flows: <span className="sw-typo-semibold">{flows.length}</span>,
+        flows: <span className="sw:typo-semibold">{flows.length}</span>,
       },
     };
   } else if (flowsWithType.length > 0) {
@@ -74,9 +74,9 @@ function getLocationsText(issue: Props['issue']) {
           executionFlowsCount: executionFlows.length,
         },
         values: {
-          dataFlows: <span className="sw-typo-semibold">{dataFlows.length}</span>,
+          dataFlows: <span className="sw:typo-semibold">{dataFlows.length}</span>,
           dataFlowsCount: dataFlows.length,
-          executionFlows: <span className="sw-typo-semibold">{executionFlows.length}</span>,
+          executionFlows: <span className="sw:typo-semibold">{executionFlows.length}</span>,
           executionFlowsCount: executionFlows.length,
         },
       };
@@ -90,7 +90,7 @@ function getLocationsText(issue: Props['issue']) {
           flowsCount: dataFlows.length,
         },
         values: {
-          flows: <span className="sw-typo-semibold">{dataFlows.length}</span>,
+          flows: <span className="sw:typo-semibold">{dataFlows.length}</span>,
           flowsCount: dataFlows.length,
         },
       };
@@ -103,7 +103,7 @@ function getLocationsText(issue: Props['issue']) {
         flowsCount: flowsWithType.length,
       },
       values: {
-        flows: <span className="sw-typo-semibold">{flowsWithType.length}</span>,
+        flows: <span className="sw:typo-semibold">{flowsWithType.length}</span>,
         flowsCount: flowsWithType.length,
       },
     };
@@ -115,7 +115,7 @@ function getLocationsText(issue: Props['issue']) {
         locationsCount: secondaryLocations.length,
       },
       values: {
-        locations: <span className="sw-typo-semibold">{secondaryLocations.length}</span>,
+        locations: <span className="sw:typo-semibold">{secondaryLocations.length}</span>,
         locationsCount: secondaryLocations.length,
       },
     };

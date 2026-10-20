@@ -49,11 +49,11 @@ export default function JsTs(props: Readonly<JsTsProps>) {
 
   return (
     <div>
-      <Heading as="h3" className="sw-mb-2">
+      <Heading as="h3" className="sw:mb-2">
         <FormattedMessage id="onboarding.analysis.jsts.install.header" />
       </Heading>
-      <CodeSnippet className="sw-p-4" language="shell" snippet={installCommand} />
-      <p className="sw-mb-2">
+      <CodeSnippet className="sw:p-4" language="shell" snippet={installCommand} />
+      <p className="sw:mb-2">
         <FormattedMessage
           id="onboarding.analysis.jsts.step.footer"
           values={{
@@ -65,10 +65,10 @@ export default function JsTs(props: Readonly<JsTsProps>) {
           }}
         />
       </p>
-      <Heading as="h3" className="sw-mb-2">
+      <Heading as="h3" className="sw:mb-2">
         <FormattedMessage id="onboarding.analysis.jsts.execute.header" />
       </Heading>
-      <p className="sw-mb-2">
+      <p className="sw:mb-2">
         <FormattedMessage
           id="onboarding.analysis.jsts.execute.text"
           values={{
@@ -76,8 +76,8 @@ export default function JsTs(props: Readonly<JsTsProps>) {
           }}
         />
       </p>
-      <CodeSnippet className="sw-p-4" language="shell" snippet={executeCommand} />
-      <p className="sw-mt-4">
+      <CodeSnippet className="sw:p-4" language="shell" snippet={executeCommand} />
+      <p className="sw:mt-4">
         <FormattedMessage
           id="onboarding.analysis.jsts.step.footer"
           values={{

@@ -69,7 +69,7 @@ export default function NCDAutoUpdateMessage(props: Readonly<NCDAutoUpdateMessag
   }
 
   const branchesList = (
-    <ul className="sw-list-disc sw-my-4 sw-list-inside">
+    <ul className="sw:list-disc sw:my-4 sw:list-inside">
       {previouslyNonCompliantBranchNCDs.map((branchNCD) => (
         <li key={branchNCD.branchKey}>
           <FormattedMessage
@@ -86,7 +86,7 @@ export default function NCDAutoUpdateMessage(props: Readonly<NCDAutoUpdateMessag
   );
 
   return (
-    <DismissableFlagMessage className="sw-my-4" onDismiss={handleBannerDismiss} variant="info">
+    <DismissableFlagMessage className="sw:my-4" onDismiss={handleBannerDismiss} variant="info">
       <div>
         <FormattedMessage
           id="new_code_definition.auto_update.branch.message"

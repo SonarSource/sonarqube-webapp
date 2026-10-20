@@ -37,8 +37,8 @@ export default function GitLabConfigurationValidity(props: Readonly<Props>) {
 
   return (
     <>
-      <div className="sw-flex sw-items-center">
-        <Spinner className="sw-mr-2 sw-my-2" isLoading={loading} />
+      <div className="sw:flex sw:items-center">
+        <Spinner className="sw:mr-2 sw:my-2" isLoading={loading} />
         {loading && <p>{translate(`${intlPrefix}.validity_check_loading`)}</p>}
       </div>
       <div
@@ -49,13 +49,13 @@ export default function GitLabConfigurationValidity(props: Readonly<Props>) {
         role="status"
       >
         {!loading && (
-          <MessageInline className="sw-w-full" variety={flagMessageVariant}>
+          <MessageInline className="sw:w-full" variety={flagMessageVariant}>
             {flagMessageContent}
           </MessageInline>
         )}
       </div>
       <Button
-        className="sw-whitespace-nowrap sw-text-center sw-my-4"
+        className="sw:whitespace-nowrap sw:text-center sw:my-4"
         isDisabled={loading}
         onClick={onTestConf}
       >

@@ -73,23 +73,23 @@ export default function ApiRequestBodyParameters({ content }: Readonly<Props>) {
         .map((key) => {
           return (
             <Accordion
-              className="sw-mt-2 sw-mb-4"
+              className="sw:mt-2 sw:mb-4"
               data={key}
               header={
                 <div>
                   {key}{' '}
                   {schema.required?.includes(key) && (
-                    <Badge className="sw-ml-2" variety="neutral">
+                    <Badge className="sw:ml-2" variety="neutral">
                       <FormattedMessage id="required" />
                     </Badge>
                   )}
                   {parameters[key].deprecated && (
-                    <Badge className="sw-ml-2" variety="danger">
+                    <Badge className="sw:ml-2" variety="danger">
                       <FormattedMessage id="deprecated" />
                     </Badge>
                   )}
                   {(parameters[key] as InternalExtension)['x-sonar-internal'] && (
-                    <Badge className="sw-ml-2" variety="highlight">
+                    <Badge className="sw:ml-2" variety="highlight">
                       <FormattedMessage id="internal" />
                     </Badge>
                   )}
@@ -101,10 +101,10 @@ export default function ApiRequestBodyParameters({ content }: Readonly<Props>) {
               }}
               open={openParameters.includes(key)}
             >
-              <div className="sw-whitespace-pre-line">{parameters[key].description}</div>
+              <div className="sw:whitespace-pre-line">{parameters[key].description}</div>
 
               {parameters[key].enum && (
-                <div className="sw-mt-2">
+                <div className="sw:mt-2">
                   <FormattedMessage
                     id="api_documentation.v2.enum_description"
                     values={{
@@ -114,19 +114,19 @@ export default function ApiRequestBodyParameters({ content }: Readonly<Props>) {
                 </div>
               )}
               {parameters[key].maxLength && (
-                <Text className="sw-mt-2 sw-block" isSubtle>
+                <Text className="sw:mt-2 sw:block" isSubtle>
                   <FormattedMessage id="max" />
                   {`: ${parameters[key].maxLength}`}
                 </Text>
               )}
               {typeof parameters[key].minLength === 'number' && (
-                <Text className="sw-mt-2 sw-block" isSubtle>
+                <Text className="sw:mt-2 sw:block" isSubtle>
                   <FormattedMessage id="min" />
                   {`: ${parameters[key].minLength}`}
                 </Text>
               )}
               {parameters[key].default !== undefined && (
-                <Text className="sw-mt-2 sw-block" isSubtle>
+                <Text className="sw:mt-2 sw:block" isSubtle>
                   <FormattedMessage id="default" />
                   {`: ${parameters[key].default}`}
                 </Text>

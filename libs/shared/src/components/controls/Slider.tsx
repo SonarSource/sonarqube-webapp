@@ -121,13 +121,13 @@ export function Slider({
   return (
     <div className={className}>
       {label && (
-        <div className="sw-flex sw-items-baseline sw-gap-2 sw-mb-2">
-          <Label className="sw-font-semibold" htmlFor={sliderId}>
+        <div className="sw:flex sw:items-baseline sw:gap-2 sw:mb-2">
+          <Label className="sw:font-semibold" htmlFor={sliderId}>
             {label}
           </Label>
           {labelDetail && (
             <span
-              className="sw-text-sm"
+              className="sw:text-sm"
               id={`${sliderId}-detail`}
               style={{ color: cssVar('color-text-subtle') }}
             >
@@ -137,12 +137,12 @@ export function Slider({
         </div>
       )}
 
-      <SliderInputWrapper className="sw-relative sw-w-full">
+      <SliderInputWrapper className="sw:relative sw:w-full">
         <SliderInput
           aria-describedby={labelDetail ? `${sliderId}-detail` : undefined}
           aria-label={ariaLabel}
           aria-valuetext={steps[selectedIndex]?.label}
-          className="sw-w-full sw-cursor-pointer"
+          className="sw:w-full sw:cursor-pointer"
           disabled={isDisabled}
           id={sliderId}
           max={steps.length - 1}
@@ -156,7 +156,7 @@ export function Slider({
         />
       </SliderInputWrapper>
 
-      <Graduations className="sw-relative sw-w-full sw-mt-2" hasTicks={hasTicks}>
+      <Graduations className="sw:relative sw:w-full sw:mt-2" hasTicks={hasTicks}>
         {steps.map((step, index) => {
           const isFirst = index === 0 && steps.length > 1;
           const isLast = index === steps.length - 1 && steps.length > 1;
@@ -170,7 +170,7 @@ export function Slider({
 
           return (
             <Graduation
-              className="sw-absolute sw-top-0 sw-flex sw-flex-col sw-items-center sw-gap-1"
+              className="sw:absolute sw:top-0 sw:flex sw:flex-col sw:items-center sw:gap-1"
               key={step.value}
               style={{
                 left: `calc(${SLIDER_THUMB_SIZE} / 2 + (100% - ${SLIDER_THUMB_SIZE}) * ${steps.length > 1 ? index / (steps.length - 1) : 0.5})`,
@@ -178,7 +178,7 @@ export function Slider({
             >
               {hasTicks && <GraduationTick aria-hidden />}
               <GraduationLabel
-                className="sw-text-xs sw-whitespace-nowrap sw-cursor-pointer"
+                className="sw:text-xs sw:whitespace-nowrap sw:cursor-pointer"
                 disabled={isDisabled}
                 onClick={() => {
                   onChange(step.value);

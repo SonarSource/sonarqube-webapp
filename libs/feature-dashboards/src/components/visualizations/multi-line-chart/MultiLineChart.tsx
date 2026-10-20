@@ -313,7 +313,7 @@ export function MultiLineChart(props: Readonly<MultiLineChartProps>) {
   );
 
   if (hasFetchError) {
-    return <WidgetNoData className="sw-my-0 sw-h-full" />;
+    return <WidgetNoData className="sw:my-0 sw:h-full" />;
   }
 
   if (isPending) {
@@ -333,12 +333,12 @@ export function MultiLineChart(props: Readonly<MultiLineChartProps>) {
     !seriesHasValidData(series) ||
     (referenceData.length === 1 && isUndefined(referenceData[0]?.y))
   ) {
-    return <WidgetNoData className="sw-my-0 sw-h-full" />;
+    return <WidgetNoData className="sw:my-0 sw:h-full" />;
   }
 
   return (
     <div
-      className="sw-relative"
+      className="sw:relative"
       ref={containerRef}
       style={{ height: '100%', minHeight: 0, minWidth: 0, width: '100%' }}
     >
@@ -467,7 +467,7 @@ export function MultiLineChart(props: Readonly<MultiLineChartProps>) {
         tooltipSeriesValues.length > 0 &&
         createPortal(
           <div
-            className="sw-fixed sw-z-popup sw-rounded-1 sw-p-3"
+            className="sw:fixed sw:z-popup sw:rounded-1 sw:p-3"
             data-testid="line-chart-tooltip"
             style={{
               backgroundColor: cssVar('color-surface-default'),
@@ -480,9 +480,9 @@ export function MultiLineChart(props: Readonly<MultiLineChartProps>) {
               willChange: 'transform',
             }}
           >
-            <div className="sw-flex sw-flex-col sw-gap-2">
+            <div className="sw:flex sw:flex-col sw:gap-2">
               <Text isHighlighted>{formatDateFull(tooltipTitleDate as Date)}</Text>
-              <div className="sw-flex sw-flex-col sw-gap-1">
+              <div className="sw:flex sw:flex-col sw:gap-1">
                 {tooltipSeriesValues.map((entry) => {
                   const isFocusedSeries =
                     focusedSeriesIndex !== undefined && entry.seriesIndex === focusedSeriesIndex;
@@ -490,7 +490,7 @@ export function MultiLineChart(props: Readonly<MultiLineChartProps>) {
 
                   return (
                     <div
-                      className="sw-flex sw-items-center sw-gap-1"
+                      className="sw:flex sw:items-center sw:gap-1"
                       key={entry.id}
                       style={{ opacity: isDimmed ? 0.55 : 1 }}
                     >
@@ -504,9 +504,9 @@ export function MultiLineChart(props: Readonly<MultiLineChartProps>) {
                           width: 3,
                         }}
                       />
-                      <div className="sw-flex sw-flex-1 sw-items-center sw-gap-1">
+                      <div className="sw:flex sw:flex-1 sw:items-center sw:gap-1">
                         <SquareFillIcon fill={entry.color} size={16} />
-                        <div className="sw-flex sw-justify-between sw-w-full sw-gap-2">
+                        <div className="sw:flex sw:justify-between sw:w-full sw:gap-2">
                           <Text isHighlighted={isFocusedSeries} isSubtle={!isFocusedSeries}>
                             {entry.label}
                           </Text>
@@ -518,11 +518,11 @@ export function MultiLineChart(props: Readonly<MultiLineChartProps>) {
                 })}
                 {tooltipTotal !== null && (
                   <div
-                    className="sw-flex sw-items-stretch sw-gap-1 sw-pt-1 sw-mt-1"
+                    className="sw:flex sw:items-stretch sw:gap-1 sw:pt-1 sw:mt-1"
                     style={{ borderTop: `1px solid ${cssVar('color-border-weak')}` }}
                   >
                     <div aria-hidden style={{ flexShrink: 0, width: 3 }} />
-                    <div className="sw-flex sw-flex-1 sw-justify-between sw-gap-2">
+                    <div className="sw:flex sw:flex-1 sw:justify-between sw:gap-2">
                       <Text isHighlighted>
                         <FormattedMessage id="total" />
                       </Text>
@@ -531,7 +531,7 @@ export function MultiLineChart(props: Readonly<MultiLineChartProps>) {
                   </div>
                 )}
                 {hasSingleDatapointSeries && (
-                  <Text className="sw-pl-[7px]" isSubtle>
+                  <Text className="sw:pl-[7px]" isSubtle>
                     <FormattedMessage id={singleDatapointMessageId} />
                   </Text>
                 )}

@@ -217,9 +217,9 @@ export default function Definition(props: Readonly<Props>) {
   const settingDefinitionAndValue = combineDefinitionAndSettingValue(definition, settingValue);
 
   return (
-    <div className="sw-flex sw-gap-12" data-key={definition.key} data-testid={definition.key}>
+    <div className="sw:flex sw:gap-12" data-key={definition.key} data-testid={definition.key}>
       <DefinitionDescription component={component} definition={definition} />
-      <div className="sw-flex-1">
+      <div className="sw:flex-1">
         <Form onSubmit={formNoop}>
           <Input
             disabledReason={disabledReason}
@@ -238,7 +238,7 @@ export default function Definition(props: Readonly<Props>) {
             value={effectiveValue}
           />
 
-          <div className="sw-mt-2">
+          <div className="sw:mt-2">
             <output>
               {!isPending && validationMessage && (
                 <MessageInline variety={MessageVariety.Danger}>

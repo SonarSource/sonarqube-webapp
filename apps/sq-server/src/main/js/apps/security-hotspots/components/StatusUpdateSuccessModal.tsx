@@ -57,13 +57,13 @@ export default function StatusUpdateSuccessModal(props: StatusUpdateSuccessModal
 
   return (
     <Modal onClose={props.onClose}>
-      <p className="sw-hidden" id="modal_header_title">
+      <p className="sw:hidden" id="modal_header_title">
         {modalTitle}
       </p>
-      <h2 className="sw-heading-lg sw-text-center">
+      <h2 className="sw:heading-lg sw:text-center">
         {translateWithParameters('hotspots.successful_status_change_to_x', statusLabel)}
       </h2>
-      <div className="sw-text-center sw-mt-8 sw-typo-default">
+      <div className="sw:text-center sw:mt-8 sw:typo-default">
         <FormattedMessage
           id="hotspots.find_in_status_filter_x"
           values={{
@@ -71,7 +71,7 @@ export default function StatusUpdateSuccessModal(props: StatusUpdateSuccessModal
           }}
         />
         {closingHotspots && (
-          <p className="sw-mt-2">
+          <p className="sw:mt-2">
             <FormattedMessage
               id="hotspots.x_done_keep_going"
               values={{
@@ -87,12 +87,12 @@ export default function StatusUpdateSuccessModal(props: StatusUpdateSuccessModal
           </p>
         )}
       </div>
-      <Checkbox checked={isChecked} className="sw-mt-8" onCheck={handleCheckboxChange}>
-        <Text className="sw-ml-2" isSubtle>
+      <Checkbox checked={isChecked} className="sw:mt-8" onCheck={handleCheckboxChange}>
+        <Text className="sw:ml-2" isSubtle>
           <FormattedMessage id="hotspots.success_dialog.do_not_show" />
         </Text>
       </Checkbox>
-      <ButtonGroup className="sw-mt-4">
+      <ButtonGroup className="sw:mt-4">
         <Button
           onClick={() => {
             props.onSwitchFilterToStatusOfUpdatedHotspot();

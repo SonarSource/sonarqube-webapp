@@ -44,7 +44,7 @@ export function ConfigureWidgetPreview({
 }: Readonly<ConfigureWidgetPreviewProps>) {
   return (
     <div
-      className="sw-basis-[60%] sw-flex-[3] sw-min-h-0 sw-min-w-0 sw-flex sw-flex-col sw-flex-shrink-0"
+      className="sw:basis-[60%] sw:flex-[3] sw:min-h-0 sw:min-w-0 sw:flex sw:flex-col sw:flex-shrink-0"
       data-testid="widget-preview-pane"
     >
       <div
@@ -62,13 +62,13 @@ export function ConfigureWidgetPreview({
       >
         {completeConfig === null ? (
           <div
-            className="sw-flex sw-flex-1 sw-items-center sw-justify-center"
+            className="sw:flex sw:flex-1 sw:items-center sw:justify-center"
             style={{
               border: `${cssVar('border-width-default')} dashed ${cssVar('color-border-weaker')}`,
               borderRadius: GRID_CONSTANTS.BORDER_RADIUS,
             }}
           >
-            <div className="sw-text-center">
+            <div className="sw:text-center">
               <Text isSubtle size={TextSize.Small}>
                 <FormattedMessage id="dashboard.add_widget_modal.preview.placeholder" />
               </Text>
@@ -77,7 +77,7 @@ export function ConfigureWidgetPreview({
         ) : (
           <>
             <div
-              className="sw-w-full"
+              className="sw:w-full"
               style={{
                 alignItems: 'flex-start',
                 display: 'flex',
@@ -89,7 +89,7 @@ export function ConfigureWidgetPreview({
             </div>
 
             <div
-              className="sw-flex sw-flex-1 sw-min-h-0 sw-flex-col sw-justify-center"
+              className="sw:flex sw:flex-1 sw:min-h-0 sw:flex-col sw:justify-center"
               data-testid="widget-preview-body"
               onClickCapture={(event) => {
                 // Allow hover interactions (tooltips) in preview, but block click actions/navigation.

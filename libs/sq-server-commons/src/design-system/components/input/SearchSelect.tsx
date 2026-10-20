@@ -52,13 +52,13 @@ export function SearchSelect<
       classNames={{
         control: ({ isDisabled }) =>
           classNames(
-            'sw-border-0 sw-rounded-2 sw-outline-none sw-shadow-none',
-            isDisabled && 'sw-pointer-events-none sw-cursor-not-allowed',
+            'sw:border-0 sw:rounded-2 sw:outline-none sw:shadow-none',
+            isDisabled && 'sw:pointer-events-none sw:cursor-not-allowed',
           ),
-        indicatorsContainer: () => 'sw-hidden',
-        input: () => `sw-flex sw-w-full sw-p-0 sw-m-0`,
-        valueContainer: () => `sw-px-3 sw-pb-1 sw-mb-1 sw-pt-4`,
-        placeholder: () => 'sw-hidden',
+        indicatorsContainer: () => 'sw:hidden',
+        input: () => `sw:flex sw:w-full sw:p-0 sw:m-0`,
+        valueContainer: () => `sw:px-3 sw:pb-1 sw:mb-1 sw:pt-4`,
+        placeholder: () => 'sw:hidden',
         ...props.classNames,
       }}
       components={{

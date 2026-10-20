@@ -33,9 +33,9 @@ export default function SeverityFacet(props: Readonly<BasicProps & { property?: 
   const intl = useIntl();
   const renderName = React.useCallback(
     (severity: string, disabled: boolean) => (
-      <div className="sw-flex sw-items-center">
+      <div className="sw:flex sw:items-center">
         <SoftwareImpactSeverityIcon disabled={disabled} severity={severity} />
-        <span className="sw-ml-1">{translate('severity_impact', severity)}</span>
+        <span className="sw:ml-1">{translate('severity_impact', severity)}</span>
       </div>
     ),
     [],
@@ -59,7 +59,7 @@ export default function SeverityFacet(props: Readonly<BasicProps & { property?: 
                 id="severity_impact.help.description"
                 values={{
                   p1: (text) => <p>{text}</p>,
-                  p: (text) => <p className="sw-mt-4">{text}</p>,
+                  p: (text) => <p className="sw:mt-4">{text}</p>,
                 }}
               />
             }

@@ -82,10 +82,10 @@ export default function AlmTabRenderer(props: Readonly<AlmTabRendererProps>) {
       <div>
         <Spinner isLoading={loadingAlmDefinitions}>
           {definitions.length === 0 && (
-            <p className="sw-mt-2">{translate('settings.almintegration.empty', almTab)}</p>
+            <p className="sw:mt-2">{translate('settings.almintegration.empty', almTab)}</p>
           )}
 
-          <div className={`sw-flex sw-gap-2 ${definitions.length > 0 ? 'sw-mb-5' : 'sw-my-3'}`}>
+          <div className={`sw:flex sw:gap-2 ${definitions.length > 0 ? 'sw:mb-5' : 'sw:my-3'}`}>
             <CreationTooltip alm={almTab} preventCreation={preventCreation}>
               <Button
                 data-test="settings__alm-create"
@@ -149,7 +149,7 @@ export default function AlmTabRenderer(props: Readonly<AlmTabRendererProps>) {
         </Spinner>
       </div>
       {AUTHENTICATION_AVAILABLE_PLATFORMS.includes(almTab) && (
-        <FlagMessage className="sw-mt-2" variant="info">
+        <FlagMessage className="sw:mt-2" variant="info">
           <p>
             <FormattedMessage
               id="settings.almintegration.tabs.authentication_moved"

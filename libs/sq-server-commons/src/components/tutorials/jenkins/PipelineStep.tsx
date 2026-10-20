@@ -33,7 +33,7 @@ export default function PipelineStep(props: PipelineStepProps) {
   const { alm } = props;
   return (
     <TutorialStep title={translate('onboarding.tutorial.with.jenkins.pipeline.title')}>
-      <p className="sw-mb-4">{translate('onboarding.tutorial.with.jenkins.pipeline.intro')}</p>
+      <p className="sw:mb-4">{translate('onboarding.tutorial.with.jenkins.pipeline.intro')}</p>
       <NumberedList>
         <NumberedListItem>
           <SentenceWithHighlights
@@ -48,7 +48,7 @@ export default function PipelineStep(props: PipelineStepProps) {
                 highlightKeys={['tab', 'option']}
                 translationKey="onboarding.tutorial.with.jenkins.pipeline.gitlab.step2.trigger"
               />
-              <Text as="ul" className="sw-max-w-full sw-list-none sw-ml-6">
+              <Text as="ul" className="sw:max-w-full sw:list-none sw:ml-6">
                 <li>
                   <SentenceWithHighlights
                     highlightKeys={['triggers', 'push_events']}
@@ -81,7 +81,7 @@ export default function PipelineStep(props: PipelineStepProps) {
             highlightKeys={['tab']}
             translationKey="onboarding.tutorial.with.jenkins.pipeline.step3"
           />
-          <Text as="ul" className="sw-max-w-full sw-list-none sw-ml-6">
+          <Text as="ul" className="sw:max-w-full sw:list-none sw:ml-6">
             <li>
               <LabelActionPair translationKey="onboarding.tutorial.with.jenkins.pipeline.step3.definition" />
             </li>

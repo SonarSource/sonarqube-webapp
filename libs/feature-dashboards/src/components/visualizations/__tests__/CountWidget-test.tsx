@@ -97,7 +97,7 @@ describe('CountWidget', () => {
   it('uses Echoes heading-xlarge typography when grid height is under 5 rows or context is missing', () => {
     render(<CountWidget metricKey={MetricKey.bugs} metricType={MetricType.Integer} value="42" />);
 
-    expect(screen.getByTestId('count-widget')).toHaveClass('sw-heading-xl');
+    expect(screen.getByTestId('count-widget')).toHaveClass('sw:heading-xl');
   });
 
   it('uses Echoes display typography when grid height is at least 5 rows', () => {
@@ -107,7 +107,7 @@ describe('CountWidget', () => {
       </WidgetInstanceProvider>,
     );
 
-    expect(screen.getByTestId('count-widget')).toHaveClass('sw-typo-display');
+    expect(screen.getByTestId('count-widget')).toHaveClass('sw:typo-display');
   });
 
   it('renders non-link content when link target is missing', () => {
@@ -132,7 +132,7 @@ describe('CountWidget', () => {
     expect(
       screen.getByText(`measure:${MetricKey.violations}:${MetricType.Float}:4.2`),
     ).toBeInTheDocument();
-    expect(screen.getByText('issues / 1K LOC')).toHaveClass('sw-whitespace-nowrap');
+    expect(screen.getByText('issues / 1K LOC')).toHaveClass('sw:whitespace-nowrap');
   });
 
   it('renders link content when link target is non-empty', () => {
@@ -231,9 +231,9 @@ describe('CountWidget', () => {
 
     expect(screen.getByTestId('count-sparkline')).toHaveAttribute('data-fullwidth', 'false');
     expect(screen.getByTestId('count-sparkline')).toHaveClass(
-      'sw-min-w-0',
-      'sw-max-w-[80px]',
-      'sw-flex-1',
+      'sw:min-w-0',
+      'sw:max-w-[80px]',
+      'sw:flex-1',
     );
     expect(screen.getByTestId('count-sparkline')).toHaveAttribute(
       'data-preserve-aspect-ratio',
@@ -256,7 +256,7 @@ describe('CountWidget', () => {
       </WidgetInstanceProvider>,
     );
 
-    expect(screen.getByTestId('count-widget')).toHaveClass('sw-justify-center');
+    expect(screen.getByTestId('count-widget')).toHaveClass('sw:justify-center');
     expect(screen.getByTestId('count-sparkline')).toHaveAttribute('data-fullwidth', 'true');
     expect(screen.getByText('trend:false')).toBeInTheDocument();
   });

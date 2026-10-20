@@ -152,14 +152,14 @@ export function TopLevelNewCodeDefinitionPage() {
 
   return (
     <Spinner isLoading={isLoading}>
-      <form className="sw-space-y-8">
+      <form className="sw:space-y-8">
         {/* New Code Definition Selection */}
-        <div className="sw-space-y-4">
+        <div className="sw:space-y-4">
           <Heading as="h2" size="medium">
             <FormattedMessage id="new_code_definition.question" />
           </Heading>
 
-          <div className="sw-space-y-6">
+          <div className="sw:space-y-6">
             <div>
               <RadioButtonGroup
                 id="new-code-definition-type"
@@ -192,7 +192,7 @@ export function TopLevelNewCodeDefinitionPage() {
                           </Text>
                         </div>
 
-                        <Divider className="sw-mt-4 sw-mb-2 -sw-ml-6" />
+                        <Divider className="sw:mt-4 sw:mb-2 sw:-ml-6" />
                       </>
                     ),
                   },
@@ -200,7 +200,7 @@ export function TopLevelNewCodeDefinitionPage() {
                     label: intl.formatMessage({ id: 'new_code_definition.number_days' }),
                     value: NewCodeDefinitionType.NumberOfDays,
                     helpText: (
-                      <div className="sw-space-y-3">
+                      <div className="sw:space-y-3">
                         <Text isSubtle size={TextSize.Small}>
                           {intl.formatMessage({
                             id: 'new_code_definition.number_days.description',
@@ -220,8 +220,8 @@ export function TopLevelNewCodeDefinitionPage() {
                         </Text>
 
                         {selectedType === NewCodeDefinitionType.NumberOfDays && (
-                          <div className="sw-space-y-2">
-                            <div className="sw-max-w-600">
+                          <div className="sw:space-y-2">
+                            <div className="sw:max-w-600">
                               <TextInput
                                 isRequired
                                 label={intl.formatMessage({
@@ -245,7 +245,7 @@ export function TopLevelNewCodeDefinitionPage() {
 
                             {shouldShowBanner && (
                               <MessageCallout
-                                className="sw-mt-4"
+                                className="sw:mt-4"
                                 onDismiss={dismissBanner}
                                 variety={MessageVariety.Info}
                               >
@@ -285,7 +285,7 @@ export function TopLevelNewCodeDefinitionPage() {
         {/* Change Notice and Actions */}
         {hasChanged && (
           <div>
-            <div className="sw-flex sw-items-center sw-gap-4">
+            <div className="sw:flex sw:items-center sw:gap-4">
               <Button
                 className="js-submit-new-code"
                 isDisabled={isSaveButtonDisabled}
@@ -302,7 +302,7 @@ export function TopLevelNewCodeDefinitionPage() {
               <Spinner isLoading={isPending} />
             </div>
 
-            <MessageInline className="sw-mt-2" variety="info">
+            <MessageInline className="sw:mt-2" variety="info">
               <Text>
                 <FormattedMessage id="new_code_definition.change_notice" />
               </Text>

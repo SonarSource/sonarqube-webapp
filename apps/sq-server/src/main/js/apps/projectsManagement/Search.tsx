@@ -195,18 +195,18 @@ class Search extends PureComponent<Props, State> {
     }
 
     return (
-      <div className="sw-flex sw-items-center">
+      <div className="sw:flex sw:items-center">
         <Checkbox
           checked={this.props.provisioned}
           id="projects-provisioned"
           onCheck={this.props.onProvisionedChanged}
         >
-          <span className="sw-ml-1">
+          <span className="sw:ml-1">
             <FormattedMessage id="provisioning.only_provisioned" />
           </span>
 
           <ToggleTip
-            className="sw-ml-2"
+            className="sw:ml-2"
             description={<FormattedMessage id="provisioning.only_provisioned.tooltip" />}
           />
         </Checkbox>
@@ -231,16 +231,16 @@ class Search extends PureComponent<Props, State> {
 
   render() {
     return (
-      <div className="sw-mb-4">
-        <div className="sw-flex sw-justify-start sw-items-center sw-flex-wrap sw-gap-2">
-          <Spinner className="sw-ml-2" isLoading={!this.props.ready}>
+      <div className="sw:mb-4">
+        <div className="sw:flex sw:justify-start sw:items-center sw:flex-wrap sw:gap-2">
+          <Spinner className="sw:ml-2" isLoading={!this.props.ready}>
             {this.renderCheckbox()}
           </Spinner>
           {this.renderQualifierFilter()}
           {this.renderDateFilter()}
           {this.renderVisibilityFilter()}
           {this.renderTypeFilter()}
-          <div className="sw-flex-grow">
+          <div className="sw:flex-grow">
             <InputSearch
               minLength={3}
               onChange={this.props.onSearch}
@@ -266,7 +266,7 @@ class Search extends PureComponent<Props, State> {
                 }
               >
                 <Button
-                  className="sw-ml-2"
+                  className="sw:ml-2"
                   isDisabled={this.props.selection.length === 0}
                   onClick={this.handleDeleteClick}
                   variety={ButtonVariety.Danger}

@@ -29,8 +29,8 @@ interface Props {
 
 export default function ProjectNotifications({ project }: Readonly<Props>) {
   return (
-    <div className="sw-my-6">
-      <div className="sw-mb-4">
+    <div className="sw:my-6">
+      <div className="sw:mb-4">
         <Link to={getProjectOverviewUrl(project.project)}>{project.projectName}</Link>
       </div>
 

@@ -107,7 +107,7 @@ export default function AzureProjectsList(props: AzureProjectsListProps) {
 
   return (
     <div>
-      <div className="sw-flex sw-flex-col sw-gap-6">
+      <div className="sw:flex sw:flex-col sw:gap-6">
         {displayedProjects.map((p, i) => (
           <AzureProjectAccordion
             key={`${p.name}${keySuffix}`}
@@ -127,7 +127,7 @@ export default function AzureProjectsList(props: AzureProjectsListProps) {
       </div>
 
       <ListFooter
-        className="sw-mb-12"
+        className="sw:mb-12"
         count={displayedProjects.length}
         loadMore={() => {
           setPage((p) => p + 1);

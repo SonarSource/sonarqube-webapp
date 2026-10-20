@@ -102,7 +102,7 @@ export default function IssuesSourceViewer(props: Readonly<IssuesSourceViewerPro
   return (
     <>
       {isJupyterNotebook && (
-        <div className="sw-mb-2">
+        <div className="sw:mb-2">
           <ToggleButton
             onChange={(value) => {
               setTab(value);

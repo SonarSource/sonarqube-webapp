@@ -31,14 +31,14 @@ export default function PluginUrls({ plugin }: Readonly<Props>) {
     return null;
   }
   return (
-    <li className="sw-flex sw-flex-wrap sw-gap-4">
+    <li className="sw:flex sw:flex-wrap sw:gap-4">
       {plugin.homepageUrl && (
-        <Link className="sw-whitespace-nowrap" to={plugin.homepageUrl}>
+        <Link className="sw:whitespace-nowrap" to={plugin.homepageUrl}>
           <FormattedMessage id="marketplace.homepage" />
         </Link>
       )}
       {plugin.issueTrackerUrl && (
-        <Link className="sw-whitespace-nowrap" to={plugin.issueTrackerUrl}>
+        <Link className="sw:whitespace-nowrap" to={plugin.issueTrackerUrl}>
           <FormattedMessage id="marketplace.issue_tracker" />
         </Link>
       )}

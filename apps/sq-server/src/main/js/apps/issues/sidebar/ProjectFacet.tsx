@@ -126,7 +126,7 @@ export function ProjectFacet(props: Readonly<Props>) {
 
   const renderSearchResult = (project: Pick<SearchedProject, 'name'>, term: string) => (
     <>
-      <IconProject className="sw-mr-1" />
+      <IconProject className="sw:mr-1" />
 
       {highlightTerm(project.name, term)}
     </>
@@ -169,12 +169,12 @@ function ProjectItem({
   const label = projectName ?? (isLoading ? '' : (data?.name ?? projectKey));
 
   return (
-    <div className="sw-flex sw-items-center">
-      <IconProject className="sw-mr-1" />
+    <div className="sw:flex sw:items-center">
+      <IconProject className="sw:mr-1" />
 
       <Spinner isLoading={projectName === undefined && isLoading} />
 
-      <span className="sw-min-w-0 sw-truncate" title={label}>
+      <span className="sw:min-w-0 sw:truncate" title={label}>
         {label}
       </span>
     </div>

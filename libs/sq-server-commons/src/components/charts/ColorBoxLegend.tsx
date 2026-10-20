@@ -34,7 +34,7 @@ export default function ColorBoxLegend({ colorScale, colorNA, metricType }: Prop
   const colorDomain: Array<number | string> = colorScale.domain();
   const colorRange = colorScale.range();
   return (
-    <div className="sw-flex sw-justify-center sw-gap-6">
+    <div className="sw:flex sw:justify-center sw:gap-6">
       {colorDomain.map((value, idx) => (
         <div key={value}>
           <LegendRect style={{ borderColor: colorRange[idx] }}>

@@ -5,6 +5,7 @@
   "projectType": "application",
   "tags": ["type:app", "visibility:public", "scope:server"],
   "targets": {
+    "validate-tailwind-prefixes": {},
     "build": {},
     "build-analyze": {},
     "clean": {

@@ -50,13 +50,13 @@ export default function MetaSize({ component, measures }: MetaSizeProps) {
 
   return (
     <>
-      <div className="sw-mb-2 sw-flex sw-items-baseline">
+      <div className="sw:mb-2 sw:flex sw:items-baseline">
         <Heading as="h3">{localizeMetric(MetricKey.ncloc)}</Heading>
-        <span className="sw-ml-1">
+        <span className="sw:ml-1">
           (<FormattedMessage id="project.info.main_branch" />)
         </span>
       </div>
-      <div className="sw-flex sw-items-center">
+      <div className="sw:flex sw:items-center">
         {ncloc?.value ? (
           <>
             <Text size={TextSize.Large}>
@@ -72,7 +72,7 @@ export default function MetaSize({ component, measures }: MetaSizeProps) {
               </Link>
             </Text>
 
-            <span className="sw-ml-2">
+            <span className="sw:ml-2">
               <SizeIndicator size="xs" value={Number(ncloc.value)} />
             </span>
           </>
@@ -81,7 +81,7 @@ export default function MetaSize({ component, measures }: MetaSizeProps) {
         )}
 
         {isApp && (
-          <span className="sw-inline-flex sw-items-center sw-ml-10">
+          <span className="sw:inline-flex sw:items-center sw:ml-10">
             {projects ? (
               <Text size={TextSize.Large}>
                 <Link highlight={LinkHighlight.Default} to={url}>
@@ -91,7 +91,7 @@ export default function MetaSize({ component, measures }: MetaSizeProps) {
             ) : (
               <span>0</span>
             )}
-            <Text className="sw-ml-1" isSubtle>
+            <Text className="sw:ml-1" isSubtle>
               <FormattedMessage id="metric.projects.name" />
             </Text>
           </span>

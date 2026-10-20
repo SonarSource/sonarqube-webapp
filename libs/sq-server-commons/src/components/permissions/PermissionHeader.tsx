@@ -46,7 +46,7 @@ export function PermissionHeader(props: Readonly<Props>) {
     <>
       {permission.permissions.map((permission) => (
         <React.Fragment key={permission.key}>
-          <b className="sw-mr-1">{permission.name}:</b>
+          <b className="sw:mr-1">{permission.name}:</b>
           {renderPermissionDescription(permission.description)}
           <br />
         </React.Fragment>
@@ -56,7 +56,7 @@ export function PermissionHeader(props: Readonly<Props>) {
     renderPermissionDescription(permission.description)
   );
 
-  const tooltipOverlay = <div className="sw-text-left">{tooltipBody}</div>;
+  const tooltipOverlay = <div className="sw:text-left">{tooltipBody}</div>;
 
   return (
     <Table.ColumnHeaderCell

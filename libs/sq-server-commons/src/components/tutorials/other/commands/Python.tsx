@@ -49,11 +49,11 @@ export default function Python(props: Readonly<PythonProps>) {
 
   return (
     <div>
-      <Heading as="h3" className="sw-mb-2">
+      <Heading as="h3" className="sw:mb-2">
         <FormattedMessage id="onboarding.analysis.python.install.header" />
       </Heading>
-      <CodeSnippet className="sw-p-4" language="shell" snippet={installCommand} />
-      <p className="sw-mb-2">
+      <CodeSnippet className="sw:p-4" language="shell" snippet={installCommand} />
+      <p className="sw:mb-2">
         <FormattedMessage
           id="onboarding.analysis.python.step.footer"
           values={{
@@ -65,10 +65,10 @@ export default function Python(props: Readonly<PythonProps>) {
           }}
         />
       </p>
-      <Heading as="h3" className="sw-mb-2">
+      <Heading as="h3" className="sw:mb-2">
         <FormattedMessage id="onboarding.analysis.python.execute.header" />
       </Heading>
-      <p className="sw-mb-2">
+      <p className="sw:mb-2">
         <FormattedMessage
           id="onboarding.analysis.python.execute.text"
           values={{
@@ -76,8 +76,8 @@ export default function Python(props: Readonly<PythonProps>) {
           }}
         />
       </p>
-      <CodeSnippet className="sw-p-4" language="shell" snippet={executeCommand} />
-      <p className="sw-mt-4">
+      <CodeSnippet className="sw:p-4" language="shell" snippet={executeCommand} />
+      <p className="sw:mt-4">
         <FormattedMessage
           id="onboarding.analysis.python.step.footer"
           values={{

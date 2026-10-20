@@ -36,16 +36,16 @@ export default function DotNetExecute({ commands }: Readonly<DotNetExecuteProps>
 
   return (
     <>
-      <Heading as="h2" className="sw-mt-8 sw-mb-2">
+      <Heading as="h2" className="sw:mt-8 sw:mb-2">
         {translate('onboarding.analysis.sq_scanner.execute')}
       </Heading>
 
       <InstanceMessage message={translate('onboarding.analysis.msbuild.execute.text')}>
-        {(transformedMessage) => <p className="sw-mb-2">{transformedMessage}</p>}
+        {(transformedMessage) => <p className="sw:mb-2">{transformedMessage}</p>}
       </InstanceMessage>
       {commands.map((command) => (
         <CodeSnippet
-          className="sw-px-4"
+          className="sw:px-4"
           isOneLine
           key={command}
           language="bash"
@@ -53,7 +53,7 @@ export default function DotNetExecute({ commands }: Readonly<DotNetExecuteProps>
           wrap
         />
       ))}
-      <p className="sw-mt-4">
+      <p className="sw:mt-4">
         <FormattedMessage
           id="onboarding.analysis.docs"
           values={{

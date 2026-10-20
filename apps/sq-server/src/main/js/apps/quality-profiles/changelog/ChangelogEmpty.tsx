@@ -23,5 +23,5 @@ import { useIntl } from 'react-intl';
 export default function ChangelogEmpty() {
   const intl = useIntl();
 
-  return <div className="sw-mt-6">{intl.formatMessage({ id: 'no_results' })}</div>;
+  return <div className="sw:mt-6">{intl.formatMessage({ id: 'no_results' })}</div>;
 }

@@ -52,11 +52,11 @@ export function ProfilePermissions({ profile }: Readonly<Props>) {
 
   return (
     <section aria-label={formatMessage({ id: 'permissions.page' })}>
-      <div className="sw-mb-6">
-        <SubTitle className="sw-mb-0">
+      <div className="sw:mb-6">
+        <SubTitle className="sw:mb-0">
           <FormattedMessage id="permissions.page" />
         </SubTitle>
-        <Text as="p" className="sw-mt-6" isSubtle>
+        <Text as="p" className="sw:mt-6" isSubtle>
           <FormattedMessage id="quality_profiles.default_permissions" />
         </Text>
       </div>
@@ -77,7 +77,7 @@ export function ProfilePermissions({ profile }: Readonly<Props>) {
             </TableRow>
           ))}
         </Table>
-        <div className="sw-mt-6">
+        <div className="sw:mt-6">
           <Button
             onClick={() => {
               setAddUserForm(true);

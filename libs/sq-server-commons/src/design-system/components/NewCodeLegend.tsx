@@ -36,9 +36,9 @@ export function NewCodeLegend(props: Readonly<{ className?: string; text: string
   const { className, text } = props;
 
   return (
-    <span className={classNames(className, 'sw-whitespace-nowrap')}>
+    <span className={classNames(className, 'sw:whitespace-nowrap')}>
       <NewCodeLegendIcon />
-      <Text className="sw-align-middle sw-ml-2" isSubtle>
+      <Text className="sw:align-middle sw:ml-2" isSubtle>
         {text}
       </Text>
     </span>

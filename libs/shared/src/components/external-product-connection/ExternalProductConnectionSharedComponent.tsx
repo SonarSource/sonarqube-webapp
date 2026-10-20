@@ -138,11 +138,11 @@ export function ExternalProductConnectionSharedComponent({
         )}
       />
 
-      <div className="sw-flex sw-justify-center">
-        <Card className="sw-mt-[10vh] sw-w-[650px] sw-mx-auto sw-text-center">
+      <div className="sw:flex sw:justify-center">
+        <Card className="sw:mt-[10vh] sw:w-[650px] sw:mx-auto sw:text-center">
           <Card.Body>
             {status === Status.request && (
-              <div className="sw-flex sw-flex-col sw-items-center sw-gap-y-6">
+              <div className="sw:flex sw:flex-col sw:items-center sw:gap-y-6">
                 <Heading as="h1">
                   {intl.formatMessage(
                     { id: 'external-product-connection.request.title' },
@@ -161,7 +161,7 @@ export function ExternalProductConnectionSharedComponent({
 
                 <Button
                   onClick={authorize}
-                  prefix={<IconCheck className="sw-mr-1" />}
+                  prefix={<IconCheck className="sw:mr-1" />}
                   variety={ButtonVariety.Primary}
                 >
                   {intl.formatMessage({ id: 'external-product-connection.request.action' })}
@@ -171,19 +171,19 @@ export function ExternalProductConnectionSharedComponent({
 
             {status === Status.tokenError && (
               <>
-                <Image alt="" className="sw-my-4 sw-pt-2" src="/images/cross.svg" />
+                <Image alt="" className="sw:my-4 sw:pt-2" src="/images/cross.svg" />
 
                 <Heading as="h1">
                   {intl.formatMessage({ id: 'external-product-connection.token-error.title' })}
                 </Heading>
 
-                <p className="sw-my-4">
+                <p className="sw:my-4">
                   {intl.formatMessage({
                     id: 'external-product-connection.token-error.description',
                   })}
                 </p>
 
-                <p className="sw-mb-4">
+                <p className="sw:mb-4">
                   <FormattedMessage
                     id="external-product-connection.token-error.description2"
                     values={{
@@ -203,7 +203,7 @@ export function ExternalProductConnectionSharedComponent({
 
             {status === Status.tokenCreated && newToken && (
               <>
-                <Image alt="" className="sw-my-4 sw-pt-2" src="/images/check.svg" />
+                <Image alt="" className="sw:my-4 sw:pt-2" src="/images/check.svg" />
 
                 <Heading as="h1">
                   {intl.formatMessage({
@@ -211,14 +211,14 @@ export function ExternalProductConnectionSharedComponent({
                   })}
                 </Heading>
 
-                <Text as="p" className="sw-my-6">
+                <Text as="p" className="sw:my-6">
                   {intl.formatMessage({
                     id: 'external-product-connection.connection-error.description',
                   })}
                 </Text>
 
-                <Text as="p" className="sw-flex sw-items-center">
-                  <Text className="sw-w-abs-150 sw-text-start" isSubtle>
+                <Text as="p" className="sw:flex sw:items-center">
+                  <Text className="sw:w-abs-150 sw:text-start" isSubtle>
                     {intl.formatMessage({
                       id: 'external-product-connection.connection-error.token-name',
                     })}
@@ -227,34 +227,34 @@ export function ExternalProductConnectionSharedComponent({
                   {newToken.name}
                 </Text>
 
-                <Divider className="sw-my-3" />
+                <Divider className="sw:my-3" />
 
-                <div className="sw-flex">
-                  <Text className="sw-min-w-abs-150 sw-text-start" isSubtle>
+                <div className="sw:flex">
+                  <Text className="sw:min-w-abs-150 sw:text-start" isSubtle>
                     {intl.formatMessage({
                       id: 'external-product-connection.connection-error.token-value',
                     })}
                   </Text>
 
                   <TextInput
-                    className="sw-cursor-text"
+                    className="sw:cursor-text"
                     id="view-token"
                     isDisabled
                     value={newToken.token}
                     width={FormFieldWidth.Large}
                   />
 
-                  <ClipboardButton className="sw-ml-2" copyValue={newToken.token} />
+                  <ClipboardButton className="sw:ml-2" copyValue={newToken.token} />
                 </div>
 
-                <Text as="div" className="sw-mt-10">
+                <Text as="div" className="sw:mt-10">
                   <strong>
                     {intl.formatMessage({
                       id: 'external-product-connection.connection-error.next-steps',
                     })}
                   </strong>
 
-                  <ol className="sw-list-inside sw-mb-4">
+                  <ol className="sw:list-inside sw:mb-4">
                     <li>
                       {intl.formatMessage({
                         id: 'external-product-connection.connection-error.step1',
@@ -273,7 +273,7 @@ export function ExternalProductConnectionSharedComponent({
             )}
 
             {status === Status.tokenSent && newToken && (
-              <div className="sw-flex sw-flex-col sw-items-center sw-gap-y-6">
+              <div className="sw:flex sw:flex-col sw:items-center sw:gap-y-6">
                 <Heading as="h1">
                   {intl.formatMessage({ id: 'external-product-connection.success.title' })}
                 </Heading>

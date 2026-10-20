@@ -100,7 +100,7 @@ function AllCategoriesList(props: Readonly<CategoriesListProps>) {
     <SubnavigationGroup
       aria-label={translate('settings.page')}
       as="nav"
-      className="sw-box-border it__subnavigation_menu"
+      className="sw:box-border it__subnavigation_menu"
     >
       {sortedCategories.map((c) => {
         const category = c.key !== defaultCategory ? c.key.toLowerCase() : undefined;

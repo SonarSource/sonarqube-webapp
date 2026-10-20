@@ -50,7 +50,7 @@ export default function ChangesList({ changes, action }: Readonly<Props>) {
   const { data: isStandardMode } = useStandardExperienceModeQuery();
 
   return (
-    <ul className="sw-w-full sw-flex sw-flex-col sw-gap-1">
+    <ul className="sw:w-full sw:flex sw:flex-col sw:gap-1">
       {severity && isStandardMode && (
         <li>
           <SeverityChange severity={severity} />

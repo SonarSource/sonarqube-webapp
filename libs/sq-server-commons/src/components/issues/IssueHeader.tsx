@@ -72,10 +72,10 @@ function IssueHeader(props: Readonly<Props>) {
           onChange={onIssueChange}
         />
       }
-      className="sw-z-normal"
+      className="sw:z-normal"
       description={
         <Layout.PageHeader.Description>
-          <Text className="sw-pr-1" isSubtle>
+          <Text className="sw:pr-1" isSubtle>
             {ruleDetails.name}
           </Text>
           {ruleDetails.isExternal ? (
@@ -88,7 +88,7 @@ function IssueHeader(props: Readonly<Props>) {
 
           {/* Only show beta status badge for non-external rules */}
           {!ruleDetails.isExternal && ruleDetails.status === RuleStatus.Beta && (
-            <span className="sw-ml-1">
+            <span className="sw:ml-1">
               <RuleStatusBadge rule={ruleDetails} />
             </span>
           )}
@@ -97,7 +97,7 @@ function IssueHeader(props: Readonly<Props>) {
       // `Layout.PageHeader.Navigation` is deliberately not used here: it renders a Radix nav
       // `<ul>`, semantically wrong for the tablist we render, and shrinks its child to content
       // width, which caused the action button to stop short of the header's right edge.
-      navigation={<div className="sw-mb-300">{navigation}</div>}
+      navigation={<div className="sw:mb-300">{navigation}</div>}
       scrollBehavior="sticky"
       title={
         <IssueTitle

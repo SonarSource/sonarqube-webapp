@@ -22,7 +22,7 @@ import { Text } from '@sonarsource/echoes-react';
 import { useIntl } from 'react-intl';
 
 interface Props {
-  /** Replaces default `sw-my-12` when set (e.g. `sw-my-0` when a parent flex-centers content). */
+  /** Replaces default `sw:my-12` when set (e.g. `sw:my-0` when a parent flex-centers content). */
   className?: string;
   messageKey?: string;
 }
@@ -39,7 +39,7 @@ export function WidgetNoData({
 
   return (
     <div
-      className={`sw-flex sw-items-center sw-justify-center sw-text-center ${className ?? 'sw-my-12'}`}
+      className={`sw:flex sw:items-center sw:justify-center sw:text-center ${className ?? 'sw:my-12'}`}
     >
       <Text isSubtle>{formatMessage({ id: messageKey })}</Text>
     </div>

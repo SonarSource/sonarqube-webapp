@@ -57,7 +57,7 @@ export default function GitlabPersonalAccessTokenForm({
   } = usePersonalAccessToken(almSetting, resetPat, onPersonalAccessTokenCreated);
 
   if (checkingPat) {
-    return <Spinner className="sw-ml-2" isLoading />;
+    return <Spinner className="sw:ml-2" isLoading />;
   }
 
   const isInvalid = validationFailed && !touched;
@@ -70,7 +70,7 @@ export default function GitlabPersonalAccessTokenForm({
   return (
     <PersonalAccessTokenForm
       almKey={AlmKeys.GitLab}
-      className="sw-mt-3 sw-w-[50%]"
+      className="sw:mt-3 sw:w-[50%]"
       errorMessage={errorMessage}
       firstConnection={firstConnection}
       handleSubmit={handleSubmit}

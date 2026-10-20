@@ -102,7 +102,7 @@ export default function UpdateConditionsFromOtherModeModal({
       content={
         <>
           {error && (
-            <MessageCallout className="sw-mb-4" variety={MessageVariety.Danger}>
+            <MessageCallout className="sw:mb-4" variety={MessageVariety.Danger}>
               {intl.formatMessage({ id: 'quality_gates.update_conditions.error' })}
             </MessageCallout>
           )}
@@ -148,11 +148,11 @@ export default function UpdateConditionsFromOtherModeModal({
             <>
               {newCodeConditions.length > 0 && (
                 <>
-                  <Heading as="h3" className="sw-mt-8">
+                  <Heading as="h3" className="sw:mt-8">
                     {intl.formatMessage({ id: 'overview.new_code' })}
                   </Heading>
                   <Table
-                    className="sw-my-2"
+                    className="sw:my-2"
                     columnCount={3}
                     columnWidths={['35%', '35%', 'auto']}
                     data-testid="quality-gates__conditions-new"
@@ -166,11 +166,11 @@ export default function UpdateConditionsFromOtherModeModal({
               )}
               {overallCodeConditions.length > 0 && (
                 <>
-                  <Heading as="h3" className="sw-mt-8">
+                  <Heading as="h3" className="sw:mt-8">
                     {intl.formatMessage({ id: 'overview.overall_code' })}
                   </Heading>
                   <Table
-                    className="sw-my-2"
+                    className="sw:my-2"
                     columnCount={3}
                     columnWidths={['35%', '35%', 'auto']}
                     data-testid="quality-gates__conditions-overall"
@@ -237,7 +237,7 @@ function SingleMetric({ condition }: Readonly<{ condition: Condition }>) {
   const metricFromOtherMode = mapper[metric.key as MetricKey];
 
   return (
-    <div className="sw-flex sw-justify-between sw-my-8 sw-items-center sw-w-[80%]">
+    <div className="sw:flex sw:justify-between sw:my-8 sw:items-center sw:w-[80%]">
       <div>
         <Text as="div" size={TextSize.Small}>
           {intl.formatMessage({
@@ -277,8 +277,8 @@ function Header() {
 
   return (
     <TableRow>
-      <ContentCell className="sw-justify-between sw-pr-4">
-        <Heading as="h4" className="sw-typo-semibold sw-m-0 sw-whitespace-nowrap">
+      <ContentCell className="sw:justify-between sw:pr-4">
+        <Heading as="h4" className="sw:typo-semibold sw:m-0 sw:whitespace-nowrap">
           {intl.formatMessage({
             id: `quality_gates.metric.${isStandard ? 'mqr' : 'standard'}_mode_long`,
           })}
@@ -286,14 +286,14 @@ function Header() {
         <IconArrowRight />
       </ContentCell>
       <ContentCell>
-        <Heading as="h4" className="sw-typo-semibold sw-m-0 sw-whitespace-nowrap">
+        <Heading as="h4" className="sw:typo-semibold sw:m-0 sw:whitespace-nowrap">
           {intl.formatMessage({
             id: `quality_gates.metric.${isStandard ? 'standard' : 'mqr'}_mode_long`,
           })}
         </Heading>
       </ContentCell>
       <ContentCell>
-        <Heading as="h4" className="sw-typo-semibold sw-m-0 sw-whitespace-nowrap">
+        <Heading as="h4" className="sw:typo-semibold sw:m-0 sw:whitespace-nowrap">
           {intl.formatMessage({ id: 'quality_gates.update_conditions.operator_and_value_header' })}
         </Heading>
       </ContentCell>
@@ -324,7 +324,7 @@ function ConditionRow({ condition }: Readonly<{ condition: Condition }>) {
         )}
       </ContentCell>
 
-      <ContentCell className="sw-whitespace-nowrap">
+      <ContentCell className="sw:whitespace-nowrap">
         {metricFromOtherMode && (
           <Text isSubtle>
             {getOperatorLabel(op, metric)}&nbsp;

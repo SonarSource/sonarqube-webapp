@@ -57,7 +57,7 @@ export default function ProjectsList(props: Readonly<Props>) {
             ) ?? {};
 
         return (
-          <li className="sw-pt-4" key={project.key}>
+          <li className="sw:pt-4" key={project.key}>
             <ProjectCard project={{ ...project, measures: componentMeasures }} type={cardType} />
           </li>
         );

@@ -43,7 +43,7 @@ export default function IdeButtonSafariDisabled({
 }: Readonly<Props>) {
   return (
     <div>
-      <Button className="sw-whitespace-nowrap" isDisabled size={buttonSize} variety={buttonVariety}>
+      <Button className="sw:whitespace-nowrap" isDisabled size={buttonSize} variety={buttonVariety}>
         <FormattedMessage id={buttonKey} />
       </Button>
 
@@ -51,7 +51,7 @@ export default function IdeButtonSafariDisabled({
         description={<FormattedMessage id="open_in_ide.safari.not_supported.description" />}
         title={<FormattedMessage id="open_in_ide.safari.not_supported.title" />}
       >
-        <Badge className="sw-ml-2" isInteractive variety={BadgeVariety.Info}>
+        <Badge className="sw:ml-2" isInteractive variety={BadgeVariety.Info}>
           <MessageInline variety={MessageVariety.Info}>
             <FormattedMessage id="open_in_ide.safari.not_supported" />
           </MessageInline>

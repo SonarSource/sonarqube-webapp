@@ -147,7 +147,7 @@ export default class CreateApplicationForm extends React.PureComponent<Props, St
         description={
           <FormattedMessage
             id="fields_marked_with_x_required"
-            values={{ star: <RequiredIcon className="sw-m-0" /> }}
+            values={{ star: <RequiredIcon className="sw:m-0" /> }}
           />
         }
         id="create-application-form"

@@ -41,13 +41,13 @@ export default function Search(props: Readonly<Props>) {
     <div>
       <div>
         <InputSearch
-          className="sw-w-full"
+          className="sw:w-full"
           onChange={props.onSearch}
           placeholder={translate('api_documentation.search')}
           value={query.search}
         />
       </div>
-      <div className="sw-mt-4 sw-px-1 sw-max-w-[18rem]">
+      <div className="sw:mt-4 sw:px-1 sw:max-w-[18rem]">
         <Checkbox
           checked={query.internal}
           helpText={translate('api_documentation.internal_tooltip')}
@@ -55,7 +55,7 @@ export default function Search(props: Readonly<Props>) {
           onCheck={onToggleInternal}
         />
       </div>
-      <div className="sw-flex sw-px-1 sw-items-center sw-mt-2 sw-gap-2">
+      <div className="sw:flex sw:px-1 sw:items-center sw:mt-2 sw:gap-2">
         <Checkbox
           checked={query.deprecated}
           helpText={

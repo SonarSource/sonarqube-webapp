@@ -46,18 +46,18 @@ export default function ViewGroupsModal(props: Readonly<Props>) {
   const modalBody = (
     <>
       <InputSearch
-        className="sw-w-full"
+        className="sw:w-full"
         loading={isLoading}
         onChange={setQuery}
         placeholder={translate('search_verb')}
         value={query}
       />
-      <div className="sw-mt-6">
+      <div className="sw:mt-6">
         <Spinner isLoading={isLoading} />
-        <ul className="sw-flex sw-flex-col sw-gap-4">
+        <ul className="sw:flex sw:flex-col sw:gap-4">
           {(groups || []).map(({ id, description, managed, name }) => (
-            <li className="sw-flex sw-items-center" key={id}>
-              <span className="sw-flex sw-gap-2 sw-justify-between sw-items-center sw-w-full">
+            <li className="sw:flex sw:items-center" key={id}>
+              <span className="sw:flex sw:gap-2 sw:justify-between sw:items-center sw:w-full">
                 <span>
                   {name}
                   <br />

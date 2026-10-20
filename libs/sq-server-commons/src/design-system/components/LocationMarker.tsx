@@ -41,7 +41,7 @@ function InternalLocationMarker(
       className={classNames(className, {
         selected,
         concealed: !isDefined(text),
-        'sw-cursor-pointer': isDefined(onClick),
+        'sw:cursor-pointer': isDefined(onClick),
       })}
       onClick={onClick}
       ref={ref}

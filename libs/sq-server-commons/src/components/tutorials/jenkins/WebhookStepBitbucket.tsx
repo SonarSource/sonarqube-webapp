@@ -88,7 +88,7 @@ export default function WebhookStepBitbucket(props: Readonly<WebhookStepBitbucke
             ),
           }}
         />
-        <Text as="ul" className="sw-max-w-full sw-ml-6">
+        <Text as="ul" className="sw:max-w-full sw:ml-6">
           <li>
             <LabelActionPair translationKey="onboarding.tutorial.with.jenkins.webhook.step1.name" />
           </li>
@@ -97,7 +97,7 @@ export default function WebhookStepBitbucket(props: Readonly<WebhookStepBitbucke
               <LabelActionPair translationKey="onboarding.tutorial.with.jenkins.webhook.bitbucket.step1.url" />
             </p>
             <CodeSnippet
-              className="sw-p-4"
+              className="sw:p-4"
               isOneLine
               snippet={buildUrlSnippet(branchesEnabled, isBitbucketCloud, almBinding?.url)}
             />
@@ -115,7 +115,7 @@ export default function WebhookStepBitbucket(props: Readonly<WebhookStepBitbucke
             highlightKeys={['triggers', 'option']}
             translationKey="onboarding.tutorial.with.jenkins.webhook.bitbucketcloud.step2"
           />
-          <Text as="ul" className="sw-max-w-full sw-ml-6">
+          <Text as="ul" className="sw:max-w-full sw:ml-6">
             <li>
               <LabelActionPair translationKey="onboarding.tutorial.with.jenkins.webhook.bitbucketcloud.step2.repo" />
             </li>
@@ -132,7 +132,7 @@ export default function WebhookStepBitbucket(props: Readonly<WebhookStepBitbucke
             highlightKeys={['events']}
             translationKey="onboarding.tutorial.with.jenkins.webhook.bitbucket.step2"
           />
-          <Text as="ul" className="sw-max-w-full sw-ml-6">
+          <Text as="ul" className="sw:max-w-full sw:ml-6">
             <li>
               <LabelActionPair translationKey="onboarding.tutorial.with.jenkins.webhook.bitbucket.step2.repo" />
             </li>

@@ -198,11 +198,11 @@ class Extension extends React.PureComponent<ExtensionProps, State> {
 
   render() {
     return (
-      // sw-contents (display: contents) makes this wrapper transparent to CSS Grid layout.
+      // sw:contents (display: contents) makes this wrapper transparent to CSS Grid layout.
       // This allows extensions to render Layout components (AsideLeft, PageGrid) that need to be
       // direct grid children of ContentGrid (which is rendered by ComponentContainer).
       // Without display: contents, this div would break the grid-area placement.
-      <div className="sw-contents">
+      <div className="sw:contents">
         <Helmet title={this.props.extension.name} />
         {this.state.extensionElement ?? (
           <div

@@ -82,23 +82,23 @@ export default function AICodeStatus(props: Readonly<Props>) {
 
   if (aiCodeAssuranceStatus === AiCodeAssuranceStatus.NONE && detectedAiCode) {
     return (
-      <AICodeAssuranceStatusWrapper className="sw-ml-6 sw-pl-6">
+      <AICodeAssuranceStatusWrapper className="sw:ml-6 sw:pl-6">
         <Text isHighlighted>
-          <IconSparkle className="sw-mr-1" />
+          <IconSparkle className="sw:mr-1" />
           <FormattedMessage id="projects.ai_code_detected.title" />
           <Popover description={<FormattedMessage id="settings.deprecated_setting_warning" />}>
-            <Badge className="sw-ml-2" isInteractive variety={BadgeVariety.Danger}>
+            <Badge className="sw:ml-2" isInteractive variety={BadgeVariety.Danger}>
               <FormattedMessage id="deprecated" />
             </Badge>
           </Popover>
         </Text>
-        <div className="sw-flex sw-items-center sw-gap-2 sw-mt-2">
+        <div className="sw:flex sw:items-center sw:gap-2 sw:mt-2">
           <Text as="p" isSubtle size={TextSize.Small}>
             <FormattedMessage id="projects.ai_code_detected.description" />
           </Text>
 
           <ToggleTip
-            className="sw-mb-1"
+            className="sw:mb-1"
             extraContent={<FormattedMessage id="projects.ai_code_detected.tooltip.content" />}
             side="right"
           />
@@ -114,9 +114,9 @@ export default function AICodeStatus(props: Readonly<Props>) {
   return (
     <>
       {aiCodeAssuranceStatus !== AiCodeAssuranceStatus.NONE && (
-        <AICodeAssuranceStatusWrapper className="sw-ml-6 sw-pl-6">
+        <AICodeAssuranceStatusWrapper className="sw:ml-6 sw:pl-6">
           <AICodeAssuranceStatus aiCodeAssuranceStatus={aiCodeAssuranceStatus} isHighlighted />
-          <Text as="p" className="sw-mt-2" isSubtle size={TextSize.Small}>
+          <Text as="p" className="sw:mt-2" isSubtle size={TextSize.Small}>
             {aiCodeAssuranceStatus === AiCodeAssuranceStatus.AI_CODE_ASSURED_OFF &&
               component.configuration?.showQualityGates && (
                 <FormattedMessage
@@ -134,7 +134,7 @@ export default function AICodeStatus(props: Readonly<Props>) {
                   values={{
                     link: (text) => (
                       <DocumentationLink
-                        className="sw-text-nowrap"
+                        className="sw:text-nowrap"
                         enableOpenInNewTab
                         highlight={LinkHighlight.Subtle}
                         to={DocLink.AiCodeAssuranceQualifyQualityGate}

@@ -111,11 +111,11 @@ export function InputSearch(props: PropsWithChildren<Props>) {
   const tooShort = isDefined(minLength) && value.length > 0 && value.length < minLength;
   const inputClassName = classNames('js-input-search', {
     touched: value.length > 0 && (!minLength || minLength > value.length),
-    'sw-pr-10': value.length > 0,
+    'sw:pr-10': value.length > 0,
   });
 
   const inputNoteLeftPad = Math.min(minLength || 1, 10);
-  const inputNoteClassName = `sw-ml-${inputNoteLeftPad}`;
+  const inputNoteClassName = `sw:ml-${inputNoteLeftPad}`;
 
   useEffect(() => {
     // initially letting parentValue control the value of the input
@@ -173,7 +173,7 @@ export function InputSearch(props: PropsWithChildren<Props>) {
           : ''
       }
     >
-      <StyledInputWrapper className="sw-flex sw-items-center">
+      <StyledInputWrapper className="sw:flex sw:items-center">
         <input
           aria-label={searchInputAriaLabel ?? placeholder}
           autoComplete="off"
@@ -191,8 +191,8 @@ export function InputSearch(props: PropsWithChildren<Props>) {
           value={value}
         />
 
-        <StyledSearchIconWrapper className="sw-z-normal">
-          <Spinner className="sw-z-normal" isLoading={loading ?? false}>
+        <StyledSearchIconWrapper className="sw:z-normal">
+          <Spinner className="sw:z-normal" isLoading={loading ?? false}>
             <StyledSearchIcon />
           </Spinner>
         </StyledSearchIconWrapper>

@@ -53,10 +53,10 @@ export default function Gradle(props: LanguageProps) {
             }}
           />
         </span>
-        <GradleBuildSelection className="sw-my-4">
+        <GradleBuildSelection className="sw:my-4">
           {(build) => (
             <CodeSnippet
-              className="sw-p-6"
+              className="sw:p-6"
               language={build === GradleBuildDSL.Groovy ? 'groovy' : 'kotlin'}
               snippet={buildGradleSnippet(component.key, component.name, build)}
             />

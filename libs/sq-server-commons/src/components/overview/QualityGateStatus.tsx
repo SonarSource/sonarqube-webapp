@@ -34,19 +34,19 @@ export default function QualityGateStatus(props: Readonly<Props>) {
   const { status = 'NONE', statusSuffix } = props;
 
   return (
-    <div className="sw-flex sw-gap-3" data-spotlight-id="cayc-promotion-3">
+    <div className="sw:flex sw:gap-3" data-spotlight-id="cayc-promotion-3">
       <QualityGateIndicator size="xl" status={status} />
-      <div className="sw-flex sw-flex-col sw-ml-2 sw-justify-around">
-        <div className="sw-flex sw-items-center">
+      <div className="sw:flex sw:flex-col sw:ml-2 sw:justify-around">
+        <div className="sw:flex sw:items-center">
           <Text isSubtle>{translate('overview.quality_gate')}</Text>
           <ToggleTip
             ariaLabel={translate('toggle_tip.aria_label.quality_gate')}
-            className="sw-ml-2"
+            className="sw:ml-2"
             description={translate('overview.quality_gate.help')}
             title={translate('overview.quality_gate')}
           />
         </div>
-        <div className="sw-flex sw-items-center sw-gap-2">
+        <div className="sw:flex sw:items-center sw:gap-2">
           <Display>
             {translate('metric.level', status === 'NONE' ? 'NOT_COMPUTED' : status)}
           </Display>

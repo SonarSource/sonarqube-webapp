@@ -55,7 +55,7 @@ export default function AzurePipelinesTutorial(props: Readonly<AzurePipelinesTut
   }, [config.buildTool]);
 
   return (
-    <TutorialStepList className="sw-mb-10">
+    <TutorialStepList className="sw:mb-10">
       <TutorialStep
         title={translate(
           `onboarding.tutorial.with.azure_pipelines.${Steps.ExtensionInstallation}.title`,
@@ -82,7 +82,7 @@ export default function AzurePipelinesTutorial(props: Readonly<AzurePipelinesTut
 
       {done && (
         <>
-          <BasicSeparator className="sw-my-10" />
+          <BasicSeparator className="sw:my-10" />
           <AllSet alm={alm ?? AlmKeys.Azure} willRefreshAutomatically={willRefreshAutomatically} />
         </>
       )}

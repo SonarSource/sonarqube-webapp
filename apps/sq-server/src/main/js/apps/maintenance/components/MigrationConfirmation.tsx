@@ -33,12 +33,12 @@ export function MigrationConfirmation({ handleMigrateClick }: Readonly<Props>) {
 
   if (!isDatabaseBackedUp) {
     return (
-      <div className="sw-flex sw-flex-col sw-items-center">
+      <div className="sw:flex sw:flex-col sw:items-center">
         <Heading as="h1" hasMarginBottom>
           <FormattedMessage id="maintenance.back_up_database" />
         </Heading>
         <div>
-          <Text as="p" className="sw-mb-3">
+          <Text as="p" className="sw:mb-3">
             <FormattedMessage id="maintenance.back_up_database.1" />
           </Text>
 
@@ -47,7 +47,7 @@ export function MigrationConfirmation({ handleMigrateClick }: Readonly<Props>) {
           </Text>
         </div>
         <Button
-          className="sw-mt-6"
+          className="sw:mt-6"
           onClick={() => {
             setIsDatabaseBackedUp(true);
           }}
@@ -59,7 +59,7 @@ export function MigrationConfirmation({ handleMigrateClick }: Readonly<Props>) {
     );
   }
   return (
-    <div className="sw-flex sw-flex-col sw-items-center">
+    <div className="sw:flex sw:flex-col sw:items-center">
       <Heading as="h1" hasMarginBottom>
         <FormattedMessage id="maintenance.upgrade_database" />
       </Heading>
@@ -88,7 +88,7 @@ export function MigrationConfirmation({ handleMigrateClick }: Readonly<Props>) {
         </Text>
       </div>
       <Button
-        className="sw-mt-6"
+        className="sw:mt-6"
         id="start-migration"
         onClick={handleMigrateClick}
         variety={ButtonVariety.Primary}

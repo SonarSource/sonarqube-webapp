@@ -56,10 +56,10 @@ export default function IssueMetaBar(props: Readonly<Props>) {
   const hasComments = !!issue.comments?.length;
 
   const issueMetaListItemClassNames =
-    'sw-typo-sm sw-overflow-hidden sw-whitespace-nowrap sw-max-w-abs-150';
+    'sw:typo-sm sw:overflow-hidden sw:whitespace-nowrap sw:max-w-abs-150';
 
   return (
-    <ul className="sw-flex sw-items-center sw-gap-1 sw-typo-sm sw-whitespace-nowrap">
+    <ul className="sw:flex sw:items-center sw:gap-1 sw:typo-sm sw:whitespace-nowrap">
       {issue.quickFixAvailable && (
         <>
           <li className={issueMetaListItemClassNames}>
@@ -109,7 +109,7 @@ export default function IssueMetaBar(props: Readonly<Props>) {
       {hasComments && (
         <>
           <IssueMetaListItem
-            className={classNames(issueMetaListItemClassNames, 'sw-flex sw-gap-1')}
+            className={classNames(issueMetaListItemClassNames, 'sw:flex sw:gap-1')}
           >
             <IconComment aria-label={formatMessage({ id: 'issue.comment.formlink' })} />
             {issue.comments?.length}

@@ -34,8 +34,8 @@ export default function ProfileDetails() {
 
   return (
     <ProfilePageTemplate helmetTitle={profile.name}>
-      <div className="sw-grid sw-grid-cols-3 sw-gap-12 sw-mt-12">
-        <div className="sw-col-span-2 sw-flex sw-flex-col sw-gap-12">
+      <div className="sw:grid sw:grid-cols-3 sw:gap-12 sw:mt-12">
+        <div className="sw:col-span-2 sw:flex sw:flex-col sw:gap-12">
           {profile.activeRuleCount === 0 && (profile.projectCount || profile.isDefault) && (
             <FlagMessage variant="warning">
               {profile.projectCount !== undefined &&
@@ -51,7 +51,7 @@ export default function ProfileDetails() {
           <ProfileProjects profile={profile} />
           {profile.actions?.edit && !profile.isBuiltIn && <ProfilePermissions profile={profile} />}
         </div>
-        <div className="sw-flex sw-flex-col sw-gap-12">
+        <div className="sw:flex sw:flex-col sw:gap-12">
           <ProfileRules profile={profile} />
           <ProfileExporters exporters={exporters} profile={profile} />
         </div>

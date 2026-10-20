@@ -70,7 +70,7 @@ export function ImplicitSection<WidgetPropMap extends {}>(props: Readonly<Props<
       as="section"
       data-testid="dashboard-implicit-section-shell"
     >
-      <Heading as="h2" className="sw-sr-only" id={headingId} size={HeadingSize.Medium}>
+      <Heading as="h2" className="sw:sr-only" id={headingId} size={HeadingSize.Medium}>
         {formatMessage({ id: 'dashboard.implicit_section' })}
       </Heading>
       <WidgetGrid gridWidth={gridWidth} maxRows={maxRow} section={section} />

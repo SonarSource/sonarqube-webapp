@@ -213,7 +213,7 @@ export function DashboardRetentionSection() {
 
   return (
     <>
-      <div className="sw-p-6 sw-max-w-abs-800 sw-box-border">
+      <div className="sw:p-6 sw:max-w-abs-800 sw:box-border">
         <Heading as="h4">
           <FormattedMessage
             id={
@@ -224,7 +224,7 @@ export function DashboardRetentionSection() {
           />
         </Heading>
 
-        <Text as="p" className="sw-mt-2">
+        <Text as="p" className="sw:mt-2">
           <FormattedMessage
             id={
               isCommunityOrDeveloper
@@ -235,7 +235,7 @@ export function DashboardRetentionSection() {
           />
         </Text>
 
-        <Text as="p" className="sw-mt-2">
+        <Text as="p" className="sw:mt-2">
           {isCommunityOrDeveloper ? (
             <FormattedMessage id="settings.dashboard.retention.community.description2" />
           ) : (
@@ -253,7 +253,7 @@ export function DashboardRetentionSection() {
         </Text>
 
         {isCommunityOrDeveloper && (
-          <MessageCallout className="sw-mt-4" variety="info">
+          <MessageCallout className="sw:mt-4" variety="info">
             {formatMessage({ id: 'settings.dashboard.retention.coming_soon' })}
           </MessageCallout>
         )}
@@ -264,7 +264,7 @@ export function DashboardRetentionSection() {
               ? 'settings.dashboard.retention.community.title'
               : 'settings.dashboard.retention.title',
           })}
-          className="sw-mt-6 sw-w-fit"
+          className="sw:mt-6 sw:w-fit"
           id="dashboard-history-retention"
           onChange={handleOptionChange}
           options={radioOptions}
@@ -272,12 +272,12 @@ export function DashboardRetentionSection() {
         />
 
         {selectedOption === 'custom' && (
-          <div className="sw-mt-4">
-            <Label className="sw-mb-2 sw-flex sw-items-center" htmlFor="dashboard-retention-custom">
+          <div className="sw:mt-4">
+            <Label className="sw:mb-2 sw:flex sw:items-center" htmlFor="dashboard-retention-custom">
               {formatMessage({ id: 'settings.dashboard.retention.custom.label' })}
-              <RequiredIcon aria-label={formatMessage({ id: 'required' })} className="sw-ml-1" />
+              <RequiredIcon aria-label={formatMessage({ id: 'required' })} className="sw:ml-1" />
             </Label>
-            <div className="sw-flex sw-items-center sw-gap-2">
+            <div className="sw:flex sw:items-center sw:gap-2">
               <TextInput
                 id="dashboard-retention-custom"
                 min={0}
@@ -291,7 +291,7 @@ export function DashboardRetentionSection() {
             </div>
             {validationError && (
               <Text
-                className="sw-mt-2 sw-typo-helper-text"
+                className="sw:mt-2 sw:typo-helper-text"
                 colorOverride="echoes-color-text-subtle"
               >
                 {validationError}
@@ -301,17 +301,17 @@ export function DashboardRetentionSection() {
         )}
 
         {showDisplayLimitCallout && (
-          <MessageCallout className="sw-mt-4" variety="info">
-            <span className="sw-typo-semibold">
+          <MessageCallout className="sw:mt-4" variety="info">
+            <span className="sw:typo-semibold">
               {formatMessage({ id: 'settings.dashboard.retention.display_limit.title' })}
             </span>
-            <p className="sw-mt-1">
+            <p className="sw:mt-1">
               {formatMessage({ id: 'settings.dashboard.retention.display_limit.description' })}
             </p>
           </MessageCallout>
         )}
 
-        <div className="sw-flex sw-gap-2 sw-mt-6">
+        <div className="sw:flex sw:gap-2 sw:mt-6">
           <Button
             isDisabled={isSaveDisabled}
             isLoading={isSavingRetention && !isReducing}
@@ -334,7 +334,7 @@ export function DashboardRetentionSection() {
         <Tooltip
           content={formatMessage({ id: 'settings.key_x' }, { 0: DASHBOARD_HISTORY_RETENTION_KEY })}
         >
-          <Text as="div" className="sw-mt-4 sw-w-fit" isSubtle>
+          <Text as="div" className="sw:mt-4 sw:w-fit" isSubtle>
             <FormattedMessage id="settings.key_x" values={{ 0: DASHBOARD_HISTORY_RETENTION_KEY }} />
           </Text>
         </Tooltip>

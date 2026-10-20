@@ -41,11 +41,11 @@ export function RepositoryCell({ alm, name, projectKey, subtitle }: Readonly<Pro
   const almLabel = platformConfig ? formatMessage({ id: platformConfig.labelKey }) : '';
 
   return (
-    <div className="sw-flex sw-min-w-0 sw-items-center sw-justify-start sw-gap-2">
+    <div className="sw:flex sw:min-w-0 sw:items-center sw:justify-start sw:gap-2">
       {iconSrc !== undefined && (
-        <Image alt={almLabel} className="sw-shrink-0" height={16} src={iconSrc} />
+        <Image alt={almLabel} className="sw:shrink-0" height={16} src={iconSrc} />
       )}
-      <div className="sw-flex sw-min-w-0 sw-flex-col">
+      <div className="sw:flex sw:min-w-0 sw:flex-col">
         {projectKey ? (
           <LinkStandalone highlight={LinkHighlight.Default} to={getProjectOverviewUrl(projectKey)}>
             {name}
@@ -54,7 +54,7 @@ export function RepositoryCell({ alm, name, projectKey, subtitle }: Readonly<Pro
           <Text isHighlighted>{name}</Text>
         )}
         {subtitle !== undefined && (
-          <Text className="sw-truncate" isSubtle size={TextSize.Small}>
+          <Text className="sw:truncate" isSubtle size={TextSize.Small}>
             {subtitle}
           </Text>
         )}

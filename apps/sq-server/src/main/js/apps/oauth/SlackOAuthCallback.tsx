@@ -141,24 +141,24 @@ function SlackOAuthCallback() {
         isDefined(redirectUrl) || (isOAuthValid && (isPreparingBinding || isBindingInProgress))
       }
     >
-      <div className="sw-mt-24">
-        <div className="sw-flex sw-flex-col sw-items-center sw-justify-center">
-          <LogoSonarQubeServer className="sw-mb-3" size={LogoSize.Large} />
+      <div className="sw:mt-24">
+        <div className="sw:flex sw:flex-col sw:items-center sw:justify-center">
+          <LogoSonarQubeServer className="sw:mb-3" size={LogoSize.Large} />
           {isBindingSuccessful && isOAuthValid ? (
             <>
-              <Heading as="h1" className="sw-mb-8">
+              <Heading as="h1" className="sw:mb-8">
                 <FormattedMessage id="oauth.slack_binding.success.title" />
               </Heading>
 
-              <ol className="sw-flex sw-flex-col sw-items-center sw-justify-center sw-gap-2 sw-list-decimal">
+              <ol className="sw:flex sw:flex-col sw:items-center sw:justify-center sw:gap-2 sw:list-decimal">
                 <GetStartedListItem labelId="oauth.slack_binding.success.get_started.1" />
                 <GetStartedListItem labelId="oauth.slack_binding.success.get_started.2" />
                 <GetStartedListItem labelId="oauth.slack_binding.success.get_started.3" />
               </ol>
 
-              <Divider className="sw-my-8 sw-w-1/2" />
+              <Divider className="sw:my-8 sw:w-1/2" />
 
-              <Text className="sw-mb-4">
+              <Text className="sw:mb-4">
                 <FormattedMessage
                   id="oauth.slack_binding.success.documentation"
                   values={{
@@ -188,7 +188,7 @@ function SlackOAuthCallback() {
                 <FormattedMessage id="oauth.slack_binding.error.description" />
               </Text>
               <Button
-                className="sw-mt-4"
+                className="sw:mt-4"
                 to={getDocUrl(SharedDocLink.SlackIntegration)}
                 variety={ButtonVariety.Default}
               >
@@ -211,7 +211,7 @@ function GetStartedListItem({ labelId }: Readonly<{ labelId: string }>) {
           b: (text) => <b>{text}</b>,
           cmd: (command) => (
             <Badge variety={BadgeVariety.Neutral}>
-              <Text className="sw-font-mono">{command}</Text>
+              <Text className="sw:font-mono">{command}</Text>
             </Badge>
           ),
         }}

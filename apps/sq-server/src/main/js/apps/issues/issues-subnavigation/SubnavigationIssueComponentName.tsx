@@ -31,8 +31,8 @@ interface Props {
 
 export default function SubnavigationIssueComponentName({ path }: Props) {
   return (
-    <StyledHeading className="sw-pb-1 sw-pt-6 sw-flex sw-truncate" title={path}>
-      <Text className="sw-truncate" isSubtle>
+    <StyledHeading className="sw:pb-1 sw:pt-6 sw:flex sw:truncate" title={path}>
+      <Text className="sw:truncate" isSubtle>
         {collapsePath(path, COLLAPSE_PATH_LIMIT)}
       </Text>
     </StyledHeading>

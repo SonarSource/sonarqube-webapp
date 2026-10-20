@@ -37,7 +37,7 @@ export function IntegrationIcon({ isGitHubUser, isGitLabUser }: Readonly<Props>)
       <Image
         alt="github"
         aria-label={translateWithParameters('project_permission.managed', translate('alm.github'))}
-        className="sw-ml-2"
+        className="sw:ml-2"
         height={16}
         src={githubIconSrc}
       />
@@ -49,7 +49,7 @@ export function IntegrationIcon({ isGitHubUser, isGitLabUser }: Readonly<Props>)
       <Image
         alt="gitlab"
         aria-label={translateWithParameters('project_permission.managed', translate('alm.gitlab'))}
-        className="sw-ml-2"
+        className="sw:ml-2"
         height={16}
         src={gitlabIconSrc}
       />

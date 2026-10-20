@@ -18,28 +18,21 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-const path = require('path');
 const { fontFamily } = require('tailwindcss/defaultTheme');
 const plugin = require('tailwindcss/plugin');
-const { createGlobPatternsForDependencies } = require('@nx/react/tailwind');
 const { echoesPreset, echoesTypographyUtilities } = require('@sonarsource/echoes-react/tailwind');
-
-const fileGlobPattern = '**/!(__tests__|__mocks__|mocks|@types|api|l10n|types)/*.{ts,tsx}';
-
-const content = [
-  path.resolve(__dirname, '../../../../apps/sq-server/src/', fileGlobPattern),
-  ...createGlobPatternsForDependencies(
-    path.resolve(__dirname, '../../../../apps/sq-server'),
-    fileGlobPattern,
-  ),
-];
+const customUtilities = require('../../../../config/tailwind/customUtilities');
 
 const echoesUtilityPlugin = plugin(({ addUtilities }) => {
   addUtilities(echoesTypographyUtilities);
 });
 
+const customUtilityPlugin = plugin(({ addUtilities }) => {
+  addUtilities(customUtilities);
+});
+
 module.exports = {
-  prefix: 'sw-', // Prefix all tailwind classes with the sw- prefix to avoid collisions
+  prefix: 'sw', // Prefix all tailwind classes with the sw: prefix to avoid collisions
   presets: [echoesPreset],
   theme: {
     // Define cursors
@@ -167,6 +160,5 @@ module.exports = {
     // Please respect the alphabetical order in the below plugins
     preflight: false, // disable preflight
   },
-  plugins: [echoesUtilityPlugin],
-  content,
+  plugins: [echoesUtilityPlugin, customUtilityPlugin],
 };

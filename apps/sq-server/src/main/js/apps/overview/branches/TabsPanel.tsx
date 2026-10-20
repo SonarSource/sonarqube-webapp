@@ -115,7 +115,7 @@ export default function TabsPanel(props: React.PropsWithChildren<MeasuresPanelPr
         <>
           {recentSqUpgrade && (
             <div>
-              <FlagMessage className="sw-mb-4" variant="info">
+              <FlagMessage className="sw:mb-4" variant="info">
                 <FormattedMessage
                   id="overview.quality_profiles_update_after_sq_upgrade.message"
                   tagName="span"
@@ -131,7 +131,7 @@ export default function TabsPanel(props: React.PropsWithChildren<MeasuresPanelPr
               </FlagMessage>
             </div>
           )}
-          <div className="sw-flex sw-items-center">
+          <div className="sw:flex sw:items-center">
             <Tabs
               large
               onChange={props.onTabSelect}
@@ -140,15 +140,15 @@ export default function TabsPanel(props: React.PropsWithChildren<MeasuresPanelPr
             />
           </div>
 
-          <Card className="sw-rounded-b-2 sw-rounded-t-0 sw-border-t-0 sw-pt-8 sw-pb-12 sw-px-6">
+          <Card className="sw:rounded-b-2 sw:rounded-t-0 sw:border-t-0 sw:pt-8 sw:pb-12 sw:px-6">
             {component.qualifier === ComponentQualifier.Application && component.needIssueSync && (
-              <FlagMessage className="sw-mt-4" variant="info">
+              <FlagMessage className="sw:mt-4" variant="info">
                 <span>
                   {`${translate('indexation.in_progress')} ${translate(
                     'indexation.details_unavailable',
                   )}`}
                   <DocumentationLink
-                    className="sw-ml-1 sw-whitespace-nowrap"
+                    className="sw:ml-1 sw:whitespace-nowrap"
                     to={DocLink.InstanceAdminReindexation}
                   >
                     <FormattedMessage id="learn_more" />

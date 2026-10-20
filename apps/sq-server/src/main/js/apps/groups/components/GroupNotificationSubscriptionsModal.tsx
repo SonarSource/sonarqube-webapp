@@ -97,13 +97,13 @@ export function GroupNotificationSubscriptionsModal({ group, onClose }: Readonly
       )}
       {groupSubscriptionNotificationTypes.length > 0 && (
         <>
-          <div className="sw-mb-3">
+          <div className="sw:mb-3">
             <FormattedMessage
               id="group_notifications.subscriptions_count"
               values={{ count: groupSubscriptionNotificationTypes.length }}
             />
           </div>
-          <div className="sw-flex sw-flex-wrap sw-gap-2 sw-mb-4">
+          <div className="sw:flex sw:flex-wrap sw:gap-2 sw:mb-4">
             {groupSubscriptionNotificationTypes.map((notificationType) => {
               const typeLabel = formatMessage({
                 id: `notification.dispatcher.${notificationType}`,
@@ -128,7 +128,7 @@ export function GroupNotificationSubscriptionsModal({ group, onClose }: Readonly
       )}
 
       {availableOptions.length > 0 && (
-        <div className="sw-flex sw-gap-2 sw-items-center">
+        <div className="sw:flex sw:gap-2 sw:items-center">
           <Select
             ariaLabel={formatMessage({ id: 'group_notifications.notification_type' })}
             data={availableOptions}
@@ -139,7 +139,7 @@ export function GroupNotificationSubscriptionsModal({ group, onClose }: Readonly
             value={effectiveSelectedType}
             width={FormFieldWidth.Large}
           />
-          <Button className="sw-shrink-0" isDisabled={isAdding} onClick={handleAdd}>
+          <Button className="sw:shrink-0" isDisabled={isAdding} onClick={handleAdd}>
             <FormattedMessage id="group_notifications.add" />
           </Button>
         </div>

@@ -118,7 +118,7 @@ export class AssigneeFacet extends React.PureComponent<Props> {
 
     return (
       <>
-        <Avatar className="sw-mr-1" hash={user.avatar} name={userName} size="xs" />
+        <Avatar className="sw:mr-1" hash={user.avatar} name={userName} size="xs" />
         {isUserActive(user) ? userName : translateWithParameters('user.x_deleted', userName)}
       </>
     );
@@ -132,7 +132,7 @@ export class AssigneeFacet extends React.PureComponent<Props> {
     return (
       <>
         <Avatar
-          className="sw-mr-1"
+          className="sw:mr-1"
           hash={result.avatar}
           name={result.name ?? result.login}
           size="xs"

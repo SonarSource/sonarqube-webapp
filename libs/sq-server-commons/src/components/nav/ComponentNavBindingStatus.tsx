@@ -112,7 +112,7 @@ export function ComponentNavBindingStatus(props: Readonly<ComponentNavBindingSta
               side={TooltipSide.Right}
             >
               <Button
-                className="sw-whitespace-nowrap"
+                className="sw:whitespace-nowrap"
                 prefix={<IconLink />}
                 to={getProjectSettingsUrl(component.key, PULL_REQUEST_DECORATION_BINDING_CATEGORY)}
               >

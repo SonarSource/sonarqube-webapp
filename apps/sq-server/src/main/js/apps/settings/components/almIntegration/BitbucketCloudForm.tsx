@@ -40,7 +40,7 @@ export default function BitbucketCloudForm(props: BitbucketCloudFormProps) {
 
   return (
     <>
-      <Text as="p" className="sw-mb-8" isSubtle>
+      <Text as="p" className="sw:mb-8" isSubtle>
         <FormattedMessage
           id="settings.almintegration.bitbucketcloud.info"
           values={{
