@@ -18,7 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { keepPreviousData, queryOptions, useQueryClient } from '@tanstack/react-query';
+import { keepPreviousData, QueryClient, queryOptions, useQueryClient } from '@tanstack/react-query';
 import { useCallback } from 'react';
 import {
   getOnboardingOverview,
@@ -84,8 +84,10 @@ export const useOnboardingProjectsQuery = createQueryHook((params: OnboardingPro
 export function useInvalidateOnboardingQueries() {
   const queryClient = useQueryClient();
 
-  return useCallback(
-    async () => queryClient.invalidateQueries({ queryKey: ONBOARDING_QUERY_KEY_PREFIX }),
-    [queryClient],
-  );
+  return useCallback(async () => invalidateOnboarding(queryClient), [queryClient]);
+}
+
+/** Non-hook variant of {@link useInvalidateOnboardingQueries}, for class components. */
+export function invalidateOnboarding(queryClient: QueryClient) {
+  return queryClient.invalidateQueries({ queryKey: ONBOARDING_QUERY_KEY_PREFIX });
 }
