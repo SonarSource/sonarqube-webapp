@@ -224,9 +224,9 @@ it('narrows the rows to the searched name', async () => {
 
   await search(user, 'gitlab');
 
-  expect(await ui.table.byText('GitLab Main').find()).toBeInTheDocument();
+  expect(await ui.resultsCount(1, 1).find()).toBeInTheDocument();
+  expect(ui.table.byText('GitLab Main').get()).toBeInTheDocument();
   expect(ui.table.byText('GitHub Main').query()).not.toBeInTheDocument();
-  expect(ui.resultsCount(1, 1).get()).toBeInTheDocument();
 });
 
 it('tells the two Bitbucket platforms apart, in the filter and in the rows', async () => {
