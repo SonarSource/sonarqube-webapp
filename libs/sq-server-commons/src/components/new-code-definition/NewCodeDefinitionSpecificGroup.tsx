@@ -334,7 +334,7 @@ function useSpecificAnalysisDate({
   projectKey?: string;
 }) {
   const { data: analysis } = useAllProjectAnalysesQuery(
-    { componentKey: projectKey, branchParams: { branch } },
+    { componentKey: projectKey, branch },
     {
       select: (data) => data.find((a) => a.key === analysisKey),
       enabled: Boolean(enabled) && isDefined(analysisKey) && isDefined(projectKey),

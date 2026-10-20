@@ -21,7 +21,6 @@
 import { throwGlobalError } from '~adapters/helpers/error';
 import { getJSON } from '~adapters/helpers/request';
 import { fetchAllProjectActivity } from '~shared/api/project-activity';
-import { BranchParameters } from '~shared/types/branch-like';
 import { Paging } from '~shared/types/paging';
 import { post, postJSON } from '../helpers/request';
 import {
@@ -43,7 +42,8 @@ export type ProjectActivityParams = {
   project?: string;
   ps?: number;
   statuses?: string;
-} & BranchParameters;
+  branch?: string;
+};
 
 export interface ProjectActivityResponse {
   analyses: Analysis[];

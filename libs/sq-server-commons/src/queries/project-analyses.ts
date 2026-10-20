@@ -22,7 +22,6 @@ import { queryOptions, useMutation, useQueryClient } from '@tanstack/react-query
 import { useCurrentBranchQuery } from '~adapters/queries/branch';
 import { getBranchLikeQuery } from '~shared/helpers/branch-like';
 import { createQueryHook, StaleTime } from '~shared/queries/common';
-import { BranchParameters } from '~shared/types/branch-like';
 import {
   changeEvent,
   createEvent,
@@ -48,28 +47,29 @@ export function useProjectActivityQueryKey() {
 
   const { data: branchLike } = useCurrentBranchQuery(component);
   const branchParams = getBranchLikeQuery(branchLike);
+  const branch = 'branch' in branchParams ? branchParams.branch : undefined;
 
-  return ['activity', 'list', componentKey, branchParams] as [
+  return ['activity', 'list', componentKey, branch] as [
     string,
     string,
     string | undefined,
-    BranchParameters,
+    string | undefined,
   ];
 }
 
 export const useAllProjectAnalysesQuery = createQueryHook(
-  ({ componentKey, branchParams }: { branchParams: BranchParameters; componentKey?: string }) => {
+  ({ componentKey, branch }: { branch?: string; componentKey?: string }) => {
     return queryOptions({
-      queryKey: ['activity', 'list', componentKey, branchParams] as [
+      queryKey: ['activity', 'list', componentKey, branch] as [
         string,
         string,
         string | undefined,
-        BranchParameters,
+        string | undefined,
       ],
       staleTime: StaleTime.LIVE,
-      queryFn: ({ queryKey: [_0, _1, project, branchParams] }) =>
-        getAllTimeProjectActivity({
-          ...branchParams,
+      queryFn: ({ queryKey: [_0, _1, project, branch] }) => {
+        return getAllTimeProjectActivity({
+          branch,
           project,
           statuses: serializeStringArray([
             ProjectActivityStatuses.STATUS_PROCESSED,
@@ -82,7 +82,8 @@ export const useAllProjectAnalysesQuery = createQueryHook(
             ...analysis,
             date: parseDate(analysis.date),
           })),
-        ),
+        );
+      },
     });
   },
 );

@@ -79,11 +79,11 @@ export function ProjectActivityApp() {
     enabled: isApplication(component?.qualifier),
   });
 
-  const [_1, _2, componentKey, branchParams] = useProjectActivityQueryKey();
+  const [_1, _2, componentKey, branch] = useProjectActivityQueryKey();
   const { data: analysesData, isLoading: isLoadingAnalyses } = useAllProjectAnalysesQuery(
     {
       componentKey,
-      branchParams,
+      branch,
     },
     {
       enabled,
