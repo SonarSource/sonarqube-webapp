@@ -19,6 +19,7 @@
  */
 
 import { Layout, LinkHighlight, LinkStandalone, Text } from '@sonarsource/echoes-react';
+import classNames from 'classnames';
 import { useIntl } from 'react-intl';
 import AppVersionStatus from '../../../components/shared/AppVersionStatus';
 import GlobalFooterBranding from '../../../components/ui/GlobalFooterBranding';
@@ -28,6 +29,7 @@ import { COMMUNITY_FORUM_URL, DocLink } from '../../../helpers/doc-links';
 import { useDocUrl } from '../../../helpers/docs';
 import { getEdition } from '../../../helpers/editions';
 import { getInstanceVersionNumber } from '../../../helpers/strings';
+import { isOfficial } from '../../../helpers/system';
 import { useStandardExperienceModeQuery } from '../../../queries/mode';
 import { EditionKey } from '../../../types/editions';
 
@@ -48,14 +50,25 @@ export function GlobalFooter({ hideLoggedInInfo }: Readonly<GlobalFooterProps>) 
 
   const isCommunityBuildRunning = appState.edition === EditionKey.community;
 
+  // Unofficial and snapshot builds have a longer footer: keep the branding on the first row with
+  // the links, and move the instance info on its own row below
+  const hasStackedInfo = !isOfficial() || appState.version.includes('SNAPSHOT');
+
   return (
-    <Layout.PageFooter>
+    <Layout.PageFooter
+      className={classNames({ 'sw-flex-wrap sw-gap-x-8 sw-gap-y-2': hasStackedInfo })}
+    >
       <Text as="div" className="sw-flex sw-grow sw-shrink-0 sw-flex-auto" isSubtle size="small">
         <GlobalFooterBranding />
       </Text>
 
       {!hideLoggedInInfo && (
-        <ul className="sw-code sw-flex sw-grow sw-flex-wrap sw-justify-center sw-items-center sw-gap-1 sw-mx-8">
+        <ul
+          className={classNames('sw-code sw-flex sw-flex-wrap sw-items-center sw-gap-1', {
+            'sw-order-last sw-w-full sw-justify-start': hasStackedInfo,
+            'sw-grow sw-justify-center sw-mx-8': !hasStackedInfo,
+          })}
+        >
           {currentEdition && (
             <>
               <Text as="li" isSubtle size="small">
