@@ -117,6 +117,7 @@ import GlobalPageExtensionContainer from '../components/GlobalPageExtensionConta
 import Landing from '../components/Landing';
 import MigrationContainer from '../components/MigrationContainer';
 import NonAdminPagesContainer from '../components/NonAdminPagesContainer';
+import { PoliciesContainer } from '../components/PoliciesContainer';
 import ProjectAdminContainer from '../components/ProjectAdminContainer';
 import { SimpleContainer } from '../components/SimpleContainer';
 import { GlobalStyles } from '../styles/GlobalStyles';
@@ -342,7 +343,12 @@ const router = ({
             <Route element={<GlobalContainer />}>
               {accountRoutes()}
 
-              {codingRulesRoutes()}
+              <Route element={<PoliciesContainer />}>
+                {codingRulesRoutes()}
+                {qualityGatesRoutes()}
+                {qualityProfilesRoutes()}
+                {availableFeatures.includes(Feature.Sca) && addons.sca?.licenseRoutes}
+              </Route>
 
               <Route element={<GlobalPageExtensionContainer />}>
                 <Route
@@ -356,9 +362,6 @@ const router = ({
               {addons.securityAlerts?.globalRoutes}
 
               {projectsRoutes()}
-
-              {qualityGatesRoutes()}
-              {qualityProfilesRoutes()}
 
               {webAPIRoutes()}
               {webAPIRoutesV2()}
@@ -375,7 +378,6 @@ const router = ({
                 hasSecurityReportsFeature: isEnterprise,
               })}
 
-              {availableFeatures.includes(Feature.Sca) && addons.sca?.licenseRoutes}
               {governanceInstalled && addons.portfolios?.globalRoutes()}
               {addons.vortexDashboard?.globalRoutes()}
 

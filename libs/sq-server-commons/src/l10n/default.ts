@@ -688,6 +688,7 @@ export const defaultMessages = {
   'layout.logout': 'Log out',
   'layout.measures': 'Measures',
   'layout.settings': 'Administration',
+  'layout.policies': 'Policies',
   'layout.onboarding_dashboard': 'Project coverage',
   'layout.architecture': 'Architecture',
   'layout.security_hotspots': 'Security hotspots',

@@ -91,6 +91,29 @@ it('should not keep administration menu active outside admin routes', () => {
   expect(screen.getByRole('link', { name: 'layout.settings' })).not.toHaveAttribute('aria-current');
 });
 
+it.each([
+  '/coding_rules',
+  '/profiles',
+  '/profiles/show',
+  '/quality_gates',
+  '/quality_gates/show',
+  '/license_profiles',
+  '/license_profiles/show',
+])('should keep policies active on %s', (navigateTo) => {
+  renderGlobalNavMenu({ navigateTo });
+
+  expect(screen.getByRole('link', { name: 'layout.policies' })).toHaveAttribute(
+    'aria-current',
+    'page',
+  );
+});
+
+it('should not keep policies active outside policy routes', () => {
+  renderGlobalNavMenu({ navigateTo: '/projects' });
+
+  expect(screen.getByRole('link', { name: 'layout.policies' })).not.toHaveAttribute('aria-current');
+});
+
 it('should show the Security Alerts menu when SCA is enabled', async () => {
   const user = userEvent.setup();
   const appState = mockAppState({ globalPages: [] });

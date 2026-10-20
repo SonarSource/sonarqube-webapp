@@ -58,9 +58,13 @@ it('render global navigation correctly for anonymous user', () => {
   renderGlobalNav({ appState: mockAppState() });
   expect(screen.getByText('projects.page')).toBeInTheDocument();
   expect(screen.getByText('issues.page')).toBeInTheDocument();
-  expect(screen.getByText('coding_rules.page')).toBeInTheDocument();
-  expect(screen.getByText('quality_profiles.page')).toBeInTheDocument();
-  expect(screen.getByText('quality_gates.page')).toBeInTheDocument();
+  expect(screen.getByRole('link', { name: 'layout.policies' })).toHaveAttribute(
+    'href',
+    '/coding_rules',
+  );
+  expect(screen.queryByText('coding_rules.page')).not.toBeInTheDocument();
+  expect(screen.queryByText('quality_profiles.page')).not.toBeInTheDocument();
+  expect(screen.queryByText('quality_gates.page')).not.toBeInTheDocument();
   expect(screen.getByText('layout.login')).toBeInTheDocument();
 });
 
