@@ -3097,6 +3097,8 @@ export const defaultMessages = {
   //------------------------------------------------------------------------------
 
   'sca.container_images.page': 'Container images',
+  'sca.container_images.page.description':
+    'Scan container images to identify dependency risks. <link>Learn more about container scanning</link>.',
   'sca.container_images.count':
     '{count} {count, plural, one {container image} other {container images}}',
   'sca.container_images.risk_count': '{count} {count, plural, one {risk} other {risks}}',

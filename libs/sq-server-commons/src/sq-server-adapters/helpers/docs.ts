@@ -32,6 +32,7 @@ export enum SharedDocLink {
   ArchitectureModel = '/design-and-architecture/configuring-the-architecture-analysis/',
   ArchitectureModelDeclaration = '/design-and-architecture/configuring-the-architecture-analysis/#declaration',
   CIAnalysisSetup = '/analyzing-source-code/ci-integration/overview/',
+  ContainerScanning = '/advanced-security/container-scanning/',
   // TODO Replace this temporary link when the portfolio dashboard metrics documentation is confirmed.
   PortfolioDashboardMetrics = '/user-guide/code-metrics/metrics-definition/#portfolio-dashboard-metrics',
   ProjectDashboardMetrics = '/user-guide/code-metrics/metrics-definition/',
