@@ -65,6 +65,10 @@ This also applies when passing extra jest flags like `--updateSnapshot`. Never u
 
 When you need to write tests (and are NOT running `/browse-and-verify`), use the `webapp-testing` skill.
 
+# Commit and PR titles
+
+Use `<JIRA-ID> <description>` with a single space and no colon—for example, `SC-60136 Exclude development flag tooling from production startup`. This overrides the default format in the `commit-and-pr` skill.
+
 # Writing Code
 
 - Never attempt to fix linting issues until you believe the implementation is correct.
