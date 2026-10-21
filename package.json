@@ -180,7 +180,6 @@
     "babel-jest": "30.4.1",
     "babel-plugin-transform-react-qa-classes": "1.6.0",
     "browserslist": "4.28.8",
-    "chalk": "4.1.2",
     "cheerio": "1.2.0",
     "env-cmd": "11.0.0",
     "eslint": "10.11.0",

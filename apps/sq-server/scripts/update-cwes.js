@@ -38,15 +38,12 @@
  */
 
 const fs = require('fs');
-const chalk = require('chalk');
+const { styleText } = require('node:util');
 const jsdom = require('jsdom');
 const { trim } = require('lodash');
 const path = require('path');
 
-const STANDARDS_JSON_FILE = path.join(
-  __dirname,
-  '../../../libs/sq-server-commons/src/helpers/standards.json',
-);
+const STANDARDS_JSON_FILE = path.join(__dirname, '../../../libs/shared/src/helpers/standards.json');
 
 const xmlContent = readXMLContent(process.argv[2]);
 const newCWEs = getCWEs(xmlContent);
@@ -58,11 +55,11 @@ function readXMLContent(xmlPath) {
       fs.accessSync(xmlPath, fs.constants.R_OK);
       return fs.readFileSync(xmlPath).toString();
     } catch (e) {
-      console.error(chalk.red(`No read access for XML file '${xmlPath}'`));
+      console.error(styleText('red', `No read access for XML file '${xmlPath}'`));
       throw e;
     }
   } else {
-    console.error(chalk.red(`Cannot find XML file '${xmlPath}'`));
+    console.error(styleText('red', `Cannot find XML file '${xmlPath}'`));
     throw Error('');
   }
 }
@@ -86,7 +83,7 @@ function getCWEs(xml) {
     }
 
     if (!title) {
-      console.log(chalk.yellow(`No Name attribute found for CWE '${id}'. Skipping.`));
+      console.log(styleText('yellow', `No Name attribute found for CWE '${id}'. Skipping.`));
       return;
     }
 
@@ -105,7 +102,9 @@ function writeToStandardsJson(cwes) {
   try {
     fs.accessSync(STANDARDS_JSON_FILE, fs.constants.W_OK);
   } catch (e) {
-    console.error(chalk.red(`No write access for standards.json ('${STANDARDS_JSON_FILE}') file`));
+    console.error(
+      styleText('red', `No write access for standards.json ('${STANDARDS_JSON_FILE}') file`),
+    );
     throw e;
   }
 
@@ -115,7 +114,7 @@ function writeToStandardsJson(cwes) {
     fs.writeFileSync(STANDARDS_JSON_FILE, JSON.stringify(json, undefined, 2));
   } catch (e) {
     console.error(
-      chalk.red(`Failed to write data to standards.json ('${STANDARDS_JSON_FILE}') file`),
+      styleText('red', `Failed to write data to standards.json ('${STANDARDS_JSON_FILE}') file`),
     );
     throw e;
   }

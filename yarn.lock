@@ -20500,7 +20500,6 @@ __metadata:
     babel-jest: "npm:30.4.1"
     babel-plugin-transform-react-qa-classes: "npm:1.6.0"
     browserslist: "npm:4.28.8"
-    chalk: "npm:4.1.2"
     cheerio: "npm:1.2.0"
     classnames: "npm:2.5.1"
     clipboard: "npm:2.0.11"
