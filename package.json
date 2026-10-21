@@ -240,6 +240,7 @@
     "bidc@npm:^0.0.2": "patch:bidc@npm%3A0.0.2#./.yarn/patches/bidc-npm-0.0.2-9c4989be91.patch",
     "browserslist": "4.28.8",
     "debug": "^4.4.0",
+    "follow-redirects": "1.16.1",
     "json5": "^2.2.0",
     "jsdom": "patch:jsdom@26.1.0#./config/patches/jsdom-npm-26.1.0-3857255f02.patch",
     "nwsapi": "2.2.24",
