@@ -51,7 +51,7 @@ interface ProjectContentHeaderProps {
   /** Content header metadata, displayed under the title and description, no need to wrap it in Layout.ContentHeader.Metadata, it's already done for you */
   metadata?: ContentHeaderProps['metadata'];
   /** Override the path used by the branch selector to navigate when changing branch. Can be a static path or a function that returns a path based on the branch-like. */
-  overrideBranchSelectorPath?: ProjectBranchSelectorProps['overridePath'];
+  overrideBranchSelectorPath?: NonNullable<ProjectBranchSelectorProps['overridePath']>;
 }
 
 interface Props extends PropsWithChildren, ProjectContentHeaderProps {

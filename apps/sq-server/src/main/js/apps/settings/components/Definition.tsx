@@ -53,7 +53,7 @@ import Input from './inputs/Input';
 interface Props {
   component?: Component;
   definition: ExtendedSettingDefinition;
-  getConfirmationMessage?: SettingDefinitionAndValue['getConfirmationMessage'];
+  getConfirmationMessage?: NonNullable<SettingDefinitionAndValue['getConfirmationMessage']>;
   initialSettingValue?: SettingValue;
 }
 

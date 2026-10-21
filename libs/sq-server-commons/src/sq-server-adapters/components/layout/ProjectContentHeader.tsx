@@ -51,7 +51,7 @@ interface Props extends SelectedContentHeaderProps {
   disableBranchSelector?: boolean;
   disableQualityGateStatus?: boolean;
   extraTitleSuffix?: ReactNode;
-  overrideBranchSelectorPath?: ProjectBranchSelectorProps['overridePath'];
+  overrideBranchSelectorPath?: NonNullable<ProjectBranchSelectorProps['overridePath']>;
   titlePrefix?: ContentHeaderProps['title'];
 }
 
