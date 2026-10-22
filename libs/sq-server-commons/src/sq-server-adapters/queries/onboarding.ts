@@ -25,7 +25,10 @@ import {
   useQueries,
   useQuery,
 } from '@tanstack/react-query';
+import { OnboardingOverviewQuery } from '~shared/api/onboarding';
+import { deriveJourneyState } from '~shared/helpers/onboarding/deriveJourneyState';
 import { StaleTime } from '~shared/queries/common';
+import { useOnboardingOverviewQuery } from '~shared/queries/onboarding';
 import {
   OnboardingAlm,
   OnboardingBoundProjectCounts,
@@ -70,6 +73,14 @@ const ALM_KEYS_TO_ONBOARDING_ALM: Record<AlmKeys, OnboardingAlm> = {
  */
 export function useOnboardingOrganizationKey(): string | undefined {
   return undefined;
+}
+
+/**
+ * The overview reduced to the journey view model, shared by the product page and the dashboard
+ * body so both observe the same query and derived state.
+ */
+export function useOnboardingJourneyStateQuery(params: OnboardingOverviewQuery) {
+  return useOnboardingOverviewQuery(params, { select: deriveJourneyState });
 }
 
 /**

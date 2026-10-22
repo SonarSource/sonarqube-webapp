@@ -61,6 +61,7 @@ export function OrganizationBindingPanel({ onSelectStep, state }: Readonly<Props
   const showBindingReview = state.isBound && byPlatform === undefined;
 
   const showCreateCta = createConfigurationUrl !== undefined || !state.isBound;
+  const bindCtaUrl = createConfigurationUrl ?? bindingSettingsUrl;
 
   return (
     <div className="sw:flex sw:items-start sw:gap-8">
@@ -111,10 +112,7 @@ export function OrganizationBindingPanel({ onSelectStep, state }: Readonly<Props
           <div>
             <PermissionGate
               trigger={
-                <Button
-                  {...bindCtaProps}
-                  {...(createConfigurationUrl !== undefined && { to: createConfigurationUrl })}
-                />
+                <Button {...bindCtaProps} {...(bindCtaUrl !== undefined && { to: bindCtaUrl })} />
               }
             />
           </div>

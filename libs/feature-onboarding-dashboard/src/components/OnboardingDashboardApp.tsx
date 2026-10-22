@@ -20,10 +20,8 @@
 
 import { LoadingContainer, MessageCallout } from '@sonarsource/echoes-react';
 import { FormattedMessage, useIntl } from 'react-intl';
-import {
-  useOnboardingJourneyState,
-  useOnboardingStatisticsQuery,
-} from '~shared/queries/onboarding';
+import { useOnboardingJourneyStateQuery } from '~adapters/queries/onboarding';
+import { useOnboardingStatisticsQuery } from '~shared/queries/onboarding';
 import { OnboardingJourney } from './journey/OnboardingJourney';
 import { OnboardingDashboardSkeleton } from './OnboardingDashboardSkeleton';
 
@@ -40,7 +38,11 @@ interface Props {
  */
 export default function OnboardingDashboardApp({ organizationKey }: Readonly<Props>) {
   const { formatMessage } = useIntl();
-  const { data: journeyState, isPending, isError } = useOnboardingJourneyState({ organizationKey });
+  const {
+    data: journeyState,
+    isPending,
+    isError,
+  } = useOnboardingJourneyStateQuery({ organizationKey });
   const { data: statistics, isError: isStatisticsError } = useOnboardingStatisticsQuery({
     organizationKey,
   });

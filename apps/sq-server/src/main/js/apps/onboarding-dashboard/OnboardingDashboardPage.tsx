@@ -20,18 +20,20 @@
 
 import { Layout, LoadingSkeleton } from '@sonarsource/echoes-react';
 import { useIntl } from 'react-intl';
-import { useOnboardingOrganizationKey } from '~adapters/queries/onboarding';
+import {
+  useOnboardingJourneyStateQuery,
+  useOnboardingOrganizationKey,
+} from '~adapters/queries/onboarding';
 import { LazyOnboardingDashboardApp } from '~feature-onboarding-dashboard/components/LazyOnboardingDashboardApp';
 import { OnboardingCongratsCallout } from '~shared/components/onboarding/OnboardingCongratsCallout';
 import { OnboardingProgressDonut } from '~shared/components/onboarding/OnboardingProgressDonut';
-import { useOnboardingJourneyState } from '~shared/queries/onboarding';
 import { JourneyLevel } from '~shared/types/onboarding';
 import { AdminPageTemplate } from '~sq-server-commons/components/ui/AdminPageTemplate';
 
 function OnboardingDashboardPage() {
   const { formatMessage } = useIntl();
   const organizationKey = useOnboardingOrganizationKey();
-  const { data: journeyState, isPending } = useOnboardingJourneyState({ organizationKey });
+  const { data: journeyState, isPending } = useOnboardingJourneyStateQuery({ organizationKey });
 
   const title = formatMessage({ id: 'layout.onboarding_dashboard' });
 

@@ -29,11 +29,8 @@ import { OnboardingDashboardPage } from '../OnboardingDashboardPage';
 const mockJourneyStateQuery = jest.fn();
 
 jest.mock('~adapters/queries/onboarding', () => ({
+  useOnboardingJourneyStateQuery: (...args: unknown[]) => mockJourneyStateQuery(...args) as unknown,
   useOnboardingOrganizationKey: () => undefined,
-}));
-
-jest.mock('~shared/queries/onboarding', () => ({
-  useOnboardingJourneyState: (...args: unknown[]) => mockJourneyStateQuery(...args) as unknown,
 }));
 
 jest.mock('~shared/components/onboarding/OnboardingProgressDonut', () => ({

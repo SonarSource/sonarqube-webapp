@@ -257,8 +257,17 @@ it('renders the unbound binding panel with only the bind call-to-action', () => 
   expect(ui.viewCta.query()).not.toBeInTheDocument();
 });
 
+it('sends the bind call-to-action to the binding settings when there is nothing to create', () => {
+  jest.mocked(useCreateDevopsConfigurationUrl).mockReturnValue(undefined);
+
+  renderPanel(JourneyStep.Binding, unboundState);
+
+  expect(ui.bindCta.get()).toHaveAttribute('href', '/binding-settings?category=binding');
+});
+
 it('keeps the bind call-to-action as an inert button when the product has no destination for it', () => {
   jest.mocked(useCreateDevopsConfigurationUrl).mockReturnValue(undefined);
+  jest.mocked(useBindingSettingsUrl).mockReturnValue(undefined);
 
   renderPanel(JourneyStep.Binding, unboundState);
 
