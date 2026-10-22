@@ -128,6 +128,24 @@ export const baseViteConfig = {
     },
   },
   plugins: [
+    {
+      // Expose the build number to runtime consumers, including Cloud Sentry events.
+      // Keep it in HTML: Vite env variable replacement embeds literals in JS, changing chunk hashes
+      // and their importers whenever the build number changes (even with a separate chunk).
+      name: 'embed-build-number',
+      transformIndexHtml() {
+        const release = process.env.WEBAPP_BUILD_NUMBER;
+        return release
+          ? [
+              {
+                tag: 'meta',
+                attrs: { name: 'build-number', content: release },
+                injectTo: 'head',
+              },
+            ]
+          : [];
+      },
+    },
     // additional plugins to allow for the transformation of our existing code to what vite is expecting.
     requireTransform({}),
     react(),

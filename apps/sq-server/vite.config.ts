@@ -22,7 +22,7 @@ import tailwindcss from '@tailwindcss/vite';
 import { existsSync } from 'fs';
 import { resolve } from 'path';
 import { defineConfig, loadEnv } from 'vite';
-import { baseViteConfig, proxyTarget, workspaceRoot } from '../../vite.config.base';
+import { analyzeBundle, baseViteConfig, proxyTarget, workspaceRoot } from '../../vite.config.base';
 import { viteDevServerHtmlPlugin } from './config/vite-dev-server-html-plugin.mjs';
 
 // https://vitejs.dev/config/
@@ -57,7 +57,20 @@ export default ({ mode }) => {
         }
       },
     },
-    plugins: [tailwindcss(), ...baseViteConfig.plugins, viteDevServerHtmlPlugin()],
+    plugins: [
+      tailwindcss(),
+      ...baseViteConfig.plugins,
+      analyzeBundle && {
+        name: 'hide-analyzer-sourcemap-references',
+        enforce: 'post',
+        config() {
+          // Run after the bundle analyzer forces sourcemap: true. And override it to hidden.
+          // Hidden maps avoid JS references; the analyzer removes the maps before writing.
+          return { build: { sourcemap: 'hidden' } };
+        },
+      },
+      viteDevServerHtmlPlugin(),
+    ],
 
     resolve: {
       ...baseViteConfig.resolve,
