@@ -1,0 +1,30 @@
+{
+  "name": "sq-server-openapi-community",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/sq-server-openapi-community/src",
+  "projectType": "library",
+  "tags": ["type:util", "visibility:public", "scope:server"],
+  "targets": {
+    "generate": {
+      "executor": "nx:run-commands",
+      "options": {
+        "cwd": "{workspaceRoot}",
+        "command": "node {projectRoot}/generate-client.mjs"
+      },
+      "cache": false
+    },
+    "format-check": {},
+    "lint": {
+      "options": {
+        "cwd": "{projectRoot}",
+        "command": "eslint --quiet src/runtime.ts src/__tests__"
+      }
+    },
+    "lint-report": {
+      "options": {
+        "command": "eslint --format json --output-file build/reports/eslint-report/eslint-report.json src/runtime.ts src/__tests__"
+      }
+    },
+    "ts-check": {}
+  }
+}

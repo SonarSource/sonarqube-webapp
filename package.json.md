@@ -70,7 +70,7 @@ Required explicit dependency in ESLint v10 — provides `eslint:recommended` and
 
 ### @hey-api/openapi-ts
 
-Generates the checked-in SonarQube Cloud TypeScript types and Axios SDK from the merged OpenAPI contract.
+Generates the checked-in SonarQube Cloud TypeScript types and Axios SDK from the merged OpenAPI contract, and the SonarQube Server types and Axios SDK from the Community OpenAPI specification.
 
 The `@hey-api/json-schema-ref-parser/js-yaml` resolution keeps its exact transitive dependency on the nearest complete vulnerability fix.
 

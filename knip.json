@@ -41,6 +41,8 @@
         "private/libs/sq-server-features/src/feature-*/index.{ts,tsx}!",
         "private/libs/sq-cloud-openapi/generate-client.mjs",
         "private/libs/sq-cloud-openapi/src/runtime.ts",
+        "libs/sq-server-openapi-community/generate-client.mjs",
+        "libs/sq-server-openapi-community/src/runtime.ts",
         ".github/scripts/**/*.{js,mjs}",
         "config/**/*.{js,mjs,ts,mts}",
         "eslint-local-rules/index.js"

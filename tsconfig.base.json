@@ -48,6 +48,7 @@
       "~sq-server-addons/*": ["./libs/sq-server-addons/src/*"],
       "~sq-server-commons/*": ["./libs/sq-server-commons/src/*"],
       "~sq-server-features/*": ["./private/libs/sq-server-features/src/*"],
+      "~sq-server-openapi-community": ["./libs/sq-server-openapi-community/src/generated/index.ts"],
       "~feature-dashboards/*": ["./libs/feature-dashboards/src/*"],
       "~feature-onboarding-dashboard/*": ["./libs/feature-onboarding-dashboard/src/*"],
       "~feature-quality-gate-history/*": ["./libs/feature-quality-gate-history/src/*"],

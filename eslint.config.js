@@ -792,9 +792,9 @@ module.exports = [
     },
   },
 
-  // ─── Cloud OpenAPI module ───────────────────────────────────────────────
+  // ─── OpenAPI modules ────────────────────────────────────────────────────
   {
-    files: ['private/libs/sq-cloud-openapi/**/*.ts'],
+    files: ['private/libs/sq-cloud-openapi/**/*.ts', 'libs/sq-server-openapi-community/**/*.ts'],
     rules: {
       'import/extensions': [
         'error',

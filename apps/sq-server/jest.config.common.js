@@ -67,6 +67,8 @@ module.exports = {
       : '<rootDir>/libs/sq-server-addons/src/$1',
     '~sq-server-features/(.+)': '<rootDir>/private/libs/sq-server-features/src/$1',
     '~sq-server-commons/(.+)': '<rootDir>/libs/sq-server-commons/src/$1',
+    '^~sq-server-openapi-community$':
+      '<rootDir>/libs/sq-server-openapi-community/src/generated/index.ts',
 
     // internal aliases
     '^~design-system': '<rootDir>/libs/sq-server-commons/src/design-system/index.ts',

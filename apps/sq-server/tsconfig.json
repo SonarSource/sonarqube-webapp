@@ -32,6 +32,9 @@
       ],
       "~sq-server-features/*": ["../../private/libs/sq-server-features/src/*"],
       "~sq-server-commons/*": ["../../libs/sq-server-commons/src/*"],
+      "~sq-server-openapi-community": [
+        "../../libs/sq-server-openapi-community/src/generated/index.ts"
+      ],
 
       /* internal aliases */
       "~design-system": ["../../libs/sq-server-commons/src/design-system/index.ts"],
