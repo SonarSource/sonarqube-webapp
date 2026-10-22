@@ -82,6 +82,18 @@ The `@hey-api/json-schema-ref-parser/js-yaml` resolution keeps its exact transit
 
 Library used to generate CycloneDX SBOM.
 
+### @rolldown/plugin-babel
+
+Runs the shared Babel configuration (Emotion and QA component attributes) alongside `@vitejs/plugin-react` v6, which no longer provides Babel transforms.
+
+### @types/babel__core
+
+Provides the Babel option types required by `@rolldown/plugin-babel` in the TypeScript Vite configuration.
+
+### rolldown
+
+Required peer dependency of `@rolldown/plugin-babel`, aligned with the Rolldown version used by Vite.
+
 ### @sprig-technologies/sprig-browser
 
 Used by sq-cloud to show feedback forms created on the Sprig platform to our users.

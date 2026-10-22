@@ -18,6 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import babel from '@rolldown/plugin-babel';
 import react from '@vitejs/plugin-react';
 import autoprefixer from 'autoprefixer';
 import path, { resolve } from 'node:path';
@@ -121,9 +122,8 @@ export const baseViteConfig = {
   plugins: [
     // additional plugins to allow for the transformation of our existing code to what vite is expecting.
     requireTransform({}),
-    react({
-      babel: babelConfig,
-    }),
+    react(),
+    babel(babelConfig),
     analyzeBundle &&
       analyzer({
         fileName: resolve(projectRoot, 'build/bundle-metrics.json'),
