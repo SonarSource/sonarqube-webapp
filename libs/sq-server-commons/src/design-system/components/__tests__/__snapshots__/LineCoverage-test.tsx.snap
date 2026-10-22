@@ -14,7 +14,7 @@ exports[`should render correctly when covered 1`] = `
   user-select: none;
 }
 
-.e44d5qo9:hover .emotion-0 {
+.e97e4543:hover .emotion-0 {
   background-color: var(--code-viewer-line-background-hover);
 }
 
@@ -57,7 +57,7 @@ exports[`should render correctly when no data 1`] = `
   user-select: none;
 }
 
-.e44d5qo9:hover .emotion-0 {
+.e97e4543:hover .emotion-0 {
   background-color: var(--code-viewer-line-background-hover);
 }
 
@@ -83,7 +83,7 @@ exports[`should render correctly when partially covered with 5/10 conditions 1`]
   user-select: none;
 }
 
-.e44d5qo9:hover .emotion-0 {
+.e97e4543:hover .emotion-0 {
   background-color: var(--code-viewer-line-background-hover);
 }
 
@@ -125,7 +125,7 @@ exports[`should render correctly when partially covered without conditions 1`] =
   user-select: none;
 }
 
-.e44d5qo9:hover .emotion-0 {
+.e97e4543:hover .emotion-0 {
   background-color: var(--code-viewer-line-background-hover);
 }
 
@@ -167,7 +167,7 @@ exports[`should render correctly when uncovered 1`] = `
   user-select: none;
 }
 
-.e44d5qo9:hover .emotion-0 {
+.e97e4543:hover .emotion-0 {
   background-color: var(--code-viewer-line-background-hover);
 }
 

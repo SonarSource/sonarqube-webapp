@@ -18,9 +18,27 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-// These are merged with the default babel.config.js file, no need to repeat what's already in there
-const babelOptions = {
-  presets: ['@babel/preset-env'],
-};
+const { createTransformer } = require('@swc/jest');
 
-module.exports = require('babel-jest').default.createTransformer(babelOptions);
+module.exports = createTransformer({
+  jsc: {
+    parser: {
+      syntax: 'typescript',
+      tsx: true,
+    },
+    transform: {
+      react: {
+        runtime: 'automatic',
+      },
+    },
+    experimental: {
+      plugins: [
+        ['@swc/plugin-emotion', { autoLabel: 'always', sourceMap: true }],
+        ['@swc-contrib/mut-cjs-exports', {}],
+      ],
+    },
+  },
+  module: {
+    type: 'commonjs',
+  },
+});

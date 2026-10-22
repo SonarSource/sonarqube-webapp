@@ -32,7 +32,7 @@ module.exports = {
     '!eslint-local-rules/test-config/*',
     '!**/node_modules/**',
   ],
-  // Our ts,tsx and js files need some babel transformation to be understood by nodejs
+  // Our ts,tsx and js files need SWC transpilation to be understood by nodejs
   transform: {
     '^.+\\.[jt]sx?$': `<rootDir>/config/jest/JestPreprocess.js`,
   },

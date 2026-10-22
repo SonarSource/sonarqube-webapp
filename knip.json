@@ -3,6 +3,8 @@
   "ignoreDependencies": [
     "@atlaskit/reduced-ui-pack",
     "@babel/preset-env",
+    "@swc/plugin-emotion",
+    "@swc-contrib/mut-cjs-exports",
     "@hey-api/openapi-ts",
     "@nx/plugin",
     "@nx/web",
@@ -61,12 +63,7 @@
       ],
       "ignoreFiles": ["eslint-local-rules/test-config/react.tsx"],
       "babel": {
-        "config": [
-          "babel.config.js",
-          "apps/sq-server/config/jest/JestPreprocess.js",
-          "config/jest/JestPreprocess.js",
-          "private/apps/sq-cloud/config/jest/JestPreprocess.js"
-        ]
+        "config": ["babel.config.js"]
       },
       "eslint": {
         "config": ["eslint.config.js"]
@@ -115,9 +112,6 @@
         "scripts/**/*.{js,ts}",
         "config/**/*.{js,mjs,ts}"
       ],
-      "babel": {
-        "config": ["config/jest/JestPreprocess.js"]
-      },
       "eslint": {
         "config": ["../../eslint.config.js"]
       },
@@ -162,9 +156,6 @@
       ],
       "paths": {
         "~adapters/*": ["src/sq-cloud-adapters/*"]
-      },
-      "babel": {
-        "config": ["config/jest/JestPreprocess.js"]
       },
       "eslint": {
         "config": ["../../../eslint.config.js"]

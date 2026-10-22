@@ -18,12 +18,4 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-// These are merged with the default babel.config.js file, no need to repeat what's already in there
-const babelOptions = {
-  rootMode: 'upward', // makes babel read the root config file
-
-  /* @babel/preset-env reads the browserlist in the root package.json to determine the target */
-  presets: ['@babel/preset-env'],
-};
-
-module.exports = require('babel-jest').default.createTransformer(babelOptions);
+module.exports = require('../../../../config/jest/JestPreprocess');

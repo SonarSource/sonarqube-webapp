@@ -98,6 +98,18 @@ Required peer dependency of `@rolldown/plugin-babel`, aligned with the Rolldown 
 
 Used by sq-cloud to show feedback forms created on the Sprig platform to our users.
 
+### @swc-contrib/mut-cjs-exports
+
+SWC plugin that makes CJS exports mutable (`configurable: true`) so that `jest.spyOn` can override re-exported bindings. Without it, SWC's strict `Object.defineProperty` descriptors prevent Jest from redefining module namespace properties.
+
+### @swc/jest
+
+Jest transformer that uses SWC instead of Babel for transpilation. Used by sq-server and sq-cloud tests for faster TypeScript and JSX compilation.
+
+### @swc/plugin-emotion
+
+SWC plugin that replicates the Emotion Babel plugin — adds auto-labels and source maps to `css`/`styled` calls so that snapshot serialization via `@emotion/jest/serializer` produces deterministic class names under SWC (note: generated hashes differ from the Babel plugin's, so existing snapshots referencing component selectors must be regenerated).
+
 ### @tanstack/react-query-devtools
 
 Used in development mode to facilitate the debugging Tanstack Query's cache and state.

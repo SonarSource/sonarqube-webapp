@@ -18,14 +18,29 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Theme } from '@sonarsource/echoes-react';
+import { cssVar, Theme } from '@sonarsource/echoes-react';
 import { renderWithContext } from '../../helpers/test-utils';
 import ScrollbarStyle, { scrollbarStyle } from '../ScrollbarStyle';
 
 it('should not render and have correct styles', () => {
   const { container } = setup();
   expect(container).toBeEmptyDOMElement();
-  expect(scrollbarStyle({ theme: Theme.light })).toMatchSnapshot();
+
+  const result = scrollbarStyle({ theme: Theme.light });
+  expect(result.styles).toContain('color-scheme:light');
+  expect(result.styles).toContain(
+    `scrollbar-color:${cssVar('color-background-neutral-bolder-default')} ${cssVar('color-surface-default')}`,
+  );
+  expect(result.styles).toContain('::-webkit-scrollbar{width:12px;}');
+  expect(result.styles).toContain(`border-radius:${cssVar('border-radius-full', '625rem')}`);
+  expect(result.styles).toContain(
+    `background:${cssVar('color-background-neutral-bolder-default')}`,
+  );
+  expect(result.styles).toContain('background-clip:content-box');
+  expect(result.styles).toContain('border:3px solid transparent');
+  expect(result.styles).toContain(
+    `::-webkit-scrollbar-track-piece{background:${cssVar('color-surface-default')};}`,
+  );
 });
 
 function setup() {

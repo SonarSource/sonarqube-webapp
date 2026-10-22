@@ -84,7 +84,7 @@ module.exports = {
     '<rootDir>/apps/sq-server/config/jest/SetupFailOnConsole.ts',
     '<rootDir>/apps/sq-server/config/jest/SetupMockServerWorkers.ts',
   ],
-  // Our ts,tsx and js files need some babel transformation to be understood by nodejs
+  // Our ts,tsx and js files need SWC transpilation to be understood by nodejs
   transform: {
     '^.+\\.(mjs|[jt]sx?)$': `<rootDir>/apps/sq-server/config/jest/JestPreprocess.js`,
   },
