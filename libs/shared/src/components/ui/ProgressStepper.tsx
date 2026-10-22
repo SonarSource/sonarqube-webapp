@@ -42,7 +42,15 @@ function getStepContent(index: number, progressIndex: number, resolution: Resolu
   return index + 1;
 }
 
-function getStepLabelColor(isLatest: boolean, isDone: boolean, resolution: Resolution) {
+function getStepLabelColor(
+  isLatest: boolean,
+  isDone: boolean,
+  resolution: Resolution,
+  isDisabled: boolean,
+) {
+  if (isDisabled) {
+    return cssVar('color-text-subtle');
+  }
   if (isLatest && resolution !== 'COMPLETED') {
     return resolutionColors[resolution];
   }
@@ -94,7 +102,7 @@ function StepItem<T extends string | number>({
   const isClickable = !readOnly && !isDisabled && isAvailable;
   const clickHandler = isClickable ? () => onChange?.(step) : undefined;
   const latestColor = resolutionColors[resolution];
-  const labelColor = getStepLabelColor(isLatest, isDone, resolution);
+  const labelColor = getStepLabelColor(isLatest, isDone, resolution, isDisabled);
 
   const stepInner = (
     <>
@@ -209,7 +217,7 @@ function StatusCircle(props: Readonly<StatusCircleProps>) {
         {...rem}
         className={classNames(readOnly && 'sw:pointer-events-none', className)}
         style={{
-          backgroundColor: isLatest ? accentColor : undefined,
+          backgroundColor: isLatest && !rem.disabled ? accentColor : undefined,
           fontWeight: isActive ? 'bold' : undefined,
           boxShadow: isActive ? cssVar('box-shadow-small') : undefined,
         }}
