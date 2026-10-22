@@ -19,7 +19,7 @@
  */
 
 import { Layout } from '@sonarsource/echoes-react';
-import { Outlet } from 'react-router-dom';
+import { Outlet } from 'react-router';
 import { addons } from '~sq-server-addons/index';
 import NCDAutoUpdateMessage from '~sq-server-commons/components/new-code-definition/NCDAutoUpdateMessage';
 import Workspace from '~sq-server-commons/components/workspace/Workspace';

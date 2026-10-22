@@ -20,7 +20,7 @@
 
 import { Link, LinkHighlight, Popover, ToggleTip, Tooltip } from '@sonarsource/echoes-react';
 import { FormattedMessage, useIntl } from 'react-intl';
-import { Path } from 'react-router-dom';
+import { Path } from 'react-router';
 import { isScaMeasure } from '../../helpers/sca';
 
 type Props = Readonly<{

@@ -18,7 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { useLocation, useOutletContext, useParams } from 'react-router-dom';
+import { useLocation, useOutletContext, useParams } from 'react-router';
 import NotFound from '~shared/components/NotFound';
 import { AdminPagesContext } from '~sq-server-commons/types/admin';
 import Extension from './Extension';

@@ -18,7 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router';
 import { MetricKey } from '../../types/metrics';
 import { mockLocation } from '../mocks/router';
 import {
@@ -30,10 +30,10 @@ import {
   useScaBaseUrl,
 } from '../sca-urls';
 
-// Mock react-router-dom
-jest.mock('react-router-dom', () => {
+// Mock react-router
+jest.mock('react-router', () => {
   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-  const original = jest.requireActual('react-router-dom');
+  const original = jest.requireActual('react-router');
 
   // eslint-disable-next-line @typescript-eslint/no-unsafe-return
   return {

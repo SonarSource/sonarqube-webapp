@@ -20228,6 +20228,7 @@ __metadata:
     react-intl: "npm:10.1.1"
     react-markdown: "npm:10.1.0"
     react-modal: "npm:3.16.3"
+    react-router: "npm:7.18.4"
     react-router-dom: "npm:7.18.4"
     react-scanner: "npm:1.2.0"
     react-select: "npm:5.10.1"

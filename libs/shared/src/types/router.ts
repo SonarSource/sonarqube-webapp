@@ -18,11 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import {
-  Location as LocationRouter,
-  NavigateFunction,
-  URLSearchParamsInit,
-} from 'react-router-dom';
+import { Location as LocationRouter, NavigateFunction, URLSearchParamsInit } from 'react-router';
 
 export type RawQuery = Record<string, any>;
 

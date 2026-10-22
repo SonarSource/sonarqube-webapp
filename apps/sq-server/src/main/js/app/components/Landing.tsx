@@ -18,7 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Navigate, To } from 'react-router-dom';
+import { Navigate, To } from 'react-router';
 import withCurrentUserContext from '~sq-server-commons/context/current-user/withCurrentUserContext';
 import { getHomePageUrl, getProjectsUrl } from '~sq-server-commons/helpers/urls';
 import { CurrentUser, isLoggedIn } from '~sq-server-commons/types/users';

@@ -27,7 +27,7 @@ import {
 } from '@sonarsource/echoes-react';
 import { useCallback, useEffect } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
-import { useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router';
 import { useCurrentBranchQuery, useProjectBranchesQuery } from '~adapters/queries/branch';
 import { DASHBOARDS_NEW_BADGE_EXPIRATION_DATE } from '~feature-dashboards/constants';
 import { NewBadge } from '~shared/components/badges/NewBadge';

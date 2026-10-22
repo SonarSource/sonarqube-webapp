@@ -27,7 +27,7 @@ import {
   Layout,
 } from '@sonarsource/echoes-react';
 import { FormattedMessage } from 'react-intl';
-import { useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router';
 import { useIsEnterpriseTier } from '~adapters/helpers/plan';
 import { DASHBOARDS_NEW_BADGE_EXPIRATION_DATE } from '~feature-dashboards/constants';
 import { NewBadge } from '~shared/components/badges/NewBadge';

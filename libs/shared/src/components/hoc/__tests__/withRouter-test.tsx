@@ -18,7 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { MemoryRouter } from 'react-router-dom';
+import { MemoryRouter } from 'react-router';
 import { render } from '../../../helpers/test-utils';
 import { WithRouterProps, useLocation, withRouter } from '../withRouter';
 

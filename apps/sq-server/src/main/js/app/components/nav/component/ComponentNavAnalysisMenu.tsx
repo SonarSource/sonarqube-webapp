@@ -20,7 +20,7 @@
 
 import { IconIssues, Layout } from '@sonarsource/echoes-react';
 import { FormattedMessage } from 'react-intl';
-import { useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router';
 import { PROJECT_SUMMARY_BASE_URL, PROJECT_SUMMARY_OVERALL_BASE_URL } from '~adapters/helpers/urls';
 import { useCurrentUser } from '~adapters/helpers/users';
 import { NewBadge } from '~shared/components/badges/NewBadge';

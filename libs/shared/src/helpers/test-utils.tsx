@@ -50,9 +50,9 @@ import {
   Outlet,
   Path,
   Route,
-  RouterProvider,
   useLocation,
-} from 'react-router-dom';
+} from 'react-router';
+import { RouterProvider } from 'react-router/dom';
 import { ContextWrapperInitProps, getContextWrapper } from '~adapters/helpers/test-utils';
 
 type RenderResultWithUser = RenderResult & { user: UserEvent };

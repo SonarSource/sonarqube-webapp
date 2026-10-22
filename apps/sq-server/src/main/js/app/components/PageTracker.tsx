@@ -20,7 +20,7 @@
 
 import { type PropsWithChildren, useEffect, useRef } from 'react';
 import { Helmet } from 'react-helmet-async';
-import { useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router';
 import { useAppState } from '~sq-server-commons/context/app-state/withAppStateContext';
 import { installScript } from '~sq-server-commons/helpers/extensions';
 import { getWebAnalyticsPageHandlerFromCache } from '~sq-server-commons/helpers/extensionsHandler';

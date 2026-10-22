@@ -19,7 +19,7 @@
  */
 
 import { screen } from '@testing-library/react';
-import { Outlet, Route } from 'react-router-dom';
+import { Outlet, Route } from 'react-router';
 import { Extension } from '~shared/types/common';
 import { renderAppRoutes } from '~sq-server-commons/helpers/testReactTestingUtils';
 import { AdminPagesContext } from '~sq-server-commons/types/admin';

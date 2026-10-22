@@ -19,7 +19,7 @@
  */
 
 import * as React from 'react';
-import { Outlet } from 'react-router-dom';
+import { Outlet } from 'react-router';
 import A11ySkipTarget from '~shared/components/a11y/A11ySkipTarget';
 import withComponentContext from '~sq-server-commons/context/componentContext/withComponentContext';
 import { Component } from '~sq-server-commons/types/types';

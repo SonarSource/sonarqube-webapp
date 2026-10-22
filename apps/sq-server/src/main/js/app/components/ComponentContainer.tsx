@@ -23,7 +23,7 @@ import { differenceBy } from 'lodash';
 import * as React from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useIntl } from 'react-intl';
-import { Navigate, Outlet } from 'react-router-dom';
+import { Navigate, Outlet } from 'react-router';
 import { PROJECT_SUMMARY_BASE_URL, PROJECT_SUMMARY_OVERALL_BASE_URL } from '~adapters/helpers/urls';
 import { useCurrentBranchQuery } from '~adapters/queries/branch';
 import { useLocation, useRouter } from '~shared/components/hoc/withRouter';

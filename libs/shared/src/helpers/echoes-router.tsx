@@ -19,7 +19,7 @@
  */
 
 import type { EchoesRouter, EchoesRouterLinkProps } from '@sonarsource/echoes-react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation } from 'react-router';
 
 function EchoesLink(props: Readonly<EchoesRouterLinkProps>) {
   // React Router 7 renders `data-discover="true"` on router links by default. Keep

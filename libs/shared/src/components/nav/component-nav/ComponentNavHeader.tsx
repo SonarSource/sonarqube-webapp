@@ -21,7 +21,7 @@
 import { DropdownMenu, Layout, Tooltip } from '@sonarsource/echoes-react';
 import { forwardRef, ReactNode } from 'react';
 import { FormattedMessage } from 'react-intl';
-import { To } from 'react-router-dom';
+import { To } from 'react-router';
 import Avatar from '~adapters/components/ui/Avatar';
 import { AvatarSize } from '../../../components/avatar';
 import { History, RecentHistory } from '../../../helpers/recent-history';

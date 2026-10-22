@@ -20,7 +20,7 @@
 
 import { Layout } from '@sonarsource/echoes-react';
 import { FormattedMessage } from 'react-intl';
-import { useMatch } from 'react-router-dom';
+import { useMatch } from 'react-router';
 import { ComponentQualifier } from '~shared/types/component';
 import { DEFAULT_ISSUES_QUERY } from '~sq-server-commons/components/shared/utils';
 import { useAppState } from '~sq-server-commons/context/app-state/withAppStateContext';

@@ -19,7 +19,7 @@
  */
 
 import { Layout } from '@sonarsource/echoes-react';
-import { Outlet } from 'react-router-dom';
+import { Outlet } from 'react-router';
 import { GlobalFooter } from '~adapters/components/layout/GlobalFooter';
 import { LogoWithAriaText } from './nav/global/MainSonarQubeBar';
 

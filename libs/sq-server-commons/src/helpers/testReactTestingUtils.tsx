@@ -29,12 +29,12 @@ import {
   MemoryRouter,
   Outlet,
   Route,
-  RouterProvider,
   Routes,
   createMemoryRouter,
   createRoutesFromElements,
   parsePath,
-} from 'react-router-dom';
+} from 'react-router';
+import { RouterProvider } from 'react-router/dom';
 import { IntlWrapper } from '~adapters/helpers/test-utils';
 import { echoesTestRouter } from '~shared/helpers/echoes-test-router';
 import { CatchAll } from '~shared/helpers/test-utils';

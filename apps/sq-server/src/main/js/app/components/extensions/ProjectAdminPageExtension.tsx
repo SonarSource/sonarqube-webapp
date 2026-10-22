@@ -19,7 +19,7 @@
  */
 
 import * as React from 'react';
-import { useLocation, useParams } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router';
 import NotFound from '~shared/components/NotFound';
 import { ComponentContext } from '~sq-server-commons/context/componentContext/ComponentContext';
 import { useRefreshBranches } from '~sq-server-commons/queries/branch';

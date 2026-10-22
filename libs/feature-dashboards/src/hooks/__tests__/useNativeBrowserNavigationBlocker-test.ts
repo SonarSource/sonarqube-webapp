@@ -31,7 +31,7 @@ function dispatchDocumentClick(event: MouseEvent) {
   documentClickHandler(event);
 }
 
-jest.mock('react-router-dom', () => ({
+jest.mock('react-router', () => ({
   useBeforeUnload: jest.fn((callback: (event: BeforeUnloadEvent) => void) => {
     beforeUnloadCallback = callback;
   }),

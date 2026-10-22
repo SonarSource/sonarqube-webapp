@@ -23,7 +23,7 @@ import { noop } from 'lodash';
 import * as React from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useIntl } from 'react-intl';
-import { Outlet } from 'react-router-dom';
+import { Outlet } from 'react-router';
 import useEffectOnce from '~shared/helpers/useEffectOnce';
 import { Extension } from '~shared/types/common';
 import { addons } from '~sq-server-addons/index';

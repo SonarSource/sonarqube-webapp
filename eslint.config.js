@@ -744,6 +744,30 @@ module.exports = [
     },
   },
 
+  {
+    files: [
+      'apps/sq-server/src/main/js/app/**/*.{ts,tsx}',
+      'libs/shared/src/**/*.{ts,tsx}',
+      'libs/sq-server-commons/src/helpers/**/*.{ts,tsx}',
+      'private/apps/sq-cloud/src/app/**/*.{ts,tsx}',
+      'private/apps/sq-cloud/src/apps/enterprise/**/*.{ts,tsx}',
+      'private/apps/sq-cloud/src/helpers/**/*.{ts,tsx}',
+    ],
+    rules: {
+      'no-restricted-imports': [
+        'error',
+        {
+          paths: [
+            {
+              name: 'react-router-dom',
+              message: 'Use react-router in the SC-59841-migrated scopes.',
+            },
+          ],
+        },
+      ],
+    },
+  },
+
   // ─── sq-cloud-metrics ──
   {
     files: ['private/sq-cloud-metrics/**/*.{js,ts}'],

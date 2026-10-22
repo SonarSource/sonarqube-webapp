@@ -21,7 +21,7 @@
 import { Layout, MessageCallout } from '@sonarsource/echoes-react';
 import { useContext } from 'react';
 import { FormattedMessage } from 'react-intl';
-import { Outlet } from 'react-router-dom';
+import { Outlet } from 'react-router';
 import { isApplication } from '~shared/helpers/component';
 import { ComponentContext } from '~sq-server-commons/context/componentContext/ComponentContext';
 

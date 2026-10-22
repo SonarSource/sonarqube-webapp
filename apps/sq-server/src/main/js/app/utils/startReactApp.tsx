@@ -26,13 +26,8 @@ import { Agentation } from 'agentation';
 import { createRoot } from 'react-dom/client';
 import { Helmet, HelmetProvider } from 'react-helmet-async';
 import { IntlShape, RawIntlProvider } from 'react-intl';
-import {
-  Outlet,
-  Route,
-  RouterProvider,
-  createBrowserRouter,
-  createRoutesFromElements,
-} from 'react-router-dom';
+import { Outlet, Route, createBrowserRouter, createRoutesFromElements } from 'react-router';
+import { RouterProvider } from 'react-router/dom';
 import { qualityGateHistoryRoutes } from '~feature-quality-gate-history/components/routes';
 import { A11yProvider } from '~shared/components/a11y/A11yProvider';
 import NotFound from '~shared/components/NotFound';

@@ -20,7 +20,7 @@
 
 import userEvent from '@testing-library/user-event';
 import * as React from 'react';
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router';
 import { byRole } from '~shared/helpers/testSelector';
 import { installScript } from '~sq-server-commons/helpers/extensions';
 import { getWebAnalyticsPageHandlerFromCache } from '~sq-server-commons/helpers/extensionsHandler';

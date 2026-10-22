@@ -20,7 +20,7 @@
 
 import { Helmet } from 'react-helmet-async';
 import { useIntl } from 'react-intl';
-import { Outlet } from 'react-router-dom';
+import { Outlet } from 'react-router';
 import { PoliciesSidebar } from './nav/policies/PoliciesSidebar';
 
 export function PoliciesContainer() {

@@ -20,7 +20,7 @@
 
 import { Layout } from '@sonarsource/echoes-react';
 import { ComponentType } from 'react';
-import { Outlet } from 'react-router-dom';
+import { Outlet } from 'react-router';
 
 interface Props {
   NavBar: ComponentType;

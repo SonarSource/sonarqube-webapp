@@ -20,7 +20,7 @@
 
 import userEvent from '@testing-library/user-event';
 import * as React from 'react';
-import { Route, useOutletContext } from 'react-router-dom';
+import { Route, useOutletContext } from 'react-router';
 import { byLabelText, byRole, byTestId, byText } from '~shared/helpers/testSelector';
 import { getSystemStatus, waitSystemUPStatus } from '~sq-server-commons/api/system';
 import AdminContext from '~sq-server-commons/context/AdminContext';

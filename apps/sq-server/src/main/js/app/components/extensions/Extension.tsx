@@ -25,7 +25,7 @@ import { isEqual } from 'lodash';
 import * as React from 'react';
 import { Helmet } from 'react-helmet-async';
 import { FormattedMessage } from 'react-intl';
-import { Route } from 'react-router-dom';
+import { Route } from 'react-router';
 import { Theme } from '~design-system';
 import { withRouter } from '~shared/components/hoc/withRouter';
 import { ProjectPageTemplate } from '~shared/components/pages/ProjectPageTemplate';

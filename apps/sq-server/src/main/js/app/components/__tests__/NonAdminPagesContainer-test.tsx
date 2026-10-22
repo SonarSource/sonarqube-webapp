@@ -19,7 +19,7 @@
  */
 
 import { screen } from '@testing-library/react';
-import { MemoryRouter, Route, Routes } from 'react-router-dom';
+import { MemoryRouter, Route, Routes } from 'react-router';
 import { render } from '~shared/helpers/test-utils';
 import { ComponentQualifier } from '~shared/types/component';
 import { ComponentContext } from '~sq-server-commons/context/componentContext/ComponentContext';

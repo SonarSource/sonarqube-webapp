@@ -18,7 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Path, To } from 'react-router-dom';
+import { Path, To } from 'react-router';
 import { getBaseUrl } from '~adapters/helpers/system';
 import { PROJECT_SUMMARY_BASE_URL, PROJECT_SUMMARY_OVERALL_BASE_URL } from '~adapters/helpers/urls';
 import {

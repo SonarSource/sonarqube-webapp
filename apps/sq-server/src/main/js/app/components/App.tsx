@@ -19,7 +19,7 @@
  */
 
 import * as React from 'react';
-import { Outlet } from 'react-router-dom';
+import { Outlet } from 'react-router';
 import withAppStateContext from '~sq-server-commons/context/app-state/withAppStateContext';
 import { AppState } from '~sq-server-commons/types/appstate';
 import { GlobalSettingKeys } from '~sq-server-commons/types/settings';

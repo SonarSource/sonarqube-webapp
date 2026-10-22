@@ -21,7 +21,7 @@
 import { screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { useContext } from 'react';
-import { Route } from 'react-router-dom';
+import { Route } from 'react-router';
 import * as withRouter from '~shared/components/hoc/withRouter';
 import { byRole, byTestId, byText } from '~shared/helpers/testSelector';
 import { getProjectOverviewUrl } from '~shared/helpers/urls';

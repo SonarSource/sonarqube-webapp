@@ -19,7 +19,7 @@
  */
 
 import { type EchoesRouter, type EchoesRouterLinkProps, toHref } from '@sonarsource/echoes-react';
-import { Link, useInRouterContext, useLocation } from 'react-router-dom';
+import { Link, useInRouterContext, useLocation } from 'react-router';
 
 // Test helpers mount the Echoes provider both with and without a test router, and some tests put
 // the router inside the provider. This adapter uses react-router when a router is above the link,

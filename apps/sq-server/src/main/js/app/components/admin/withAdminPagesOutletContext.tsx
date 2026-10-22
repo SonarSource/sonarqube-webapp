@@ -19,7 +19,7 @@
  */
 
 import * as React from 'react';
-import { useOutletContext } from 'react-router-dom';
+import { useOutletContext } from 'react-router';
 import { AdminPagesContext } from '~sq-server-commons/types/admin';
 
 export default function withAdminPagesOutletContext(

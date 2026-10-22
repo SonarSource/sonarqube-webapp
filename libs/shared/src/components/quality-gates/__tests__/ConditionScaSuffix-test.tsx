@@ -18,7 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import type { Path } from 'react-router-dom';
+import type { Path } from 'react-router';
 import { renderWithRouter } from '../../../helpers/test-utils';
 import { byLabelText, byRole } from '../../../helpers/testSelector';
 import { MetricKey } from '../../../types/metrics';

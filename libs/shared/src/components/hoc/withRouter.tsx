@@ -26,7 +26,7 @@ import {
   useNavigate,
   useParams,
   useSearchParams,
-} from 'react-router-dom';
+} from 'react-router';
 import { queryToSearchString } from '../../helpers/query';
 import { searchParamsToQuery } from '../../helpers/router';
 import { Location, Router } from '../../types/router';

@@ -19,7 +19,7 @@
  */
 
 import { screen } from '@testing-library/react';
-import { Route } from 'react-router-dom';
+import { Route } from 'react-router';
 import { mockAppState } from '~sq-server-commons/helpers/testMocks';
 import { renderAppRoutes } from '~sq-server-commons/helpers/testReactTestingUtils';
 import DocumentationRedirect from '../DocumentationRedirect';

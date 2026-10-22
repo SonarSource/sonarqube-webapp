@@ -21,7 +21,7 @@
 import { fireEvent, screen, waitFor } from '@testing-library/react';
 import { http, HttpResponse } from 'msw';
 import { ComponentProps } from 'react';
-import { Route } from 'react-router-dom';
+import { Route } from 'react-router';
 import * as branchQueries from '~adapters/queries/branch';
 import { DASHBOARDS_NEW_BADGE_EXPIRATION_DATE } from '~feature-dashboards/constants';
 import { registerServiceMocks, resetServiceMocks, server } from '~shared/api/mocks/server';

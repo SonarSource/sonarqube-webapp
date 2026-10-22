@@ -19,7 +19,7 @@
  */
 
 import { omit } from 'lodash';
-import { To } from 'react-router-dom';
+import { To } from 'react-router';
 import { mockLoggedInUser as mockLoggedInUserShared } from '~shared/helpers/mocks/users';
 import {
   CodeAttribute,

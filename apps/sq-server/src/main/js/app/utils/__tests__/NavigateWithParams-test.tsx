@@ -19,7 +19,7 @@
  */
 
 import { screen } from '@testing-library/react';
-import { MemoryRouter, Params, Route, Routes } from 'react-router-dom';
+import { MemoryRouter, Params, Route, Routes } from 'react-router';
 import { CatchAll, render } from '~shared/helpers/test-utils';
 import NavigateWithParams from '../NavigateWithParams';
 

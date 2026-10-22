@@ -33,7 +33,7 @@ import {
 import { useCallback, useState, type JSX } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { FormattedMessage, useIntl } from 'react-intl';
-import { useSearchParams } from 'react-router-dom';
+import { useSearchParams } from 'react-router';
 import { Image } from '~adapters/components/common/Image';
 import { ClipboardButton } from '../clipboard';
 

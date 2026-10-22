@@ -19,7 +19,7 @@
  */
 
 import { isNil, mapValues, omitBy } from 'lodash';
-import { createSearchParams, URLSearchParamsInit } from 'react-router-dom';
+import { createSearchParams, URLSearchParamsInit } from 'react-router';
 import { RawQuery } from '../types/router';
 
 export function cleanQuery(query: RawQuery): RawQuery {

@@ -19,7 +19,7 @@
  */
 
 import { Layout } from '@sonarsource/echoes-react';
-import { Outlet } from 'react-router-dom';
+import { Outlet } from 'react-router';
 
 /**
  * Container for global (non-project, non-admin) page extensions like portfolios.

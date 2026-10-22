@@ -19,7 +19,7 @@
  */
 
 import { useEffect, useRef } from 'react';
-import { useBeforeUnload } from 'react-router-dom';
+import { useBeforeUnload } from 'react-router';
 
 interface NavigationBlockerEffectsProps {
   onLinkNavigation: (link: HTMLAnchorElement) => boolean;

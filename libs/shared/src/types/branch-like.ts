@@ -18,7 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { To } from 'react-router-dom';
+import { To } from 'react-router';
 import { QGStatus } from './common';
 import { ComponentBase } from './component';
 
