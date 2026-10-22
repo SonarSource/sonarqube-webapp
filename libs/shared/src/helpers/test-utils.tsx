@@ -123,7 +123,10 @@ export function renderWithRouter(
       ),
       { initialEntries },
     );
-    return <RouterProvider router={router} />;
+
+    // React Router 7 wraps router updates in transitions by default. Test helpers opt out so
+    // assertions observe the settled router state instead of a mid-transition render.
+    return <RouterProvider router={router} useTransitions={false} />;
   }
 
   return render(ui, { ...options, wrapper: Wrapper }, userEventOptions);
@@ -150,7 +153,8 @@ export function renderWithRoutes(
       ),
       { initialEntries },
     );
-    return <RouterProvider router={router} />;
+
+    return <RouterProvider router={router} useTransitions={false} />;
   }
 
   return render(ui, { ...options, wrapper: Wrapper }, userEventOptions);
@@ -164,7 +168,9 @@ export function CatchAll({ backPath }: Readonly<{ backPath: string | Partial<Pat
       <div>{`${location.pathname}${location.search}`}</div>
 
       <div>
-        <Link to={backPath}>back</Link>
+        <Link discover="none" to={backPath}>
+          back
+        </Link>
       </div>
     </>
   );

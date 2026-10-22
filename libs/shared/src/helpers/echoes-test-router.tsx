@@ -29,7 +29,9 @@ function EchoesTestLink(props: Readonly<EchoesRouterLinkProps>) {
   const isInRouter = useInRouterContext();
 
   if (isInRouter) {
-    return <Link {...props} />;
+    // Keep the rendered link markup stable in tests and avoid snapshot churn from React Router 7's
+    // default `data-discover="true"` attribute.
+    return <Link discover="none" {...props} />;
   }
 
   const { children, reloadDocument: _reloadDocument, state: _state, to, ...anchorProps } = props;

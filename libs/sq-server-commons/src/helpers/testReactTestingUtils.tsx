@@ -129,7 +129,10 @@ export function renderComponent(
             <AvailableFeaturesContext.Provider value={featureList}>
               <CurrentUserContextProvider currentUser={currentUser}>
                 <AppStateContextProvider appState={appState}>
-                  <MemoryRouter initialEntries={[pathname]}>
+                  {/* React Router 7 wraps router updates in transitions by default. Test helpers opt
+                  out so assertions observe the settled router state instead of a mid-transition
+                  render. */}
+                  <MemoryRouter initialEntries={[pathname]} useTransitions={false}>
                     <EchoesProviderForTests router={echoesTestRouter} tooltipsDelayDuration={0}>
                       <Routes>
                         <Route element={children} path="*" />
@@ -243,7 +246,8 @@ function renderRoutedApp(
               <AppStateContextProvider appState={appState}>
                 <IndexationContextProvider>
                   <QueryClientProvider client={queryClient}>
-                    <RouterProvider router={router} />
+                    {/* Same rationale as above: keep router state updates deterministic in tests. */}
+                    <RouterProvider router={router} useTransitions={false} />
                   </QueryClientProvider>
                 </IndexationContextProvider>
               </AppStateContextProvider>

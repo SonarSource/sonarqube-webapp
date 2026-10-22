@@ -77,27 +77,17 @@ describe('Rules app list', () => {
     renderCodingRulesApp();
     await ui.listLoaded();
 
-    expect(
-      ui.ruleListItemLink('Awsome java rule').get(ui.currentListItem.get()),
-    ).toBeInTheDocument();
+    await user.click(await ui.ruleListItemLink('Awsome java rule').find());
 
     await user.keyboard('{ArrowDown}');
-    expect(ui.ruleListItemLink('Hot hotspot').get(ui.currentListItem.get())).toBeInTheDocument();
-
-    await user.keyboard('{ArrowUp}');
-
-    expect(
-      ui.ruleListItemLink('Awsome java rule').get(ui.currentListItem.get()),
-    ).toBeInTheDocument();
-
     await user.keyboard('{ArrowRight}');
-    expect(await ui.ruleTitle('Awsome java rule').find()).toBeInTheDocument();
+    expect(await ui.ruleTitle('Hot hotspot').find()).toBeInTheDocument();
 
     await user.keyboard('{ArrowLeft}');
 
-    expect(
-      ui.ruleListItemLink('Awsome java rule').get(ui.currentListItem.get()),
-    ).toBeInTheDocument();
+    await user.keyboard('{ArrowUp}');
+    await user.keyboard('{ArrowRight}');
+    expect(await ui.ruleTitle('Awsome java rule').find()).toBeInTheDocument();
   });
 
   it('navigates correctly to rule details from second page', async () => {

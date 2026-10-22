@@ -136,11 +136,9 @@ describe('issues app', () => {
       await user.click(screen.getByRole('combobox', { name: 'issues.sort.label' }));
       await user.click(screen.getByRole('option', { name: 'issues.sort.FILE_LINE' }));
 
-      await waitFor(() => {
-        expect(getSearchIssuesMock()).toHaveBeenLastCalledWith(
-          expect.objectContaining({ s: 'FILE_LINE' }),
-        );
-      });
+      expect(getSearchIssuesMock()).toHaveBeenLastCalledWith(
+        expect.objectContaining({ s: 'FILE_LINE' }),
+      );
     });
 
     it('should sort DESC when Creation Date sort is selected', async () => {
@@ -163,7 +161,7 @@ describe('issues app', () => {
       const user = userEvent.setup();
       const { unmount } = renderIssueApp();
 
-      await waitForElementToBeRemoved(screen.queryByText('issues.loading_issues'));
+      await waitForIssuesPageToSettle();
 
       await user.click(screen.getByRole('combobox', { name: 'issues.sort.label' }));
       await user.click(screen.getByRole('option', { name: 'issues.sort.FILE_LINE' }));
@@ -177,7 +175,7 @@ describe('issues app', () => {
       unmount();
       renderIssueApp();
 
-      await waitForElementToBeRemoved(screen.queryByText('issues.loading_issues'));
+      await waitForIssuesPageToSettle('FILE_LINE');
 
       expect(getSearchIssuesMock()).toHaveBeenLastCalledWith(
         expect.objectContaining({ s: 'FILE_LINE' }),
@@ -204,9 +202,9 @@ describe('issues app', () => {
   describe('navigation', () => {
     it('should handle keyboard navigation in list and open / close issues', async () => {
       const user = userEvent.setup();
-      renderIssueApp();
+      renderIssueApp(undefined, [], 'issues?s=IMPACT_RANK');
 
-      await waitForElementToBeRemoved(screen.queryByText('issues.loading_issues'));
+      await waitForIssuesPageToSettle();
 
       // Navigate to 2nd issue
       await user.keyboard('{ArrowDown}');
@@ -219,9 +217,12 @@ describe('issues app', () => {
 
       // Go back
       await user.keyboard('{ArrowLeft}');
-      expect(
-        screen.queryByRole('heading', { name: issuesHandler.list[1].issue.message }),
-      ).not.toBeInTheDocument();
+
+      await waitFor(() => {
+        expect(
+          screen.queryByRole('heading', { name: issuesHandler.list[1].issue.message }),
+        ).not.toBeInTheDocument();
+      });
 
       // Navigate to 1st issue and select it
       await user.keyboard('{ArrowUp}');
@@ -229,7 +230,7 @@ describe('issues app', () => {
       await user.keyboard('{ArrowRight}');
 
       expect(
-        screen.getByRole('heading', { name: issuesHandler.list[0].issue.message }),
+        await screen.findByRole('heading', { name: issuesHandler.list[0].issue.message }),
       ).toBeInTheDocument();
     });
 
@@ -334,14 +335,19 @@ describe('issues app', () => {
 
     it('should be able to show more issues', async () => {
       const user = userEvent.setup();
-      renderIssueApp();
+      renderIssueApp(undefined, [], 'issues?s=IMPACT_RANK');
+
+      await waitForIssuesPageToSettle();
 
       expect(await ui.issueItems.findAll()).toHaveLength(7);
       expect(ui.issueItem8.query()).not.toBeInTheDocument();
 
       await user.click(screen.getByRole('button', { name: 'show_more' }));
 
-      expect(ui.issueItems.getAll()).toHaveLength(12);
+      await waitFor(() => {
+        expect(ui.issueItems.getAll()).toHaveLength(12);
+      });
+
       expect(ui.issueItem8.get()).toBeInTheDocument();
     });
 
@@ -353,7 +359,9 @@ describe('issues app', () => {
       });
       issuesHandler.setIsAdmin(true);
       usersHandler.setCurrentUser(currentUser);
-      renderIssueApp(currentUser);
+      renderIssueApp(currentUser, [], 'issues?s=IMPACT_RANK');
+
+      await waitForIssuesPageToSettle();
 
       // Check that the bulk button has correct behavior
       expect(await screen.findByRole('button', { name: 'bulk_change' })).toBeDisabled();
@@ -361,7 +369,7 @@ describe('issues app', () => {
       // Select all issues
       await user.click(await screen.findByRole('checkbox', { name: 'issues.select_all_issues' }));
       expect(
-        screen.getByRole('button', { name: 'issues.bulk_change_X_issues.12' }),
+        await screen.findByRole('button', { name: 'issues.bulk_change_X_issues.12' }),
       ).toBeInTheDocument();
 
       // Open bulk change modal and close it
@@ -371,7 +379,10 @@ describe('issues app', () => {
 
       // Unselect all
       await user.click(screen.getByRole('checkbox', { name: 'issues.select_all_issues' }));
-      expect(screen.getByRole('button', { name: 'bulk_change' })).toBeDisabled();
+
+      await waitFor(() => {
+        expect(screen.getByRole('button', { name: 'bulk_change' })).toBeDisabled();
+      });
     });
 
     it('should be able to bulk change', async () => {
@@ -382,14 +393,19 @@ describe('issues app', () => {
       });
       issuesHandler.setIsAdmin(true);
       usersHandler.setCurrentUser(currentUser);
-      renderIssueApp(currentUser);
+      renderIssueApp(currentUser, [], 'issues?s=IMPACT_RANK');
+
+      await waitForIssuesPageToSettle();
 
       // Check that we bulk change the selected issue
       const issueBoxFixThat = within(await screen.findByRole('region', { name: 'Fix that' }));
       await user.click(
         screen.getByRole('checkbox', { name: 'issues.action_select.label.Fix that' }),
       );
-      await user.click(screen.getByRole('button', { name: 'issues.bulk_change_X_issues.1' }));
+
+      await user.click(
+        await screen.findByRole('button', { name: 'issues.bulk_change_X_issues.1' }),
+      );
 
       expect(ui.bulkChangeComment.query()).not.toBeInTheDocument();
 
@@ -408,6 +424,16 @@ describe('issues app', () => {
 
   });
 });
+
+async function waitForIssuesPageToSettle(sort = 'IMPACT_RANK') {
+  await waitFor(() => {
+    expect(getSearchIssuesMock()).toHaveBeenLastCalledWith(expect.objectContaining({ s: sort }));
+  });
+
+  await waitFor(() => {
+    expect(screen.queryByText('issues.loading_issues')).not.toBeInTheDocument();
+  });
+}
 
 describe('redirects', () => {
   it('should work for hotspots', () => {

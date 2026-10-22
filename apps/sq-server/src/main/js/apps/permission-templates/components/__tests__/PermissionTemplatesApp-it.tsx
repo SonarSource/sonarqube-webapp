@@ -473,10 +473,10 @@ function getPageObject(user: UserEvent) {
       await user.click(ui.permissionCheckbox(target, permission).get());
     },
     async openCreateModal() {
-      await user.click(ui.createNewTemplateBtn.get());
+      await user.click(await ui.createNewTemplateBtn.find());
     },
     async createNewTemplate(name: string, description: string, pattern?: string) {
-      await user.click(ui.createNewTemplateBtn.get());
+      await user.click(await ui.createNewTemplateBtn.find());
       await user.type(ui.modal.byRole('textbox', { name: /name/ }).get(), name);
       await user.type(ui.modal.byRole('textbox', { name: 'description' }).get(), description);
 

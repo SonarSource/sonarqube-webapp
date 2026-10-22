@@ -18,7 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { within } from '@testing-library/react';
+import { waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { last } from 'lodash';
 import { Route } from 'react-router-dom';
@@ -80,7 +80,10 @@ it('can update project key', async () => {
   expect(within(ui.updateKeyDialog.get()).getByText(oldKey)).toBeInTheDocument();
   expect(within(ui.updateKeyDialog.get()).getByText(newKey)).toBeInTheDocument();
   await user.click(last(ui.updateInputButton.getAll()) as HTMLElement);
-  expect(ui.updateInputButton.get()).toBeDisabled();
+
+  await waitFor(() => {
+    expect(ui.updateInputButton.get()).toBeDisabled();
+  });
 
   expect(ui.newKeyInput.get()).toHaveValue(newKey);
 });

@@ -18,14 +18,20 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import type { EchoesRouter } from '@sonarsource/echoes-react';
+import type { EchoesRouter, EchoesRouterLinkProps } from '@sonarsource/echoes-react';
 import { Link, useLocation } from 'react-router-dom';
+
+function EchoesLink(props: Readonly<EchoesRouterLinkProps>) {
+  // React Router 7 renders `data-discover="true"` on router links by default. Keep
+  // Echoes-rendered links at the pre-upgrade DOM shape until we intentionally adopt that attribute.
+  return <Link discover="none" {...props} />;
+}
 
 function usePathname() {
   return useLocation().pathname;
 }
 
 export const echoesRouter: EchoesRouter = {
-  Link,
+  Link: EchoesLink,
   usePathname,
 };

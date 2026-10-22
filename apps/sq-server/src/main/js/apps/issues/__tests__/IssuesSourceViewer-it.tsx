@@ -18,7 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { screen } from '@testing-library/react';
+import { screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { keyBy } from 'lodash';
 import { byLabelText, byRole } from '~shared/helpers/testSelector';
@@ -112,7 +112,10 @@ describe('issues source viewer', () => {
     // Both line 1 of test1.js and test2.js should be rendered after expanding lines above snippet in test2.js
     expect(ui.line1.getAll()).toHaveLength(1);
     await user.click(ui.expandLinesAbove.get());
-    expect(ui.line1.getAll()).toHaveLength(2);
+
+    await waitFor(() => {
+      expect(ui.line1.getAll()).toHaveLength(2);
+    });
   });
 
   it('should expand a few lines and show SCM info', async () => {
@@ -127,7 +130,9 @@ describe('issues source viewer', () => {
     // Expand lines below snippet
     const expandBelowSecondSnippet = ui.expandLinesBelow.getAll()[1];
     await user.click(expandBelowSecondSnippet);
-    expect(ui.line60.get()).toBeInTheDocument();
+
+    expect(await ui.line60.find()).toBeInTheDocument();
+
     expect(ui.line199.query()).not.toBeInTheDocument(); // Expand should only expand a few lines, not all of them
 
     // Show SCM info for newly expanded line
@@ -164,11 +169,12 @@ describe('issues source viewer', () => {
     await user.click(ui.expandLinesAbove.get());
 
     // Line 44 should now be shown
-    expect(ui.line44.get()).toBeInTheDocument();
+    expect(await ui.line44.find()).toBeInTheDocument();
 
     // Snippets should be automatically merged
-    // eslint-disable-next-line jest-dom/prefer-in-document
-    expect(screen.getAllByRole('table')).toHaveLength(1);
+    await waitFor(() => {
+      expect(screen.getAllByRole('table')).toHaveLength(1);
+    });
   });
 
   describe('should render jupyter notebook issues correctly', () => {
