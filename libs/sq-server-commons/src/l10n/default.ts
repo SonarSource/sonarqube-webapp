@@ -990,6 +990,9 @@ export const defaultMessages = {
   'hunter_agent.activity.table.credits': 'Scan units consumed',
   'hunter_agent.agent_activity_message':
     'In progress and completed scans can be found in the <link>Hunter Agent run history</link>.',
+  'hunter_agent.branch_not_scanned.description':
+    'Scan this branch to uncover complex, context-dependent problems in your codebase.',
+  'hunter_agent.branch_not_scanned.title': "This branch hasn't been scanned yet",
   'hunter_agent.config.update_error': 'Failed to update Hunter Agent configuration.',
   'hunter_agent.config.updated': 'Hunter Agent configuration updated.',
   'hunter_agent.credit_estimation.balance_too_low.branch':
@@ -1014,26 +1017,16 @@ export const defaultMessages = {
   'hunter_agent.latest_job_status.no_scans_yet': 'No scans yet.',
   'hunter_agent.latest_job_status.no_scheduled_scans': 'No scheduled scans',
   'hunter_agent.learn_more': 'Learn more about Hunter Agent',
-  'hunter_agent.main_branch_not_scanned.alternative':
-    "<b>Alternative:</b> Proceed on the main branch. You can manually 'Accept' discovered issues so they don't fail your quality gate.",
   'hunter_agent.main_branch_not_scanned.description':
     'Scanning the main branch may surface complex issues that block your next release.',
-  'hunter_agent.main_branch_not_scanned.recommended':
-    '<b>Recommended:</b> Run the agent on a dedicated branch to review and remediate issues safely.',
-  'hunter_agent.main_branch_not_scanned.scan_main_branch': 'Scan main branch',
-  'hunter_agent.main_branch_not_scanned.see_all_branches': 'See all branches',
-  'hunter_agent.main_branch_not_scanned.title': "The main branch hasn't been scanned yet",
+  'hunter_agent.main_branch_not_scanned.recommendation':
+    'You may prefer to run the agent on a dedicated branch to review and remediate issues safely.',
   'hunter_agent.manage_scan_schedule': 'Manage scheduling',
-  'hunter_agent.no_scan_yet.description.admin':
-    'Run a first scan of your project to uncover complex, context-dependent problems in your codebase.',
-  'hunter_agent.no_scan_yet.description.member':
-    'Ask an administrator of this project to run a first scan to uncover complex, context-dependent problems in your codebase.',
-  'hunter_agent.no_scan_yet.title': 'Start hunting for complex, context-dependent problems',
-  'hunter_agent.not_available_for_branch.action': 'See all branches',
+  'hunter_agent.not_available_for_branch.action': 'Go to main branch',
   'hunter_agent.not_available_for_branch.description':
-    'Select a long-lived branch to run the Hunter Agent',
+    'Select a long-lived branch to run the Hunter Agent.',
   'hunter_agent.not_available_for_branch.title':
-    'Hunter Agent is not available for PRs and short-lived branches.',
+    'Hunter Agent not available for PRs and short-lived branches',
   'hunter_agent.project_not_bound.action': 'Set up project binding',
   'hunter_agent.project_not_bound.description.admin':
     'Set up project binding before running the Hunter Agent.',
