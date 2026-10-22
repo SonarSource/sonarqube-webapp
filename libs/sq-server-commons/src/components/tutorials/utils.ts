@@ -24,7 +24,7 @@ import { AlmSettingsInstance, ProjectAlmBindingResponse } from '../../types/alm-
 import { UserToken } from '../../types/token';
 import { Arch, AutoConfig, BuildTools, GradleBuildDSL, OSs, TutorialConfig } from './types';
 
-export const SONAR_SCANNER_CLI_LATEST_VERSION = '8.1.0.6389';
+export const SONAR_SCANNER_CLI_LATEST_VERSION = '8.2.0.6438';
 
 export function quote(os: string): (s: string) => string {
   return os === 'win' ? (s: string) => `"${s}"` : (s: string) => s;
