@@ -965,6 +965,7 @@ export const defaultMessages = {
   'hunter_agent.activity.no_data.title': 'No Hunter Agent activity yet on this project',
   'hunter_agent.activity.not_started': 'Not started',
   'hunter_agent.activity.run_completed': 'Latest run completed',
+  'hunter_agent.activity.no_new_findings': 'No new findings',
   'hunter_agent.activity.project_not_applicable':
     'Scan skipped: no relevant attack surface was identified in this project.',
   'hunter_agent.activity.project_not_applicable.description': 'No relevant attack surface',
