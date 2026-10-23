@@ -71,7 +71,7 @@ export default function DomainSubnavigationAccordion(props: Readonly<Props>) {
         {helpDescription && (
           <AccordionHeaderAction
             className={classNames(
-              'sw:absolute sw:top-1/2 sw:-translate-y-1/2',
+              'sw:absolute sw:top-[50%] sw:-translate-y-[50%]',
               'sw:right-10 sw:flex sw:items-center',
             )}
           >

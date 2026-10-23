@@ -162,7 +162,7 @@ export class DatePicker extends React.PureComponent<Props, State> {
                       className="sw:typo-default"
                       components={{
                         MonthCaption: CustomCalendarNavigation,
-                        Nav: () => <></>,
+                        Nav: () => <span hidden />,
                       }}
                       disabled={{ after: maxDate, before: minDate }}
                       endMonth={new Date(toYear, 11)}
@@ -208,7 +208,7 @@ export class DatePicker extends React.PureComponent<Props, State> {
                 />
 
                 <IconCalendar
-                  className="sw:absolute sw:top-1/2 sw:left-2 sw:-translate-y-1/2"
+                  className="sw:absolute sw:top-[50%] sw:left-2 sw:-translate-y-[50%]"
                   color="echoes-color-icon-default"
                 />
 
