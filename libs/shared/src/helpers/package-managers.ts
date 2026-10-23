@@ -29,6 +29,7 @@ export enum PackageManagers {
   Nuget = 'NUGET',
   Pypi = 'PYPI',
   Rubygems = 'GEM',
+  Swift = 'SWIFT',
   Vcpkg = 'VCPKG',
   UNKNOWN = 'UNKNOWN',
 }
@@ -44,6 +45,7 @@ export const PACKAGE_MANAGER_LABELS: Record<PackageManagers, string> = {
   [PackageManagers.Nuget]: 'dependencies.package_managers.NUGET',
   [PackageManagers.Pypi]: 'dependencies.package_managers.PYPI',
   [PackageManagers.Rubygems]: 'dependencies.package_managers.GEM',
+  [PackageManagers.Swift]: 'dependencies.package_managers.SWIFT',
   [PackageManagers.Vcpkg]: 'dependencies.package_managers.VCPKG',
   [PackageManagers.UNKNOWN]: 'dependencies.package_managers.UNKNOWN',
 };

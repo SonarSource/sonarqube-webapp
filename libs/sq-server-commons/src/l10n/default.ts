@@ -2859,6 +2859,7 @@ export const defaultMessages = {
   'dependencies.package_managers.NUGET': 'NuGet',
   'dependencies.package_managers.PYPI': 'PyPI',
   'dependencies.package_managers.GEM': 'Gem',
+  'dependencies.package_managers.SWIFT': 'Swift Package Manager',
   'dependencies.package_managers.UNKNOWN': 'Unknown',
   'dependencies.package_managers.VCPKG': 'vcpkg',
 

@@ -30,6 +30,7 @@ import { NpmLogo } from './logos/NpmLogo';
 import { NugetLogo } from './logos/NugetLogo';
 import { PypiLogo } from './logos/PypiLogo';
 import { RubygemsLogo } from './logos/RubygemsLogo';
+import { SwiftLogo } from './logos/SwiftLogo';
 import { VcpkgLogo } from './logos/VcpkgLogo';
 
 interface PackageManagerIconProps {
@@ -60,6 +61,8 @@ function renderPackageManagerIcon(packageManager: PackageManagers | string, clas
       return <PypiLogo className={className} />;
     case PackageManagers.Rubygems:
       return <RubygemsLogo className={className} />;
+    case PackageManagers.Swift:
+      return <SwiftLogo className={className} />;
     case PackageManagers.Vcpkg:
       return <VcpkgLogo className={className} />;
     default:
