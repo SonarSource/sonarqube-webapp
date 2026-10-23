@@ -20,6 +20,7 @@
 
 const esModules = [
   '@gitbook/embed',
+  'mixpanel-browser',
   'd3',
   'd3-array',
   'd3-scale',

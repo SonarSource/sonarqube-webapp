@@ -34,6 +34,13 @@ LaunchDarkly SDK for React used by sq-cloud to manage feature flags.
 
 Mixpanel browser SDK used by sq-cloud to send auto-capture events and replays to Mixpanel.
 
+Cloud imports the documented `mixpanel-browser/src/loaders/loader-module-with-async-modules` entry
+so optional recorder and targeting scripts load through the configured `/mp-api` proxy on demand.
+The SDK owns loading, sampling, and targeting. A shared declaration re-exports the package's public
+types to supply the default export omitted by this entry's declaration in 2.84.0. The base Jest
+configuration transforms the SDK's ESM source. No package patch or internal API integration is used.
+Known upstream limitation: recording can start after consent is withdrawn during a module download.
+
 ### react-dnd
 
 React drag and drop library used by the editable-multigrid component for drag-and-drop functionality in dashboard layouts.
