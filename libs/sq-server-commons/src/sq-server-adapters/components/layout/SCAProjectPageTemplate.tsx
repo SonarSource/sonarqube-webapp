@@ -30,6 +30,7 @@ interface Props extends PropsWithChildren {
   description?: ReactNode;
   disableBranchSelector?: boolean;
   header?: ReactNode;
+  metadata?: ReactNode;
   overrideBranchSelectorPath?: To;
   pageClassName?: string;
   title: string;

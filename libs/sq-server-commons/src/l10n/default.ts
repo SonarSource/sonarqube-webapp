@@ -2943,6 +2943,109 @@ export const defaultMessages = {
   'dependencies.risks.type.malware': 'Malicious package',
   'dependencies.risk': 'Dependency Risk',
   'dependencies.risks': 'Dependency risks',
+  'dependencies.lightwell_fixability.nav': 'Lightwell Network',
+  'dependencies.lightwell_fixability.page': 'Lightwell upgrades',
+  'dependencies.lightwell_fixability.hero.kicker': 'Lightwell · fixability · Medium or higher',
+  'dependencies.lightwell_fixability.header.project_count':
+    '{count, plural, one {# project} other {# projects}}',
+  'dependencies.lightwell_fixability.header.risk_count':
+    '{count, plural, one {# open dependency risk, Medium or higher} other {# open dependency risks, Medium or higher}}',
+  'dependencies.lightwell_fixability.hero.title': 'How your open risks can be fixed',
+  'dependencies.lightwell_fixability.hero.description':
+    'Lightwell means more risks are fixable without an incompatible upgrade.',
+  'dependencies.lightwell_fixability.hero.description_tooltip':
+    'SonarQube tells you what is exposed. Lightwell helps you fix more risks without an incompatible upgrade. Toggle the table below to see the difference it makes on this portfolio.',
+  'dependencies.lightwell_fixability.hero.bar_label.baseline': 'Upstream fixes only',
+  'dependencies.lightwell_fixability.hero.bar_label.with_lightwell': 'With Lightwell',
+  'dependencies.lightwell_fixability.hero.summary.no_risk':
+    'This portfolio has no open dependency risks — there is nothing to fix.',
+  'dependencies.lightwell_fixability.hero.summary.no_help':
+    "Lightwell doesn't help with any medium or higher risks in this portfolio.",
+  'dependencies.lightwell_fixability.hero.summary.clause_no_fix':
+    '{count, plural, one {# risk that previously had no known fix} other {# risks that previously had no known fix}}',
+  'dependencies.lightwell_fixability.hero.summary.clause_major':
+    '{count, plural, one {# risk that previously required a major upgrade} other {# risks that previously required a major upgrade}}',
+  'dependencies.lightwell_fixability.hero.summary.total_easier':
+    '{count, plural, one {makes # total risk easier to solve} other {makes # total risks easier to solve}}',
+  'dependencies.lightwell_fixability.hero.summary.no_clauses': 'Lightwell {totalClause}.',
+  'dependencies.lightwell_fixability.hero.summary.with_clauses':
+    'Lightwell provides an upgrade for {clauseList}, and {totalClause}.',
+  'dependencies.lightwell_fixability.hero.zero_count.value':
+    '{count} of {total} ({percent}%) projects',
+  'dependencies.lightwell_fixability.hero.zero_count.label_via_same_patch':
+    'can reach zero open risks with <b>drop-in</b> replacements',
+  'dependencies.lightwell_fixability.hero.zero_count.label_via_patch':
+    'can reach zero open risks with <b>patch</b> or easier upgrades',
+  'dependencies.lightwell_fixability.hero.zero_count.label_via_minor':
+    'can reach zero open risks with <b>minor</b> or easier upgrades',
+  'dependencies.lightwell_fixability.hero.zero_count.label_via_major':
+    'can reach zero open risks with <b>major</b> or easier upgrades',
+  'dependencies.lightwell_fixability.hero.zero_count.delta':
+    '{count, plural, one {Lightwell added # project that reaches zero.} other {Lightwell added # projects that reach zero.}}',
+  'dependencies.lightwell_fixability.empty_state.title': 'No open dependency risks were found',
+  'dependencies.lightwell_fixability.empty_state.body':
+    'Every project in this portfolio is clear of open dependency risks, Medium severity or higher.',
+  'dependencies.lightwell_fixability.toggle.with': 'With Lightwell',
+  'dependencies.lightwell_fixability.toggle.without': 'Without Lightwell',
+  'dependencies.lightwell_fixability.segment.same_patch_fixable': 'Drop-in replacement',
+  'dependencies.lightwell_fixability.segment.patch_fixable': 'Fixable by patch upgrade',
+  'dependencies.lightwell_fixability.segment.minor_fixable': 'Fixable by minor upgrade',
+  'dependencies.lightwell_fixability.segment.major_upgrade_only': 'Needs a major upgrade',
+  'dependencies.lightwell_fixability.segment.no_fix_available': 'No known fix',
+  'dependencies.lightwell_fixability.tiles.title.same_patch_fixable': 'Drop-in replacement',
+  'dependencies.lightwell_fixability.tiles.no_change': "Lightwell doesn't change this.",
+  'dependencies.lightwell_fixability.tiles.inflow_source.patch':
+    '{count, plural, one {# risk with only a patch upgrade} other {# risks with only a patch upgrade}}',
+  'dependencies.lightwell_fixability.tiles.inflow_source.minor':
+    '{count, plural, one {# risk with only a minor upgrade} other {# risks with only a minor upgrade}}',
+  'dependencies.lightwell_fixability.tiles.inflow_source.major':
+    '{count, plural, one {# risk with only a major upgrade} other {# risks with only a major upgrade}}',
+  'dependencies.lightwell_fixability.tiles.inflow_source.no_fix':
+    '{count, plural, one {# risk with no upstream fix} other {# risks with no upstream fix}}',
+  'dependencies.lightwell_fixability.tiles.inflow.same_patch':
+    '{count, plural, one {Lightwell adds a same-version fix for {sources}.} other {Lightwell adds # same-version fixes for {sources}.}}',
+  'dependencies.lightwell_fixability.tiles.inflow.patch':
+    '{count, plural, one {Lightwell adds a patch fix for {sources}.} other {Lightwell adds # patch fixes for {sources}.}}',
+  'dependencies.lightwell_fixability.tiles.inflow.minor':
+    '{count, plural, one {Lightwell adds a minor fix for {sources}.} other {Lightwell adds # minor fixes for {sources}.}}',
+  'dependencies.lightwell_fixability.tiles.inflow.major':
+    '{count, plural, one {Lightwell adds a major-upgrade fix for {sources}.} other {Lightwell adds # major-upgrade fixes for {sources}.}}',
+  'dependencies.lightwell_fixability.tiles.outflow.patch':
+    '{count, plural, one {Lightwell makes # upgrade easier that previously required a patch upgrade.} other {Lightwell makes # upgrades easier that previously required a patch upgrade.}}',
+  'dependencies.lightwell_fixability.tiles.outflow.minor':
+    '{count, plural, one {Lightwell makes # upgrade easier that previously required a minor upgrade.} other {Lightwell makes # upgrades easier that previously required a minor upgrade.}}',
+  'dependencies.lightwell_fixability.tiles.outflow.major':
+    '{count, plural, one {Lightwell makes # upgrade easier that previously required a major upgrade.} other {Lightwell makes # upgrades easier that previously required a major upgrade.}}',
+  'dependencies.lightwell_fixability.tiles.outflow.no_fix':
+    '{count, plural, one {Lightwell provides a fix for # risk that previously had none.} other {Lightwell provides a fix for # risks that previously had none.}}',
+  'dependencies.lightwell_fixability.table.title': 'How each project can be fixed',
+  'dependencies.lightwell_fixability.table.description':
+    'Search narrows the list below. Sorting and the toggle apply to the whole portfolio.',
+  'dependencies.lightwell_fixability.table.search_placeholder': 'Search projects',
+  'dependencies.lightwell_fixability.table.no_results': 'No projects match your search',
+  'dependencies.lightwell_fixability.table.column.project': 'Project',
+  'dependencies.lightwell_fixability.table.column.composition': 'Composition',
+  'dependencies.lightwell_fixability.table.column.same_patch_fixable': 'Drop-in',
+  'dependencies.lightwell_fixability.table.column.patch_fixable': 'Patch upgrade',
+  'dependencies.lightwell_fixability.table.column.minor_fixable': 'Minor upgrade',
+  'dependencies.lightwell_fixability.table.column.lightwell_fixable': 'Lightwell fix',
+  'dependencies.lightwell_fixability.table.column.major_upgrade_only': 'Major upgrade',
+  'dependencies.lightwell_fixability.table.column.no_fix': 'No fix',
+  'dependencies.lightwell_fixability.table.column.fixed_by_minor': 'Fixed by minor',
+  'dependencies.lightwell_fixability.table.column.fixed_by_minor_tooltip_with_lightwell':
+    'Share of open risk fixable today without a major upgrade — via a patch, minor release, or Lightwell.',
+  'dependencies.lightwell_fixability.table.column.fixed_by_minor_tooltip_without_lightwell':
+    'Share of open risk fixable today without a major upgrade — via a patch or minor release.',
+  'dependencies.lightwell_fixability.table.column.fixed_by_major': 'Fixed by major',
+  'dependencies.lightwell_fixability.table.column.fixed_by_major_tooltip_with_lightwell':
+    'Share of open risk fixable today by any upgrade, major included — via a patch, minor release, major release, or Lightwell.',
+  'dependencies.lightwell_fixability.table.column.fixed_by_major_tooltip_without_lightwell':
+    'Share of open risk fixable today by any upgrade, major included — via a patch, minor, or major release.',
+  'dependencies.lightwell_fixability.table.percent_fixed': '{percent}%',
+  'dependencies.lightwell_fixability.table.composition_aria_label':
+    'Fixability breakdown for {project}: {total} total open risks',
+  'dependencies.lightwell_fixability.table.exposure_sub':
+    '{direct} direct · {transitive} transitive',
   'dependencies.risks.reachability': 'Reachability',
   'dependencies.risks.reachability.more_locations': 'Show additional files ({count})',
   'dependencies.risks.reachability.snippet_message':

@@ -72,6 +72,7 @@ export function ComponentNavPortfolioMenu({ component, isAnalyzed }: Readonly<Pr
   const showRisks = hasFeature(Feature.Sca);
   const showDependencies = showRisks && isDefined(scaAddon);
   const showSecurityReports = isEnterprise && isDefined(addons.securityReports);
+  const showLightwellFixability = isGovernanceEnabled && showRisks && isDefined(scaAddon);
 
   return (
     <>
@@ -141,6 +142,10 @@ export function ComponentNavPortfolioMenu({ component, isAnalyzed }: Readonly<Pr
           </Layout.SidebarNavigation.AccordionItem.Item>
         )}
       </Layout.SidebarNavigation.AccordionItem>
+
+      {isAnalyzed && showLightwellFixability && scaAddon?.LightwellFixabilityMenuItem && (
+        <scaAddon.LightwellFixabilityMenuItem componentKey={component.key} />
+      )}
 
       {isAnalyzed && (
         <Layout.SidebarNavigation.AccordionItem
