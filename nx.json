@@ -109,6 +109,23 @@
       },
       "outputs": ["{projectRoot}/build/reports/eslint-report/**"]
     },
+    "lint-files": {
+      "executor": "nx:run-commands",
+      "options": {
+        "cwd": "{workspaceRoot}",
+        "command": "node config/lint-files.mjs",
+        "env": {
+          "NX_LINT_PROJECT_ROOT": "{projectRoot}"
+        }
+      },
+      "inputs": [
+        "default",
+        "^default",
+        "{workspaceRoot}/eslint-local-rules/**/*",
+        { "runtime": "git status --porcelain=v1 --untracked-files=all" }
+      ],
+      "cache": true
+    },
     "start": {},
     "start-w-mocks": {
       "executor": "nx:run-commands",
@@ -173,6 +190,12 @@
       "plugin": "@nx/eslint/plugin",
       "options": {
         "targetName": "lint-report"
+      }
+    },
+    {
+      "plugin": "@nx/eslint/plugin",
+      "options": {
+        "targetName": "lint-files"
       }
     },
     {

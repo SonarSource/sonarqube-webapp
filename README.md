@@ -79,6 +79,29 @@ yarn validate
 
 ```
 
+For fast ESLint feedback on specific files, including warning-level issues, run the
+cacheable `lint-files` target from the repository root. Paths are relative to the
+owning project root:
+
+```bash
+yarn nx run sq-server:lint-files -- "src/path/to/file.ts" "src/path/to/another-file.tsx"
+```
+
+Run once per project when files span multiple projects. Warnings cause the command
+to fail. Omit the file arguments to check unstaged tracked files and untracked files
+supported by ESLint within that project (staged-only changes are excluded):
+
+```bash
+yarn nx run sq-server:lint-files
+```
+
+If no matching files exist, the target exits without scanning anything.
+
+The target supports `--fix`, `--fix-dry-run`, and `--format` (`-f`).
+Options without file arguments use the same automatic file
+selection. Ignored files do not produce warnings; actual lint warnings still fail.
+Other options are rejected to avoid mistaking option values for file paths.
+
 ### Building the whole SonarQube with a custom UI
 
 If you want to build the whole SonarQube with a custom UI, you must also clone the `sonarqube` repository, which contains the backend code.
