@@ -2945,6 +2945,7 @@ export const defaultMessages = {
   'dependencies.risks': 'Dependency risks',
   'dependencies.lightwell_fixability.nav': 'Lightwell Network',
   'dependencies.lightwell_fixability.page': 'Lightwell upgrades',
+  'dependencies.lightwell_fixability.see_backport_candidates': 'See Clearinghouse candidates',
   'dependencies.lightwell_fixability.hero.kicker': 'Lightwell · fixability · Medium or higher',
   'dependencies.lightwell_fixability.header.project_count':
     '{count, plural, one {# project} other {# projects}}',
@@ -3046,6 +3047,45 @@ export const defaultMessages = {
     'Fixability breakdown for {project}: {total} total open risks',
   'dependencies.lightwell_fixability.table.exposure_sub':
     '{direct} direct · {transitive} transitive',
+  'dependencies.lightwell_backport_candidates.nav': 'Lightwell Clearinghouse',
+  'dependencies.lightwell_backport_candidates.page': 'Lightwell Clearinghouse candidates',
+  'dependencies.lightwell_backport_candidates.header.package_count':
+    '{count, plural, one {# package} other {# packages}}',
+  'dependencies.lightwell_backport_candidates.header.risk_count':
+    "{count, plural, one {# open risk medium or above with no fix on the line you're on} other {# open risks medium or above with no fix on the line you're on}}",
+  'dependencies.lightwell_backport_candidates.leverage.packages_label': 'packages',
+  'dependencies.lightwell_backport_candidates.leverage.risks_label':
+    'open medium-or-above risks they account for',
+  'dependencies.lightwell_backport_candidates.leverage.ratio_label':
+    'risks closed per package remediated',
+  'dependencies.lightwell_backport_candidates.leverage.ratio_value': '{ratio}×',
+  'dependencies.lightwell_backport_candidates.leverage.explainer':
+    'Ranked by severity blended with usage across the portfolio (<code>score = 0.6×severity + 0.4×usage</code>).',
+  'dependencies.lightwell_backport_candidates.table.title': 'Backport candidates',
+  'dependencies.lightwell_backport_candidates.table.reset_sort': 'Reset to ranked order',
+  'dependencies.lightwell_backport_candidates.table.search_placeholder': 'Search packages',
+  'dependencies.lightwell_backport_candidates.table.no_results': 'No packages match your search',
+  'dependencies.lightwell_backport_candidates.table.column.rank': '#',
+  'dependencies.lightwell_backport_candidates.table.column.package': 'Package & version in use',
+  'dependencies.lightwell_backport_candidates.table.column.risks': 'Risks it would close',
+  'dependencies.lightwell_backport_candidates.table.column.projects_affected': 'Projects affected',
+  'dependencies.lightwell_backport_candidates.table.column.highest_severity': 'Highest severity',
+  'dependencies.lightwell_backport_candidates.table.column.advisories': 'Advisory IDs',
+  'dependencies.lightwell_backport_candidates.table.advisories_more': 'and {count} more',
+  'dependencies.lightwell_backport_candidates.table.column.why_stuck': "Why it's stuck",
+  'dependencies.lightwell_backport_candidates.table.severity_count': '{count} {severity}',
+  'dependencies.lightwell_backport_candidates.table.version_in_use':
+    'version in use {version} · {packageManager}',
+  'dependencies.lightwell_backport_candidates.table.why.major_upgrade_only':
+    'Nearest upstream fix is {version}, a major upgrade. No Lightwell release fixes {count, plural, one {this risk} other {these risks}} yet.',
+  'dependencies.lightwell_backport_candidates.table.why.fixable_magnitude_unknown':
+    'Nearest upstream fix is {version}, upgrade size unknown. No Lightwell release fixes {count, plural, one {this risk} other {these risks}} yet.',
+  'dependencies.lightwell_backport_candidates.table.why.no_fix_available':
+    'No upstream fix exists for {count, plural, one {this risk} other {these risks}}, and no Lightwell release fixes {count, plural, one {it} other {them}} yet.',
+  'dependencies.lightwell_backport_candidates.empty_state.title':
+    'No backport candidates were found',
+  'dependencies.lightwell_backport_candidates.empty_state.body':
+    'Every package with an open risk in this portfolio already has an upstream fix or a Lightwell release — none need a Clearinghouse request.',
   'dependencies.risks.reachability': 'Reachability',
   'dependencies.risks.reachability.more_locations': 'Show additional files ({count})',
   'dependencies.risks.reachability.snippet_message':

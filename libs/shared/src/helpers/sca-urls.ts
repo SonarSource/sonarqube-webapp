@@ -35,6 +35,7 @@ export const RELEASES_ROUTE_NAME = 'dependencies';
 export const RISKS_ROUTE_NAME = 'dependency-risks';
 export const RISKS_PROMO_ROUTE_NAME = 'dependency-risks/promo';
 export const LIGHTWELL_FIXABILITY_ROUTE_NAME = 'lightwell-fixability';
+export const LIGHTWELL_BACKPORT_CANDIDATES_ROUTE_NAME = 'lightwell-backport-candidates';
 
 export const LICENSE_EXTERNAL_COPYLEFT_DETAILS_LINK = 'https://blueoakcouncil.org/copyleft';
 
@@ -178,6 +179,20 @@ export function getLightwellFixabilityUrl(params: {
   });
 }
 
+export function getLightwellBackportCandidatesUrl(params: {
+  baseUrl?: string;
+  currentSearch?: string;
+  newParams?: NewParams<'id'>;
+}) {
+  const { currentSearch, newParams, baseUrl = '/' } = params;
+  return buildUrlWithCurrentParams({
+    pathname: withBase(baseUrl, LIGHTWELL_BACKPORT_CANDIDATES_ROUTE_NAME),
+    currentSearch,
+    optionalParams: OPTIONAL_PARAMS,
+    newParams,
+  });
+}
+
 export function getRiskDetailsUrl(
   params: { riskId: string; showRiskSelector?: boolean },
   currentSearch: string,
@@ -308,7 +323,12 @@ export function useScaBaseUrl() {
    *          /dependency-risks -> /
    *          /some/other/path/dependencies -> /some/other/path/
    */
-  for (const route of [RELEASES_ROUTE_NAME, RISKS_ROUTE_NAME, LIGHTWELL_FIXABILITY_ROUTE_NAME]) {
+  for (const route of [
+    RELEASES_ROUTE_NAME,
+    RISKS_ROUTE_NAME,
+    LIGHTWELL_FIXABILITY_ROUTE_NAME,
+    LIGHTWELL_BACKPORT_CANDIDATES_ROUTE_NAME,
+  ]) {
     const parts = pathname.split(route);
     if (parts.length > 1) {
       return parts[0];
