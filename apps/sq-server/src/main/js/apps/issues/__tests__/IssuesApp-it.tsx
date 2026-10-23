@@ -20,11 +20,15 @@
 
 import { screen, waitFor, waitForElementToBeRemoved, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { ComponentProps } from 'react';
 import { byRole, byText } from '~shared/helpers/testSelector';
 import { ComponentQualifier } from '~shared/types/component';
 import { addons } from '~sq-server-addons/index';
 import type * as IssuesApi from '~sq-server-commons/api/issues';
-import { mockLoggedInUser } from '~sq-server-commons/helpers/testMocks';
+import { mockPullRequest } from '~sq-server-commons/helpers/mocks/branch-like';
+import { mockComponent } from '~sq-server-commons/helpers/mocks/component';
+import { mockLocation, mockLoggedInUser, mockRouter } from '~sq-server-commons/helpers/testMocks';
+import { renderComponent } from '~sq-server-commons/helpers/testReactTestingUtils';
 import { Feature } from '~sq-server-commons/types/features';
 import { IssueType } from '~sq-server-commons/types/issues';
 import { NoticeType } from '~sq-server-commons/types/users';
@@ -35,6 +39,7 @@ import {
   ui,
   usersHandler,
 } from '~sq-server-commons/utils/issues-test-utils';
+import { App } from '../components/IssuesApp';
 import { renderIssueApp, renderProjectIssuesApp } from '../test-utils';
 
 // IssuesServiceMock registers its mock implementation via `jest.mock('../../api/issues')`, so this
@@ -119,6 +124,50 @@ describe('issues app', () => {
 
       await user.click(byRole('button', { name: 'message_callout.dismiss' }).get());
       expect(byText('issue.sandbox.title').query()).not.toBeInTheDocument();
+    });
+
+    it('should defer update-triggered fetches until the pull request resolves', async () => {
+      const searchIssuesMock = getSearchIssuesMock();
+      const props: ComponentProps<typeof App> = {
+        branchLikes: [],
+        component: mockComponent({ key: 'my-project' }),
+        currentUser: mockLoggedInUser(),
+        hasFeature: () => false,
+        indexationContext: {} as ComponentProps<typeof App>['indexationContext'],
+        isFetchingBranch: false,
+        isStandard: false,
+        location: mockLocation({
+          pathname: '/project/issues',
+          query: { id: 'my-project', s: 'IMPACT_RANK' },
+        }),
+        router: mockRouter(),
+      };
+      const { rerender } = renderComponent(<App {...props} />);
+
+      expect(await ui.issueItem1.find()).toBeInTheDocument();
+      searchIssuesMock.mockClear();
+
+      const pullRequestLocation = mockLocation({
+        pathname: '/project/issues',
+        query: { id: 'my-project', issueStatuses: 'OPEN', pullRequest: '01', s: 'IMPACT_RANK' },
+      });
+      rerender(<App {...props} isFetchingBranch location={pullRequestLocation} />);
+
+      expect(screen.getByText('issues.loading_issues')).toBeInTheDocument();
+      expect(searchIssuesMock).not.toHaveBeenCalled();
+
+      rerender(
+        <App
+          {...props}
+          branchLike={mockPullRequest({ key: '01' })}
+          location={pullRequestLocation}
+        />,
+      );
+
+      await waitFor(() => {
+        expect(searchIssuesMock).toHaveBeenCalledTimes(1);
+      });
+      expect(searchIssuesMock).toHaveBeenCalledWith(expect.objectContaining({ pullRequest: '01' }));
     });
   });
 

@@ -316,8 +316,13 @@ export class App extends React.PureComponent<Props, State> {
       !areQueriesEqual(prevQuery, query) ||
       areMyIssuesSelected(prevQuery) !== areMyIssuesSelected(query)
     ) {
-      this.fetchFirstIssues(false).catch(() => undefined);
-      this.setState({ checkAll: false });
+      if (this.props.isFetchingBranch) {
+        this.requiresInitialFetch = true;
+        this.setState({ checkAll: false, checked: [], loading: true });
+      } else {
+        this.fetchFirstIssues(false).catch(() => undefined);
+        this.setState({ checkAll: false });
+      }
     } else if (openIssue && openIssue.key !== this.state.selected) {
       this.setState({
         locationsNavigator: true,
