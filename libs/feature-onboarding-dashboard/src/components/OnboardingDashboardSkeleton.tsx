@@ -18,7 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Card, Divider, LoadingSkeleton, Text, TextSize } from '@sonarsource/echoes-react';
+import { Card, LoadingSkeleton, Text, TextSize } from '@sonarsource/echoes-react';
 
 /** Step-card visual slot, matching the 64px donut rendered by StepCard. */
 const STEP_DONUT_SIZE = 'sw:h-[64px] sw:w-[64px]';
@@ -116,7 +116,7 @@ function DetailPanelSkeleton() {
 }
 
 /** "Onboarding over time" placeholder: the plot area above the series legend. */
-function OverTimeCardSkeleton() {
+export function OverTimeCardSkeleton() {
   return (
     <Card>
       <CardHeaderSkeleton />
@@ -134,54 +134,17 @@ function OverTimeCardSkeleton() {
   );
 }
 
-/**
- * "All projects" placeholder: the search and filter controls above a block standing in for the
- * table. The real table renders its own row skeletons, driven by its own query.
- */
-function AllProjectsCardSkeleton() {
+/** Journey placeholder: the three stepper cards above the detail panel. */
+export function JourneySkeleton() {
   return (
-    <Card>
-      <CardHeaderSkeleton />
-      <Card.Body>
-        <div className="sw:flex sw:flex-col sw:gap-4">
-          <div className="sw:flex sw:items-center sw:justify-between">
-            <div className="sw:flex sw:items-center sw:gap-4">
-              <LoadingSkeleton className="sw:h-8 sw:w-64" variety="rectangle" />
-              <LoadingSkeleton className="sw:h-8 sw:w-72" variety="rectangle" />
-            </div>
-            <LoadingSkeleton className="sw:w-24" variety="text" />
-          </div>
-
-          <LoadingSkeleton className="sw:h-64 sw:w-full" variety="rectangle" />
-        </div>
-      </Card.Body>
-    </Card>
-  );
-}
-
-/**
- * Full-page loading placeholder for the onboarding dashboard.
- */
-export function OnboardingDashboardSkeleton() {
-  return (
-    <div>
-      <div className="sw:mb-4 sw:grid sw:grid-cols-3 sw:gap-4">
+    <div className="sw:flex sw:flex-col sw:gap-6">
+      <div className="sw:grid sw:grid-cols-3 sw:gap-6">
         {Array.from({ length: 3 }, (_, index) => (
           <StepCardSkeleton key={`step-${index}`} />
         ))}
       </div>
 
-      <div className="sw:mb-4">
-        <DetailPanelSkeleton />
-      </div>
-
-      <Divider className="sw:mb-4" />
-
-      <div className="sw:flex sw:flex-col sw:gap-4">
-        <OverTimeCardSkeleton />
-
-        <AllProjectsCardSkeleton />
-      </div>
+      <DetailPanelSkeleton />
     </div>
   );
 }

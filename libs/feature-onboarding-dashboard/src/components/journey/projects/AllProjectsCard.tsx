@@ -30,7 +30,7 @@ import {
   SCAN_STATUS_FILTER_OPTIONS,
   ScanStatusFilterValue,
 } from '../../../types/types';
-import { NO_DATA } from '../../dashboardConstants';
+import { ALL_PROJECTS_PAGE_SIZE, NO_DATA } from '../../dashboardConstants';
 import { GateStatusBadge } from '../../projects/GateStatusBadge';
 import { getAnalysisModeBadge, getOnboardingBadge } from '../../projects/projectBadges';
 import {
@@ -44,8 +44,6 @@ import {
   ProjectsTableRowProps,
 } from '../../projects/ProjectsTableCard';
 import { RepositoryCell } from '../../projects/RepositoryCell';
-
-const PAGE_SIZE = 50;
 
 /**
  * The gate-status column is only included once `PROJECT_HEALTH_FEATURE_ENABLED` is flipped — the
@@ -84,7 +82,7 @@ export function AllProjectsCard() {
         analysisMode: analysisMode === ANY_PROJECTS_FILTER ? undefined : analysisMode,
       }}
       loadingMessageKey="onboarding_dashboard.projects.loading"
-      pageSize={PAGE_SIZE}
+      pageSize={ALL_PROJECTS_PAGE_SIZE}
       renderRow={(project) => <ProjectRow key={project.key} project={project} />}
       searchPlaceholderKey="onboarding_dashboard.projects.search"
       titleKey="onboarding_dashboard.projects.title"

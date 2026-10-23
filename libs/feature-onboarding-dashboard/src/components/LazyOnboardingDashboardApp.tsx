@@ -18,7 +18,19 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { usePrefetchQuery } from '@tanstack/react-query';
 import { lazyLoadComponent } from '~shared/helpers/lazyLoadComponent';
+import {
+  onboardingProjectsQueryOptions,
+  onboardingStatisticsQueryOptions,
+} from '~shared/queries/onboarding';
+import { ALL_PROJECTS_PAGE_SIZE } from './dashboardConstants';
+
+const OnboardingDashboardApp = lazyLoadComponent(() => import('./OnboardingDashboardApp'));
+
+interface Props {
+  organizationKey?: string;
+}
 
 /**
  * The dashboard body, code-split out of the product bundles.
@@ -28,7 +40,20 @@ import { lazyLoadComponent } from '~shared/helpers/lazyLoadComponent';
  * adapter), and `@nx/enforce-module-boundaries` forbids a project from importing the same library
  * both ways. Keeping the split inside the library gives both products the same chunk boundary
  * without that conflict.
+ *
+ * The statistics and the first page of the "All projects" table are requested here, while the
+ * chunk downloads, rather than once the body has mounted. The overview is already requested by
+ * each product's page.
  */
-export const LazyOnboardingDashboardApp = lazyLoadComponent(
-  () => import('./OnboardingDashboardApp'),
-);
+export function LazyOnboardingDashboardApp({ organizationKey }: Readonly<Props>) {
+  usePrefetchQuery(onboardingStatisticsQueryOptions({ organizationKey }));
+  usePrefetchQuery(
+    onboardingProjectsQueryOptions({
+      organizationKey,
+      pageIndex: 1,
+      pageSize: ALL_PROJECTS_PAGE_SIZE,
+    }),
+  );
+
+  return <OnboardingDashboardApp organizationKey={organizationKey} />;
+}

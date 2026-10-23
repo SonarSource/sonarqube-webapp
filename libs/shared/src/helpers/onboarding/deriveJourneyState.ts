@@ -30,6 +30,11 @@ function toPercent(part: number, whole: number): number {
   return whole > 0 ? Math.round(clampPercent((part / whole) * 100)) : 0;
 }
 
+/** Whether at least one DevOps platform configuration exists, as the overview reports it. */
+export function hasConfiguredDevopsPlatform(overview: OnboardingOverview): boolean {
+  return overview.steps.devopsPlatforms.configured > 0;
+}
+
 /**
  * Reshapes the `OnboardingOverview` API response into the {@link JourneyState} view model consumed
  * by the onboarding dashboard. Pure and React-free so it can be unit-tested in isolation.
@@ -43,7 +48,7 @@ export function deriveJourneyState(overview: OnboardingOverview): JourneyState {
   const notYetImported = steps.projects.notImported ?? Math.max(discovered - imported, 0);
   const totalProjects = steps.projects.total ?? discovered;
   const { configured } = steps.devopsPlatforms;
-  const isBound = configured > 0;
+  const isBound = hasConfiguredDevopsPlatform(overview);
 
   let activeStep = JourneyStep.Projects;
   if (!isBound) {

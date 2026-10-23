@@ -37,35 +37,39 @@ const ONBOARDING_QUERY_KEY_PREFIX = ['onboarding'];
  * provided by SQ-Cloud (where the feature is org-scoped) and is injected by the
  * `~adapters/queries/onboarding` wrappers — feature code should use those, not these.
  */
-export const useOnboardingOverviewQuery = createQueryHook((params: OnboardingOverviewQuery) =>
+export const onboardingOverviewQueryOptions = (params: OnboardingOverviewQuery) =>
   queryOptions({
     queryKey: ['onboarding', 'overview', params],
     queryFn: () => getOnboardingOverview(params),
     staleTime: StaleTime.LONG,
     retry: 2, // Temporary workaround until Backend initial load issue is fixed
-  }),
-);
+  });
+
+export const useOnboardingOverviewQuery = createQueryHook(onboardingOverviewQueryOptions);
 
 /** Adoption history and DevOps platform breakdown, shown alongside the journey. */
-export const useOnboardingStatisticsQuery = createQueryHook((params: OnboardingOverviewQuery) =>
+export const onboardingStatisticsQueryOptions = (params: OnboardingOverviewQuery) =>
   queryOptions({
     queryKey: ['onboarding', 'statistics', params],
     queryFn: () => getOnboardingStatistics(params),
     staleTime: StaleTime.LONG,
     retry: 2, // Temporary workaround until Backend initial load issue is fixed
-  }),
-);
+  });
 
-export const useOnboardingProjectsQuery = createQueryHook((params: OnboardingProjectsQuery) =>
+export const useOnboardingStatisticsQuery = createQueryHook(onboardingStatisticsQueryOptions);
+
+export const onboardingProjectsQueryOptions = (params: OnboardingProjectsQuery) =>
   queryOptions({
+    // eslint-disable-next-line local-rules/use-metrickey-enum
     queryKey: ['onboarding', 'projects', params],
     queryFn: () => getOnboardingProjects(params),
     // Keep the previous page visible while the next one loads to avoid table flicker.
     placeholderData: keepPreviousData,
     staleTime: StaleTime.LONG,
     retry: 2, // Temporary workaround until Backend initial load issue is fixed
-  }),
-);
+  });
+
+export const useOnboardingProjectsQuery = createQueryHook(onboardingProjectsQueryOptions);
 
 /**
  * Refetches every onboarding query. Actions that change how far along the onboarding of a project

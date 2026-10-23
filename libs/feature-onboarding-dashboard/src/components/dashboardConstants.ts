@@ -20,3 +20,9 @@
 
 /** Placeholder rendered for values with no data (em dash). */
 export const NO_DATA = '—';
+
+/**
+ * Page size of the "All projects" table. Its first page is prefetched with the same size, so both
+ * share one cache entry.
+ */
+export const ALL_PROJECTS_PAGE_SIZE = 50;

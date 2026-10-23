@@ -18,106 +18,30 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Divider, IconLink } from '@sonarsource/echoes-react';
-import { ReactNode, useState } from 'react';
-import { useIntl } from 'react-intl';
-import { Path } from 'react-router-dom';
-import { useCreateDevopsConfigurationUrl } from '~adapters/helpers/useCreateDevopsConfigurationUrl';
-import {
-  JourneyLevel,
-  JourneyState,
-  JourneyStep,
-  OnboardingTimelinePoint,
-} from '~shared/types/onboarding';
+import { useState } from 'react';
+import { JourneyState, JourneyStep } from '~shared/types/onboarding';
 import { DetailPanel } from './panels/DetailPanel';
-import { AllProjectsCard } from './projects/AllProjectsCard';
-import { StaleProjectsCard } from './projects/StaleProjectsCard';
-import { LockedStatisticsCard } from './stats/LockedStatisticsCard';
-import { OnboardingOverTimeCard } from './stats/OnboardingOverTimeCard';
 import { JourneyStepper } from './stepper/JourneyStepper';
-
-/**
- * Copy — and the CTA decoration — of the "locked statistics" placeholder shown at each journey
- * level. Levels that have nothing left to unlock are absent from the map.
- */
-const LOCKED_STATISTICS_CONTENT: Partial<
-  Record<JourneyLevel, { cta: string; ctaPrefix?: ReactNode; message: string; title: string }>
-> = {
-  [JourneyLevel.Unbound]: {
-    cta: 'onboarding_dashboard.journey.locked.stats.cta',
-    ctaPrefix: <IconLink />,
-    message: 'onboarding_dashboard.journey.locked.stats.message',
-    title: 'onboarding_dashboard.journey.locked.stats.title',
-  },
-  [JourneyLevel.BoundNoImport]: {
-    cta: 'onboarding_dashboard.journey.locked.more.cta',
-    message: 'onboarding_dashboard.journey.locked.more.message',
-    title: 'onboarding_dashboard.journey.locked.more.title',
-  },
-};
 
 interface Props {
   state: JourneyState;
-  /** Adoption history for the over-time chart, from the statistics endpoint. */
-  timeline: OnboardingTimelinePoint[];
 }
 
 /**
- * The onboarding journey section: header, stepper, the detail panel of the selected step, the
- * statistics unlocked at the current journey level and the project tables. Derives its whole
- * view model from the overview, so everything it renders is available as soon as the overview is —
- * the project tables fetch their own paged data.
+ * The onboarding journey: the stepper and the detail panel of the selected step, both derived from
+ * the overview.
  */
-export function OnboardingJourney({ state, timeline }: Readonly<Props>) {
-  const { formatMessage } = useIntl();
-  const createConfigurationUrl = useCreateDevopsConfigurationUrl();
-
+export function OnboardingJourney({ state }: Readonly<Props>) {
   // The stepper selection is UI-only for now. It defaults to the derived active step and is
   // overridden once the user picks a card.
   const [selectedStep, setSelectedStep] = useState<JourneyStep | undefined>(undefined);
   const step = selectedStep ?? state.activeStep;
 
-  const lockedStatistics = LOCKED_STATISTICS_CONTENT[state.level];
-
-  // Unbound is the only level whose CTA has a destination today — and only on the products that
-  // expose one, which is what the adapter answers. The "import repositories" destination lands in a
-  // follow-up PR, so that CTA stays inert.
-  const lockedCtaUrlByLevel: Partial<Record<JourneyLevel, Partial<Path> | undefined>> = {
-    [JourneyLevel.Unbound]: createConfigurationUrl,
-  };
-
   return (
-    <>
-      <div className="sw:flex sw:flex-col sw:gap-6">
-        <JourneyStepper onSelectStep={setSelectedStep} selectedStep={step} state={state} />
+    <div className="sw:flex sw:flex-col sw:gap-6">
+      <JourneyStepper onSelectStep={setSelectedStep} selectedStep={step} state={state} />
 
-        <DetailPanel onSelectStep={setSelectedStep} selectedStep={step} state={state} />
-      </div>
-
-      <Divider className="sw:my-10" role="separator" />
-
-      <div className="sw:mb-6 sw:flex sw:flex-col sw:gap-6">
-        {state.level !== JourneyLevel.Unbound && (
-          <OnboardingOverTimeCard
-            showImportedSeries={state.level === JourneyLevel.Imported}
-            timeline={timeline}
-          />
-        )}
-
-        {lockedStatistics !== undefined && (
-          <LockedStatisticsCard
-            ctaLabel={formatMessage({ id: lockedStatistics.cta })}
-            ctaPrefix={lockedStatistics.ctaPrefix}
-            ctaTo={lockedCtaUrlByLevel[state.level]}
-            message={formatMessage({ id: lockedStatistics.message })}
-            title={formatMessage({ id: lockedStatistics.title })}
-          />
-        )}
-
-        <StaleProjectsCard />
-
-        <AllProjectsCard />
-      </div>
-    </>
+      <DetailPanel onSelectStep={setSelectedStep} selectedStep={step} state={state} />
+    </div>
   );
 }

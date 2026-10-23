@@ -18,7 +18,10 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { mockOnboardingOverview } from '~shared/api/mocks/OnboardingServiceMock';
+import {
+  mockOnboardingOverview,
+  mockOnboardingStatistics,
+} from '~shared/api/mocks/OnboardingServiceMock';
 import { renderOnboardingDashboard, setupOnboardingMock, ui } from './onboardingDashboardTestSetup';
 
 jest.mock('~adapters/helpers/useOnboardingCurrentBinding', () =>
@@ -119,6 +122,24 @@ it('unlocks both over-time series and no placeholder once repositories are impor
   // Nothing is left to unlock at this level.
   expect(ui.lockedStatsTitle.query()).not.toBeInTheDocument();
   expect(ui.lockedMoreTitle.query()).not.toBeInTheDocument();
+});
+
+it('plots only the analysis series and offers to unlock more while the timeline records no import', async () => {
+  // The import signal comes from the statistics, not the overview, which still reports imports.
+  onboardingMock.setStatistics(
+    mockOnboardingStatistics({
+      timeline: [
+        { date: '2025-05-01T00:00:00Z', projectsScanned: 2, repositoriesImported: 0 },
+        { date: '2025-06-01T00:00:00Z', projectsScanned: 2, repositoriesImported: 0 },
+      ],
+    }),
+  );
+  renderOnboardingDashboard();
+
+  expect(await ui.overTimeChart.find()).toBeInTheDocument();
+  expect(ui.overTimeProjectsScannedLegend.get()).toBeInTheDocument();
+  expect(ui.overTimeImportedLegend.query()).not.toBeInTheDocument();
+  expect(ui.lockedMoreTitle.get()).toBeInTheDocument();
 });
 
 it('replaces the chart with the "unlock statistics" placeholder while the org is unbound', async () => {

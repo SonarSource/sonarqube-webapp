@@ -18,6 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { noop } from 'lodash';
 import { http } from 'msw';
 import { API_V2_MOCKS_PREFIX } from '~adapters/helpers/urls';
 import {
@@ -177,13 +178,45 @@ export const OnboardingServiceDefaultDataset: OnboardingServiceData = {
   statistics: mockOnboardingStatistics(),
 };
 
+type OnboardingHeldEndpoint = 'overview' | 'statistics';
+
 export class OnboardingServiceMock extends AbstractServiceMock<OnboardingServiceData> {
+  private heldResponses: Partial<
+    Record<OnboardingHeldEndpoint, { promise: Promise<void>; release: () => void }>
+  > = {};
+
   constructor(data: OnboardingServiceData = OnboardingServiceDefaultDataset) {
     super(data);
   }
 
+  /**
+   * Keeps the endpoint's responses pending until the returned callback runs, so a test can observe
+   * the dashboard while that request is still in flight.
+   */
+  holdResponse = (endpoint: OnboardingHeldEndpoint) => {
+    let release: () => void = noop;
+    const promise = new Promise<void>((resolve) => {
+      release = resolve;
+    });
+    this.heldResponses[endpoint] = { promise, release };
+
+    return release;
+  };
+
+  reset() {
+    Object.values(this.heldResponses).forEach(({ release }) => {
+      release();
+    });
+    this.heldResponses = {};
+    super.reset();
+  }
+
   setOverview = (overview: OnboardingOverview) => {
     this.data.overview = overview;
+  };
+
+  setStatistics = (statistics: OnboardingStatistics) => {
+    this.data.statistics = statistics;
   };
 
   setFailOverview = (failOverview: boolean) => {
@@ -199,14 +232,18 @@ export class OnboardingServiceMock extends AbstractServiceMock<OnboardingService
   };
 
   handlers = [
-    http.get(ONBOARDING_OVERVIEW_PATH, () => {
+    http.get(ONBOARDING_OVERVIEW_PATH, async () => {
+      await this.heldResponses.overview?.promise;
+
       if (this.data.failOverview) {
         return this.errorsWithStatus(HttpStatus.InternalServerError);
       }
 
       return this.ok(this.data.overview);
     }),
-    http.get(ONBOARDING_STATISTICS_PATH, () => {
+    http.get(ONBOARDING_STATISTICS_PATH, async () => {
+      await this.heldResponses.statistics?.promise;
+
       if (this.data.failStatistics) {
         return this.errorsWithStatus(HttpStatus.InternalServerError);
       }

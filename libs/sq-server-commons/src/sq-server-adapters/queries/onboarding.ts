@@ -26,7 +26,10 @@ import {
   useQuery,
 } from '@tanstack/react-query';
 import { OnboardingOverviewQuery } from '~shared/api/onboarding';
-import { deriveJourneyState } from '~shared/helpers/onboarding/deriveJourneyState';
+import {
+  deriveJourneyState,
+  hasConfiguredDevopsPlatform,
+} from '~shared/helpers/onboarding/deriveJourneyState';
 import { StaleTime } from '~shared/queries/common';
 import { useOnboardingOverviewQuery } from '~shared/queries/onboarding';
 import {
@@ -81,6 +84,14 @@ export function useOnboardingOrganizationKey(): string | undefined {
  */
 export function useOnboardingJourneyStateQuery(params: OnboardingOverviewQuery) {
   return useOnboardingOverviewQuery(params, { select: deriveJourneyState });
+}
+
+/**
+ * Whether the DevOps platform step is done. SQ-Server has no organization binding, so this reads
+ * the overview's configuration count — the same one the journey state derives from.
+ */
+export function useOnboardingIsBoundQuery(params: OnboardingOverviewQuery) {
+  return useOnboardingOverviewQuery(params, { select: hasConfiguredDevopsPlatform });
 }
 
 /**
