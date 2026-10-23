@@ -116,16 +116,44 @@ it('computes percentages when the backend sends none', () => {
   expect(state.analyzedPct).toBe(13);
 });
 
-it('prefers backend-computed percentages when present', () => {
+it('falls back to backend-computed percentages when there are no counts to divide', () => {
   const state = deriveJourneyState(
     buildOverview({
-      projects: { analyzed: 5, notImported: 20, notScanned: 3, percent: 42, total: 40 },
-      repositories: { discovered: 40, imported: 10, percent: 99 },
+      projects: { analyzed: 5, notImported: null, notScanned: 3, percent: 42, total: null },
+      repositories: { discovered: null, imported: 10, percent: 99.99 },
     }),
   );
 
   expect(state.importedPct).toBe(99);
   expect(state.analyzedPct).toBe(42);
+});
+
+it('only reports 0% or 100% when a step is empty or complete', () => {
+  const state = deriveJourneyState(
+    buildOverview(
+      {
+        projects: { analyzed: 1, notImported: 1, notScanned: 0, percent: null, total: 9711 },
+        repositories: { discovered: 9711, imported: 9710, percent: null },
+      },
+      99.99,
+    ),
+  );
+
+  expect(state.importedPct).toBe(99);
+  expect(state.analyzedPct).toBe(1);
+  expect(state.overallPct).toBe(99);
+});
+
+it('derives percentages from the counts rather than a rounded backend percentage', () => {
+  const state = deriveJourneyState(
+    buildOverview({
+      projects: { analyzed: 1, notImported: 1, notScanned: 0, percent: 0, total: 9711 },
+      repositories: { discovered: 9711, imported: 9710, percent: 100 },
+    }),
+  );
+
+  expect(state.importedPct).toBe(99);
+  expect(state.analyzedPct).toBe(1);
 });
 
 it('derives notYetImported from discovered minus imported when the backend omits it', () => {

@@ -23,6 +23,7 @@ import { cssVar, Text, TextSize } from '@sonarsource/echoes-react';
 import { FocusEvent, MouseEvent, ReactNode, useMemo, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { DonutChart } from '~shared/components/charts/DonutChart';
+import { toDisplayPercent } from '~shared/helpers/onboarding/percent';
 
 const DONUT_SIZE = 150;
 const DONUT_THICKNESS = 22;
@@ -101,7 +102,7 @@ export function PanelDonut({ centerLabel, centerSubLabel, segments, viewAll }: R
 
   const hoveredSegment = hoveredIndex !== null ? (segments[hoveredIndex] ?? null) : null;
   const hoveredPct =
-    hoveredSegment && total > 0 ? Math.round((hoveredSegment.value / total) * 100) : null;
+    hoveredSegment && total > 0 ? toDisplayPercent((hoveredSegment.value / total) * 100) : null;
 
   return (
     <StyledCard>

@@ -24,10 +24,17 @@ import {
   JourneyStep,
   OnboardingOverview,
 } from '../../types/onboarding';
-import { clampPercent } from './percent';
+import { toDisplayPercent } from './percent';
 
-function toPercent(part: number, whole: number): number {
-  return whole > 0 ? Math.round(clampPercent((part / whole) * 100)) : 0;
+/**
+ * Derives the percentage from the counts, which are exact: the backend may round its own `percent`
+ * up to 100 for a step that is not complete yet.
+ */
+function toPercent(part: number, whole: number, backendPercent: number | null): number {
+  if (whole > 0) {
+    return toDisplayPercent((part / whole) * 100);
+  }
+  return backendPercent === null ? 0 : toDisplayPercent(backendPercent);
 }
 
 /** Whether at least one DevOps platform configuration exists, as the overview reports it. */
@@ -72,21 +79,15 @@ export function deriveJourneyState(overview: OnboardingOverview): JourneyState {
       notScanned: steps.projects.notScanned,
     },
     analyzed,
-    analyzedPct:
-      steps.projects.percent === null
-        ? toPercent(analyzed, totalProjects)
-        : Math.round(clampPercent(steps.projects.percent)),
+    analyzedPct: toPercent(analyzed, totalProjects, steps.projects.percent),
     configured,
     discovered,
     imported,
-    importedPct:
-      steps.repositories.percent === null
-        ? toPercent(imported, discovered)
-        : Math.round(clampPercent(steps.repositories.percent)),
+    importedPct: toPercent(imported, discovered, steps.repositories.percent),
     isBound,
     level,
     notYetImported,
-    overallPct: Math.round(clampPercent(progressPct)),
+    overallPct: toDisplayPercent(progressPct),
     totalProjects,
   };
 }

@@ -22,3 +22,15 @@
 export function clampPercent(value: number): number {
   return Math.min(Math.max(value, 0), 100);
 }
+
+/**
+ * Rounds `value` to a whole percentage that only reads 0% or 100% when it is exactly empty or
+ * complete, so 9710 of 9711 shows 99% rather than 100%.
+ */
+export function toDisplayPercent(value: number): number {
+  const clamped = clampPercent(value);
+  if (clamped === 0 || clamped === 100) {
+    return clamped;
+  }
+  return Math.min(Math.max(Math.round(clamped), 1), 99);
+}

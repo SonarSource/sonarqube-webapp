@@ -18,7 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { clampPercent } from '../percent';
+import { clampPercent, toDisplayPercent } from '../percent';
 
 describe('clampPercent', () => {
   it.each([
@@ -29,5 +29,22 @@ describe('clampPercent', () => {
     [150, 100],
   ])('clamps %s to %s', (value, expected) => {
     expect(clampPercent(value)).toBe(expected);
+  });
+});
+
+describe('toDisplayPercent', () => {
+  it.each([
+    [-10, 0],
+    [0, 0],
+    [0.01, 1],
+    [0.5, 1],
+    [50.6, 51],
+    [99.4, 99],
+    [99.5, 99],
+    [99.99, 99],
+    [100, 100],
+    [150, 100],
+  ])('displays %s as %s', (value, expected) => {
+    expect(toDisplayPercent(value)).toBe(expected);
   });
 });
