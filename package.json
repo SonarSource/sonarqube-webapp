@@ -69,7 +69,7 @@
     "@react-spring/web": "10.1.2",
     "@sentry/browser": "10.65.0",
     "@sentry/react": "10.65.0",
-    "@sonarsource/echoes-react": "6.0.0",
+    "@sonarsource/echoes-react": "6.1.0",
     "@stripe/react-stripe-js": "7.0.0",
     "@stripe/stripe-js": "10.1.0",
     "@tanstack/react-query": "5.56.2",
