@@ -21,7 +21,7 @@
 import classNames from 'classnames';
 import { cloneDeep, debounce, groupBy, isEqual } from 'lodash';
 import * as React from 'react';
-import { Location } from 'react-router-dom';
+import { Location } from 'react-router';
 import { useDismissNotice, useIsNoticeDismissed } from '~adapters/helpers/notices';
 import { useCurrentUser } from '~adapters/helpers/users';
 import { RuleDescriptionSections, RuleDetails } from '~shared/types/rules';

@@ -19,7 +19,7 @@
  */
 
 import { screen } from '@testing-library/react';
-import { Route } from 'react-router-dom';
+import { Route } from 'react-router';
 import { registerServiceMocks, resetServiceMocks } from '~shared/api/mocks/server';
 import {
   MeasuresServiceDefaultDataset,

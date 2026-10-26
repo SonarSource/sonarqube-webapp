@@ -20,7 +20,7 @@
 
 import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { Route } from 'react-router-dom';
+import { Route } from 'react-router';
 import { isMainBranch } from '~shared/helpers/branch-like';
 import { byRole, byText } from '~shared/helpers/testSelector';
 import BranchesServiceMock from '../../../api/mocks/BranchesServiceMock';

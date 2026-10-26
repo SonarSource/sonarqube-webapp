@@ -21,7 +21,7 @@
 import { act, renderHook } from '@testing-library/react';
 import { ReactNode } from 'react';
 import { IntlProvider } from 'react-intl';
-import { MemoryRouter } from 'react-router-dom';
+import { MemoryRouter } from 'react-router';
 import { RuleDescriptionSections } from '~shared/types/rules';
 import { mockIssue, mockRuleDetails } from '../../../../helpers/testMocks';
 import { IssueComment } from '../../../../types/types';

@@ -18,7 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Route } from 'react-router-dom';
+import { Route } from 'react-router';
 import SimpleSessionsContainer from '../../app/components/SimpleSessionsContainer';
 import LoginContainer from './components/LoginContainer';
 import Logout from './components/Logout';

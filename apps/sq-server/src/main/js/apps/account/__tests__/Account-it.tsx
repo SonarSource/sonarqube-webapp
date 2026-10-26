@@ -21,7 +21,7 @@
 import { setTheme, Theme } from '@sonarsource/echoes-react';
 import { act, screen, waitFor, within } from '@testing-library/react';
 import userEvent, { UserEvent } from '@testing-library/user-event';
-import { Outlet, Route } from 'react-router-dom';
+import { Outlet, Route } from 'react-router';
 import { byRole, byText } from '~shared/helpers/testSelector';
 import { getMyProjects, getScannableProjects } from '~sq-server-commons/api/components';
 import NotificationsMock from '~sq-server-commons/api/mocks/NotificationsMock';

@@ -19,7 +19,7 @@
  */
 
 import { Text } from '@sonarsource/echoes-react';
-import { To } from 'react-router-dom';
+import { To } from 'react-router';
 import { ContentCell, HoverLink, QualifierIcon } from '~design-system';
 import { isApplication, isProject } from '~shared/helpers/component';
 import { ComponentQualifier } from '~shared/types/component';

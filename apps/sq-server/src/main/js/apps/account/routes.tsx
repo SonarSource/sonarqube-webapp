@@ -18,7 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Route } from 'react-router-dom';
+import { Route } from 'react-router';
 import Account from './Account';
 import Appearance from './appearance/Appearance';
 import Notifications from './notifications/Notifications';

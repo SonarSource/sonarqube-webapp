@@ -19,7 +19,7 @@
  */
 
 import userEvent from '@testing-library/user-event';
-import { useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router';
 import { byRole, byTestId, byText } from '~shared/helpers/testSelector';
 import UsersServiceMock from '~sq-server-commons/api/mocks/UsersServiceMock';
 import { dismissNotice } from '~sq-server-commons/api/users';

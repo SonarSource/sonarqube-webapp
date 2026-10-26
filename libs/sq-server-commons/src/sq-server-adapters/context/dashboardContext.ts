@@ -19,7 +19,7 @@
  */
 
 import { useCallback } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { useSearchParams } from 'react-router';
 import { isBranch, isPullRequest } from '~shared/helpers/branch-like';
 import { ComponentQualifier } from '~shared/types/component';
 import type {

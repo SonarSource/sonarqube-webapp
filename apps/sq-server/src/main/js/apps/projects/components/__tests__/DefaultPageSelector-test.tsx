@@ -19,7 +19,7 @@
  */
 
 import { screen } from '@testing-library/react';
-import { MemoryRouter, Route, Routes } from 'react-router-dom';
+import { MemoryRouter, Route, Routes } from 'react-router';
 import { useLocation } from '~shared/components/hoc/withRouter';
 import { get } from '~shared/helpers/storage';
 import { render } from '~shared/helpers/test-utils';

@@ -21,7 +21,7 @@
 import { Badge, Label, LinkHighlight, LinkStandalone } from '@sonarsource/echoes-react';
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
-import { To } from 'react-router-dom';
+import { To } from 'react-router';
 import { DeprecatedBadge } from '~shared/components/badges/DeprecatedBadge';
 import { MetricKey } from '~shared/types/metrics';
 import { translateWithParameters } from '../../helpers/l10n';

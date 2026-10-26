@@ -20,7 +20,7 @@
 
 import { uniqBy } from 'lodash';
 import { useMemo } from 'react';
-import { Path } from 'react-router-dom';
+import { Path } from 'react-router';
 import { useCurrentUser } from '~adapters/helpers/users';
 import { ConditionScaSuffix } from '~shared/components/quality-gates/ConditionScaSuffix';
 import { isScaMeasure } from '~shared/helpers/sca';

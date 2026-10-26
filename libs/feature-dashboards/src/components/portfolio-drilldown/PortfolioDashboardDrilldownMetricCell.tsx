@@ -21,7 +21,7 @@
 import { RatingBadge, RatingBadgeRating, RatingBadgeSize, Table } from '@sonarsource/echoes-react';
 import type { ReactElement, ReactNode } from 'react';
 import { type IntlShape, useIntl } from 'react-intl';
-import type { To } from 'react-router-dom';
+import type { To } from 'react-router';
 import { QualityGateIndicator } from '~adapters/components/ui/QualityGateIndicator';
 import { formatDashboardMeasure } from '~adapters/helpers/dashboard-measures';
 import type { QGStatusExtended } from '~shared/types/common';

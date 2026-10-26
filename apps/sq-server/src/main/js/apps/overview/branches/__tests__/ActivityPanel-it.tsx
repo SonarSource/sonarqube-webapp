@@ -20,7 +20,7 @@
 
 import { screen } from '@testing-library/react';
 import userEvent, { UserEvent } from '@testing-library/user-event';
-import { Route, useSearchParams } from 'react-router-dom';
+import { Route, useSearchParams } from 'react-router';
 import { MetricKey } from '~shared/types/metrics';
 import { ModeServiceMock } from '~sq-server-commons/api/mocks/ModeServiceMock';
 import { parseDate } from '~sq-server-commons/helpers/dates';

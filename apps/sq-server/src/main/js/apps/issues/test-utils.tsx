@@ -18,7 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Outlet, Route } from 'react-router-dom';
+import { Outlet, Route } from 'react-router';
 import { mockComponent } from '~sq-server-commons/helpers/mocks/component';
 import { mockCurrentUser } from '~sq-server-commons/helpers/testMocks';
 import {

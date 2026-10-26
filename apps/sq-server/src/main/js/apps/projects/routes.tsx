@@ -18,7 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Navigate, Route } from 'react-router-dom';
+import { Navigate, Route } from 'react-router';
 import { lazyLoadComponent } from '~shared/helpers/lazyLoadComponent';
 import { save } from '~shared/helpers/storage';
 import { PROJECTS_ALL, PROJECTS_DEFAULT_FILTER } from './utils';

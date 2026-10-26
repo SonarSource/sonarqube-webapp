@@ -72,7 +72,10 @@ export const baseViteConfig = {
         codeSplitting: {
           groups: [
             // vendor js chunk will contain only react dependencies
-            { name: 'vendor', test: /node_modules[\\/](react|react-dom|react-router-dom)[\\/]/ },
+            {
+              name: 'vendor',
+              test: /node_modules[\\/](react|react-dom|react-router(?:-dom)?)[\\/]/,
+            },
             { name: 'echoes', test: /node_modules[\\/]@sonarsource[\\/]echoes-react[\\/]/ },
             { name: 'datefns', test: /node_modules[\\/]date-fns[\\/]/ },
             { name: 'lodash', test: /node_modules[\\/]lodash[\\/]/ },

@@ -18,7 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Path } from 'react-router-dom';
+import { Path } from 'react-router';
 import { ALM_INTEGRATION_CATEGORY } from '../../constants/settings';
 import { getGlobalSettingsUrl } from '../../helpers/urls';
 

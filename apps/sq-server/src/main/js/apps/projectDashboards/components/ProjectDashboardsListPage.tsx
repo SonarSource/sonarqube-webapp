@@ -22,7 +22,7 @@ import { Button, IconPeople, Pagination, Text, toast } from '@sonarsource/echoes
 import { debounce } from 'lodash';
 import { useEffect, useMemo, useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
-import { useNavigate, useSearchParams } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router';
 import { createEmptyDashboard } from '~feature-dashboards/dashboard-layout/logic/constants';
 import { DashboardListToolbar } from '~feature-dashboards/dashboard-list/DashboardListToolbar';
 import { useMergedDashboardListState } from '~feature-dashboards/dashboard-list/hooks/useMergedDashboardListState';

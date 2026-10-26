@@ -22,7 +22,7 @@ import { Divider, Layout, Text, toast } from '@sonarsource/echoes-react';
 import classNames from 'classnames';
 import { ComponentType, ReactNode, useCallback, useContext } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
-import { Location } from 'react-router-dom';
+import { Location } from 'react-router';
 import { useIsNoticeDismissed } from '~adapters/helpers/notices';
 import { useCurrentUser } from '~adapters/helpers/users';
 import { AssigneeUser } from '~shared/components/issues/IssueAssign';

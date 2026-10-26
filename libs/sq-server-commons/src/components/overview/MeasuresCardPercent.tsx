@@ -22,7 +22,7 @@ import { LinkHighlight, LinkStandalone, Text, TextSize } from '@sonarsource/echo
 import classNames from 'classnames';
 import * as React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
-import { To } from 'react-router-dom';
+import { To } from 'react-router';
 import AfterMergeNote from '~shared/components/overview/AfterMergeNote';
 import { isPullRequest } from '~shared/helpers/branch-like';
 import { MeasurementType, getMeasurementMetricKey } from '~shared/helpers/overview';

@@ -20,7 +20,7 @@
 
 import { sortBy } from 'lodash';
 import * as React from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 import { SubnavigationGroup, SubnavigationItem } from '~design-system';
 import { EntitlementCheckFeatureKey } from '~shared/types/billing';
 import { addons } from '~sq-server-addons/index';

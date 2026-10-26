@@ -22,7 +22,7 @@ import { toast } from '@sonarsource/echoes-react';
 import { useQueryClient } from '@tanstack/react-query';
 import { useState } from 'react';
 import { useIntl } from 'react-intl';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 import { createEmptyDashboard } from '~feature-dashboards/dashboard-layout/logic/constants';
 import { DashboardCreatorCell } from '~feature-dashboards/dashboard-list/DashboardCreatorCell';
 import { DashboardTable } from '~feature-dashboards/dashboard-list/DashboardTable';

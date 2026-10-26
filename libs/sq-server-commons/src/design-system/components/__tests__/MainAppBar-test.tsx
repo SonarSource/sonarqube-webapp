@@ -20,7 +20,7 @@
 
 import { cssVar } from '@sonarsource/echoes-react';
 import { fireEvent, screen } from '@testing-library/react';
-import { MemoryRouter, Route, Routes } from 'react-router-dom';
+import { MemoryRouter, Route, Routes } from 'react-router';
 import { Image } from '~adapters/components/common/Image';
 import { FCProps } from '../../../types/misc';
 import { LAYOUT_LOGO_MAX_WIDTH } from '../../helpers/constants';

@@ -20,7 +20,7 @@
 
 import { IconRefresh, Spinner, Tooltip, TooltipSide } from '@sonarsource/echoes-react';
 import { useIntl } from 'react-intl';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 import { BareButton, SubnavigationGroup, SubnavigationItem } from '~design-system';
 import { BuiltInQualityGateBadge } from '~shared/components/quality-gates/BuiltInQualityGateBadge';
 import { DefaultBadge } from '~shared/components/quality-gates/DefaultBadge';

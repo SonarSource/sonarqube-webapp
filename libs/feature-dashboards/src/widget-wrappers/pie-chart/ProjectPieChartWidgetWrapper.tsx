@@ -20,7 +20,7 @@
 
 import { useCallback } from 'react';
 import { useIntl } from 'react-intl';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 import { useDashboardProjectContext } from '~adapters/context/dashboardContext';
 import { getProjectDashboardPieChartSegmentUrl } from '~adapters/helpers/dashboard-widget-urls';
 import { useOrganizationPieChartData } from '~adapters/queries/pie-chart-widget-data';

@@ -19,7 +19,7 @@
  */
 
 import { useEffect } from 'react';
-import { Route, useNavigate, useSearchParams } from 'react-router-dom';
+import { Route, useNavigate, useSearchParams } from 'react-router';
 import { lazyLoadComponent } from '~shared/helpers/lazyLoadComponent';
 import { omitNil } from '~sq-server-commons/helpers/request';
 import { IssueType } from '~sq-server-commons/types/issues';

@@ -47,8 +47,8 @@ const mockInteractivePieChart = jest.fn((props: ComponentProps<typeof Interactiv
   </button>
 ));
 
-jest.mock('react-router-dom', () => ({
-  ...jest.requireActual<typeof import('react-router-dom')>('react-router-dom'),
+jest.mock('react-router', () => ({
+  ...jest.requireActual<typeof import('react-router')>('react-router'),
   useNavigate: () => mockNavigate,
 }));
 

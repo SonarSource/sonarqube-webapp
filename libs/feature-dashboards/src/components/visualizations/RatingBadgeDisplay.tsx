@@ -19,7 +19,7 @@
  */
 
 import { LinkStandalone, RatingBadgeSize } from '@sonarsource/echoes-react';
-import type { To } from 'react-router-dom';
+import type { To } from 'react-router';
 import Measure from '~adapters/components/measure/Measure';
 import { MetricKey, MetricType } from '~shared/types/metrics';
 

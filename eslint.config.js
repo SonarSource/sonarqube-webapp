@@ -745,14 +745,7 @@ module.exports = [
   },
 
   {
-    files: [
-      'apps/sq-server/src/main/js/app/**/*.{ts,tsx}',
-      'libs/shared/src/**/*.{ts,tsx}',
-      'libs/sq-server-commons/src/helpers/**/*.{ts,tsx}',
-      'private/apps/sq-cloud/src/app/**/*.{ts,tsx}',
-      'private/apps/sq-cloud/src/apps/enterprise/**/*.{ts,tsx}',
-      'private/apps/sq-cloud/src/helpers/**/*.{ts,tsx}',
-    ],
+    files: ['**/*.{js,jsx,ts,tsx}'],
     rules: {
       'no-restricted-imports': [
         'error',
@@ -760,9 +753,26 @@ module.exports = [
           paths: [
             {
               name: 'react-router-dom',
-              message: 'Use react-router in the SC-59841-migrated scopes.',
+              message: 'Use react-router for routing APIs and react-router/dom for DOM-only APIs.',
             },
           ],
+        },
+      ],
+      'no-restricted-syntax': [
+        'error',
+        {
+          selector:
+            "CallExpression[callee.object.name='jest'][callee.property.name='mock'][arguments.0.value='react-router-dom']",
+          message: 'Mock react-router instead of react-router-dom.',
+        },
+        {
+          selector:
+            "CallExpression[callee.object.name='jest'][callee.property.name='requireActual'][arguments.0.value='react-router-dom']",
+          message: 'Require the react-router actual module instead of react-router-dom.',
+        },
+        {
+          selector: "TSImportType[source.value='react-router-dom']",
+          message: 'Use react-router in TypeScript import types instead of react-router-dom.',
         },
       ],
     },

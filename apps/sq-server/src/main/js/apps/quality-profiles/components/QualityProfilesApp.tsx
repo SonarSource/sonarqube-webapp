@@ -20,7 +20,7 @@
 
 import { Layout, Spinner } from '@sonarsource/echoes-react';
 import { Helmet } from 'react-helmet-async';
-import { Outlet } from 'react-router-dom';
+import { Outlet } from 'react-router';
 import Suggestions from '~sq-server-commons/components/embed-docs-modal/Suggestions';
 import { useLanguagesWithRules } from '~sq-server-commons/context/languages/withLanguages';
 import { DocLink } from '~sq-server-commons/helpers/doc-links';

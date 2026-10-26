@@ -21,7 +21,7 @@
 import { Button, ButtonVariety, cssVar, IconLock, Text, TextSize } from '@sonarsource/echoes-react';
 import { noop } from 'lodash';
 import { ReactNode } from 'react';
-import { Path } from 'react-router-dom';
+import { Path } from 'react-router';
 import { PermissionGate } from '../PermissionGate';
 
 const BACKDROP_VIEWBOX = '0 0 400 120';

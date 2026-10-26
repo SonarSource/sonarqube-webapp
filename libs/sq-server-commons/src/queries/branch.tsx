@@ -22,7 +22,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { debounce } from 'lodash';
 import * as React from 'react';
 import { useCallback } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { useSearchParams } from 'react-router';
 import { useCurrentBranchQuery, useProjectBranchesQuery } from '~adapters/queries/branch';
 import { useLocation } from '~shared/components/hoc/withRouter';
 import { isBranch, isPullRequest } from '~shared/helpers/branch-like';

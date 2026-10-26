@@ -35,7 +35,7 @@ import {
 } from '@sonarsource/echoes-react';
 import { useMemo, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
-import { useSearchParams } from 'react-router-dom';
+import { useSearchParams } from 'react-router';
 import { SharedDocLink, useSharedDocUrl } from '~adapters/helpers/docs';
 import { useCurrentUser } from '~adapters/helpers/users';
 import { uuidv4 } from '~shared/helpers/crypto';

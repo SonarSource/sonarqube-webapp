@@ -19,7 +19,7 @@
  */
 
 import { PointerEventsCheckLevel } from '@testing-library/user-event';
-import { Route } from 'react-router-dom';
+import { Route } from 'react-router';
 import { OnboardingServiceMock } from '~shared/api/mocks/OnboardingServiceMock';
 import { registerServiceMocks } from '~shared/api/mocks/server';
 import { renderWithRoutes } from '~shared/helpers/test-utils';

@@ -22,7 +22,7 @@ import { Text } from '@sonarsource/echoes-react';
 import { merge } from 'lodash';
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
-import { Path } from 'react-router-dom';
+import { Path } from 'react-router';
 import { getBranchLikeQuery } from '~shared/helpers/branch-like';
 import {
   getScaMetricUrlParams,

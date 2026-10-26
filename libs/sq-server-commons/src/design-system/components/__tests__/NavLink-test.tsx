@@ -20,7 +20,7 @@
 
 import { screen } from '@testing-library/react';
 import * as React from 'react';
-import { MemoryRouter, Route, Routes, useLocation } from 'react-router-dom';
+import { MemoryRouter, Route, Routes, useLocation } from 'react-router';
 import { render } from '../../helpers/testUtils';
 import NavLink from '../NavLink';
 

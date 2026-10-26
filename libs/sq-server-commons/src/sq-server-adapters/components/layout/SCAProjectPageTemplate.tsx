@@ -20,7 +20,7 @@
 
 import { BreadcrumbsProps, PageGridProps } from '@sonarsource/echoes-react';
 import { forwardRef, PropsWithChildren, ReactNode } from 'react';
-import { To } from 'react-router-dom';
+import { To } from 'react-router';
 import { ProjectPageTemplate } from '~shared/components/pages/ProjectPageTemplate';
 
 interface Props extends PropsWithChildren {

@@ -20,7 +20,7 @@
 
 import { toast } from '@sonarsource/echoes-react';
 import { queryOptions, useMutation, useQueryClient } from '@tanstack/react-query';
-import { useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router';
 import { createQueryHook } from '~shared/queries/common';
 import { HttpStatus } from '~shared/types/request';
 import { deleteProjectAlmBinding, getProjectAlmBinding } from '../api/alm-settings';

@@ -22,7 +22,7 @@ import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { cssVar } from '@sonarsource/echoes-react';
 import React, { HTMLAttributeAnchorTarget } from 'react';
-import { Link as RouterLink, LinkProps as RouterLinkProps } from 'react-router-dom';
+import { Link as RouterLink, LinkProps as RouterLinkProps } from 'react-router';
 
 import { TooltipWrapperInner } from './Tooltip';
 import { OpenNewTabIcon } from './icons/OpenNewTabIcon';
@@ -121,7 +121,7 @@ const ExternalIcon = styled(OpenNewTabIcon)`
   color: ${cssVar('color-icon-accent')};
 `;
 
-/** @deprecated Use either Link or LinkStandalone from Echoes, or react-router-dom's Link instead.
+/** @deprecated Use either Link or LinkStandalone from Echoes, or react-router's Link instead.
  */
 export const BaseLink = React.forwardRef(BaseLinkWithRef);
 

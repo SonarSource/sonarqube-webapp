@@ -27,7 +27,7 @@ import {
   Text,
 } from '@sonarsource/echoes-react';
 import { FormattedMessage } from 'react-intl';
-import { useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router';
 import { ComponentQualifier } from '~shared/types/component';
 import { addons } from '~sq-server-addons/index';
 import { AiCodeAssuranceStatus } from '~sq-server-commons/api/ai-code-assurance';

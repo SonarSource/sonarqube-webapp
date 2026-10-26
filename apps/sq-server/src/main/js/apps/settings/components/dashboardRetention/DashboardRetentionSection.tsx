@@ -34,7 +34,7 @@ import {
 import * as React from 'react';
 import { useEffect, useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
-import { unstable_usePrompt as usePrompt } from 'react-router-dom';
+import { unstable_usePrompt as usePrompt } from 'react-router';
 import { RequiredIcon } from '~design-system';
 import DocumentationLink from '~sq-server-commons/components/common/DocumentationLink';
 import { useAppState } from '~sq-server-commons/context/app-state/withAppStateContext';

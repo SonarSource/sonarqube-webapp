@@ -40,8 +40,8 @@ let mockCurrentUser: { isLoggedIn: boolean; permissions: { global: Permissions[]
 let mockDashboardId = '77acc15a-1742-42ff-9469-7e4de1faa19f';
 let mockQuery: { data?: unknown; error?: unknown; isPending: boolean; refetch: () => void };
 
-jest.mock('react-router-dom', () => ({
-  ...jest.requireActual<typeof import('react-router-dom')>('react-router-dom'),
+jest.mock('react-router', () => ({
+  ...jest.requireActual<typeof import('react-router')>('react-router'),
   useNavigate: () => mockNavigate,
   useParams: () => ({ dashboardId: mockDashboardId }),
 }));

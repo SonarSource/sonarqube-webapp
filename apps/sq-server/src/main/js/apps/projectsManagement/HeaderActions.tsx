@@ -21,7 +21,7 @@
 import { Button, ButtonIcon, ButtonVariety, IconEdit, Layout } from '@sonarsource/echoes-react';
 import { useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router';
 import { Visibility } from '~shared/types/component';
 import ChangeDefaultVisibilityForm from './ChangeDefaultVisibilityForm';
 

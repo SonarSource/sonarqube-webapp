@@ -19,7 +19,7 @@
  */
 
 import { Layout } from '@sonarsource/echoes-react';
-import { useOutletContext, useSearchParams } from 'react-router-dom';
+import { useOutletContext, useSearchParams } from 'react-router';
 import { GlobalFooter } from '~adapters/components/layout/GlobalFooter';
 import { QualityProfilesContextProps } from '~sq-server-commons/types/quality-profiles';
 import Evolution from './Evolution';

@@ -19,7 +19,7 @@
  */
 
 import { FormattedMessage } from 'react-intl';
-import { useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router';
 import { useCurrentBranchQuery } from '~adapters/queries/branch';
 import { isBranch, isMainBranch, isPullRequest } from '~shared/helpers/branch-like';
 import { Link } from '../../design-system';

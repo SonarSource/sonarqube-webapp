@@ -20,7 +20,7 @@
 
 import * as Echoes from '@sonarsource/echoes-react';
 import * as React from 'react';
-import { Link as ReactRouterDomLink, LinkProps as ReactRouterDomLinkProps } from 'react-router-dom';
+import { Link as ReactRouterDomLink, LinkProps as ReactRouterDomLinkProps } from 'react-router';
 import { isWebUri } from 'valid-url';
 import { OpenNewTabIcon } from '../../design-system';
 import { translate } from '../../helpers/l10n';

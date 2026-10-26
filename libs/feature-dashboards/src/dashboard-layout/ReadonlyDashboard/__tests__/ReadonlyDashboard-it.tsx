@@ -20,7 +20,7 @@
 
 import { matchers as emotionMatchers } from '@emotion/jest';
 import { screen } from '@testing-library/react';
-import { MemoryRouter } from 'react-router-dom';
+import { MemoryRouter } from 'react-router';
 import { renderWithContext } from '~shared/helpers/test-utils';
 import { MetricKey } from '~shared/types/metrics';
 import { PieChartPastry } from '../../../types/visualization';

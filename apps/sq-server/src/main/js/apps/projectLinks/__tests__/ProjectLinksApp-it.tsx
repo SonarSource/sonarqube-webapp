@@ -20,7 +20,7 @@
 
 import userEvent from '@testing-library/user-event';
 import { last } from 'lodash';
-import { Route } from 'react-router-dom';
+import { Route } from 'react-router';
 import { registerServiceMocks, resetServiceMocks } from '~shared/api/mocks/server';
 import {
   BranchesServiceDefaultDataset,

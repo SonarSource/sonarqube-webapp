@@ -33,8 +33,8 @@ import { TopListWidgetHeader, WidgetHeader } from '../WidgetHeader';
 
 const mockSearchParams = { current: new URLSearchParams('id=my-project') };
 
-jest.mock('react-router-dom', () => {
-  const actual = jest.requireActual<typeof import('react-router-dom')>('react-router-dom');
+jest.mock('react-router', () => {
+  const actual = jest.requireActual<typeof import('react-router')>('react-router');
   return {
     ...actual,
     useSearchParams: () => [mockSearchParams.current],

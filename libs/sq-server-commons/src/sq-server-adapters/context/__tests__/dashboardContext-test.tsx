@@ -28,8 +28,8 @@ import { useCurrentBranchQuery } from '../../queries/branch';
 import { useWidgetMetricMetadataQuery } from '../../queries/widget-metric-metadata';
 import { useDashboardPortfolioContext, useDashboardProjectContext } from '../dashboardContext';
 
-jest.mock('react-router-dom', () => ({
-  ...jest.requireActual<typeof import('react-router-dom')>('react-router-dom'),
+jest.mock('react-router', () => ({
+  ...jest.requireActual<typeof import('react-router')>('react-router'),
   useSearchParams: () => [new URLSearchParams(), jest.fn()],
 }));
 

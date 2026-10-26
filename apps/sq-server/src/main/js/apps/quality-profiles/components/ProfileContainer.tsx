@@ -21,7 +21,7 @@
 import * as React from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useIntl } from 'react-intl';
-import { Outlet, useOutletContext, useSearchParams } from 'react-router-dom';
+import { Outlet, useOutletContext, useSearchParams } from 'react-router';
 import { useLocation } from '~shared/components/hoc/withRouter';
 import { translate } from '~sq-server-commons/helpers/l10n';
 import { QualityProfilesContextProps } from '~sq-server-commons/types/quality-profiles';

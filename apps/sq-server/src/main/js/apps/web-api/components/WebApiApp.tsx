@@ -21,7 +21,7 @@
 import { Layout } from '@sonarsource/echoes-react';
 import { maxBy } from 'lodash';
 import * as React from 'react';
-import { Params, useParams } from 'react-router-dom';
+import { Params, useParams } from 'react-router';
 import { withRouter } from '~shared/components/hoc/withRouter';
 import { Location, Router } from '~shared/types/router';
 import { fetchWebApi } from '~sq-server-commons/api/web-api';

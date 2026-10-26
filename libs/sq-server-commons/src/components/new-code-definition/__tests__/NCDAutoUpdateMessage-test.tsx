@@ -19,7 +19,7 @@
  */
 
 import userEvent from '@testing-library/user-event';
-import { Route } from 'react-router-dom';
+import { Route } from 'react-router';
 import { byRole, byText } from '~shared/helpers/testSelector';
 import { MessageTypes } from '../../../api/messages';
 import MessagesServiceMock from '../../../api/mocks/MessagesServiceMock';

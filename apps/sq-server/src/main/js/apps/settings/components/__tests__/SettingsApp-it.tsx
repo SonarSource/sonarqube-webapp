@@ -20,7 +20,7 @@
 
 import { within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { Route } from 'react-router-dom';
+import { Route } from 'react-router';
 import { registerServiceMocks } from '~shared/api/mocks/server';
 import { byRole, byText } from '~shared/helpers/testSelector';
 import AlmSettingsServiceMock from '~sq-server-commons/api/mocks/AlmSettingsServiceMock';

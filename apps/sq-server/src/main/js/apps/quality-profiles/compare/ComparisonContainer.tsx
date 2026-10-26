@@ -20,7 +20,7 @@
 
 import { Spinner } from '@sonarsource/echoes-react';
 import { FormattedMessage, useIntl } from 'react-intl';
-import { useOutletContext } from 'react-router-dom';
+import { useOutletContext } from 'react-router';
 import { useLocation, useRouter } from '~shared/components/hoc/withRouter';
 import { useProfilesCompareQuery } from '~sq-server-commons/queries/quality-profiles';
 import { QualityProfileDetailsContextProps } from '~sq-server-commons/types/quality-profiles';

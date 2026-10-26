@@ -22,7 +22,7 @@ import { Badge, BreadcrumbsProps, Layout, LinkStandalone } from '@sonarsource/ec
 import { PropsWithChildren } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { FormattedMessage } from 'react-intl';
-import { useOutletContext } from 'react-router-dom';
+import { useOutletContext } from 'react-router';
 import { GlobalFooter } from '~adapters/components/layout/GlobalFooter';
 import { useLocation } from '~shared/components/hoc/withRouter';
 import DateFromNow from '~shared/components/intl/DateFromNow';

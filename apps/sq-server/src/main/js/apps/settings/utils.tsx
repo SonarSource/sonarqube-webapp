@@ -19,7 +19,7 @@
  */
 
 import { sortBy } from 'lodash';
-import { Path } from 'react-router-dom';
+import { Path } from 'react-router';
 import { InputSizeKeys } from '~design-system';
 import { isDefined } from '~shared/helpers/types';
 import {

@@ -20,7 +20,7 @@
 
 import type { ComponentProps } from 'react';
 import { useIntl } from 'react-intl';
-import { useSearchParams } from 'react-router-dom';
+import { useSearchParams } from 'react-router';
 import { extractDashboardMeasureValue } from '~adapters/helpers/dashboard-measures';
 import { getProjectDashboardMeasuresUrl } from '~adapters/helpers/dashboard-widget-urls';
 import { getDashboardLocalizedMetricName } from '~adapters/helpers/l10n';

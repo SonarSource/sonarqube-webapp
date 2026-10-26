@@ -20,7 +20,7 @@
 
 import { screen, waitFor } from '@testing-library/react';
 import userEvent, { UserEvent } from '@testing-library/user-event';
-import { Route } from 'react-router-dom';
+import { Route } from 'react-router';
 import { registerServiceMocks, resetServiceMocks } from '~shared/api/mocks/server';
 import {
   MeasuresServiceDefaultDataset,

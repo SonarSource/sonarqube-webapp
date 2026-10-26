@@ -29,7 +29,7 @@ import {
 } from '@sonarsource/echoes-react';
 import { type ReactNode, type RefObject, useLayoutEffect, useRef, useState } from 'react';
 import { useIntl } from 'react-intl';
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router';
 import type { PieChartSegment } from '../../types/visualization';
 
 const ITEM_GAP_PX = 12;

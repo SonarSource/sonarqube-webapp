@@ -18,7 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { useSearchParams } from 'react-router-dom';
+import { useSearchParams } from 'react-router';
 import { omitNil } from '~sq-server-commons/helpers/request';
 import MaintenanceApp from './MaintenanceApp';
 

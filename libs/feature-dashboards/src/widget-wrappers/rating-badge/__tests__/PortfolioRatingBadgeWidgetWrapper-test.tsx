@@ -35,8 +35,8 @@ const mockPortfolioStandardRatingBadgeWidget = jest.fn((_props: unknown) => (
   <div>portfolio-standard-rating-badge</div>
 ));
 
-jest.mock('react-router-dom', () => ({
-  ...jest.requireActual<typeof import('react-router-dom')>('react-router-dom'),
+jest.mock('react-router', () => ({
+  ...jest.requireActual<typeof import('react-router')>('react-router'),
   useNavigate: () => jest.fn(),
   useParams: () => ({ enterpriseKey: 'enterprise-1' }),
 }));

@@ -19,7 +19,7 @@
  */
 
 import { useEffect } from 'react';
-import { Route, useLocation, useNavigate } from 'react-router-dom';
+import { Route, useLocation, useNavigate } from 'react-router';
 import { lazyLoadComponent } from '~shared/helpers/lazyLoadComponent';
 import { RawQuery } from '~shared/types/router';
 import { parseQuery, serializeQuery } from '~sq-server-commons/utils/coding-rules-query';

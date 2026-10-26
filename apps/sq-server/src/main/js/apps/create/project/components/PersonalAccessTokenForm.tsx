@@ -26,7 +26,7 @@ import {
   MessageVariety,
 } from '@sonarsource/echoes-react';
 import { FormattedMessage } from 'react-intl';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 import { queryToSearchString } from '~shared/helpers/query';
 import { AlmKeys } from '~sq-server-commons/types/alm-settings';
 

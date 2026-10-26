@@ -21,7 +21,7 @@
 import { subDays } from 'date-fns';
 import { HttpResponse, http } from 'msw';
 import { ReactNode } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router';
 import {
   registerServiceMocks,
   resetServiceMocks,

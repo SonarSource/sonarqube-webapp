@@ -36,7 +36,7 @@ import { omit } from 'lodash';
 import * as React from 'react';
 import { useEffect } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
-import { useNavigate, unstable_usePrompt as usePrompt } from 'react-router-dom';
+import { useNavigate, unstable_usePrompt as usePrompt } from 'react-router';
 import { addGlobalSuccessMessage } from '~design-system';
 import { useLocation } from '~shared/components/hoc/withRouter';
 import { getProjectOverviewUrl } from '~shared/helpers/urls';

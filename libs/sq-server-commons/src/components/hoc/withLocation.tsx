@@ -19,7 +19,7 @@
  */
 
 import * as React from 'react';
-import { Location, useLocation } from 'react-router-dom';
+import { Location, useLocation } from 'react-router';
 
 export default function withLocation<P>(
   WrappedComponent: React.ComponentType<React.PropsWithChildren<P & { location: Location }>>,

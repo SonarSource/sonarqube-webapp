@@ -21,7 +21,7 @@
 import { screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { times } from 'lodash';
-import { Route } from 'react-router-dom';
+import { Route } from 'react-router';
 import { registerServiceMocks } from '~shared/api/mocks/server';
 import { SourceServiceMock } from '~shared/api/mocks/services/SourceServiceMock';
 import { get, save } from '~shared/helpers/storage';

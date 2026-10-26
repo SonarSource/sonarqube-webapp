@@ -22,7 +22,7 @@ import { Badge, Label, LinkHighlight, LinkStandalone } from '@sonarsource/echoes
 import classNames from 'classnames';
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
-import { Path } from 'react-router-dom';
+import { Path } from 'react-router';
 import { MetricKey } from '~shared/types/metrics';
 import { NoDataIcon } from '../../design-system';
 import { translateWithParameters } from '../../helpers/l10n';

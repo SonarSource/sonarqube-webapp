@@ -21,7 +21,7 @@
 import { cloneDeep, groupBy } from 'lodash';
 import { ReactNode, useMemo, useRef, useState } from 'react';
 import { useIntl } from 'react-intl';
-import { Location } from 'react-router-dom';
+import { Location } from 'react-router';
 import { isHunterAgentRuleEngine } from '~shared/helpers/issues';
 import { RuleDescriptionSections, RuleDetails } from '~shared/types/rules';
 import { type Issue } from '../../../types/types';

@@ -21,7 +21,7 @@
 import { TooltipProvider } from '@sonarsource/echoes-react';
 import { screen } from '@testing-library/react';
 import { HelmetProvider } from 'react-helmet-async';
-import { MemoryRouter, Outlet, Route, Routes, useOutletContext } from 'react-router-dom';
+import { MemoryRouter, Outlet, Route, Routes, useOutletContext } from 'react-router';
 import { render } from '~shared/helpers/test-utils';
 import { mockQualityProfile } from '~sq-server-commons/helpers/testMocks';
 import { QualityProfilesContextProps } from '~sq-server-commons/types/quality-profiles';

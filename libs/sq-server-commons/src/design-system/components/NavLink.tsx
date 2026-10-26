@@ -19,7 +19,7 @@
  */
 
 import React from 'react';
-import { NavLink as RouterNavLink, NavLinkProps as RouterNavLinkProps } from 'react-router-dom';
+import { NavLink as RouterNavLink, NavLinkProps as RouterNavLinkProps } from 'react-router';
 
 export interface NavLinkProps extends RouterNavLinkProps {
   blurAfterClick?: boolean;

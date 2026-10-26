@@ -21,7 +21,7 @@
 import { Spinner } from '@sonarsource/echoes-react';
 import { useEffect } from 'react';
 import { useIntl } from 'react-intl';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 import { PROJECT_SUMMARY_BASE_URL } from '~adapters/helpers/urls';
 import { useCurrentBranchQuery } from '~adapters/queries/branch';
 import { useLocation } from '~shared/components/hoc/withRouter';

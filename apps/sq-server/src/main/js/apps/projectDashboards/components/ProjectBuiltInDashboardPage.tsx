@@ -33,7 +33,7 @@ import {
 } from '@sonarsource/echoes-react';
 import { type ReactNode } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
-import { useParams, useSearchParams } from 'react-router-dom';
+import { useParams, useSearchParams } from 'react-router';
 import { useCurrentUser } from '~adapters/helpers/users';
 import { useCurrentBranchQuery } from '~adapters/queries/branch';
 import { DashboardDescriptionAccordion } from '~feature-dashboards/dashboard-description/DashboardDescriptionAccordion';

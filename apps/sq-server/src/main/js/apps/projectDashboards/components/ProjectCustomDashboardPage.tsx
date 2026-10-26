@@ -21,7 +21,7 @@
 import { BreadcrumbsProps, Button, ButtonVariety, toast } from '@sonarsource/echoes-react';
 import { SetStateAction, useCallback, useEffect, useMemo, useState } from 'react';
 import { useIntl } from 'react-intl';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router';
 import { DashboardDescriptionAccordion } from '~feature-dashboards/dashboard-description/DashboardDescriptionAccordion';
 import { DashboardCustomDashboardContent } from '~feature-dashboards/dashboard-layout/DashboardCustomDashboardContent';
 import {

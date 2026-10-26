@@ -20,7 +20,7 @@
 
 import { renderHook } from '@testing-library/react';
 import { PropsWithChildren } from 'react';
-import { MemoryRouter } from 'react-router-dom';
+import { MemoryRouter } from 'react-router';
 import { getContextWrapper } from '~adapters/helpers/test-utils';
 import { PROJECT_ALM_BINDING_SETTINGS_CATEGORY } from '~adapters/helpers/urls';
 import { useComponentConfigurationQuery } from '~shared/queries/navigation';

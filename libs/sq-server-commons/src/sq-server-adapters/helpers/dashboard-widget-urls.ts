@@ -19,7 +19,7 @@
  */
 
 import type { Path } from 'history';
-import type { To } from 'react-router-dom';
+import type { To } from 'react-router';
 import { getBranchLikeQuery } from '~shared/helpers/branch-like';
 import { getComponentIssuesUrl, getPathUrlAsString, getRuleUrl } from '~shared/helpers/urls';
 import { BranchLikeBase } from '~shared/types/branch-like';

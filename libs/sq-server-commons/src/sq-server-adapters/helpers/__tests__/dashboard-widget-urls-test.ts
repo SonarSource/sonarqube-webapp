@@ -18,7 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import type { To } from 'react-router-dom';
+import type { To } from 'react-router';
 import type { BranchLikeBase } from '~shared/types/branch-like';
 import { SoftwareImpactSeverity } from '~shared/types/clean-code-taxonomy';
 import { MetricKey } from '~shared/types/metrics';

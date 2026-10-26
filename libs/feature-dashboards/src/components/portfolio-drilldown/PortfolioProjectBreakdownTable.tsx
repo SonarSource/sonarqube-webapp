@@ -29,7 +29,7 @@ import {
   Text,
 } from '@sonarsource/echoes-react';
 import { type ReactNode, useCallback } from 'react';
-import type { To } from 'react-router-dom';
+import type { To } from 'react-router';
 import { useDebouncedSearchInput } from '~shared/helpers/useDebouncedSearchInput';
 
 const SEARCH_MIN_LENGTH = 3;

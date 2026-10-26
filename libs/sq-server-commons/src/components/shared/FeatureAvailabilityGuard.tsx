@@ -21,7 +21,7 @@
 import { Button, MessageCallout, MessageVariety, Spinner } from '@sonarsource/echoes-react';
 import { PropsWithChildren } from 'react';
 import { FormattedMessage } from 'react-intl';
-import { Outlet } from 'react-router-dom';
+import { Outlet } from 'react-router';
 import NotFound from '~shared/components/NotFound';
 import { EntitlementCheckFeatureKey } from '~shared/types/billing';
 import { useFeatureAvailability } from '../../hooks/useFeatureAvailability';

@@ -19,7 +19,7 @@
  */
 
 import * as React from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 import { SubnavigationGroup, SubnavigationItem } from '~design-system';
 import { queryToSearchString } from '~sq-server-commons/sonar-aligned/helpers/urls';
 import { WebApi } from '~sq-server-commons/types/types';

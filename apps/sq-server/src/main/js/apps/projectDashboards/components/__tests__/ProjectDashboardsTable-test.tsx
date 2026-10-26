@@ -31,8 +31,8 @@ const mockDelete = jest.fn();
 const mockDuplicate = jest.fn();
 const mockPrefetch = jest.fn().mockResolvedValue(undefined);
 
-jest.mock('react-router-dom', () => ({
-  ...jest.requireActual<typeof import('react-router-dom')>('react-router-dom'),
+jest.mock('react-router', () => ({
+  ...jest.requireActual<typeof import('react-router')>('react-router'),
   useNavigate: () => mockNavigate,
 }));
 

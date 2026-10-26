@@ -29,8 +29,8 @@ import { EditionKey } from '~sq-server-commons/types/editions';
 import { DASHBOARD_HISTORY_RETENTION_KEY } from '../../../constants';
 import { DashboardRetentionSection } from '../DashboardRetentionSection';
 
-jest.mock('react-router-dom', () => ({
-  ...jest.requireActual('react-router-dom'),
+jest.mock('react-router', () => ({
+  ...jest.requireActual('react-router'),
   unstable_usePrompt: jest.fn(),
 }));
 

@@ -20,7 +20,7 @@
 
 import { Layout } from '@sonarsource/echoes-react';
 import { PropsWithChildren } from 'react';
-import { Navigate, useLocation } from 'react-router-dom';
+import { Navigate, useLocation } from 'react-router';
 import { withComponentContext } from '~adapters/context/withComponentContext';
 import NotFound from '~shared/components/NotFound';
 import { isProject } from '~shared/helpers/component';

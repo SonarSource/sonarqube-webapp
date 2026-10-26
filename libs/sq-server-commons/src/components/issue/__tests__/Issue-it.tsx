@@ -22,7 +22,7 @@ import { act, fireEvent, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { omit, pick } from 'lodash';
 import * as React from 'react';
-import { Route } from 'react-router-dom';
+import { Route } from 'react-router';
 import { registerServiceMocks } from '~shared/api/mocks/server';
 import { byLabelText, byRole, byText } from '~shared/helpers/testSelector';
 import {

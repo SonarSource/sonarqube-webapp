@@ -20,7 +20,7 @@
 
 import { useCallback } from 'react';
 import { useIntl } from 'react-intl';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 import { useDashboardPortfolioContext } from '~adapters/context/dashboardContext';
 import { getPortfolioDashboardWidgetDrilldownUrl } from '~adapters/helpers/dashboard-widget-urls';
 import { WidgetLoadingSpinner } from '../../components/common/WidgetLoadingSpinner';

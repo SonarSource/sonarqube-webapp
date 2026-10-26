@@ -21,7 +21,7 @@
 import { LinkStandalone, toast } from '@sonarsource/echoes-react';
 import { queryOptions, useMutation, useQueryClient } from '@tanstack/react-query';
 import { IntlShape, useIntl } from 'react-intl';
-import { To } from 'react-router-dom';
+import { To } from 'react-router';
 import { createQueryHook, StaleTime } from '~shared/queries/common';
 import {
   getReportStatus,

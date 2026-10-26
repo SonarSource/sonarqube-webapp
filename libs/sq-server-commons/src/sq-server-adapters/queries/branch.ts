@@ -21,7 +21,7 @@
 import { queryOptions, useQuery } from '@tanstack/react-query';
 import { flatten } from 'lodash';
 import { useCallback, useContext } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router';
 import { isBranch, isPullRequest } from '~shared/helpers/branch-like';
 import { isPortfolioLike, isProject } from '~shared/helpers/component';
 import { isDefined } from '~shared/helpers/types';

@@ -20,7 +20,7 @@
 
 import { Button, Spinner } from '@sonarsource/echoes-react';
 import { FormattedMessage, useIntl } from 'react-intl';
-import { useOutletContext } from 'react-router-dom';
+import { useOutletContext } from 'react-router';
 import { useLocation, useRouter } from '~shared/components/hoc/withRouter';
 import { isDefined } from '~shared/helpers/types';
 import { parseDate, toISO8601WithOffsetString } from '~sq-server-commons/helpers/dates';

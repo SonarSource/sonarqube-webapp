@@ -18,7 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Path } from 'react-router-dom';
+import { Path } from 'react-router';
 
 /**
  * Widened to match the SQC adapter, which has no URL to offer until an organization is in context.

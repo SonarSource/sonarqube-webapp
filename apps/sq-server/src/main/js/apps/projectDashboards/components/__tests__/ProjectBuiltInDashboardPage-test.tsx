@@ -70,8 +70,8 @@ let mockBranchLike: BranchLikeBase = { analysisDate: '2026-08-19', isMain: true,
 const mockDashboardQueryOptions = jest.fn();
 const mockMeasuresQueryOptions = jest.fn();
 
-jest.mock('react-router-dom', () => ({
-  ...jest.requireActual<typeof import('react-router-dom')>('react-router-dom'),
+jest.mock('react-router', () => ({
+  ...jest.requireActual<typeof import('react-router')>('react-router'),
   useParams: () => ({ dashboardKey: mockDashboardKey }),
   useSearchParams: () => [new URLSearchParams(mockSearch)],
 }));

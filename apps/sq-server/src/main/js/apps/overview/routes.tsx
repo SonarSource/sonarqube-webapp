@@ -18,7 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Navigate, Route, useLocation } from 'react-router-dom';
+import { Navigate, Route, useLocation } from 'react-router';
 import { PROJECT_SUMMARY_BASE_URL, PROJECT_SUMMARY_OVERALL_BASE_URL } from '~adapters/helpers/urls';
 import { lazyLoadComponent } from '~shared/helpers/lazyLoadComponent';
 import { UnsubscribeApp } from './components/UnsubscribeApp';

@@ -22,7 +22,7 @@ import { Heading, Layout, Spinner, Text } from '@sonarsource/echoes-react';
 import { omit } from 'lodash';
 import { useMemo, useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
-import { useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router';
 import { GlobalPageTemplate } from '~sq-server-commons/components/ui/GlobalPageTemplate';
 import { useOpenAPI } from '~sq-server-commons/queries/web-api';
 import ApiFilterContext from './components/ApiFilterContext';

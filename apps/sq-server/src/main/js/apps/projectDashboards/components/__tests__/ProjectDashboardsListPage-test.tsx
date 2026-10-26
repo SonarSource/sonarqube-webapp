@@ -36,8 +36,8 @@ const mockNavigate = jest.fn();
 const mockSetSearchParams = jest.fn();
 let mockVisibility = Visibility.Private;
 
-jest.mock('react-router-dom', () => ({
-  ...jest.requireActual<typeof import('react-router-dom')>('react-router-dom'),
+jest.mock('react-router', () => ({
+  ...jest.requireActual<typeof import('react-router')>('react-router'),
   useNavigate: () => mockNavigate,
   useSearchParams: () => [new URLSearchParams(), mockSetSearchParams],
 }));

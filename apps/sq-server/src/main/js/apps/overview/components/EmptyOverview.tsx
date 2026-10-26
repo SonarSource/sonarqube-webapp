@@ -21,7 +21,7 @@
 import styled from '@emotion/styled';
 import { MessageCallout, Spinner } from '@sonarsource/echoes-react';
 import * as React from 'react';
-import { Navigate } from 'react-router-dom';
+import { Navigate } from 'react-router';
 import { useProjectBranchesQuery } from '~adapters/queries/branch';
 import { useLocation } from '~shared/components/hoc/withRouter';
 import { isBranch, isMainBranch } from '~shared/helpers/branch-like';

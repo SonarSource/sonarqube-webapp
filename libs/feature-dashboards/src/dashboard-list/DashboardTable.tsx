@@ -31,7 +31,7 @@ import {
 } from '@sonarsource/echoes-react';
 import { type ComponentProps, type ReactNode } from 'react';
 import { useIntl } from 'react-intl';
-import { To } from 'react-router-dom';
+import { To } from 'react-router';
 import DateFromNow from '~shared/components/intl/DateFromNow';
 
 export interface DashboardTableItem {

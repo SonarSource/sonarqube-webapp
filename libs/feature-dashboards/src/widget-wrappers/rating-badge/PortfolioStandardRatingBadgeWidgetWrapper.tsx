@@ -19,7 +19,7 @@
  */
 
 import { RatingBadgeSize, Text } from '@sonarsource/echoes-react';
-import { useParams } from 'react-router-dom';
+import { useParams } from 'react-router';
 import Measure from '~adapters/components/measure/Measure';
 import { QualityGateIndicator } from '~adapters/components/ui/QualityGateIndicator';
 import { useDashboardPortfolioContext } from '~adapters/context/dashboardContext';

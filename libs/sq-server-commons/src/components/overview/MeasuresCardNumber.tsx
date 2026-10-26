@@ -21,7 +21,7 @@
 import { Text } from '@sonarsource/echoes-react';
 import * as React from 'react';
 import { useIntl } from 'react-intl';
-import { To } from 'react-router-dom';
+import { To } from 'react-router';
 import { MetricKey, MetricType } from '~shared/types/metrics';
 import { formatMeasure } from '../../sonar-aligned/helpers/measures';
 import { QualityGateStatusConditionEnhanced } from '../../types/quality-gates';

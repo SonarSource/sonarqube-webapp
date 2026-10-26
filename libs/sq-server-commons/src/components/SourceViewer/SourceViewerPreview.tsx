@@ -22,7 +22,7 @@ import { ICell, INotebookContent, isCode, isMarkdown } from '@jupyterlab/nbforma
 import { Spinner } from '@sonarsource/echoes-react';
 import React, { forwardRef, useEffect, useMemo, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
-import { To } from 'react-router-dom';
+import { To } from 'react-router';
 import { useLocation, useRouter } from '~shared/components/hoc/withRouter';
 import { getBranchLikeQuery } from '~shared/helpers/branch-like';
 import { ComponentContext } from '../../context/componentContext/ComponentContext';

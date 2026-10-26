@@ -19,7 +19,7 @@
  */
 
 import * as React from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 import { useCurrentUser } from '~adapters/helpers/users';
 import { useLocation } from '~shared/components/hoc/withRouter';
 import { get } from '~shared/helpers/storage';

@@ -19,7 +19,7 @@
  */
 
 import { screen } from '@testing-library/react';
-import { Route } from 'react-router-dom';
+import { Route } from 'react-router';
 import { renderWithRoutes } from '~shared/helpers/test-utils';
 import { ComponentQualifier } from '~shared/types/component';
 import { mockBranch, mockPullRequest } from '~sq-server-commons/helpers/mocks/branch-like';

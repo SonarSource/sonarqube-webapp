@@ -30,8 +30,8 @@ const mockDownloadDashboardSchema = jest.fn();
 const mockNavigate = jest.fn();
 let mockProjectId: string | undefined = 'project-id';
 
-jest.mock('react-router-dom', () => ({
-  ...jest.requireActual<typeof import('react-router-dom')>('react-router-dom'),
+jest.mock('react-router', () => ({
+  ...jest.requireActual<typeof import('react-router')>('react-router'),
   useNavigate: () => mockNavigate,
 }));
 

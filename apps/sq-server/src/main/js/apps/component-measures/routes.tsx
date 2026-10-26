@@ -18,7 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Navigate, Route, useParams, useSearchParams } from 'react-router-dom';
+import { Navigate, Route, useParams, useSearchParams } from 'react-router';
 import { lazyLoadComponent } from '~shared/helpers/lazyLoadComponent';
 import { searchParamsToQuery } from '~shared/helpers/router';
 import { MetricKey } from '~shared/types/metrics';

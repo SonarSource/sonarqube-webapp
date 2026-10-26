@@ -22,7 +22,7 @@ import { Layout, Spinner } from '@sonarsource/echoes-react';
 import { useCallback, useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useIntl } from 'react-intl';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router';
 import { GlobalFooter } from '~adapters/components/layout/GlobalFooter';
 import { Card } from '~design-system';
 import '~sq-server-commons/components/search-navigator.css';

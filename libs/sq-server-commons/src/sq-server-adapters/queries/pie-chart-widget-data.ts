@@ -20,7 +20,7 @@
 
 import { useMemo } from 'react';
 import { useIntl, type IntlShape } from 'react-intl';
-import { useSearchParams } from 'react-router-dom';
+import { useSearchParams } from 'react-router';
 import { getPieChartFacetCounts } from '~shared/helpers/pieChart';
 import { useLanguagesQuery } from '~shared/queries/languages';
 import { FILTERABLE_CODE_ISSUE_STATUSES } from '~shared/types/issues';

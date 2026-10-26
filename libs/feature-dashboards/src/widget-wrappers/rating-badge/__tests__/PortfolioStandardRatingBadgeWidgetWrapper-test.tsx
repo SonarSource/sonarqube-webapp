@@ -28,8 +28,8 @@ import { CodeScope, WidgetMode } from '../../../types/widget-common';
 import * as PortfolioWidgetDataUtils from '../../../utils/portfolioWidgetData';
 import { PortfolioStandardRatingBadgeWidgetWrapper as PortfolioStandardRatingBadgeWidget } from '../PortfolioStandardRatingBadgeWidgetWrapper';
 
-jest.mock('react-router-dom', () => {
-  const actual = jest.requireActual<typeof import('react-router-dom')>('react-router-dom');
+jest.mock('react-router', () => {
+  const actual = jest.requireActual<typeof import('react-router')>('react-router');
   return {
     ...actual,
     useParams: () => ({ enterpriseKey: 'enterprise-1' }),

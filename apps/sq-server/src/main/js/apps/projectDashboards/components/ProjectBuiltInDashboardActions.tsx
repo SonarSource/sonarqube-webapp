@@ -21,7 +21,7 @@
 import { Button, toast } from '@sonarsource/echoes-react';
 import { useState } from 'react';
 import { useIntl } from 'react-intl';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 import { createEmptyDashboard } from '~feature-dashboards/dashboard-layout/logic/constants';
 import {
   DashboardKebabMenu,

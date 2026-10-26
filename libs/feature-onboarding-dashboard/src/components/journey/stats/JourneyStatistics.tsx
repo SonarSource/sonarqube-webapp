@@ -21,7 +21,7 @@
 import { IconLink, LoadingContainer, MessageCallout } from '@sonarsource/echoes-react';
 import { ReactNode } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
-import { Path } from 'react-router-dom';
+import { Path } from 'react-router';
 import { useCreateDevopsConfigurationUrl } from '~adapters/helpers/useCreateDevopsConfigurationUrl';
 import { JourneyLevel, OnboardingTimelinePoint } from '~shared/types/onboarding';
 import { OverTimeCardSkeleton } from '../../OnboardingDashboardSkeleton';
