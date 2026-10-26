@@ -8085,6 +8085,9 @@ export const defaultMessages = {
   'permission_templates.no_templates': 'No permission templates have been created yet.',
   'permission_templates.set_default': 'Set Default',
   'permission_templates.set_default_for': 'Set Default For',
+  'permission_templates.set_default_confirmation_title': 'Set Empty Template as Default',
+  'permission_templates.set_default_confirmation_description':
+    'The template "{template}" assigns no permissions. Newly created resources may be inaccessible. Do you want to set it as the default for {qualifier}?',
   'permission_templates.provisioning_warning':
     'Please note that permission templates will only affect non-{0} projects due to the enabled automatic provisioning via {0}.',
   'permission_template.new_template': 'Create Permission Template',

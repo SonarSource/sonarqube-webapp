@@ -34,6 +34,7 @@ import { PermissionTemplate } from '~sq-server-commons/types/types';
 import { PERMISSION_TEMPLATES_PATH } from '../utils';
 import DeleteForm from './DeleteForm';
 import Form from './Form';
+import { SetDefaultConfirmationModal } from './SetDefaultConfirmationModal';
 
 import { FormattedMessage } from 'react-intl';
 
@@ -48,6 +49,7 @@ interface Props {
 interface State {
   deleteForm: boolean;
   updateModal: boolean;
+  defaultQualifier?: string;
 }
 
 class ActionsCell extends React.PureComponent<Props, State> {
@@ -100,10 +102,26 @@ class ActionsCell extends React.PureComponent<Props, State> {
   };
 
   setDefault = (qualifier: string) => () => {
+    const hasPermissions = this.props.permissionTemplate.permissions.some(
+      ({ usersCount, groupsCount, withProjectCreator }) =>
+        usersCount > 0 || groupsCount > 0 || withProjectCreator,
+    );
+
+    if (!hasPermissions) {
+      this.setState({ defaultQualifier: qualifier });
+      return;
+    }
+
     setDefaultPermissionTemplate(this.props.permissionTemplate.id, qualifier).then(
       this.props.refresh,
       () => {},
     );
+  };
+
+  handleCloseDefaultConfirmation = () => {
+    if (this.mounted) {
+      this.setState({ defaultQualifier: undefined });
+    }
   };
 
   getAvailableQualifiers() {
@@ -201,6 +219,14 @@ class ActionsCell extends React.PureComponent<Props, State> {
             className="it__permission-actions"
           />
         </DropdownMenu>
+        {this.state.defaultQualifier !== undefined && (
+          <SetDefaultConfirmationModal
+            onClose={this.handleCloseDefaultConfirmation}
+            onSuccess={this.props.refresh}
+            permissionTemplate={t}
+            qualifier={this.state.defaultQualifier}
+          />
+        )}
         {this.state.updateModal && (
           <Form
             confirmButtonText={translate('update_verb')}

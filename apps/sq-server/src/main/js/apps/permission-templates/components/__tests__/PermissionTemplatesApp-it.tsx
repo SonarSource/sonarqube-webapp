@@ -29,6 +29,7 @@ import DopTranslationServiceMock from '~sq-server-commons/api/mocks/DopTranslati
 import GithubProvisioningServiceMock from '~sq-server-commons/api/mocks/GithubProvisioningServiceMock';
 import GitlabProvisioningServiceMock from '~sq-server-commons/api/mocks/GitlabProvisioningServiceMock';
 import PermissionsServiceMock from '~sq-server-commons/api/mocks/PermissionsServiceMock';
+import { setDefaultPermissionTemplate } from '~sq-server-commons/api/permissions';
 import { mockGitlabConfiguration } from '~sq-server-commons/helpers/mocks/alm-integrations';
 import { mockGitHubConfiguration } from '~sq-server-commons/helpers/mocks/dop-translation';
 import {
@@ -53,6 +54,8 @@ const computeEngineHandler = new ComputeEngineServiceMock();
 
 beforeEach(() => {
   serviceMock.reset();
+  serviceMock.updateDefaults();
+  jest.mocked(setDefaultPermissionTemplate).mockClear();
   dopTranslationHandler.reset();
   githubHandler.reset();
   gitlabHandler.reset();
@@ -374,6 +377,137 @@ it.each([ComponentQualifier.Project, ComponentQualifier.Application, ComponentQu
   },
 );
 
+describe('setting empty templates as default', () => {
+  const zeroCountPermissions = [{ key: Permissions.Browse, usersCount: 0, groupsCount: 0 }];
+
+  it.each([
+    { qualifier: ComponentQualifier.Project, permissions: zeroCountPermissions },
+    { qualifier: ComponentQualifier.Application, permissions: zeroCountPermissions },
+    { qualifier: ComponentQualifier.Portfolio, permissions: zeroCountPermissions },
+    { qualifier: ComponentQualifier.Project, permissions: [] },
+  ])(
+    'should require confirmation for $qualifier with $permissions',
+    async ({ qualifier, permissions }) => {
+      const template = serviceMock.getTemplates()[1];
+      template.permissions = permissions;
+      const user = userEvent.setup();
+      const ui = getPageObject(user);
+      renderPermissionTemplatesApp(uniq([ComponentQualifier.Project, qualifier]));
+      await ui.appLoaded();
+
+      await ui.setTemplateAsDefaultFor(template.name, qualifier);
+
+      const confirmation = await ui.defaultConfirmation.find();
+      expect(confirmation).toHaveTextContent(
+        `permission_templates.set_default_confirmation_description.${template.name}.qualifiers.${qualifier}`,
+      );
+      expect(setDefaultPermissionTemplate).not.toHaveBeenCalled();
+      await user.click(ui.defaultConfirmation.byRole('button', { name: 'cancel' }).get());
+      expect(ui.defaultConfirmation.query()).not.toBeInTheDocument();
+      expect(setDefaultPermissionTemplate).not.toHaveBeenCalled();
+      expect(template.defaultFor).not.toContain(qualifier);
+
+      await ui.setTemplateAsDefaultFor(template.name, qualifier);
+      await user.click(ui.confirmDefault.get());
+
+      expect(setDefaultPermissionTemplate).toHaveBeenCalledTimes(1);
+      expect(setDefaultPermissionTemplate).toHaveBeenCalledWith(template.id, qualifier);
+      expect(
+        await byRole('row', { name: /Permission Template 2/ })
+          .byText(new RegExp(`permission_template\\.default_for(.*)qualifiers.${qualifier}`))
+          .find(),
+      ).toBeInTheDocument();
+      expect(ui.defaultConfirmation.query()).not.toBeInTheDocument();
+    },
+  );
+
+  it('should support dismissal and confirmation from template details', async () => {
+    serviceMock.getTemplates()[1].permissions = [];
+    const user = userEvent.setup();
+    const ui = getPageObject(user);
+    renderPermissionTemplatesApp();
+    await ui.appLoaded();
+    await ui.openTemplateDetails('Permission Template 2');
+    await ui.appLoaded();
+
+    await ui.setTemplateAsDefaultFor('Permission Template 2', ComponentQualifier.Project);
+    expect(await ui.defaultConfirmation.find()).toBeInTheDocument();
+    await user.keyboard('{Escape}');
+    expect(ui.defaultConfirmation.query()).not.toBeInTheDocument();
+    expect(setDefaultPermissionTemplate).not.toHaveBeenCalled();
+
+    await ui.setTemplateAsDefaultFor('Permission Template 2', ComponentQualifier.Project);
+    await user.click(ui.confirmDefault.get());
+    expect(
+      await byText('permission_template.default_for.qualifiers.TRK').find(),
+    ).toBeInTheDocument();
+    expect(setDefaultPermissionTemplate).toHaveBeenCalledTimes(1);
+    expect(setDefaultPermissionTemplate).toHaveBeenCalledWith(
+      'template2',
+      ComponentQualifier.Project,
+    );
+  });
+
+  it('should prevent duplicate submissions, show an error, and permit retry after failure', async () => {
+    serviceMock.getTemplates()[1].permissions = [];
+    let failSubmission: () => void = jest.fn();
+    jest.mocked(setDefaultPermissionTemplate).mockImplementationOnce(
+      () =>
+        new Promise<void>((_resolve, reject) => {
+          failSubmission = () => {
+            reject(new Error('Request failed'));
+          };
+        }),
+    );
+    const user = userEvent.setup();
+    const ui = getPageObject(user);
+    renderPermissionTemplatesApp();
+    await ui.appLoaded();
+    expect(await ui.templateLink('Permission Template 2').find()).toBeInTheDocument();
+    await ui.setTemplateAsDefaultFor('Permission Template 2', ComponentQualifier.Project);
+    await user.click(ui.confirmDefault.get());
+    expect(ui.confirmDefault.get()).toBeDisabled();
+    await user.keyboard('{Enter}');
+    expect(setDefaultPermissionTemplate).toHaveBeenCalledTimes(1);
+
+    failSubmission();
+    expect(await byText('default_error_message').find()).toBeInTheDocument();
+    expect(byText('default_error_message').getAll()).toHaveLength(1);
+    await waitFor(() => {
+      expect(ui.confirmDefault.get()).toBeEnabled();
+    });
+    expect(ui.defaultConfirmation.get()).toBeInTheDocument();
+    await user.click(ui.confirmDefault.get());
+    expect(
+      await byRole('row', { name: /Permission Template 2/ })
+        .byText('permission_template.default_for.qualifiers.TRK')
+        .find(),
+    ).toBeInTheDocument();
+    expect(setDefaultPermissionTemplate).toHaveBeenCalledTimes(2);
+  });
+
+  it.each(['usersCount', 'groupsCount'] as const)(
+    'should immediately apply templates with a positive %s',
+    async (count) => {
+      const template = serviceMock.getTemplates()[1];
+      template.permissions = [
+        { key: Permissions.Browse, usersCount: 0, groupsCount: 0, [count]: 1 },
+      ];
+      const user = userEvent.setup();
+      const ui = getPageObject(user);
+      renderPermissionTemplatesApp();
+      await ui.appLoaded();
+      await ui.setTemplateAsDefaultFor(template.name, ComponentQualifier.Project);
+      expect(
+        await byRole('row', { name: /Permission Template 2/ })
+          .byText('permission_template.default_for.qualifiers.TRK')
+          .find(),
+      ).toBeInTheDocument();
+      expect(ui.defaultConfirmation.query()).not.toBeInTheDocument();
+    },
+  );
+});
+
 it('should show github warning', async () => {
   const user = userEvent.setup();
   const ui = getPageObject(user);
@@ -424,6 +558,12 @@ function getPageObject(user: UserEvent) {
     loadMoreBtn: byRole('button', { name: 'show_more' }),
     createNewTemplateBtn: byRole('button', { name: 'create' }),
     modal: byRole('dialog'),
+    defaultConfirmation: byRole('alertdialog', {
+      name: 'permission_templates.set_default_confirmation_title',
+    }),
+    confirmDefault: byRole('alertdialog').byRole('button', {
+      name: /permission_templates\.set_default$/,
+    }),
     cogMenuBtn: (name: string) =>
       byRole('button', { name: `permission_templates.show_actions_for_x.${name}` }),
     deleteBtn: byRole('menuitem', { name: 'delete' }),
