@@ -32,7 +32,11 @@ export function isLongLivingBranch(branchLike?: BranchLikeBase) {
 /**
  * SonarQube Server has no short-lived branches, so this is always false.
  */
-export function isShortLivingBranch(_branchLike?: BranchLikeBase) {
+export function isShortLivingBranch(_branchLike?: BranchLikeBase): _branchLike is never {
+  return false;
+}
+
+export function shouldUseMainBranchIcon(_branchLike?: BranchLikeBase) {
   return false;
 }
 
