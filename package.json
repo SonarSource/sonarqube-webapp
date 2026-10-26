@@ -144,7 +144,7 @@
     "@nx/web": "23.3.0",
     "@playwright/test": "1.61.1",
     "@rolldown/plugin-babel": "0.2.4",
-    "@sentry/vite-plugin": "5.4.0",
+    "@sentry/vite-plugin": "11.8.0",
     "@sprig-technologies/sprig-browser": "2.48.2",
     "@swc-contrib/mut-cjs-exports": "19.0.0",
     "@swc-node/register": "1.11.1",
