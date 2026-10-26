@@ -115,7 +115,7 @@ export function Form({ component, router }: Readonly<Props>) {
           {intl.formatMessage({ id: 'cancel' })}
         </Button>
       }
-      title={intl.formatMessage({ id: getTitle(component.qualifier) })}
+      title={getTitle(component.qualifier)}
     >
       <Button
         id="delete-project"

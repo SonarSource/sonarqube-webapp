@@ -120,12 +120,8 @@ export default function BitbucketImportRepositoryForm(
         <div className="sw:flex-1">
           <InputSearch
             onChange={onSearch}
-            placeholder={formatMessage({
-              id: searchInputPlaceholder,
-            })}
-            searchInputAriaLabel={formatMessage({
-              id: searchInputPlaceholder,
-            })}
+            placeholder={searchInputPlaceholder}
+            searchInputAriaLabel={searchInputPlaceholder}
             size="full"
           />
         </div>
