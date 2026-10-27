@@ -3240,13 +3240,15 @@ export const defaultMessages = {
 
   'sca.container_images.page': 'Container images',
   'sca.container_images.page.description':
-    'Scan container images to identify dependency risks. <link>Learn more about container scanning</link>.',
+    'Scan container images to find vulnerabilities and malicious packages. <link>Learn more about container scanning</link>.',
   'sca.container_images.count':
     '{count} {count, plural, one {container image} other {container images}}',
   'sca.container_images.risk_count': '{count} {count, plural, one {risk} other {risks}}',
   'sca.container_images.most_severe': 'Most severe:',
-  'sca.container_images.last_analysis': 'Last analysis: {date}',
-  'sca.container_images.digest': 'Digest: {digest}',
+  'sca.container_images.last_analysis': '<b>Last analysis:</b> {date}',
+  'sca.container_images.digest': '<b>Digest:</b> {digest}',
+  'sca.container_images.tag': 'Tag: {tag}',
+  'sca.container_images.tag_label': 'Tag',
   'sca.container_images.select_digest': 'Select image tag and digest',
   'sca.container_images.search': 'Search container images',
   'sca.container_images.sort': 'Sort container images',
@@ -3277,9 +3279,10 @@ export const defaultMessages = {
   'sca.container_images.empty.supported':
     'Supported base images: Red Hat Enterprise Linux, Debian 11+, Ubuntu, and Alpine.',
   'sca.container_images.empty.documentation': 'Set up your first scan here',
-  'sca.container_images.risks.empty.title': 'No open dependency risks were found',
+  'sca.container_images.risks.empty.title':
+    'No open vulnerabilities or malicious packages were found',
   'sca.container_images.risks.empty.body':
-    'This may be because this container image has no dependencies, all dependencies are risk-free, or an error occurred during analysis.',
+    'This may be because this container image has no packages, all packages are risk-free, or an error occurred during analysis.',
   'sca.licenses.page': 'License profiles',
   'sca.licenses.page.intro':
     'A license profile is a collection of policies that define which licenses are allowed or prohibited for the dependencies used by your projects. If a dependency with a prohibited license is found during an analysis, it will be identified as a dependency risk. For more details see the documentation for {docsLink}.',
@@ -5615,7 +5618,8 @@ export const defaultMessages = {
   'search.show_more.hint': 'Press {key} to display',
   'search.placeholder': 'Search for projects...',
   'search.search_for_projects': 'Search projects',
-  'search.search_for_cves': 'Search by vulnerability or license ID...',
+  'search.search_for_cves':
+    'Search by vulnerability{withLicense, select, true { or license ID} other {}}...',
   'search.search_for_dependencies': 'Search by dependency name...',
   'search.search_for_members': 'Search for members...',
   'search.search_for_users': 'Search for users...',
