@@ -12213,4 +12213,24 @@ export const defaultMessages = {
 
   'security_alerts.security_alert_banner.message':
     'New security alerts were detected in your projects in the past week. <link>View all security alerts</link>',
+  'billing.repo_auto_import_enabled.description.bitbucket':
+    'New repositories in your Bitbucket workspace will be imported automatically.',
+  'onboarding.create_organization.repo_auto_import.helper.bitbucket':
+    'Automatically import new repositories from your connected Bitbucket workspace. Existing repositories are not imported.',
+  'onboarding.create_organization.repo_auto_import.label.bitbucket':
+    'Automatically import new Bitbucket repositories',
+  'onboarding_dashboard.journey.import.auto_help.bitbucket':
+    'New repositories in your Bitbucket workspace are imported automatically.',
+  'organization.settings.binding.auto_import.helper.bitbucket':
+    'Automatically import new repositories from your connected Bitbucket workspace. Existing repositories are not imported.',
+  'organization.settings.binding.auto_import.title.bitbucket':
+    'Automatically import new Bitbucket repositories',
+  'organization.repository_auto_import.toggletip.new_repos_description.bitbucket':
+    'New repositories created in your connected Bitbucket workspace will be imported automatically into this organization.',
+  'organization.settings.binding.auto_import.bitbucket.error.not_saved':
+    'Your AutoImport choice could not be saved. Your Bitbucket workspace is still connected. Check the saved setting and try again in organization settings.',
+  'organization.settings.binding.auto_import.bitbucket.error.unconfirmed':
+    'We could not confirm your AutoImport setting. Your Bitbucket workspace is still connected. Reload organization settings to check the saved value before trying again.',
+  'onboarding.create_organization.repo_auto_import.locs_warning.bitbucket':
+    'Analyzing imported private projects consumes your lines of code allowance. Ensure your plan has enough allowance for uninterrupted analysis.',
 };
