@@ -1,0 +1,36 @@
+/*
+ * SonarQube
+ * Copyright (C) 2009-2025 SonarSource Sàrl
+ * mailto:info AT sonarsource DOT com
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 3 of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with this program; if not, write to the Free Software Foundation,
+ * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ */
+
+import styled from '@emotion/styled';
+import { cssVar } from '@sonarsource/echoes-react';
+
+const NumberedList = styled.ol<{ startCounter?: number }>`
+  list-style: none;
+  counter-reset: li ${({ startCounter }) => startCounter};
+  margin-top: ${cssVar('dimension-space-200', '1rem')};
+  padding-left: 0;
+
+  li:last-child {
+    margin-bottom: 0;
+  }
+`;
+
+NumberedList.displayName = 'NumberedList';
+export default NumberedList;

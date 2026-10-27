@@ -23,6 +23,8 @@ import { useDocUrl, useUncataloguedDocUrl } from '../../helpers/docs';
 
 export { AgentCentricDocLink };
 
+export const userTokenUrl = '/account/security';
+
 /**
  * SharedDocLink entries are consistent across cloud and server.
  * Though they may not necessarily have the same URL,

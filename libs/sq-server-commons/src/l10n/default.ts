@@ -3252,8 +3252,31 @@ export const defaultMessages = {
   'sca.container_images.sort': 'Sort container images',
   'sca.container_images.sort.name': 'Name',
   'sca.container_images.sort.last_analysis': 'Last Analysis',
-  'sca.container_images.empty.title': 'No container images analyzed yet',
-  'sca.container_images.empty.description': 'Scan a container image to uncover dependency risks.',
+  'sca.container_images.empty.title': 'Scan your first container image',
+  'sca.container_images.empty.description':
+    'No images have been analyzed yet. Run the scanner on an image you’ve built or pulled, locally or in CI, and the results will appear here.',
+  'sca.container_images.empty.steps': 'Scan setup instructions',
+  'sca.container_images.empty.download.title': 'Download the scanner',
+  'sca.container_images.empty.download.action': 'Download scanner',
+  'sca.container_images.empty.install.description':
+    'In a terminal, make the downloaded binary executable, then run it from its folder or add it to your PATH.',
+  'sca.container_images.empty.install.linux': 'Linux x64 example',
+  'sca.container_images.empty.install.copy': 'Copy Linux installation commands',
+  'sca.container_images.empty.install.windows': 'Windows x64 example',
+  'sca.container_images.empty.install.windows.copy': 'Copy Windows installation command',
+  'sca.container_images.empty.install.note':
+    'Replace the version placeholder with the version in the downloaded file name. Run the scanner from its folder or add it to your PATH.',
+  'sca.container_images.empty.scan.title': 'Set credentials and run a scan',
+  'sca.container_images.empty.scan.description':
+    'Set your user token, then run these commands in a Unix shell. Use CI secrets for automated scans. The image must be available locally, for example after docker build or docker pull.',
+  'sca.container_images.empty.scan.copy': 'Copy credential and scan commands',
+  'sca.container_images.empty.token': 'Create a user token',
+  'sca.container_images.empty.results.title': 'See the results here',
+  'sca.container_images.empty.results.description':
+    'After the scan completes, results will appear in Container images.',
+  'sca.container_images.empty.supported':
+    'Supported base images: Red Hat Enterprise Linux, Debian 11+, Ubuntu, and Alpine.',
+  'sca.container_images.empty.documentation': 'Set up your first scan here',
   'sca.container_images.risks.empty.title': 'No open dependency risks were found',
   'sca.container_images.risks.empty.body':
     'This may be because this container image has no dependencies, all dependencies are risk-free, or an error occurred during analysis.',

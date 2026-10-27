@@ -18,18 +18,4 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import styled from '@emotion/styled';
-import { cssVar } from '@sonarsource/echoes-react';
-
-export const NumberedList = styled.ol`
-  list-style: none;
-  counter-reset: li;
-  margin-top: ${cssVar('dimension-space-200', '1rem')};
-  padding-left: 0;
-
-  li:last-child {
-    margin-bottom: 0;
-  }
-`;
-
-NumberedList.displayName = 'NumberedList';
+export { default as NumberedList } from '~shared/components/list/NumberedList';
