@@ -6,10 +6,6 @@
 
 AWS SDK v3 CloudWatch Logs client — used by `sq-cloud-metrics` to push metrics to CloudWatch Logs for long-term trend tracking.
 
-### @date-fns/upgrade
-
-Used by sq-cloud to parse Date from string or number.
-
 ### @gitbook/embed
 
 Embeds the SonarSource documentation Assistant in sq-cloud and registers the POC's browser-side read-only tools.

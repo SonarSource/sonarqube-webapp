@@ -59,7 +59,6 @@
   },
   "dependencies": {
     "@atlaskit/reduced-ui-pack": "20.0.0",
-    "@date-fns/upgrade": "1.0.3",
     "@emotion/css": "11.13.5",
     "@emotion/is-prop-valid": "1.4.0",
     "@emotion/react": "11.14.0",
