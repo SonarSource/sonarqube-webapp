@@ -20,16 +20,12 @@
 
 import { IconFileCode, Layout } from '@sonarsource/echoes-react';
 import { FormattedMessage } from 'react-intl';
-import { useCurrentUser } from '~adapters/helpers/users';
-import { NewBadge } from '~shared/components/badges/NewBadge';
 import { getBranchLikeQuery } from '~shared/helpers/branch-like';
 import { isApplication, isPortfolioLike, isProject } from '~shared/helpers/component';
 import { isDefined } from '~shared/helpers/types';
-import { EntitlementCheckFeatureKey } from '~shared/types/billing';
 import { addons } from '~sq-server-addons/index';
 import { useAvailableFeatures } from '~sq-server-commons/context/available-features/withAvailableFeatures';
 import { getCodeUrl } from '~sq-server-commons/helpers/urls';
-import { useRemediationAgentBindingSupport } from '~sq-server-commons/queries/dop-translation';
 import { BranchLike } from '~sq-server-commons/types/branch-like';
 import { Feature } from '~sq-server-commons/types/features';
 import { Component } from '~sq-server-commons/types/types';
@@ -43,29 +39,8 @@ interface Props {
 export function ComponentNavProjectMenu(props: Readonly<Props>) {
   const { branchLike, component, isAnalyzed } = props;
   const { hasFeature } = useAvailableFeatures();
-  const { isLoggedIn } = useCurrentUser();
   const { qualifier } = component;
   const isProj = isProject(qualifier);
-  const remediationAgentAddon = addons.remediationAgent;
-  const { data: remediationAgent } = addons.entitlements.usePurchasableFeature(
-    EntitlementCheckFeatureKey.RemediationAgent,
-    {
-      enabled: isProj && isLoggedIn && isDefined(remediationAgentAddon),
-    },
-  );
-  const hasRemediationAgentLicense = isDefined(remediationAgent);
-  // The Remediation Agent only supports a subset of DevOps platforms (see
-  // DopPermissionValidationService server-side). An empty permission-checks response means the
-  // project has no binding, or a binding on an unsupported platform (e.g. Bitbucket) — either way
-  // this item shouldn't link to a page that can never work. Never fires for non-project
-  // qualifiers, which can't use the result even though the license query's cache may already be
-  // warm from another project page.
-  const { isSupported: isRemediationAgentBindingSupported } = useRemediationAgentBindingSupport({
-    projectKey: component.key,
-    enabled: isProj && hasRemediationAgentLicense,
-  });
-  const hasRemediationAgent = hasRemediationAgentLicense && isRemediationAgentBindingSupported;
-
   const branchParameters = getBranchLikeQuery(branchLike);
   const query = { id: component.key, ...branchParameters };
   const search = new URLSearchParams(query).toString();
@@ -80,18 +55,9 @@ export function ComponentNavProjectMenu(props: Readonly<Props>) {
   const showCode = !isPortfolio && isAnalyzed;
   const scaAddon = addons.sca;
   const showDependencies = showCode && hasFeature(Feature.Sca) && isDefined(scaAddon);
-  const showRemediationAgent =
-    isProj && isLoggedIn && hasRemediationAgent && isDefined(remediationAgentAddon);
-
   const showInformation = isProj || isApp;
 
-  if (
-    !showBranches &&
-    !showCode &&
-    !showDependencies &&
-    !showRemediationAgent &&
-    !showInformation
-  ) {
+  if (!showBranches && !showCode && !showDependencies && !showInformation) {
     return undefined;
   }
 
@@ -115,23 +81,6 @@ export function ComponentNavProjectMenu(props: Readonly<Props>) {
           to={scaAddon.getReleasesUrl({ newParams: query })}
         >
           <FormattedMessage id="dependencies.bill_of_materials" />
-        </Layout.SidebarNavigation.AccordionItem.Item>
-      )}
-      {showRemediationAgent && remediationAgentAddon && (
-        <Layout.SidebarNavigation.AccordionItem.Item
-          suffix={
-            <NewBadge
-              expirationDate={
-                remediationAgentAddon.PROJECT_AGENT_ACTIVITY_NEW_BADGE_EXPIRATION_DATE
-              }
-            />
-          }
-          to={{
-            pathname: '/project/remediation_agent',
-            search: new URLSearchParams({ id: component.key }).toString(),
-          }}
-        >
-          <FormattedMessage id="project_agent_activity.title" />
         </Layout.SidebarNavigation.AccordionItem.Item>
       )}
       {showInformation && (

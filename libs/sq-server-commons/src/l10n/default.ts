@@ -5773,6 +5773,7 @@ export const defaultMessages = {
   'navigation.project.group.policies': 'Policies',
   'navigation.project.group.project': 'Project',
   'navigation.project.group.reporting': 'Reporting',
+  'navigation.project.group.remediation': 'Remediation',
   'navigation.project.group.extensions': 'Extensions',
 
   //------------------------------------------------------------------------------

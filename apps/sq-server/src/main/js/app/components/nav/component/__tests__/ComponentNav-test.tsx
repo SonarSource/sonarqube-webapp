@@ -27,7 +27,7 @@ import { DASHBOARDS_NEW_BADGE_EXPIRATION_DATE } from '~feature-dashboards/consta
 import { registerServiceMocks, resetServiceMocks, server } from '~shared/api/mocks/server';
 import { RecentHistory } from '~shared/helpers/recent-history';
 import { renderWithRouter } from '~shared/helpers/test-utils';
-import { byRole, byText } from '~shared/helpers/testSelector';
+import { byLabelText, byRole, byText } from '~shared/helpers/testSelector';
 import { EntitlementCheckFeatureKey } from '~shared/types/billing';
 import { ComponentQualifier } from '~shared/types/component';
 import { addons } from '~sq-server-addons/index';
@@ -128,7 +128,7 @@ const ui = {
   activityLink: byText('project_activity.page'),
   projectInfoLink: byText('project.info.title'),
   applicationInfoLink: byText('application.info.title'),
-  projectAgentActivityLink: byText('project_agent_activity.title'),
+  projectAgentActivityLink: byText('navigation.project.group.remediation'),
   aiCapabilitiesLink: byText('ai_capabilities.title'),
   qualityProfilesLink: byText('project_quality_profiles.page'),
   qualityGateLink: byText('project_quality_gate.page'),

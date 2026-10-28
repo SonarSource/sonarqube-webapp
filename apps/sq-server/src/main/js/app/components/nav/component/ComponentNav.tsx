@@ -62,6 +62,7 @@ import { ComponentNavExtensionsMenu } from './ComponentNavExtensionsMenu';
 import { ComponentNavPoliciesMenu } from './ComponentNavPoliciesMenu';
 import { ComponentNavPortfolioMenu } from './ComponentNavPortfolioMenu';
 import { ComponentNavProjectMenu } from './ComponentNavProjectMenu';
+import { ComponentNavRemediationItem } from './ComponentNavRemediationItem';
 import { ComponentNavReportingMenu } from './ComponentNavReportingMenu';
 import ComponentNavSettingsMenu from './ComponentNavSettingsMenu';
 
@@ -160,6 +161,9 @@ export function ComponentNav(props: Readonly<Props>) {
         {isPortfolio && <ComponentNavPortfolioMenu component={component} isAnalyzed={isAnalyzed} />}
         {isAnalyzed && !isPortfolio && (
           <ComponentNavAnalysisMenu branchLike={branchLike} component={component} />
+        )}
+        {!isPortfolio && !isApplicationChildInaccessible && (
+          <ComponentNavRemediationItem component={component} />
         )}
 
         {isAnalyzed &&
