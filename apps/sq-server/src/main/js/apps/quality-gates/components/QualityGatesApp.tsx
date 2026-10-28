@@ -22,9 +22,10 @@ import { Layout, Spinner } from '@sonarsource/echoes-react';
 import { useCallback, useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useIntl } from 'react-intl';
-import { useNavigate, useParams } from 'react-router';
+import { useParams } from 'react-router';
 import { GlobalFooter } from '~adapters/components/layout/GlobalFooter';
 import { Card } from '~design-system';
+import { useRouter } from '~shared/components/hoc/withRouter';
 import '~sq-server-commons/components/search-navigator.css';
 import { getQualityGateUrl } from '~sq-server-commons/helpers/urls';
 import { useQualityGatesQuery } from '~sq-server-commons/queries/quality-gates';
@@ -38,7 +39,7 @@ export default function QualityGatesApp() {
   const { data, isLoading } = useQualityGatesQuery();
   const intl = useIntl();
   const { name } = useParams();
-  const navigate = useNavigate();
+  const { replace } = useRouter();
   const {
     qualitygates: qualityGates,
     actions: { create: canCreate },
@@ -53,9 +54,9 @@ export default function QualityGatesApp() {
       if (!defaultQualityGate) {
         return;
       }
-      navigate(getQualityGateUrl(defaultQualityGate.name), { replace: true });
+      replace(getQualityGateUrl(defaultQualityGate.name));
     },
-    [navigate],
+    [replace],
   );
 
   useEffect(() => {

@@ -20,8 +20,8 @@
 
 import { sortBy } from 'lodash';
 import * as React from 'react';
-import { useNavigate } from 'react-router';
 import { SubnavigationGroup, SubnavigationItem } from '~design-system';
+import { useRouter } from '~shared/components/hoc/withRouter';
 import { EntitlementCheckFeatureKey } from '~shared/types/billing';
 import { addons } from '~sq-server-addons/index';
 import withAvailableFeatures, {
@@ -45,7 +45,7 @@ export interface CategoriesListProps extends WithAvailableFeaturesProps {
 function AllCategoriesList(props: Readonly<CategoriesListProps>) {
   const { categories, component, defaultCategory, selectedCategory } = props;
 
-  const navigate = useNavigate();
+  const { push } = useRouter();
   const { data: isScaAvailable = false } = addons.entitlements.useEntitlementCheckQuery(
     { featureKey: EntitlementCheckFeatureKey.AdvancedSecurity },
     { select: (data) => data.entitled },
@@ -57,9 +57,9 @@ function AllCategoriesList(props: Readonly<CategoriesListProps>) {
         ? getProjectSettingsUrl(component.key, category)
         : getGlobalSettingsUrl(category);
 
-      navigate(url);
+      push(url);
     },
-    [component, navigate],
+    [component, push],
   );
 
   const categoriesWithName = categories

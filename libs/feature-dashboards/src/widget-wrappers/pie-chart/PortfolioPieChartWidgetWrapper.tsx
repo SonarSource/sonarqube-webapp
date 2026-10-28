@@ -20,9 +20,9 @@
 
 import { useCallback } from 'react';
 import { useIntl } from 'react-intl';
-import { useNavigate } from 'react-router';
 import { useDashboardPortfolioContext } from '~adapters/context/dashboardContext';
 import { getPortfolioDashboardWidgetDrilldownUrl } from '~adapters/helpers/dashboard-widget-urls';
+import { useRouter } from '~shared/components/hoc/withRouter';
 import { WidgetLoadingSpinner } from '../../components/common/WidgetLoadingSpinner';
 import { WidgetNoData } from '../../components/common/WidgetNoData';
 import { buildPieChartAriaLabel } from '../../components/pie-chart/pieChartAriaLabel';
@@ -38,7 +38,7 @@ export function PortfolioPieChartWidgetWrapper(
   props: Readonly<PieChartWidgetProps & { isStandardMode?: boolean }>,
 ) {
   const { isStandardMode = false, ...widget } = props;
-  const navigate = useNavigate();
+  const { push } = useRouter();
   const { formatMessage } = useIntl();
   const widgetInstance = useOptionalWidgetInstanceContext();
   const { entityType, isEntityTypePending, portfolioId } = useDashboardPortfolioContext();
@@ -56,17 +56,17 @@ export function PortfolioPieChartWidgetWrapper(
 
       return getPortfolioDashboardWidgetDrilldownUrl(widgetInstance.widgetKey, segment.value);
     },
-    [widget.metric, widget.slice, widgetInstance],
+    [widget, widgetInstance],
   );
 
   const handleSegmentClick = useCallback(
     (segment: PieChartSegment) => {
       const url = getSegmentUrl(segment);
       if (url) {
-        navigate(url);
+        push(url);
       }
     },
-    [getSegmentUrl, navigate],
+    [getSegmentUrl, push],
   );
 
   if (isEntityTypePending || isPending) {

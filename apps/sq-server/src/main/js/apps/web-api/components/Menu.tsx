@@ -19,8 +19,8 @@
  */
 
 import * as React from 'react';
-import { useNavigate } from 'react-router';
 import { SubnavigationGroup, SubnavigationItem } from '~design-system';
+import { useRouter } from '~shared/components/hoc/withRouter';
 import { queryToSearchString } from '~sq-server-commons/sonar-aligned/helpers/urls';
 import { WebApi } from '~sq-server-commons/types/types';
 import { Query, actionsFilter, isDomainPathActive, serializeQuery } from '../utils';
@@ -36,16 +36,16 @@ interface Props {
 export default function Menu(props: Props) {
   const { domains, query, splat } = props;
 
-  const navigateTo = useNavigate();
+  const { push } = useRouter();
 
   const showDomain = React.useCallback(
     (domainPath: string) => {
-      navigateTo({
+      push({
         pathname: '/web_api/' + domainPath,
         search: queryToSearchString(serializeQuery(query)),
       });
     },
-    [query, navigateTo],
+    [push, query],
   );
 
   const filteredDomains = (domains || [])

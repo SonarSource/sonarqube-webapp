@@ -21,7 +21,8 @@
 import { Button, ButtonIcon, ButtonVariety, IconEdit, Layout } from '@sonarsource/echoes-react';
 import { useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
-import { useLocation, useNavigate } from 'react-router';
+import { useLocation } from 'react-router';
+import { useRouter } from '~shared/components/hoc/withRouter';
 import { Visibility } from '~shared/types/component';
 import ChangeDefaultVisibilityForm from './ChangeDefaultVisibilityForm';
 
@@ -34,8 +35,8 @@ export interface Props {
 export function HeaderActions(props: Readonly<Props>) {
   const [visibilityForm, setVisibilityForm] = useState(false);
   const { formatMessage } = useIntl();
-  const navigate = useNavigate();
   const location = useLocation();
+  const { push } = useRouter();
 
   const { defaultProjectVisibility, hasProvisionPermission } = props;
 
@@ -67,7 +68,7 @@ export function HeaderActions(props: Readonly<Props>) {
         <Button
           id="create-project"
           onClick={() => {
-            navigate('/projects/create?mode=manual', {
+            push('/projects/create?mode=manual', {
               state: { from: location.pathname },
             });
           }}

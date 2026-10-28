@@ -87,7 +87,7 @@ beforeEach(() => {
 
 describe('PortfolioRatingBadgeWidget', () => {
   it('only mounts breakdown data hooks for supported breakdown metrics', () => {
-    const { rerender } = renderWithContext(
+    const { rerender } = renderWithRouter(
       <PortfolioRatingBadgeWidget metricKey={MetricKey.coverage} scope={CodeScope.Overall} />,
     );
 
@@ -155,7 +155,7 @@ describe('PortfolioRatingBadgeWidget', () => {
   });
 
   it('renders the center rating badge without a link in edit mode', () => {
-    renderWithContext(
+    renderWithRouter(
       <WidgetInstanceProvider dimensions={{ height: 2, width: 2 }} widgetKey="rating-widget-1">
         <PortfolioRatingBadgeWidget
           metricKey={MetricKey.security_rating}
@@ -183,7 +183,7 @@ describe('PortfolioRatingBadgeWidget', () => {
       isPending: false,
     } as unknown as ReturnType<typeof usePortfolioRatingBadgeMeasuresQuery>);
 
-    renderWithContext(
+    renderWithRouter(
       <PortfolioRatingBadgeWidget
         metricKey={MetricKey.releasability_rating}
         scope={CodeScope.Overall}
@@ -198,5 +198,43 @@ describe('PortfolioRatingBadgeWidget', () => {
     });
     expect(screen.getAllByText('metric.level.ERROR')).not.toHaveLength(0);
     expect(screen.getAllByText('metric.level.OK')).not.toHaveLength(0);
+  });
+
+  it('preserves non-Error query failures as the cause when surfacing widget loading errors', () => {
+    const queryError = new Response(null, {
+      status: 500,
+      statusText: 'Internal Server Error',
+    });
+
+    jest.mocked(usePortfolioRatingBadgeMeasuresQuery).mockReturnValue({
+      error: queryError,
+      isPending: false,
+    } as unknown as ReturnType<typeof usePortfolioRatingBadgeMeasuresQuery>);
+
+    const consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation(() => undefined);
+    let thrownError: unknown;
+
+    try {
+      // This failure path happens before the widget needs router APIs. Using the plain context
+      // helper keeps React Router's data-router error boundary out of the way so the test can
+      // assert on the wrapped error object directly.
+      renderWithContext(
+        <PortfolioRatingBadgeWidget
+          metricKey={MetricKey.security_rating}
+          scope={CodeScope.Overall}
+        />,
+      );
+    } catch (error) {
+      thrownError = error;
+    } finally {
+      consoleErrorSpy.mockRestore();
+    }
+
+    expect(thrownError).toEqual(
+      expect.objectContaining({
+        cause: queryError,
+        message: 'Failed to resolve portfolio rating badge widget data.',
+      }),
+    );
   });
 });

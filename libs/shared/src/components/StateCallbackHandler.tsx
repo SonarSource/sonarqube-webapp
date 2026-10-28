@@ -20,18 +20,17 @@
 
 import { Spinner } from '@sonarsource/echoes-react';
 import { useEffect } from 'react';
-import { useNavigate } from 'react-router';
 import { getStateCallbackRedirectTo } from '~adapters/helpers/state-callback-handler';
-import { useLocation } from './hoc/withRouter';
+import { useLocation, useRouter } from './hoc/withRouter';
 
 export default function StateCallbackHandler() {
-  const navigate = useNavigate();
   const location = useLocation();
+  const { push } = useRouter();
 
   useEffect(() => {
     const searchParams = new URLSearchParams(location.search);
-    navigate(getStateCallbackRedirectTo(searchParams));
-  }, [location.search, navigate]);
+    push(getStateCallbackRedirectTo(searchParams));
+  }, [location.search, push]);
 
   return <Spinner />;
 }

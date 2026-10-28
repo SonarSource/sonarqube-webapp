@@ -19,9 +19,8 @@
  */
 
 import * as React from 'react';
-import { useNavigate } from 'react-router';
 import { useCurrentUser } from '~adapters/helpers/users';
-import { useLocation } from '~shared/components/hoc/withRouter';
+import { useLocation, useRouter } from '~shared/components/hoc/withRouter';
 import { get } from '~shared/helpers/storage';
 import { searchProjects } from '~sq-server-commons/api/components';
 import { hasGlobalPermission } from '~sq-server-commons/helpers/users';
@@ -40,8 +39,8 @@ export default function DefaultPageSelector({
 
   // Only perform the check when not showing favorite projects
   const [checking, setChecking] = React.useState(!showFavoriteProjects);
-  const navigate = useNavigate();
   const location = useLocation();
+  const { replace } = useRouter();
 
   React.useEffect(
     () => {
@@ -69,7 +68,7 @@ export default function DefaultPageSelector({
           (await searchProjects({ filter: 'isFavorite', ps: 1 })).paging.total > 0
         ) {
           setChecking(false);
-          navigate('/projects/favorite', { replace: true });
+          replace('/projects/favorite');
           return;
         }
 
@@ -79,7 +78,7 @@ export default function DefaultPageSelector({
           hasGlobalPermission(currentUser, 'provisioning') &&
           (await searchProjects({ ps: 1 })).paging.total === 0
         ) {
-          navigate('/projects/create', { replace: true });
+          replace('/projects/create');
           return;
         }
 
@@ -88,7 +87,7 @@ export default function DefaultPageSelector({
       }
 
       if (!showFavoriteProjects) {
-        checkRedirect();
+        void checkRedirect();
       }
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps

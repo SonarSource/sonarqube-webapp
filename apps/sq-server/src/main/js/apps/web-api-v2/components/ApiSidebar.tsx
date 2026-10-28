@@ -23,7 +23,7 @@ import { sortBy } from 'lodash';
 import { OpenAPIV3 } from 'openapi-types';
 import { Fragment, useContext, useMemo, useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
-import { useLocation, useNavigate } from 'react-router';
+import { useLocation } from 'react-router';
 import {
   BasicSeparator,
   InputSearch,
@@ -31,6 +31,7 @@ import {
   SubnavigationItem,
   SubnavigationSubheading,
 } from '~design-system';
+import { useRouter } from '~shared/components/hoc/withRouter';
 import { InternalExtension } from '~sq-server-commons/types/web-api-v2';
 import { URL_DIVIDER, getApiEndpointKey } from '../utils';
 import ApiFilterContext from './ApiFilterContext';
@@ -55,14 +56,14 @@ const METHOD_ORDER: Record<string, number> = {
 
 export default function ApiSidebar({ apisList }: Readonly<Props>) {
   const [search, setSearch] = useState('');
-  const navigate = useNavigate();
+  const { replace } = useRouter();
   const location = useLocation();
   const { formatMessage } = useIntl();
   const { showInternal, setShowInternal } = useContext(ApiFilterContext);
   const activeApi = location.hash.replace('#', '').split(URL_DIVIDER);
 
   const handleApiClick = (value: string) => {
-    navigate(`.#${value}`, { replace: true });
+    replace(`.#${value}`);
   };
 
   const lowerCaseSearch = search.toLowerCase();

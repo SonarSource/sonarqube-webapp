@@ -21,7 +21,7 @@
 import { BreadcrumbsProps, Button, ButtonVariety, toast } from '@sonarsource/echoes-react';
 import { SetStateAction, useCallback, useEffect, useMemo, useState } from 'react';
 import { useIntl } from 'react-intl';
-import { useNavigate, useParams } from 'react-router';
+import { useParams } from 'react-router';
 import { DashboardDescriptionAccordion } from '~feature-dashboards/dashboard-description/DashboardDescriptionAccordion';
 import { DashboardCustomDashboardContent } from '~feature-dashboards/dashboard-layout/DashboardCustomDashboardContent';
 import {
@@ -54,6 +54,7 @@ import {
 import { DashboardCustomDashboardWidgetModal } from '~feature-dashboards/widget-creation-modal/components/DashboardCustomDashboardWidgetModal';
 import { useEditWidget } from '~feature-dashboards/widget-creation-modal/hooks/useEditWidget';
 import A11ySkipTarget from '~shared/components/a11y/A11ySkipTarget';
+import { useRouter } from '~shared/components/hoc/withRouter';
 import NotFound from '~shared/components/NotFound';
 import { ProjectPageTemplate } from '~shared/components/pages/ProjectPageTemplate';
 import { isApiResourceUuid } from '~shared/helpers/api-resource-validation';
@@ -88,7 +89,7 @@ function isEmptyDashboard(dashboard: DashboardInstance<ProjectDashboardWidgetPro
 
 export function ProjectCustomDashboardPage() {
   const { formatMessage } = useIntl();
-  const navigate = useNavigate();
+  const { push } = useRouter();
   const { component } = useComponent();
   const { currentUser, isLoggedIn } = useCurrentUser();
   const { hasFeature } = useAvailableFeatures();
@@ -306,7 +307,7 @@ export function ProjectCustomDashboardPage() {
                   {
                     onSuccess: () => {
                       close();
-                      navigate(listUrl);
+                      push(listUrl);
                     },
                     onError: () => {
                       toast.error({
@@ -456,7 +457,8 @@ export function ProjectCustomDashboardPage() {
                     ),
                     isDismissable: true,
                   });
-                  navigate(getProjectCustomDashboardRoute(created.id, component.key));
+
+                  push(getProjectCustomDashboardRoute(created.id, component.key));
                 },
               },
             );

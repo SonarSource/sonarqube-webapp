@@ -29,8 +29,26 @@ import {
 } from 'react-router';
 import { queryToSearchString } from '../../helpers/query';
 import { searchParamsToQuery } from '../../helpers/router';
-import { Location, Router } from '../../types/router';
+import {
+  Location,
+  Router,
+  RouterNavigationOptions,
+  RouterNavigationTarget,
+} from '../../types/router';
 import { getWrappedDisplayName } from './utils';
+
+function normalizeLocation(path: RouterNavigationTarget): RouterNavigationTarget {
+  if (typeof path === 'string' || path.query === undefined) {
+    return path;
+  }
+
+  const { query, ...location } = path;
+
+  return {
+    ...location,
+    search: queryToSearchString(query),
+  };
+}
 
 export interface WithRouterProps {
   location: Location;
@@ -60,17 +78,18 @@ export function useRouter() {
 
   return React.useMemo(
     () => ({
-      replace: (path: string | Partial<Location>) => {
-        if ((path as Location).query) {
-          path.search = queryToSearchString((path as Location).query);
-        }
-        navigate(path, { replace: true });
+      replace: (path: RouterNavigationTarget, navigateOptions?: RouterNavigationOptions) => {
+        void navigate(normalizeLocation(path), { ...navigateOptions, replace: true });
       },
-      push: (path: string | Partial<Location>) => {
-        if ((path as Location).query) {
-          path.search = queryToSearchString((path as Location).query);
+      push: (path: RouterNavigationTarget, navigateOptions?: RouterNavigationOptions) => {
+        const target = normalizeLocation(path);
+
+        if (navigateOptions === undefined) {
+          void navigate(target);
+          return;
         }
-        navigate(path);
+
+        void navigate(target, navigateOptions);
       },
       navigate,
       searchParams,

@@ -27,13 +27,13 @@ import {
 } from '@sonarsource/echoes-react';
 import { useCallback, useMemo, useRef, useState } from 'react';
 import { useIntl } from 'react-intl';
-import { useNavigate } from 'react-router';
 import { useDashboardPortfolioContext } from '~adapters/context/dashboardContext';
 import { getPortfolioDashboardWidgetDrilldownUrl } from '~adapters/helpers/dashboard-widget-urls';
 import {
   usePortfolioRatingBadgeMeasuresQuery,
   usePortfolioRatingBadgeMetricKeysQuery,
 } from '~adapters/queries/portfolio-rating-badge-widget-data';
+import { useRouter } from '~shared/components/hoc/withRouter';
 import { isTransientDashboardWidgetFetchError } from '~shared/helpers/dashboard-error-reporting';
 import { useResizeObserver } from '~shared/helpers/useResizeObserver';
 import { MetricKey } from '~shared/types/metrics';
@@ -125,7 +125,10 @@ function PortfolioRatingBadgeBreakdownWidget(props: Readonly<Props>) {
     if (isTransientDashboardWidgetFetchError(error)) {
       return <WidgetNoData />;
     }
-    throw error;
+
+    throw error instanceof Error
+      ? error
+      : new Error('Failed to resolve portfolio rating badge widget data.', { cause: error });
   }
 
   if (isEntityTypePending || isMetricResolutionPending || isMeasuresPending) {
@@ -214,7 +217,7 @@ function PortfolioDashboardRatingDonut(
 ) {
   const { distribution, drilldownEnabled, rating, ratingDrilldownTo, showBreakdown, widgetKey } =
     props;
-  const navigate = useNavigate();
+  const { push } = useRouter();
   const { formatMessage } = useIntl();
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -232,10 +235,10 @@ function PortfolioDashboardRatingDonut(
     (segment: PieChartSegment) => {
       const url = getSegmentUrl(segment);
       if (url) {
-        navigate(url);
+        push(url);
       }
     },
-    [getSegmentUrl, navigate],
+    [getSegmentUrl, push],
   );
 
   const segments = useMemo<PieChartSegment[]>(

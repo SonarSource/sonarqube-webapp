@@ -95,9 +95,9 @@ export default function NewCodeDefinitionSelection(props: Props) {
       if (redirectTo !== DEFAULT_CREATE_PROJECT_REDIRECT) {
         onClose();
       } else if (!isMonorepo && projectCount === 1 && data) {
-        navigate(getProjectOverviewUrl(data.project.key));
+        void navigate(getProjectOverviewUrl(data.project.key));
       } else {
-        navigate({
+        void navigate({
           pathname: DEFAULT_CREATE_PROJECT_REDIRECT,
           search: queryToSearchString({ sort: '-creation_date' }),
         });
@@ -274,7 +274,7 @@ export default function NewCodeDefinitionSelection(props: Props) {
           <Form.Footer className="sw:mb-8">
             <Button
               onClick={() => {
-                navigate(-1);
+                void navigate(-1);
               }}
             >
               <FormattedMessage id="back" />

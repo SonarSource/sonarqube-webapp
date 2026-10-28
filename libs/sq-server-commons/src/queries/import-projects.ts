@@ -77,9 +77,9 @@ export function useImportProjectMutation() {
           return importBitbucketServerProject(data);
         case CreateProjectModes.GitLab:
           return importGitlabProject(data);
+        case CreateProjectModes.Manual:
+          return createProject(data);
       }
-
-      return createProject(data);
     },
     mutationKey: ['import'],
   });

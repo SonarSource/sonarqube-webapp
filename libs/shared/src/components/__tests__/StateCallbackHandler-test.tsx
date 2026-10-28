@@ -21,17 +21,25 @@
 import { getStateCallbackRedirectTo } from '~adapters/helpers/state-callback-handler';
 import { renderWithRouter } from '../../helpers/test-utils';
 import StateCallbackHandler from '../StateCallbackHandler';
-import { useLocation } from '../hoc/withRouter';
+import { useLocation, useRouter } from '../hoc/withRouter';
+
+const mockPush = jest.fn();
 
 jest.mock('~adapters/helpers/state-callback-handler', () => ({
   getStateCallbackRedirectTo: jest.fn(),
 }));
+
 jest.mock('../hoc/withRouter', () => ({
   useLocation: jest.fn(),
+  useRouter: jest.fn(),
 }));
 
 beforeEach(() => {
   jest.clearAllMocks();
+
+  jest.mocked(useRouter).mockReturnValue({
+    push: mockPush,
+  } as unknown as ReturnType<typeof useRouter>);
 });
 
 it('should correctly handle search params', () => {

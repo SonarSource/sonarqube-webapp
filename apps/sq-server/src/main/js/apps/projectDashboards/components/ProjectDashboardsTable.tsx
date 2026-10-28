@@ -22,7 +22,6 @@ import { toast } from '@sonarsource/echoes-react';
 import { useQueryClient } from '@tanstack/react-query';
 import { useState } from 'react';
 import { useIntl } from 'react-intl';
-import { useNavigate } from 'react-router';
 import { createEmptyDashboard } from '~feature-dashboards/dashboard-layout/logic/constants';
 import { DashboardCreatorCell } from '~feature-dashboards/dashboard-list/DashboardCreatorCell';
 import { DashboardTable } from '~feature-dashboards/dashboard-list/DashboardTable';
@@ -30,6 +29,7 @@ import { DashboardTableActions } from '~feature-dashboards/dashboard-list/Dashbo
 import { DashboardTypeBadge } from '~feature-dashboards/dashboard-list/DashboardTypeBadge';
 import { DashboardMode, DashboardType } from '~feature-dashboards/types/dashboard-list';
 import type { ProjectDashboardWidgetPropMap } from '~feature-dashboards/types/dashboard-widget';
+import { useRouter } from '~shared/components/hoc/withRouter';
 import { isDefined } from '~shared/helpers/types';
 import {
   getProjectDuplicateSourceDashboardQueryOptions,
@@ -66,7 +66,7 @@ export function ProjectDashboardsTable({
   projectKey,
 }: Readonly<Props>) {
   const { formatMessage } = useIntl();
-  const navigate = useNavigate();
+  const { push } = useRouter();
   const queryClient = useQueryClient();
   const [selectedDashboard, setSelectedDashboard] = useState<ProjectDashboardListItem | null>(null);
   const [duplicateSource, setDuplicateSource] = useState<ProjectDashboardListItem | null>(null);
@@ -228,7 +228,8 @@ export function ProjectDashboardsTable({
                     ),
                     isDismissable: true,
                   });
-                  navigate(getProjectCustomDashboardRoute(created.id, projectKey));
+
+                  push(getProjectCustomDashboardRoute(created.id, projectKey));
                 },
                 onError: () => {
                   toast.error({

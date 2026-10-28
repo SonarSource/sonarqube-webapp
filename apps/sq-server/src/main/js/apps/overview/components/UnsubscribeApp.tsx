@@ -21,10 +21,9 @@
 import { Spinner } from '@sonarsource/echoes-react';
 import { useEffect } from 'react';
 import { useIntl } from 'react-intl';
-import { useNavigate } from 'react-router';
 import { PROJECT_SUMMARY_BASE_URL } from '~adapters/helpers/urls';
 import { useCurrentBranchQuery } from '~adapters/queries/branch';
-import { useLocation } from '~shared/components/hoc/withRouter';
+import { useLocation, useRouter } from '~shared/components/hoc/withRouter';
 import { ProjectPageTemplate } from '~shared/components/pages/ProjectPageTemplate';
 import { isBranch, isPullRequest } from '~shared/helpers/branch-like';
 import { isPortfolioLike, isProject } from '~shared/helpers/component';
@@ -35,7 +34,7 @@ export function UnsubscribeApp() {
   const { component } = useComponent();
   const intl = useIntl();
   const location = useLocation();
-  const navigate = useNavigate();
+  const { replace } = useRouter();
   const { data: branchLike, isLoading: isLoadingBranch } = useCurrentBranchQuery(component);
   const { mutate: unsubscribe } = useUnsubscribeFromEmailReportMutation();
 
@@ -44,7 +43,7 @@ export function UnsubscribeApp() {
       const basePath = isPortfolioLike(component?.qualifier)
         ? '/portfolio'
         : PROJECT_SUMMARY_BASE_URL;
-      navigate(basePath + (location.search ?? ''), { replace: true });
+      replace(basePath + (location.search ?? ''));
     };
 
     if (component && !isLoadingBranch) {
@@ -58,7 +57,7 @@ export function UnsubscribeApp() {
         { onSuccess: redirect, onError: redirect },
       );
     }
-  }, [component, isLoadingBranch, branchLike, location.search, navigate, unsubscribe]);
+  }, [branchLike, component, isLoadingBranch, location.search, replace, unsubscribe]);
 
   return (
     <ProjectPageTemplate

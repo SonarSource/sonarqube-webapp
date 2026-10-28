@@ -79,6 +79,10 @@ const esModules = [
   // match both top-level and nested (msw/node_modules) locations
   '@open-draft/deferred-promise',
   'msw/node_modules/@open-draft/deferred-promise',
+  // React Router 8 ships ESM-only runtime packages that Jest still needs transpiled.
+  'react-router',
+  '@remix-run/route-pattern',
+  'cookie-es',
 ].join('|');
 
 /*

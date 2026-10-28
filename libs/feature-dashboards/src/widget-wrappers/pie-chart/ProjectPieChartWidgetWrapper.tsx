@@ -20,7 +20,6 @@
 
 import { useCallback } from 'react';
 import { useIntl } from 'react-intl';
-import { useNavigate } from 'react-router';
 import { useDashboardProjectContext } from '~adapters/context/dashboardContext';
 import { getProjectDashboardPieChartSegmentUrl } from '~adapters/helpers/dashboard-widget-urls';
 import { useOrganizationPieChartData } from '~adapters/queries/pie-chart-widget-data';
@@ -28,6 +27,7 @@ import {
   projectPieChartUsesSearchData,
   useProjectPieChartSegmentsSearchQuery,
 } from '~adapters/queries/project-pie-chart-widget-data';
+import { useRouter } from '~shared/components/hoc/withRouter';
 import { isTransientDashboardWidgetFetchError } from '~shared/helpers/dashboard-error-reporting';
 import { BranchLikeBase } from '~shared/types/branch-like';
 import { WidgetLoadingSpinner } from '../../components/common/WidgetLoadingSpinner';
@@ -104,7 +104,7 @@ function ProjectPieChartView(props: ProjectPieChartViewProps) {
     segments,
     widget,
   } = props;
-  const navigate = useNavigate();
+  const { push } = useRouter();
   const { formatMessage } = useIntl();
   const { filter, metric, pastry = PieChartPastry.Pie, showLegend, slice } = widget;
 
@@ -128,10 +128,10 @@ function ProjectPieChartView(props: ProjectPieChartViewProps) {
     (segment: PieChartSegment) => {
       const url = resolveSegmentNavigationUrl(segment);
       if (url !== undefined) {
-        navigate(url);
+        push(url);
       }
     },
-    [navigate, resolveSegmentNavigationUrl],
+    [push, resolveSegmentNavigationUrl],
   );
 
   const state = getPieWidgetState({

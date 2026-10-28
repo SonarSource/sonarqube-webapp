@@ -26,6 +26,7 @@ import { render } from '~shared/helpers/test-utils';
 import { searchProjects } from '~sq-server-commons/api/components';
 import CurrentUserContextProvider from '~sq-server-commons/context/current-user/CurrentUserContextProvider';
 import { mockCurrentUser, mockLoggedInUser } from '~sq-server-commons/helpers/testMocks';
+import { getProjectsUrl } from '~sq-server-commons/helpers/urls';
 import { hasGlobalPermission } from '~sq-server-commons/helpers/users';
 import { CurrentUser } from '~sq-server-commons/types/users';
 import DefaultPageSelector from '../DefaultPageSelector';
@@ -33,7 +34,6 @@ import DefaultPageSelector from '../DefaultPageSelector';
 jest.mock(
   '../AllProjects',
   () =>
-    // eslint-disable-next-line
     function AllProjects() {
       return <div>All Projects</div>;
     },
@@ -54,6 +54,8 @@ jest.mock('~sq-server-commons/api/components', () => ({
 
 beforeEach(jest.clearAllMocks);
 
+const PROJECTS_ROUTE_PATH = getProjectsUrl().pathname?.slice(1) ?? '';
+
 it("1.1 doesn't redirect for anonymous users", async () => {
   renderDefaultPageSelector({ currentUser: mockCurrentUser() });
 
@@ -61,27 +63,27 @@ it("1.1 doesn't redirect for anonymous users", async () => {
 });
 
 it("1.2 doesn't redirect if there's an existing filter in location", async () => {
-  renderDefaultPageSelector({ path: '/projects?size=1' });
+  renderDefaultPageSelector({ path: '/projects?foo=1' });
 
   expect(await screen.findByText('All Projects')).toBeInTheDocument();
 });
 
 it("1.3 doesn't redirect if the user previously used the 'all' filter", async () => {
-  (get as jest.Mock).mockReturnValueOnce('all');
+  jest.mocked(get).mockReturnValueOnce('all');
   renderDefaultPageSelector();
 
   expect(await screen.findByText('All Projects')).toBeInTheDocument();
 });
 
 it('2.1 redirects to favorites if the user previously used the "favorites" filter', async () => {
-  (get as jest.Mock).mockReturnValueOnce('favorite');
+  jest.mocked(get).mockReturnValueOnce('favorite');
   renderDefaultPageSelector();
 
   expect(await screen.findByText('/projects/favorite')).toBeInTheDocument();
 });
 
 it('2.2 redirects to favorites if the user has starred projects', async () => {
-  (searchProjects as jest.Mock).mockResolvedValueOnce({ paging: { total: 3 } });
+  jest.mocked(searchProjects).mockResolvedValueOnce({ paging: { total: 3 } } as never);
   renderDefaultPageSelector();
 
   expect(searchProjects).toHaveBeenLastCalledWith({ filter: 'isFavorite', ps: 1 });
@@ -89,7 +91,7 @@ it('2.2 redirects to favorites if the user has starred projects', async () => {
 });
 
 it('3.1 redirects to create project page, if user has correct permissions AND there are 0 projects', async () => {
-  (hasGlobalPermission as jest.Mock).mockReturnValueOnce(true);
+  jest.mocked(hasGlobalPermission).mockReturnValueOnce(true);
   renderDefaultPageSelector();
 
   expect(await screen.findByText('/projects/create')).toBeInTheDocument();
@@ -102,9 +104,10 @@ it("3.1 doesn't redirect to create project page, if user has no permissions", as
 });
 
 it("3.1 doesn't redirect to create project page, if there's existing projects", async () => {
-  (searchProjects as jest.Mock)
-    .mockResolvedValueOnce({ paging: { total: 0 } }) // no favorites
-    .mockResolvedValueOnce({ paging: { total: 3 } }); // existing projects
+  jest
+    .mocked(searchProjects)
+    .mockResolvedValueOnce({ paging: { total: 0 } } as never) // no favorites
+    .mockResolvedValueOnce({ paging: { total: 3 } } as never); // existing projects
   renderDefaultPageSelector();
 
   expect(await screen.findByText('All Projects')).toBeInTheDocument();
@@ -126,7 +129,7 @@ function renderDefaultPageSelector({
     <CurrentUserContextProvider currentUser={currentUser}>
       <MemoryRouter initialEntries={[path]}>
         <Routes>
-          <Route path="projects">
+          <Route path={PROJECTS_ROUTE_PATH}>
             <Route element={<DefaultPageSelector showFavoriteProjects={false} />} index />
             <Route element={<RouteDisplayer />} path="*" />
           </Route>

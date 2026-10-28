@@ -22,7 +22,7 @@ import { Button, IconPeople, Pagination, Text, toast } from '@sonarsource/echoes
 import { debounce } from 'lodash';
 import { useEffect, useMemo, useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
-import { useNavigate, useSearchParams } from 'react-router';
+import { useSearchParams } from 'react-router';
 import { createEmptyDashboard } from '~feature-dashboards/dashboard-layout/logic/constants';
 import { DashboardListToolbar } from '~feature-dashboards/dashboard-list/DashboardListToolbar';
 import { useMergedDashboardListState } from '~feature-dashboards/dashboard-list/hooks/useMergedDashboardListState';
@@ -33,6 +33,7 @@ import {
   PAGE_SIZE,
 } from '~feature-dashboards/types/dashboard-list';
 import type { ProjectDashboardWidgetPropMap } from '~feature-dashboards/types/dashboard-widget';
+import { useRouter } from '~shared/components/hoc/withRouter';
 import { ProjectPageTemplate } from '~shared/components/pages/ProjectPageTemplate';
 import { isDefined } from '~shared/helpers/types';
 import { Visibility } from '~shared/types/component';
@@ -62,7 +63,7 @@ const MERGED_DASHBOARD_FETCH_PAGE_SIZE = 5000;
 
 export function ProjectDashboardsListPage() {
   const { formatMessage } = useIntl();
-  const navigate = useNavigate();
+  const { push } = useRouter();
   const [searchParams, setSearchParams] = useSearchParams();
   const currentUser = useCurrentUser();
   const { edition } = useAppState();
@@ -226,7 +227,8 @@ export function ProjectDashboardsListPage() {
                     ),
                     isDismissable: true,
                   });
-                  navigate(getProjectCustomDashboardRoute(created.id, projectKey));
+
+                  push(getProjectCustomDashboardRoute(created.id, projectKey));
                 },
                 onError: () => {
                   toast.error({

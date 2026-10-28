@@ -19,7 +19,8 @@
  */
 
 import { useEffect } from 'react';
-import { Route, useLocation, useNavigate } from 'react-router';
+import { Route, useLocation } from 'react-router';
+import { useRouter } from '~shared/components/hoc/withRouter';
 import { lazyLoadComponent } from '~shared/helpers/lazyLoadComponent';
 import { RawQuery } from '~shared/types/router';
 import { parseQuery, serializeQuery } from '~sq-server-commons/utils/coding-rules-query';
@@ -42,22 +43,24 @@ function parseHash(hash: string): RawQuery {
 
 function HashEditWrapper() {
   const location = useLocation();
-  const navigate = useNavigate();
+  const { replace } = useRouter();
 
   useEffect(() => {
     const { hash } = location;
     if (hash.length > 1) {
       const query = parseHash(hash.substring(1));
-      const normalizedQuery = {
-        ...serializeQuery(parseQuery(query)),
-        open: query.open,
-      };
-      navigate(
-        { pathname: location.pathname, search: new URLSearchParams(normalizedQuery).toString() },
-        { replace: true },
-      );
+      const normalizedQuery = serializeQuery(parseQuery(query));
+
+      if (typeof query.open === 'string') {
+        normalizedQuery.open = query.open;
+      }
+
+      replace({
+        pathname: location.pathname,
+        search: new URLSearchParams(normalizedQuery).toString(),
+      });
     }
-  }, [location, navigate]);
+  }, [location, replace]);
 
   return <CodingRulesApp />;
 }

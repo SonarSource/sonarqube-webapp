@@ -105,7 +105,7 @@ export default function SourceViewerPreview(props: Readonly<Props>) {
       setIssues(issues);
     };
 
-    fetchData();
+    void fetchData();
   }, [component, branchLike]);
 
   useEffect(() => {
@@ -291,7 +291,7 @@ function PortalLineIssuesIndicator(props: {
       issues={onlyIssues}
       line={{ line: Number(lineIndex) }}
       onClick={() => {
-        router.navigate(issueUrl);
+        router.push(issueUrl);
       }}
     />,
     element,
@@ -309,7 +309,7 @@ function PortalLineIssuesIndicator(props: {
 function processIssuesByCell(
   issues: Issue[],
   data: string | null | undefined,
-  setIssuesByCell: Function,
+  setIssuesByCell: React.Dispatch<React.SetStateAction<IssuesByCell>>,
 ) {
   const newIssuesByCell: IssuesByCell = {};
 

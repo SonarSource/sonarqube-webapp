@@ -27,6 +27,15 @@ module.exports = createTransformer({
       tsx: true,
     },
     transform: {
+      // React Router 8 is transpiled from node_modules through this shared SWC Jest transform.
+      // Neutralize its HMR probe before lowering the modules to CommonJS for this Jest stack.
+      optimizer: {
+        globals: {
+          vars: {
+            'import.meta.hot': 'undefined',
+          },
+        },
+      },
       react: {
         runtime: 'automatic',
       },

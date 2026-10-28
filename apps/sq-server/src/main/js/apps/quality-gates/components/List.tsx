@@ -20,8 +20,8 @@
 
 import { IconRefresh, Spinner, Tooltip, TooltipSide } from '@sonarsource/echoes-react';
 import { useIntl } from 'react-intl';
-import { useNavigate } from 'react-router';
 import { BareButton, SubnavigationGroup, SubnavigationItem } from '~design-system';
+import { useRouter } from '~shared/components/hoc/withRouter';
 import { BuiltInQualityGateBadge } from '~shared/components/quality-gates/BuiltInQualityGateBadge';
 import { DefaultBadge } from '~shared/components/quality-gates/DefaultBadge';
 import { QualityGateNewBadge } from '~shared/components/quality-gates/QualityGateNewBadge';
@@ -43,7 +43,7 @@ interface Props {
 
 export default function List({ qualityGates, currentQualityGate }: Readonly<Props>) {
   const { formatMessage } = useIntl();
-  const navigateTo = useNavigate();
+  const { push } = useRouter();
   const { hasFeature } = useAvailableFeatures();
   const { data: isStandard, isLoading } = useStandardExperienceModeQuery();
 
@@ -108,7 +108,7 @@ export default function List({ qualityGates, currentQualityGate }: Readonly<Prop
                   className="it__list-group-item"
                   key={name}
                   onClick={() => {
-                    navigateTo(getQualityGateUrl(name));
+                    push(getQualityGateUrl(name));
                   }}
                 >
                   <div className="sw:flex sw:flex-col sw:min-w-0">

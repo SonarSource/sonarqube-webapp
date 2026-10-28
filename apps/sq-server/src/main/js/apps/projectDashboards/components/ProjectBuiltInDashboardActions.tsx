@@ -21,7 +21,6 @@
 import { Button, toast } from '@sonarsource/echoes-react';
 import { useState } from 'react';
 import { useIntl } from 'react-intl';
-import { useNavigate } from 'react-router';
 import { createEmptyDashboard } from '~feature-dashboards/dashboard-layout/logic/constants';
 import {
   DashboardKebabMenu,
@@ -30,6 +29,7 @@ import {
 import { downloadDashboardSchema } from '~feature-dashboards/helpers/downloadDashboardSchema';
 import { DashboardMode, DashboardType } from '~feature-dashboards/types/dashboard-list';
 import type { ProjectDashboardWidgetPropMap } from '~feature-dashboards/types/dashboard-widget';
+import { useRouter } from '~shared/components/hoc/withRouter';
 import { isStringDefined } from '~shared/helpers/types';
 import { useProjectId } from '~sq-server-commons/sq-server-adapters/helpers/useProjectId';
 import {
@@ -54,7 +54,7 @@ export function ProjectBuiltInDashboardActions({
   projectKey,
 }: Readonly<Props>) {
   const { formatMessage } = useIntl();
-  const navigate = useNavigate();
+  const { push } = useRouter();
   const projectId = useProjectId();
   const [modalMode, setModalMode] = useState<DashboardMode | null>(null);
   const { mutate: createDashboard, isPending: isCreating } = useCreateProjectDashboardMutation();
@@ -104,7 +104,8 @@ export function ProjectBuiltInDashboardActions({
           ),
           isDismissable: true,
         });
-        navigate(getProjectCustomDashboardRoute(created.id, projectKey));
+
+        push(getProjectCustomDashboardRoute(created.id, projectKey));
       },
     };
 

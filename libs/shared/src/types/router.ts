@@ -18,21 +18,33 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Location as LocationRouter, NavigateFunction, URLSearchParamsInit } from 'react-router';
+import {
+  Location as LocationRouter,
+  NavigateFunction,
+  NavigateOptions,
+  URLSearchParamsInit,
+} from 'react-router';
 
-export type RawQuery = Record<string, any>;
+export type RawQuery = Record<string, any>; // eslint-disable-line @typescript-eslint/no-explicit-any -- query params stay loosely typed until each screen parses them into its own domain model.
+
+export type RouterNavigationTarget = string | Partial<Location>;
+export type RouterNavigationOptions = Omit<NavigateOptions, 'replace'>;
 
 export interface Location extends LocationRouter {
   query: RawQuery;
 }
 
 export interface Router {
+  /**
+   * Raw React Router navigation for the few cases that intentionally need delta navigation or the
+   * promise-capable navigate semantics exposed by data routers.
+   */
   navigate: NavigateFunction;
-  push: (location: string | Partial<Location>) => void;
-  replace: (location: string | Partial<Location>) => void;
+  push: (location: RouterNavigationTarget, navigateOptions?: RouterNavigationOptions) => void;
+  replace: (location: RouterNavigationTarget, navigateOptions?: RouterNavigationOptions) => void;
   searchParams: URLSearchParams;
   setSearchParams: (
     nextInit: URLSearchParamsInit,
-    navigateOptions?: { replace?: boolean; state?: any },
+    navigateOptions?: { replace?: boolean; state?: unknown },
   ) => void;
 }

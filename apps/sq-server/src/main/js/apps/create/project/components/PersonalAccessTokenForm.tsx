@@ -26,7 +26,7 @@ import {
   MessageVariety,
 } from '@sonarsource/echoes-react';
 import { FormattedMessage } from 'react-intl';
-import { useNavigate } from 'react-router';
+import { useRouter } from '~shared/components/hoc/withRouter';
 import { queryToSearchString } from '~shared/helpers/query';
 import { AlmKeys } from '~sq-server-commons/types/alm-settings';
 
@@ -67,10 +67,10 @@ export default function PersonalAccessTokenForm({
   submitting,
   submitButtonDisabled,
 }: Readonly<Props>) {
-  const navigate = useNavigate();
+  const { push } = useRouter();
 
   const onCancel = () => {
-    navigate({
+    push({
       pathname: '/projects/create',
       search: queryToSearchString({
         mode: almKey,
