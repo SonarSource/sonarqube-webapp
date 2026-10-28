@@ -93,8 +93,7 @@ export function formatDurationShort(ms: number | undefined): string {
     return `${parts.milliseconds}ms`;
   }
   if (ms < 10 * ONE_SECOND) {
-    // exact value, unpadded and unrounded: 1050ms -> "1.05s", 1001ms -> "1.001s"
-    return `${ms / ONE_SECOND}s`;
+    return `${Math.round(ms / ONE_SECOND)}s`;
   }
   if (ms < ONE_MINUTE) {
     return `${parts.seconds}s`;
