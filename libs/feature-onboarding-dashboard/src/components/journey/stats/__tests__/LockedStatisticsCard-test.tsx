@@ -23,6 +23,7 @@ import { useCanCreateProjects } from '~adapters/helpers/useCanCreateProjects';
 import { useEditPermissionsUrl } from '~adapters/helpers/useEditPermissionsUrl';
 import { renderWithRouter } from '~shared/helpers/test-utils';
 import { byRole, byText } from '~shared/helpers/testSelector';
+import { OnboardingDashboardAction } from '~shared/types/onboarding-dashboard-telemetry';
 import { LockedStatisticsCard } from '../LockedStatisticsCard';
 
 const CTA_DESTINATION = { pathname: '/create-configuration', search: '?category=devops' };
@@ -55,6 +56,7 @@ function renderCard(props: Partial<ComponentProps<typeof LockedStatisticsCard>> 
 function cardWith(props: Partial<ComponentProps<typeof LockedStatisticsCard>>) {
   return (
     <LockedStatisticsCard
+      ctaAction={OnboardingDashboardAction.BindOrganization}
       ctaLabel="Bind organization"
       message="Bind your organization to see your statistics"
       title="Unlock onboarding statistics"

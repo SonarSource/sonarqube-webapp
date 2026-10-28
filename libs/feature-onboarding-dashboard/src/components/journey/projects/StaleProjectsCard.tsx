@@ -23,6 +23,7 @@ import { useState } from 'react';
 import DateFormatter from '~shared/components/intl/DateFormatter';
 import { isDefined } from '~shared/helpers/types';
 import { ANY_PROJECTS_FILTER } from '~shared/types/onboarding';
+import { OnboardingDashboardFilter } from '~shared/types/onboarding-dashboard-telemetry';
 import {
   GATE_STATUS_FILTER_OPTIONS,
   GateStatusFilterValue,
@@ -77,6 +78,7 @@ export function StaleProjectsCard() {
       titleKey="onboarding_dashboard.stale.title"
       toolbarControls={
         <ProjectsFilterSelect
+          filter={OnboardingDashboardFilter.GateStatus}
           id="onboarding-stale-gate-status-filter"
           labelKey="onboarding_dashboard.stale.filter.gate_status.label"
           onChange={setGateStatus}

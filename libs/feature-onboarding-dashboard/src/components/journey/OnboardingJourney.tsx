@@ -20,6 +20,7 @@
 
 import { useState } from 'react';
 import { JourneyState, JourneyStep } from '~shared/types/onboarding';
+import { useOnboardingDashboardTracking } from '../telemetry/OnboardingDashboardTelemetry';
 import { DetailPanel } from './panels/DetailPanel';
 import { JourneyStepper } from './stepper/JourneyStepper';
 
@@ -36,12 +37,20 @@ export function OnboardingJourney({ state }: Readonly<Props>) {
   // overridden once the user picks a card.
   const [selectedStep, setSelectedStep] = useState<JourneyStep | undefined>(undefined);
   const step = selectedStep ?? state.activeStep;
+  const { trackStepSelected } = useOnboardingDashboardTracking();
+
+  const selectStep = (nextStep: JourneyStep) => {
+    if (nextStep !== step) {
+      trackStepSelected(step, nextStep);
+    }
+    setSelectedStep(nextStep);
+  };
 
   return (
     <div className="sw:flex sw:flex-col sw:gap-6">
-      <JourneyStepper onSelectStep={setSelectedStep} selectedStep={step} state={state} />
+      <JourneyStepper onSelectStep={selectStep} selectedStep={step} state={state} />
 
-      <DetailPanel onSelectStep={setSelectedStep} selectedStep={step} state={state} />
+      <DetailPanel onSelectStep={selectStep} selectedStep={step} state={state} />
     </div>
   );
 }

@@ -22,6 +22,8 @@ import { Button, ButtonVariety, cssVar, IconLock, Text, TextSize } from '@sonars
 import { noop } from 'lodash';
 import { ReactNode } from 'react';
 import { Path } from 'react-router';
+import { OnboardingDashboardAction } from '~shared/types/onboarding-dashboard-telemetry';
+import { useOnboardingDashboardTracking } from '../../telemetry/OnboardingDashboardTelemetry';
 import { PermissionGate } from '../PermissionGate';
 
 const BACKDROP_VIEWBOX = '0 0 400 120';
@@ -35,6 +37,7 @@ const BACKDROP_OPACITY = 0.4;
 const LOCK_ICON_FONT_SIZE_CLASS = 'sw:text-[28px]';
 
 interface Props {
+  ctaAction: OnboardingDashboardAction;
   ctaLabel: string;
   /** Icon shown before the call-to-action label, when the action warrants one. */
   ctaPrefix?: ReactNode;
@@ -54,6 +57,7 @@ interface Props {
  * rather than sitting inside card chrome like the statistics it stands in for.
  */
 export function LockedStatisticsCard({
+  ctaAction,
   ctaLabel,
   ctaPrefix,
   ctaTo,
@@ -61,6 +65,8 @@ export function LockedStatisticsCard({
   onCta = noop,
   title,
 }: Readonly<Props>) {
+  const { trackActionSelected } = useOnboardingDashboardTracking();
+
   // `Button` forbids `to` on its plain-button variety, so the destination cannot be spread in as a
   // possibly-undefined prop. Levels with no destination yet keep rendering the same inert button.
   const ctaProps = {
@@ -84,9 +90,32 @@ export function LockedStatisticsCard({
         </div>
 
         {ctaTo === undefined ? (
-          <PermissionGate trigger={<Button {...ctaProps} enablePreventDefault onClick={onCta} />} />
+          <PermissionGate
+            action={ctaAction}
+            trigger={
+              <Button
+                {...ctaProps}
+                enablePreventDefault
+                onClick={() => {
+                  trackActionSelected(ctaAction);
+                  onCta();
+                }}
+              />
+            }
+          />
         ) : (
-          <PermissionGate trigger={<Button {...ctaProps} to={ctaTo} />} />
+          <PermissionGate
+            action={ctaAction}
+            trigger={
+              <Button
+                {...ctaProps}
+                onClick={() => {
+                  trackActionSelected(ctaAction);
+                }}
+                to={ctaTo}
+              />
+            }
+          />
         )}
       </div>
     </div>

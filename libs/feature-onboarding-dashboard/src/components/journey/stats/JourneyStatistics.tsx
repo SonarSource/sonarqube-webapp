@@ -24,6 +24,7 @@ import { FormattedMessage, useIntl } from 'react-intl';
 import { Path } from 'react-router';
 import { useCreateDevopsConfigurationUrl } from '~adapters/helpers/useCreateDevopsConfigurationUrl';
 import { JourneyLevel, OnboardingTimelinePoint } from '~shared/types/onboarding';
+import { OnboardingDashboardAction } from '~shared/types/onboarding-dashboard-telemetry';
 import { OverTimeCardSkeleton } from '../../OnboardingDashboardSkeleton';
 import { LockedStatisticsCard } from './LockedStatisticsCard';
 import { OnboardingOverTimeCard } from './OnboardingOverTimeCard';
@@ -33,16 +34,27 @@ import { OnboardingOverTimeCard } from './OnboardingOverTimeCard';
  * level. Levels that have nothing left to unlock are absent from the map.
  */
 const LOCKED_STATISTICS_CONTENT: Partial<
-  Record<JourneyLevel, { cta: string; ctaPrefix?: ReactNode; message: string; title: string }>
+  Record<
+    JourneyLevel,
+    {
+      cta: string;
+      ctaAction: OnboardingDashboardAction;
+      ctaPrefix?: ReactNode;
+      message: string;
+      title: string;
+    }
+  >
 > = {
   [JourneyLevel.Unbound]: {
     cta: 'onboarding_dashboard.journey.locked.stats.cta',
+    ctaAction: OnboardingDashboardAction.BindOrganization,
     ctaPrefix: <IconLink />,
     message: 'onboarding_dashboard.journey.locked.stats.message',
     title: 'onboarding_dashboard.journey.locked.stats.title',
   },
   [JourneyLevel.BoundNoImport]: {
     cta: 'onboarding_dashboard.journey.locked.more.cta',
+    ctaAction: OnboardingDashboardAction.OpenRepositoriesImport,
     message: 'onboarding_dashboard.journey.locked.more.message',
     title: 'onboarding_dashboard.journey.locked.more.title',
   },
@@ -94,6 +106,7 @@ export function JourneyStatistics({ isBound, isTimelineError, timeline }: Readon
 
       {lockedStatistics !== undefined && level !== undefined && (
         <LockedStatisticsCard
+          ctaAction={lockedStatistics.ctaAction}
           ctaLabel={formatMessage({ id: lockedStatistics.cta })}
           ctaPrefix={lockedStatistics.ctaPrefix}
           ctaTo={lockedCtaUrlByLevel[level]}

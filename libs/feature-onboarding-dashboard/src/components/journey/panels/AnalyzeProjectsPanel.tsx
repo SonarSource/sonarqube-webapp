@@ -36,6 +36,8 @@ import { useIntl } from 'react-intl';
 import { ImportRepositoriesCta } from '~adapters/components/onboarding/ImportRepositoriesCta';
 import { IS_AUTOMATIC_ANALYSIS_SUPPORTED } from '~adapters/helpers/onboarding-actions';
 import { JourneyState, OnboardingProjectScanStatus } from '~shared/types/onboarding';
+import { OnboardingDashboardAction } from '~shared/types/onboarding-dashboard-telemetry';
+import { useOnboardingDashboardTracking } from '../../telemetry/OnboardingDashboardTelemetry';
 import { PanelDonut, PanelDonutSegment } from '../charts/PanelDonut';
 import { ConfigureProjectsModal } from '../modals/ConfigureProjectsModal';
 import { PermissionGate } from '../PermissionGate';
@@ -61,6 +63,7 @@ function clampToRemaining(value: number, remaining: number) {
 export function AnalyzeProjectsPanel({ state }: Readonly<Props>) {
   const { formatMessage } = useIntl();
   const { analyze, analyzed, analyzedPct, totalProjects } = state;
+  const { trackActionSelected } = useOnboardingDashboardTracking();
 
   const analyzedCapacity =
     totalProjects > 0 ? totalProjects - analyze.notScanned - analyze.notImported : analyzed;
@@ -139,8 +142,14 @@ export function AnalyzeProjectsPanel({ state }: Readonly<Props>) {
       ),
       cta: (
         <PermissionGate
+          action={OnboardingDashboardAction.ConfigureScanners}
           trigger={
-            <Button variety={ButtonVariety.Primary}>
+            <Button
+              onClick={() => {
+                trackActionSelected(OnboardingDashboardAction.ConfigureScanners);
+              }}
+              variety={ButtonVariety.Primary}
+            >
               {formatMessage({ id: 'onboarding_dashboard.journey.analyze.not_scanned.cta' })}
             </Button>
           }

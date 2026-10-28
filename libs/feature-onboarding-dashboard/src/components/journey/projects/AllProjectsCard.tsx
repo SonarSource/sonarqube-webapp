@@ -25,6 +25,7 @@ import { ANALYSIS_MODE_FILTER_OPTIONS } from '~adapters/helpers/onboarding-actio
 import DateFormatter from '~shared/components/intl/DateFormatter';
 import { isDefined } from '~shared/helpers/types';
 import { AnalysisModeFilterValue, ANY_PROJECTS_FILTER } from '~shared/types/onboarding';
+import { OnboardingDashboardFilter } from '~shared/types/onboarding-dashboard-telemetry';
 import {
   PROJECT_HEALTH_FEATURE_ENABLED,
   SCAN_STATUS_FILTER_OPTIONS,
@@ -89,6 +90,7 @@ export function AllProjectsCard() {
       toolbarControls={
         <>
           <ProjectsFilterSelect
+            filter={OnboardingDashboardFilter.ScanStatus}
             id="onboarding-projects-scan-status-filter"
             labelKey="onboarding_dashboard.projects.filter.scan_status.label"
             onChange={setScanStatus}
@@ -97,6 +99,7 @@ export function AllProjectsCard() {
           />
 
           <ProjectsFilterSelect
+            filter={OnboardingDashboardFilter.AnalysisMode}
             id="onboarding-projects-analysis-mode-filter"
             labelKey="onboarding_dashboard.projects.filter.analysis_mode.label"
             onChange={setAnalysisMode}

@@ -23,6 +23,7 @@ import { useCanCreateProjects } from '~adapters/helpers/useCanCreateProjects';
 import { useEditPermissionsUrl } from '~adapters/helpers/useEditPermissionsUrl';
 import { renderWithRouter } from '~shared/helpers/test-utils';
 import { byRole, byText } from '~shared/helpers/testSelector';
+import { OnboardingDashboardAction } from '~shared/types/onboarding-dashboard-telemetry';
 import { PermissionGate } from '../PermissionGate';
 
 const PERMISSIONS_URL = { pathname: '/admin/permissions' };
@@ -50,7 +51,10 @@ const ui = {
 
 it('renders children wrapping the trigger when the user has permission', () => {
   renderWithRouter(
-    <PermissionGate trigger={<Button>action</Button>}>
+    <PermissionGate
+      action={OnboardingDashboardAction.BindOrganization}
+      trigger={<Button>action</Button>}
+    >
       {(t) => (
         <>
           <span>modal wrapper</span>
@@ -66,7 +70,12 @@ it('renders children wrapping the trigger when the user has permission', () => {
 });
 
 it('renders the trigger directly when no children are provided and the user has permission', () => {
-  renderWithRouter(<PermissionGate trigger={<Button>action</Button>} />);
+  renderWithRouter(
+    <PermissionGate
+      action={OnboardingDashboardAction.BindOrganization}
+      trigger={<Button>action</Button>}
+    />,
+  );
 
   expect(ui.trigger.get()).toBeInTheDocument();
   expect(ui.permissionDescription.query()).not.toBeInTheDocument();
@@ -74,7 +83,10 @@ it('renders the trigger directly when no children are provided and the user has 
 
 it('preserves a navigation trigger as a link when the user has permission', () => {
   renderWithRouter(
-    <PermissionGate trigger={<Button to={{ pathname: '/some/path' }}>action</Button>} />,
+    <PermissionGate
+      action={OnboardingDashboardAction.BindOrganization}
+      trigger={<Button to={{ pathname: '/some/path' }}>action</Button>}
+    />,
   );
 
   expect(ui.triggerLink.get()).toBeInTheDocument();
@@ -82,7 +94,12 @@ it('preserves a navigation trigger as a link when the user has permission', () =
 
 it('shows the permission popover and links to the permissions page when the user lacks permission', async () => {
   jest.mocked(useCanCreateProjects).mockReturnValue(false);
-  const { user } = renderWithRouter(<PermissionGate trigger={<Button>action</Button>} />);
+  const { user } = renderWithRouter(
+    <PermissionGate
+      action={OnboardingDashboardAction.BindOrganization}
+      trigger={<Button>action</Button>}
+    />,
+  );
 
   await user.click(ui.trigger.get());
 
@@ -93,7 +110,10 @@ it('shows the permission popover and links to the permissions page when the user
 it('strips the navigation prop from the trigger when the user lacks permission', () => {
   jest.mocked(useCanCreateProjects).mockReturnValue(false);
   renderWithRouter(
-    <PermissionGate trigger={<Button to={{ pathname: '/some/path' }}>action</Button>} />,
+    <PermissionGate
+      action={OnboardingDashboardAction.BindOrganization}
+      trigger={<Button to={{ pathname: '/some/path' }}>action</Button>}
+    />,
   );
 
   // 'to' stripped — renders as a <button>, not an <a>.
@@ -114,14 +134,18 @@ it('drops interactive props it does not know about when the user lacks permissio
 
   // Positive control: the prop does reach the trigger while the user is permitted, so the
   // assertion below is about the gate stripping it, not about the prop being inert.
-  const permitted = renderWithRouter(<PermissionGate trigger={trigger} />);
+  const permitted = renderWithRouter(
+    <PermissionGate action={OnboardingDashboardAction.BindOrganization} trigger={trigger} />,
+  );
   await permitted.user.dblClick(ui.trigger.get());
   expect(onDoubleClick).toHaveBeenCalled();
   onDoubleClick.mockClear();
   permitted.unmount();
 
   jest.mocked(useCanCreateProjects).mockReturnValue(false);
-  const { user } = renderWithRouter(<PermissionGate trigger={trigger} />);
+  const { user } = renderWithRouter(
+    <PermissionGate action={OnboardingDashboardAction.BindOrganization} trigger={trigger} />,
+  );
 
   await user.dblClick(ui.trigger.get());
 
@@ -132,7 +156,10 @@ it('does not fire the trigger onClick when the user lacks permission', async () 
   jest.mocked(useCanCreateProjects).mockReturnValue(false);
   const onTriggerClick = jest.fn();
   const { user } = renderWithRouter(
-    <PermissionGate trigger={<Button onClick={onTriggerClick}>action</Button>} />,
+    <PermissionGate
+      action={OnboardingDashboardAction.BindOrganization}
+      trigger={<Button onClick={onTriggerClick}>action</Button>}
+    />,
   );
 
   await user.click(ui.trigger.get());

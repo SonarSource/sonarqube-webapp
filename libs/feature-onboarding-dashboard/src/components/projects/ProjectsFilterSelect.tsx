@@ -30,6 +30,8 @@ import {
   OnboardingRepositoriesVisibility,
   ProjectFilterOption,
 } from '~shared/types/onboarding';
+import { OnboardingDashboardFilter } from '~shared/types/onboarding-dashboard-telemetry';
+import { useOnboardingDashboardTracking } from '../telemetry/OnboardingDashboardTelemetry';
 
 type FilterValue =
   | OnboardingAlm
@@ -40,6 +42,8 @@ type FilterValue =
   | typeof ANY_PROJECTS_FILTER;
 
 interface Props<T extends FilterValue> {
+  /** The dimension reported when the user changes the value. */
+  filter: OnboardingDashboardFilter;
   /** Ties the external label to the select, which is how it gets its accessible name. */
   id: string;
   labelKey: string;
@@ -57,6 +61,7 @@ interface Props<T extends FilterValue> {
  * dimension always offers an "All" option, so the select never holds an empty value.
  */
 export function ProjectsFilterSelect<T extends FilterValue>({
+  filter,
   id,
   labelKey,
   onChange,
@@ -64,6 +69,7 @@ export function ProjectsFilterSelect<T extends FilterValue>({
   value,
 }: Readonly<Props<T>>) {
   const { formatMessage } = useIntl();
+  const { trackFilterChanged } = useOnboardingDashboardTracking();
 
   const data = useMemo(
     () =>
@@ -80,10 +86,11 @@ export function ProjectsFilterSelect<T extends FilterValue>({
       const option = options.find((candidate) => candidate.value === nextValue);
 
       if (option !== undefined) {
+        trackFilterChanged(filter, option.value);
         onChange(option.value);
       }
     },
-    [onChange, options],
+    [filter, onChange, options, trackFilterChanged],
   );
 
   return (

@@ -32,7 +32,9 @@ import { ImportRepositoriesCta } from '~adapters/components/onboarding/ImportRep
 import { ImportRepositoriesExtraCard } from '~adapters/components/onboarding/ImportRepositoriesExtraCard';
 import { useImportRepositoriesModalProps } from '~adapters/helpers/useImportRepositoriesModalProps';
 import { JourneyState } from '~shared/types/onboarding';
+import { OnboardingDashboardAction } from '~shared/types/onboarding-dashboard-telemetry';
 import { usePlatformSelection } from '../../projects/usePlatformSelection';
+import { useOnboardingDashboardTracking } from '../../telemetry/OnboardingDashboardTelemetry';
 import { PanelDonut, PanelDonutSegment } from '../charts/PanelDonut';
 import { ImportRepositoriesModal } from '../modals/ImportRepositoriesModal';
 import { PermissionGate } from '../PermissionGate';
@@ -52,6 +54,7 @@ export function ImportRepositoriesPanel({ state }: Readonly<Props>) {
   const { imported, importedPct, notYetImported } = state;
   const { hasListablePlatforms } = usePlatformSelection();
   const importRepositoriesModalProps = useImportRepositoriesModalProps();
+  const { trackActionSelected } = useOnboardingDashboardTracking();
 
   const segments: PanelDonutSegment[] = [
     ...(imported > 0
@@ -87,8 +90,14 @@ export function ImportRepositoriesPanel({ state }: Readonly<Props>) {
         viewAll={
           hasListablePlatforms ? (
             <PermissionGate
+              action={OnboardingDashboardAction.ViewAllRepositories}
               trigger={
-                <Button variety={ButtonVariety.PrimaryGhost}>
+                <Button
+                  onClick={() => {
+                    trackActionSelected(OnboardingDashboardAction.ViewAllRepositories);
+                  }}
+                  variety={ButtonVariety.PrimaryGhost}
+                >
                   {formatMessage({ id: 'onboarding_dashboard.journey.import.view_all' })}
                 </Button>
               }

@@ -29,9 +29,15 @@ import { useCallback, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { useCanCreateProjects } from '~adapters/helpers/useCanCreateProjects';
 import { OnboardingProject } from '~shared/types/onboarding';
+import { OnboardingDashboardAction } from '~shared/types/onboarding-dashboard-telemetry';
 import { RowActionKind } from '../../types/types';
 import { PermissionGate } from '../journey/PermissionGate';
-import { PERMISSION_REQUIRED_ACTIONS, PROJECT_ROW_ACTION_LABEL_KEYS } from './projectRowActions';
+import { useOnboardingDashboardTracking } from '../telemetry/OnboardingDashboardTelemetry';
+import {
+  PERMISSION_REQUIRED_ACTIONS,
+  PROJECT_ROW_ACTION_LABEL_KEYS,
+  PROJECT_ROW_ACTION_TELEMETRY,
+} from './projectRowActions';
 import { ProjectsTableColumn } from './ProjectsTableCard';
 import { RestoreProjectAccessModal } from './RestoreProjectAccessModal';
 import { useProjectRowActionItems } from './useProjectRowActionItems';
@@ -76,6 +82,7 @@ export function ProjectRowActionsCell({ project }: Readonly<Props>) {
   }, []);
 
   const canCreateProjects = useCanCreateProjects();
+  const { trackActionSelected } = useOnboardingDashboardTracking();
 
   const items = useProjectRowActionItems(project, {
     onRestoreAccess: openRestoreAccessModal,
@@ -94,18 +101,28 @@ export function ProjectRowActionsCell({ project }: Readonly<Props>) {
 
   const dropdownItems = visibleItems.map((item) => {
     const label = formatMessage({ id: PROJECT_ROW_ACTION_LABEL_KEYS[item.action] });
+    const trackItemSelected = () => {
+      trackActionSelected(PROJECT_ROW_ACTION_TELEMETRY[item.action], project);
+    };
 
     return item.kind === RowActionKind.Link ? (
       <DropdownMenu.ItemLink
         enableOpenInNewTab={item.isExternal}
         hasExternalIcon={item.isExternal}
         key={item.action}
+        onClick={trackItemSelected}
         to={item.to}
       >
         {label}
       </DropdownMenu.ItemLink>
     ) : (
-      <DropdownMenu.ItemButton key={item.action} onClick={item.onClick}>
+      <DropdownMenu.ItemButton
+        key={item.action}
+        onClick={() => {
+          trackItemSelected();
+          item.onClick();
+        }}
+      >
         {label}
       </DropdownMenu.ItemButton>
     );
@@ -124,7 +141,10 @@ export function ProjectRowActionsCell({ project }: Readonly<Props>) {
   return (
     <>
       {isMenuEmpty ? (
-        <PermissionGate trigger={triggerButton} />
+        <PermissionGate
+          action={OnboardingDashboardAction.OpenProjectActions}
+          trigger={triggerButton}
+        />
       ) : (
         <DropdownMenu align={DropdownMenuAlign.End} items={dropdownItems} onOpen={markMenuOpened}>
           {triggerButton}

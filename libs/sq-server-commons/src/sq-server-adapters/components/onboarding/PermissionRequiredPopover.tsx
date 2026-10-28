@@ -25,6 +25,7 @@ import { useEditPermissionsUrl } from '~adapters/helpers/useEditPermissionsUrl';
 
 interface Props {
   children: ReactElement;
+  onOpenChange?: (open: boolean) => void;
 }
 
 /**
@@ -34,7 +35,7 @@ interface Props {
  *
  * The trigger must not carry interactive props (onClick, to), strip them before passing.
  */
-export function PermissionRequiredPopover({ children }: Readonly<Props>) {
+export function PermissionRequiredPopover({ children, onOpenChange }: Readonly<Props>) {
   const url = useEditPermissionsUrl();
   return (
     <Popover
@@ -48,6 +49,7 @@ export function PermissionRequiredPopover({ children }: Readonly<Props>) {
           </Button>
         )
       }
+      onOpenChange={onOpenChange}
     >
       {children}
     </Popover>

@@ -31,6 +31,7 @@ import {
 import { ReactNode } from 'react';
 import { useIntl } from 'react-intl';
 import { OnboardingRepository } from '~shared/types/onboarding';
+import { OnboardingDashboardSurface } from '~shared/types/onboarding-dashboard-telemetry';
 import {
   RepositoriesTable,
   RepositoriesTableColumn,
@@ -38,6 +39,7 @@ import {
 } from '../../projects/RepositoriesTable';
 import { RepositoryCell } from '../../projects/RepositoryCell';
 import { usePlatformSelection } from '../../projects/usePlatformSelection';
+import { OnboardingDashboardSurfaceProvider } from '../../telemetry/OnboardingDashboardTelemetry';
 
 const PAGE_SIZE = 25;
 
@@ -79,7 +81,9 @@ export function ImportRepositoriesModal({
     <Modal
       {...modalProps}
       content={
-        <>
+        <OnboardingDashboardSurfaceProvider
+          surface={OnboardingDashboardSurface.ImportRepositoriesModal}
+        >
           {notice}
           <RepositoriesTable
             ariaLabel={title}
@@ -93,7 +97,7 @@ export function ImportRepositoriesModal({
             renderCells={(repository) => <RepositoryCells repository={repository} />}
             selection={selection}
           />
-        </>
+        </OnboardingDashboardSurfaceProvider>
       }
       primaryButton={modalProps.primaryButton ?? <Button>{formatMessage({ id: 'close' })}</Button>}
       size={ModalSize.Wide}

@@ -21,6 +21,8 @@
 import { Card, CardSize } from '@sonarsource/echoes-react';
 import { useLayoutEffect, useRef } from 'react';
 import { JourneyState, JourneyStep } from '~shared/types/onboarding';
+import { OnboardingDashboardSurface } from '~shared/types/onboarding-dashboard-telemetry';
+import { OnboardingDashboardSurfaceProvider } from '../../telemetry/OnboardingDashboardTelemetry';
 import { AnalyzeProjectsPanel } from './AnalyzeProjectsPanel';
 import { ImportRepositoriesPanel } from './ImportRepositoriesPanel';
 import { OrganizationBindingPanel } from './OrganizationBindingPanel';
@@ -30,6 +32,12 @@ interface Props {
   selectedStep: JourneyStep;
   state: JourneyState;
 }
+
+const PANEL_SURFACES: Record<JourneyStep, OnboardingDashboardSurface> = {
+  [JourneyStep.Binding]: OnboardingDashboardSurface.BindingPanel,
+  [JourneyStep.Repositories]: OnboardingDashboardSurface.RepositoriesPanel,
+  [JourneyStep.Projects]: OnboardingDashboardSurface.ProjectsPanel,
+};
 
 function renderPanel(
   selectedStep: JourneyStep,
@@ -133,7 +141,9 @@ export function DetailPanel({ onSelectStep, selectedStep, state }: Readonly<Prop
     <Card size={CardSize.Large}>
       <Card.Body>
         <div data-testid="detail-panel-content" ref={contentRef} style={{ overflow: 'hidden' }}>
-          {renderPanel(selectedStep, state, onSelectStep)}
+          <OnboardingDashboardSurfaceProvider surface={PANEL_SURFACES[selectedStep]}>
+            {renderPanel(selectedStep, state, onSelectStep)}
+          </OnboardingDashboardSurfaceProvider>
         </div>
       </Card.Body>
     </Card>

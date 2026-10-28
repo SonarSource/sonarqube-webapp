@@ -48,6 +48,11 @@ import {
   OnboardingProject,
   OnboardingProjectAnalysisMode,
 } from '~shared/types/onboarding';
+import {
+  OnboardingDashboardAction,
+  OnboardingDashboardFilter,
+  OnboardingDashboardSurface,
+} from '~shared/types/onboarding-dashboard-telemetry';
 import { SCAN_STATUS_FILTER_OPTIONS, ScanStatusFilterValue } from '../../../types/types';
 import { NO_DATA } from '../../dashboardConstants';
 import { getAnalysisModeBadge, getOnboardingBadge } from '../../projects/projectBadges';
@@ -55,6 +60,10 @@ import { ProjectsFilterSelect } from '../../projects/ProjectsFilterSelect';
 import { ProjectsTable, ProjectsTableColumn } from '../../projects/ProjectsTable';
 import { RepositoryCell } from '../../projects/RepositoryCell';
 import { RestoreProjectAccessModal } from '../../projects/RestoreProjectAccessModal';
+import {
+  OnboardingDashboardSurfaceProvider,
+  useOnboardingDashboardTracking,
+} from '../../telemetry/OnboardingDashboardTelemetry';
 import { PermissionGate } from '../PermissionGate';
 
 const PAGE_SIZE = 10;
@@ -99,38 +108,44 @@ export function ConfigureProjectsModal({
   return (
     <TopAnchoredModal
       content={
-        <ProjectsTable
-          ariaLabel={title}
-          columns={COLUMNS}
-          containerClassName="sw:max-h-[calc(80vh-12rem)]"
-          filters={{
-            scanStatus: scanStatus === ANY_PROJECTS_FILTER ? undefined : scanStatus,
-            analysisMode: analysisMode === ANY_PROJECTS_FILTER ? undefined : analysisMode,
-          }}
-          loadingMessageKey="onboarding_dashboard.projects.loading"
-          pageSize={PAGE_SIZE}
-          renderRow={(project) => <ConfigureProjectRow key={project.key} project={project} />}
-          searchPlaceholderKey="onboarding_dashboard.projects.search"
-          searchWidth={SearchInputWidth.Medium}
-          toolbarControls={
-            <>
-              <ProjectsFilterSelect
-                id="configure-projects-scan-status-filter"
-                labelKey="onboarding_dashboard.projects.filter.scan_status.label"
-                onChange={setScanStatus}
-                options={SCAN_STATUS_FILTER_OPTIONS}
-                value={scanStatus}
-              />
-              <ProjectsFilterSelect
-                id="configure-projects-analysis-mode-filter"
-                labelKey="onboarding_dashboard.projects.filter.analysis_mode.label"
-                onChange={setAnalysisMode}
-                options={ANALYSIS_MODE_FILTER_OPTIONS}
-                value={analysisMode}
-              />
-            </>
-          }
-        />
+        <OnboardingDashboardSurfaceProvider
+          surface={OnboardingDashboardSurface.ConfigureProjectsModal}
+        >
+          <ProjectsTable
+            ariaLabel={title}
+            columns={COLUMNS}
+            containerClassName="sw:max-h-[calc(80vh-12rem)]"
+            filters={{
+              scanStatus: scanStatus === ANY_PROJECTS_FILTER ? undefined : scanStatus,
+              analysisMode: analysisMode === ANY_PROJECTS_FILTER ? undefined : analysisMode,
+            }}
+            loadingMessageKey="onboarding_dashboard.projects.loading"
+            pageSize={PAGE_SIZE}
+            renderRow={(project) => <ConfigureProjectRow key={project.key} project={project} />}
+            searchPlaceholderKey="onboarding_dashboard.projects.search"
+            searchWidth={SearchInputWidth.Medium}
+            toolbarControls={
+              <>
+                <ProjectsFilterSelect
+                  filter={OnboardingDashboardFilter.ScanStatus}
+                  id="configure-projects-scan-status-filter"
+                  labelKey="onboarding_dashboard.projects.filter.scan_status.label"
+                  onChange={setScanStatus}
+                  options={SCAN_STATUS_FILTER_OPTIONS}
+                  value={scanStatus}
+                />
+                <ProjectsFilterSelect
+                  filter={OnboardingDashboardFilter.AnalysisMode}
+                  id="configure-projects-analysis-mode-filter"
+                  labelKey="onboarding_dashboard.projects.filter.analysis_mode.label"
+                  onChange={setAnalysisMode}
+                  options={ANALYSIS_MODE_FILTER_OPTIONS}
+                  value={analysisMode}
+                />
+              </>
+            }
+          />
+        </OnboardingDashboardSurfaceProvider>
       }
       description={formatMessage({
         id: 'onboarding_dashboard.journey.analyze.modal.description',
@@ -158,6 +173,7 @@ const TopAnchoredModal = styled(Modal)`
 function ConfigureProjectRow({ project }: Readonly<{ project: OnboardingProject }>) {
   const { formatMessage } = useIntl();
   const canCreateProjects = useCanCreateProjects();
+  const { trackActionSelected } = useOnboardingDashboardTracking();
   const [isRestoreAccessModalOpen, setIsRestoreAccessModalOpen] = useState(false);
   const {
     data: hasProjectAccess,
@@ -200,10 +216,14 @@ function ConfigureProjectRow({ project }: Readonly<{ project: OnboardingProject 
         {project.analysisMode !== OnboardingProjectAnalysisMode.Ci && (
           <>
             <PermissionGate
+              action={OnboardingDashboardAction.ConfigureProject}
               trigger={
                 hasProjectAccess === true ? (
                   <Button
                     enableOpenInNewTab
+                    onClick={() => {
+                      trackActionSelected(OnboardingDashboardAction.ConfigureProject, project);
+                    }}
                     suffix={<IconLinkExternal />}
                     to={getConfigureProjectUrl(project.key)}
                     variety={ButtonVariety.Default}
@@ -215,6 +235,10 @@ function ConfigureProjectRow({ project }: Readonly<{ project: OnboardingProject 
                     isDisabled={isFetching}
                     onClick={() => {
                       if (hasProjectAccess === false) {
+                        trackActionSelected(
+                          OnboardingDashboardAction.RestoreProjectAccess,
+                          project,
+                        );
                         setIsRestoreAccessModalOpen(true);
                       } else {
                         void refetch();

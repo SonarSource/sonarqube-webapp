@@ -32,6 +32,8 @@ import { useCreateDevopsConfigurationUrl } from '~adapters/helpers/useCreateDevo
 import { useOnboardingCurrentBinding } from '~adapters/helpers/useOnboardingCurrentBinding';
 import { useOnboardingDevopsConfigurations } from '~adapters/helpers/useOnboardingDevopsConfigurations';
 import { JourneyState, JourneyStep } from '~shared/types/onboarding';
+import { OnboardingDashboardAction } from '~shared/types/onboarding-dashboard-telemetry';
+import { useOnboardingDashboardTracking } from '../../telemetry/OnboardingDashboardTelemetry';
 import { PermissionGate } from '../PermissionGate';
 import { DevopsConfigurationsDonut } from './DevopsConfigurationsDonut';
 
@@ -47,12 +49,16 @@ export function OrganizationBindingPanel({ onSelectStep, state }: Readonly<Props
   const createConfigurationUrl = useCreateDevopsConfigurationUrl();
   const currentBinding = useOnboardingCurrentBinding();
   const { byPlatform } = useOnboardingDevopsConfigurations();
+  const { trackActionSelected } = useOnboardingDashboardTracking();
 
   // `Button` switches to an anchor on the *presence* of `to`, not on its value: `to={undefined}`
   // type-checks but renders `<a href="/">` instead of a plain button. Products with no destination
   // yet must therefore omit the prop entirely to keep the call-to-action inert.
   const bindCtaProps = {
     children: formatMessage({ id: 'onboarding_dashboard.journey.binding.bind_cta' }),
+    onClick: () => {
+      trackActionSelected(OnboardingDashboardAction.BindOrganization);
+    },
     prefix: <IconLink />,
     variety: ButtonVariety.Primary,
   } as const;
@@ -100,7 +106,13 @@ export function OrganizationBindingPanel({ onSelectStep, state }: Readonly<Props
 
             {bindingSettingsUrl !== undefined && (
               <div>
-                <Button to={bindingSettingsUrl} variety={ButtonVariety.Default}>
+                <Button
+                  onClick={() => {
+                    trackActionSelected(OnboardingDashboardAction.ViewBindingSettings);
+                  }}
+                  to={bindingSettingsUrl}
+                  variety={ButtonVariety.Default}
+                >
                   {formatMessage({ id: 'onboarding_dashboard.journey.binding.view_cta' })}
                 </Button>
               </div>
@@ -111,6 +123,7 @@ export function OrganizationBindingPanel({ onSelectStep, state }: Readonly<Props
         {showCreateCta && (
           <div>
             <PermissionGate
+              action={OnboardingDashboardAction.BindOrganization}
               trigger={
                 <Button {...bindCtaProps} {...(bindCtaUrl !== undefined && { to: bindCtaUrl })} />
               }

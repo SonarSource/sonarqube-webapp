@@ -35,6 +35,7 @@ import {
 import { PropsWithChildren, useCallback, useMemo, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { ANY_PROJECTS_FILTER, JourneyStep } from '~shared/types/onboarding';
+import { OnboardingDashboardFilter } from '~shared/types/onboarding-dashboard-telemetry';
 import { NO_DATA } from '../../dashboardConstants';
 import {
   DEVOPS_PLATFORM_FILTER_OPTIONS,
@@ -131,6 +132,7 @@ export function DevopsConfigurationsModal({
                 />
 
                 <ProjectsFilterSelect
+                  filter={OnboardingDashboardFilter.DevopsPlatform}
                   id="devops-configurations-platform-filter"
                   labelKey="onboarding_dashboard.journey.binding.modal.platform_filter.label"
                   onChange={setPlatform}

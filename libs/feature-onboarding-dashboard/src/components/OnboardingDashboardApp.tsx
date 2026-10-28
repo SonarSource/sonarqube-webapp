@@ -25,11 +25,17 @@ import {
   useOnboardingJourneyStateQuery,
 } from '~adapters/queries/onboarding';
 import { useOnboardingStatisticsQuery } from '~shared/queries/onboarding';
+import { OnboardingDashboardSurface } from '~shared/types/onboarding-dashboard-telemetry';
 import { OnboardingJourney } from './journey/OnboardingJourney';
 import { AllProjectsCard } from './journey/projects/AllProjectsCard';
 import { StaleProjectsCard } from './journey/projects/StaleProjectsCard';
 import { JourneyStatistics } from './journey/stats/JourneyStatistics';
 import { JourneySkeleton } from './OnboardingDashboardSkeleton';
+import {
+  OnboardingDashboardSurfaceProvider,
+  OnboardingDashboardTelemetryProvider,
+  useTrackOnboardingDashboardViewed,
+} from './telemetry/OnboardingDashboardTelemetry';
 
 interface Props {
   /** Organization key supplied by the product-page wrapper via `useOnboardingOrganizationKey`. */
@@ -47,6 +53,14 @@ interface Props {
  * statistics endpoint, and the project tables fetch their own paged data.
  */
 export default function OnboardingDashboardApp({ organizationKey }: Readonly<Props>) {
+  return (
+    <OnboardingDashboardTelemetryProvider>
+      <OnboardingDashboard organizationKey={organizationKey} />
+    </OnboardingDashboardTelemetryProvider>
+  );
+}
+
+function OnboardingDashboard({ organizationKey }: Readonly<Props>) {
   const { formatMessage } = useIntl();
   const {
     data: journeyState,
@@ -59,6 +73,8 @@ export default function OnboardingDashboardApp({ organizationKey }: Readonly<Pro
   const { data: isBound, isError: isBindingError } = useOnboardingIsBoundQuery({
     organizationKey,
   });
+
+  useTrackOnboardingDashboardViewed(journeyState, isJourneyPending);
 
   return (
     <div>
@@ -81,16 +97,24 @@ export default function OnboardingDashboardApp({ organizationKey }: Readonly<Pro
       <Divider className="sw:my-10" role="separator" />
 
       <div className="sw:mb-6 sw:flex sw:flex-col sw:gap-6">
-        <JourneyStatistics
-          // An unknown binding shows the timeline rather than hiding the statistics altogether.
-          isBound={isBindingError || isBound}
-          isTimelineError={isStatisticsError}
-          timeline={statistics?.timeline}
-        />
+        <OnboardingDashboardSurfaceProvider
+          surface={OnboardingDashboardSurface.StatisticsPlaceholder}
+        >
+          <JourneyStatistics
+            // An unknown binding shows the timeline rather than hiding the statistics altogether.
+            isBound={isBindingError || isBound}
+            isTimelineError={isStatisticsError}
+            timeline={statistics?.timeline}
+          />
+        </OnboardingDashboardSurfaceProvider>
 
-        <StaleProjectsCard />
+        <OnboardingDashboardSurfaceProvider surface={OnboardingDashboardSurface.StaleProjectsTable}>
+          <StaleProjectsCard />
+        </OnboardingDashboardSurfaceProvider>
 
-        <AllProjectsCard />
+        <OnboardingDashboardSurfaceProvider surface={OnboardingDashboardSurface.AllProjectsTable}>
+          <AllProjectsCard />
+        </OnboardingDashboardSurfaceProvider>
       </div>
     </div>
   );

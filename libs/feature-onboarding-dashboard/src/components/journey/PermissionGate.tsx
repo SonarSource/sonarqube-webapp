@@ -21,8 +21,12 @@
 import { createElement, ElementType, ReactElement, ReactNode } from 'react';
 import { PermissionRequiredPopover } from '~adapters/components/onboarding/PermissionRequiredPopover';
 import { useCanCreateProjects } from '~adapters/helpers/useCanCreateProjects';
+import { OnboardingDashboardAction } from '~shared/types/onboarding-dashboard-telemetry';
+import { useOnboardingDashboardTracking } from '../telemetry/OnboardingDashboardTelemetry';
 
 interface Props {
+  /** The action the trigger performs, reported when the permission popover blocks it. */
+  action: OnboardingDashboardAction;
   children?: (trigger: ReactElement) => ReactNode;
   trigger: ReactElement;
 }
@@ -53,8 +57,9 @@ const PRESENTATIONAL_TRIGGER_PROPS = [
  * requirement and linking to the permissions settings page. Omit children when no modal wrapping
  * is needed — the trigger is rendered as-is when the user has permission.
  */
-export function PermissionGate({ children, trigger }: Readonly<Props>) {
+export function PermissionGate({ action, children, trigger }: Readonly<Props>) {
   const canCreateProjects = useCanCreateProjects();
+  const { trackActionBlocked } = useOnboardingDashboardTracking();
 
   if (canCreateProjects) {
     return <>{children?.(trigger) ?? trigger}</>;
@@ -70,5 +75,15 @@ export function PermissionGate({ children, trigger }: Readonly<Props>) {
   );
   const staticTrigger = createElement(trigger.type as ElementType, safeProps);
 
-  return <PermissionRequiredPopover>{staticTrigger}</PermissionRequiredPopover>;
+  return (
+    <PermissionRequiredPopover
+      onOpenChange={(open) => {
+        if (open) {
+          trackActionBlocked(action);
+        }
+      }}
+    >
+      {staticTrigger}
+    </PermissionRequiredPopover>
+  );
 }

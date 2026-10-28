@@ -41,6 +41,7 @@ import {
   OnboardingRepositoriesVisibility,
   OnboardingRepository,
 } from '~shared/types/onboarding';
+import { OnboardingDashboardFilter } from '~shared/types/onboarding-dashboard-telemetry';
 import { REPOSITORY_VISIBILITY_FILTER_OPTIONS } from '../../types/types';
 import { PLATFORM_CONFIG } from '../devops/platformConfig';
 import { ProjectsFilterSelect } from './ProjectsFilterSelect';
@@ -193,6 +194,7 @@ export function RepositoriesTable({
               />
 
               <ProjectsFilterSelect
+                filter={OnboardingDashboardFilter.RepositoryVisibility}
                 id="import-repositories-visibility-filter"
                 labelKey="onboarding_dashboard.repositories.filter.visibility.label"
                 onChange={setVisibility}

@@ -24,6 +24,7 @@ import {
   OnboardingProjectScanHealth,
   OnboardingProjectScanStatus,
 } from '~shared/types/onboarding';
+import { OnboardingDashboardAction } from '~shared/types/onboarding-dashboard-telemetry';
 import { PROJECT_HEALTH_FEATURE_ENABLED } from '../../types/types';
 
 /** Every action the row menu of a project table can offer. */
@@ -44,6 +45,15 @@ export const PROJECT_ROW_ACTION_LABEL_KEYS: Record<ProjectRowAction, string> = {
     'onboarding_dashboard.projects.action.rerun_automatic_analysis',
   [ProjectRowAction.RestoreAccess]: 'onboarding_dashboard.projects.action.restore_access',
   [ProjectRowAction.ViewProject]: 'onboarding_dashboard.projects.action.view_project',
+};
+
+export const PROJECT_ROW_ACTION_TELEMETRY: Record<ProjectRowAction, OnboardingDashboardAction> = {
+  [ProjectRowAction.BindProject]: OnboardingDashboardAction.BindProject,
+  [ProjectRowAction.ConfigureCi]: OnboardingDashboardAction.ConfigureCi,
+  [ProjectRowAction.HowToRunNewScan]: OnboardingDashboardAction.HowToRunNewScan,
+  [ProjectRowAction.RerunAutomaticAnalysis]: OnboardingDashboardAction.RerunAutomaticAnalysis,
+  [ProjectRowAction.RestoreAccess]: OnboardingDashboardAction.RestoreProjectAccess,
+  [ProjectRowAction.ViewProject]: OnboardingDashboardAction.ViewProject,
 };
 
 /** Imported but never analysed: the user needs to get a first scan running. */
