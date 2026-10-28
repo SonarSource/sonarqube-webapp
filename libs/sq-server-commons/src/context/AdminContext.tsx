@@ -18,6 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { noop } from 'lodash';
 import * as React from 'react';
 import { PendingPluginResult } from '../types/plugins';
 import { SysStatus } from '../types/types';
@@ -37,8 +38,8 @@ export const defaultPendingPlugins: PendingPluginResult = {
 export const defaultSystemStatus = 'UP';
 
 const AdminContext = React.createContext<AdminContextInterface>({
-  fetchSystemStatus: () => {},
-  fetchPendingPlugins: () => {},
+  fetchSystemStatus: noop,
+  fetchPendingPlugins: noop,
   pendingPlugins: defaultPendingPlugins,
   systemStatus: defaultSystemStatus,
 });

@@ -27,60 +27,71 @@ const LS_INDEXATION_COMPLETED_NOTIFICATION_SHOULD_BE_DISPLAYED =
   'display_indexation_completed_notification';
 const LS_LAST_INDEXATION_SQS_VERSION = 'last_indexation_sqs_version';
 
-export default class IndexationNotificationHelper {
-  private static interval?: NodeJS.Timeout;
+let interval: NodeJS.Timeout | undefined;
 
-  static async startPolling(onNewStatus: (status: IndexationStatus) => void) {
-    this.stopPolling();
-
-    const status = await this.poll(onNewStatus);
-
-    if (!status.isCompleted) {
-      this.interval = setInterval(() => {
-        this.poll(onNewStatus).catch(() => {
-          /* noop */
-        });
-      }, POLLING_INTERVAL_MS);
-    }
-  }
-
-  static stopPolling() {
-    if (this.interval) {
-      clearInterval(this.interval);
-    }
-  }
-
-  static async poll(onNewStatus: (status: IndexationStatus) => void) {
-    const status = await getIndexationStatus();
-
-    onNewStatus(status);
-
-    if (status.isCompleted) {
-      this.stopPolling();
-    }
-
-    return status;
-  }
-
-  static markCompletedNotificationAsToDisplay() {
-    save(LS_INDEXATION_COMPLETED_NOTIFICATION_SHOULD_BE_DISPLAYED, true.toString());
-  }
-
-  static markCompletedNotificationAsDisplayed() {
-    remove(LS_INDEXATION_COMPLETED_NOTIFICATION_SHOULD_BE_DISPLAYED);
-  }
-
-  static shouldDisplayCompletedNotification() {
-    return JSON.parse(
-      get(LS_INDEXATION_COMPLETED_NOTIFICATION_SHOULD_BE_DISPLAYED) ?? false.toString(),
-    );
-  }
-
-  static saveLastIndexationSQSVersion(version: string) {
-    save(LS_LAST_INDEXATION_SQS_VERSION, version);
-  }
-
-  static getLastIndexationSQSVersion() {
-    return get(LS_LAST_INDEXATION_SQS_VERSION);
+function stopPolling() {
+  if (interval) {
+    clearInterval(interval);
   }
 }
+
+async function poll(onNewStatus: (status: IndexationStatus) => void) {
+  const status = await getIndexationStatus();
+
+  onNewStatus(status);
+
+  if (status.isCompleted) {
+    stopPolling();
+  }
+
+  return status;
+}
+
+async function startPolling(onNewStatus: (status: IndexationStatus) => void) {
+  stopPolling();
+
+  const status = await poll(onNewStatus);
+
+  if (!status.isCompleted) {
+    interval = setInterval(() => {
+      poll(onNewStatus).catch(() => {
+        /* noop */
+      });
+    }, POLLING_INTERVAL_MS);
+  }
+}
+
+function markCompletedNotificationAsToDisplay() {
+  save(LS_INDEXATION_COMPLETED_NOTIFICATION_SHOULD_BE_DISPLAYED, true.toString());
+}
+
+function markCompletedNotificationAsDisplayed() {
+  remove(LS_INDEXATION_COMPLETED_NOTIFICATION_SHOULD_BE_DISPLAYED);
+}
+
+function shouldDisplayCompletedNotification() {
+  return JSON.parse(
+    get(LS_INDEXATION_COMPLETED_NOTIFICATION_SHOULD_BE_DISPLAYED) ?? false.toString(),
+  );
+}
+
+function saveLastIndexationSQSVersion(version: string) {
+  save(LS_LAST_INDEXATION_SQS_VERSION, version);
+}
+
+function getLastIndexationSQSVersion() {
+  return get(LS_LAST_INDEXATION_SQS_VERSION);
+}
+
+const IndexationNotificationHelper = {
+  startPolling,
+  stopPolling,
+  poll,
+  markCompletedNotificationAsToDisplay,
+  markCompletedNotificationAsDisplayed,
+  shouldDisplayCompletedNotification,
+  saveLastIndexationSQSVersion,
+  getLastIndexationSQSVersion,
+};
+
+export default IndexationNotificationHelper;
