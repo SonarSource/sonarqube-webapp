@@ -88,6 +88,7 @@ Use `<JIRA-ID> <description>` with a single space and no colon—for example, `S
 
 - Never attempt to fix linting issues until you believe the implementation is correct.
 - Always fix typescript errors
+- When displaying backend or Axios errors, use `getApiErrorMessage` from `libs/shared/src/helpers/backend-errors.ts` instead of reading `response.data`, `msg`, `message`, or `errors` directly. For an already-extracted backend payload, use the appropriate `getBackendError*` helper. Preserve the existing fallback when no backend message is available.
 - **MANDATORY**: Run `yarn prettier --write <file>` immediately after editing a file supported by Prettier (such as JavaScript, TypeScript, CSS, JSON, or Markdown). For Python files, use the Python package's Black formatter instead.
 - **MANDATORY**: Before committing or declaring a task done, ALWAYS run `yarn nx run sq-cloud:ts-check` (or `sq-server` as appropriate). The IDE diagnostics tool is not sufficient — it misses real TypeScript errors that `tsc --noEmit` catches in CI.
 

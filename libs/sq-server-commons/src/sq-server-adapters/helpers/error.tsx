@@ -20,6 +20,7 @@
 
 import { toast } from '@sonarsource/echoes-react';
 import { isAxiosError, type AxiosError } from 'axios';
+import { getApiErrorMessage } from '~shared/helpers/backend-errors';
 import { HttpStatus } from '~shared/types/request';
 import handleRequiredAuthentication from '../../helpers/handleRequiredAuthentication';
 import { parseError } from '../../helpers/request';
@@ -78,7 +79,7 @@ async function throwGlobalErrorInternal(
   }
 
   // Axios response object
-  const message = param.response?.data?.message;
+  const message = getApiErrorMessage(param);
   if (message) {
     toast.error({ description: message, id: message, duration: 'medium' });
   }

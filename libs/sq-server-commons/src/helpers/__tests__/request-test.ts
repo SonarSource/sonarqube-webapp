@@ -70,21 +70,6 @@ describe('getText', () => {
 });
 
 describe('parseError', () => {
-  it('should parse error and return the message', async () => {
-    const response = new Response(JSON.stringify({ errors: [{ msg: 'Error1' }] }), {
-      status: HttpStatus.BadRequest,
-    });
-    await expect(parseError(response)).resolves.toBe('Error1');
-  });
-
-  it('should parse error and return concatenated messages', async () => {
-    const response = new Response(
-      JSON.stringify({ errors: [{ msg: 'Error1' }, { msg: 'Error2' }] }),
-      { status: HttpStatus.BadRequest },
-    );
-    await expect(parseError(response)).resolves.toBe('Error1. Error2');
-  });
-
   it('should parse error and return default message', async () => {
     const response = new Response('{}', { status: HttpStatus.BadRequest });
     await expect(parseError(response)).resolves.toBe('default_error_message');

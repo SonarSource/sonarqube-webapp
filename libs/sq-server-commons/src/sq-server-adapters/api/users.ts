@@ -24,15 +24,14 @@ import { UserBaseShared } from '~shared/types/users';
 import { getUsers } from '../../api/users';
 
 export function searchAssignees(params: {
+  ids?: string[];
   organizationIds?: string[];
   pageIndex?: number;
   pageSize?: number;
   q: string;
 }): Promise<{ paging: Paging; results: UserBaseShared[] }> {
-  if (params.organizationIds) {
-    throw new Error('Organization is not supported for SQ Server');
-  }
-  return getUsers(omit(params, 'organizationIds')).then(({ page, users }) => ({
+  // SQS has no organization-scoped membership lookup; these filters are used by the SQC adapter.
+  return getUsers(omit(params, ['ids', 'organizationIds'])).then(({ page, users }) => ({
     paging: page,
     results: users,
   }));

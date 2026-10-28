@@ -20,6 +20,7 @@
 
 import { AxiosResponse } from 'axios';
 import { isNil, omitBy } from 'lodash';
+import { getBackendErrorSummary } from '~shared/helpers/backend-errors';
 import { RequestData } from '~shared/helpers/request';
 import { HttpStatus } from '~shared/types/request';
 import { getCookie } from './cookies';
@@ -233,19 +234,11 @@ export function parseError(response: Response): Promise<string> {
 
 export function parseErrorResponse(response?: AxiosResponse | Response): string {
   const DEFAULT_MESSAGE = translate('default_error_message');
-  let data;
   if (!response) {
     return DEFAULT_MESSAGE;
   }
-  if ('data' in response) {
-    ({ data } = response);
-  } else {
-    data = response;
-  }
-  const { message, errors } = data;
-  return (
-    message ?? errors?.map((error: { msg: string }) => error.msg).join('. ') ?? DEFAULT_MESSAGE
-  );
+  const data: unknown = 'data' in response ? response.data : response;
+  return getBackendErrorSummary(data) ?? DEFAULT_MESSAGE;
 }
 
 /**

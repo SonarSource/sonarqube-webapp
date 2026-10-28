@@ -35,6 +35,7 @@ import classNames from 'classnames';
 import { find, groupBy, isEmpty, isEqual, sortBy } from 'lodash';
 import React, { useCallback, useEffect, useReducer } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
+import { getBackendErrorMessage } from '~shared/helpers/backend-errors';
 import SelectList, {
   SelectListFilter,
   SelectListSearchParams,
@@ -281,9 +282,12 @@ export function AiCodeFixEnablementForm() {
         onError: (err) => {
           if (err.response?.data.relatedField !== undefined) {
             const splittedRelatedField = err.response?.data.relatedField.split('.');
+            const errorMessage =
+              getBackendErrorMessage(err.response?.data) ??
+              formatMessage({ id: 'unexpected_error' });
 
             setValidations({
-              error: { [splittedRelatedField[1]]: err.response?.data.message },
+              error: { [splittedRelatedField[1]]: errorMessage },
             });
           }
         },

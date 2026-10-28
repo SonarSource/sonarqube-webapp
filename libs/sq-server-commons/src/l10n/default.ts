@@ -2903,6 +2903,7 @@ export const defaultMessages = {
   'dependencies.risks.status.safe': 'Safe',
   'dependencies.risks.status.safe.description':
     'This finding does not pose a risk. No fix is needed.',
+  'dependencies.risks.status.unknown': 'Unknown status',
   'dependencies.risks.status.comment.placeholder.optional': 'Share why (optional)',
   'dependencies.risks.status.comment.placeholder.required': 'Please share (required)',
   'dependencies.risks.status_x_click_to_change':
@@ -2920,6 +2921,8 @@ export const defaultMessages = {
   'dependencies.risks.bulk_change.description':
     'Apply changes to {count} selected {count, plural, one {dependency risk} other {dependency risks}}.',
   'dependencies.risks.bulk_change.assignee': 'Bulk change assignee',
+  'dependencies.risks.bulk_change.assignee.mixed_organizations':
+    'Bulk assignment requires all selected risks to belong to the same organization.',
   'dependencies.risks.bulk_change.severity': 'Change severity',
   'dependencies.risks.bulk_change.status': 'Change status',
   'dependencies.risks.bulk_change.success': 'Bulk change applied.',
