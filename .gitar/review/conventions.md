@@ -12,7 +12,7 @@
 
 - New code using the legacy `translate` or `translateWithParameters` helpers — should use `formatMessage` or `<FormattedMessage>` instead.
 - Do not use default messages in code. Only use a key.
-- Localization updates go into: `private/apps/sq-cloud/src/l10n/messages.json` for SQC or `libs/sq-server-commons/src/l10n/default.ts` for SQS.
+- Localization updates go into the matching feature catalog under `private/apps/sq-cloud/src/l10n/messages/` for SQC or `libs/sq-server-commons/src/l10n/default/` for SQS when that directory exists. Otherwise, use `private/apps/sq-cloud/src/l10n/messages.json` or `libs/sq-server-commons/src/l10n/default.ts`, respectively. Keep aggregate entry points free of translation values after the product migrates to feature catalogs.
 - If a new localization key is added, call it out in the summary.
 - Inside functional components: `const { formatMessage } = useIntl()` — always destructure, never store the `intl` object and call `.formatMessage()` on it.
 - Outside functional components (helpers, utils): use `const intl = getIntl()` instead.

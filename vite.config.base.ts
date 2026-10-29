@@ -29,6 +29,7 @@ import { analyzer } from 'vite-bundle-analyzer';
 import requireTransform from 'vite-plugin-require-transform';
 import babelConfig from './babel.config';
 import { ALLOWED_LICENSE_TEXT, ALLOWED_LICENSES, generateLicenseText } from './config/license';
+import { translationCatalogGroups } from './config/vite/translation-catalogs';
 
 export const DEFAULT_DEV_SERVER_PORT = 3000;
 export const DEFAULT_WS_PROXY_PORT = 3010;
@@ -77,11 +78,8 @@ export const baseViteConfig = {
               test: /node_modules[\\/](react|react-dom|react-router(?:-dom)?)[\\/]/,
             },
             { name: 'echoes', test: /node_modules[\\/]@sonarsource[\\/]echoes-react[\\/]/ },
-            // Keep translation data independent of application helpers and their dependencies.
-            {
-              name: 'messages',
-              test: /(?:libs[\\/]sq-server-commons[\\/]src[\\/]l10n[\\/]default\.ts|private[\\/]apps[\\/]sq-cloud[\\/]src[\\/]l10n[\\/]messages\.json)$/,
-            },
+            // Keep each source translation catalog independent of application code.
+            ...translationCatalogGroups,
             { name: 'datefns', test: /node_modules[\\/]date-fns[\\/]/ },
             { name: 'lodash', test: /node_modules[\\/]lodash[\\/]/ },
             {

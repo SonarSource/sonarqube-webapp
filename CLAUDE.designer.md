@@ -32,7 +32,7 @@ Only make changes in this list. If the request touches anything outside it, STOP
 - Add simple toggle switches following existing patterns
 - Adjust spacing and layout with Tailwind classes
 - Modify existing component **styling** props (e.g. `size`, `variety`, `isHighlighted`)
-- Add or update localization keys in `messages.json`
+- Add or update localization keys in the matching JSON catalog under `src/l10n/messages/`
 
 **❌ Requires a developer:**
 
@@ -87,7 +87,7 @@ Always prefer these skills before writing code:
 
 ## Localization Keys
 
-When editing `messages.json` (`private/apps/sq-cloud/src/l10n/messages.json`):
+When editing the feature catalogs under `private/apps/sq-cloud/src/l10n/messages/`:
 
 - **Add new keys** instead of editing existing ones when unsure where the existing key is used — changing a shared key breaks other parts of the UI.
 - **Always commit the key in the same PR** as the component change.

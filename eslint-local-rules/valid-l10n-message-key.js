@@ -24,6 +24,8 @@ const path = require('path');
 const repoRoot = path.resolve(__dirname, '..');
 const CLOUD_MESSAGES_JSON = path.join(repoRoot, 'private/apps/sq-cloud/src/l10n/messages.json');
 const SERVER_DEFAULT_TS = path.join(repoRoot, 'libs/sq-server-commons/src/l10n/default.ts');
+const CLOUD_MESSAGES_DIR = path.join(repoRoot, 'private/apps/sq-cloud/src/l10n/messages/');
+const SERVER_DEFAULT_DIR = path.join(repoRoot, 'libs/sq-server-commons/src/l10n/default/');
 
 /** @type {ReadonlySet<string> | undefined} */
 let memoizedCloudKeys;
@@ -49,7 +51,16 @@ function getCloudL10nKeysSet() {
     return memoizedCloudKeys;
   }
   const keys = new Set();
-  if (fs.existsSync(CLOUD_MESSAGES_JSON)) {
+  if (fs.existsSync(CLOUD_MESSAGES_DIR)) {
+    for (const file of fs
+      .readdirSync(CLOUD_MESSAGES_DIR)
+      .filter((name) => name.endsWith('.json'))) {
+      const messages = JSON.parse(fs.readFileSync(path.join(CLOUD_MESSAGES_DIR, file), 'utf8'));
+      for (const key of Object.keys(messages)) {
+        keys.add(key);
+      }
+    }
+  } else if (fs.existsSync(CLOUD_MESSAGES_JSON)) {
     for (const key of Object.keys(JSON.parse(fs.readFileSync(CLOUD_MESSAGES_JSON, 'utf8')))) {
       keys.add(key);
     }
@@ -63,9 +74,16 @@ function getServerL10nKeysSet() {
     return memoizedServerKeys;
   }
   const keys = new Set();
-  if (fs.existsSync(SERVER_DEFAULT_TS)) {
-    for (const k of keysFromServerDefaultTs(fs.readFileSync(SERVER_DEFAULT_TS, 'utf8'))) {
-      keys.add(k);
+  if (fs.existsSync(SERVER_DEFAULT_DIR)) {
+    for (const file of fs.readdirSync(SERVER_DEFAULT_DIR).filter((name) => name.endsWith('.ts'))) {
+      const source = fs.readFileSync(path.join(SERVER_DEFAULT_DIR, file), 'utf8');
+      for (const key of keysFromServerDefaultTs(source)) {
+        keys.add(key);
+      }
+    }
+  } else if (fs.existsSync(SERVER_DEFAULT_TS)) {
+    for (const key of keysFromServerDefaultTs(fs.readFileSync(SERVER_DEFAULT_TS, 'utf8'))) {
+      keys.add(key);
     }
   }
   memoizedServerKeys = keys;
@@ -73,13 +91,15 @@ function getServerL10nKeysSet() {
 }
 
 function localizationCatalogResolvable(platform) {
+  const cloudResolvable = fs.existsSync(CLOUD_MESSAGES_DIR) || fs.existsSync(CLOUD_MESSAGES_JSON);
+  const serverResolvable = fs.existsSync(SERVER_DEFAULT_DIR) || fs.existsSync(SERVER_DEFAULT_TS);
   if (platform === 'cloud') {
-    return fs.existsSync(CLOUD_MESSAGES_JSON);
+    return cloudResolvable;
   }
   if (platform === 'server') {
-    return fs.existsSync(SERVER_DEFAULT_TS);
+    return serverResolvable;
   }
-  return fs.existsSync(CLOUD_MESSAGES_JSON) && fs.existsSync(SERVER_DEFAULT_TS);
+  return cloudResolvable && serverResolvable;
 }
 
 function inferPlatformFromFilePath(absoluteFilePath) {
@@ -206,11 +226,11 @@ module.exports = {
     ],
     messages: {
       unknownKeyCloud:
-        'Unknown SonarCloud l10n key "{{key}}". Add it to private/apps/sq-cloud/src/l10n/messages.json.',
+        'Unknown SonarCloud l10n key "{{key}}". Add it to the SonarCloud localization catalog.',
       unknownKeyServer:
-        'Unknown SonarQube Server l10n key "{{key}}". Add it to libs/sq-server-commons/src/l10n/default.ts.',
+        'Unknown SonarQube Server l10n key "{{key}}". Add it to the SonarQube Server localization catalog.',
       unknownKeyShared:
-        'Unknown shared l10n key "{{key}}". Add it to both private/apps/sq-cloud/src/l10n/messages.json and libs/sq-server-commons/src/l10n/default.ts.',
+        'Unknown shared l10n key "{{key}}". Add it to both the SonarCloud and SonarQube Server localization catalogs.',
     },
   },
 

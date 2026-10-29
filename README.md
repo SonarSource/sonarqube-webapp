@@ -126,8 +126,16 @@ You can then start the SonarQube server as usual using the `start.sh` script fro
 
 ## Translations files
 
-The default translations (in English) for SonarQube are now located in this repository, you can find them here:
-https://github.com/SonarSource/sonarqube-webapp/blob/master/apps/sq-server/src/main/js/l10n/default.ts
+Products can migrate their default English translations independently to feature catalogs:
+
+- Server: `libs/sq-server-commons/src/l10n/default/*.ts`, merged by `l10n/default.ts`.
+- Cloud: `private/apps/sq-cloud/src/l10n/messages/*.json`, merged by `l10n/messages.ts`.
+
+When a product has a catalog directory, edit the relevant feature catalog
+(administration, billing, dictionary, measures, onboarding, portfolios, projects,
+quality, security, or shared). Otherwise, edit its existing `l10n/default.ts`
+(Server) or `l10n/messages.json` (Cloud). Add each key to exactly one catalog per
+product. See [translation catalog details](config/vite/README.md).
 
 The format of the file is no longer a `.properties` file but you can still generate a file of this format by running the following command:
 
