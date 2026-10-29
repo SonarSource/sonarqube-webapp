@@ -18,14 +18,12 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { FormFieldWidth, Link, LinkHighlight, Spinner, TextInput } from '@sonarsource/echoes-react';
-import { FormattedMessage, useIntl } from 'react-intl';
-import DocumentationLink from '~sq-server-commons/components/common/DocumentationLink';
-import { DocLink } from '~sq-server-commons/helpers/doc-links';
+import { Spinner } from '@sonarsource/echoes-react';
+import { useIntl } from 'react-intl';
 import { AlmInstanceBase, AlmKeys } from '~sq-server-commons/types/alm-settings';
+import { PersonalAccessTokenFields } from '../components/PersonalAccessTokenFields';
 import PersonalAccessTokenForm from '../components/PersonalAccessTokenForm';
 import { usePersonalAccessToken } from '../usePersonalAccessToken';
-import { ATLASSIAN_ACCOUNT_EMAIL_LINK } from './utils';
 
 interface Props {
   almSetting: AlmInstanceBase;
@@ -80,60 +78,14 @@ export default function BitbucketCloudPersonalAccessTokenForm({
       submitting={submitting}
       touched={touched}
     >
-      <TextInput
-        autoFocus
-        helpText={
-          <FormattedMessage
-            id="onboarding.enter_username.instructions.bitbucket_cloud"
-            values={{
-              link: (
-                <Link
-                  enableOpenInNewTab
-                  highlight={LinkHighlight.CurrentColor}
-                  to={ATLASSIAN_ACCOUNT_EMAIL_LINK}
-                >
-                  <FormattedMessage id="onboarding.enter_username.instructions.bitbucket_cloud.link" />
-                </Link>
-              ),
-            }}
-          />
-        }
-        id="enter_username_validation"
-        isRequired
-        label={<FormattedMessage id="onboarding.create_project.bitbucket_cloud.enter_username" />}
-        minLength={1}
-        onChange={handleUsernameChange}
-        type="email"
-        validation={isInvalid ? 'invalid' : 'none'}
-        value={username}
-        width={FormFieldWidth.Large}
-      />
-      <TextInput
-        helpText={
-          <FormattedMessage
-            id="onboarding.create_project.enter_password.instructions.bitbucket_cloud"
-            values={{
-              link: (
-                <DocumentationLink
-                  enableOpenInNewTab
-                  highlight={LinkHighlight.CurrentColor}
-                  to={DocLink.AlmBitBucketCloudIntegrationApiToken}
-                >
-                  <FormattedMessage id="onboarding.create_project.enter_password.instructions.bitbucket_cloud.link" />
-                </DocumentationLink>
-              ),
-            }}
-          />
-        }
-        id="enter_password_validation"
-        isRequired
-        label={<FormattedMessage id="onboarding.create_project.bitbucket_cloud.enter_password" />}
-        minLength={1}
-        onChange={handlePasswordChange}
-        type="text"
-        validation={isInvalid ? 'invalid' : 'none'}
-        value={password}
-        width={FormFieldWidth.Large}
+      <PersonalAccessTokenFields
+        almKey={AlmKeys.BitbucketCloud}
+        almSetting={almSetting}
+        isInvalid={isInvalid}
+        onPasswordChange={handlePasswordChange}
+        onUsernameChange={handleUsernameChange}
+        password={password}
+        username={username}
       />
     </PersonalAccessTokenForm>
   );

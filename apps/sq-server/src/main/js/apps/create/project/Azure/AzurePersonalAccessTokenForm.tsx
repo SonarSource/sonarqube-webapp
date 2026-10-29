@@ -18,18 +18,11 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import {
-  FormFieldWidth,
-  Link,
-  MessageCallout,
-  MessageVariety,
-  Spinner,
-  TextInput,
-} from '@sonarsource/echoes-react';
-import { FormattedMessage } from 'react-intl';
+import { Spinner } from '@sonarsource/echoes-react';
 import { isStringDefined } from '~shared/helpers/types';
 import { translate } from '~sq-server-commons/helpers/l10n';
 import { AlmKeys, AlmSettingsInstance } from '~sq-server-commons/types/alm-settings';
+import { PersonalAccessTokenFields } from '../components/PersonalAccessTokenFields';
 import PersonalAccessTokenForm from '../components/PersonalAccessTokenForm';
 import { usePersonalAccessToken } from '../usePersonalAccessToken';
 
@@ -37,10 +30,6 @@ export interface AzurePersonalAccessTokenFormProps {
   almSetting: AlmSettingsInstance;
   onPersonalAccessTokenCreate: () => void;
   resetPat: boolean;
-}
-
-function getAzurePatUrl(url: string) {
-  return `${url.replace(/\/$/, '')}/_usersSettings/tokens`;
 }
 
 export default function AzurePersonalAccessTokenForm({
@@ -66,8 +55,6 @@ export default function AzurePersonalAccessTokenForm({
   }
 
   const isInvalid = (validationFailed && !touched) || (touched && !isStringDefined(password));
-  const { url } = almSetting;
-
   let errorMessage;
   if (!isStringDefined(password)) {
     errorMessage = translate('onboarding.create_project.pat_form.pat_required');
@@ -89,32 +76,13 @@ export default function AzurePersonalAccessTokenForm({
       submitting={submitting}
       touched={touched}
     >
-      <TextInput
-        autoFocus
-        id="personal_access_token"
-        isRequired
-        label={translate('onboarding.create_project.enter_pat')}
-        minLength={1}
-        onChange={handlePasswordChange}
-        type="text"
-        validation={isInvalid ? 'invalid' : 'none'}
-        value={password}
-        width={FormFieldWidth.Large}
+      <PersonalAccessTokenFields
+        almKey={AlmKeys.Azure}
+        almSetting={almSetting}
+        isInvalid={isInvalid}
+        onPasswordChange={handlePasswordChange}
+        password={password}
       />
-      <MessageCallout variety={MessageVariety.Info}>
-        <FormattedMessage
-          id="onboarding.create_project.pat_help.instructions.azure"
-          values={{
-            link: url ? (
-              <Link enableOpenInNewTab to={getAzurePatUrl(url)}>
-                <FormattedMessage id="onboarding.create_project.pat_help.instructions.link.azure" />
-              </Link>
-            ) : (
-              translate('onboarding.create_project.pat_help.instructions.link.azure')
-            ),
-          }}
-        />
-      </MessageCallout>
     </PersonalAccessTokenForm>
   );
 }

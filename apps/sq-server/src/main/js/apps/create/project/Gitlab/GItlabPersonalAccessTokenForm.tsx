@@ -18,17 +18,10 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import {
-  FormFieldWidth,
-  Link,
-  MessageCallout,
-  MessageVariety,
-  Spinner,
-  TextInput,
-} from '@sonarsource/echoes-react';
-import { FormattedMessage } from 'react-intl';
+import { Spinner } from '@sonarsource/echoes-react';
 import { translate } from '~sq-server-commons/helpers/l10n';
 import { AlmInstanceBase, AlmKeys } from '~sq-server-commons/types/alm-settings';
+import { PersonalAccessTokenFields } from '../components/PersonalAccessTokenFields';
 import PersonalAccessTokenForm from '../components/PersonalAccessTokenForm';
 import { usePersonalAccessToken } from '../usePersonalAccessToken';
 
@@ -80,35 +73,13 @@ export default function GitlabPersonalAccessTokenForm({
       submitting={submitting}
       touched={touched}
     >
-      <TextInput
-        autoFocus
-        id="personal_access_token_validation"
-        isRequired
-        label={translate('onboarding.create_project.enter_pat')}
-        minLength={1}
-        onChange={handlePasswordChange}
-        type="text"
-        validation={isInvalid ? 'invalid' : 'none'}
-        value={password}
-        width={FormFieldWidth.Large}
+      <PersonalAccessTokenFields
+        almKey={AlmKeys.GitLab}
+        almSetting={almSetting}
+        isInvalid={isInvalid}
+        onPasswordChange={handlePasswordChange}
+        password={password}
       />
-      <MessageCallout variety={MessageVariety.Info}>
-        <p>
-          <FormattedMessage
-            id="onboarding.create_project.pat_help.instructions.gitlab"
-            values={{
-              link: (
-                <Link
-                  enableOpenInNewTab
-                  to="https://docs.gitlab.com/ee/user/profile/personal_access_tokens.html"
-                >
-                  <FormattedMessage id="onboarding.create_project.pat_help.instructions.gitlab.link" />
-                </Link>
-              ),
-            }}
-          />
-        </p>
-      </MessageCallout>
     </PersonalAccessTokenForm>
   );
 }
