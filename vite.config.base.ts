@@ -29,6 +29,7 @@ import { analyzer } from 'vite-bundle-analyzer';
 import requireTransform from 'vite-plugin-require-transform';
 import babelConfig from './babel.config';
 import { ALLOWED_LICENSE_TEXT, ALLOWED_LICENSES, generateLicenseText } from './config/license';
+import { productionMockGuard } from './config/vite/production-mock-guard';
 import { translationCatalogGroups } from './config/vite/translation-catalogs';
 
 export const DEFAULT_DEV_SERVER_PORT = 3000;
@@ -126,6 +127,7 @@ export const baseViteConfig = {
     },
   },
   plugins: [
+    productionMockGuard(),
     {
       // Expose the build number to runtime consumers, including Cloud Sentry events.
       // Keep it in HTML: Vite env variable replacement embeds literals in JS, changing chunk hashes

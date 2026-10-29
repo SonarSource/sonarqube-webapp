@@ -21,26 +21,22 @@
 import { Text } from '@sonarsource/echoes-react';
 import { find } from 'lodash';
 import * as React from 'react';
+import { FormattedMessage } from 'react-intl';
 import { FlagMessage, Modal } from '~design-system';
 import SelectList, {
   SelectListFilter,
   SelectListSearchParams,
 } from '~sq-server-commons/components/controls/SelectList';
 import { translate } from '~sq-server-commons/helpers/l10n';
-import { definitions } from '~sq-server-commons/helpers/mocks/definitions-list';
 import {
   useAddGroupMembershipMutation,
   useRemoveGroupMembershipMutation,
   useUserGroupsQuery,
 } from '~sq-server-commons/queries/group-memberships';
+import { useGetValueQuery } from '~sq-server-commons/queries/settings';
 import { Group } from '~sq-server-commons/types/types';
 import { RestUserDetailed } from '~sq-server-commons/types/users';
-import useSamlConfiguration from '../../settings/components/authentication/hook/useSamlConfiguration';
-import { SAML } from '../../settings/components/authentication/SamlAuthenticationTab';
-
-import { FormattedMessage } from 'react-intl';
-
-const samlDefinitions = definitions.filter((def) => def.subCategory === SAML);
+import { SAML_ENABLED_FIELD } from '../../settings/components/authentication/hook/useSamlConfiguration';
 
 interface Props {
   onClose: () => void;
@@ -64,7 +60,8 @@ export default function GroupsForm(props: Props) {
   const { mutateAsync: addUserToGroup } = useAddGroupMembershipMutation();
   const { mutateAsync: removeUserFromGroup } = useRemoveGroupMembershipMutation();
 
-  const { samlEnabled } = useSamlConfiguration(samlDefinitions);
+  const { data: samlSetting } = useGetValueQuery({ key: SAML_ENABLED_FIELD });
+  const samlEnabled = samlSetting?.value === 'true';
 
   const onSearch = async (searchParams: SelectListSearchParams) => {
     setQuery(searchParams.query);
@@ -130,7 +127,9 @@ export default function GroupsForm(props: Props) {
             elementsTotalCount={data?.pages[0]?.page?.total}
             loading={isLoading}
             needToReload={changedGroups.size > 0 && filter !== SelectListFilter.All}
-            onSearch={onSearch}
+            onSearch={(searchParams) => {
+              void onSearch(searchParams);
+            }}
             onSelect={handleSelect}
             onUnselect={handleUnselect}
             renderElement={renderElement}

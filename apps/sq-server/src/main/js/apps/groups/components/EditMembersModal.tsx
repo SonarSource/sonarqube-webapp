@@ -27,21 +27,18 @@ import SelectList, {
   SelectListSearchParams,
 } from '~sq-server-commons/components/controls/SelectList';
 import { translate } from '~sq-server-commons/helpers/l10n';
-import { definitions } from '~sq-server-commons/helpers/mocks/definitions-list';
 import {
   useAddGroupMembershipMutation,
   useGroupMembersQuery,
   useRemoveGroupMembersQueryFromCache,
   useRemoveGroupMembershipMutation,
 } from '~sq-server-commons/queries/group-memberships';
+import { useGetValueQuery } from '~sq-server-commons/queries/settings';
 import { Group } from '~sq-server-commons/types/types';
 import { RestUserBase } from '~sq-server-commons/types/users';
-import useSamlConfiguration from '../../settings/components/authentication/hook/useSamlConfiguration';
-import { SAML } from '../../settings/components/authentication/SamlAuthenticationTab';
+import { SAML_ENABLED_FIELD } from '../../settings/components/authentication/hook/useSamlConfiguration';
 
 import { FormattedMessage } from 'react-intl';
-
-const samlDefinitions = definitions.filter((def) => def.subCategory === SAML);
 
 interface Props {
   group: Group;
@@ -63,7 +60,8 @@ export default function EditMembersModal(props: Readonly<Props>) {
   });
   const emptyQueryCache = useRemoveGroupMembersQueryFromCache();
 
-  const { samlEnabled } = useSamlConfiguration(samlDefinitions);
+  const { data: samlSetting } = useGetValueQuery({ key: SAML_ENABLED_FIELD });
+  const samlEnabled = samlSetting?.value === 'true';
 
   const users: (RestUserBase & { selected?: boolean })[] =
     data?.pages.flatMap((page) => page.users) ?? [];
@@ -112,7 +110,7 @@ export default function EditMembersModal(props: Readonly<Props>) {
       emptyQueryCache();
       setChangedUsers(new Map());
     } else {
-      fetchNextPage();
+      void fetchNextPage();
     }
   };
 

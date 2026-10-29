@@ -335,6 +335,17 @@ describe('in non managed mode', () => {
     expect(ui.aliceRow.get()).toBeInTheDocument();
   });
 
+  it('should display a warning when editing user groups if SAML is enabled', async () => {
+    settingsHandler.set('sonar.auth.saml.enabled', 'true');
+    const user = userEvent.setup();
+    renderUsersApp();
+
+    await user.click(await ui.aliceUpdateGroupButton.find());
+    expect(await ui.dialogGroups.find()).toBeInTheDocument();
+
+    expect(await byText('users.update_groups.saml_enabled').find()).toBeInTheDocument();
+  });
+
   it('should be able to edit the groups of a user', async () => {
     const user = userEvent.setup();
     groupsHandler.groups = new Array(50).fill(null).map((_, index) =>

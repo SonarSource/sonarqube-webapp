@@ -152,6 +152,9 @@ module.exports = [
           // Using allow basically disables the rule for the ~adapters alias. Which is OK since adapters are
           // supposed to be usable by all modules.
           allow: ['adapters'],
+          // Nx marks the whole addon project as lazy when devMockHandlers is dynamically imported.
+          // Keep static imports of the separate production index allowed.
+          checkDynamicDependenciesExceptions: ['~sq-server-addons/index'],
 
           depConstraints: [
             // Visibility restricts public modules from directly accessing private modules

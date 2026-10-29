@@ -33,8 +33,8 @@ export default ({ mode }) => {
     !existsSync(resolve(workspaceRoot, 'private')) || process.env['EDITION'] === 'public';
 
   const addonsAlias = isPublicEdition
-    ? resolve(workspaceRoot, 'libs/sq-server-addons/src/index.ts')
-    : resolve(workspaceRoot, 'private/libs/sq-server-addons/src/index.ts');
+    ? resolve(workspaceRoot, 'libs/sq-server-addons/src')
+    : resolve(workspaceRoot, 'private/libs/sq-server-addons/src');
 
   return defineConfig({
     ...baseViteConfig,
@@ -82,7 +82,7 @@ export default ({ mode }) => {
           workspaceRoot,
           'libs/sq-server-commons/src/design-system/index.ts',
         ),
-        '~sq-server-addons/index': addonsAlias,
+        '~sq-server-addons': addonsAlias,
         // worker.ts files are not bundled the same way as the rest of the webapp.
         // This is required for aliases to work from worker.ts files
         '~adapters': resolve(workspaceRoot, 'libs/sq-server-commons/src/sq-server-adapters'),

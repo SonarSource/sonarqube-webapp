@@ -38,19 +38,14 @@ import './styles/sonar';
 initAppVariables();
 installWebAnalyticsHandler();
 installExtensionsHandler();
-initMockApi([
-  ...(addons.architecture?.getArchitectureDevMockHandlers?.() ?? []),
-  // Vortex must precede license: both mock /api/v2/entitlements/purchasable-features, and MSW
-  // resolves handlers in array order, so whichever is listed first wins for that shared endpoint.
-  ...(addons.vortexDashboard?.getVortexDashboardDevMockHandlers?.() ?? []),
-  ...(addons.license?.getLicenseDevMockHandlers?.() ?? []),
-])
-  .then(initApplication)
-  .catch((e) => {
-    throw e;
-  });
+await initApplication();
 
 async function initApplication() {
+  if (process.env.NODE_ENV === 'development' && process.env.WITH_MOCK_API === 'true') {
+    const { getDevMockHandlers } = await import('~sq-server-addons/devMockHandlers');
+    await initMockApi(getDevMockHandlers());
+  }
+
   const appState = isMainApp()
     ? await getGlobalNavigation().catch((error) => {
         // eslint-disable-next-line no-console
