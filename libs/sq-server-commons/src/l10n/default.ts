@@ -145,6 +145,7 @@ export const defaultMessages = {
   got_it: 'Got it',
   help: 'Help',
   'help_menu.ask.frame': 'Ask AI assistant',
+  'help_menu.ask.resize': 'Resize Ask AI panel',
   here: 'here',
   hide: 'Hide',
   ide: 'IDE',
