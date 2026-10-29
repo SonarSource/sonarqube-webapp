@@ -21,6 +21,7 @@
 import { AxiosError } from 'axios';
 import { throwGlobalError } from '~adapters/helpers/error';
 import { axiosToCatch } from '~shared/helpers/axios-clients';
+import { getApiErrorMessage } from '~shared/helpers/backend-errors';
 import { LicenseV2, PurchaseableFeature } from '../types/editions';
 
 export const axiosErrorHandler = (error: AxiosError) => {
@@ -29,9 +30,8 @@ export const axiosErrorHandler = (error: AxiosError) => {
   const errorMessage =
     responseData === null || typeof responseData === 'string'
       ? error.response?.statusText
-      : (error.response?.data as { message: string }).message;
+      : getApiErrorMessage(error);
 
-  // eslint-disable-next-line promise/no-promise-in-callback
   return Promise.reject(
     new Error(errorMessage, {
       cause: error.status,

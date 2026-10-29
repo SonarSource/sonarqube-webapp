@@ -345,6 +345,7 @@ module.exports = [
       'local-rules/no-query-client-imports': 'warn',
       'local-rules/no-within': 'warn',
       'local-rules/use-await-expect-async-matcher': 'warn',
+      'local-rules/use-backend-error-helper': 'error',
       'local-rules/use-componentqualifier-enum': 'warn',
       'local-rules/use-jest-mocked': 'warn',
       'local-rules/use-metrickey-enum': 'warn',
