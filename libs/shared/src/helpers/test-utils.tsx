@@ -44,12 +44,15 @@ import {
   RefObject,
 } from 'react';
 import {
+  BrowserRouter,
   createMemoryRouter,
+  createPath,
   createRoutesFromElements,
   Link,
   Outlet,
   Path,
   Route,
+  Routes,
   useLocation,
 } from 'react-router';
 import { RouterProvider } from 'react-router/dom';
@@ -81,6 +84,8 @@ export function render(
 export type RenderContextOptions = Omit<RenderOptions, 'wrapper'> &
   ContextWrapperInitProps & {
     initialEntries?: InitialEntry[];
+    /** Match production BrowserRouter transitions for mutation/navigation regressions. */
+    routerMode?: 'memory' | 'browser';
     /** Use the platform's real English catalog or a focused test catalog. Make sure to use `jest.unmock('react-intl');` at the top of your test file. */
     messages?: 'real' | Record<string, string>;
     userEventOptions?: UserEventsOptions;
@@ -101,9 +106,21 @@ export function renderWithRouter(
     additionalRoutes,
     initialEntries = ['/'],
     userEventOptions,
+    routerMode,
     ...options
   }: RenderContextOptions & RenderRouterOptions = {},
 ) {
+  if (routerMode === 'browser') {
+    return renderWithRoutes(
+      <>
+        <Route element={ui} path="/" />
+        {additionalRoutes}
+        <Route element={<CatchAll backPath="/" />} path="*" />
+      </>,
+      { ...options, initialEntries, userEventOptions, routerMode },
+    );
+  }
+
   const ContextWrapper = getContextWrapper(options);
 
   function Wrapper({ children }: Readonly<PropsWithChildren<{}>>) {
@@ -134,9 +151,30 @@ export function renderWithRouter(
 
 export function renderWithRoutes(
   ui: ReactElement<any>,
-  { initialEntries, userEventOptions, ...options }: RenderContextOptions,
+  { initialEntries, userEventOptions, routerMode, ...options }: RenderContextOptions,
 ) {
   const ContextWrapper = getContextWrapper(options);
+
+  function BrowserWrapper({ children }: Readonly<PropsWithChildren>) {
+    return (
+      <BrowserRouter>
+        <ContextWrapper>
+          <Routes>{children}</Routes>
+        </ContextWrapper>
+      </BrowserRouter>
+    );
+  }
+
+  if (routerMode === 'browser') {
+    const initialEntry = initialEntries?.at(-1) ?? '/';
+    window.history.replaceState(
+      null,
+      '',
+      typeof initialEntry === 'string' ? initialEntry : createPath(initialEntry),
+    );
+
+    return render(ui, { ...options, wrapper: BrowserWrapper }, userEventOptions);
+  }
 
   function Wrapper({ children }: Readonly<PropsWithChildren<{}>>) {
     const router = createMemoryRouter(
