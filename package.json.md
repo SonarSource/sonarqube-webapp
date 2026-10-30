@@ -31,7 +31,9 @@ LaunchDarkly SDK for React used by sq-cloud to manage feature flags.
 Mixpanel browser SDK used by sq-cloud to send auto-capture events and replays to Mixpanel.
 
 Cloud imports the documented `mixpanel-browser/src/loaders/loader-module-with-async-modules` entry
-so optional recorder and targeting scripts load through the configured `/mp-api` proxy on demand.
+so optional recorder and targeting scripts load on demand. Vite URL imports emit both standalone
+scripts from the pinned npm package as content-hashed build assets, keeping their bytes tied to
+our deployment and the core SDK version. Only analytics API requests use the `/mp-api` proxy.
 The SDK owns loading, sampling, and targeting. A shared declaration re-exports the package's public
 types to supply the default export omitted by this entry's declaration in 2.84.0. The base Jest
 configuration transforms the SDK's ESM source. No package patch or internal API integration is used.
