@@ -19,7 +19,7 @@
  */
 
 import { Layout, Link, Text } from '@sonarsource/echoes-react';
-import { memo, ReactNode } from 'react';
+import { memo, ReactNode, type Ref } from 'react';
 import { RuleStatusBadge } from '~shared/components/coding-rules/RuleStatusBadge';
 import { IssueMessageHighlighting } from '~shared/components/issues/IssueMessageHighlighting';
 import { IssueTitle } from '~shared/components/issues/IssueTitle';
@@ -41,6 +41,7 @@ interface Props {
   onIssueChange: (issue: Issue) => void;
   ruleDetails: RuleDetails;
   closeIssue: () => void;
+  ref?: Ref<HTMLDivElement>;
 }
 
 function IssueHeader(props: Readonly<Props>) {
@@ -52,6 +53,7 @@ function IssueHeader(props: Readonly<Props>) {
     onIssueChange,
     ruleDetails,
     closeIssue,
+    ref,
   } = props;
 
   const issueUrl = getComponentIssuesUrl(issue.project, {
@@ -98,6 +100,7 @@ function IssueHeader(props: Readonly<Props>) {
       // `<ul>`, semantically wrong for the tablist we render, and shrinks its child to content
       // width, which caused the action button to stop short of the header's right edge.
       navigation={<div className="sw:mb-300">{navigation}</div>}
+      ref={ref}
       scrollBehavior="sticky"
       title={
         <IssueTitle

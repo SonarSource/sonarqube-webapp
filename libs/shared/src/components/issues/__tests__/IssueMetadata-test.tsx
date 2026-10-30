@@ -19,7 +19,7 @@
  */
 
 import { act } from '@testing-library/react';
-import { ComponentProps } from 'react';
+import { ComponentProps, createRef } from 'react';
 import { renderWithContext } from '../../../helpers/test-utils';
 import { byRole, byTestId, byText } from '../../../helpers/testSelector';
 import {
@@ -191,6 +191,48 @@ describe('software impacts', () => {
   });
 });
 
+describe('sticky sidebar position', () => {
+  afterEach(() => {
+    jest.restoreAllMocks();
+  });
+
+  it('sticks the sidebar below the header when it fits the viewport', () => {
+    setupWithProps();
+
+    expect(byRole('complementary').get()).toHaveClass('sw:sticky');
+  });
+
+  it('does not stick the sidebar when it would not fit the viewport', () => {
+    mockObservedHeight(window.innerHeight + 1);
+
+    setupWithProps();
+
+    expect(byRole('complementary').get()).not.toHaveClass('sw:sticky');
+  });
+
+  it('does not stick the sidebar when it only fits without the expanded header', () => {
+    mockObservedHeight(window.innerHeight - 100, 2);
+    jest
+      .spyOn(HTMLElement.prototype, 'getBoundingClientRect')
+      .mockReturnValue({ height: 300 } as DOMRect);
+
+    renderWithHeader('sticky');
+
+    expect(byRole('complementary').get()).not.toHaveClass('sw:sticky');
+  });
+
+  it('accounts for the header’s collapsed height rather than its expanded height', () => {
+    mockObservedHeight(window.innerHeight - 100, 2);
+    jest
+      .spyOn(HTMLElement.prototype, 'getBoundingClientRect')
+      .mockReturnValue({ height: 300 } as DOMRect);
+
+    renderWithHeader('collapse');
+
+    expect(byRole('complementary').get()).toHaveClass('sw:sticky');
+  });
+});
+
 describe('tags popup coordinated via IssuePopupContext (as wired by IssueTabViewer)', () => {
   const overlay = <div data-testid="mock-overlay">option</div>;
 
@@ -201,6 +243,7 @@ describe('tags popup coordinated via IssuePopupContext (as wired by IssueTabView
           {(popupContext) => (
             <IssueMetadata
               assign={{ ...defaultAssign, isSelected: true }}
+              headerRef={createRef()}
               issue={baseIssue}
               tags={{
                 canSetTags: true,
@@ -242,8 +285,43 @@ const defaultAssign = {
 
 const defaultTags = {};
 
+/** Makes the next `count` ResizeObserver instances report the given content height. */
+function mockObservedHeight(height: number, count = 1) {
+  const observer = { observe: jest.fn(), unobserve: jest.fn(), disconnect: jest.fn() };
+
+  for (let i = 0; i < count; i++) {
+    jest.spyOn(global, 'ResizeObserver').mockImplementationOnce((callback) => {
+      callback([{ contentRect: { height, width: 100 } } as ResizeObserverEntry], observer);
+
+      return observer;
+    });
+  }
+}
+
+function renderWithHeader(scrollBehavior: string) {
+  const headerRef = createRef<HTMLDivElement>();
+
+  return renderWithContext(
+    <>
+      <div data-scroll-behavior={scrollBehavior} ref={headerRef} />
+      <IssueMetadata
+        assign={defaultAssign}
+        headerRef={headerRef}
+        issue={baseIssue}
+        tags={defaultTags}
+      />
+    </>,
+  );
+}
+
 function setupWithProps(props: Partial<ComponentProps<typeof IssueMetadata>> = {}) {
   return renderWithContext(
-    <IssueMetadata assign={defaultAssign} issue={baseIssue} tags={defaultTags} {...props} />,
+    <IssueMetadata
+      assign={defaultAssign}
+      headerRef={createRef()}
+      issue={baseIssue}
+      tags={defaultTags}
+      {...props}
+    />,
   );
 }

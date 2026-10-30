@@ -19,7 +19,8 @@
  */
 
 import { Divider, Text, Tooltip } from '@sonarsource/echoes-react';
-import { ReactNode } from 'react';
+import classNames from 'classnames';
+import { type ReactNode, type RefObject, useRef } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { isDefined } from '../../helpers/types';
 import {
@@ -37,6 +38,7 @@ import { IssueAssign, type IssueAssignProps } from './IssueAssign';
 import { IssueProperties } from './IssueProperties';
 import { IssueTags } from './IssueTags';
 import { SoftwareImpactPillList } from './SoftwareImpactPillList';
+import { useStickySidebar } from './useStickySidebar';
 
 interface IssueMetadataIssue {
   assignee?: string;
@@ -72,6 +74,8 @@ interface Props {
     togglePopup?: (popup: string, isOpen?: boolean) => void;
   };
   rule?: { status: RuleStatus; isExternal?: boolean };
+  /** Ref to the issue header element, used to keep the sidebar's sticky offset in sync with its dynamic height. */
+  headerRef: RefObject<HTMLElement | null>;
   deferralDate?: ReactNode;
   onSetSeverity?: (
     severity: IssueSeverity | SoftwareImpactSeverity,
@@ -92,6 +96,7 @@ export function IssueMetadata({
   learnMoreUrl,
   tags,
   rule,
+  headerRef,
   deferralDate,
   onSetSeverity,
   issueType,
@@ -102,9 +107,15 @@ export function IssueMetadata({
   externalRulesRepoNames,
 }: Readonly<Props>) {
   const { formatMessage } = useIntl();
+  const sidebarRef = useRef<HTMLElement>(null);
+  const { isSticky, top } = useStickySidebar(headerRef, sidebarRef);
 
   return (
-    <aside className="sw:self-start">
+    <aside
+      className={classNames('sw:self-start', { 'sw:sticky': isSticky })}
+      ref={sidebarRef}
+      style={isSticky ? { top } : undefined}
+    >
       <dl className="sw:flex sw:flex-col sw:gap-2">
         <dt>
           <Text isHighlighted>{formatMessage({ id: 'issue.details.assignee' })}</Text>

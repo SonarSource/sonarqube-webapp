@@ -20,7 +20,7 @@
 
 import { Divider, Layout, Text, toast } from '@sonarsource/echoes-react';
 import classNames from 'classnames';
-import { ComponentType, ReactNode, useCallback, useContext } from 'react';
+import { ComponentType, ReactNode, useCallback, useContext, useRef } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { Location } from 'react-router';
 import { useIsNoticeDismissed } from '~adapters/helpers/notices';
@@ -99,6 +99,7 @@ function IssueTabViewer(props: Readonly<IssueTabViewerProps>) {
   } = props;
 
   const { formatMessage } = useIntl();
+  const headerRef = useRef<HTMLDivElement>(null);
   const { isLoggedIn } = useCurrentUser();
   const isEducationPrinciplesDismissed = useIsNoticeDismissed(NoticeType.EDUCATION_PRINCIPLES);
   const { data: isStandardMode } = useStandardExperienceModeQuery();
@@ -210,6 +211,7 @@ function IssueTabViewer(props: Readonly<IssueTabViewerProps>) {
           </div>
         }
         onIssueChange={onIssueChange}
+        ref={headerRef}
         ruleDetails={ruleDetails}
       />
 
@@ -255,6 +257,7 @@ function IssueTabViewer(props: Readonly<IssueTabViewerProps>) {
                   ),
                 }}
                 externalRulesRepoNames={externalRulesRepoNames}
+                headerRef={headerRef}
                 isShortcutEnabled={getKeyboardShortcutEnabled()}
                 issue={issue}
                 issueType={
