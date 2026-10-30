@@ -43,7 +43,7 @@ interface Props extends React.PropsWithChildren {
   touched: boolean;
 }
 
-const FORM_HEADER_DESCRIPTIONS = {
+export const FORM_HEADER_DESCRIPTIONS = {
   [AlmKeys.Azure]: <FormattedMessage id="onboarding.create_project.pat_form.help.azure" />,
   [AlmKeys.BitbucketServer]: (
     <FormattedMessage id="onboarding.create_project.pat_form.help.bitbucket" />

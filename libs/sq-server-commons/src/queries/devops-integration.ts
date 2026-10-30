@@ -21,8 +21,12 @@
 import { toast } from '@sonarsource/echoes-react';
 import { queryOptions, useMutation, useQueryClient } from '@tanstack/react-query';
 import { useLocation } from 'react-router';
-import { createQueryHook } from '~shared/queries/common';
+import { createQueryHook, StaleTime } from '~shared/queries/common';
 import { HttpStatus } from '~shared/types/request';
+import {
+  checkPersonalAccessTokenIsValid,
+  setAlmPersonalAccessToken,
+} from '../api/alm-integrations';
 import { deleteProjectAlmBinding, getProjectAlmBinding } from '../api/alm-settings';
 import { getDopSettings, updateBoundProject } from '../api/dop-translation';
 import { AlmKeys, ProjectAlmBindingParams, ProjectAlmBindingResponse } from '../types/alm-settings';
@@ -192,6 +196,41 @@ export function useSetProjectBindingMutation() {
         queryKey: ['devops_integration', variables.project, 'binding'],
       });
       invalidateValidateProjectAlmBindingQuery(variables.project);
+    },
+  });
+}
+
+const getCredentialCheckQueryKey = (almSetting: string) =>
+  ['devops_integration', 'credential', almSetting] as const;
+
+export const useCredentialCheckQuery = createQueryHook((almSetting: string) =>
+  queryOptions({
+    queryKey: getCredentialCheckQueryKey(almSetting),
+    queryFn: () => checkPersonalAccessTokenIsValid(almSetting),
+    staleTime: StaleTime.LIVE,
+  }),
+);
+
+export function useSavePersonalAccessTokenMutation() {
+  const client = useQueryClient();
+  return useMutation({
+    mutationFn: async ({
+      almSetting,
+      pat,
+      username,
+    }: {
+      almSetting: string;
+      pat: string;
+      username?: string;
+    }) => {
+      await setAlmPersonalAccessToken(almSetting, pat, username);
+      // Setting the token does not check it, so it must be validated right after.
+      return checkPersonalAccessTokenIsValid(almSetting);
+    },
+    onSuccess: (result, { almSetting }) => {
+      if (result.status) {
+        client.setQueryData(getCredentialCheckQueryKey(almSetting), result);
+      }
     },
   });
 }

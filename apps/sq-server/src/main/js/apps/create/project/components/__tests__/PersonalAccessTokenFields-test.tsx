@@ -20,7 +20,7 @@
 
 import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { byRole } from '~shared/helpers/testSelector';
+import { byRole, byText } from '~shared/helpers/testSelector';
 import { renderComponent } from '~sq-server-commons/helpers/testReactTestingUtils';
 import { AlmKeys } from '~sq-server-commons/types/alm-settings';
 import { FCProps } from '~sq-server-commons/types/misc';
@@ -30,6 +30,7 @@ const ui = {
   token: byRole('textbox', { name: /onboarding.create_project.enter_pat/ }),
   email: byRole('textbox', { name: /onboarding.create_project.bitbucket_cloud.enter_username/ }),
   apiToken: byRole('textbox', { name: /onboarding.create_project.bitbucket_cloud.enter_password/ }),
+  gitlabHint: byText('onboarding.create_project.pat_incorrect.gitlab.hint'),
 };
 
 it.each([AlmKeys.Azure, AlmKeys.BitbucketServer, AlmKeys.GitLab])(
@@ -61,6 +62,27 @@ it.each([AlmKeys.Azure, AlmKeys.BitbucketServer, AlmKeys.GitLab])(
     renderFields({ almKey, isInvalid: true });
 
     expect(ui.token.get()).toBeInvalid();
+  },
+);
+
+it('should explain the legacy token requirement when the GitLab token is invalid', () => {
+  renderFields({ almKey: AlmKeys.GitLab, isInvalid: true });
+
+  expect(ui.gitlabHint.get()).toBeInTheDocument();
+});
+
+it('should not show the legacy token hint while the GitLab token is not invalid', () => {
+  renderFields({ almKey: AlmKeys.GitLab, isInvalid: false });
+
+  expect(ui.gitlabHint.query()).not.toBeInTheDocument();
+});
+
+it.each([AlmKeys.Azure, AlmKeys.BitbucketServer])(
+  'should not show the GitLab legacy token hint for %s',
+  (almKey) => {
+    renderFields({ almKey, isInvalid: true });
+
+    expect(ui.gitlabHint.query()).not.toBeInTheDocument();
   },
 );
 

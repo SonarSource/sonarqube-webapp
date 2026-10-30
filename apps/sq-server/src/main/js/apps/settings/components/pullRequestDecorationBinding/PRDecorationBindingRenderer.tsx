@@ -18,7 +18,15 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Button, ButtonVariety, Spinner, Text } from '@sonarsource/echoes-react';
+import {
+  Button,
+  ButtonVariety,
+  Heading,
+  MessageCallout,
+  MessageVariety,
+  Spinner,
+  Text,
+} from '@sonarsource/echoes-react';
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
 import {
@@ -39,12 +47,26 @@ import {
   ProjectAlmBindingConfigurationErrors,
   ProjectAlmBindingResponse,
 } from '~sq-server-commons/types/alm-settings';
+import { PersonalAccessTokenFields } from '../../../create/project/components/PersonalAccessTokenFields';
+import { FORM_HEADER_DESCRIPTIONS } from '../../../create/project/components/PersonalAccessTokenForm';
 import { ALM_INTEGRATION_CATEGORY } from '../../constants';
 import AlmSpecificForm from './AlmSpecificForm';
 
+export interface PRDecorationBindingCredentials {
+  almSetting: AlmSettingsInstance;
+  error?: string;
+  isExpired: boolean;
+  onPasswordChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  onUsernameChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  password: string;
+  username: string;
+}
+
 export interface PRDecorationBindingRendererProps {
+  canSave: boolean;
   checkingConfiguration: boolean;
   configurationErrors?: ProjectAlmBindingConfigurationErrors;
+  credentials?: PRDecorationBindingCredentials;
   formData: Omit<ProjectAlmBindingResponse, 'alm'>;
   instances: AlmSettingsInstance[];
   isChanged: boolean;
@@ -62,6 +84,8 @@ export interface PRDecorationBindingRendererProps {
 
 export default function PRDecorationBindingRenderer(props: PRDecorationBindingRendererProps) {
   const {
+    canSave,
+    credentials,
     formData,
     instances,
     isChanged,
@@ -157,8 +181,39 @@ export default function PRDecorationBindingRenderer(props: PRDecorationBindingRe
           />
         )}
 
+        {credentials && (
+          <div className="sw:p-6 sw:flex sw:gap-12">
+            <div className="sw:w-abs-300">
+              <Heading as="h4" hasMarginBottom size="small">
+                <FormattedMessage id="onboarding.create_project.pat_form.title" />
+              </Heading>
+              <div className="markdown">{FORM_HEADER_DESCRIPTIONS[credentials.almSetting.alm]}</div>
+            </div>
+            <div className="sw:flex-1 sw:flex sw:flex-col sw:gap-4">
+              {credentials.error ? (
+                <MessageCallout variety={MessageVariety.Danger}>{credentials.error}</MessageCallout>
+              ) : (
+                credentials.isExpired && (
+                  <MessageCallout variety={MessageVariety.Warning}>
+                    <FormattedMessage id="onboarding.create_project.pat.expired.info_message" />
+                  </MessageCallout>
+                )
+              )}
+              <PersonalAccessTokenFields
+                almKey={credentials.almSetting.alm}
+                almSetting={credentials.almSetting}
+                isInvalid={Boolean(credentials.error)}
+                onPasswordChange={credentials.onPasswordChange}
+                onUsernameChange={credentials.onUsernameChange}
+                password={credentials.password}
+                username={credentials.username}
+              />
+            </div>
+          </div>
+        )}
+
         <div className="sw:flex sw:items-center sw:mt-8 sw:gap-2">
-          {isChanged && (
+          {isChanged && canSave && (
             <>
               <Button
                 isDisabled={updating || !isValid}

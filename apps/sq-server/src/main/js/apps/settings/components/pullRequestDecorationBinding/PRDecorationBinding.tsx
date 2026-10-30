@@ -18,14 +18,17 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { cloneDeep } from 'lodash';
+import { cloneDeep, noop } from 'lodash';
 import * as React from 'react';
+import { useIntl } from 'react-intl';
 import { getAlmSettings, validateProjectAlmBinding } from '~sq-server-commons/api/alm-settings';
 import withCurrentUserContext from '~sq-server-commons/context/current-user/withCurrentUserContext';
 import { hasGlobalPermission } from '~sq-server-commons/helpers/users';
 import {
+  useCredentialCheckQuery,
   useDeleteProjectAlmBindingMutation,
   useProjectBindingQuery,
+  useSavePersonalAccessTokenMutation,
   useSetProjectBindingMutation,
 } from '~sq-server-commons/queries/devops-integration';
 import {
@@ -37,6 +40,7 @@ import {
 import { Permissions } from '~sq-server-commons/types/permissions';
 import { Component } from '~sq-server-commons/types/types';
 import { CurrentUser } from '~sq-server-commons/types/users';
+import { tokenExistedBefore } from '../../../create/project/utils';
 import PRDecorationBindingRenderer from './PRDecorationBindingRenderer';
 
 type FormData = Omit<ProjectAlmBindingResponse, 'alm'>;
@@ -113,9 +117,15 @@ export function PRDecorationBinding(props: Props) {
     component.key,
   );
   const { mutateAsync: updateMutation, isPending: isUpdating } = useSetProjectBindingMutation();
+  const { mutateAsync: saveCredentialsMutation, isPending: isSavingCredentials } =
+    useSavePersonalAccessTokenMutation();
+  const { formatMessage } = useIntl();
+  const [password, setPassword] = React.useState('');
+  const [username, setUsername] = React.useState('');
+  const [credentialError, setCredentialError] = React.useState<string | undefined>();
 
   const isConfigured = !!originalData;
-  const updating = isDeleting || isUpdating;
+  const updating = isDeleting || isUpdating || isSavingCredentials;
 
   const isValid = React.useMemo(() => {
     const validateForm = ({ key, ...additionalFields }: State['formData']) => {
@@ -133,6 +143,25 @@ export function PRDecorationBinding(props: Props) {
   }, [formData, instances]);
 
   const isChanged = !isDataSame(formData, originalData ?? cloneDeep(INITIAL_FORM_DATA));
+
+  // Saving a binding requires the Create Projects permission, and so do checking and setting a
+  // credential. GitHub uses an app user token that cannot be checked here, so it is left out. The
+  // result only matters once the form has changed.
+  const selectedInstance = instances.find((i) => i.key === formData.key);
+  const canCreateProjects = hasGlobalPermission(currentUser, Permissions.ProjectCreation);
+  const isCredentialCheckEnabled =
+    isChanged &&
+    canCreateProjects &&
+    selectedInstance !== undefined &&
+    selectedInstance.alm !== AlmKeys.GitHub;
+  const { data: credentialCheck, isLoading: isCheckingCredentials } = useCredentialCheckQuery(
+    formData.key,
+    { enabled: isCredentialCheckEnabled },
+  );
+  const areCredentialsRequired = isCredentialCheckEnabled && credentialCheck?.status === false;
+  const hasRequiredCredentials =
+    !areCredentialsRequired ||
+    (Boolean(password) && (selectedInstance?.alm !== AlmKeys.BitbucketCloud || Boolean(username)));
 
   React.useEffect(() => {
     fetchDefinitions();
@@ -160,6 +189,12 @@ export function PRDecorationBinding(props: Props) {
       });
   };
 
+  const resetCredentials = () => {
+    setPassword('');
+    setUsername('');
+    setCredentialError(undefined);
+  };
+
   const handleReset = () => {
     deleteMutation()
       .then(() => {
@@ -169,6 +204,7 @@ export function PRDecorationBinding(props: Props) {
           slug: '',
           monorepo: false,
         });
+        resetCredentials();
         setSuccessfullyUpdated(true);
         setConfigurationErrors(undefined);
       })
@@ -244,20 +280,49 @@ export function PRDecorationBinding(props: Props) {
     setConfigurationErrors(configurationErrors);
   };
 
+  // Resolves to true when the binding can be saved: the stored credential is valid, or the new one was saved and checked.
+  const saveCredentialsIfNeeded = async (almSetting: string) => {
+    if (!areCredentialsRequired) {
+      return true;
+    }
+
+    const result = await saveCredentialsMutation({
+      almSetting,
+      pat: password,
+      username: selectedInstance?.alm === AlmKeys.BitbucketCloud ? username : undefined,
+    }).catch(noop);
+
+    if (result === undefined) {
+      return false;
+    }
+
+    if (!result.status) {
+      setCredentialError(result.error ?? formatMessage({ id: 'default_error_message' }));
+      return false;
+    }
+
+    resetCredentials();
+    return true;
+  };
+
   const handleSubmit = () => {
     const { key, ...additionalFields } = formData;
 
-    const selected = instances.find((i) => i.key === key);
-    if (!key || !selected) {
+    if (!key || !selectedInstance) {
       return;
     }
 
-    submitProjectAlmBinding(selected.alm, key, additionalFields)
-      .then(() => {
-        setSuccessfullyUpdated(true);
-      })
-      .then(fetchDefinitions)
-      .catch(() => {});
+    const saveBinding = async () => {
+      if (!(await saveCredentialsIfNeeded(key))) {
+        return;
+      }
+
+      await submitProjectAlmBinding(selectedInstance.alm, key, additionalFields);
+      setSuccessfullyUpdated(true);
+      await fetchDefinitions();
+    };
+
+    saveBinding().catch(noop);
   };
 
   const handleFieldChange = (id: keyof ProjectAlmBindingResponse, value: string | boolean) => {
@@ -265,6 +330,21 @@ export function PRDecorationBinding(props: Props) {
       ...formData,
       [id]: value,
     }));
+    if (id === 'key') {
+      resetCredentials();
+    }
+    setSuccessfullyUpdated(false);
+  };
+
+  const handlePasswordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setPassword(event.target.value);
+    setCredentialError(undefined);
+    setSuccessfullyUpdated(false);
+  };
+
+  const handleUsernameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setUsername(event.target.value);
+    setCredentialError(undefined);
     setSuccessfullyUpdated(false);
   };
 
@@ -274,14 +354,29 @@ export function PRDecorationBinding(props: Props) {
 
   return (
     <PRDecorationBindingRenderer
+      canSave={canCreateProjects}
       checkingConfiguration={checkingConfiguration}
       configurationErrors={configurationErrors}
+      credentials={
+        areCredentialsRequired && selectedInstance
+          ? {
+              almSetting: selectedInstance,
+              error: credentialError,
+              isExpired:
+                credentialCheck?.error !== undefined && tokenExistedBefore(credentialCheck.error),
+              onPasswordChange: handlePasswordChange,
+              onUsernameChange: handleUsernameChange,
+              password,
+              username,
+            }
+          : undefined
+      }
       formData={formData}
       instances={instances}
       isChanged={isChanged}
       isConfigured={isConfigured}
       isSysAdmin={hasGlobalPermission(currentUser, Permissions.Admin)}
-      isValid={isValid}
+      isValid={isValid && hasRequiredCredentials && !isCheckingCredentials}
       loading={loading}
       onCheckConfiguration={handleCheckConfiguration}
       onFieldChange={handleFieldChange}

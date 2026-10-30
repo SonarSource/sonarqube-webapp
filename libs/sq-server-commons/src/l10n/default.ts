@@ -9324,13 +9324,13 @@ export const defaultMessages = {
     'If specified, this value is used as the key instead of generating it from the name of the Application. Only letters, digits, dashes and underscores can be used.',
   'onboarding.create_project.pat_form.title': 'Grant access to your repositories',
   'onboarding.create_project.pat_form.help.azure':
-    '{productName} needs a personal access token to access and list your repositories from Azure DevOps.',
+    '{productName} needs a personal access token to access and list your repositories from Azure DevOps. Use a token from your own account. Do not use the token that an administrator set in the DevOps Platform Integrations settings.',
   'onboarding.create_project.pat_form.help.bitbucket':
-    '{productName} needs a personal access token to access and list your repositories from Bitbucket Data Center.',
+    '{productName} needs a personal access token to access and list your repositories from Bitbucket Data Center. Use a token from your own account. Do not use the token that an administrator set in the DevOps Platform Integrations settings.',
   'onboarding.create_project.pat_form.help.bitbucket_cloud':
     '{productName} needs an API token to access and list your repositories from Bitbucket Cloud.',
   'onboarding.create_project.pat_form.help.gitlab':
-    '{productName} needs a personal access token to access and list your projects from GitLab.',
+    '{productName} needs a personal access token to access and list your projects from GitLab. Use a token from your own account. Do not use the token that an administrator set in the DevOps Platform Integrations settings.',
   'onboarding.create_project.pat_form.pat_required': 'Please enter a personal access token',
   'onboarding.create_project.wrong_binding_count':
     'You must have at least 1 {alm} instance configured in order to use this method, but none were found. Either create a local project, or contact your system administrator.',
@@ -9350,15 +9350,17 @@ export const defaultMessages = {
     "Your API token couldn't be validated.",
   'onboarding.create_project.pat_incorrect.gitlab':
     "Your personal access couldn't be validated. Please make sure it has the right scope and that it is not expired.",
+  'onboarding.create_project.pat_incorrect.gitlab.hint':
+    'Use a legacy token, not a fine-grained token.',
   'onboarding.create_project.pat.expired.info_message':
     'You have to do this again as your token may have expired or has been revoked. If this does not fix the issue, please contact your system administrator.',
 
   'onboarding.create_project.pat_help.instructions.azure':
-    'To create a Personal Access Token on Azure, {link} and make sure to select the “Code (Read and Write)” and “Identity (Read)” scopes.',
+    'To create a Personal Access Token on Azure, {link} and make sure to select the “Code (Read and Write)” and “Identity (Read)” scopes. On Azure DevOps Services, set “Organization” to one organization. Do not select “All accessible organizations”.',
   'onboarding.create_project.pat_help.instructions.link.azure': 'generate a token',
 
   'onboarding.create_project.pat_help.instructions.gitlab':
-    'To create a Personal Access Token on GitLab, {link} by setting a name, for example “{productName}” and selecting the “read_api” scope.',
+    'To create a Personal Access Token on GitLab, {link} by choosing the legacy token type, setting a name, for example “{productName}” and selecting the “read_api” scope. Do not use a fine-grained token.',
   'onboarding.create_project.pat_help.instructions.gitlab.link': 'generate a token',
 
   'onboarding.enter_username.instructions.bitbucket_cloud':

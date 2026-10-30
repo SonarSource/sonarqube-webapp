@@ -20,15 +20,21 @@
 
 import { screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { noop } from 'lodash';
 import { byRole, byText } from '~shared/helpers/testSelector';
+import {
+  checkPersonalAccessTokenIsValid,
+  setAlmPersonalAccessToken,
+} from '~sq-server-commons/api/alm-integrations';
 import { updateBoundProject } from '~sq-server-commons/api/dop-translation';
+import AlmIntegrationsServiceMock from '~sq-server-commons/api/mocks/AlmIntegrationsServiceMock';
 import AlmSettingsServiceMock from '~sq-server-commons/api/mocks/AlmSettingsServiceMock';
 import DopTranslationServiceMock from '~sq-server-commons/api/mocks/DopTranslationServiceMock';
 import ComponentNavProjectBindingErrorNotif from '~sq-server-commons/components/nav/ComponentNavProjectBindingErrorNotif';
 import CurrentUserContextProvider from '~sq-server-commons/context/current-user/CurrentUserContextProvider';
 import { mockProjectAlmBindingResponse } from '~sq-server-commons/helpers/mocks/alm-settings';
 import { mockComponent } from '~sq-server-commons/helpers/mocks/component';
-import { mockCurrentUser } from '~sq-server-commons/helpers/testMocks';
+import { mockLoggedInUser } from '~sq-server-commons/helpers/testMocks';
 import { renderComponent } from '~sq-server-commons/helpers/testReactTestingUtils';
 import {
   AlmKeys,
@@ -36,16 +42,20 @@ import {
 } from '~sq-server-commons/types/alm-settings';
 import { BoundProject } from '~sq-server-commons/types/dop-translation';
 import { Feature } from '~sq-server-commons/types/features';
+import { Permissions } from '~sq-server-commons/types/permissions';
 import { Component } from '~sq-server-commons/types/types';
 import { CurrentUser } from '~sq-server-commons/types/users';
 import PRDecorationBinding, { isDataSame } from '../PRDecorationBinding';
 
+jest.mock('~sq-server-commons/api/alm-integrations');
 jest.mock('~sq-server-commons/api/dop-translation');
 
+let almIntegrations: AlmIntegrationsServiceMock;
 let almSettings: AlmSettingsServiceMock;
 let dopTranslation: DopTranslationServiceMock;
 
 beforeAll(() => {
+  almIntegrations = new AlmIntegrationsServiceMock();
   almSettings = new AlmSettingsServiceMock();
   dopTranslation = new DopTranslationServiceMock();
   // Wire v2 updateBoundProject to also update the AlmSettings mock so that
@@ -77,9 +87,15 @@ beforeAll(() => {
 });
 
 afterEach(() => {
+  almIntegrations.reset();
   almSettings.reset();
   dopTranslation.reset();
+  jest.clearAllMocks();
 });
+
+const PROVISIONER = mockLoggedInUser({ permissions: { global: [Permissions.ProjectCreation] } });
+const NON_PROVISIONER = mockLoggedInUser();
+const MISSING_CREDENTIAL = { status: false, error: "personal access token for 'conf' is missing" };
 
 const inputsList = {
   [AlmKeys.GitLab]: { 'gitlab.repository': 'Repository', monorepo: false },
@@ -169,6 +185,7 @@ it.each([
   'should get, set, delete and validate binding for $alm',
   async ({ key, alm }: { alm: AlmKeys; key: string }) => {
     const { ui, user } = getPageObjects();
+    almIntegrations.almInstancePATMap[key] = { status: true };
     almSettings.setProjectBindingConfigurationErrors({
       scope: ProjectAlmBindingConfigurationErrorScope.Global,
       errors: [{ msg: 'cute error' }],
@@ -210,9 +227,7 @@ it.each([
     ).toBeInTheDocument();
 
     // Rerender and verify that validation is done for binding
-    rerender(
-      <MockedPRDecorationBinding component={mockComponent()} currentUser={mockCurrentUser()} />,
-    );
+    rerender(<MockedPRDecorationBinding component={mockComponent()} currentUser={PROVISIONER} />);
     expect(
       await ui.validationMsg('settings.pr_decoration.binding.check_configuration.success').find(),
     ).toBeInTheDocument();
@@ -240,7 +255,7 @@ it('should update the nav binding error notif after saving a binding', async () 
   const component = mockComponent();
   renderComponent(
     <>
-      <MockedPRDecorationBinding component={component} currentUser={mockCurrentUser()} />
+      <MockedPRDecorationBinding component={component} currentUser={PROVISIONER} />
       <ComponentNavProjectBindingErrorNotif component={component} />
     </>,
     '',
@@ -274,6 +289,245 @@ it('should update the nav binding error notif after saving a binding', async () 
   });
 });
 
+describe('credentials', () => {
+  it('should not ask for a credential when the stored one is valid', async () => {
+    const { ui, user } = getPageObjects();
+    almIntegrations.almInstancePATMap['conf-final-1'] = { status: true };
+    renderPRDecorationBinding(mockComponent(), PROVISIONER);
+    expect(await ui.mainTitle.find()).toBeInTheDocument();
+
+    await ui.selectConfiguration('conf-final-1');
+    await ui.setInput('gitlab.repository', 'Repository');
+
+    await waitFor(() => {
+      expect(ui.saveButton.get()).toBeEnabled();
+    });
+    expect(ui.token.query()).not.toBeInTheDocument();
+
+    await user.click(ui.saveButton.get());
+    await waitFor(() => {
+      expect(updateBoundProject).toHaveBeenCalled();
+    });
+    expect(setAlmPersonalAccessToken).not.toHaveBeenCalled();
+  });
+
+  it('should not allow saving while the credential check is pending', async () => {
+    const { ui } = getPageObjects();
+    let resolveCheck: (result: { status: boolean; error?: string }) => void = noop;
+    jest.mocked(checkPersonalAccessTokenIsValid).mockImplementationOnce(
+      () =>
+        new Promise((resolve) => {
+          resolveCheck = resolve;
+        }),
+    );
+    renderPRDecorationBinding(mockComponent(), PROVISIONER);
+    expect(await ui.mainTitle.find()).toBeInTheDocument();
+
+    await ui.selectConfiguration('conf-final-1');
+    await ui.setInput('gitlab.repository', 'Repository');
+
+    expect(checkPersonalAccessTokenIsValid).toHaveBeenCalledWith('conf-final-1');
+    expect(ui.saveButton.get()).toBeDisabled();
+    expect(ui.token.query()).not.toBeInTheDocument();
+
+    resolveCheck({ status: true });
+
+    await waitFor(() => {
+      expect(ui.saveButton.get()).toBeEnabled();
+    });
+    expect(ui.token.query()).not.toBeInTheDocument();
+  });
+
+  it('should require a credential, then set it, check it and bind in that order', async () => {
+    const { ui, user } = getPageObjects();
+    almIntegrations.almInstancePATMap['conf-final-1'] = MISSING_CREDENTIAL;
+    renderPRDecorationBinding(mockComponent(), PROVISIONER);
+    expect(await ui.mainTitle.find()).toBeInTheDocument();
+
+    await ui.selectConfiguration('conf-final-1');
+    expect(await ui.token.find()).toBeInTheDocument();
+    await ui.setInput('gitlab.repository', 'Repository');
+    expect(ui.saveButton.get()).toBeDisabled();
+
+    await user.type(ui.token.get(), 'my-token');
+    expect(ui.saveButton.get()).toBeEnabled();
+
+    await user.click(ui.saveButton.get());
+    await waitFor(() => {
+      expect(updateBoundProject).toHaveBeenCalled();
+    });
+
+    expect(setAlmPersonalAccessToken).toHaveBeenCalledWith('conf-final-1', 'my-token', undefined);
+    const [setOrder] = jest.mocked(setAlmPersonalAccessToken).mock.invocationCallOrder;
+    const lastCheckOrder = Math.max(
+      ...jest.mocked(checkPersonalAccessTokenIsValid).mock.invocationCallOrder,
+    );
+    const [bindOrder] = jest.mocked(updateBoundProject).mock.invocationCallOrder;
+    expect(lastCheckOrder).toBeGreaterThan(setOrder);
+    expect(bindOrder).toBeGreaterThan(lastCheckOrder);
+    await waitFor(() => {
+      expect(ui.token.query()).not.toBeInTheDocument();
+    });
+  });
+
+  it('should not bind and should keep the form when the credential is rejected', async () => {
+    const { ui, user } = getPageObjects();
+    almIntegrations.almInstancePATMap['conf-final-1'] = MISSING_CREDENTIAL;
+    jest.mocked(setAlmPersonalAccessToken).mockImplementationOnce(() => {
+      almIntegrations.almInstancePATMap['conf-final-1'] = {
+        status: false,
+        error: 'Token rejected',
+      };
+      return Promise.resolve();
+    });
+    renderPRDecorationBinding(mockComponent(), PROVISIONER);
+    expect(await ui.mainTitle.find()).toBeInTheDocument();
+
+    await ui.selectConfiguration('conf-final-1');
+    await ui.setInput('gitlab.repository', 'Repository');
+    await user.type(await ui.token.find(), 'wrong-token');
+    await user.click(ui.saveButton.get());
+
+    expect(await byText('Token rejected').find()).toBeInTheDocument();
+    expect(byText('onboarding.create_project.pat_incorrect.gitlab.hint').get()).toBeInTheDocument();
+    expect(updateBoundProject).not.toHaveBeenCalled();
+    expect(ui.token.get()).toHaveValue('wrong-token');
+    expect(ui.input('gitlab.repository', 'textbox').get()).toHaveValue('Repository');
+  });
+
+  it('should not bind when the credential cannot be set', async () => {
+    const { ui, user } = getPageObjects();
+    almIntegrations.almInstancePATMap['conf-final-1'] = MISSING_CREDENTIAL;
+    jest.mocked(setAlmPersonalAccessToken).mockRejectedValueOnce(new Error('forbidden'));
+    renderPRDecorationBinding(mockComponent(), PROVISIONER);
+    expect(await ui.mainTitle.find()).toBeInTheDocument();
+
+    await ui.selectConfiguration('conf-final-1');
+    await ui.setInput('gitlab.repository', 'Repository');
+    await user.type(await ui.token.find(), 'my-token');
+    await user.click(ui.saveButton.get());
+
+    await waitFor(() => {
+      expect(setAlmPersonalAccessToken).toHaveBeenCalled();
+    });
+    expect(updateBoundProject).not.toHaveBeenCalled();
+    expect(ui.token.get()).toHaveValue('my-token');
+  });
+
+  it('should tell the user when the stored credential is no longer valid', async () => {
+    const { ui } = getPageObjects();
+    almIntegrations.almInstancePATMap['conf-final-1'] = { status: false, error: 'Token expired' };
+    renderPRDecorationBinding(mockComponent(), PROVISIONER);
+    expect(await ui.mainTitle.find()).toBeInTheDocument();
+
+    await ui.selectConfiguration('conf-final-1');
+
+    expect(
+      await byText('onboarding.create_project.pat.expired.info_message').find(),
+    ).toBeInTheDocument();
+    expect(ui.token.get()).toBeInTheDocument();
+  });
+
+  it('should require both the email and the API token for Bitbucket Cloud', async () => {
+    const { ui, user } = getPageObjects();
+    almIntegrations.almInstancePATMap['conf-bitbucketcloud-1'] = MISSING_CREDENTIAL;
+    renderPRDecorationBinding(mockComponent(), PROVISIONER);
+    expect(await ui.mainTitle.find()).toBeInTheDocument();
+
+    await ui.selectConfiguration('conf-bitbucketcloud-1');
+    expect(await ui.email.find()).toBeInTheDocument();
+    await ui.setInput('bitbucketcloud.repository', 'Repository');
+
+    await user.type(ui.apiToken.get(), 'my-api-token');
+    expect(ui.saveButton.get()).toBeDisabled();
+
+    await user.type(ui.email.get(), 'me@example.com');
+    expect(ui.saveButton.get()).toBeEnabled();
+
+    await user.click(ui.saveButton.get());
+    await waitFor(() => {
+      expect(updateBoundProject).toHaveBeenCalled();
+    });
+    expect(setAlmPersonalAccessToken).toHaveBeenCalledWith(
+      'conf-bitbucketcloud-1',
+      'my-api-token',
+      'me@example.com',
+    );
+  });
+
+  it('should check the credential again, and start empty, when the configuration changes', async () => {
+    const { ui, user } = getPageObjects();
+    almIntegrations.almInstancePATMap['conf-final-1'] = MISSING_CREDENTIAL;
+    almIntegrations.almInstancePATMap['conf-final-2'] = { status: true };
+    renderPRDecorationBinding(mockComponent(), PROVISIONER);
+    expect(await ui.mainTitle.find()).toBeInTheDocument();
+
+    await ui.selectConfiguration('conf-final-1');
+    await user.type(await ui.token.find(), 'my-token');
+
+    await ui.selectConfiguration('conf-final-2');
+    await waitFor(() => {
+      expect(ui.token.query()).not.toBeInTheDocument();
+    });
+    expect(checkPersonalAccessTokenIsValid).toHaveBeenCalledWith('conf-final-2');
+
+    await ui.selectConfiguration('conf-final-1');
+    expect(await ui.token.find()).toHaveValue('');
+  });
+
+  it('should never ask for a credential for GitHub', async () => {
+    const { ui, user } = getPageObjects();
+    almIntegrations.almInstancePATMap['conf-github-1'] = MISSING_CREDENTIAL;
+    renderPRDecorationBinding(mockComponent(), PROVISIONER);
+    expect(await ui.mainTitle.find()).toBeInTheDocument();
+
+    await ui.selectConfiguration('conf-github-1');
+    await ui.setInput('github.repository', 'Repository');
+
+    expect(ui.saveButton.get()).toBeEnabled();
+    expect(ui.token.query()).not.toBeInTheDocument();
+    expect(checkPersonalAccessTokenIsValid).not.toHaveBeenCalled();
+
+    await user.click(ui.saveButton.get());
+    await waitFor(() => {
+      expect(updateBoundProject).toHaveBeenCalled();
+    });
+    expect(setAlmPersonalAccessToken).not.toHaveBeenCalled();
+  });
+
+  it('should not check the credential nor allow saving for a user who cannot create projects', async () => {
+    const { ui } = getPageObjects();
+    almIntegrations.almInstancePATMap['conf-final-1'] = MISSING_CREDENTIAL;
+    renderPRDecorationBinding(mockComponent(), NON_PROVISIONER);
+    expect(await ui.mainTitle.find()).toBeInTheDocument();
+
+    await ui.selectConfiguration('conf-final-1');
+    await ui.setInput('gitlab.repository', 'Repository');
+
+    expect(ui.saveButton.query()).not.toBeInTheDocument();
+    expect(ui.token.query()).not.toBeInTheDocument();
+    expect(checkPersonalAccessTokenIsValid).not.toHaveBeenCalled();
+  });
+
+  it('should not check the credential while the form is unchanged', async () => {
+    const { ui } = getPageObjects();
+    almIntegrations.almInstancePATMap['conf-final-1'] = MISSING_CREDENTIAL;
+    almSettings.setProjectBinding(
+      'component-key',
+      mockProjectAlmBindingResponse({
+        alm: AlmKeys.GitLab,
+        key: 'conf-final-1',
+        repository: 'Repository',
+      }),
+    );
+    renderPRDecorationBinding(mockComponent({ key: 'component-key' }), PROVISIONER);
+    expect(await ui.mainTitle.find()).toBeInTheDocument();
+
+    expect(checkPersonalAccessTokenIsValid).not.toHaveBeenCalled();
+    expect(ui.token.query()).not.toBeInTheDocument();
+  });
+});
+
 it('should correctly detect form change', () => {
   expect(isDataSame({ key: '1' }, { key: '1' })).toBe(true);
   expect(isDataSame({ key: '1', slug: '' }, { key: '1' })).toBe(true);
@@ -304,8 +558,19 @@ function getPageObjects() {
     }
   }
 
+  async function selectConfiguration(key: string) {
+    await user.click(ui.input('name', 'combobox').get());
+    await user.click(byRole('option', { name: new RegExp(key) }).get());
+  }
+
   const ui = {
     mainTitle: byRole('heading', { name: 'settings.pr_decoration.binding.title' }),
+    token: byRole('textbox', { name: /onboarding.create_project.enter_pat/ }),
+    email: byRole('textbox', { name: /onboarding.create_project.bitbucket_cloud.enter_username/ }),
+    apiToken: byRole('textbox', {
+      name: /onboarding.create_project.bitbucket_cloud.enter_password/,
+    }),
+    selectConfiguration,
     input: (id: string, role: 'combobox' | 'switch' | 'textbox') =>
       byRole(role, { name: new RegExp(`settings.pr_decoration.binding.form.${id}`) }),
     saveButton: byRole('button', { name: 'save' }),
@@ -339,7 +604,7 @@ function MockedPRDecorationBinding({
 
 function renderPRDecorationBinding(
   component: Component = mockComponent(),
-  currentUser: CurrentUser = mockCurrentUser(),
+  currentUser: CurrentUser = PROVISIONER,
 ) {
   return renderComponent(
     <MockedPRDecorationBinding component={component} currentUser={currentUser} />,

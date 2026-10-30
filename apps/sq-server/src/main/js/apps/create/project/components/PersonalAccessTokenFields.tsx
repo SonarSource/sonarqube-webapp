@@ -219,6 +219,9 @@ function GitlabFields({
         id="personal_access_token_validation"
         isRequired
         label={<FormattedMessage id="onboarding.create_project.enter_pat" />}
+        messageInvalid={
+          <FormattedMessage id="onboarding.create_project.pat_incorrect.gitlab.hint" />
+        }
         minLength={1}
         onChange={onPasswordChange}
         type="text"
