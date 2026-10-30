@@ -1238,13 +1238,13 @@ export const defaultMessages = {
     'Default schedule: {frequency} on {dayOfWeek} at {hour} {timezone}',
   'ai_capabilities.project.max_open_prs_summary': 'Max open PRs: {count}',
   'ai_capabilities.project.remediation_agent.not_bound':
-    "The Remediation Agent is not enabled for this project. Please contact your organization's admin to enable the Remediation Agent.",
+    "Remediation Agent is not enabled for this project. Please contact your organization's admin to enable Remediation Agent.",
   'ai_capabilities.project.remediation_agent.not_bound.admin':
-    'The Remediation Agent is not enabled for this project.',
+    'Remediation Agent is not enabled for this project.',
   'ai_capabilities.project.remediation_agent.not_bound.admin_cta':
-    'Enable the Remediation Agent for this project',
+    'Enable Remediation Agent for this project',
   'ai_capabilities.project.remediation_agent.project_not_bound_to_scm':
-    "This project isn't bound to a repository. Contact your organization admin to set up project binding so the Remediation Agent can run.",
+    "This project isn't bound to a repository. Contact your organization admin to set up project binding so Remediation Agent can run.",
   'ai_capabilities.project.remediation_agent.project_not_bound_to_scm.admin':
     "This project isn't bound to a repository.",
   'ai_capabilities.project.remediation_agent.project_not_bound_to_scm.admin_cta':
@@ -1253,9 +1253,9 @@ export const defaultMessages = {
   // DevOps Platform permission warning — surfaces the outcome of
   // GET /api/v2/dop-translation/permission-checks (see SONAR-31624/31625/31628).
   'ai_capabilities.remediation_agent.issue.assign_to_agent.permission_blocked_toggletip':
-    "The Remediation Agent can't run on this project's DevOps Platform. See the warning above for details.",
+    "Remediation Agent can't run on this project's DevOps Platform. See the warning above for details.",
   'ai_capabilities.remediation_agent.issue.assign_to_agent.info_toggletip':
-    'Select issues to have the Remediation Agent fix them and open pull requests on your behalf. Up to {maxIssues} issues per run.',
+    'Select issues to have Remediation Agent fix them and open pull requests on your behalf. Up to {maxIssues} issues per run.',
   'ai_capabilities.remediation_agent.issue.assign_to_agent.info_toggletip.secondary':
     'Only supported languages and rules apply.',
   'ai_capabilities.remediation_agent.issue.assign_to_agent.info_toggletip.aria_label':
@@ -2277,7 +2277,7 @@ export const defaultMessages = {
   'issues.fix_with_agent': 'Fix with agent',
   'issues.fix_issue_x_with_agent': 'Fix with agent: {issue}',
   'project_issues.assign_to_agent.success.title':
-    '{issueCount, plural, one {# issue} other {# issues}} assigned to Agent',
+    '{issueCount, plural, one {# issue} other {# issues}} assigned to Remediation Agent',
   'project_issues.assign_to_agent.partial_success.title':
     '{issueCount, plural, one {# issue} other {# issues}} assigned to Agent, some failed',
   'project_issues.assign_to_agent.partial_success.description':
@@ -2286,21 +2286,21 @@ export const defaultMessages = {
   'project_issues.assign_to_agent.error.description':
     'Unable to create the Agent job. Please try again.',
   'project_issues.assign_to_agent.all_unsupported.languages':
-    'All selected issues have unsupported languages and cannot be assigned to the Agent.',
+    'All selected issues have unsupported languages and cannot be assigned to Remediation Agent.',
   'project_issues.assign_to_agent.all_unsupported.rules':
-    'All selected issues have unsupported rules and cannot be assigned to the Agent.',
+    'All selected issues have unsupported rules and cannot be assigned to Remediation Agent.',
   'project_issues.assign_to_agent.all_unsupported.status':
-    'All selected issues have a status that cannot be assigned to the Agent.',
+    'All selected issues have a status that cannot be assigned to Remediation Agent.',
   'project_issues.assign_to_agent.all_unsupported.multiple_reasons':
-    'All selected issues cannot be assigned to the Agent.',
+    'All selected issues cannot be assigned to Remediation Agent.',
   'project_issues.assign_to_agent.some_unsupported.languages':
-    '{count} selected issue(s) have unsupported languages and will not be assigned to the Agent.',
+    '{count} selected issue(s) have unsupported languages and will not be assigned to Remediation Agent.',
   'project_issues.assign_to_agent.some_unsupported.rules':
-    '{count} selected issue(s) have unsupported rules and will not be assigned to the Agent.',
+    '{count} selected issue(s) have unsupported rules and will not be assigned to Remediation Agent.',
   'project_issues.assign_to_agent.some_unsupported.status':
-    '{count} selected issue(s) have a status that cannot be assigned to the Agent.',
+    '{count} selected issue(s) have a status that cannot be assigned to Remediation Agent.',
   'project_issues.assign_to_agent.some_unsupported.multiple_reasons':
-    '{count} selected issue(s) cannot be assigned to the Agent.',
+    '{count} selected issue(s) cannot be assigned to Remediation Agent.',
   'agent_activity.status.pending': 'Pending',
   'agent_activity.status.in_progress': 'In progress',
   'agent_activity.status.in_progress.description': 'Please wait...',
@@ -2414,15 +2414,15 @@ export const defaultMessages = {
   'pull_request.assign_to_agent.opens_pr': 'Opens 1 PR',
   'pull_request.assign_to_agent.loading': 'Assigning issues to Agent',
   'pull_request.assign_to_agent.success.title':
-    '{issueCount, plural, one {# issue} other {# issues}} assigned to Agent',
+    '{issueCount, plural, one {# issue} other {# issues}} assigned to Remediation Agent',
   'pull_request.assign_to_agent.success.description':
-    'The Agent job for this pull request has started.',
+    'The Remediation Agent job for this pull request has started.',
   'pull_request.assign_to_agent.error.title': 'Failed to assign issues',
   'pull_request.assign_to_agent.error.description':
-    'Unable to create the Agent job. Please try again.',
-  'pull_request.assign_to_agent.view_agent_activity': 'View Agent Activity',
-  'pull_request.assign_to_agent.status_loading': 'Loading Agent status',
-  'pull_request.assigned_to_agent': 'Assigned to Agent',
+    'Unable to create the Remediation Agent job. Please try again.',
+  'pull_request.assign_to_agent.view_agent_activity': 'View Remediation Agent activity',
+  'pull_request.assign_to_agent.status_loading': 'Loading Remediation Agent status',
+  'pull_request.assigned_to_agent': 'Assigned to Remediation Agent',
   'pull_request.assign_to_agent.ready_to_review': 'Ready to review',
   'pull_request.assign_to_agent.pr_opened': '1 PR opened',
   'pull_request.assign_to_agent.fix_pr_number': 'Fix PR #{prNumber}',
@@ -4739,7 +4739,7 @@ export const defaultMessages = {
   // (yellow) and GitLab-token-type banners; the strings below are new to this surface.
   'settings.almintegration.remediation_agent.title': 'Create branches and pull requests',
   'settings.almintegration.remediation_agent.description':
-    'Required for the Remediation Agent to clone repositories, create branches, and open pull requests.',
+    'Required for Remediation Agent to clone repositories, create branches, and open pull requests.',
   'settings.almintegration.remediation_agent.status.missing_permissions': 'Missing permissions',
   'settings.almintegration.remediation_agent.status.unable_to_verify': 'Unable to verify',
   'settings.almintegration.remediation_agent.unable_to_verify_description':
