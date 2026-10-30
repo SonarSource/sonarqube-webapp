@@ -3284,7 +3284,6 @@ export const defaultMessages = {
     'After the scan completes, results will appear in Container images.',
   'sca.container_images.empty.supported':
     'Supported base images: Red Hat Enterprise Linux, Debian 11+, Ubuntu, and Alpine.',
-  'sca.container_images.empty.documentation': 'Set up your first scan here',
   'sca.container_images.risks.empty.title':
     'No open vulnerabilities or malicious packages were found',
   'sca.container_images.risks.empty.body':
