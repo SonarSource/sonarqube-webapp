@@ -52,6 +52,7 @@ export function DragHandle(props: Readonly<Props> = {}) {
       }}
     >
       <svg
+        aria-hidden={titleMessageId ? undefined : true}
         fill="none"
         height={height}
         viewBox={`0 0 ${width} ${height}`}
