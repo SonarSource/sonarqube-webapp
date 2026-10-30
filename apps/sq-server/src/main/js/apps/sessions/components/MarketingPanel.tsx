@@ -36,7 +36,7 @@ export default function MarketingPanel() {
         alt={formatMessage({ id: 'login.marketing.background.alt' })}
         src="/images/sonar-whale-white.svg"
       />
-      <div className="sw:text-white sw:flex sw:flex-col sw:py-10 sw:w-full sw:max-w-[31rem] sw:mx-auto">
+      <MarketingContent className="sw:flex sw:flex-col sw:py-10 sw:w-full sw:max-w-[31rem] sw:mx-auto">
         <Spinner isLoading={isLoading}>
           {displayMessage ? (
             <CustomMessage>
@@ -51,9 +51,9 @@ export default function MarketingPanel() {
                 className="sw:mb-6"
                 src="/images/sonar-logo-white.svg"
               />
-              <Heading as="h1" className="sw:mb-4 sw:text-white">
+              <MarketingHeading as="h1" className="sw:mb-4">
                 <FormattedMessage id="login.marketing.title" />
-              </Heading>
+              </MarketingHeading>
               <FormattedMessage id="login.marketing.description" />
 
               <ul className="sw:list-disc sw:flex sw:flex-col sw:gap-6 sw:mt-4 sw:pl-4">
@@ -79,10 +79,18 @@ export default function MarketingPanel() {
             </div>
           )}
         </Spinner>
-      </div>
+      </MarketingContent>
     </SonarBackgroundContainer>
   );
 }
+
+const MarketingContent = styled.div`
+  color: ${cssVar('color-text-on-color')};
+`;
+
+const MarketingHeading = styled(Heading)`
+  color: ${cssVar('color-text-on-color')};
+`;
 
 const SonarBackgroundContainer = styled.div`
   position: relative;
