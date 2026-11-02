@@ -959,6 +959,8 @@ export const defaultMessages = {
     'The agent runtime is unavailable. Ask your SonarQube administrator to check the agent services.',
   'hunter_agent.activity.failure.scm_branch_not_found':
     'The branch could not be found in the source code provider. Check that it still exists.',
+  'hunter_agent.activity.failure.repository_too_large':
+    "The repository exceeds the Hunter Agent's 3 GB size limit. Reduce the repository size and try again.",
   'hunter_agent.activity.failure.scm_credentials_rejected':
     'The source code provider rejected the credentials. Update the connection credentials and try again.',
   'hunter_agent.activity.failure.unsupported_scm_provider':
