@@ -1,5 +1,4 @@
 import { createClient } from '@hey-api/openapi-ts';
-import { execFileSync } from 'node:child_process';
 import { existsSync, readFileSync, writeFileSync } from 'node:fs';
 import { dirname, join, relative } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -36,7 +35,6 @@ await createClient({
   ],
 });
 normalizeGeneratedSource();
-execFileSync('yarn', ['prettier', '--write', output], { stdio: 'inherit' });
 
 // Paths are relative to the single declared server (`/api/v2`). Moving that prefix into the paths
 // keeps the Axios base URL free for the deployment context path.

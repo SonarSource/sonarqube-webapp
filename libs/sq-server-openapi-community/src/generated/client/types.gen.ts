@@ -10,7 +10,10 @@ import type {
 } from 'axios';
 
 import type { Auth } from '../core/auth.gen';
-import type { ServerSentEventsOptions, ServerSentEventsResult } from '../core/serverSentEvents.gen';
+import type {
+  ServerSentEventsOptions,
+  ServerSentEventsResult,
+} from '../core/serverSentEvents.gen';
 import type { Client as CoreClient, Config as CoreConfig } from '../core/types.gen';
 
 export interface Config<T extends ClientOptions = ClientOptions>

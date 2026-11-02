@@ -39,7 +39,13 @@ export type IssueSeverity = `${SoftwareImpactSeverity}`;
  * For security hotspots, reviewed outcomes are `FIXED` and `SAFE`
  */
 export type IssueCountStatus =
-  'ACCEPTED' | 'CONFIRMED' | 'FALSE_POSITIVE' | 'FIXED' | 'OPEN' | 'SAFE' | 'TO_REVIEW';
+  | 'ACCEPTED'
+  | 'CONFIRMED'
+  | 'FALSE_POSITIVE'
+  | 'FIXED'
+  | 'OPEN'
+  | 'SAFE'
+  | 'TO_REVIEW';
 
 /**
  * Organizations API `impacts` query param: `{SoftwareQuality}:{Severity}` (see

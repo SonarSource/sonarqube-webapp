@@ -69,7 +69,7 @@ These rules are mandatory for every change:
 
 4. **Before writing anything new**, look at a similar existing component and follow the exact same pattern.
 
-5. **After every file change**, run `yarn prettier --write <file>` immediately.
+5. **After every file change**, run `yarn oxfmt <file>` immediately.
 
 6. **After every file change**, verify with `git diff --name-only` that only expected files changed.
 

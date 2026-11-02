@@ -327,7 +327,12 @@ export interface Period {
  * backward compatibility.
  */
 export type PeriodMode =
-  'days' | 'date' | 'version' | 'previous_analysis' | 'previous_version' | 'manual_baseline';
+  | 'days'
+  | 'date'
+  | 'version'
+  | 'previous_analysis'
+  | 'previous_version'
+  | 'manual_baseline';
 
 export interface Permission {
   description: string;
@@ -606,14 +611,25 @@ export interface SysInfoStandalone extends SysInfoBase {
 }
 
 export type SysInfoValue =
-  boolean | string | number | undefined | HealthTypes | SysInfoValueObject | SysInfoValueArray;
+  | boolean
+  | string
+  | number
+  | undefined
+  | HealthTypes
+  | SysInfoValueObject
+  | SysInfoValueArray;
 
 export interface SysInfoValueArray extends Array<SysInfoValue> {}
 
 export interface SysInfoValueObject extends Record<string, SysInfoValue> {}
 
 export type SysStatus =
-  'STARTING' | 'UP' | 'DOWN' | 'RESTARTING' | 'DB_MIGRATION_NEEDED' | 'DB_MIGRATION_RUNNING';
+  | 'STARTING'
+  | 'UP'
+  | 'DOWN'
+  | 'RESTARTING'
+  | 'DB_MIGRATION_NEEDED'
+  | 'DB_MIGRATION_RUNNING';
 
 export interface TestCase {
   coveredLines: number;

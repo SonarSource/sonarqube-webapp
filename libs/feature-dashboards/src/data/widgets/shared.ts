@@ -137,7 +137,11 @@ type ScaResolutionMetric = {
 };
 
 export type DashboardMetric =
-  RawMetric | RichMetric | IssueResolutionMetric | IssueDensityMetric | ScaResolutionMetric;
+  | RawMetric
+  | RichMetric
+  | IssueResolutionMetric
+  | IssueDensityMetric
+  | ScaResolutionMetric;
 
 const rawMetricSchema = v.object({
   metricKey: v.enum(MetricKey),

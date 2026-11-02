@@ -46,4 +46,4 @@ Use either:
 
 The library can be formatted in isolation with either:
 - `yarn nx format-check <%= name %>`
-- `yarn nx format-check <%= name %> --write`
+- `yarn nx format-write <%= name %>`

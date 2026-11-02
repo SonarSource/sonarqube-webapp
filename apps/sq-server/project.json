@@ -15,6 +15,7 @@
     },
     "dep-check": {},
     "format-check": {},
+    "format-write": {},
     "start": {},
     "start-w-mocks": {
       "options": {

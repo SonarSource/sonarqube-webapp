@@ -35,7 +35,7 @@ export function FeatureAvailabilityGuard({
   PropsWithChildren<{
     featureKeys: EntitlementCheckFeatureKey[];
     guardOnly?: boolean;
-    requiresEntitlement?: boolean; /* Requires at least one feature to be available if true */
+    requiresEntitlement?: boolean /* Requires at least one feature to be available if true */;
   }>
 >) {
   const { isAvailable, isError, isPending, refetch } = useFeatureAvailability(featureKeys, {

@@ -52,4 +52,4 @@ Use either:
 The library can be formatted in isolation with either:
 
 - `yarn nx format-check sq-server-commons`
-- `yarn nx format-check sq-server-commons --write`
+- `yarn nx format-write sq-server-commons`

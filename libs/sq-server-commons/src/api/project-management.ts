@@ -38,7 +38,9 @@ export interface ProjectBase {
   name: string;
   projectUuid: string;
   qualifier:
-    ComponentQualifier.Application | ComponentQualifier.Portfolio | ComponentQualifier.Project;
+    | ComponentQualifier.Application
+    | ComponentQualifier.Portfolio
+    | ComponentQualifier.Project;
   visibility: Visibility;
 }
 

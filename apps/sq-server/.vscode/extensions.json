@@ -3,7 +3,8 @@
     "dbaeumer.vscode-eslint",
     "mgmcdermott.vscode-language-babel",
     "sonarsource.sonarlint-vscode",
-    "esbenp.prettier-vscode",
+    "oxc.oxc-vscode",
     "eamodio.gitlens"
-  ]
+  ],
+  "unwantedRecommendations": ["esbenp.prettier-vscode"]
 }

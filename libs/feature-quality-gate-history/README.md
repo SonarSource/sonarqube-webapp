@@ -88,4 +88,4 @@ Use either:
 The library can be formatted in isolation with either:
 
 - `yarn nx format-check feature-quality-gate-history`
-- `yarn nx format-check feature-quality-gate-history --write`
+- `yarn nx format-write feature-quality-gate-history`

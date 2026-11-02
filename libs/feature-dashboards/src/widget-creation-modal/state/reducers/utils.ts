@@ -178,7 +178,8 @@ export function mergeMeasureFiltersIntoLineOrCountConfig(
       },
     };
     const clamped = clampConfigScopeForReducerOptions(selectedType, next, options) as
-      LineChartConfig | CountConfig;
+      | LineChartConfig
+      | CountConfig;
     if (selectedType === VisualizationType.Count) {
       return clampCountTrendIndicator(clamped as CountConfig);
     }

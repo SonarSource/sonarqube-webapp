@@ -51,4 +51,4 @@ Use either:
 The library can be formatted in isolation with either:
 
 - `yarn nx format-check shared`
-- `yarn nx format-check shared --write`
+- `yarn nx format-write shared`

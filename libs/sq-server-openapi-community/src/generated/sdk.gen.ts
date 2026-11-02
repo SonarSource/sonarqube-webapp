@@ -2,159 +2,20 @@
 
 import type { Client, ClientMeta, Options as Options2, RequestResult, TDataShape } from './client';
 import { client } from './client.gen';
-import type {
-  BillAzureAccountData,
-  BillAzureAccountResponses,
-  CheckDopPermissionsData,
-  CheckDopPermissionsResponses,
-  Create1Data,
-  Create1Responses,
-  Create2Data,
-  Create2Responses,
-  Create3Data,
-  Create3Responses,
-  Create4Data,
-  Create4Responses,
-  CreateBoundProjectData,
-  CreateBoundProjectErrors,
-  CreateBoundProjectResponses,
-  CreateData,
-  CreateEmailConfigurationData,
-  CreateEmailConfigurationResponses,
-  CreateGithubConfigurationData,
-  CreateGithubConfigurationResponses,
-  CreateOrUpdateBoundProjectData,
-  CreateOrUpdateBoundProjectErrors,
-  CreateOrUpdateBoundProjectResponses,
-  CreateResponses,
-  DeactivateData,
-  DeactivateResponses,
-  DeleteData,
-  DeleteEmailConfigurationData,
-  DeleteEmailConfigurationResponses,
-  DeleteGithubConfigurationData,
-  DeleteGithubConfigurationResponses,
-  DeleteGitlabConfigurationData,
-  DeleteGitlabConfigurationResponses,
-  DeleteGroupData,
-  DeleteGroupResponses,
-  DeleteResponses,
-  DownloadJreData,
-  DownloadJreResponses,
-  DownloadScannerEngineData,
-  DownloadScannerEngineResponses,
-  FetchAllDopSettingsData,
-  FetchAllDopSettingsResponses,
-  FetchGroupData,
-  FetchGroupResponses,
-  FetchUserData,
-  FetchUserResponses,
-  GenerateInstallationTokenData,
-  GenerateInstallationTokenResponses,
-  GenerateScmAccessTokenData,
-  GenerateScmAccessTokenResponses,
-  GetActiveRulesData,
-  GetActiveRulesResponses,
-  GetBuiltInDashboardData,
-  GetBuiltInDashboardErrors,
-  GetBuiltInDashboardResponses,
-  GetEmailConfigurationData,
-  GetEmailConfigurationResponses,
-  GetGithubConfigurationData,
-  GetGithubConfigurationResponses,
-  GetGitlabConfigurationData,
-  GetGitlabConfigurationResponses,
-  GetHealthData,
-  GetHealthResponses,
-  GetIssueCountHistoryData,
-  GetIssueCountHistoryErrors,
-  GetIssueCountHistoryResponses,
-  GetIssueDensityHistoryData,
-  GetIssueDensityHistoryErrors,
-  GetIssueDensityHistoryResponses,
-  GetIssueResolutionHistoryData,
-  GetIssueResolutionHistoryErrors,
-  GetIssueResolutionHistoryResponses,
-  GetJresMetadataData,
-  GetJresMetadataResponses,
-  GetMeasuresHistoryData,
-  GetMeasuresHistoryErrors,
-  GetMeasuresHistoryResponses,
-  GetModeData,
-  GetModeResponses,
-  GetOnboardingOverviewData,
-  GetOnboardingOverviewResponses,
-  GetOnboardingProjectsData,
-  GetOnboardingProjectsResponses,
-  GetOnboardingStatisticsData,
-  GetOnboardingStatisticsResponses,
-  GetProjectBindingByProjectIdData,
-  GetProjectBindingByProjectIdResponses,
-  GetProjectBindingData,
-  GetProjectBindingResponses,
-  GetProjectIssueCountsData,
-  GetProjectIssueCountsErrors,
-  GetProjectIssueCountsResponses,
-  GetProjectIssueResolutionData,
-  GetProjectIssueResolutionErrors,
-  GetProjectIssueResolutionResponses,
-  GetProjectMeasuresData,
-  GetProjectMeasuresErrors,
-  GetProjectMeasuresResponses,
-  GetStatusData,
-  GetStatusResponses,
-  GetVersionData,
-  GetVersionResponses,
-  ListBuiltInDashboardsData,
-  ListBuiltInDashboardsErrors,
-  ListBuiltInDashboardsResponses,
-  LivenessCheckData,
-  LivenessCheckErrors,
-  LivenessCheckResponses,
-  PatchModeData,
-  PatchModeResponses,
-  Search1Data,
-  Search1Responses,
-  Search2Data,
-  Search2Responses,
-  Search3Data,
-  Search3Responses,
-  SearchData,
-  SearchEmailConfigurationsData,
-  SearchEmailConfigurationsResponses,
-  SearchGithubConfigurationData,
-  SearchGithubConfigurationResponses,
-  SearchGitlabConfigurationData,
-  SearchGitlabConfigurationResponses,
-  SearchResponses,
-  UpdateEmailConfigurationData,
-  UpdateEmailConfigurationResponses,
-  UpdateGithubConfigurationData,
-  UpdateGithubConfigurationResponses,
-  UpdateGitlabConfigurationData,
-  UpdateGitlabConfigurationResponses,
-  UpdateGroupData,
-  UpdateGroupResponses,
-  UpdateUserData,
-  UpdateUserResponses,
-} from './types.gen';
+import type { BillAzureAccountData, BillAzureAccountResponses, CheckDopPermissionsData, CheckDopPermissionsResponses, Create1Data, Create1Responses, Create2Data, Create2Responses, Create3Data, Create3Responses, Create4Data, Create4Responses, CreateBoundProjectData, CreateBoundProjectErrors, CreateBoundProjectResponses, CreateData, CreateEmailConfigurationData, CreateEmailConfigurationResponses, CreateGithubConfigurationData, CreateGithubConfigurationResponses, CreateOrUpdateBoundProjectData, CreateOrUpdateBoundProjectErrors, CreateOrUpdateBoundProjectResponses, CreateResponses, DeactivateData, DeactivateResponses, DeleteData, DeleteEmailConfigurationData, DeleteEmailConfigurationResponses, DeleteGithubConfigurationData, DeleteGithubConfigurationResponses, DeleteGitlabConfigurationData, DeleteGitlabConfigurationResponses, DeleteGroupData, DeleteGroupResponses, DeleteResponses, DownloadJreData, DownloadJreResponses, DownloadScannerEngineData, DownloadScannerEngineResponses, FetchAllDopSettingsData, FetchAllDopSettingsResponses, FetchGroupData, FetchGroupResponses, FetchUserData, FetchUserResponses, GenerateInstallationTokenData, GenerateInstallationTokenResponses, GenerateScmAccessTokenData, GenerateScmAccessTokenResponses, GetActiveRulesData, GetActiveRulesResponses, GetBuiltInDashboardData, GetBuiltInDashboardErrors, GetBuiltInDashboardResponses, GetEmailConfigurationData, GetEmailConfigurationResponses, GetGithubConfigurationData, GetGithubConfigurationResponses, GetGitlabConfigurationData, GetGitlabConfigurationResponses, GetHealthData, GetHealthResponses, GetIssueCountHistoryData, GetIssueCountHistoryErrors, GetIssueCountHistoryResponses, GetIssueDensityHistoryData, GetIssueDensityHistoryErrors, GetIssueDensityHistoryResponses, GetIssueResolutionHistoryData, GetIssueResolutionHistoryErrors, GetIssueResolutionHistoryResponses, GetJresMetadataData, GetJresMetadataResponses, GetMeasuresHistoryData, GetMeasuresHistoryErrors, GetMeasuresHistoryResponses, GetModeData, GetModeResponses, GetOnboardingOverviewData, GetOnboardingOverviewResponses, GetOnboardingProjectsData, GetOnboardingProjectsResponses, GetOnboardingStatisticsData, GetOnboardingStatisticsResponses, GetProjectBindingByProjectIdData, GetProjectBindingByProjectIdResponses, GetProjectBindingData, GetProjectBindingResponses, GetProjectIssueCountsData, GetProjectIssueCountsErrors, GetProjectIssueCountsResponses, GetProjectIssueResolutionData, GetProjectIssueResolutionErrors, GetProjectIssueResolutionResponses, GetProjectMeasuresData, GetProjectMeasuresErrors, GetProjectMeasuresResponses, GetStatusData, GetStatusResponses, GetVersionData, GetVersionResponses, ListBuiltInDashboardsData, ListBuiltInDashboardsErrors, ListBuiltInDashboardsResponses, LivenessCheckData, LivenessCheckErrors, LivenessCheckResponses, PatchModeData, PatchModeResponses, Search1Data, Search1Responses, Search2Data, Search2Responses, Search3Data, Search3Responses, SearchData, SearchEmailConfigurationsData, SearchEmailConfigurationsResponses, SearchGithubConfigurationData, SearchGithubConfigurationResponses, SearchGitlabConfigurationData, SearchGitlabConfigurationResponses, SearchResponses, UpdateEmailConfigurationData, UpdateEmailConfigurationResponses, UpdateGithubConfigurationData, UpdateGithubConfigurationResponses, UpdateGitlabConfigurationData, UpdateGitlabConfigurationResponses, UpdateGroupData, UpdateGroupResponses, UpdateUserData, UpdateUserResponses } from './types.gen';
 
-export type Options<
-  TData extends TDataShape = TDataShape,
-  ThrowOnError extends boolean = boolean,
-  TResponse = unknown,
-> = Options2<TData, ThrowOnError, TResponse> & {
-  /**
-   * You can provide a client instance returned by `createClient()` instead of
-   * individual options. This might be also useful if you want to implement a
-   * custom client.
-   */
-  client?: Client;
-  /**
-   * You can pass arbitrary values through the `meta` object. This can be
-   * used to access values that aren't defined as part of the SDK function.
-   */
-  meta?: keyof ClientMeta extends never ? Record<string, unknown> : ClientMeta;
+export type Options<TData extends TDataShape = TDataShape, ThrowOnError extends boolean = boolean, TResponse = unknown> = Options2<TData, ThrowOnError, TResponse> & {
+    /**
+     * You can provide a client instance returned by `createClient()` instead of
+     * individual options. This might be also useful if you want to implement a
+     * custom client.
+     */
+    client?: Client;
+    /**
+     * You can pass arbitrary values through the `meta` object. This can be
+     * used to access values that aren't defined as part of the SDK function.
+     */
+    meta?: keyof ClientMeta extends never ? Record<string, unknown> : ClientMeta;
 };
 
 /**
@@ -165,22 +26,15 @@ export type Options<
  * Requires the 'Create Projects' permission and setting a Personal Access Token with api/alm_integrations/set_pat for a user who will be using this endpoint
  *
  */
-export const createBoundProject = <ThrowOnError extends boolean = true>(
-  options: Options<CreateBoundProjectData, ThrowOnError>,
-): RequestResult<CreateBoundProjectResponses, CreateBoundProjectErrors, ThrowOnError> =>
-  (options.client ?? client).post<
-    CreateBoundProjectResponses,
-    CreateBoundProjectErrors,
-    ThrowOnError
-  >({
+export const createBoundProject = <ThrowOnError extends boolean = true>(options: Options<CreateBoundProjectData, ThrowOnError>): RequestResult<CreateBoundProjectResponses, CreateBoundProjectErrors, ThrowOnError> => (options.client ?? client).post<CreateBoundProjectResponses, CreateBoundProjectErrors, ThrowOnError>({
     responseType: 'json',
     url: '/api/v2/dop-translation/bound-projects',
     ...options,
     headers: {
-      'Content-Type': 'application/json',
-      ...options.headers,
-    },
-  });
+        'Content-Type': 'application/json',
+        ...options.headers
+    }
+});
 
 /**
  * Create or update a bound SonarQube project
@@ -193,26 +47,15 @@ export const createBoundProject = <ThrowOnError extends boolean = true>(
  * Updating an existing project additionally requires the 'Administer' permission on that project.
  *
  */
-export const createOrUpdateBoundProject = <ThrowOnError extends boolean = true>(
-  options: Options<CreateOrUpdateBoundProjectData, ThrowOnError>,
-): RequestResult<
-  CreateOrUpdateBoundProjectResponses,
-  CreateOrUpdateBoundProjectErrors,
-  ThrowOnError
-> =>
-  (options.client ?? client).put<
-    CreateOrUpdateBoundProjectResponses,
-    CreateOrUpdateBoundProjectErrors,
-    ThrowOnError
-  >({
+export const createOrUpdateBoundProject = <ThrowOnError extends boolean = true>(options: Options<CreateOrUpdateBoundProjectData, ThrowOnError>): RequestResult<CreateOrUpdateBoundProjectResponses, CreateOrUpdateBoundProjectErrors, ThrowOnError> => (options.client ?? client).put<CreateOrUpdateBoundProjectResponses, CreateOrUpdateBoundProjectErrors, ThrowOnError>({
     responseType: 'json',
     url: '/api/v2/dop-translation/bound-projects',
     ...options,
     headers: {
-      'Content-Type': 'application/json',
-      ...options.headers,
-    },
-  });
+        'Content-Type': 'application/json',
+        ...options.headers
+    }
+});
 
 /**
  * Users search
@@ -230,14 +73,11 @@ export const createOrUpdateBoundProject = <ThrowOnError extends boolean = true>(
  * The results are sorted alphabetically by login.
  *
  */
-export const search = <ThrowOnError extends boolean = true>(
-  options?: Options<SearchData, ThrowOnError>,
-): RequestResult<SearchResponses, unknown, ThrowOnError> =>
-  (options?.client ?? client).get<SearchResponses, unknown, ThrowOnError>({
+export const search = <ThrowOnError extends boolean = true>(options?: Options<SearchData, ThrowOnError>): RequestResult<SearchResponses, unknown, ThrowOnError> => (options?.client ?? client).get<SearchResponses, unknown, ThrowOnError>({
     responseType: 'json',
     url: '/api/v2/users-management/users',
-    ...options,
-  });
+    ...options
+});
 
 /**
  * User creation
@@ -247,18 +87,15 @@ export const search = <ThrowOnError extends boolean = true>(
  * Requires Administer System permission.
  *
  */
-export const create = <ThrowOnError extends boolean = true>(
-  options: Options<CreateData, ThrowOnError>,
-): RequestResult<CreateResponses, unknown, ThrowOnError> =>
-  (options.client ?? client).post<CreateResponses, unknown, ThrowOnError>({
+export const create = <ThrowOnError extends boolean = true>(options: Options<CreateData, ThrowOnError>): RequestResult<CreateResponses, unknown, ThrowOnError> => (options.client ?? client).post<CreateResponses, unknown, ThrowOnError>({
     responseType: 'json',
     url: '/api/v2/users-management/users',
     ...options,
     headers: {
-      'Content-Type': 'application/json',
-      ...options.headers,
-    },
-  });
+        'Content-Type': 'application/json',
+        ...options.headers
+    }
+});
 
 /**
  * Search email configurations
@@ -268,14 +105,11 @@ export const create = <ThrowOnError extends boolean = true>(
  * Requires 'Administer System' permission.
  *
  */
-export const searchEmailConfigurations = <ThrowOnError extends boolean = true>(
-  options?: Options<SearchEmailConfigurationsData, ThrowOnError>,
-): RequestResult<SearchEmailConfigurationsResponses, unknown, ThrowOnError> =>
-  (options?.client ?? client).get<SearchEmailConfigurationsResponses, unknown, ThrowOnError>({
+export const searchEmailConfigurations = <ThrowOnError extends boolean = true>(options?: Options<SearchEmailConfigurationsData, ThrowOnError>): RequestResult<SearchEmailConfigurationsResponses, unknown, ThrowOnError> => (options?.client ?? client).get<SearchEmailConfigurationsResponses, unknown, ThrowOnError>({
     responseType: 'json',
     url: '/api/v2/system/email-configurations',
-    ...options,
-  });
+    ...options
+});
 
 /**
  * Create an email configuration
@@ -285,32 +119,26 @@ export const searchEmailConfigurations = <ThrowOnError extends boolean = true>(
  * Requires 'Administer System' permission.
  *
  */
-export const createEmailConfiguration = <ThrowOnError extends boolean = true>(
-  options: Options<CreateEmailConfigurationData, ThrowOnError>,
-): RequestResult<CreateEmailConfigurationResponses, unknown, ThrowOnError> =>
-  (options.client ?? client).post<CreateEmailConfigurationResponses, unknown, ThrowOnError>({
+export const createEmailConfiguration = <ThrowOnError extends boolean = true>(options: Options<CreateEmailConfigurationData, ThrowOnError>): RequestResult<CreateEmailConfigurationResponses, unknown, ThrowOnError> => (options.client ?? client).post<CreateEmailConfigurationResponses, unknown, ThrowOnError>({
     responseType: 'json',
     url: '/api/v2/system/email-configurations',
     ...options,
     headers: {
-      'Content-Type': 'application/json',
-      ...options.headers,
-    },
-  });
+        'Content-Type': 'application/json',
+        ...options.headers
+    }
+});
 
 /**
  * Bills user's Azure account with the cost of SonarQube Server license
  *
  * Used by admin to bill user's Azure account with the cost of SonarQube Server license.
  */
-export const billAzureAccount = <ThrowOnError extends boolean = true>(
-  options?: Options<BillAzureAccountData, ThrowOnError>,
-): RequestResult<BillAzureAccountResponses, unknown, ThrowOnError> =>
-  (options?.client ?? client).post<BillAzureAccountResponses, unknown, ThrowOnError>({
+export const billAzureAccount = <ThrowOnError extends boolean = true>(options?: Options<BillAzureAccountData, ThrowOnError>): RequestResult<BillAzureAccountResponses, unknown, ThrowOnError> => (options?.client ?? client).post<BillAzureAccountResponses, unknown, ThrowOnError>({
     responseType: 'json',
     url: '/api/v2/marketplace/azure/billing',
-    ...options,
-  });
+    ...options
+});
 
 /**
  * Provide a scoped SCM access token
@@ -322,14 +150,11 @@ export const billAzureAccount = <ThrowOnError extends boolean = true>(
  * Requires the 'Administer System' permission or trusted privileged-service authentication.
  *
  */
-export const generateScmAccessToken = <ThrowOnError extends boolean = true>(
-  options: Options<GenerateScmAccessTokenData, ThrowOnError>,
-): RequestResult<GenerateScmAccessTokenResponses, unknown, ThrowOnError> =>
-  (options.client ?? client).post<GenerateScmAccessTokenResponses, unknown, ThrowOnError>({
+export const generateScmAccessToken = <ThrowOnError extends boolean = true>(options: Options<GenerateScmAccessTokenData, ThrowOnError>): RequestResult<GenerateScmAccessTokenResponses, unknown, ThrowOnError> => (options.client ?? client).post<GenerateScmAccessTokenResponses, unknown, ThrowOnError>({
     responseType: 'json',
     url: '/api/v2/dop-translation/scm-access-tokens',
-    ...options,
-  });
+    ...options
+});
 
 /**
  * Search GitLab configs
@@ -340,14 +165,11 @@ export const generateScmAccessToken = <ThrowOnError extends boolean = true>(
  * logged-in users receive a reduced response with only the provisioning status.
  *
  */
-export const searchGitlabConfiguration = <ThrowOnError extends boolean = true>(
-  options?: Options<SearchGitlabConfigurationData, ThrowOnError>,
-): RequestResult<SearchGitlabConfigurationResponses, unknown, ThrowOnError> =>
-  (options?.client ?? client).get<SearchGitlabConfigurationResponses, unknown, ThrowOnError>({
+export const searchGitlabConfiguration = <ThrowOnError extends boolean = true>(options?: Options<SearchGitlabConfigurationData, ThrowOnError>): RequestResult<SearchGitlabConfigurationResponses, unknown, ThrowOnError> => (options?.client ?? client).get<SearchGitlabConfigurationResponses, unknown, ThrowOnError>({
     responseType: 'json',
     url: '/api/v2/dop-translation/gitlab-configurations',
-    ...options,
-  });
+    ...options
+});
 
 /**
  * Create Gitlab configuration
@@ -357,18 +179,15 @@ export const searchGitlabConfiguration = <ThrowOnError extends boolean = true>(
  * Requires 'Administer System' permission.
  *
  */
-export const create1 = <ThrowOnError extends boolean = true>(
-  options: Options<Create1Data, ThrowOnError>,
-): RequestResult<Create1Responses, unknown, ThrowOnError> =>
-  (options.client ?? client).post<Create1Responses, unknown, ThrowOnError>({
+export const create1 = <ThrowOnError extends boolean = true>(options: Options<Create1Data, ThrowOnError>): RequestResult<Create1Responses, unknown, ThrowOnError> => (options.client ?? client).post<Create1Responses, unknown, ThrowOnError>({
     responseType: 'json',
     url: '/api/v2/dop-translation/gitlab-configurations',
     ...options,
     headers: {
-      'Content-Type': 'application/json',
-      ...options.headers,
-    },
-  });
+        'Content-Type': 'application/json',
+        ...options.headers
+    }
+});
 
 /**
  * Mint a GitHub App installation token
@@ -378,14 +197,11 @@ export const create1 = <ThrowOnError extends boolean = true>(
  * Requires the 'Administer System' permission.
  *
  */
-export const generateInstallationToken = <ThrowOnError extends boolean = true>(
-  options: Options<GenerateInstallationTokenData, ThrowOnError>,
-): RequestResult<GenerateInstallationTokenResponses, unknown, ThrowOnError> =>
-  (options.client ?? client).post<GenerateInstallationTokenResponses, unknown, ThrowOnError>({
+export const generateInstallationToken = <ThrowOnError extends boolean = true>(options: Options<GenerateInstallationTokenData, ThrowOnError>): RequestResult<GenerateInstallationTokenResponses, unknown, ThrowOnError> => (options.client ?? client).post<GenerateInstallationTokenResponses, unknown, ThrowOnError>({
     responseType: 'json',
     url: '/api/v2/dop-translation/github-installation-tokens',
-    ...options,
-  });
+    ...options
+});
 
 /**
  * Search GitHub configs
@@ -395,14 +211,11 @@ export const generateInstallationToken = <ThrowOnError extends boolean = true>(
  * Requires 'Administer System' permission.
  *
  */
-export const searchGithubConfiguration = <ThrowOnError extends boolean = true>(
-  options?: Options<SearchGithubConfigurationData, ThrowOnError>,
-): RequestResult<SearchGithubConfigurationResponses, unknown, ThrowOnError> =>
-  (options?.client ?? client).get<SearchGithubConfigurationResponses, unknown, ThrowOnError>({
+export const searchGithubConfiguration = <ThrowOnError extends boolean = true>(options?: Options<SearchGithubConfigurationData, ThrowOnError>): RequestResult<SearchGithubConfigurationResponses, unknown, ThrowOnError> => (options?.client ?? client).get<SearchGithubConfigurationResponses, unknown, ThrowOnError>({
     responseType: 'json',
     url: '/api/v2/dop-translation/github-configurations',
-    ...options,
-  });
+    ...options
+});
 
 /**
  * Create GitHub configuration
@@ -412,18 +225,15 @@ export const searchGithubConfiguration = <ThrowOnError extends boolean = true>(
  * Requires 'Administer System' permission.
  *
  */
-export const createGithubConfiguration = <ThrowOnError extends boolean = true>(
-  options: Options<CreateGithubConfigurationData, ThrowOnError>,
-): RequestResult<CreateGithubConfigurationResponses, unknown, ThrowOnError> =>
-  (options.client ?? client).post<CreateGithubConfigurationResponses, unknown, ThrowOnError>({
+export const createGithubConfiguration = <ThrowOnError extends boolean = true>(options: Options<CreateGithubConfigurationData, ThrowOnError>): RequestResult<CreateGithubConfigurationResponses, unknown, ThrowOnError> => (options.client ?? client).post<CreateGithubConfigurationResponses, unknown, ThrowOnError>({
     responseType: 'json',
     url: '/api/v2/dop-translation/github-configurations',
     ...options,
     headers: {
-      'Content-Type': 'application/json',
-      ...options.headers,
-    },
-  });
+        'Content-Type': 'application/json',
+        ...options.headers
+    }
+});
 
 /**
  * Custom rule creation
@@ -432,18 +242,15 @@ export const createGithubConfiguration = <ThrowOnError extends boolean = true>(
  * Requires the 'Administer Quality Profiles' permission.
  *
  */
-export const create2 = <ThrowOnError extends boolean = true>(
-  options: Options<Create2Data, ThrowOnError>,
-): RequestResult<Create2Responses, unknown, ThrowOnError> =>
-  (options.client ?? client).post<Create2Responses, unknown, ThrowOnError>({
+export const create2 = <ThrowOnError extends boolean = true>(options: Options<Create2Data, ThrowOnError>): RequestResult<Create2Responses, unknown, ThrowOnError> => (options.client ?? client).post<Create2Responses, unknown, ThrowOnError>({
     responseType: 'json',
     url: '/api/v2/clean-code-policy/rules',
     ...options,
     headers: {
-      'Content-Type': 'application/json',
-      ...options.headers,
-    },
-  });
+        'Content-Type': 'application/json',
+        ...options.headers
+    }
+});
 
 /**
  * Group search
@@ -452,32 +259,26 @@ export const create2 = <ThrowOnError extends boolean = true>(
  * The results are sorted alphabetically by group name.
  *
  */
-export const search1 = <ThrowOnError extends boolean = true>(
-  options?: Options<Search1Data, ThrowOnError>,
-): RequestResult<Search1Responses, unknown, ThrowOnError> =>
-  (options?.client ?? client).get<Search1Responses, unknown, ThrowOnError>({
+export const search1 = <ThrowOnError extends boolean = true>(options?: Options<Search1Data, ThrowOnError>): RequestResult<Search1Responses, unknown, ThrowOnError> => (options?.client ?? client).get<Search1Responses, unknown, ThrowOnError>({
     responseType: 'json',
     url: '/api/v2/authorizations/groups',
-    ...options,
-  });
+    ...options
+});
 
 /**
  * Create a new group
  *
  * Create a new group.
  */
-export const create3 = <ThrowOnError extends boolean = true>(
-  options: Options<Create3Data, ThrowOnError>,
-): RequestResult<Create3Responses, unknown, ThrowOnError> =>
-  (options.client ?? client).post<Create3Responses, unknown, ThrowOnError>({
+export const create3 = <ThrowOnError extends boolean = true>(options: Options<Create3Data, ThrowOnError>): RequestResult<Create3Responses, unknown, ThrowOnError> => (options.client ?? client).post<Create3Responses, unknown, ThrowOnError>({
     responseType: 'json',
     url: '/api/v2/authorizations/groups',
     ...options,
     headers: {
-      'Content-Type': 'application/json',
-      ...options.headers,
-    },
-  });
+        'Content-Type': 'application/json',
+        ...options.headers
+    }
+});
 
 /**
  * Search across group memberships
@@ -485,45 +286,33 @@ export const create3 = <ThrowOnError extends boolean = true>(
  *   Get the list of groups and members matching the query.
  *
  */
-export const search2 = <ThrowOnError extends boolean = true>(
-  options?: Options<Search2Data, ThrowOnError>,
-): RequestResult<Search2Responses, unknown, ThrowOnError> =>
-  (options?.client ?? client).get<Search2Responses, unknown, ThrowOnError>({
+export const search2 = <ThrowOnError extends boolean = true>(options?: Options<Search2Data, ThrowOnError>): RequestResult<Search2Responses, unknown, ThrowOnError> => (options?.client ?? client).get<Search2Responses, unknown, ThrowOnError>({
     responseType: 'json',
     url: '/api/v2/authorizations/group-memberships',
-    ...options,
-  });
+    ...options
+});
 
 /**
  * Add a group membership
  *
  * Add a user to a group.
  */
-export const create4 = <ThrowOnError extends boolean = true>(
-  options: Options<Create4Data, ThrowOnError>,
-): RequestResult<Create4Responses, unknown, ThrowOnError> =>
-  (options.client ?? client).post<Create4Responses, unknown, ThrowOnError>({
+export const create4 = <ThrowOnError extends boolean = true>(options: Options<Create4Data, ThrowOnError>): RequestResult<Create4Responses, unknown, ThrowOnError> => (options.client ?? client).post<Create4Responses, unknown, ThrowOnError>({
     responseType: 'json',
     url: '/api/v2/authorizations/group-memberships',
     ...options,
     headers: {
-      'Content-Type': 'application/json',
-      ...options.headers,
-    },
-  });
+        'Content-Type': 'application/json',
+        ...options.headers
+    }
+});
 
 /**
  * Deactivate a user
  *
  * Deactivates a user. Requires Administer System permission.
  */
-export const deactivate = <ThrowOnError extends boolean = true>(
-  options: Options<DeactivateData, ThrowOnError>,
-): RequestResult<DeactivateResponses, unknown, ThrowOnError> =>
-  (options.client ?? client).delete<DeactivateResponses, unknown, ThrowOnError>({
-    url: '/api/v2/users-management/users/{id}',
-    ...options,
-  });
+export const deactivate = <ThrowOnError extends boolean = true>(options: Options<DeactivateData, ThrowOnError>): RequestResult<DeactivateResponses, unknown, ThrowOnError> => (options.client ?? client).delete<DeactivateResponses, unknown, ThrowOnError>({ url: '/api/v2/users-management/users/{id}', ...options });
 
 /**
  * Fetch a single user
@@ -540,14 +329,11 @@ export const deactivate = <ThrowOnError extends boolean = true>(
  * Field 'sonarqubeLastConnectionDate' is only updated every hour, so it may not be accurate, for instance when a user authenticates many times in less than one hour.
  *
  */
-export const fetchUser = <ThrowOnError extends boolean = true>(
-  options: Options<FetchUserData, ThrowOnError>,
-): RequestResult<FetchUserResponses, unknown, ThrowOnError> =>
-  (options.client ?? client).get<FetchUserResponses, unknown, ThrowOnError>({
+export const fetchUser = <ThrowOnError extends boolean = true>(options: Options<FetchUserData, ThrowOnError>): RequestResult<FetchUserResponses, unknown, ThrowOnError> => (options.client ?? client).get<FetchUserResponses, unknown, ThrowOnError>({
     responseType: 'json',
     url: '/api/v2/users-management/users/{id}',
-    ...options,
-  });
+    ...options
+});
 
 /**
  * Update a user
@@ -555,18 +341,15 @@ export const fetchUser = <ThrowOnError extends boolean = true>(
  * Update users attributes.
  *
  */
-export const updateUser = <ThrowOnError extends boolean = true>(
-  options: Options<UpdateUserData, ThrowOnError>,
-): RequestResult<UpdateUserResponses, unknown, ThrowOnError> =>
-  (options.client ?? client).patch<UpdateUserResponses, unknown, ThrowOnError>({
+export const updateUser = <ThrowOnError extends boolean = true>(options: Options<UpdateUserData, ThrowOnError>): RequestResult<UpdateUserResponses, unknown, ThrowOnError> => (options.client ?? client).patch<UpdateUserResponses, unknown, ThrowOnError>({
     responseType: 'json',
     url: '/api/v2/users-management/users/{id}',
     ...options,
     headers: {
-      'Content-Type': 'application/merge-patch+json',
-      ...options.headers,
-    },
-  });
+        'Content-Type': 'application/merge-patch+json',
+        ...options.headers
+    }
+});
 
 /**
  * Delete an email configuration
@@ -575,13 +358,7 @@ export const updateUser = <ThrowOnError extends boolean = true>(
  * Requires 'Administer System' permission.
  *
  */
-export const deleteEmailConfiguration = <ThrowOnError extends boolean = true>(
-  options: Options<DeleteEmailConfigurationData, ThrowOnError>,
-): RequestResult<DeleteEmailConfigurationResponses, unknown, ThrowOnError> =>
-  (options.client ?? client).delete<DeleteEmailConfigurationResponses, unknown, ThrowOnError>({
-    url: '/api/v2/system/email-configurations/{id}',
-    ...options,
-  });
+export const deleteEmailConfiguration = <ThrowOnError extends boolean = true>(options: Options<DeleteEmailConfigurationData, ThrowOnError>): RequestResult<DeleteEmailConfigurationResponses, unknown, ThrowOnError> => (options.client ?? client).delete<DeleteEmailConfigurationResponses, unknown, ThrowOnError>({ url: '/api/v2/system/email-configurations/{id}', ...options });
 
 /**
  * Fetch an email configuration
@@ -589,14 +366,11 @@ export const deleteEmailConfiguration = <ThrowOnError extends boolean = true>(
  * Fetch a Email configuration. Requires 'Administer System' permission.
  *
  */
-export const getEmailConfiguration = <ThrowOnError extends boolean = true>(
-  options: Options<GetEmailConfigurationData, ThrowOnError>,
-): RequestResult<GetEmailConfigurationResponses, unknown, ThrowOnError> =>
-  (options.client ?? client).get<GetEmailConfigurationResponses, unknown, ThrowOnError>({
+export const getEmailConfiguration = <ThrowOnError extends boolean = true>(options: Options<GetEmailConfigurationData, ThrowOnError>): RequestResult<GetEmailConfigurationResponses, unknown, ThrowOnError> => (options.client ?? client).get<GetEmailConfigurationResponses, unknown, ThrowOnError>({
     responseType: 'json',
     url: '/api/v2/system/email-configurations/{id}',
-    ...options,
-  });
+    ...options
+});
 
 /**
  * Update an email configuration
@@ -604,18 +378,15 @@ export const getEmailConfiguration = <ThrowOnError extends boolean = true>(
  * Update an email configuration. Requires 'Administer System' permission.
  *
  */
-export const updateEmailConfiguration = <ThrowOnError extends boolean = true>(
-  options: Options<UpdateEmailConfigurationData, ThrowOnError>,
-): RequestResult<UpdateEmailConfigurationResponses, unknown, ThrowOnError> =>
-  (options.client ?? client).patch<UpdateEmailConfigurationResponses, unknown, ThrowOnError>({
+export const updateEmailConfiguration = <ThrowOnError extends boolean = true>(options: Options<UpdateEmailConfigurationData, ThrowOnError>): RequestResult<UpdateEmailConfigurationResponses, unknown, ThrowOnError> => (options.client ?? client).patch<UpdateEmailConfigurationResponses, unknown, ThrowOnError>({
     responseType: 'json',
     url: '/api/v2/system/email-configurations/{id}',
     ...options,
     headers: {
-      'Content-Type': 'application/merge-patch+json',
-      ...options.headers,
-    },
-  });
+        'Content-Type': 'application/merge-patch+json',
+        ...options.headers
+    }
+});
 
 /**
  * Delete a GitLab configuration
@@ -624,13 +395,7 @@ export const updateEmailConfiguration = <ThrowOnError extends boolean = true>(
  * Requires 'Administer System' permission.
  *
  */
-export const deleteGitlabConfiguration = <ThrowOnError extends boolean = true>(
-  options: Options<DeleteGitlabConfigurationData, ThrowOnError>,
-): RequestResult<DeleteGitlabConfigurationResponses, unknown, ThrowOnError> =>
-  (options.client ?? client).delete<DeleteGitlabConfigurationResponses, unknown, ThrowOnError>({
-    url: '/api/v2/dop-translation/gitlab-configurations/{id}',
-    ...options,
-  });
+export const deleteGitlabConfiguration = <ThrowOnError extends boolean = true>(options: Options<DeleteGitlabConfigurationData, ThrowOnError>): RequestResult<DeleteGitlabConfigurationResponses, unknown, ThrowOnError> => (options.client ?? client).delete<DeleteGitlabConfigurationResponses, unknown, ThrowOnError>({ url: '/api/v2/dop-translation/gitlab-configurations/{id}', ...options });
 
 /**
  * Fetch a GitLab configuration
@@ -639,14 +404,11 @@ export const deleteGitlabConfiguration = <ThrowOnError extends boolean = true>(
  * configuration; other logged-in users receive a reduced response with only the provisioning status.
  *
  */
-export const getGitlabConfiguration = <ThrowOnError extends boolean = true>(
-  options: Options<GetGitlabConfigurationData, ThrowOnError>,
-): RequestResult<GetGitlabConfigurationResponses, unknown, ThrowOnError> =>
-  (options.client ?? client).get<GetGitlabConfigurationResponses, unknown, ThrowOnError>({
+export const getGitlabConfiguration = <ThrowOnError extends boolean = true>(options: Options<GetGitlabConfigurationData, ThrowOnError>): RequestResult<GetGitlabConfigurationResponses, unknown, ThrowOnError> => (options.client ?? client).get<GetGitlabConfigurationResponses, unknown, ThrowOnError>({
     responseType: 'json',
     url: '/api/v2/dop-translation/gitlab-configurations/{id}',
-    ...options,
-  });
+    ...options
+});
 
 /**
  * Update a Gitlab configuration
@@ -654,18 +416,15 @@ export const getGitlabConfiguration = <ThrowOnError extends boolean = true>(
  * Update a Gitlab configuration. Requires 'Administer System' permission.
  *
  */
-export const updateGitlabConfiguration = <ThrowOnError extends boolean = true>(
-  options: Options<UpdateGitlabConfigurationData, ThrowOnError>,
-): RequestResult<UpdateGitlabConfigurationResponses, unknown, ThrowOnError> =>
-  (options.client ?? client).patch<UpdateGitlabConfigurationResponses, unknown, ThrowOnError>({
+export const updateGitlabConfiguration = <ThrowOnError extends boolean = true>(options: Options<UpdateGitlabConfigurationData, ThrowOnError>): RequestResult<UpdateGitlabConfigurationResponses, unknown, ThrowOnError> => (options.client ?? client).patch<UpdateGitlabConfigurationResponses, unknown, ThrowOnError>({
     responseType: 'json',
     url: '/api/v2/dop-translation/gitlab-configurations/{id}',
     ...options,
     headers: {
-      'Content-Type': 'application/merge-patch+json',
-      ...options.headers,
-    },
-  });
+        'Content-Type': 'application/merge-patch+json',
+        ...options.headers
+    }
+});
 
 /**
  * Delete a GitHub configuration
@@ -674,13 +433,7 @@ export const updateGitlabConfiguration = <ThrowOnError extends boolean = true>(
  * Requires 'Administer System' permission.
  *
  */
-export const deleteGithubConfiguration = <ThrowOnError extends boolean = true>(
-  options: Options<DeleteGithubConfigurationData, ThrowOnError>,
-): RequestResult<DeleteGithubConfigurationResponses, unknown, ThrowOnError> =>
-  (options.client ?? client).delete<DeleteGithubConfigurationResponses, unknown, ThrowOnError>({
-    url: '/api/v2/dop-translation/github-configurations/{id}',
-    ...options,
-  });
+export const deleteGithubConfiguration = <ThrowOnError extends boolean = true>(options: Options<DeleteGithubConfigurationData, ThrowOnError>): RequestResult<DeleteGithubConfigurationResponses, unknown, ThrowOnError> => (options.client ?? client).delete<DeleteGithubConfigurationResponses, unknown, ThrowOnError>({ url: '/api/v2/dop-translation/github-configurations/{id}', ...options });
 
 /**
  * Fetch a GitHub configuration
@@ -688,14 +441,11 @@ export const deleteGithubConfiguration = <ThrowOnError extends boolean = true>(
  * Fetch a GitHub configuration. Requires 'Administer System' permission.
  *
  */
-export const getGithubConfiguration = <ThrowOnError extends boolean = true>(
-  options: Options<GetGithubConfigurationData, ThrowOnError>,
-): RequestResult<GetGithubConfigurationResponses, unknown, ThrowOnError> =>
-  (options.client ?? client).get<GetGithubConfigurationResponses, unknown, ThrowOnError>({
+export const getGithubConfiguration = <ThrowOnError extends boolean = true>(options: Options<GetGithubConfigurationData, ThrowOnError>): RequestResult<GetGithubConfigurationResponses, unknown, ThrowOnError> => (options.client ?? client).get<GetGithubConfigurationResponses, unknown, ThrowOnError>({
     responseType: 'json',
     url: '/api/v2/dop-translation/github-configurations/{id}',
-    ...options,
-  });
+    ...options
+});
 
 /**
  * Update a GitHub configuration
@@ -703,18 +453,15 @@ export const getGithubConfiguration = <ThrowOnError extends boolean = true>(
  * Update a GitHub configuration. Requires 'Administer System' permission.
  *
  */
-export const updateGithubConfiguration = <ThrowOnError extends boolean = true>(
-  options: Options<UpdateGithubConfigurationData, ThrowOnError>,
-): RequestResult<UpdateGithubConfigurationResponses, unknown, ThrowOnError> =>
-  (options.client ?? client).patch<UpdateGithubConfigurationResponses, unknown, ThrowOnError>({
+export const updateGithubConfiguration = <ThrowOnError extends boolean = true>(options: Options<UpdateGithubConfigurationData, ThrowOnError>): RequestResult<UpdateGithubConfigurationResponses, unknown, ThrowOnError> => (options.client ?? client).patch<UpdateGithubConfigurationResponses, unknown, ThrowOnError>({
     responseType: 'json',
     url: '/api/v2/dop-translation/github-configurations/{id}',
     ...options,
     headers: {
-      'Content-Type': 'application/merge-patch+json',
-      ...options.headers,
-    },
-  });
+        'Content-Type': 'application/merge-patch+json',
+        ...options.headers
+    }
+});
 
 /**
  * Retrieve current instance Mode
@@ -722,14 +469,11 @@ export const updateGithubConfiguration = <ThrowOnError extends boolean = true>(
  * Fetch the current instance mode. Can be Multi-Quality Rules (MQR) Mode or Standard Experience.
  *
  */
-export const getMode = <ThrowOnError extends boolean = true>(
-  options?: Options<GetModeData, ThrowOnError>,
-): RequestResult<GetModeResponses, unknown, ThrowOnError> =>
-  (options?.client ?? client).get<GetModeResponses, unknown, ThrowOnError>({
+export const getMode = <ThrowOnError extends boolean = true>(options?: Options<GetModeData, ThrowOnError>): RequestResult<GetModeResponses, unknown, ThrowOnError> => (options?.client ?? client).get<GetModeResponses, unknown, ThrowOnError>({
     responseType: 'json',
     url: '/api/v2/clean-code-policy/mode',
-    ...options,
-  });
+    ...options
+});
 
 /**
  * Update current instance Mode
@@ -738,45 +482,33 @@ export const getMode = <ThrowOnError extends boolean = true>(
  * Requires 'Administer System' permission.
  *
  */
-export const patchMode = <ThrowOnError extends boolean = true>(
-  options: Options<PatchModeData, ThrowOnError>,
-): RequestResult<PatchModeResponses, unknown, ThrowOnError> =>
-  (options.client ?? client).patch<PatchModeResponses, unknown, ThrowOnError>({
+export const patchMode = <ThrowOnError extends boolean = true>(options: Options<PatchModeData, ThrowOnError>): RequestResult<PatchModeResponses, unknown, ThrowOnError> => (options.client ?? client).patch<PatchModeResponses, unknown, ThrowOnError>({
     responseType: 'json',
     url: '/api/v2/clean-code-policy/mode',
     ...options,
     headers: {
-      'Content-Type': 'application/json',
-      ...options.headers,
-    },
-  });
+        'Content-Type': 'application/json',
+        ...options.headers
+    }
+});
 
 /**
  * Deletes a group
  *
  * Deletes a group.
  */
-export const deleteGroup = <ThrowOnError extends boolean = true>(
-  options: Options<DeleteGroupData, ThrowOnError>,
-): RequestResult<DeleteGroupResponses, unknown, ThrowOnError> =>
-  (options.client ?? client).delete<DeleteGroupResponses, unknown, ThrowOnError>({
-    url: '/api/v2/authorizations/groups/{id}',
-    ...options,
-  });
+export const deleteGroup = <ThrowOnError extends boolean = true>(options: Options<DeleteGroupData, ThrowOnError>): RequestResult<DeleteGroupResponses, unknown, ThrowOnError> => (options.client ?? client).delete<DeleteGroupResponses, unknown, ThrowOnError>({ url: '/api/v2/authorizations/groups/{id}', ...options });
 
 /**
  * Fetch a single group
  *
  * Fetch a single group.
  */
-export const fetchGroup = <ThrowOnError extends boolean = true>(
-  options: Options<FetchGroupData, ThrowOnError>,
-): RequestResult<FetchGroupResponses, unknown, ThrowOnError> =>
-  (options.client ?? client).get<FetchGroupResponses, unknown, ThrowOnError>({
+export const fetchGroup = <ThrowOnError extends boolean = true>(options: Options<FetchGroupData, ThrowOnError>): RequestResult<FetchGroupResponses, unknown, ThrowOnError> => (options.client ?? client).get<FetchGroupResponses, unknown, ThrowOnError>({
     responseType: 'json',
     url: '/api/v2/authorizations/groups/{id}',
-    ...options,
-  });
+    ...options
+});
 
 /**
  * Update a group
@@ -784,32 +516,26 @@ export const fetchGroup = <ThrowOnError extends boolean = true>(
  * Update a group name or description.
  *
  */
-export const updateGroup = <ThrowOnError extends boolean = true>(
-  options: Options<UpdateGroupData, ThrowOnError>,
-): RequestResult<UpdateGroupResponses, unknown, ThrowOnError> =>
-  (options.client ?? client).patch<UpdateGroupResponses, unknown, ThrowOnError>({
+export const updateGroup = <ThrowOnError extends boolean = true>(options: Options<UpdateGroupData, ThrowOnError>): RequestResult<UpdateGroupResponses, unknown, ThrowOnError> => (options.client ?? client).patch<UpdateGroupResponses, unknown, ThrowOnError>({
     responseType: 'json',
     url: '/api/v2/authorizations/groups/{id}',
     ...options,
     headers: {
-      'Content-Type': 'application/merge-patch+json',
-      ...options.headers,
-    },
-  });
+        'Content-Type': 'application/merge-patch+json',
+        ...options.headers
+    }
+});
 
 /**
  * Gets the status of ongoing database migrations, if any
  *
  * Return the detailed status of ongoing database migrations including starting date. If no migration is ongoing or needed it is still possible to call this endpoint and receive appropriate information.
  */
-export const getStatus = <ThrowOnError extends boolean = true>(
-  options?: Options<GetStatusData, ThrowOnError>,
-): RequestResult<GetStatusResponses, unknown, ThrowOnError> =>
-  (options?.client ?? client).get<GetStatusResponses, unknown, ThrowOnError>({
+export const getStatus = <ThrowOnError extends boolean = true>(options?: Options<GetStatusData, ThrowOnError>): RequestResult<GetStatusResponses, unknown, ThrowOnError> => (options?.client ?? client).get<GetStatusResponses, unknown, ThrowOnError>({
     responseType: 'json',
     url: '/api/v2/system/migrations-status',
-    ...options,
-  });
+    ...options
+});
 
 /**
  * Provide liveness of SonarQube, meant to be used as a liveness probe on Kubernetes
@@ -821,207 +547,126 @@ export const getStatus = <ThrowOnError extends boolean = true>(
  * When SonarQube is on Safe Mode (for example when a database migration is running), liveness check only for database connectivity
  *
  */
-export const livenessCheck = <ThrowOnError extends boolean = true>(
-  options?: Options<LivenessCheckData, ThrowOnError>,
-): RequestResult<LivenessCheckResponses, LivenessCheckErrors, ThrowOnError> =>
-  (options?.client ?? client).get<LivenessCheckResponses, LivenessCheckErrors, ThrowOnError>({
-    url: '/api/v2/system/liveness',
-    ...options,
-  });
+export const livenessCheck = <ThrowOnError extends boolean = true>(options?: Options<LivenessCheckData, ThrowOnError>): RequestResult<LivenessCheckResponses, LivenessCheckErrors, ThrowOnError> => (options?.client ?? client).get<LivenessCheckResponses, LivenessCheckErrors, ThrowOnError>({ url: '/api/v2/system/liveness', ...options });
 
-export const getHealth = <ThrowOnError extends boolean = true>(
-  options?: Options<GetHealthData, ThrowOnError>,
-): RequestResult<GetHealthResponses, unknown, ThrowOnError> =>
-  (options?.client ?? client).get<GetHealthResponses, unknown, ThrowOnError>({
+export const getHealth = <ThrowOnError extends boolean = true>(options?: Options<GetHealthData, ThrowOnError>): RequestResult<GetHealthResponses, unknown, ThrowOnError> => (options?.client ?? client).get<GetHealthResponses, unknown, ThrowOnError>({
     responseType: 'json',
     url: '/api/v2/system/health',
-    ...options,
-  });
+    ...options
+});
 
-export const getOnboardingStatistics = <ThrowOnError extends boolean = true>(
-  options?: Options<GetOnboardingStatisticsData, ThrowOnError>,
-): RequestResult<GetOnboardingStatisticsResponses, unknown, ThrowOnError> =>
-  (options?.client ?? client).get<GetOnboardingStatisticsResponses, unknown, ThrowOnError>({
+export const getOnboardingStatistics = <ThrowOnError extends boolean = true>(options?: Options<GetOnboardingStatisticsData, ThrowOnError>): RequestResult<GetOnboardingStatisticsResponses, unknown, ThrowOnError> => (options?.client ?? client).get<GetOnboardingStatisticsResponses, unknown, ThrowOnError>({
     responseType: 'json',
     url: '/api/v2/onboarding/statistics',
-    ...options,
-  });
+    ...options
+});
 
-export const getOnboardingProjects = <ThrowOnError extends boolean = true>(
-  options?: Options<GetOnboardingProjectsData, ThrowOnError>,
-): RequestResult<GetOnboardingProjectsResponses, unknown, ThrowOnError> =>
-  (options?.client ?? client).get<GetOnboardingProjectsResponses, unknown, ThrowOnError>({
+export const getOnboardingProjects = <ThrowOnError extends boolean = true>(options?: Options<GetOnboardingProjectsData, ThrowOnError>): RequestResult<GetOnboardingProjectsResponses, unknown, ThrowOnError> => (options?.client ?? client).get<GetOnboardingProjectsResponses, unknown, ThrowOnError>({
     responseType: 'json',
     url: '/api/v2/onboarding/projects',
-    ...options,
-  });
+    ...options
+});
 
-export const getOnboardingOverview = <ThrowOnError extends boolean = true>(
-  options?: Options<GetOnboardingOverviewData, ThrowOnError>,
-): RequestResult<GetOnboardingOverviewResponses, unknown, ThrowOnError> =>
-  (options?.client ?? client).get<GetOnboardingOverviewResponses, unknown, ThrowOnError>({
+export const getOnboardingOverview = <ThrowOnError extends boolean = true>(options?: Options<GetOnboardingOverviewData, ThrowOnError>): RequestResult<GetOnboardingOverviewResponses, unknown, ThrowOnError> => (options?.client ?? client).get<GetOnboardingOverviewResponses, unknown, ThrowOnError>({
     responseType: 'json',
     url: '/api/v2/onboarding/overview',
-    ...options,
-  });
+    ...options
+});
 
 /**
  * Get current project measure values.
  *
  * Get current measure values for the flattened list of projects in a portfolio or application. Identify the selection with either the legacy portfolioId parameter, or with both entityType and entityId. The two selector forms are mutually exclusive.
  */
-export const getProjectMeasures = <ThrowOnError extends boolean = true>(
-  options: Options<GetProjectMeasuresData, ThrowOnError>,
-): RequestResult<GetProjectMeasuresResponses, GetProjectMeasuresErrors, ThrowOnError> =>
-  (options.client ?? client).get<
-    GetProjectMeasuresResponses,
-    GetProjectMeasuresErrors,
-    ThrowOnError
-  >({
+export const getProjectMeasures = <ThrowOnError extends boolean = true>(options: Options<GetProjectMeasuresData, ThrowOnError>): RequestResult<GetProjectMeasuresResponses, GetProjectMeasuresErrors, ThrowOnError> => (options.client ?? client).get<GetProjectMeasuresResponses, GetProjectMeasuresErrors, ThrowOnError>({
     responseType: 'json',
     url: '/api/v2/history/project-measures',
-    ...options,
-  });
+    ...options
+});
 
 /**
  * Get project issue resolution
  *
  * Get issue resolution values for the flattened list of projects in a portfolio or application. Identify the selection with either the legacy portfolioId parameter, or with both entityType and entityId. The two selector forms are mutually exclusive.
  */
-export const getProjectIssueResolution = <ThrowOnError extends boolean = true>(
-  options: Options<GetProjectIssueResolutionData, ThrowOnError>,
-): RequestResult<
-  GetProjectIssueResolutionResponses,
-  GetProjectIssueResolutionErrors,
-  ThrowOnError
-> =>
-  (options.client ?? client).get<
-    GetProjectIssueResolutionResponses,
-    GetProjectIssueResolutionErrors,
-    ThrowOnError
-  >({
+export const getProjectIssueResolution = <ThrowOnError extends boolean = true>(options: Options<GetProjectIssueResolutionData, ThrowOnError>): RequestResult<GetProjectIssueResolutionResponses, GetProjectIssueResolutionErrors, ThrowOnError> => (options.client ?? client).get<GetProjectIssueResolutionResponses, GetProjectIssueResolutionErrors, ThrowOnError>({
     responseType: 'json',
     url: '/api/v2/history/project-issue-resolution',
-    ...options,
-  });
+    ...options
+});
 
 /**
  * Get project issue counts.
  *
  * Get issue counts for the flattened list of projects in a portfolio or application. Identify the selection with either the legacy portfolioId parameter, or with both entityType and entityId. The two selector forms are mutually exclusive.
  */
-export const getProjectIssueCounts = <ThrowOnError extends boolean = true>(
-  options?: Options<GetProjectIssueCountsData, ThrowOnError>,
-): RequestResult<GetProjectIssueCountsResponses, GetProjectIssueCountsErrors, ThrowOnError> =>
-  (options?.client ?? client).get<
-    GetProjectIssueCountsResponses,
-    GetProjectIssueCountsErrors,
-    ThrowOnError
-  >({
+export const getProjectIssueCounts = <ThrowOnError extends boolean = true>(options?: Options<GetProjectIssueCountsData, ThrowOnError>): RequestResult<GetProjectIssueCountsResponses, GetProjectIssueCountsErrors, ThrowOnError> => (options?.client ?? client).get<GetProjectIssueCountsResponses, GetProjectIssueCountsErrors, ThrowOnError>({
     responseType: 'json',
     url: '/api/v2/history/project-issue-counts',
-    ...options,
-  });
+    ...options
+});
 
 /**
  * Get measures history.
  *
  * Returns the history of measures for the given entity.
  */
-export const getMeasuresHistory = <ThrowOnError extends boolean = true>(
-  options: Options<GetMeasuresHistoryData, ThrowOnError>,
-): RequestResult<GetMeasuresHistoryResponses, GetMeasuresHistoryErrors, ThrowOnError> =>
-  (options.client ?? client).get<
-    GetMeasuresHistoryResponses,
-    GetMeasuresHistoryErrors,
-    ThrowOnError
-  >({
+export const getMeasuresHistory = <ThrowOnError extends boolean = true>(options: Options<GetMeasuresHistoryData, ThrowOnError>): RequestResult<GetMeasuresHistoryResponses, GetMeasuresHistoryErrors, ThrowOnError> => (options.client ?? client).get<GetMeasuresHistoryResponses, GetMeasuresHistoryErrors, ThrowOnError>({
     responseType: 'json',
     url: '/api/v2/history/measures-history',
-    ...options,
-  });
+    ...options
+});
 
 /**
  * Provides issue resolution history data for an entity
  *
  * Returns issue resolution metrics for an entity. All history is recorded at UTC midnight. MTTR and RECENT_MTTR use a trailing 30-day window ending on each returned day. SQS deliberately permits dates older than one year under the approved history date-range policy.
  */
-export const getIssueResolutionHistory = <ThrowOnError extends boolean = true>(
-  options: Options<GetIssueResolutionHistoryData, ThrowOnError>,
-): RequestResult<
-  GetIssueResolutionHistoryResponses,
-  GetIssueResolutionHistoryErrors,
-  ThrowOnError
-> =>
-  (options.client ?? client).get<
-    GetIssueResolutionHistoryResponses,
-    GetIssueResolutionHistoryErrors,
-    ThrowOnError
-  >({
+export const getIssueResolutionHistory = <ThrowOnError extends boolean = true>(options: Options<GetIssueResolutionHistoryData, ThrowOnError>): RequestResult<GetIssueResolutionHistoryResponses, GetIssueResolutionHistoryErrors, ThrowOnError> => (options.client ?? client).get<GetIssueResolutionHistoryResponses, GetIssueResolutionHistoryErrors, ThrowOnError>({
     responseType: 'json',
     url: '/api/v2/history/issue-resolution-history',
-    ...options,
-  });
+    ...options
+});
 
 /**
  * Provides issue density history data for an entity
  *
  * Returns the history of issue density (issues per 1000 NCLOC) for an entity. The maximum resolution for history data is 1 day. All history is recorded in UTC timezone. Issue density values carry-forward for days with no changes. Density is calculated as (issue count / NCLOC) * 1000.
  */
-export const getIssueDensityHistory = <ThrowOnError extends boolean = true>(
-  options: Options<GetIssueDensityHistoryData, ThrowOnError>,
-): RequestResult<GetIssueDensityHistoryResponses, GetIssueDensityHistoryErrors, ThrowOnError> =>
-  (options.client ?? client).get<
-    GetIssueDensityHistoryResponses,
-    GetIssueDensityHistoryErrors,
-    ThrowOnError
-  >({
+export const getIssueDensityHistory = <ThrowOnError extends boolean = true>(options: Options<GetIssueDensityHistoryData, ThrowOnError>): RequestResult<GetIssueDensityHistoryResponses, GetIssueDensityHistoryErrors, ThrowOnError> => (options.client ?? client).get<GetIssueDensityHistoryResponses, GetIssueDensityHistoryErrors, ThrowOnError>({
     responseType: 'json',
     url: '/api/v2/history/issue-density-history',
-    ...options,
-  });
+    ...options
+});
 
 /**
  * Provides issue count history data for an entity
  *
  * Returns the history of issue counts for an entity. The maximum resolution for history data is 1 day. You cannot zoom in on a period less than 1 day (e.g. 1hour). All history is recorded in UTC timezone. Issue counts will carry-forward for days with no changes.
  */
-export const getIssueCountHistory = <ThrowOnError extends boolean = true>(
-  options: Options<GetIssueCountHistoryData, ThrowOnError>,
-): RequestResult<GetIssueCountHistoryResponses, GetIssueCountHistoryErrors, ThrowOnError> =>
-  (options.client ?? client).get<
-    GetIssueCountHistoryResponses,
-    GetIssueCountHistoryErrors,
-    ThrowOnError
-  >({
+export const getIssueCountHistory = <ThrowOnError extends boolean = true>(options: Options<GetIssueCountHistoryData, ThrowOnError>): RequestResult<GetIssueCountHistoryResponses, GetIssueCountHistoryErrors, ThrowOnError> => (options.client ?? client).get<GetIssueCountHistoryResponses, GetIssueCountHistoryErrors, ThrowOnError>({
     responseType: 'json',
     url: '/api/v2/history/issue-count-history',
-    ...options,
-  });
+    ...options
+});
 
 /**
  * Search across project bindings
  */
-export const getProjectBindingByProjectId = <ThrowOnError extends boolean = true>(
-  options?: Options<GetProjectBindingByProjectIdData, ThrowOnError>,
-): RequestResult<GetProjectBindingByProjectIdResponses, unknown, ThrowOnError> =>
-  (options?.client ?? client).get<GetProjectBindingByProjectIdResponses, unknown, ThrowOnError>({
+export const getProjectBindingByProjectId = <ThrowOnError extends boolean = true>(options?: Options<GetProjectBindingByProjectIdData, ThrowOnError>): RequestResult<GetProjectBindingByProjectIdResponses, unknown, ThrowOnError> => (options?.client ?? client).get<GetProjectBindingByProjectIdResponses, unknown, ThrowOnError>({
     responseType: 'json',
     url: '/api/v2/dop-translation/project-bindings',
-    ...options,
-  });
+    ...options
+});
 
 /**
  * Fetch a single Project Binding
  */
-export const getProjectBinding = <ThrowOnError extends boolean = true>(
-  options: Options<GetProjectBindingData, ThrowOnError>,
-): RequestResult<GetProjectBindingResponses, unknown, ThrowOnError> =>
-  (options.client ?? client).get<GetProjectBindingResponses, unknown, ThrowOnError>({
+export const getProjectBinding = <ThrowOnError extends boolean = true>(options: Options<GetProjectBindingData, ThrowOnError>): RequestResult<GetProjectBindingResponses, unknown, ThrowOnError> => (options.client ?? client).get<GetProjectBindingResponses, unknown, ThrowOnError>({
     responseType: 'json',
     url: '/api/v2/dop-translation/project-bindings/{id}',
-    ...options,
-  });
+    ...options
+});
 
 /**
  * Check DevOps Platform permissions for the Remediation Agent
@@ -1043,130 +688,95 @@ export const getProjectBinding = <ThrowOnError extends boolean = true>(
  * response does not include the counts or list.
  *
  */
-export const checkDopPermissions = <ThrowOnError extends boolean = true>(
-  options?: Options<CheckDopPermissionsData, ThrowOnError>,
-): RequestResult<CheckDopPermissionsResponses, unknown, ThrowOnError> =>
-  (options?.client ?? client).get<CheckDopPermissionsResponses, unknown, ThrowOnError>({
+export const checkDopPermissions = <ThrowOnError extends boolean = true>(options?: Options<CheckDopPermissionsData, ThrowOnError>): RequestResult<CheckDopPermissionsResponses, unknown, ThrowOnError> => (options?.client ?? client).get<CheckDopPermissionsResponses, unknown, ThrowOnError>({
     responseType: 'json',
     url: '/api/v2/dop-translation/permission-checks',
-    ...options,
-  });
+    ...options
+});
 
 /**
  * List all DevOps Platform Integration settings
  *
  * Requires the 'Create Projects' permission
  */
-export const fetchAllDopSettings = <ThrowOnError extends boolean = true>(
-  options?: Options<FetchAllDopSettingsData, ThrowOnError>,
-): RequestResult<FetchAllDopSettingsResponses, unknown, ThrowOnError> =>
-  (options?.client ?? client).get<FetchAllDopSettingsResponses, unknown, ThrowOnError>({
+export const fetchAllDopSettings = <ThrowOnError extends boolean = true>(options?: Options<FetchAllDopSettingsData, ThrowOnError>): RequestResult<FetchAllDopSettingsResponses, unknown, ThrowOnError> => (options?.client ?? client).get<FetchAllDopSettingsResponses, unknown, ThrowOnError>({
     responseType: 'json',
     url: '/api/v2/dop-translation/dop-settings',
-    ...options,
-  });
+    ...options
+});
 
 /**
  * List built-in dashboards
  */
-export const listBuiltInDashboards = <ThrowOnError extends boolean = true>(
-  options?: Options<ListBuiltInDashboardsData, ThrowOnError>,
-): RequestResult<ListBuiltInDashboardsResponses, ListBuiltInDashboardsErrors, ThrowOnError> =>
-  (options?.client ?? client).get<
-    ListBuiltInDashboardsResponses,
-    ListBuiltInDashboardsErrors,
-    ThrowOnError
-  >({
+export const listBuiltInDashboards = <ThrowOnError extends boolean = true>(options?: Options<ListBuiltInDashboardsData, ThrowOnError>): RequestResult<ListBuiltInDashboardsResponses, ListBuiltInDashboardsErrors, ThrowOnError> => (options?.client ?? client).get<ListBuiltInDashboardsResponses, ListBuiltInDashboardsErrors, ThrowOnError>({
     responseType: 'json',
     url: '/api/v2/dashboards/built-ins',
-    ...options,
-  });
+    ...options
+});
 
 /**
  * Get a built-in dashboard
  */
-export const getBuiltInDashboard = <ThrowOnError extends boolean = true>(
-  options: Options<GetBuiltInDashboardData, ThrowOnError>,
-): RequestResult<GetBuiltInDashboardResponses, GetBuiltInDashboardErrors, ThrowOnError> =>
-  (options.client ?? client).get<
-    GetBuiltInDashboardResponses,
-    GetBuiltInDashboardErrors,
-    ThrowOnError
-  >({
+export const getBuiltInDashboard = <ThrowOnError extends boolean = true>(options: Options<GetBuiltInDashboardData, ThrowOnError>): RequestResult<GetBuiltInDashboardResponses, GetBuiltInDashboardErrors, ThrowOnError> => (options.client ?? client).get<GetBuiltInDashboardResponses, GetBuiltInDashboardErrors, ThrowOnError>({
     responseType: 'json',
     url: '/api/v2/dashboards/built-ins/{key}',
-    ...options,
-  });
+    ...options
+});
 
 /**
  * Server version
  *
  * Get the version of the Scanner Engine
  */
-export const getVersion = <ThrowOnError extends boolean = true>(
-  options?: Options<GetVersionData, ThrowOnError>,
-): RequestResult<GetVersionResponses, unknown, ThrowOnError> =>
-  (options?.client ?? client).get<GetVersionResponses, unknown, ThrowOnError>({
+export const getVersion = <ThrowOnError extends boolean = true>(options?: Options<GetVersionData, ThrowOnError>): RequestResult<GetVersionResponses, unknown, ThrowOnError> => (options?.client ?? client).get<GetVersionResponses, unknown, ThrowOnError>({
     responseType: 'text',
     url: '/api/v2/analysis/version',
-    ...options,
-  });
+    ...options
+});
 
 /**
  * All JREs metadata
  *
  * Get metadata of all available JREs
  */
-export const getJresMetadata = <ThrowOnError extends boolean = true>(
-  options?: Options<GetJresMetadataData, ThrowOnError>,
-): RequestResult<GetJresMetadataResponses, unknown, ThrowOnError> =>
-  (options?.client ?? client).get<GetJresMetadataResponses, unknown, ThrowOnError>({
+export const getJresMetadata = <ThrowOnError extends boolean = true>(options?: Options<GetJresMetadataData, ThrowOnError>): RequestResult<GetJresMetadataResponses, unknown, ThrowOnError> => (options?.client ?? client).get<GetJresMetadataResponses, unknown, ThrowOnError>({
     responseType: 'json',
     url: '/api/v2/analysis/jres',
-    ...options,
-  });
+    ...options
+});
 
 /**
  * JRE download/metadata
  *
  * This endpoint return the JRE metadata by default. To download the JRE binary asset, set the Accept header of the request to 'application/octet-stream'.
  */
-export const downloadJre = <ThrowOnError extends boolean = true>(
-  options: Options<DownloadJreData, ThrowOnError>,
-): RequestResult<DownloadJreResponses, unknown, ThrowOnError> =>
-  (options.client ?? client).get<DownloadJreResponses, unknown, ThrowOnError>({
+export const downloadJre = <ThrowOnError extends boolean = true>(options: Options<DownloadJreData, ThrowOnError>): RequestResult<DownloadJreResponses, unknown, ThrowOnError> => (options.client ?? client).get<DownloadJreResponses, unknown, ThrowOnError>({
     responseType: 'json',
     url: '/api/v2/analysis/jres/{id}',
-    ...options,
-  });
+    ...options
+});
 
 /**
  * Scanner engine download/metadata
  *
  * This endpoint return the Scanner Engine metadata by default. To download the Scanner Engine, set the Accept header of the request to 'application/octet-stream'.
  */
-export const downloadScannerEngine = <ThrowOnError extends boolean = true>(
-  options?: Options<DownloadScannerEngineData, ThrowOnError>,
-): RequestResult<DownloadScannerEngineResponses, unknown, ThrowOnError> =>
-  (options?.client ?? client).get<DownloadScannerEngineResponses, unknown, ThrowOnError>({
+export const downloadScannerEngine = <ThrowOnError extends boolean = true>(options?: Options<DownloadScannerEngineData, ThrowOnError>): RequestResult<DownloadScannerEngineResponses, unknown, ThrowOnError> => (options?.client ?? client).get<DownloadScannerEngineResponses, unknown, ThrowOnError>({
     responseType: 'json',
     url: '/api/v2/analysis/engine',
-    ...options,
-  });
+    ...options
+});
 
 /**
  * Get all active rules for a specific project
  *
  * Used by the scanner-engine to get all active rules for a given project.
  */
-export const getActiveRules = <ThrowOnError extends boolean = true>(
-  options: Options<GetActiveRulesData, ThrowOnError>,
-): RequestResult<GetActiveRulesResponses, unknown, ThrowOnError> =>
-  (options.client ?? client).get<GetActiveRulesResponses, unknown, ThrowOnError>({
+export const getActiveRules = <ThrowOnError extends boolean = true>(options: Options<GetActiveRulesData, ThrowOnError>): RequestResult<GetActiveRulesResponses, unknown, ThrowOnError> => (options.client ?? client).get<GetActiveRulesResponses, unknown, ThrowOnError>({
     responseType: 'json',
     url: '/api/v2/analysis/active_rules',
-    ...options,
-  });
+    ...options
+});
 
 /**
  * Search agentic jobs
@@ -1175,24 +785,15 @@ export const getActiveRules = <ThrowOnError extends boolean = true>(
  * Requires system administration permission.
  *
  */
-export const search3 = <ThrowOnError extends boolean = true>(
-  options?: Options<Search3Data, ThrowOnError>,
-): RequestResult<Search3Responses, unknown, ThrowOnError> =>
-  (options?.client ?? client).get<Search3Responses, unknown, ThrowOnError>({
+export const search3 = <ThrowOnError extends boolean = true>(options?: Options<Search3Data, ThrowOnError>): RequestResult<Search3Responses, unknown, ThrowOnError> => (options?.client ?? client).get<Search3Responses, unknown, ThrowOnError>({
     responseType: 'json',
     url: '/api/v2/agentic/jobs',
-    ...options,
-  });
+    ...options
+});
 
 /**
  * Remove a group membership
  *
  * Remove a user from a group
  */
-export const delete_ = <ThrowOnError extends boolean = true>(
-  options: Options<DeleteData, ThrowOnError>,
-): RequestResult<DeleteResponses, unknown, ThrowOnError> =>
-  (options.client ?? client).delete<DeleteResponses, unknown, ThrowOnError>({
-    url: '/api/v2/authorizations/group-memberships/{id}',
-    ...options,
-  });
+export const delete_ = <ThrowOnError extends boolean = true>(options: Options<DeleteData, ThrowOnError>): RequestResult<DeleteResponses, unknown, ThrowOnError> => (options.client ?? client).delete<DeleteResponses, unknown, ThrowOnError>({ url: '/api/v2/authorizations/group-memberships/{id}', ...options });

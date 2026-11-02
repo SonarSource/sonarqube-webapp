@@ -112,7 +112,8 @@ export function useGrantProjectPermissionMutation() {
  * analysis is a SQ-Cloud feature, so SQ-Server has nothing to re-run.
  */
 export function useTriggerAutomaticAnalysisMutation():
-  UseMutationResult<boolean, Error, string> | undefined {
+  | UseMutationResult<boolean, Error, string>
+  | undefined {
   return undefined;
 }
 

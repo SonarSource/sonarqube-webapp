@@ -88,7 +88,8 @@ export type PortfolioDashboardMeasureDrilldownDescriptor =
   };
 
 export type PortfolioDashboardDrilldownDescriptor =
-  PortfolioDashboardIssueDrilldownDescriptor | PortfolioDashboardMeasureDrilldownDescriptor;
+  | PortfolioDashboardIssueDrilldownDescriptor
+  | PortfolioDashboardMeasureDrilldownDescriptor;
 
 /** Portfolio line-count and language breakdowns have aggregate data only. */
 export function isPortfolioPieChartSegmentDrilldownSupported(widget: PieChartWidgetProps): boolean {

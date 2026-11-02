@@ -153,7 +153,11 @@ export type PieChartConfig =
  * The 'complete' discriminant indicates if the widget is ready to be added.
  */
 export type WidgetConfig =
-  LineChartConfig | CountConfig | RatingBadgeConfig | PieChartConfig | TopListConfig;
+  | LineChartConfig
+  | CountConfig
+  | RatingBadgeConfig
+  | PieChartConfig
+  | TopListConfig;
 
 /**
  * Map of all widget configurations, indexed by widget type.

@@ -8,7 +8,7 @@
   },
   "scripts": {
     "build": "yarn run -T nx build sq-server",
-    "format": "yarn run -T nx format-check sq-server --write",
+    "format": "yarn run -T nx format-write sq-server",
     "format-check": "yarn run -T nx format-check sq-server",
     "generate-translation-keys": "yarn run -T nx generate-translation-keys sq-server",
     "lint": "yarn run -T nx lint sq-server",

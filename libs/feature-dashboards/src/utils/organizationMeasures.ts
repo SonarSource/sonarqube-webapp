@@ -104,7 +104,9 @@ export function organizationMeasuresToLineCountPieData(
 
 /** i18n key for a `releasability_status_distribution` bucket (`metric.level.*`). */
 export type QualityGateDistributionMessageId =
-  'metric.level.ERROR' | 'metric.level.NONE' | 'metric.level.OK';
+  | 'metric.level.ERROR'
+  | 'metric.level.NONE'
+  | 'metric.level.OK';
 
 export function tryQualityGateDistributionMessageId(
   value: string,

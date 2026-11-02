@@ -38,8 +38,7 @@
 /.eslintignore                                      @SonarSource/platform-front-end-eng-squad
 /.gitattributes                                     @SonarSource/platform-front-end-eng-squad
 /.gitignore                                         @SonarSource/platform-front-end-eng-squad
-/.prettierignore                                    @SonarSource/platform-front-end-eng-squad
-/.prettierrc                                        @SonarSource/platform-front-end-eng-squad
+/.oxfmtrc.json                                     @SonarSource/platform-front-end-eng-squad
 /.yarnrc.yml                                        @SonarSource/platform-front-end-eng-squad
 /mise.toml                                          @SonarSource/platform-front-end-eng-squad
 /Makefile                                           @SonarSource/platform-front-end-eng-squad

@@ -53,4 +53,4 @@ Use either:
 The library can be formatted in isolation with either:
 
 - `yarn nx format-check feature-rules`
-- `yarn nx format-check feature-rules --write`
+- `yarn nx format-write feature-rules`

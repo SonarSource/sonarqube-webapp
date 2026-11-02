@@ -67,12 +67,12 @@ import type { CompleteWidgetConfig } from '~feature-dashboards/types/dashboard-w
 
 This library has no standalone build or typecheck target; it is compiled and checked as part of **sq-server** or **sq-cloud**.
 
-| Task            | Command                                                          |
-| --------------- | ---------------------------------------------------------------- |
-| Build (via app) | `yarn nx build sq-server` or `yarn nx build sq-cloud`            |
-| Typecheck       | `yarn nx ts-check sq-server` or `yarn nx ts-check sq-cloud`      |
-| Lint            | `yarn nx lint feature-dashboards`                                |
-| Format check    | `yarn nx format-check feature-dashboards` (add `--write` to fix) |
+| Task            | Command                                                                                          |
+| --------------- | ------------------------------------------------------------------------------------------------ |
+| Build (via app) | `yarn nx build sq-server` or `yarn nx build sq-cloud`                                            |
+| Typecheck       | `yarn nx ts-check sq-server` or `yarn nx ts-check sq-cloud`                                      |
+| Lint            | `yarn nx lint feature-dashboards`                                                                |
+| Format check    | `yarn nx format-check feature-dashboards` (run `yarn nx format-write feature-dashboards` to fix) |
 
 **Tests** run through app Jest configs; scope with a path under `libs/feature-dashboards`. **`sq-server`** `jest.config.js` maps **`~helpers/*`**, **`~project-dashboard/*`**, and other **sq-cloud** paths used transitively (e.g. **`~queries/*`**, **`~api/*`**, **`~types/*`**, **`~hooks/*`**, **`~app/*`**, **`~components/*`**, **`~integration/*`**, **`~sonar-aligned/*`**) into **`private/apps/sq-cloud/src/...`**. **`~adapters`** still follows **sq-server**’s mapping in that runner.
 

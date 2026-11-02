@@ -76,10 +76,18 @@
     "format-check": {
       "executor": "nx:run-commands",
       "options": {
-        "command": "yarn prettier --check \"{projectRoot}/src/**/*.{js,ts,tsx,css}\""
+        "command": "yarn oxfmt --check \"{projectRoot}/src/**/*.{js,ts,tsx,css}\""
       },
       "inputs": ["default", "^default"],
       "cache": true,
+      "parallelism": true
+    },
+    "format-write": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "yarn oxfmt \"{projectRoot}/src/**/*.{js,ts,tsx,css}\""
+      },
+      "cache": false,
       "parallelism": true
     },
     "validate-tailwind-prefixes": {

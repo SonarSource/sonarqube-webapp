@@ -203,7 +203,8 @@ export function issueHistoryToLineData(
 
 export function projectMeasuresHistoryToLineChartData(
   measuresHistory:
-    { measures: Array<{ history: Array<{ date: string | Date; value?: string }> }> } | undefined,
+    | { measures: Array<{ history: Array<{ date: string | Date; value?: string }> }> }
+    | undefined,
   historyRange: HistoryRange,
   metricKey: MetricKey,
   metricType: string | undefined,

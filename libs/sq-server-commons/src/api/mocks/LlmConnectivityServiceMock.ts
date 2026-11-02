@@ -297,7 +297,9 @@ export default class LlmConnectivityServiceMock extends AbstractServiceMock<LlmC
   handlers = [
     http.get(LLM_SUPPORTED_MODELS_PATH, ({ request }) => {
       const aiCapability = this.getQueryParams(request).get('aiCapability') as
-        AiCapability.HunterAgent | AiCapability.RemediationAgent | null;
+        | AiCapability.HunterAgent
+        | AiCapability.RemediationAgent
+        | null;
       const supportedModels =
         aiCapability !== null ? (MOCK_SUPPORTED_MODELS[aiCapability] ?? []) : [];
 

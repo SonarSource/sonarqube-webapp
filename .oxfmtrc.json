@@ -1,0 +1,30 @@
+{
+  "$schema": "./node_modules/oxfmt/configuration_schema.json",
+  "printWidth": 100,
+  "singleQuote": true,
+  "sortPackageJson": false,
+  "overrides": [
+    {
+      "files": [".eslintrc", "tsconfig.json"],
+      "options": {
+        "trailingComma": "none"
+      }
+    }
+  ],
+  "ignorePatterns": [
+    "**/dist",
+    "**/public",
+    "**/static",
+    "**/build",
+    "**/coverage",
+    "**/node_modules",
+    "**/.cirrus/*.json",
+    "**/.yarn",
+    ".github",
+    ".vscode",
+    ".nx/cache",
+    ".nx/workspace-data",
+    "**/generated",
+    "**/playwright-report"
+  ]
+}

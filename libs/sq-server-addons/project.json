@@ -8,6 +8,7 @@
   "targets": {
     "validate-tailwind-prefixes": {},
     "format-check": {},
+    "format-write": {},
     "lint": {
       "command": "echo 'Linting skipped for sq-server-addons'"
     },

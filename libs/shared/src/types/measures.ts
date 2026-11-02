@@ -73,7 +73,12 @@ export interface Period {
 }
 
 type PeriodMode =
-  'days' | 'date' | 'version' | 'previous_analysis' | 'previous_version' | 'manual_baseline';
+  | 'days'
+  | 'date'
+  | 'version'
+  | 'previous_analysis'
+  | 'previous_version'
+  | 'manual_baseline';
 
 export interface MeasuresByComponents {
   component: string;

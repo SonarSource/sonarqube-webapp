@@ -68,7 +68,8 @@ export type ExplicitSectionInstance<WidgetPropMap> = {
  * Every section contains a list of widgets.
  */
 export type SectionInstance<WidgetPropMap> =
-  ImplicitSectionInstance<WidgetPropMap> | ExplicitSectionInstance<WidgetPropMap>;
+  | ImplicitSectionInstance<WidgetPropMap>
+  | ExplicitSectionInstance<WidgetPropMap>;
 
 function createDashboardSectionInstanceSchema(version: DashboardSpecVersion) {
   const widgetInstanceSchema = createDashboardWidgetInstanceSchema(version);

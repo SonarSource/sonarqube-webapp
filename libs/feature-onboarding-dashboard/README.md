@@ -55,4 +55,4 @@ Use either:
 The library can be formatted in isolation with either:
 
 - `yarn nx format-check feature-onboarding-dashboard`
-- `yarn nx format-check feature-onboarding-dashboard --write`
+- `yarn nx format-write feature-onboarding-dashboard`

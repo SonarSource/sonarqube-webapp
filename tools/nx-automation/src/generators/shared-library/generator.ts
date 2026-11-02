@@ -68,6 +68,7 @@ async function generatorSharedLibrary(tree: Tree, options: GeneratorSharedLibrar
     tags: [options.type, options.visibility, 'scope:shared'],
     targets: {
       'format-check': {},
+      'format-write': {},
       lint: {},
       'lint-report': {},
     },

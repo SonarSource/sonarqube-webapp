@@ -119,7 +119,10 @@ export const SCA_MTTR_METRIC_OPTION_VALUE = 'scaMttr' as const;
 export type ScaMttrMetricOptionValue = typeof SCA_MTTR_METRIC_OPTION_VALUE;
 
 export type MetricOptionValue =
-  MetricKey | IssueResolutionStatistic | IssueDensityMetricOptionValue | ScaMttrMetricOptionValue;
+  | MetricKey
+  | IssueResolutionStatistic
+  | IssueDensityMetricOptionValue
+  | ScaMttrMetricOptionValue;
 
 export interface MetricOption {
   label: string;

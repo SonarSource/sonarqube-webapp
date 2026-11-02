@@ -39,6 +39,7 @@
       }
     },
     "format-check": {},
+    "format-write": {},
     "lint": {},
     "lint-report": {}
   }

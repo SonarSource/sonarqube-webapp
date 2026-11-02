@@ -32,7 +32,8 @@ interface Props {
   className?: string;
   count: number | null;
   propertyName?:
-    RulesFacetName.CleanCodeAttributeCategories | RulesFacetName.ImpactSoftwareQualities;
+    | RulesFacetName.CleanCodeAttributeCategories
+    | RulesFacetName.ImpactSoftwareQualities;
   propertyValue?: string;
   qprofile: string;
   title: string;

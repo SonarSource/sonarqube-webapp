@@ -30,7 +30,9 @@ import { ScaResolutionStatistic } from '../../types/organization-sca-resolution-
 const ISSUE_DENSITY_TOOLTIP_KEY = 'issue_density' as const;
 
 export type WidgetHeaderTooltipKey =
-  IssueResolutionStatistic | ScaResolutionStatistic | typeof ISSUE_DENSITY_TOOLTIP_KEY;
+  | IssueResolutionStatistic
+  | ScaResolutionStatistic
+  | typeof ISSUE_DENSITY_TOOLTIP_KEY;
 
 /** Raw metric keys that use the issue density header tooltip. Extend when wired in dashboard widgets. */
 const ISSUE_DENSITY_METRIC_KEYS = new Set<MetricKey>([]);

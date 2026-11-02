@@ -2,7 +2,7 @@
   "recommendations": [
     "eamodio.gitlens",
     "christian-kohler.path-intellisense",
-    "esbenp.prettier-vscode",
+    "oxc.oxc-vscode",
     "SonarSource.sonarlint-vscode",
     "dbaeumer.vscode-eslint",
     "webpro.vscode-knip",
@@ -13,5 +13,6 @@
     "firsttris.vscode-jest-runner",
     "nrwl.angular-console",
     "deque-systems.vscode-axe-linter",
-  ]
+  ],
+  "unwantedRecommendations": ["esbenp.prettier-vscode"]
 }
