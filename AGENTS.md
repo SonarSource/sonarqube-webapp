@@ -54,6 +54,8 @@ Other types of validation follow the pattern:
 
 When running tests, pick the most relevent platform (cloud or server) and narrowly scope the test run to the files you've modified as tests take time to run.
 
+For e2e (Playwright) tests, or when touching a workflow that dispatches or calls into them, see `private/sq-cloud-e2e-tests/AGENTS.md` and that directory's README.md — it also covers the cross-repo CI dispatch system.
+
 **WARNING**: `yarn nx run sq-cloud:test` can run the entire test suite, spawning dozens of parallel worker processes that can exhaust system memory. To target a single test file safely, invoke jest directly:
 
 ```bash
