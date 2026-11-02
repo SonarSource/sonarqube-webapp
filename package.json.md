@@ -147,7 +147,7 @@ Used by sq-cloud-e2e-tests to easily provide environment variables when running 
 
 ### glob
 
-Used by some validation scripts to go through our files.
+Finds files matching patterns in validation scripts, Jest configuration, and Cloud test-metrics reporting. The direct dependency is pinned to 14.0.2, which includes the fix for CVE-2026-118773.
 
 ### http-proxy-middleware
 
@@ -218,9 +218,13 @@ Several build-time dependencies (`autoprefixer`, `core-js-compat`, `webpack`, an
 
 We have many transitive dependencies that depend on debug and versions before ^4.3.0 have a vulnerability reported by Mend. It's to hard to track down all the dependencies that would need to be updated to ensure it's at the right version without a resolution.
 
-### json5
+### glob
 
-Latest eslint-plugin-import rely on a vulnerable version of json5. We force it to use a version that is not vulnerable.
+The `glob` resolution defaults all consumers to 14.0.2, matching our direct dependency. The preceding `glob@npm:^7.1.4` exception keeps consumers of the older API on 7.2.3. Order matters: Yarn uses the first matching resolution, so keep the exception before the general `glob` entry. These transitive dependencies come from Jest, coverage tooling, cdxgen, Sentry build tooling, CTRF, and native-build/cache tooling.
+
+[CVE-2026-118773](https://github.com/advisories/GHSA-3g3m-2fjr-6pw4) affects glob versions from 9.0.0 through 14.0.1: canceled asynchronous walks can continue traversing directories after an abort or timeout. Version 14.0.2 fixes this behavior. The exception preserves the existing glob 7 consumers, which are outside this advisory's affected range and require its older API.
+
+These overrides cross major versions, so changes require checking test discovery, coverage file selection, and affected build/cache consumers. Remove the general override when parent dependencies accept a fixed version without it, and remove the glob 7 exception when no consumers require that API. New glob 7 dependency descriptors need their own exception before the general entry.
 
 ### jsdom
 
@@ -240,7 +244,7 @@ These packages are used to maintain contract validation between the frontend and
 
 ### semver
 
-We have many many transitive dependencies on semver with a lot of different version and some version before 7.0.0 have Mend vulnerabilities.
+We force all direct and transitive consumers to use semver v7 because older major versions have had Mend vulnerability findings. Keep this resolution even when a consumer declares a v6 range; removing it would reintroduce v6 into the dependency graph.
 
 ### yaml
 
