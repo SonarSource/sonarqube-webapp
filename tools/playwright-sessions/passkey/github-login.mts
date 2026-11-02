@@ -27,25 +27,25 @@
  *
  * Usage:
  *
- *   node tools/passkey/github-login.mts <output-path>
+ *   node tools/playwright-sessions/passkey/github-login.mts <output-path>
  *
  * Example:
  *
- *   node tools/passkey/github-login.mts \
+ *   node tools/playwright-sessions/passkey/github-login.mts \
  *     private/sq-cloud-e2e-tests/playwright/.auth/gh-user.json
  *
- * Required env vars (registered via tools/passkey/github-register.mts):
+ * Required env vars (registered via tools/playwright-sessions/passkey/github-register.mts):
  *   GITHUB_PASSKEY_ID
  *   GITHUB_PASSKEY_PRIVATE_KEY
  *   GITHUB_PASSKEY_USER_HANDLE
  *
- * See README.md for full details.
+ * See ../README.md for full details.
  */
 
 import { chromium, type Page } from '@playwright/test';
 import path from 'node:path';
 import process from 'node:process';
-import { installPasskeyCredential } from '../../libs/shared/src/helpers/e2e-utils.ts';
+import { installPasskeyCredential } from '../../../libs/shared/src/helpers/e2e-utils.ts';
 import { requireEnv } from './utils.mts';
 
 const GITHUB_DOMAIN = 'https://github.com/';
@@ -120,7 +120,7 @@ async function main() {
   if (!outputPath) {
     throw new Error(
       'Missing required argument: output path\n' +
-        'Usage: node tools/passkey/github-login.mts <output-path>',
+        'Usage: node tools/playwright-sessions/passkey/github-login.mts <output-path>',
     );
   }
 

@@ -23,7 +23,7 @@
  *
  * Run this manually once per GitHub test account:
  *
- *   node tools/passkey/github-register.mts
+ *   node tools/playwright-sessions/passkey/github-register.mts
  *
  * It will:
  *   1. Open github.com/sessions/trusted-device in a browser window.
