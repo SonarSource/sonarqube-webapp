@@ -23,7 +23,7 @@ import {
   OnboardingDevopsPlatformConfigurations,
 } from '~shared/types/onboarding';
 import { StepCardVisual } from '../../../../types/types';
-import { getBindingStepCard } from '../bindingStepCard';
+import { getBindingStepCard, getEnterpriseBindingStepCard } from '../bindingStepCard';
 
 const GITHUB_ONLY: OnboardingDevopsPlatformConfigurations[] = [
   { count: 4, platform: OnboardingDevopsPlatform.Github },
@@ -55,4 +55,19 @@ it('reads as unbound while nothing is configured, whichever product it is', () =
 
   // An empty breakdown says the same thing as no breakdown at all — a "0" ring would not.
   expect(getBindingStepCard({ byPlatform: [], configured: 0, isBound: false })).toEqual(unbound);
+});
+
+describe('getEnterpriseBindingStepCard', () => {
+  it('counts the bound organizations in the ring', () => {
+    expect(getEnterpriseBindingStepCard({ organizationsBound: 8 })).toEqual({
+      ringLabel: '8',
+      visual: StepCardVisual.CountRing,
+    });
+  });
+
+  it('keeps the unbound avatar while no organization is bound, never a "0" ring', () => {
+    expect(getEnterpriseBindingStepCard({ organizationsBound: 0 })).toEqual({
+      visual: StepCardVisual.AvatarUnbound,
+    });
+  });
 });

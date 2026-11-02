@@ -10,6 +10,11 @@ scan health, PR integration, checklist, onboarding over time, DevOps platforms, 
 is that SQ-Cloud scopes the data by `organizationKey`; that difference is injected through the
 `~adapters/queries/onboarding` layer rather than in this lib.
 
+SQ-Cloud also has an enterprise-level dashboard (`src/components/enterprise`): the same journey summed over the
+organizations of an enterprise, plus a per-organization roll-up table. It is scoped by `enterpriseId` instead of
+`organizationKey` (the two are mutually exclusive, see `OnboardingScope` in `~shared/types/onboarding`), which is part
+of every query key, and it only ever answers to enterprise administrators.
+
 ## How to use it?
 
 ### Building

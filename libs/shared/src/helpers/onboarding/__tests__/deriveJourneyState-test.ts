@@ -18,8 +18,18 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { mockOnboardingOverview } from '../../../api/mocks/OnboardingServiceMock';
-import { JourneyLevel, JourneyStep, OnboardingOverview } from '../../../types/onboarding';
+import {
+  mockOnboardingEnterpriseOverview,
+  mockOnboardingOverview,
+  mockOnboardingUncountedEnterpriseOverview,
+  mockOnboardingUnboundEnterpriseOverview,
+} from '../../../api/mocks/OnboardingServiceMock';
+import {
+  JourneyLevel,
+  JourneyStep,
+  OnboardingDevopsPlatform,
+  OnboardingOverview,
+} from '../../../types/onboarding';
 import { deriveJourneyState } from '../deriveJourneyState';
 
 function buildOverview(
@@ -170,4 +180,73 @@ it('derives notYetImported from discovered minus imported when the backend omits
 it('clamps an out-of-range progress percentage', () => {
   expect(deriveJourneyState(buildOverview({}, 140)).overallPct).toBe(100);
   expect(deriveJourneyState(buildOverview({}, -5)).overallPct).toBe(0);
+});
+
+describe('enterprise scope', () => {
+  it('reports no enterprise state for an organization or an instance', () => {
+    expect(deriveJourneyState(buildOverview())).not.toHaveProperty('enterprise');
+  });
+
+  it('reads the first step as bound organizations over organizations in scope', () => {
+    const state = deriveJourneyState(mockOnboardingEnterpriseOverview());
+
+    expect(state.enterprise).toEqual({
+      byPlatform: [
+        { count: 5, platform: OnboardingDevopsPlatform.Github },
+        { count: 2, platform: OnboardingDevopsPlatform.Gitlab },
+        { count: 1, platform: OnboardingDevopsPlatform.AzureDevops },
+      ],
+      coverage: { organizationsTotal: 12, organizationsUnavailable: 1 },
+      organizationsBound: 8,
+      organizationsTotal: 12,
+    });
+    expect(state).toMatchObject({ configured: 8, isBound: true, overallPct: 45 });
+  });
+
+  it('is unbound while no organization is bound', () => {
+    const overview = mockOnboardingEnterpriseOverview();
+    const state = deriveJourneyState({
+      ...overview,
+      steps: {
+        ...overview.steps,
+        devopsPlatforms: { byPlatform: [], configured: 0, total: 12 },
+      },
+    });
+
+    expect(state).toMatchObject({
+      activeStep: JourneyStep.Binding,
+      isBound: false,
+      level: JourneyLevel.Unbound,
+    });
+    expect(state.enterprise).toMatchObject({ organizationsBound: 0, organizationsTotal: 12 });
+  });
+
+  it('leaves out the platforms it has no icon or label for, and the unbound pseudo platform', () => {
+    const overview = mockOnboardingEnterpriseOverview();
+    const state = deriveJourneyState({
+      ...overview,
+      steps: {
+        ...overview.steps,
+        devopsPlatforms: {
+          byPlatform: [
+            { count: 4, percentage: 50, platform: 'github' },
+            { count: 3, percentage: 38, platform: 'sourcehut' },
+            { count: 1, percentage: 12, platform: OnboardingDevopsPlatform.NotBound },
+          ],
+          configured: 8,
+          total: 8,
+        },
+      },
+    });
+
+    expect(state.enterprise?.byPlatform).toEqual([
+      { count: 4, platform: OnboardingDevopsPlatform.Github },
+    ]);
+  });
+
+  it('has no coverage when the backend does not report it', () => {
+    const state = deriveJourneyState(mockOnboardingEnterpriseOverview({ coverage: null }));
+
+    expect(state.enterprise?.coverage).toBeNull();
+  });
 });

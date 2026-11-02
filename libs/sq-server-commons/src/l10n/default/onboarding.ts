@@ -1280,6 +1280,55 @@ export const onboardingMessages = {
   'onboarding_dashboard.repositories.filter.visibility.label': 'Visibility',
   'onboarding_dashboard.repositories.filter.private': 'Private',
   'onboarding_dashboard.repositories.filter.public': 'Public',
+  'onboarding_dashboard.enterprise.step.binding.title': 'DevOps platforms configured',
+  'onboarding_dashboard.enterprise.step.binding.count': '{bound} of {total} organizations bound',
+  'onboarding_dashboard.enterprise.binding.title': 'Bind your organizations',
+  'onboarding_dashboard.enterprise.binding.description':
+    'Each organization of your enterprise is bound to its own DevOps platform. Binding keeps them synchronized and enables the easy import of projects into SonarQube Cloud. Use the organizations table below to bind the ones that are not.',
+  'onboarding_dashboard.enterprise.binding.bound_label': 'Bound',
+  'onboarding_dashboard.enterprise.binding.legend.not_bound': 'Not bound',
+  'onboarding_dashboard.enterprise.import.title': 'Import repositories',
+  'onboarding_dashboard.enterprise.import.description':
+    'Repositories found on the DevOps platforms of all your organizations, and how many of them are imported. Open an organization from the table below to import its missing repositories.',
+  'onboarding_dashboard.enterprise.import.summary':
+    '{imported} of {discovered} repositories imported',
+  'onboarding_dashboard.enterprise.analyze.title': 'Analyze your projects',
+  'onboarding_dashboard.enterprise.analyze.description':
+    'Projects of all your organizations, and how many of them have reported an analysis. Open an organization from the table below to set up analysis for the ones that have not.',
+  'onboarding_dashboard.enterprise.analyze.summary': '{analyzed} of {total} projects analyzed',
+  'onboarding_dashboard.enterprise.locked.stats.title': 'Unlock onboarding statistics',
+  'onboarding_dashboard.enterprise.locked.stats.message':
+    "Bind your first organization to a DevOps platform to see your enterprise's onboarding momentum and adoption metrics!",
+  'onboarding_dashboard.enterprise.locked.more.title': 'Unlock more statistics',
+  'onboarding_dashboard.enterprise.locked.more.message':
+    "Import your first repositories to see your enterprise's onboarding momentum and adoption metrics!",
+  'onboarding_dashboard.enterprise.coverage.banner':
+    "{unavailable} of {total} organizations couldn't be loaded. Totals exclude them.",
+  'onboarding_dashboard.enterprise.organizations.title': 'Organizations',
+  'onboarding_dashboard.enterprise.organizations.description':
+    'Where each organization of your enterprise stands on its journey, least progressed first.',
+  'onboarding_dashboard.enterprise.organizations.search': 'Search organizations...',
+  'onboarding_dashboard.enterprise.organizations.loading': 'Loading organizations',
+  'onboarding_dashboard.enterprise.organizations.sort.progress': 'Least progressed first',
+  'onboarding_dashboard.enterprise.organizations.sort.name': 'Name',
+  'onboarding_dashboard.enterprise.organizations.col.organization': 'Organization',
+  'onboarding_dashboard.enterprise.organizations.col.platform': 'DevOps platform',
+  'onboarding_dashboard.enterprise.organizations.col.repositories': 'Repositories',
+  'onboarding_dashboard.enterprise.organizations.col.projects': 'Projects',
+  'onboarding_dashboard.enterprise.organizations.col.progress': 'Progress',
+  'onboarding_dashboard.enterprise.organizations.col.actions': 'Actions',
+  'onboarding_dashboard.enterprise.organizations.not_bound': 'Not bound',
+  'onboarding_dashboard.enterprise.organizations.unavailable': "Couldn't load",
+  'onboarding_dashboard.enterprise.organizations.progress.label': 'Progress of {name}',
+  'onboarding_dashboard.enterprise.organizations.action.view': 'View dashboard',
+  'onboarding_dashboard.enterprise.organizations.action.view.label': 'View the dashboard of {name}',
+  'onboarding_dashboard.enterprise.organizations.action.bind': 'Bind',
+  'onboarding_dashboard.enterprise.organizations.action.bind.label':
+    'Bind {name} to a DevOps platform',
+  'onboarding_dashboard.enterprise.empty.title': 'No organizations yet',
+  'onboarding_dashboard.enterprise.empty.description':
+    'Add an organization to your enterprise to start following its onboarding progress here.',
+  'onboarding_dashboard.enterprise.empty.cta': 'Add organization',
   'onboarding.create_organization.repo_auto_import.helper.bitbucket':
     'Automatically import new repositories from your connected Bitbucket workspace. Existing repositories are not imported.',
   'onboarding.create_organization.repo_auto_import.label.bitbucket':

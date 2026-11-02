@@ -35,9 +35,21 @@ const OnboardingDashboardTelemetryContext = createContext<OnboardingDashboardTel
   visitId: '',
 });
 
+interface TelemetryProviderProps {
+  /** Reported with every event when the dashboard shows an enterprise rather than an organization. */
+  enterpriseId?: string;
+}
+
 /** Starts a dashboard visit: every event sent below it shares the same visit identifier. */
-export function OnboardingDashboardTelemetryProvider({ children }: Readonly<PropsWithChildren>) {
-  const scope = useMemo(() => ({ visitId: uuidv4() }), []);
+export function OnboardingDashboardTelemetryProvider({
+  children,
+  enterpriseId,
+}: Readonly<PropsWithChildren<TelemetryProviderProps>>) {
+  const visitId = useMemo(() => uuidv4(), []);
+  const scope = useMemo(
+    () => (enterpriseId === undefined ? { visitId } : { enterpriseId, visitId }),
+    [enterpriseId, visitId],
+  );
 
   return (
     <OnboardingDashboardTelemetryContext.Provider value={scope}>
@@ -51,8 +63,11 @@ export function OnboardingDashboardSurfaceProvider({
   children,
   surface,
 }: Readonly<PropsWithChildren<{ surface: OnboardingDashboardSurface }>>) {
-  const { visitId } = useContext(OnboardingDashboardTelemetryContext);
-  const scope = useMemo(() => ({ surface, visitId }), [surface, visitId]);
+  const { enterpriseId, visitId } = useContext(OnboardingDashboardTelemetryContext);
+  const scope = useMemo(
+    () => ({ ...(enterpriseId !== undefined && { enterpriseId }), surface, visitId }),
+    [enterpriseId, surface, visitId],
+  );
 
   return (
     <OnboardingDashboardTelemetryContext.Provider value={scope}>

@@ -22,6 +22,7 @@ import { Card, CardSize } from '@sonarsource/echoes-react';
 import { useLayoutEffect, useRef } from 'react';
 import { JourneyState, JourneyStep } from '~shared/types/onboarding';
 import { OnboardingDashboardSurface } from '~shared/types/onboarding-dashboard-telemetry';
+import { EnterpriseDetailPanel } from '../../enterprise/EnterpriseDetailPanels';
 import { OnboardingDashboardSurfaceProvider } from '../../telemetry/OnboardingDashboardTelemetry';
 import { AnalyzeProjectsPanel } from './AnalyzeProjectsPanel';
 import { ImportRepositoriesPanel } from './ImportRepositoriesPanel';
@@ -44,6 +45,16 @@ function renderPanel(
   state: JourneyState,
   onSelectStep: (step: JourneyStep) => void,
 ) {
+  if (state.enterprise !== undefined) {
+    return (
+      <EnterpriseDetailPanel
+        enterprise={state.enterprise}
+        selectedStep={selectedStep}
+        state={state}
+      />
+    );
+  }
+
   switch (selectedStep) {
     case JourneyStep.Binding:
       return <OrganizationBindingPanel onSelectStep={onSelectStep} state={state} />;

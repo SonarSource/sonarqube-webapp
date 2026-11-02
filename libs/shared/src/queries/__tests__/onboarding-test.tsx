@@ -22,16 +22,35 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { renderHook, waitFor } from '@testing-library/react';
 import { ReactNode } from 'react';
 import {
+  mockOnboardingEnterpriseOverview,
+  mockOnboardingOrganizations,
   mockOnboardingOverview,
   mockOnboardingProjects,
+  mockOnboardingStatistics,
 } from '../../api/mocks/OnboardingServiceMock';
-import { getOnboardingOverview, getOnboardingProjects } from '../../api/onboarding';
-import { OnboardingProjectScanStatus, OnboardingProjectsResponse } from '../../types/onboarding';
-import { useOnboardingOverviewQuery, useOnboardingProjectsQuery } from '../onboarding';
+import {
+  getOnboardingOrganizations,
+  getOnboardingOverview,
+  getOnboardingProjects,
+  getOnboardingStatistics,
+} from '../../api/onboarding';
+import {
+  OnboardingOrganizationSort,
+  OnboardingProjectScanStatus,
+  OnboardingProjectsResponse,
+} from '../../types/onboarding';
+import {
+  useOnboardingOrganizationsQuery,
+  useOnboardingOverviewQuery,
+  useOnboardingProjectsQuery,
+  useOnboardingStatisticsQuery,
+} from '../onboarding';
 
 jest.mock('../../api/onboarding', () => ({
+  getOnboardingOrganizations: jest.fn(),
   getOnboardingOverview: jest.fn(),
   getOnboardingProjects: jest.fn(),
+  getOnboardingStatistics: jest.fn(),
 }));
 
 const OVERVIEW = mockOnboardingOverview();
@@ -192,5 +211,88 @@ describe('useOnboardingProjectsQuery', () => {
 
     // 1 initial attempt + 2 retries
     expect(getOnboardingProjects).toHaveBeenCalledTimes(3);
+  });
+});
+
+describe('enterprise scope', () => {
+  it('sends the enterprise id, and only it, for an enterprise scope', async () => {
+    jest.mocked(getOnboardingOverview).mockResolvedValue(mockOnboardingEnterpriseOverview());
+
+    const { result } = renderHook(() => useOnboardingOverviewQuery({ enterpriseId: 'ent-uuid' }), {
+      wrapper: Wrapper,
+    });
+
+    await waitFor(() => {
+      expect(result.current.isSuccess).toBe(true);
+    });
+    expect(getOnboardingOverview).toHaveBeenCalledWith({ enterpriseId: 'ent-uuid' });
+  });
+
+  it('does not share a result between an organization and its enterprise', async () => {
+    const enterpriseOverview = mockOnboardingEnterpriseOverview();
+
+    jest.mocked(getOnboardingOverview).mockResolvedValueOnce(enterpriseOverview);
+    const enterprise = renderHook(() => useOnboardingOverviewQuery({ enterpriseId: 'ent-uuid' }), {
+      wrapper: Wrapper,
+    });
+    await waitFor(() => {
+      expect(enterprise.result.current.data).toEqual(enterpriseOverview);
+    });
+
+    jest.mocked(getOnboardingOverview).mockResolvedValueOnce(OVERVIEW);
+    const organization = renderHook(
+      () => useOnboardingOverviewQuery({ organizationKey: 'my-org' }),
+      { wrapper: Wrapper },
+    );
+    await waitFor(() => {
+      expect(organization.result.current.data).toEqual(OVERVIEW);
+    });
+
+    expect(getOnboardingOverview).toHaveBeenCalledTimes(2);
+    expect(getOnboardingOverview).toHaveBeenLastCalledWith({ organizationKey: 'my-org' });
+    expect(enterprise.result.current.data).toEqual(enterpriseOverview);
+  });
+
+  it('scopes the statistics the same way', async () => {
+    const statistics = mockOnboardingStatistics();
+    jest.mocked(getOnboardingStatistics).mockResolvedValue(statistics);
+
+    const { result } = renderHook(
+      () => useOnboardingStatisticsQuery({ enterpriseId: 'ent-uuid' }),
+      { wrapper: Wrapper },
+    );
+
+    await waitFor(() => {
+      expect(result.current.data).toEqual(statistics);
+    });
+    expect(getOnboardingStatistics).toHaveBeenCalledWith({ enterpriseId: 'ent-uuid' });
+  });
+});
+
+describe('useOnboardingOrganizationsQuery', () => {
+  it('passes the enterprise, search, sort and page through, and keys the cache on them', async () => {
+    const params = {
+      enterpriseId: 'ent-uuid',
+      pageIndex: 2,
+      pageSize: 25,
+      q: 'web',
+      sort: OnboardingOrganizationSort.Name,
+    };
+    const organizations = mockOnboardingOrganizations();
+    jest.mocked(getOnboardingOrganizations).mockResolvedValue({
+      coverage: { organizationsTotal: 4, organizationsUnavailable: 1 },
+      organizations,
+      page: { pageIndex: 2, pageSize: 25, total: 4 },
+    });
+
+    const { result } = renderHook(() => useOnboardingOrganizationsQuery(params), {
+      wrapper: Wrapper,
+    });
+
+    await waitFor(() => {
+      expect(result.current.isSuccess).toBe(true);
+    });
+    expect(getOnboardingOrganizations).toHaveBeenCalledWith(params);
+    expect(result.current.data?.organizations).toEqual(organizations);
   });
 });

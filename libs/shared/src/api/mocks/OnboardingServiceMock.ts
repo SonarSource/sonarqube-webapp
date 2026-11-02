@@ -23,6 +23,8 @@ import { http } from 'msw';
 import { API_V2_MOCKS_PREFIX } from '~adapters/helpers/urls';
 import {
   OnboardingDevopsPlatform,
+  OnboardingOrganizationRow,
+  OnboardingOrganizationSort,
   OnboardingOverview,
   OnboardingProject,
   OnboardingProjectAnalysisMode,
@@ -40,12 +42,20 @@ const ONBOARDING_PATH = `${API_V2_MOCKS_PREFIX}/onboarding`;
 const ONBOARDING_OVERVIEW_PATH = `${ONBOARDING_PATH}/overview`;
 const ONBOARDING_STATISTICS_PATH = `${ONBOARDING_PATH}/statistics`;
 const ONBOARDING_PROJECTS_PATH = `${ONBOARDING_PATH}/projects`;
+const ONBOARDING_ORGANIZATIONS_PATH = `${ONBOARDING_PATH}/organizations`;
 
 export interface OnboardingServiceData {
+  // Served instead of `overview` and `statistics` when the request carries an `enterpriseId`.
+  enterpriseOverview: OnboardingOverview;
+  enterpriseStatistics: OnboardingStatistics;
   // When true, the overview endpoint responds with an error (used to test error states).
   failOverview: boolean;
   // When true, the statistics endpoint responds with an error (used to test error states).
   failStatistics: boolean;
+  // When true, every request carrying an `enterpriseId` responds 403, as for a non-admin.
+  forbidEnterprise: boolean;
+  // Full organization list of the enterprise; the endpoint applies search/sort/pagination.
+  organizations: OnboardingOrganizationRow[];
   overview: OnboardingOverview;
   statistics: OnboardingStatistics;
   // Full project list; the projects endpoint applies search/filter/pagination server-side.
@@ -100,6 +110,101 @@ export function mockOnboardingStatistics(
     },
     ...overrides,
   };
+}
+
+const ENTERPRISE_COVERAGE = { organizationsTotal: 12, organizationsUnavailable: 1 };
+
+/** The overview of an enterprise of 12 organizations, 8 bound, 1 of which could not be read. */
+export function mockOnboardingEnterpriseOverview(
+  overrides: Partial<OnboardingOverview> = {},
+): OnboardingOverview {
+  return {
+    coverage: ENTERPRISE_COVERAGE,
+    progressPct: 45,
+    steps: {
+      devopsPlatforms: {
+        byPlatform: [
+          { count: 5, percentage: 62.5, platform: OnboardingDevopsPlatform.Github },
+          { count: 2, percentage: 25, platform: OnboardingDevopsPlatform.Gitlab },
+          { count: 1, percentage: 12.5, platform: OnboardingDevopsPlatform.AzureDevops },
+        ],
+        configured: 8,
+        total: 12,
+      },
+      projects: { analyzed: 80, notImported: 100, notScanned: 620, percent: null, total: 800 },
+      repositories: { discovered: 800, imported: 700, percent: null },
+    },
+    ...overrides,
+  };
+}
+
+/** The enterprise overview while no organization is bound: the last two steps are locked. */
+export function mockOnboardingUnboundEnterpriseOverview(): OnboardingOverview {
+  const overview = mockOnboardingEnterpriseOverview();
+
+  return {
+    ...overview,
+    progressPct: 0,
+    steps: {
+      ...overview.steps,
+      devopsPlatforms: { byPlatform: [], configured: 0, total: 12 },
+    },
+  };
+}
+
+/** The enterprise overview when no organization could report how many repositories its platforms hold. */
+export function mockOnboardingUncountedEnterpriseOverview(): OnboardingOverview {
+  const overview = mockOnboardingEnterpriseOverview();
+
+  return {
+    ...overview,
+    steps: {
+      ...overview.steps,
+      projects: { analyzed: 555, notImported: null, notScanned: 9155, percent: null, total: null },
+      repositories: { discovered: null, imported: 9710, percent: null },
+    },
+  };
+}
+
+/** Organizations of an enterprise, in the order the backend serves them by progress. */
+export function mockOnboardingOrganizations(): OnboardingOrganizationRow[] {
+  return [
+    {
+      availability: 'AVAILABLE',
+      bound: false,
+      key: 'legacy-tools',
+      name: 'Legacy tools',
+      progressPct: 0,
+      projects: { analyzed: 0, notImported: null, notScanned: 4, percent: null, total: null },
+      repositories: { discovered: null, imported: 4, percent: null },
+    },
+    {
+      availability: 'AVAILABLE',
+      bound: true,
+      devopsPlatform: OnboardingDevopsPlatform.Gitlab,
+      key: 'data-platform',
+      name: 'Data platform',
+      progressPct: 35,
+      projects: { analyzed: 10, notImported: 30, notScanned: 30, percent: 14, total: 70 },
+      repositories: { discovered: 100, imported: 70, percent: 70 },
+    },
+    {
+      availability: 'AVAILABLE',
+      bound: true,
+      devopsPlatform: OnboardingDevopsPlatform.Github,
+      key: 'web-core',
+      name: 'Web core',
+      progressPct: 92,
+      projects: { analyzed: 90, notImported: 0, notScanned: 5, percent: 95, total: 95 },
+      repositories: { discovered: 95, imported: 95, percent: 100 },
+    },
+    {
+      availability: 'UNAVAILABLE',
+      bound: false,
+      key: 'payments',
+      name: 'Payments',
+    },
+  ];
 }
 
 /**
@@ -171,8 +276,14 @@ export function mockOnboardingProjects(): OnboardingProject[] {
 }
 
 export const OnboardingServiceDefaultDataset: OnboardingServiceData = {
+  enterpriseOverview: mockOnboardingEnterpriseOverview(),
+  enterpriseStatistics: mockOnboardingStatistics({
+    coverage: ENTERPRISE_COVERAGE,
+  }),
   failOverview: false,
   failStatistics: false,
+  forbidEnterprise: false,
+  organizations: mockOnboardingOrganizations(),
   overview: mockOnboardingOverview(),
   projects: mockOnboardingProjects(),
   statistics: mockOnboardingStatistics(),
@@ -219,6 +330,18 @@ export class OnboardingServiceMock extends AbstractServiceMock<OnboardingService
     this.data.statistics = statistics;
   };
 
+  setEnterpriseOverview = (enterpriseOverview: OnboardingOverview) => {
+    this.data.enterpriseOverview = enterpriseOverview;
+  };
+
+  setForbidEnterprise = (forbidEnterprise: boolean) => {
+    this.data.forbidEnterprise = forbidEnterprise;
+  };
+
+  setOrganizations = (organizations: OnboardingOrganizationRow[]) => {
+    this.data.organizations = organizations;
+  };
+
   setFailOverview = (failOverview: boolean) => {
     this.data.failOverview = failOverview;
   };
@@ -231,24 +354,84 @@ export class OnboardingServiceMock extends AbstractServiceMock<OnboardingService
     this.data.projects = projects;
   };
 
+  /** Whether the request is for an enterprise, and refused as it is for a non-admin. */
+  private isForbidden(request: Request) {
+    return this.isEnterpriseRequest(request) && this.data.forbidEnterprise;
+  }
+
+  private isEnterpriseRequest(request: Request) {
+    return new URL(request.url).searchParams.has('enterpriseId');
+  }
+
   handlers = [
-    http.get(ONBOARDING_OVERVIEW_PATH, async () => {
+    http.get(ONBOARDING_OVERVIEW_PATH, async ({ request }) => {
       await this.heldResponses.overview?.promise;
+
+      if (this.isForbidden(request)) {
+        return this.errorsWithStatus(HttpStatus.Forbidden);
+      }
 
       if (this.data.failOverview) {
         return this.errorsWithStatus(HttpStatus.InternalServerError);
       }
 
-      return this.ok(this.data.overview);
+      return this.ok(
+        this.isEnterpriseRequest(request) ? this.data.enterpriseOverview : this.data.overview,
+      );
     }),
-    http.get(ONBOARDING_STATISTICS_PATH, async () => {
+    http.get(ONBOARDING_STATISTICS_PATH, async ({ request }) => {
       await this.heldResponses.statistics?.promise;
+
+      if (this.isForbidden(request)) {
+        return this.errorsWithStatus(HttpStatus.Forbidden);
+      }
 
       if (this.data.failStatistics) {
         return this.errorsWithStatus(HttpStatus.InternalServerError);
       }
 
-      return this.ok(this.data.statistics);
+      return this.ok(
+        this.isEnterpriseRequest(request) ? this.data.enterpriseStatistics : this.data.statistics,
+      );
+    }),
+    http.get(ONBOARDING_ORGANIZATIONS_PATH, ({ request }) => {
+      const url = new URL(request.url);
+
+      if (this.data.forbidEnterprise) {
+        return this.errorsWithStatus(HttpStatus.Forbidden);
+      }
+
+      const needle = (url.searchParams.get('q') ?? '').trim().toLowerCase();
+      const sort = url.searchParams.get('sort') ?? OnboardingOrganizationSort.Progress;
+      const pageIndex = Number(url.searchParams.get('pageIndex') ?? '1');
+      const pageSize = Number(this.overridePageSize ?? url.searchParams.get('pageSize') ?? '50');
+
+      const matching = this.data.organizations.filter(
+        ({ key, name }) =>
+          needle === '' ||
+          name.toLowerCase().includes(needle) ||
+          key.toLowerCase().includes(needle),
+      );
+      // Unavailable organizations have no progress and come last, as the contract says.
+      const sorted =
+        sort === String(OnboardingOrganizationSort.Name)
+          ? [...matching].sort((a, b) => a.name.localeCompare(b.name))
+          : [...matching].sort(
+              (a, b) =>
+                (a.progressPct ?? Number.POSITIVE_INFINITY) -
+                (b.progressPct ?? Number.POSITIVE_INFINITY),
+            );
+
+      const start = (pageIndex - 1) * pageSize;
+
+      return this.ok({
+        coverage: this.data.enterpriseOverview.coverage ?? {
+          organizationsTotal: this.data.organizations.length,
+          organizationsUnavailable: 0,
+        },
+        organizations: pageSize <= 0 ? [] : sorted.slice(start, start + pageSize),
+        page: { pageIndex, pageSize, total: sorted.length },
+      });
     }),
     http.get(ONBOARDING_PROJECTS_PATH, ({ request }) => {
       const url = new URL(request.url);

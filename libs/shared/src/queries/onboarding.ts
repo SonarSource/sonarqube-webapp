@@ -21,9 +21,11 @@
 import { keepPreviousData, QueryClient, queryOptions, useQueryClient } from '@tanstack/react-query';
 import { useCallback } from 'react';
 import {
+  getOnboardingOrganizations,
   getOnboardingOverview,
   getOnboardingProjects,
   getOnboardingStatistics,
+  OnboardingOrganizationsQuery,
   OnboardingOverviewQuery,
   OnboardingProjectsQuery,
 } from '../api/onboarding';
@@ -70,6 +72,19 @@ export const onboardingProjectsQueryOptions = (params: OnboardingProjectsQuery) 
   });
 
 export const useOnboardingProjectsQuery = createQueryHook(onboardingProjectsQueryOptions);
+
+/** One page of the per-organization roll-up of an enterprise. SQ-Cloud only. */
+export const onboardingOrganizationsQueryOptions = (params: OnboardingOrganizationsQuery) =>
+  queryOptions({
+    queryKey: ['onboarding', 'organizations', params],
+    queryFn: () => getOnboardingOrganizations(params),
+    // Keep the previous page visible while the next one loads to avoid table flicker.
+    placeholderData: keepPreviousData,
+    staleTime: StaleTime.LONG,
+    retry: 2, // Same workaround as the other onboarding queries
+  });
+
+export const useOnboardingOrganizationsQuery = createQueryHook(onboardingOrganizationsQueryOptions);
 
 /**
  * Refetches every onboarding query. Actions that change how far along the onboarding of a project

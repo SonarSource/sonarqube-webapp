@@ -25,6 +25,7 @@ export enum OnboardingDashboardSurface {
   BindingPanel = 'binding_panel',
   ConfigureProjectsModal = 'configure_projects_modal',
   ImportRepositoriesModal = 'import_repositories_modal',
+  OrganizationsTable = 'organizations_table',
   ProjectsPanel = 'projects_panel',
   RepositoriesPanel = 'repositories_panel',
   StaleProjectsTable = 'stale_projects_table',
@@ -47,6 +48,7 @@ export enum OnboardingDashboardAction {
   RestoreProjectAccess = 'restore_project_access',
   ViewAllRepositories = 'view_all_repositories',
   ViewBindingSettings = 'view_binding_settings',
+  ViewOrganizationDashboard = 'view_organization_dashboard',
   ViewProject = 'view_project',
 }
 
@@ -54,6 +56,7 @@ export enum OnboardingDashboardFilter {
   AnalysisMode = 'analysis_mode',
   DevopsPlatform = 'devops_platform',
   GateStatus = 'gate_status',
+  OrganizationSort = 'organization_sort',
   RepositoryVisibility = 'repository_visibility',
   ScanStatus = 'scan_status',
 }
@@ -68,6 +71,8 @@ export enum RepositoriesImportMethod {
 }
 
 export interface OnboardingDashboardTelemetryScope {
+  /** Set when the dashboard shows an enterprise rather than an organization. */
+  enterpriseId?: string;
   surface?: OnboardingDashboardSurface;
   visitId: string;
 }

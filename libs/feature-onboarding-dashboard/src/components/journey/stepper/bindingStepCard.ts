@@ -18,7 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { OnboardingDevopsConfigurations } from '~shared/types/onboarding';
+import { JourneyEnterpriseState, OnboardingDevopsConfigurations } from '~shared/types/onboarding';
 import { StepCardVisual } from '../../../types/types';
 
 interface BindingStepCardArgs {
@@ -55,4 +55,16 @@ export function getBindingStepCard({
         secondaryLineId: 'onboarding_dashboard.journey.step.binding.unbound',
         visual: StepCardVisual.AvatarUnbound,
       };
+}
+
+/**
+ * Enterprise binding step: the ring shows the bound-organization count, or the unbound avatar when
+ * none.
+ */
+export function getEnterpriseBindingStepCard({
+  organizationsBound,
+}: Pick<JourneyEnterpriseState, 'organizationsBound'>): BindingStepCard {
+  return organizationsBound > 0
+    ? { ringLabel: String(organizationsBound), visual: StepCardVisual.CountRing }
+    : { visual: StepCardVisual.AvatarUnbound };
 }

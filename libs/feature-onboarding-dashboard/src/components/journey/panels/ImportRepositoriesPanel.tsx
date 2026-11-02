@@ -21,7 +21,6 @@
 import {
   Button,
   ButtonVariety,
-  cssVar,
   Divider,
   Heading,
   HeadingSize,
@@ -35,9 +34,10 @@ import { JourneyState } from '~shared/types/onboarding';
 import { OnboardingDashboardAction } from '~shared/types/onboarding-dashboard-telemetry';
 import { usePlatformSelection } from '../../projects/usePlatformSelection';
 import { useOnboardingDashboardTracking } from '../../telemetry/OnboardingDashboardTelemetry';
-import { PanelDonut, PanelDonutSegment } from '../charts/PanelDonut';
+import { PanelDonut } from '../charts/PanelDonut';
 import { ImportRepositoriesModal } from '../modals/ImportRepositoriesModal';
 import { PermissionGate } from '../PermissionGate';
+import { getImportSegments } from './panelSegments';
 
 interface Props {
   state: JourneyState;
@@ -51,30 +51,12 @@ interface Props {
  */
 export function ImportRepositoriesPanel({ state }: Readonly<Props>) {
   const { formatMessage } = useIntl();
-  const { imported, importedPct, notYetImported } = state;
+  const { importedPct, notYetImported } = state;
   const { hasListablePlatforms } = usePlatformSelection();
   const importRepositoriesModalProps = useImportRepositoriesModalProps();
   const { trackActionSelected } = useOnboardingDashboardTracking();
 
-  const segments: PanelDonutSegment[] = [
-    ...(imported > 0
-      ? [
-          {
-            color: cssVar('color-charts-categorical-1'),
-            label: formatMessage({ id: 'onboarding_dashboard.journey.import.legend.imported' }),
-            value: imported,
-          },
-        ]
-      : []),
-    {
-      color:
-        imported === 0
-          ? cssVar('color-charts-categorical-2')
-          : cssVar('color-background-neutral-subtle-default'),
-      label: formatMessage({ id: 'onboarding_dashboard.journey.import.legend.not_imported' }),
-      value: notYetImported,
-    },
-  ];
+  const segments = getImportSegments(state, formatMessage);
 
   return (
     <div className="sw:flex sw:items-start sw:gap-8">

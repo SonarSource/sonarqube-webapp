@@ -107,10 +107,36 @@ export interface OnboardingDevopsConfigurations {
  * `GET /api/v2/onboarding/statistics` ({@link OnboardingStatistics}).
  */
 export interface OnboardingOverview {
+  /**
+   * How much of an enterprise the figures cover. Only reported for enterprise scope (SQ-Cloud),
+   * absent or null otherwise.
+   */
+  coverage?: OnboardingCoverage | null;
   /** Overall journey completion, 0-100. */
   progressPct: number;
   steps: OnboardingSteps;
 }
+
+/**
+ * How much of an enterprise a response covers. Totals and percentages are computed over the
+ * organizations that could be read: an unreadable organization is excluded and counted in
+ * `organizationsUnavailable`, never reported as zero.
+ */
+export interface OnboardingCoverage {
+  /** Organizations in the enterprise. */
+  organizationsTotal: number;
+  /** Organizations whose data could not be read for this response. */
+  organizationsUnavailable: number;
+}
+
+/**
+ * What the onboarding endpoints are scoped to. SQ-Server sends neither, SQ-Cloud sends the key of
+ * the current organization, or the id of an enterprise to aggregate over all of its organizations.
+ * The two are mutually exclusive — the backend answers 400 when both are sent.
+ */
+export type OnboardingScope =
+  | { enterpriseId?: undefined; organizationKey?: string }
+  | { enterpriseId: string; organizationKey?: undefined };
 
 /** The three sequential steps of the onboarding journey. */
 interface OnboardingSteps {
@@ -121,10 +147,29 @@ interface OnboardingSteps {
 
 interface OnboardingDevopsPlatformsStep {
   /**
+   * Bound organizations per DevOps platform, largest first. Enterprise scope only, absent or null
+   * otherwise. Platforms are plain ids, so one the UI doesn't know can show up.
+   */
+  byPlatform?: OnboardingPlatformShare[] | null;
+  /**
    * Configured DevOps platform integrations. On Server this counts the instance's ALM
-   * configurations; on Cloud an organization binds to at most one, so it is 0 or 1.
+   * configurations; on Cloud an organization binds to at most one, so it is 0 or 1. For an
+   * enterprise it is the number of bound organizations.
    */
   configured: number;
+  /**
+   * Organizations in scope, the denominator of `configured`. Enterprise scope only, absent or null
+   * otherwise.
+   */
+  total?: number | null;
+}
+
+/** Bound organizations of one DevOps platform, as reported for an enterprise. */
+interface OnboardingPlatformShare {
+  count: number;
+  percentage: number;
+  /** DevOps platform id (`github`, `gitlab`, ...). Not restricted to the platforms the UI knows. */
+  platform: string;
 }
 
 interface OnboardingRepositoriesStep {
@@ -154,6 +199,8 @@ interface OnboardingProjectsStep {
 
 /** Response of `GET /api/v2/onboarding/statistics`. */
 export interface OnboardingStatistics {
+  /** Only reported for enterprise scope (SQ-Cloud). */
+  coverage?: OnboardingCoverage | null;
   devopsPlatforms: OnboardingDevopsPlatforms;
   /** Current discovered-repository count, the chart's reference line. Null when unavailable. */
   discoveredTotal: number | null;
@@ -287,6 +334,8 @@ export interface JourneyState {
   /** Number of configured DevOps platform integrations. 0 or 1 on products that bind to one. */
   configured: number;
   discovered: number;
+  /** Only set for an enterprise, where the first step counts bound organizations. */
+  enterprise?: JourneyEnterpriseState;
   imported: number;
   importedPct: number;
   isBound: boolean;
@@ -295,6 +344,18 @@ export interface JourneyState {
   /** Overall onboarding maturity percentage shown in the header ring, 0–100. */
   overallPct: number;
   totalProjects: number;
+}
+
+/** What the first step of the journey reports for an enterprise: organizations bound over all. */
+export interface JourneyEnterpriseState {
+  /** Bound organizations per DevOps platform the UI knows, largest first. */
+  byPlatform: OnboardingDevopsPlatformConfigurations[];
+  /** How much of the enterprise the figures cover, null when the backend doesn't say. */
+  coverage: OnboardingCoverage | null;
+  /** Organizations bound to a DevOps platform. */
+  organizationsBound: number;
+  /** Organizations in the enterprise whose figures were read. */
+  organizationsTotal: number;
 }
 
 export enum OnboardingRepositoriesVisibility {
@@ -390,4 +451,56 @@ export type AnalysisModeFilterValue = OnboardingProjectAnalysisMode | typeof ANY
 export interface ProjectFilterOption<T extends string> {
   labelKey: string;
   value: T;
+}
+
+/** Row order of the enterprise organizations roll-up. */
+export enum OnboardingOrganizationSort {
+  Name = 'NAME',
+  /** Least progressed organizations first, unavailable ones last. */
+  Progress = 'PROGRESS',
+}
+
+/** Whether the figures of an enterprise organization could be read. */
+export type OnboardingOrganizationAvailability = 'AVAILABLE' | 'UNAVAILABLE';
+
+/** The repositories step of one organization of an enterprise. */
+interface OnboardingOrganizationRepositories {
+  /** Null when no platform is configured, or when discovery is unavailable. */
+  discovered: number | null;
+  imported: number;
+  percent: number | null;
+}
+
+/** The projects step of one organization of an enterprise. */
+interface OnboardingOrganizationProjects {
+  analyzed: number;
+  notImported: number | null;
+  notScanned: number;
+  percent: number | null;
+  total: number | null;
+}
+
+/**
+ * One organization of an enterprise. An `UNAVAILABLE` row carries no figures at all: they could not
+ * be read, which is not the same as being zero.
+ */
+export interface OnboardingOrganizationRow {
+  availability: OnboardingOrganizationAvailability;
+  /** Whether the organization is bound to a DevOps organization. Unknown (false) when unavailable. */
+  bound: boolean;
+  /** DevOps platform id, or absent when the organization is not bound. */
+  devopsPlatform?: string | null;
+  key: string;
+  name: string;
+  /** The organization's overall journey completion, 0-100. Absent when unavailable. */
+  progressPct?: number | null;
+  projects?: OnboardingOrganizationProjects | null;
+  repositories?: OnboardingOrganizationRepositories | null;
+}
+
+/** Response of `GET /api/v2/onboarding/organizations`. */
+export interface OnboardingOrganizationsResponse {
+  coverage: OnboardingCoverage;
+  organizations: OnboardingOrganizationRow[];
+  page: OnboardingProjectsPage;
 }

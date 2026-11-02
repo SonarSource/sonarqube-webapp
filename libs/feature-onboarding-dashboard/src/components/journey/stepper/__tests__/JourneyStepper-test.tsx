@@ -228,3 +228,61 @@ it.each([
 
   expect(onSelectStep).toHaveBeenCalledWith<[JourneyStep]>(step);
 });
+
+describe('enterprise', () => {
+  const ENTERPRISE_BINDING_TITLE = 'onboarding_dashboard.enterprise.step.binding.title';
+
+  function enterpriseState(overrides: Partial<JourneyState> = {}, bound = 8) {
+    return mockState({
+      configured: bound,
+      enterprise: {
+        byPlatform: [{ count: bound, platform: OnboardingDevopsPlatform.Github }],
+        coverage: null,
+        organizationsBound: bound,
+        organizationsTotal: 12,
+      },
+      isBound: bound > 0,
+      ...overrides,
+    });
+  }
+
+  it('titles the first step after the platforms and counts the bound organizations', () => {
+    renderStepper({ state: enterpriseState() });
+
+    expect(
+      byRole('button', {
+        name: `onboarding_dashboard.journey.step.ring_count_aria_label.8.${ENTERPRISE_BINDING_TITLE}`,
+      }).get(),
+    ).toBeInTheDocument();
+    expect(byText('8').get()).toBeInTheDocument();
+    expect(
+      byText('onboarding_dashboard.enterprise.step.binding.count.8.12').get(),
+    ).toBeInTheDocument();
+    expect(ui.binding.query()).not.toBeInTheDocument();
+  });
+
+  it('does not ask the product for a configuration split, the enterprise carries its own', () => {
+    jest.mocked(useOnboardingDevopsConfigurations).mockReturnValue(MULTI_CONFIGURATION_PRODUCT);
+
+    renderStepper({ state: enterpriseState() });
+
+    expect(
+      byText('onboarding_dashboard.enterprise.step.binding.count.8.12').get(),
+    ).toBeInTheDocument();
+    expect(ui.bindingBound.query()).not.toBeInTheDocument();
+  });
+
+  it('locks the repositories and projects steps while no organization is bound', () => {
+    renderStepper({ state: enterpriseState({}, 0) });
+
+    expect(byRole('button', { name: ENTERPRISE_BINDING_TITLE }).get()).toHaveAttribute(
+      'aria-disabled',
+      'false',
+    );
+    expect(
+      byText('onboarding_dashboard.enterprise.step.binding.count.0.12').get(),
+    ).toBeInTheDocument();
+    expect(ui.lockedCard(REPOSITORIES_TITLE).get()).toHaveAttribute('aria-disabled', 'true');
+    expect(ui.lockedCard(PROJECTS_TITLE).get()).toHaveAttribute('aria-disabled', 'true');
+  });
+});

@@ -21,10 +21,13 @@
 import { API_V2_BASE_URL } from '~adapters/helpers/urls';
 import { axiosClient } from '../helpers/axios-clients';
 import {
+  OnboardingOrganizationSort,
+  OnboardingOrganizationsResponse,
   OnboardingOverview,
   OnboardingProjectAnalysisMode,
   OnboardingProjectScanStatus,
   OnboardingProjectsResponse,
+  OnboardingScope,
   OnboardingStatistics,
 } from '../types/onboarding';
 
@@ -32,6 +35,7 @@ const ONBOARDING_PATH = `${API_V2_BASE_URL}/onboarding`;
 const ONBOARDING_OVERVIEW_PATH = `${ONBOARDING_PATH}/overview`;
 const ONBOARDING_STATISTICS_PATH = `${ONBOARDING_PATH}/statistics`;
 const ONBOARDING_PROJECTS_PATH = `${ONBOARDING_PATH}/projects`;
+const ONBOARDING_ORGANIZATIONS_PATH = `${ONBOARDING_PATH}/organizations`;
 
 export interface OnboardingProjectsQuery {
   analysisMode?: OnboardingProjectAnalysisMode;
@@ -43,9 +47,21 @@ export interface OnboardingProjectsQuery {
   scanStatus?: OnboardingProjectScanStatus;
 }
 
-/** Only sent by SQ-Cloud, where the feature is scoped to an organization. */
-export interface OnboardingOverviewQuery {
-  organizationKey?: string;
+/**
+ * Only sent by SQ-Cloud, where the feature is scoped to an organization, or to an enterprise (an
+ * `enterpriseId` aggregates over all of its organizations).
+ */
+export type OnboardingOverviewQuery = OnboardingScope;
+
+export interface OnboardingOrganizationsQuery {
+  /** Identifier (UUID) of the enterprise to report on. Required: the roll-up only exists for one. */
+  enterpriseId: string;
+  pageIndex?: number;
+  pageSize?: number;
+  /** Case-insensitive search on organization name and key. */
+  q?: string;
+  /** Defaults to least progressed first on the backend. */
+  sort?: OnboardingOrganizationSort;
 }
 
 export function getOnboardingOverview(params: OnboardingOverviewQuery = {}) {
@@ -59,4 +75,11 @@ export function getOnboardingStatistics(params: OnboardingOverviewQuery = {}) {
 
 export function getOnboardingProjects(params: OnboardingProjectsQuery = {}) {
   return axiosClient.get<OnboardingProjectsResponse>(ONBOARDING_PROJECTS_PATH, { params });
+}
+
+/** Per-organization roll-up of an enterprise, for enterprise administrators. SQ-Cloud only. */
+export function getOnboardingOrganizations(params: OnboardingOrganizationsQuery) {
+  return axiosClient.get<OnboardingOrganizationsResponse>(ONBOARDING_ORGANIZATIONS_PATH, {
+    params,
+  });
 }

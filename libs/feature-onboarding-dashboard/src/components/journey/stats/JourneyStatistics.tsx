@@ -33,18 +33,21 @@ import { OnboardingOverTimeCard } from './OnboardingOverTimeCard';
  * Copy — and the CTA decoration — of the "locked statistics" placeholder shown at each journey
  * level. Levels that have nothing left to unlock are absent from the map.
  */
-const LOCKED_STATISTICS_CONTENT: Partial<
+export type LockedStatisticsContent = Partial<
   Record<
     JourneyLevel,
     {
-      cta: string;
-      ctaAction: OnboardingDashboardAction;
+      /** Omitted for a placeholder with nothing to act on. */
+      cta?: string;
+      ctaAction?: OnboardingDashboardAction;
       ctaPrefix?: ReactNode;
       message: string;
       title: string;
     }
   >
-> = {
+>;
+
+const LOCKED_STATISTICS_CONTENT: LockedStatisticsContent = {
   [JourneyLevel.Unbound]: {
     cta: 'onboarding_dashboard.journey.locked.stats.cta',
     ctaAction: OnboardingDashboardAction.BindOrganization,
@@ -64,6 +67,11 @@ interface Props {
   /** Whether the organization is bound to a DevOps platform, `undefined` while it is loading. */
   isBound: boolean | undefined;
   isTimelineError: boolean;
+  /**
+   * Copy of the locked placeholders, replacing the organization's. A level absent from it shows no
+   * placeholder at all.
+   */
+  lockedContent?: LockedStatisticsContent;
   /** Adoption history from the statistics endpoint, `undefined` while it is loading. */
   timeline: OnboardingTimelinePoint[] | undefined;
 }
@@ -73,12 +81,17 @@ interface Props {
  * imported series once it records an import. Derived from the binding and the statistics endpoint
  * only, so it does not wait on the overview.
  */
-export function JourneyStatistics({ isBound, isTimelineError, timeline }: Readonly<Props>) {
+export function JourneyStatistics({
+  isBound,
+  isTimelineError,
+  lockedContent = LOCKED_STATISTICS_CONTENT,
+  timeline,
+}: Readonly<Props>) {
   const { formatMessage } = useIntl();
   const createConfigurationUrl = useCreateDevopsConfigurationUrl();
 
   const level = getStatisticsLevel({ isBound, timeline });
-  const lockedStatistics = level === undefined ? undefined : LOCKED_STATISTICS_CONTENT[level];
+  const lockedStatistics = level === undefined ? undefined : lockedContent[level];
 
   // Unbound is the only level whose CTA has a destination today — and only on the products that
   // expose one, which is what the adapter answers. The "import repositories" destination lands in a
@@ -107,7 +120,11 @@ export function JourneyStatistics({ isBound, isTimelineError, timeline }: Readon
       {lockedStatistics !== undefined && level !== undefined && (
         <LockedStatisticsCard
           ctaAction={lockedStatistics.ctaAction}
-          ctaLabel={formatMessage({ id: lockedStatistics.cta })}
+          ctaLabel={
+            lockedStatistics.cta === undefined
+              ? undefined
+              : formatMessage({ id: lockedStatistics.cta })
+          }
           ctaPrefix={lockedStatistics.ctaPrefix}
           ctaTo={lockedCtaUrlByLevel[level]}
           message={formatMessage({ id: lockedStatistics.message })}

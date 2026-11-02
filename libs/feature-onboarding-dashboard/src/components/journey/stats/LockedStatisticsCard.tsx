@@ -37,8 +37,10 @@ const BACKDROP_OPACITY = 0.4;
 const LOCK_ICON_FONT_SIZE_CLASS = 'sw:text-[28px]';
 
 interface Props {
-  ctaAction: OnboardingDashboardAction;
-  ctaLabel: string;
+  /** Reported when the call-to-action is selected. Required for the call-to-action to render. */
+  ctaAction?: OnboardingDashboardAction;
+  /** Omit it for a placeholder with nothing to act on — the enterprise one has no single target. */
+  ctaLabel?: string;
   /** Icon shown before the call-to-action label, when the action warrants one. */
   ctaPrefix?: ReactNode;
   /** Where the call-to-action navigates. Levels with no destination yet render an inert button. */
@@ -75,6 +77,39 @@ export function LockedStatisticsCard({
     variety: ButtonVariety.Default,
   } as const;
 
+  let cta: ReactNode = null;
+  if (ctaLabel !== undefined && ctaAction !== undefined) {
+    cta =
+      ctaTo === undefined ? (
+        <PermissionGate
+          action={ctaAction}
+          trigger={
+            <Button
+              {...ctaProps}
+              enablePreventDefault
+              onClick={() => {
+                trackActionSelected(ctaAction);
+                onCta();
+              }}
+            />
+          }
+        />
+      ) : (
+        <PermissionGate
+          action={ctaAction}
+          trigger={
+            <Button
+              {...ctaProps}
+              onClick={() => {
+                trackActionSelected(ctaAction);
+              }}
+              to={ctaTo}
+            />
+          }
+        />
+      );
+  }
+
   return (
     <div className="sw:relative sw:overflow-hidden sw:py-12">
       <DecorativeChartBackdrop />
@@ -89,34 +124,7 @@ export function LockedStatisticsCard({
           <Text isSubtle>{message}</Text>
         </div>
 
-        {ctaTo === undefined ? (
-          <PermissionGate
-            action={ctaAction}
-            trigger={
-              <Button
-                {...ctaProps}
-                enablePreventDefault
-                onClick={() => {
-                  trackActionSelected(ctaAction);
-                  onCta();
-                }}
-              />
-            }
-          />
-        ) : (
-          <PermissionGate
-            action={ctaAction}
-            trigger={
-              <Button
-                {...ctaProps}
-                onClick={() => {
-                  trackActionSelected(ctaAction);
-                }}
-                to={ctaTo}
-              />
-            }
-          />
-        )}
+        {cta}
       </div>
     </div>
   );

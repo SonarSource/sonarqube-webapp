@@ -19,12 +19,39 @@
  */
 
 import {
+  isKnownPlatform,
+  JourneyEnterpriseState,
   JourneyLevel,
   JourneyState,
   JourneyStep,
+  OnboardingAlm,
   OnboardingOverview,
 } from '../../types/onboarding';
 import { toDisplayPercent } from './percent';
+
+/**
+ * The first step of an enterprise journey: organizations bound over organizations read. Only
+ * reported when the overview carries a total, i.e. for enterprise scope. Platforms the UI has no
+ * icon or label for are left out of the split rather than shown under a raw id.
+ */
+function deriveEnterpriseState(overview: OnboardingOverview): JourneyEnterpriseState | undefined {
+  const { byPlatform, configured, total } = overview.steps.devopsPlatforms;
+
+  if (total === undefined || total === null) {
+    return undefined;
+  }
+
+  return {
+    byPlatform: (byPlatform ?? [])
+      .filter((share): share is typeof share & { platform: OnboardingAlm } =>
+        KNOWN_PLATFORMS.has(share.platform),
+      )
+      .map(({ count, platform }) => ({ count, platform })),
+    coverage: overview.coverage ?? null,
+    organizationsBound: configured,
+    organizationsTotal: total,
+  };
+}
 
 /**
  * Derives the percentage from the counts, which are exact: the backend may round its own `percent`
@@ -57,6 +84,8 @@ export function deriveJourneyState(overview: OnboardingOverview): JourneyState {
   const { configured } = steps.devopsPlatforms;
   const isBound = hasConfiguredDevopsPlatform(overview);
 
+  const enterprise = deriveEnterpriseState(overview);
+
   let activeStep = JourneyStep.Projects;
   if (!isBound) {
     activeStep = JourneyStep.Binding;
@@ -82,6 +111,7 @@ export function deriveJourneyState(overview: OnboardingOverview): JourneyState {
     analyzedPct: toPercent(analyzed, totalProjects, steps.projects.percent),
     configured,
     discovered,
+    ...(enterprise !== undefined && { enterprise }),
     imported,
     importedPct: toPercent(imported, discovered, steps.repositories.percent),
     isBound,

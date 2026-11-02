@@ -18,7 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Button, ButtonVariety } from '@sonarsource/echoes-react';
+import { Button, ButtonVariety, cssVar } from '@sonarsource/echoes-react';
 import { useIntl } from 'react-intl';
 import {
   JourneyStep,
@@ -34,16 +34,25 @@ interface Props {
   byPlatform: OnboardingDevopsPlatformConfigurations[];
   /** Total number of configurations, from the overview response. */
   configured: number;
-  /** Lets the details modal hand the user on to another step of the journey. */
-  onSelectStep: (step: JourneyStep) => void;
+  /** Message id of the line under the center count. Defaults to "Configured". */
+  centerSubLabelId?: string;
+  /** Organizations bound to none, drawn as a neutral segment (enterprise only). */
+  unboundCount?: number;
+  /**
+   * Lets the details modal hand the user on to another step of the journey. Without it there is no
+   * details modal — an enterprise has no single list of configurations to open.
+   */
+  onSelectStep?: (step: JourneyStep) => void;
 }
 
 // Segments follow PLATFORM_CONFIG's declaration order, not the response order, so the ring and
 // legend stay stable across reloads. Platforms with no configuration are left out.
 export function DevopsConfigurationsDonut({
   byPlatform,
+  centerSubLabelId = 'onboarding_dashboard.journey.binding.configured_label',
   configured,
   onSelectStep,
+  unboundCount = 0,
 }: Readonly<Props>) {
   const { formatMessage } = useIntl();
 
@@ -59,19 +68,27 @@ export function DevopsConfigurationsDonut({
     },
   );
 
+  if (unboundCount > 0) {
+    segments.push({
+      color: cssVar('color-background-neutral-subtle-default'),
+      label: formatMessage({ id: 'onboarding_dashboard.enterprise.binding.legend.not_bound' }),
+      value: unboundCount,
+    });
+  }
+
   return (
     <PanelDonut
       centerLabel={configured}
-      centerSubLabel={formatMessage({
-        id: 'onboarding_dashboard.journey.binding.configured_label',
-      })}
+      centerSubLabel={formatMessage({ id: centerSubLabelId })}
       segments={segments}
       viewAll={
-        <DevopsConfigurationsModal onSelectStep={onSelectStep}>
-          <Button variety={ButtonVariety.PrimaryGhost}>
-            {formatMessage({ id: 'onboarding_dashboard.journey.binding.view_details' })}
-          </Button>
-        </DevopsConfigurationsModal>
+        onSelectStep === undefined ? undefined : (
+          <DevopsConfigurationsModal onSelectStep={onSelectStep}>
+            <Button variety={ButtonVariety.PrimaryGhost}>
+              {formatMessage({ id: 'onboarding_dashboard.journey.binding.view_details' })}
+            </Button>
+          </DevopsConfigurationsModal>
+        )
       }
     />
   );

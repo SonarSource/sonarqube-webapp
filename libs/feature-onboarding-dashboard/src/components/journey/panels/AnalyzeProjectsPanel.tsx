@@ -24,7 +24,6 @@ import {
   Button,
   ButtonVariety,
   Card,
-  cssVar,
   Heading,
   HeadingSize,
   IconDot,
@@ -34,20 +33,16 @@ import {
 import { ReactNode } from 'react';
 import { useIntl } from 'react-intl';
 import { ImportRepositoriesCta } from '~adapters/components/onboarding/ImportRepositoriesCta';
-import { IS_AUTOMATIC_ANALYSIS_SUPPORTED } from '~adapters/helpers/onboarding-actions';
 import { JourneyState, OnboardingProjectScanStatus } from '~shared/types/onboarding';
 import { OnboardingDashboardAction } from '~shared/types/onboarding-dashboard-telemetry';
 import { useOnboardingDashboardTracking } from '../../telemetry/OnboardingDashboardTelemetry';
-import { PanelDonut, PanelDonutSegment } from '../charts/PanelDonut';
+import { PanelDonut } from '../charts/PanelDonut';
 import { ConfigureProjectsModal } from '../modals/ConfigureProjectsModal';
 import { PermissionGate } from '../PermissionGate';
+import { getAnalyzeSegments } from './panelSegments';
 
 interface Props {
   state: JourneyState;
-}
-
-function clampToRemaining(value: number, remaining: number) {
-  return Math.max(Math.min(value, remaining), 0);
 }
 
 /**
@@ -62,66 +57,10 @@ function clampToRemaining(value: number, remaining: number) {
  */
 export function AnalyzeProjectsPanel({ state }: Readonly<Props>) {
   const { formatMessage } = useIntl();
-  const { analyze, analyzed, analyzedPct, totalProjects } = state;
+  const { analyze, analyzedPct } = state;
   const { trackActionSelected } = useOnboardingDashboardTracking();
 
-  const analyzedCapacity =
-    totalProjects > 0 ? totalProjects - analyze.notScanned - analyze.notImported : analyzed;
-  const analyzedSegmentValue = Math.max(Math.min(analyzed, analyzedCapacity), 0);
-
-  const analyzedSegments: PanelDonutSegment[] = [];
-  const { byMode } = analyze;
-
-  if (IS_AUTOMATIC_ANALYSIS_SUPPORTED && byMode) {
-    // Each segment is capped by what the previous ones left of `analyzedSegmentValue` (the analyzed
-    // total, itself capped by the available space), so inconsistent counts never overflow the
-    // donut nor go negative.
-    const ciValue = clampToRemaining(byMode.ci, analyzedSegmentValue);
-    const automaticValue = clampToRemaining(byMode.automatic, analyzedSegmentValue - ciValue);
-    // Analyzed projects that are neither CI nor automatic: local scanners run without CI.
-    const otherValue = clampToRemaining(
-      analyzed - byMode.ci - byMode.automatic,
-      analyzedSegmentValue - ciValue - automaticValue,
-    );
-
-    analyzedSegments.push(
-      {
-        color: cssVar('color-charts-categorical-3'),
-        label: formatMessage({ id: 'onboarding_dashboard.journey.analyze.legend.ci_scan' }),
-        value: ciValue,
-      },
-      {
-        color: cssVar('color-charts-categorical-4'),
-        label: formatMessage({ id: 'onboarding_dashboard.journey.analyze.legend.autoscan' }),
-        value: automaticValue,
-      },
-      {
-        color: cssVar('color-charts-categorical-1'),
-        label: formatMessage({ id: 'onboarding_dashboard.journey.analyze.legend.other_analysis' }),
-        value: otherValue,
-      },
-    );
-  } else {
-    analyzedSegments.push({
-      color: cssVar('color-charts-categorical-3'),
-      label: formatMessage({ id: 'onboarding_dashboard.journey.analyze.legend.analyzed' }),
-      value: analyzedSegmentValue,
-    });
-  }
-
-  const segments: PanelDonutSegment[] = [
-    ...analyzedSegments.filter((segment) => segment.value > 0),
-    {
-      color: cssVar('color-charts-categorical-2'),
-      label: formatMessage({ id: 'onboarding_dashboard.journey.analyze.legend.not_scanned' }),
-      value: analyze.notScanned,
-    },
-    {
-      color: cssVar('color-background-neutral-subtle-default'),
-      label: formatMessage({ id: 'onboarding_dashboard.journey.analyze.legend.not_imported' }),
-      value: analyze.notImported,
-    },
-  ];
+  const segments = getAnalyzeSegments(state, formatMessage);
 
   const rows: Array<{
     badge: ReactNode;

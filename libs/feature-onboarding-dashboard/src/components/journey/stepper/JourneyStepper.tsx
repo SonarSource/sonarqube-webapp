@@ -22,7 +22,7 @@ import { useIntl } from 'react-intl';
 import { useOnboardingDevopsConfigurations } from '~adapters/helpers/useOnboardingDevopsConfigurations';
 import { JourneyState, JourneyStep } from '~shared/types/onboarding';
 import { StepCardVisual } from '../../../types/types';
-import { getBindingStepCard } from './bindingStepCard';
+import { getBindingStepCard, getEnterpriseBindingStepCard } from './bindingStepCard';
 import { StepCard } from './StepCard';
 
 interface Props {
@@ -43,11 +43,25 @@ export function JourneyStepper({ onSelectStep, selectedStep, state }: Readonly<P
   const countLabel = (done: number, total: number) =>
     formatMessage({ id: 'onboarding_dashboard.journey.step.count' }, { done, total });
 
-  const bindingCard = getBindingStepCard({
-    byPlatform,
-    configured: state.configured,
-    isBound: state.isBound,
-  });
+  const { enterprise } = state;
+  const bindingCard =
+    enterprise === undefined
+      ? getBindingStepCard({
+          byPlatform,
+          configured: state.configured,
+          isBound: state.isBound,
+        })
+      : getEnterpriseBindingStepCard(enterprise);
+
+  let bindingSecondaryLine: string | undefined;
+  if (enterprise !== undefined) {
+    bindingSecondaryLine = formatMessage(
+      { id: 'onboarding_dashboard.enterprise.step.binding.count' },
+      { bound: enterprise.organizationsBound, total: enterprise.organizationsTotal },
+    );
+  } else if (bindingCard.secondaryLineId !== undefined) {
+    bindingSecondaryLine = formatMessage({ id: bindingCard.secondaryLineId });
+  }
 
   return (
     <div className="sw:grid sw:grid-cols-3 sw:gap-6">
@@ -57,12 +71,13 @@ export function JourneyStepper({ onSelectStep, selectedStep, state }: Readonly<P
           onSelectStep(JourneyStep.Binding);
         }}
         ringLabel={bindingCard.ringLabel}
-        secondaryLine={
-          bindingCard.secondaryLineId === undefined
-            ? undefined
-            : formatMessage({ id: bindingCard.secondaryLineId })
-        }
-        title={formatMessage({ id: 'onboarding_dashboard.journey.step.binding.title' })}
+        secondaryLine={bindingSecondaryLine}
+        title={formatMessage({
+          id:
+            enterprise === undefined
+              ? 'onboarding_dashboard.journey.step.binding.title'
+              : 'onboarding_dashboard.enterprise.step.binding.title',
+        })}
         visual={bindingCard.visual}
       />
 
