@@ -38,17 +38,18 @@ import {
 import { isEmpty } from 'lodash';
 import { useCallback, useMemo, useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
+import { useCurrentUser } from '~adapters/helpers/users';
 import { useBeamerContextData } from '~adapters/helpers/vendorConfig';
-import DateFormatter from '~shared/components/intl/DateFormatter';
-import { HtmlFormatter } from '~shared/components/typography/HtmlFormatter';
-import { SafeHTMLInjection, SanitizeLevel } from '~shared/helpers/sanitize';
-import { isDefined, isStringDefined } from '~shared/helpers/types';
+import { SafeHTMLInjection, SanitizeLevel } from '../../helpers/sanitize';
+import { isDefined, isStringDefined } from '../../helpers/types';
+import { isLoggedIn } from '../../helpers/users';
 import {
   useBeamerNewsListQuery,
   useBeamerUnreadCountQuery,
   useMarkUnreadPostsMutation,
 } from '../../queries/beamer';
-import { useCurrentUserDetailsQuery } from '../../queries/users';
+import DateFormatter from '../intl/DateFormatter';
+import { HtmlFormatter } from '../typography/HtmlFormatter';
 
 interface Props {
   hideCounter?: boolean;
@@ -60,18 +61,20 @@ const badgeVarietyForCategory: Record<string, BadgeVariety> = {
 
 /**
  * Outer shell: waits for the user to load, then mounts the content.
- * Splitting here ensures the inner component's hooks (including useLocalStorage
- * for the cache) always receive a stable, defined params from mount.
+ * The filter stays undefined until all its sources are loaded; the inner
+ * component's queries are disabled until then.
  */
 export function BeamerWidgetCustom({ hideCounter = true }: Readonly<Props>) {
-  const { data: userData } = useCurrentUserDetailsQuery();
+  const { currentUser } = useCurrentUser();
   const filter = useBeamerContextData();
 
-  if (!userData) {
+  if (!isLoggedIn(currentUser)) {
     return null;
   }
 
-  return <BeamerWidgetContent filter={filter} hideCounter={hideCounter} userId={userData.id} />;
+  return (
+    <BeamerWidgetContent filter={filter ?? ''} hideCounter={hideCounter} userId={currentUser.id} />
+  );
 }
 
 interface ContentProps {
@@ -199,7 +202,7 @@ function BeamerWidgetContent({ filter, hideCounter, userId }: Readonly<ContentPr
           Icon={IconBell}
           ariaLabel={intl.formatMessage({ id: 'global_nav.news.tooltip' })}
           isIconFilled
-          onClick={handleOnClick}
+          onClick={isStringDefined(filter) ? handleOnClick : undefined}
           size="medium"
           variety="default-ghost"
         />

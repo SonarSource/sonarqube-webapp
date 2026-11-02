@@ -29,27 +29,26 @@ import {
   GetBeamerNewsListArgs,
   getBeamerUnreadCount,
   markUnreadPosts,
-} from '~shared/api/beamer';
+} from '../api/beamer';
 import {
   BEAMER_CACHE_DURATION_MS,
   BEAMER_PAGE_SIZE,
-  useBeamerUnreadCountCache,
-} from '~shared/helpers/beamer';
-import { createInfiniteQueryHook, createQueryHook, StaleTime } from '~shared/queries/common';
-import { GetBeamerUnreadCountArgs } from '~shared/types/beamer';
+  readBeamerUnreadCountCache,
+  writeBeamerUnreadCountCache,
+} from '../helpers/beamer';
+import { GetBeamerUnreadCountArgs } from '../types/beamer';
+import { createInfiniteQueryHook, createQueryHook, StaleTime } from './common';
 
 export const useBeamerUnreadCountQuery = createQueryHook((data: GetBeamerUnreadCountArgs) => {
-  const [cached, setCached] = useBeamerUnreadCountCache(data);
-
   return queryOptions({
     queryKey: ['beamer', 'unread-count', data.userId, data.filter],
     queryFn: async () => {
       const response = await getBeamerUnreadCount(data);
-      setCached({ data: { count: response.count }, timestamp: Date.now() });
+      writeBeamerUnreadCountCache(data, { data: { count: response.count }, timestamp: Date.now() });
       return response;
     },
-    initialData: () => cached?.data,
-    initialDataUpdatedAt: cached?.timestamp,
+    initialData: () => readBeamerUnreadCountCache(data)?.data,
+    initialDataUpdatedAt: () => readBeamerUnreadCountCache(data)?.timestamp,
     retry: false,
     refetchOnWindowFocus: false,
     staleTime: BEAMER_CACHE_DURATION_MS,
@@ -58,14 +57,13 @@ export const useBeamerUnreadCountQuery = createQueryHook((data: GetBeamerUnreadC
 
 export function useMarkUnreadPostsMutation(data: GetBeamerNewsListArgs) {
   const queryClient = useQueryClient();
-  const [_, setCached] = useBeamerUnreadCountCache(data);
 
   return useMutation({
     mutationFn: () => markUnreadPosts(data),
     onSuccess() {
       // Remove the cache entry so the next query fetches fresh data from the API.
-      setCached(undefined);
-      queryClient.invalidateQueries({
+      writeBeamerUnreadCountCache(data);
+      void queryClient.invalidateQueries({
         queryKey: ['beamer', 'unread-count', data.userId, data.filter],
       });
     },

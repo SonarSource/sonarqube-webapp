@@ -20,13 +20,12 @@
 
 import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { getBeamerNewsList, getBeamerUnreadCount, markUnreadPosts } from '~shared/api/beamer';
-import { BEAMER_CACHE_DURATION_MS } from '~shared/helpers/beamer';
-import { BeamerNewsItem } from '~shared/types/beamer';
-import { getUsers } from '../../../api/users';
-import { mockCurrentUser, mockLoggedInUser, mockPaging } from '../../../helpers/testMocks';
-import { renderApp } from '../../../helpers/testReactTestingUtils';
-import { CurrentUser, RestUserDetailed } from '../../../types/users';
+import { getBeamerNewsList, getBeamerUnreadCount, markUnreadPosts } from '../../../api/beamer';
+import { BEAMER_CACHE_DURATION_MS } from '../../../helpers/beamer';
+import { mockLoggedInUser } from '../../../helpers/mocks/users';
+import { renderWithContext } from '../../../helpers/test-utils';
+import { BeamerNewsItem } from '../../../types/beamer';
+import { CurrentUser } from '../../../types/users';
 import { BeamerWidgetCustom } from '../BeamerWidgetCustom';
 
 const mockBeamerContextData = jest.fn();
@@ -39,21 +38,18 @@ jest.mock('~adapters/helpers/vendorConfig', () => ({
   getBeamerAPIKey: () => mockGetBeamerAPIKey(),
 }));
 
-jest.mock('~shared/api/beamer', () => ({
+jest.mock('../../../api/beamer', () => ({
   getBeamerNewsList: jest.fn(() => []),
   getBeamerUnreadCount: jest.fn(() => ({ count: 0 })),
   markUnreadPosts: jest.fn(),
 }));
 
-jest.mock('~shared/helpers/beamer', () => ({
-  ...jest.requireActual('~shared/helpers/beamer'),
+jest.mock('../../../helpers/beamer', () => ({
+  ...jest.requireActual('../../../helpers/beamer'),
   BEAMER_PAGE_SIZE: 2,
 }));
-jest.mock('~sq-server-commons/api/users', () => ({
-  getUsers: jest.fn(),
-}));
 
-const mockedCurrentUser = mockLoggedInUser();
+const mockedCurrentUser = mockLoggedInUser({ id: 'test-user-id' });
 
 const mockNewsData: BeamerNewsItem[] = [
   {
@@ -90,9 +86,8 @@ const mockNewsData: BeamerNewsItem[] = [
   },
 ];
 
-const MOCK_USER_ID = 'test-user-id';
 const MOCK_FILTER = 'userPersona:standardUser;productVersion:5.2';
-const MOCK_UNREAD_COUNT_CACHE_KEY = `sonarqube.beamer-unread-count.${MOCK_USER_ID}.${MOCK_FILTER}`;
+const MOCK_UNREAD_COUNT_CACHE_KEY = `sonarqube.beamer-unread-count.${mockedCurrentUser.id}.${MOCK_FILTER}`;
 
 beforeEach(() => {
   jest.clearAllMocks();
@@ -101,10 +96,6 @@ beforeEach(() => {
   jest.mocked(getBeamerNewsList).mockResolvedValue(mockNewsData);
   jest.mocked(getBeamerUnreadCount).mockResolvedValue({ count: 3 });
   jest.mocked(markUnreadPosts).mockResolvedValue(undefined);
-  jest.mocked(getUsers).mockResolvedValue({
-    page: mockPaging(),
-    users: [{ login: mockedCurrentUser.login, id: MOCK_USER_ID } as RestUserDetailed],
-  });
 });
 
 afterEach(() => {
@@ -113,7 +104,7 @@ afterEach(() => {
 
 describe('BeamerWidgetCustom', () => {
   it('should not render when user is not logged in', () => {
-    renderBeamerWidgetCustom({ currentUser: mockCurrentUser() });
+    renderBeamerWidgetCustom({ currentUser: { isLoggedIn: false } });
     expect(screen.queryByRole('button')).not.toBeInTheDocument();
   });
 
@@ -294,6 +285,28 @@ describe('BeamerWidgetCustom', () => {
     expect(getBeamerUnreadCount).not.toHaveBeenCalled();
   });
 
+  it('should use the cached unread count matching the filter when the filter changes', async () => {
+    const partialFilter = 'region:eu';
+    mockBeamerContextData.mockReturnValue(partialFilter);
+    localStorage.setItem(
+      MOCK_UNREAD_COUNT_CACHE_KEY,
+      JSON.stringify({ data: { count: 7 }, timestamp: Date.now() }),
+    );
+    const { rerender } = renderBeamerWidgetCustom({ hideCounter: false });
+
+    expect(await screen.findByText('3')).toBeInTheDocument();
+    expect(getBeamerUnreadCount).toHaveBeenCalledWith({
+      filter: partialFilter,
+      userId: mockedCurrentUser.id,
+    });
+
+    mockBeamerContextData.mockReturnValue(MOCK_FILTER);
+    rerender(<BeamerWidgetCustom hideCounter={false} />);
+
+    expect(await screen.findByText('7')).toBeInTheDocument();
+    expect(getBeamerUnreadCount).toHaveBeenCalledTimes(1);
+  });
+
   it('should fetch a new unread count from the API when the timestamp is older than a week', async () => {
     jest.mocked(getBeamerUnreadCount).mockResolvedValue({ count: 2 });
     localStorage.setItem(
@@ -345,9 +358,8 @@ describe('BeamerWidgetCustom', () => {
 function renderBeamerWidgetCustom(
   overrides: { currentUser?: CurrentUser; hideCounter?: boolean } = {},
 ) {
-  const { hideCounter, ...appOverrides } = overrides;
-  return renderApp('/', <BeamerWidgetCustom hideCounter={hideCounter} />, {
-    currentUser: mockedCurrentUser,
-    ...appOverrides,
+  const { hideCounter, currentUser } = overrides;
+  return renderWithContext(<BeamerWidgetCustom hideCounter={hideCounter} />, {
+    initialCurrentUser: currentUser ?? mockedCurrentUser,
   });
 }

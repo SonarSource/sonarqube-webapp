@@ -19,7 +19,7 @@
  */
 
 import { BeamerCacheEntry, GetBeamerUnreadCountArgs } from '../types/beamer';
-import useLocalStorage from './useLocalStorage';
+import { get, save } from './storage';
 
 export const BEAMER_NOTIFICATIONS_SETTING = 'beamer-notifications-setting';
 
@@ -29,8 +29,33 @@ export const BEAMER_PAGE_SIZE = 10;
 
 const BEAMER_UNREAD_COUNT_CACHE_KEY = 'sonarqube.beamer-unread-count';
 
-export function useBeamerUnreadCountCache({ filter, userId }: GetBeamerUnreadCountArgs) {
-  return useLocalStorage<BeamerCacheEntry | undefined>(
-    `${BEAMER_UNREAD_COUNT_CACHE_KEY}.${userId}.${filter}`,
-  );
+function getBeamerUnreadCountCacheKey({ filter, userId }: GetBeamerUnreadCountArgs) {
+  return `${BEAMER_UNREAD_COUNT_CACHE_KEY}.${userId}.${filter}`;
+}
+
+/**
+ * Reads localStorage synchronously (rather than through React state) so that the value always
+ * matches the current filter, even on the render where the filter changes.
+ */
+export function readBeamerUnreadCountCache(
+  args: GetBeamerUnreadCountArgs,
+): BeamerCacheEntry | undefined {
+  try {
+    return (
+      (JSON.parse(get(getBeamerUnreadCountCacheKey(args)) ?? 'null') as BeamerCacheEntry | null) ??
+      undefined
+    );
+  } catch {
+    return undefined;
+  }
+}
+
+/**
+ * Passing no entry removes the cached value.
+ */
+export function writeBeamerUnreadCountCache(
+  args: GetBeamerUnreadCountArgs,
+  entry?: BeamerCacheEntry,
+) {
+  save(getBeamerUnreadCountCacheKey(args), entry ? JSON.stringify(entry) : undefined);
 }

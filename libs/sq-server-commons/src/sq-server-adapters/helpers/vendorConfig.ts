@@ -27,12 +27,8 @@ import { EditionKey } from '../../types/editions';
 import { isLoggedIn } from '../../types/users';
 import { useCurrentUser } from './users';
 
-const BEAMER_PRODUCT_ID = 'XzXivFzs65268';
+// SQS
 const BEAMER_API_KEY = 'b_VblkDQhs+4C+ZPgjSSi/sHsXhp1mtd/DTnm+GuB2sNA=';
-
-export function getBeamerProductId() {
-  return BEAMER_PRODUCT_ID;
-}
 
 export function getBeamerAPIKey() {
   return BEAMER_API_KEY;
@@ -59,9 +55,14 @@ export function useBeamerContextData() {
 
   const isCommunity = edition === EditionKey.community;
 
-  const { data: license } = useCurrentLicenseQuery({
+  const { data: license, isLoading: isLoadingLicense } = useCurrentLicenseQuery({
     enabled: !isCommunity && isLoggedIn(currentUser) && Boolean(canAdmin),
   });
+
+  // Wait for the license, so that Beamer is only queried with the complete filter
+  if (isLoadingLicense) {
+    return undefined;
+  }
 
   const filters = [
     `userPersona:${canAdmin ? 'systemAdmin' : 'standardUser'}`,

@@ -31,7 +31,7 @@ import { flushPromises } from '~sq-server-commons/helpers/testUtils';
 import { GlobalSettingKeys } from '~sq-server-commons/types/settings';
 import { GlobalNav } from '../GlobalNav';
 
-jest.mock('~sq-server-commons/components/beamer/BeamerWidgetCustom', () => ({
+jest.mock('~shared/components/beamer/BeamerWidgetCustom', () => ({
   BeamerWidgetCustom: () => <button type="button">global_nav.news.tooltip</button>,
 }));
 

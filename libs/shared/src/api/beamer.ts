@@ -27,6 +27,16 @@ import {
   GetBeamerUnreadCountArgs,
 } from '../types/beamer';
 
+/**
+ * Beamer answers with `Access-Control-Allow-Origin: *` and only allows its own API key headers,
+ * so requests must not carry credentials or the CSRF header (which the SQC axios client enables
+ * by default).
+ */
+const BEAMER_REQUEST_CONFIG = {
+  withCredentials: false,
+  withXSRFToken: false,
+};
+
 export function getBeamerUnreadCount({
   filter,
   userId,
@@ -39,6 +49,7 @@ export function getBeamerUnreadCount({
     headers: {
       'Beamer-Api-Key': getBeamerAPIKey(),
     },
+    ...BEAMER_REQUEST_CONFIG,
   });
 }
 
@@ -68,6 +79,7 @@ export function getBeamerNewsList({
     headers: {
       'Beamer-Api-Key': getBeamerAPIKey(),
     },
+    ...BEAMER_REQUEST_CONFIG,
   });
 }
 
@@ -84,5 +96,6 @@ export function markUnreadPosts({ filter, userId }: GetBeamerNewsListArgs): Prom
     headers: {
       'Beamer-Api-Key': getBeamerAPIKey(),
     },
+    ...BEAMER_REQUEST_CONFIG,
   });
 }

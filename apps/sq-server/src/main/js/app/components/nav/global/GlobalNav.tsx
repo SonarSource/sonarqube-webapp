@@ -20,9 +20,9 @@
 
 import { Layout } from '@sonarsource/echoes-react';
 import { useCurrentUser } from '~adapters/helpers/users';
+import { BeamerWidgetCustom } from '~shared/components/beamer/BeamerWidgetCustom';
 import { BEAMER_NOTIFICATIONS_SETTING } from '~shared/helpers/beamer';
 import useLocalStorage from '~shared/helpers/useLocalStorage';
-import { BeamerWidgetCustom } from '~sq-server-commons/components/beamer/BeamerWidgetCustom';
 import EmbedDocsPopupHelper from '~sq-server-commons/components/embed-docs-modal/EmbedDocsPopupHelper';
 import { useGetValueQuery } from '~sq-server-commons/queries/settings';
 import { GlobalSettingKeys } from '~sq-server-commons/types/settings';
