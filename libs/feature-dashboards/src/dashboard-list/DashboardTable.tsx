@@ -21,6 +21,7 @@
 import {
   Link,
   LinkHighlight,
+  LoadingSkeleton,
   Spinner,
   Table,
   TableVariety,
@@ -33,6 +34,8 @@ import { type ComponentProps, type ReactNode } from 'react';
 import { useIntl } from 'react-intl';
 import { To } from 'react-router';
 import DateFromNow from '~shared/components/intl/DateFromNow';
+import { useInitialLoading } from '~shared/hooks/useInitialLoading';
+import { DashboardLoadingTable } from './DashboardLoadingTable';
 
 export interface DashboardTableItem {
   createdById?: string;
@@ -51,6 +54,7 @@ export interface DashboardTableProps<TDashboard extends DashboardTableItem = Das
   gridTemplate: string;
   isLoadingDashboards: boolean;
   isMemberOfOrganization: boolean;
+  loadingEntityId: string;
   renderActionsCell?: (dashboard: TDashboard) => ReactNode;
   renderDashboardNameSuffix?: (dashboard: TDashboard) => ReactNode;
 }
@@ -65,33 +69,36 @@ export function DashboardTable<TDashboard extends DashboardTableItem>(
     gridTemplate,
     isLoadingDashboards,
     isMemberOfOrganization,
+    loadingEntityId,
     renderActionsCell,
     renderDashboardNameSuffix,
   } = props;
-  const intl = useIntl();
+  const { formatMessage } = useIntl();
   const hasActionsColumn = renderActionsCell !== undefined;
+  const isInitialLoading = useInitialLoading(isLoadingDashboards, loadingEntityId);
 
   return (
-    <Table
-      ariaLabel={intl.formatMessage({ id: 'dashboard.list.table.aria_label' })}
+    <DashboardLoadingTable
+      ariaLabel={formatMessage({ id: 'dashboard.list.table.aria_label' })}
       gridTemplate={gridTemplate}
+      isInitialLoading={isInitialLoading}
       variety={TableVariety.Ghost}
     >
       <Table.Header>
         <Table.Row>
           <Table.ColumnHeaderCell
-            label={intl.formatMessage({
+            label={formatMessage({
               id: 'dashboard.dashboard_name',
             })}
           />
           <Table.ColumnHeaderCell
-            label={intl.formatMessage({
+            label={formatMessage({
               id: 'dashboard.list.table.column.last_edited',
             })}
           />
           {isMemberOfOrganization && (
             <Table.ColumnHeaderCell
-              label={intl.formatMessage({
+              label={formatMessage({
                 id: 'dashboard.list.table.column.creator',
               })}
             />
@@ -100,7 +107,18 @@ export function DashboardTable<TDashboard extends DashboardTableItem>(
         </Table.Row>
       </Table.Header>
       <Table.Body>
-        {isLoadingDashboards && (
+        {isInitialLoading &&
+          Array.from({ length: 5 }, (_, index) => (
+            <Table.Row aria-hidden key={`loading-dashboard-${index}`}>
+              <Table.CellText content={<LoadingSkeleton variety="text" />} />
+              <Table.CellText content={<LoadingSkeleton variety="text" />} />
+              {isMemberOfOrganization && (
+                <Table.CellText content={<LoadingSkeleton variety="text" />} />
+              )}
+              {hasActionsColumn && <Table.Cell />}
+            </Table.Row>
+          ))}
+        {isLoadingDashboards && !isInitialLoading && (
           <Table.Row>
             <Table.CellText
               content={<Spinner isLoading={isLoadingDashboards} wrapperClassName="sw:my-2" />}
@@ -115,7 +133,7 @@ export function DashboardTable<TDashboard extends DashboardTableItem>(
             <Table.CellText
               content={
                 <div className="sw:flex sw:justify-center">
-                  <Text isSubtle>{intl.formatMessage({ id: 'dashboard.list.no_results' })}</Text>
+                  <Text isSubtle>{formatMessage({ id: 'dashboard.list.no_results' })}</Text>
                 </div>
               }
             />
@@ -155,6 +173,6 @@ export function DashboardTable<TDashboard extends DashboardTableItem>(
             </Table.Row>
           ))}
       </Table.Body>
-    </Table>
+    </DashboardLoadingTable>
   );
 }

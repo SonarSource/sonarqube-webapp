@@ -111,6 +111,7 @@ export function ProjectDashboardsTable({
         gridTemplate={canEdit ? '3fr 1fr 1fr 64px' : '3fr 1fr 64px'}
         isLoadingDashboards={isLoadingDashboards}
         isMemberOfOrganization={canEdit}
+        loadingEntityId={projectId}
         renderActionsCell={(dashboard) => (
           <DashboardTableActions
             ariaLabel={formatMessage(

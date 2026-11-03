@@ -34,7 +34,7 @@ describe('DashboardTable', () => {
   function renderTable(
     props: Omit<
       ComponentProps<typeof DashboardTable>,
-      'getCreatorContent' | 'getDashboardUrl' | 'gridTemplate'
+      'getCreatorContent' | 'getDashboardUrl' | 'gridTemplate' | 'loadingEntityId'
     > &
       Partial<Pick<ComponentProps<typeof DashboardTable>, 'gridTemplate'>>,
   ) {
@@ -43,21 +43,71 @@ describe('DashboardTable', () => {
         getCreatorContent={() => 'Alice'}
         getDashboardUrl={(d) => `/dashboards/${d.id}`}
         gridTemplate="3fr 1fr 1fr 64px"
+        loadingEntityId="project-1"
         {...props}
       />,
       { initialEntries: ['/'] },
     );
   }
 
-  it('shows a loading row when isLoadingDashboards is true', () => {
-    renderTable({
+  it('keeps the table shape during first load and restores the spinner on refresh', () => {
+    const props = {
       dashboards: [],
       isLoadingDashboards: true,
       isMemberOfOrganization: true,
-    });
+    };
+    const { rerender } = renderTable(props);
 
     expect(screen.getByRole('table')).toBeInTheDocument();
+    expect(screen.getByText('loading', { selector: '[aria-live="polite"]' })).toBeInTheDocument();
+    expect(screen.getAllByRole('row', { hidden: true })).toHaveLength(6);
     expect(screen.queryByText('dashboard.list.no_results')).not.toBeInTheDocument();
+
+    rerender(
+      <DashboardTable
+        dashboards={[]}
+        getCreatorContent={() => 'Alice'}
+        getDashboardUrl={() => '/dashboards'}
+        gridTemplate="3fr 1fr 1fr 64px"
+        isLoadingDashboards={false}
+        isMemberOfOrganization
+        loadingEntityId="project-1"
+      />,
+    );
+    expect(
+      screen.queryByText('loading', { selector: '[aria-live="polite"]' }),
+    ).not.toBeInTheDocument();
+    expect(screen.getByRole('table')).toHaveTextContent('dashboard.list.no_results');
+
+    rerender(
+      <DashboardTable
+        dashboards={[]}
+        getCreatorContent={() => 'Alice'}
+        getDashboardUrl={() => '/dashboards'}
+        gridTemplate="3fr 1fr 1fr 64px"
+        isLoadingDashboards
+        isMemberOfOrganization
+        loadingEntityId="project-1"
+      />,
+    );
+    expect(
+      screen.queryByText('loading', { selector: '[aria-live="polite"]' }),
+    ).not.toBeInTheDocument();
+    expect(screen.getAllByRole('row', { hidden: true })).toHaveLength(2);
+
+    rerender(
+      <DashboardTable
+        dashboards={[]}
+        getCreatorContent={() => 'Alice'}
+        getDashboardUrl={() => '/dashboards'}
+        gridTemplate="3fr 1fr 1fr 64px"
+        isLoadingDashboards
+        isMemberOfOrganization
+        loadingEntityId="project-2"
+      />,
+    );
+    expect(screen.getByText('loading', { selector: '[aria-live="polite"]' })).toBeInTheDocument();
+    expect(screen.getAllByRole('row', { hidden: true })).toHaveLength(6);
   });
 
   it('shows empty state when there are no dashboards', () => {

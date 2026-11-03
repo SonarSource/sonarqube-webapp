@@ -18,13 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import {
-  Button,
-  ButtonVariety,
-  MessageCallout,
-  MessageVariety,
-  Spinner,
-} from '@sonarsource/echoes-react';
+import { Button, ButtonVariety, MessageCallout, MessageVariety } from '@sonarsource/echoes-react';
 import { isAxiosError } from 'axios';
 import type { ReactNode } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
@@ -33,6 +27,7 @@ import {
   DashboardLayoutValidationError,
   UnsupportedDashboardVersionError,
 } from '../helpers/dashboard-layout-validation-reporting';
+import { DashboardLoadingSkeleton } from './DashboardLoadingSkeleton';
 
 export enum DashboardCustomDashboardState {
   Error = 'error',
@@ -69,9 +64,7 @@ export function DashboardCustomDashboardLoading() {
   const { formatMessage } = useIntl();
   return (
     <ProjectPageTemplate title={formatMessage({ id: 'loading' })}>
-      <div className="sw:flex sw:justify-center sw:my-10">
-        <Spinner />
-      </div>
+      <DashboardLoadingSkeleton />
     </ProjectPageTemplate>
   );
 }

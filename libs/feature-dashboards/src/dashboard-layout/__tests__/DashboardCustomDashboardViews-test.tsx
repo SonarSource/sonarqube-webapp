@@ -87,7 +87,7 @@ describe('dashboard state views', () => {
   it('renders the loading view', () => {
     renderWithRouter(<DashboardCustomDashboardLoading />);
 
-    expect(screen.getByRole('status')).toBeInTheDocument();
+    expect(screen.getByText('loading', { selector: '[aria-live="polite"]' })).toBeInTheDocument();
   });
 
   it.each([
