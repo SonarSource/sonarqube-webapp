@@ -19,13 +19,13 @@
  */
 
 import { Metric } from '~shared/types/measures';
-import { MetricType } from '~shared/types/metrics';
+import { MetricKey, MetricType } from '~shared/types/metrics';
 
 export const DEFAULT_METRICS: Record<string, Metric> = {
-  accepted_issues: {
+  [MetricKey.accepted_issues]: {
     id: 'AXJMbIl_PAOIsUIE3gt5',
-    key: 'accepted_issues',
-    type: 'INT',
+    key: MetricKey.accepted_issues,
+    type: MetricType.Integer,
     name: 'Accepted Issues',
     description: 'Accepted issues',
     domain: 'Issues',
@@ -33,10 +33,10 @@ export const DEFAULT_METRICS: Record<string, Metric> = {
     qualitative: false,
     hidden: false,
   },
-  new_technical_debt: {
+  [MetricKey.new_technical_debt]: {
     id: 'AXJMbIl_PAOIsUIE3guE',
-    key: 'new_technical_debt',
-    type: 'WORK_DUR',
+    key: MetricKey.new_technical_debt,
+    type: MetricType.WorkDuration,
     name: 'Added Technical Debt',
     description: 'Added technical debt',
     domain: 'Maintainability',
@@ -44,10 +44,10 @@ export const DEFAULT_METRICS: Record<string, Metric> = {
     qualitative: true,
     hidden: false,
   },
-  new_software_quality_maintainability_remediation_effort: {
+  [MetricKey.new_software_quality_maintainability_remediation_effort]: {
     id: 'bf182476-9397-4471-812d-7e40568ef1b0',
-    key: 'new_software_quality_maintainability_remediation_effort',
-    type: 'WORK_DUR',
+    key: MetricKey.new_software_quality_maintainability_remediation_effort,
+    type: MetricType.WorkDuration,
     name: 'Added Technical Debt',
     description:
       'Total effort (in minutes) to fix all the maintainability issues on new code on the component and therefore to comply to all the requirements.',
@@ -68,10 +68,10 @@ export const DEFAULT_METRICS: Record<string, Metric> = {
     qualitative: false,
     hidden: true,
   },
-  high_impact_accepted_issues: {
+  [MetricKey.high_impact_accepted_issues]: {
     id: 'AY0aC41wVDhd53-OniNc',
-    key: 'high_impact_accepted_issues',
-    type: 'INT',
+    key: MetricKey.high_impact_accepted_issues,
+    type: MetricType.Integer,
     name: 'Blocker and High Severity Accepted Issues',
     description: 'Accepted issues with blocker or high impact',
     domain: 'Issues',
@@ -79,10 +79,10 @@ export const DEFAULT_METRICS: Record<string, Metric> = {
     qualitative: false,
     hidden: false,
   },
-  blocker_violations: {
+  [MetricKey.blocker_violations]: {
     id: 'AXJMbIl_PAOIsUIE3gtt',
-    key: 'blocker_violations',
-    type: 'INT',
+    key: MetricKey.blocker_violations,
+    type: MetricType.Integer,
     name: 'Blocker Issues',
     description: 'Blocker issues',
     domain: 'Issues',
@@ -90,10 +90,10 @@ export const DEFAULT_METRICS: Record<string, Metric> = {
     qualitative: true,
     hidden: false,
   },
-  software_quality_blocker_issues: {
+  [MetricKey.software_quality_blocker_issues]: {
     id: '9a1650ae-056f-4d40-b761-0ae06b9f15b2',
-    key: 'software_quality_blocker_issues',
-    type: 'INT',
+    key: MetricKey.software_quality_blocker_issues,
+    type: MetricType.Integer,
     name: 'Blocker Severity Issues',
     description: 'Blocker Severity issues',
     domain: 'Issues',
@@ -101,10 +101,10 @@ export const DEFAULT_METRICS: Record<string, Metric> = {
     qualitative: true,
     hidden: false,
   },
-  bugs: {
+  [MetricKey.bugs]: {
     id: 'AXJMbIl_PAOIsUIE3gt_',
-    key: 'bugs',
-    type: 'INT',
+    key: MetricKey.bugs,
+    type: MetricType.Integer,
     name: 'Bugs',
     description: 'Bugs',
     domain: 'Reliability',
@@ -112,10 +112,10 @@ export const DEFAULT_METRICS: Record<string, Metric> = {
     qualitative: false,
     hidden: false,
   },
-  classes: {
+  [MetricKey.classes]: {
     id: 'AXJMbImPPAOIsUIE3gu5',
-    key: 'classes',
-    type: 'INT',
+    key: MetricKey.classes,
+    type: MetricType.Integer,
     name: 'Classes',
     description: 'Classes',
     domain: 'Size',
@@ -123,10 +123,10 @@ export const DEFAULT_METRICS: Record<string, Metric> = {
     qualitative: false,
     hidden: false,
   },
-  code_smells: {
+  [MetricKey.code_smells]: {
     id: 'AXJMbIl_PAOIsUIE3gt9',
-    key: 'code_smells',
-    type: 'INT',
+    key: MetricKey.code_smells,
+    type: MetricType.Integer,
     name: 'Code Smells',
     description: 'Code Smells',
     domain: 'Maintainability',
@@ -134,10 +134,10 @@ export const DEFAULT_METRICS: Record<string, Metric> = {
     qualitative: false,
     hidden: false,
   },
-  cognitive_complexity: {
+  [MetricKey.cognitive_complexity]: {
     id: 'AXJMbIl9PAOIsUIE3gtZ',
-    key: 'cognitive_complexity',
-    type: 'INT',
+    key: MetricKey.cognitive_complexity,
+    type: MetricType.Integer,
     name: 'Cognitive Complexity',
     description: 'Cognitive complexity',
     domain: 'Complexity',
@@ -145,10 +145,10 @@ export const DEFAULT_METRICS: Record<string, Metric> = {
     qualitative: false,
     hidden: false,
   },
-  comment_lines: {
+  [MetricKey.comment_lines]: {
     id: 'AXJMbImPPAOIsUIE3gup',
-    key: 'comment_lines',
-    type: 'INT',
+    key: MetricKey.comment_lines,
+    type: MetricType.Integer,
     name: 'Comment Lines',
     description: 'Number of comment lines',
     domain: 'Size',
@@ -156,20 +156,20 @@ export const DEFAULT_METRICS: Record<string, Metric> = {
     qualitative: false,
     hidden: false,
   },
-  comment_lines_data: {
+  [MetricKey.comment_lines_data]: {
     id: 'AXJMbImPPAOIsUIE3guV',
-    key: 'comment_lines_data',
-    type: 'DATA',
-    name: 'comment_lines_data',
+    key: MetricKey.comment_lines_data,
+    type: MetricType.Data,
+    name: MetricKey.comment_lines_data,
     domain: 'Size',
     direction: 0,
     qualitative: false,
     hidden: true,
   },
-  comment_lines_density: {
+  [MetricKey.comment_lines_density]: {
     id: 'AXJMbImPPAOIsUIE3guq',
-    key: 'comment_lines_density',
-    type: 'PERCENT',
+    key: MetricKey.comment_lines_density,
+    type: MetricType.Percent,
     name: 'Comments (%)',
     description: 'Comments balanced by ncloc + comment lines',
     domain: 'Size',
@@ -178,10 +178,10 @@ export const DEFAULT_METRICS: Record<string, Metric> = {
     hidden: false,
     decimalScale: 1,
   },
-  branch_coverage: {
+  [MetricKey.branch_coverage]: {
     id: 'AXJMbIl9PAOIsUIE3gs-',
-    key: 'branch_coverage',
-    type: 'PERCENT',
+    key: MetricKey.branch_coverage,
+    type: MetricType.Percent,
     name: 'Condition Coverage',
     description: 'Condition coverage',
     domain: 'Coverage',
@@ -190,10 +190,10 @@ export const DEFAULT_METRICS: Record<string, Metric> = {
     hidden: false,
     decimalScale: 1,
   },
-  new_branch_coverage: {
+  [MetricKey.new_branch_coverage]: {
     id: 'AXJMbIl9PAOIsUIE3gs_',
-    key: 'new_branch_coverage',
-    type: 'PERCENT',
+    key: MetricKey.new_branch_coverage,
+    type: MetricType.Percent,
     name: 'Condition Coverage on New Code',
     description: 'Condition coverage of new/changed code',
     domain: 'Coverage',
@@ -202,10 +202,10 @@ export const DEFAULT_METRICS: Record<string, Metric> = {
     hidden: false,
     decimalScale: 1,
   },
-  conditions_to_cover: {
+  [MetricKey.conditions_to_cover]: {
     id: 'AXJMbIl9PAOIsUIE3gqt',
-    key: 'conditions_to_cover',
-    type: 'INT',
+    key: MetricKey.conditions_to_cover,
+    type: MetricType.Integer,
     name: 'Conditions to Cover',
     description: 'Conditions to cover',
     domain: 'Coverage',
@@ -213,10 +213,10 @@ export const DEFAULT_METRICS: Record<string, Metric> = {
     qualitative: false,
     hidden: false,
   },
-  new_conditions_to_cover: {
+  [MetricKey.new_conditions_to_cover]: {
     id: 'AXJMbIl9PAOIsUIE3gs7',
-    key: 'new_conditions_to_cover',
-    type: 'INT',
+    key: MetricKey.new_conditions_to_cover,
+    type: MetricType.Integer,
     name: 'Conditions to Cover on New Code',
     description: 'Conditions to cover on new code',
     domain: 'Coverage',
@@ -224,10 +224,10 @@ export const DEFAULT_METRICS: Record<string, Metric> = {
     qualitative: false,
     hidden: false,
   },
-  confirmed_issues: {
+  [MetricKey.confirmed_issues]: {
     id: 'AXJMbIl_PAOIsUIE3gt8',
-    key: 'confirmed_issues',
-    type: 'INT',
+    key: MetricKey.confirmed_issues,
+    type: MetricType.Integer,
     name: 'Confirmed Issues',
     description: 'Confirmed issues',
     domain: 'Issues',
@@ -235,10 +235,10 @@ export const DEFAULT_METRICS: Record<string, Metric> = {
     qualitative: true,
     hidden: false,
   },
-  coverage: {
+  [MetricKey.coverage]: {
     id: 'AXJMbIl9PAOIsUIE3gtg',
-    key: 'coverage',
-    type: 'PERCENT',
+    key: MetricKey.coverage,
+    type: MetricType.Percent,
     name: 'Coverage',
     description: 'Coverage by tests',
     domain: 'Coverage',
@@ -247,10 +247,10 @@ export const DEFAULT_METRICS: Record<string, Metric> = {
     hidden: false,
     decimalScale: 1,
   },
-  new_coverage: {
+  [MetricKey.new_coverage]: {
     id: 'AXJMbIl_PAOIsUIE3gth',
-    key: 'new_coverage',
-    type: 'PERCENT',
+    key: MetricKey.new_coverage,
+    type: MetricType.Percent,
     name: 'Coverage on New Code',
     description: 'Coverage of new/changed code',
     domain: 'Coverage',
@@ -259,10 +259,10 @@ export const DEFAULT_METRICS: Record<string, Metric> = {
     hidden: false,
     decimalScale: 1,
   },
-  critical_violations: {
+  [MetricKey.critical_violations]: {
     id: 'AXJMbIl_PAOIsUIE3gtu',
-    key: 'critical_violations',
-    type: 'INT',
+    key: MetricKey.critical_violations,
+    type: MetricType.Integer,
     name: 'Critical Issues',
     description: 'Critical issues',
     domain: 'Issues',
@@ -270,10 +270,10 @@ export const DEFAULT_METRICS: Record<string, Metric> = {
     qualitative: true,
     hidden: false,
   },
-  complexity: {
+  [MetricKey.complexity]: {
     id: 'AXJMbImPPAOIsUIE3gut',
-    key: 'complexity',
-    type: 'INT',
+    key: MetricKey.complexity,
+    type: MetricType.Integer,
     name: 'Cyclomatic Complexity',
     description: 'Cyclomatic complexity',
     domain: 'Complexity',
@@ -281,19 +281,19 @@ export const DEFAULT_METRICS: Record<string, Metric> = {
     qualitative: false,
     hidden: false,
   },
-  last_commit_date: {
+  [MetricKey.last_commit_date]: {
     id: 'AXJMbImPPAOIsUIE3gua',
-    key: 'last_commit_date',
-    type: 'MILLISEC',
+    key: MetricKey.last_commit_date,
+    type: MetricType.MilliSeconds,
     name: 'Date of Last Commit',
     domain: 'SCM',
     direction: 0,
     qualitative: false,
     hidden: true,
   },
-  development_cost: {
+  [MetricKey.development_cost]: {
     id: 'AXJMbIl_PAOIsUIE3guI',
-    key: 'development_cost',
+    key: MetricKey.development_cost,
     type: 'STRING',
     name: 'Development Cost',
     description: 'Development cost',
@@ -302,10 +302,10 @@ export const DEFAULT_METRICS: Record<string, Metric> = {
     qualitative: true,
     hidden: true,
   },
-  new_development_cost: {
+  [MetricKey.new_development_cost]: {
     id: 'AXJMbIl_PAOIsUIE3guJ',
-    key: 'new_development_cost',
-    type: 'FLOAT',
+    key: MetricKey.new_development_cost,
+    type: MetricType.Float,
     name: 'Development Cost on New Code',
     description: 'Development cost on new code',
     domain: 'Maintainability',
@@ -314,10 +314,10 @@ export const DEFAULT_METRICS: Record<string, Metric> = {
     hidden: true,
     decimalScale: 1,
   },
-  duplicated_blocks: {
+  [MetricKey.duplicated_blocks]: {
     id: 'AXJMbIl9PAOIsUIE3gsu',
-    key: 'duplicated_blocks',
-    type: 'INT',
+    key: MetricKey.duplicated_blocks,
+    type: MetricType.Integer,
     name: 'Duplicated Blocks',
     description: 'Duplicated blocks',
     domain: 'Duplications',
@@ -325,10 +325,10 @@ export const DEFAULT_METRICS: Record<string, Metric> = {
     qualitative: true,
     hidden: false,
   },
-  new_duplicated_blocks: {
+  [MetricKey.new_duplicated_blocks]: {
     id: 'AXJMbIl_PAOIsUIE3gto',
-    key: 'new_duplicated_blocks',
-    type: 'INT',
+    key: MetricKey.new_duplicated_blocks,
+    type: MetricType.Integer,
     name: 'Duplicated Blocks on New Code',
     description: 'Duplicated blocks on new code',
     domain: 'Duplications',
@@ -336,10 +336,10 @@ export const DEFAULT_METRICS: Record<string, Metric> = {
     qualitative: true,
     hidden: false,
   },
-  duplicated_files: {
+  [MetricKey.duplicated_files]: {
     id: 'AXJMbImPPAOIsUIE3gvA',
-    key: 'duplicated_files',
-    type: 'INT',
+    key: MetricKey.duplicated_files,
+    type: MetricType.Integer,
     name: 'Duplicated Files',
     description: 'Duplicated files',
     domain: 'Duplications',
@@ -347,10 +347,10 @@ export const DEFAULT_METRICS: Record<string, Metric> = {
     qualitative: true,
     hidden: false,
   },
-  duplicated_lines: {
+  [MetricKey.duplicated_lines]: {
     id: 'AXJMbIl9PAOIsUIE3gss',
-    key: 'duplicated_lines',
-    type: 'INT',
+    key: MetricKey.duplicated_lines,
+    type: MetricType.Integer,
     name: 'Duplicated Lines',
     description: 'Duplicated lines',
     domain: 'Duplications',
@@ -358,10 +358,10 @@ export const DEFAULT_METRICS: Record<string, Metric> = {
     qualitative: true,
     hidden: false,
   },
-  duplicated_lines_density: {
+  [MetricKey.duplicated_lines_density]: {
     id: 'AXJMbIl_PAOIsUIE3gtp',
-    key: 'duplicated_lines_density',
-    type: 'PERCENT',
+    key: MetricKey.duplicated_lines_density,
+    type: MetricType.Percent,
     name: 'Duplicated Lines (%)',
     description: 'Duplicated lines balanced by statements',
     domain: 'Duplications',
@@ -370,10 +370,10 @@ export const DEFAULT_METRICS: Record<string, Metric> = {
     hidden: false,
     decimalScale: 1,
   },
-  new_duplicated_lines_density: {
+  [MetricKey.new_duplicated_lines_density]: {
     id: 'AXJMbIl_PAOIsUIE3gtq',
-    key: 'new_duplicated_lines_density',
-    type: 'PERCENT',
+    key: MetricKey.new_duplicated_lines_density,
+    type: MetricType.Percent,
     name: 'Duplicated Lines (%) on New Code',
     description: 'Duplicated lines (%) on new code balanced by statements',
     domain: 'Duplications',
@@ -382,10 +382,10 @@ export const DEFAULT_METRICS: Record<string, Metric> = {
     hidden: false,
     decimalScale: 1,
   },
-  new_duplicated_lines: {
+  [MetricKey.new_duplicated_lines]: {
     id: 'AXJMbIl9PAOIsUIE3gst',
-    key: 'new_duplicated_lines',
-    type: 'INT',
+    key: MetricKey.new_duplicated_lines,
+    type: MetricType.Integer,
     name: 'Duplicated Lines on New Code',
     description: 'Duplicated Lines on New Code',
     domain: 'Duplications',
@@ -393,10 +393,10 @@ export const DEFAULT_METRICS: Record<string, Metric> = {
     qualitative: true,
     hidden: false,
   },
-  duplications_data: {
+  [MetricKey.duplications_data]: {
     id: 'AXJMbIl_PAOIsUIE3gtr',
-    key: 'duplications_data',
-    type: 'DATA',
+    key: MetricKey.duplications_data,
+    type: MetricType.Data,
     name: 'Duplication Details',
     description: 'Duplications details',
     domain: 'Duplications',
@@ -404,10 +404,10 @@ export const DEFAULT_METRICS: Record<string, Metric> = {
     qualitative: false,
     hidden: false,
   },
-  effort_to_reach_software_quality_maintainability_rating_a: {
+  [MetricKey.effort_to_reach_software_quality_maintainability_rating_a]: {
     id: '0f195cdf-5d79-4be0-90e4-c6e0afb58551',
-    key: 'effort_to_reach_software_quality_maintainability_rating_a',
-    type: 'WORK_DUR',
+    key: MetricKey.effort_to_reach_software_quality_maintainability_rating_a,
+    type: MetricType.WorkDuration,
     name: 'Effort to Reach Maintainability Rating A',
     description: 'Effort to reach maintainability rating A',
     domain: 'Maintainability',
@@ -415,10 +415,10 @@ export const DEFAULT_METRICS: Record<string, Metric> = {
     qualitative: true,
     hidden: false,
   },
-  effort_to_reach_maintainability_rating_a: {
+  [MetricKey.effort_to_reach_maintainability_rating_a]: {
     id: 'AXJMbIl_PAOIsUIE3guM',
-    key: 'effort_to_reach_maintainability_rating_a',
-    type: 'WORK_DUR',
+    key: MetricKey.effort_to_reach_maintainability_rating_a,
+    type: MetricType.WorkDuration,
     name: 'Effort to Reach Maintainability Rating A',
     description: 'Effort to reach maintainability rating A',
     domain: 'Maintainability',
@@ -426,20 +426,20 @@ export const DEFAULT_METRICS: Record<string, Metric> = {
     qualitative: true,
     hidden: false,
   },
-  executable_lines_data: {
+  [MetricKey.executable_lines_data]: {
     id: 'AXJMbImPPAOIsUIE3guW',
-    key: 'executable_lines_data',
-    type: 'DATA',
-    name: 'executable_lines_data',
+    key: MetricKey.executable_lines_data,
+    type: MetricType.Data,
+    name: MetricKey.executable_lines_data,
     domain: 'Coverage',
     direction: 0,
     qualitative: false,
     hidden: true,
   },
-  false_positive_issues: {
+  [MetricKey.false_positive_issues]: {
     id: 'AXJMbIl_PAOIsUIE3gt4',
-    key: 'false_positive_issues',
-    type: 'INT',
+    key: MetricKey.false_positive_issues,
+    type: MetricType.Integer,
     name: 'False Positive Issues',
     description: 'False positive issues',
     domain: 'Issues',
@@ -447,10 +447,10 @@ export const DEFAULT_METRICS: Record<string, Metric> = {
     qualitative: false,
     hidden: false,
   },
-  files: {
+  [MetricKey.files]: {
     id: 'AXJMbImPPAOIsUIE3gu6',
-    key: 'files',
-    type: 'INT',
+    key: MetricKey.files,
+    type: MetricType.Integer,
     name: 'Files',
     description: 'Number of files',
     domain: 'Size',
@@ -458,10 +458,10 @@ export const DEFAULT_METRICS: Record<string, Metric> = {
     qualitative: false,
     hidden: false,
   },
-  functions: {
+  [MetricKey.functions]: {
     id: 'AXJMbImPPAOIsUIE3gu-',
-    key: 'functions',
-    type: 'INT',
+    key: MetricKey.functions,
+    type: MetricType.Integer,
     name: 'Functions',
     description: 'Functions',
     domain: 'Size',
@@ -469,10 +469,10 @@ export const DEFAULT_METRICS: Record<string, Metric> = {
     qualitative: false,
     hidden: false,
   },
-  generated_lines: {
+  [MetricKey.generated_lines]: {
     id: 'AXJMbImPPAOIsUIE3gu0',
-    key: 'generated_lines',
-    type: 'INT',
+    key: MetricKey.generated_lines,
+    type: MetricType.Integer,
     name: 'Generated Lines',
     description: 'Number of generated lines',
     domain: 'Size',
@@ -480,10 +480,10 @@ export const DEFAULT_METRICS: Record<string, Metric> = {
     qualitative: false,
     hidden: false,
   },
-  generated_ncloc: {
+  [MetricKey.generated_ncloc]: {
     id: 'AXJMbImPPAOIsUIE3gu4',
-    key: 'generated_ncloc',
-    type: 'INT',
+    key: MetricKey.generated_ncloc,
+    type: MetricType.Integer,
     name: 'Generated Lines of Code',
     description: 'Generated non Commenting Lines of Code',
     domain: 'Size',
@@ -491,10 +491,10 @@ export const DEFAULT_METRICS: Record<string, Metric> = {
     qualitative: false,
     hidden: false,
   },
-  software_quality_high_issues: {
+  [MetricKey.software_quality_high_issues]: {
     id: '50f6240a-85c5-4aaf-a928-657c7f03b6ef',
-    key: 'software_quality_high_issues',
-    type: 'INT',
+    key: MetricKey.software_quality_high_issues,
+    type: MetricType.Integer,
     name: 'High Severity Issues',
     description: 'High Severity issues',
     domain: 'Issues',
@@ -502,10 +502,10 @@ export const DEFAULT_METRICS: Record<string, Metric> = {
     qualitative: true,
     hidden: false,
   },
-  info_violations: {
+  [MetricKey.info_violations]: {
     id: 'AXJMbIl_PAOIsUIE3gtx',
-    key: 'info_violations',
-    type: 'INT',
+    key: MetricKey.info_violations,
+    type: MetricType.Integer,
     name: 'Info Issues',
     description: 'Info issues',
     domain: 'Issues',
@@ -513,10 +513,10 @@ export const DEFAULT_METRICS: Record<string, Metric> = {
     qualitative: true,
     hidden: false,
   },
-  software_quality_info_issues: {
+  [MetricKey.software_quality_info_issues]: {
     id: 'cfc48499-476f-43fb-999e-43bb33e7c93a',
-    key: 'software_quality_info_issues',
-    type: 'INT',
+    key: MetricKey.software_quality_info_issues,
+    type: MetricType.Integer,
     name: 'Info Severity Issues',
     description: 'Info Severity issues',
     domain: 'Issues',
@@ -524,10 +524,10 @@ export const DEFAULT_METRICS: Record<string, Metric> = {
     qualitative: true,
     hidden: false,
   },
-  violations: {
+  [MetricKey.violations]: {
     id: 'AXJMbImPPAOIsUIE3gul',
-    key: 'violations',
-    type: 'INT',
+    key: MetricKey.violations,
+    type: MetricType.Integer,
     name: 'Issues',
     description: 'Issues',
     domain: 'Issues',
@@ -535,10 +535,10 @@ export const DEFAULT_METRICS: Record<string, Metric> = {
     qualitative: true,
     hidden: false,
   },
-  prioritized_rule_issues: {
+  [MetricKey.prioritized_rule_issues]: {
     id: '789e3a55-205b-46c8-b9dc-9fa92734c0fc',
-    key: 'prioritized_rule_issues',
-    type: 'INT',
+    key: MetricKey.prioritized_rule_issues,
+    type: MetricType.Integer,
     name: 'Issues from prioritized rules',
     description: 'Count of issues that have a flag Prioritized Rule.',
     domain: 'Issues',
@@ -546,90 +546,90 @@ export const DEFAULT_METRICS: Record<string, Metric> = {
     qualitative: true,
     hidden: false,
   },
-  last_change_on_maintainability_rating: {
+  [MetricKey.last_change_on_maintainability_rating]: {
     id: 'AXJMbImPPAOIsUIE3gud',
-    key: 'last_change_on_maintainability_rating',
-    type: 'DATA',
+    key: MetricKey.last_change_on_maintainability_rating,
+    type: MetricType.Data,
     name: 'Last Change on Maintainability Rating',
     domain: 'Maintainability',
     direction: 0,
     qualitative: false,
     hidden: true,
   },
-  last_change_on_releasability_rating: {
+  [MetricKey.last_change_on_releasability_rating]: {
     id: 'AXJMbImPPAOIsUIE3gue',
-    key: 'last_change_on_releasability_rating',
-    type: 'DATA',
+    key: MetricKey.last_change_on_releasability_rating,
+    type: MetricType.Data,
     name: 'Last Change on Releasability Rating',
     domain: 'Releasability',
     direction: 0,
     qualitative: false,
     hidden: true,
   },
-  last_change_on_reliability_rating: {
+  [MetricKey.last_change_on_reliability_rating]: {
     id: 'AXJMbImPPAOIsUIE3guf',
-    key: 'last_change_on_reliability_rating',
-    type: 'DATA',
+    key: MetricKey.last_change_on_reliability_rating,
+    type: MetricType.Data,
     name: 'Last Change on Reliability Rating',
     domain: 'Reliability',
     direction: 0,
     qualitative: false,
     hidden: true,
   },
-  last_change_on_security_rating: {
+  [MetricKey.last_change_on_security_rating]: {
     id: 'AXJMbImPPAOIsUIE3gug',
-    key: 'last_change_on_security_rating',
-    type: 'DATA',
+    key: MetricKey.last_change_on_security_rating,
+    type: MetricType.Data,
     name: 'Last Change on Security Rating',
     domain: 'Security',
     direction: 0,
     qualitative: false,
     hidden: true,
   },
-  last_change_on_security_review_rating: {
+  [MetricKey.last_change_on_security_review_rating]: {
     id: 'AXJMbIl9PAOIsUIE3gs4',
-    key: 'last_change_on_security_review_rating',
-    type: 'DATA',
+    key: MetricKey.last_change_on_security_review_rating,
+    type: MetricType.Data,
     name: 'Last Change on Security Review Rating',
     domain: 'Security',
     direction: 0,
     qualitative: false,
     hidden: true,
   },
-  last_change_on_software_quality_maintainability_rating: {
+  [MetricKey.last_change_on_software_quality_maintainability_rating]: {
     id: 'f82cff1f-a70a-497a-bca8-33d8abb20e2e',
-    key: 'last_change_on_software_quality_maintainability_rating',
-    type: 'DATA',
+    key: MetricKey.last_change_on_software_quality_maintainability_rating,
+    type: MetricType.Data,
     name: 'Last Change on Software Quality Maintainability Rating',
     domain: 'Maintainability',
     direction: 0,
     qualitative: false,
     hidden: true,
   },
-  last_change_on_software_quality_reliability_rating: {
+  [MetricKey.last_change_on_software_quality_reliability_rating]: {
     id: '42889539-14b7-45a5-a383-8c4d4a5e48a5',
-    key: 'last_change_on_software_quality_reliability_rating',
-    type: 'DATA',
+    key: MetricKey.last_change_on_software_quality_reliability_rating,
+    type: MetricType.Data,
     name: 'Last Change on Software Quality Reliability Rating',
     domain: 'Reliability',
     direction: 0,
     qualitative: false,
     hidden: true,
   },
-  last_change_on_software_quality_security_rating: {
+  [MetricKey.last_change_on_software_quality_security_rating]: {
     id: 'd236e941-90e8-4c35-b995-47d05637b6a4',
-    key: 'last_change_on_software_quality_security_rating',
-    type: 'DATA',
+    key: MetricKey.last_change_on_software_quality_security_rating,
+    type: MetricType.Data,
     name: 'Last Change on Software Quality Security Rating',
     domain: 'Security',
     direction: 0,
     qualitative: false,
     hidden: true,
   },
-  line_coverage: {
+  [MetricKey.line_coverage]: {
     id: 'AXJMbIl_PAOIsUIE3gtl',
-    key: 'line_coverage',
-    type: 'PERCENT',
+    key: MetricKey.line_coverage,
+    type: MetricType.Percent,
     name: 'Line Coverage',
     description: 'Line coverage',
     domain: 'Coverage',
@@ -638,10 +638,10 @@ export const DEFAULT_METRICS: Record<string, Metric> = {
     hidden: false,
     decimalScale: 1,
   },
-  new_line_coverage: {
+  [MetricKey.new_line_coverage]: {
     id: 'AXJMbIl_PAOIsUIE3gtm',
-    key: 'new_line_coverage',
-    type: 'PERCENT',
+    key: MetricKey.new_line_coverage,
+    type: MetricType.Percent,
     name: 'Line Coverage on New Code',
     description: 'Line coverage of added/changed code',
     domain: 'Coverage',
@@ -650,10 +650,10 @@ export const DEFAULT_METRICS: Record<string, Metric> = {
     hidden: false,
     decimalScale: 1,
   },
-  lines: {
+  [MetricKey.lines]: {
     id: 'AXJMbImPPAOIsUIE3guz',
-    key: 'lines',
-    type: 'INT',
+    key: MetricKey.lines,
+    type: MetricType.Integer,
     name: 'Lines',
     description: 'Lines',
     domain: 'Size',
@@ -661,10 +661,10 @@ export const DEFAULT_METRICS: Record<string, Metric> = {
     qualitative: false,
     hidden: false,
   },
-  ncloc: {
+  [MetricKey.ncloc]: {
     id: 'AXJMbImPPAOIsUIE3gu1',
-    key: 'ncloc',
-    type: 'INT',
+    key: MetricKey.ncloc,
+    type: MetricType.Integer,
     name: 'Lines of Code',
     description: 'Non commenting lines of code',
     domain: 'Size',
@@ -672,10 +672,10 @@ export const DEFAULT_METRICS: Record<string, Metric> = {
     qualitative: false,
     hidden: false,
   },
-  ncloc_language_distribution: {
+  [MetricKey.ncloc_language_distribution]: {
     id: 'AXJMbImPPAOIsUIE3gu3',
-    key: 'ncloc_language_distribution',
-    type: 'DATA',
+    key: MetricKey.ncloc_language_distribution,
+    type: MetricType.Data,
     name: 'Lines of Code Per Language',
     description: 'Non Commenting Lines of Code Distributed By Language',
     domain: 'Size',
@@ -683,10 +683,10 @@ export const DEFAULT_METRICS: Record<string, Metric> = {
     qualitative: false,
     hidden: false,
   },
-  lines_to_cover: {
+  [MetricKey.lines_to_cover]: {
     id: 'AXJMbImPPAOIsUIE3gu_',
-    key: 'lines_to_cover',
-    type: 'INT',
+    key: MetricKey.lines_to_cover,
+    type: MetricType.Integer,
     name: 'Lines to Cover',
     description: 'Lines to cover',
     domain: 'Coverage',
@@ -694,10 +694,10 @@ export const DEFAULT_METRICS: Record<string, Metric> = {
     qualitative: false,
     hidden: false,
   },
-  new_lines_to_cover: {
+  [MetricKey.new_lines_to_cover]: {
     id: 'AXJMbIl_PAOIsUIE3gti',
-    key: 'new_lines_to_cover',
-    type: 'INT',
+    key: MetricKey.new_lines_to_cover,
+    type: MetricType.Integer,
     name: 'Lines to Cover on New Code',
     description: 'Lines to cover on new code',
     domain: 'Coverage',
@@ -705,19 +705,19 @@ export const DEFAULT_METRICS: Record<string, Metric> = {
     qualitative: false,
     hidden: false,
   },
-  leak_projects: {
+  [MetricKey.leak_projects]: {
     id: 'AXJMbImPPAOIsUIE3gvE',
-    key: 'leak_projects',
-    type: 'DATA',
+    key: MetricKey.leak_projects,
+    type: MetricType.Data,
     name: 'List of technical projects with their leaks',
     direction: 0,
     qualitative: false,
     hidden: true,
   },
-  software_quality_low_issues: {
+  [MetricKey.software_quality_low_issues]: {
     id: '452a1f9d-c0c6-4001-b5ce-921b748423e2',
-    key: 'software_quality_low_issues',
-    type: 'INT',
+    key: MetricKey.software_quality_low_issues,
+    type: MetricType.Integer,
     name: 'Low Severity Issues',
     description: 'Low Severity issues',
     domain: 'Issues',
@@ -725,10 +725,10 @@ export const DEFAULT_METRICS: Record<string, Metric> = {
     qualitative: true,
     hidden: false,
   },
-  maintainability_issues: {
+  [MetricKey.maintainability_issues]: {
     id: 'acc8fd75-3acf-499f-809c-f104af89d16d',
-    key: 'maintainability_issues',
-    type: 'DATA',
+    key: MetricKey.maintainability_issues,
+    type: MetricType.Data,
     name: 'Maintainability Issues',
     description: 'Maintainability issues',
     domain: 'Maintainability',
@@ -736,10 +736,10 @@ export const DEFAULT_METRICS: Record<string, Metric> = {
     qualitative: false,
     hidden: false,
   },
-  software_quality_maintainability_issues: {
+  [MetricKey.software_quality_maintainability_issues]: {
     id: '163c2107-797a-46c8-a1a9-912b00dae7df',
-    key: 'software_quality_maintainability_issues',
-    type: 'INT',
+    key: MetricKey.software_quality_maintainability_issues,
+    type: MetricType.Integer,
     name: 'Maintainability Issues',
     description: 'Maintainability Issues',
     domain: 'Maintainability',
@@ -747,10 +747,10 @@ export const DEFAULT_METRICS: Record<string, Metric> = {
     qualitative: false,
     hidden: false,
   },
-  software_quality_maintainability_rating: {
+  [MetricKey.software_quality_maintainability_rating]: {
     id: '9fc76baf-f660-4f65-a271-b2ae7f849239',
-    key: 'software_quality_maintainability_rating',
-    type: 'RATING',
+    key: MetricKey.software_quality_maintainability_rating,
+    type: MetricType.Rating,
     name: 'Maintainability Rating',
     description: 'Maintainability rating',
     domain: 'Maintainability',
@@ -758,10 +758,10 @@ export const DEFAULT_METRICS: Record<string, Metric> = {
     qualitative: true,
     hidden: false,
   },
-  sqale_rating: {
+  [MetricKey.sqale_rating]: {
     id: 'AXJMbIl_PAOIsUIE3guF',
-    key: 'sqale_rating',
-    type: 'RATING',
+    key: MetricKey.sqale_rating,
+    type: MetricType.Rating,
     name: 'Maintainability Rating',
     description: 'A-to-E rating based on the technical debt ratio',
     domain: 'Maintainability',
@@ -769,10 +769,10 @@ export const DEFAULT_METRICS: Record<string, Metric> = {
     qualitative: true,
     hidden: false,
   },
-  maintainability_rating_distribution: {
+  [MetricKey.maintainability_rating_distribution]: {
     id: 'AX3sJDjtJHBehddvNyhN',
-    key: 'maintainability_rating_distribution',
-    type: 'DATA',
+    key: MetricKey.maintainability_rating_distribution,
+    type: MetricType.Data,
     name: 'Maintainability Rating Distribution',
     description: 'Maintainability rating distribution',
     domain: 'Maintainability',
@@ -780,10 +780,10 @@ export const DEFAULT_METRICS: Record<string, Metric> = {
     qualitative: true,
     hidden: true,
   },
-  new_maintainability_rating_distribution: {
+  [MetricKey.new_maintainability_rating_distribution]: {
     id: 'AX3sJDjvJHBehddvNyhR',
-    key: 'new_maintainability_rating_distribution',
-    type: 'DATA',
+    key: MetricKey.new_maintainability_rating_distribution,
+    type: MetricType.Data,
     name: 'Maintainability Rating Distribution on New Code',
     description: 'Maintainability rating distribution on new code',
     domain: 'Maintainability',
@@ -791,10 +791,10 @@ export const DEFAULT_METRICS: Record<string, Metric> = {
     qualitative: true,
     hidden: true,
   },
-  new_software_quality_maintainability_rating: {
+  [MetricKey.new_software_quality_maintainability_rating]: {
     id: 'c5d12cc4-e712-4701-a395-c9113ce13c3e',
-    key: 'new_software_quality_maintainability_rating',
-    type: 'RATING',
+    key: MetricKey.new_software_quality_maintainability_rating,
+    type: MetricType.Rating,
     name: 'Maintainability Rating on New Code',
     description: 'Maintainability rating on new code',
     domain: 'Maintainability',
@@ -802,10 +802,10 @@ export const DEFAULT_METRICS: Record<string, Metric> = {
     qualitative: true,
     hidden: false,
   },
-  new_maintainability_rating: {
+  [MetricKey.new_maintainability_rating]: {
     id: 'AXJMbIl_PAOIsUIE3guH',
-    key: 'new_maintainability_rating',
-    type: 'RATING',
+    key: MetricKey.new_maintainability_rating,
+    type: MetricType.Rating,
     name: 'Maintainability Rating on New Code',
     description: 'Maintainability rating on new code',
     domain: 'Maintainability',
@@ -813,10 +813,10 @@ export const DEFAULT_METRICS: Record<string, Metric> = {
     qualitative: true,
     hidden: false,
   },
-  major_violations: {
+  [MetricKey.major_violations]: {
     id: 'AXJMbIl_PAOIsUIE3gtv',
-    key: 'major_violations',
-    type: 'INT',
+    key: MetricKey.major_violations,
+    type: MetricType.Integer,
     name: 'Major Issues',
     description: 'Major issues',
     domain: 'Issues',
@@ -824,10 +824,10 @@ export const DEFAULT_METRICS: Record<string, Metric> = {
     qualitative: true,
     hidden: false,
   },
-  software_quality_medium_issues: {
+  [MetricKey.software_quality_medium_issues]: {
     id: '5c85ee75-753a-44db-b357-5ea54cd2d88b',
-    key: 'software_quality_medium_issues',
-    type: 'INT',
+    key: MetricKey.software_quality_medium_issues,
+    type: MetricType.Integer,
     name: 'Medium Severity Issues',
     description: 'Medium Severity issues',
     domain: 'Issues',
@@ -835,10 +835,10 @@ export const DEFAULT_METRICS: Record<string, Metric> = {
     qualitative: true,
     hidden: false,
   },
-  minor_violations: {
+  [MetricKey.minor_violations]: {
     id: 'AXJMbIl_PAOIsUIE3gtw',
-    key: 'minor_violations',
-    type: 'INT',
+    key: MetricKey.minor_violations,
+    type: MetricType.Integer,
     name: 'Minor Issues',
     description: 'Minor issues',
     domain: 'Issues',
@@ -846,20 +846,20 @@ export const DEFAULT_METRICS: Record<string, Metric> = {
     qualitative: true,
     hidden: false,
   },
-  ncloc_data: {
+  [MetricKey.ncloc_data]: {
     id: 'AXJMbImPPAOIsUIE3guU',
-    key: 'ncloc_data',
-    type: 'DATA',
-    name: 'ncloc_data',
+    key: MetricKey.ncloc_data,
+    type: MetricType.Data,
+    name: MetricKey.ncloc_data,
     domain: 'Size',
     direction: 0,
     qualitative: false,
     hidden: true,
   },
-  new_accepted_issues: {
+  [MetricKey.new_accepted_issues]: {
     id: 'AY0aC41wVDhd53-OniNb',
-    key: 'new_accepted_issues',
-    type: 'INT',
+    key: MetricKey.new_accepted_issues,
+    type: MetricType.Integer,
     name: 'New Accepted Issues',
     description: 'New accepted issues',
     domain: 'Issues',
@@ -867,10 +867,10 @@ export const DEFAULT_METRICS: Record<string, Metric> = {
     qualitative: false,
     hidden: false,
   },
-  new_blocker_violations: {
+  [MetricKey.new_blocker_violations]: {
     id: 'AXJMbIl_PAOIsUIE3gtz',
-    key: 'new_blocker_violations',
-    type: 'INT',
+    key: MetricKey.new_blocker_violations,
+    type: MetricType.Integer,
     name: 'New Blocker Issues',
     description: 'New Blocker issues',
     domain: 'Issues',
@@ -878,10 +878,10 @@ export const DEFAULT_METRICS: Record<string, Metric> = {
     qualitative: true,
     hidden: false,
   },
-  new_software_quality_blocker_issues: {
+  [MetricKey.new_software_quality_blocker_issues]: {
     id: '24492b83-d35f-4cbd-b12f-0b1168cb7c9a',
-    key: 'new_software_quality_blocker_issues',
-    type: 'INT',
+    key: MetricKey.new_software_quality_blocker_issues,
+    type: MetricType.Integer,
     name: 'New Blocker Severity Issues',
     description: 'New Blocker Severity issues',
     domain: 'Issues',
@@ -889,10 +889,10 @@ export const DEFAULT_METRICS: Record<string, Metric> = {
     qualitative: true,
     hidden: false,
   },
-  new_bugs: {
+  [MetricKey.new_bugs]: {
     id: 'AXJMbIl_PAOIsUIE3guA',
-    key: 'new_bugs',
-    type: 'INT',
+    key: MetricKey.new_bugs,
+    type: MetricType.Integer,
     name: 'New Bugs',
     description: 'New Bugs',
     domain: 'Reliability',
@@ -900,10 +900,10 @@ export const DEFAULT_METRICS: Record<string, Metric> = {
     qualitative: true,
     hidden: false,
   },
-  new_code_smells: {
+  [MetricKey.new_code_smells]: {
     id: 'AXJMbIl_PAOIsUIE3gt-',
-    key: 'new_code_smells',
-    type: 'INT',
+    key: MetricKey.new_code_smells,
+    type: MetricType.Integer,
     name: 'New Code Smells',
     description: 'New Code Smells',
     domain: 'Maintainability',
@@ -911,10 +911,10 @@ export const DEFAULT_METRICS: Record<string, Metric> = {
     qualitative: true,
     hidden: false,
   },
-  new_critical_violations: {
+  [MetricKey.new_critical_violations]: {
     id: 'AXJMbIl_PAOIsUIE3gt0',
-    key: 'new_critical_violations',
-    type: 'INT',
+    key: MetricKey.new_critical_violations,
+    type: MetricType.Integer,
     name: 'New Critical Issues',
     description: 'New Critical issues',
     domain: 'Issues',
@@ -922,10 +922,10 @@ export const DEFAULT_METRICS: Record<string, Metric> = {
     qualitative: true,
     hidden: false,
   },
-  new_software_quality_high_issues: {
+  [MetricKey.new_software_quality_high_issues]: {
     id: '1f2e2f4d-4069-4998-885b-287cb87939b6',
-    key: 'new_software_quality_high_issues',
-    type: 'INT',
+    key: MetricKey.new_software_quality_high_issues,
+    type: MetricType.Integer,
     name: 'New High Severity Issues',
     description: 'New High Severity issues',
     domain: 'Issues',
@@ -933,10 +933,10 @@ export const DEFAULT_METRICS: Record<string, Metric> = {
     qualitative: true,
     hidden: false,
   },
-  new_info_violations: {
+  [MetricKey.new_info_violations]: {
     id: 'AXJMbIl_PAOIsUIE3gt3',
-    key: 'new_info_violations',
-    type: 'INT',
+    key: MetricKey.new_info_violations,
+    type: MetricType.Integer,
     name: 'New Info Issues',
     description: 'New Info issues',
     domain: 'Issues',
@@ -944,10 +944,10 @@ export const DEFAULT_METRICS: Record<string, Metric> = {
     qualitative: true,
     hidden: false,
   },
-  new_software_quality_info_issues: {
+  [MetricKey.new_software_quality_info_issues]: {
     id: '6857dd13-4d48-4a6f-b985-889930ee3508',
-    key: 'new_software_quality_info_issues',
-    type: 'INT',
+    key: MetricKey.new_software_quality_info_issues,
+    type: MetricType.Integer,
     name: 'New Info Severity Issues',
     description: 'New Info Severity issues',
     domain: 'Issues',
@@ -955,10 +955,10 @@ export const DEFAULT_METRICS: Record<string, Metric> = {
     qualitative: true,
     hidden: false,
   },
-  new_violations: {
+  [MetricKey.new_violations]: {
     id: 'AXJMbIl_PAOIsUIE3gty',
-    key: 'new_violations',
-    type: 'INT',
+    key: MetricKey.new_violations,
+    type: MetricType.Integer,
     name: 'New Issues',
     description: 'New issues',
     domain: 'Issues',
@@ -966,10 +966,10 @@ export const DEFAULT_METRICS: Record<string, Metric> = {
     qualitative: true,
     hidden: false,
   },
-  new_lines: {
+  [MetricKey.new_lines]: {
     id: 'AXJMbImPPAOIsUIE3gu2',
-    key: 'new_lines',
-    type: 'INT',
+    key: MetricKey.new_lines,
+    type: MetricType.Integer,
     name: 'New Lines',
     description: 'New lines',
     domain: 'Size',
@@ -977,10 +977,10 @@ export const DEFAULT_METRICS: Record<string, Metric> = {
     qualitative: false,
     hidden: false,
   },
-  new_ncloc: {
+  [MetricKey.new_ncloc]: {
     id: 'AXJMbImPPAOIsUIE3gu3',
-    key: 'new_ncloc',
-    type: 'INT',
+    key: MetricKey.new_ncloc,
+    type: MetricType.Integer,
     name: 'New Lines of Code',
     description: 'Non commenting lines of code on new code',
     domain: 'Size',
@@ -988,10 +988,10 @@ export const DEFAULT_METRICS: Record<string, Metric> = {
     qualitative: false,
     hidden: false,
   },
-  new_software_quality_low_issues: {
+  [MetricKey.new_software_quality_low_issues]: {
     id: '8ecc3d65-72e7-4a36-9d1b-84344ba017f3',
-    key: 'new_software_quality_low_issues',
-    type: 'INT',
+    key: MetricKey.new_software_quality_low_issues,
+    type: MetricType.Integer,
     name: 'New Low Severity Issues',
     description: 'New Low Severity issues',
     domain: 'Issues',
@@ -999,10 +999,10 @@ export const DEFAULT_METRICS: Record<string, Metric> = {
     qualitative: true,
     hidden: false,
   },
-  new_maintainability_issues: {
+  [MetricKey.new_maintainability_issues]: {
     id: '9385d0e6-8991-40b1-b94a-5a260e6146f0',
-    key: 'new_maintainability_issues',
-    type: 'DATA',
+    key: MetricKey.new_maintainability_issues,
+    type: MetricType.Data,
     name: 'New Maintainability Issues',
     description: 'New maintainability issues',
     domain: 'Maintainability',
@@ -1010,10 +1010,10 @@ export const DEFAULT_METRICS: Record<string, Metric> = {
     qualitative: false,
     hidden: false,
   },
-  new_software_quality_maintainability_issues: {
+  [MetricKey.new_software_quality_maintainability_issues]: {
     id: 'e0216417-de54-4beb-8948-f61bd53987ed',
-    key: 'new_software_quality_maintainability_issues',
-    type: 'INT',
+    key: MetricKey.new_software_quality_maintainability_issues,
+    type: MetricType.Integer,
     name: 'New Maintainability Issues',
     description: 'New Maintainability Issues',
     domain: 'Maintainability',
@@ -1021,10 +1021,10 @@ export const DEFAULT_METRICS: Record<string, Metric> = {
     qualitative: true,
     hidden: false,
   },
-  new_major_violations: {
+  [MetricKey.new_major_violations]: {
     id: 'AXJMbIl_PAOIsUIE3gt1',
-    key: 'new_major_violations',
-    type: 'INT',
+    key: MetricKey.new_major_violations,
+    type: MetricType.Integer,
     name: 'New Major Issues',
     description: 'New Major issues',
     domain: 'Issues',
@@ -1032,10 +1032,10 @@ export const DEFAULT_METRICS: Record<string, Metric> = {
     qualitative: true,
     hidden: false,
   },
-  new_software_quality_medium_issues: {
+  [MetricKey.new_software_quality_medium_issues]: {
     id: '9d634fca-caee-4bee-8e23-37744d014194',
-    key: 'new_software_quality_medium_issues',
-    type: 'INT',
+    key: MetricKey.new_software_quality_medium_issues,
+    type: MetricType.Integer,
     name: 'New Medium Severity Issues',
     description: 'New Medium Severity issues',
     domain: 'Issues',
@@ -1043,10 +1043,10 @@ export const DEFAULT_METRICS: Record<string, Metric> = {
     qualitative: true,
     hidden: false,
   },
-  new_minor_violations: {
+  [MetricKey.new_minor_violations]: {
     id: 'AXJMbIl_PAOIsUIE3gt2',
-    key: 'new_minor_violations',
-    type: 'INT',
+    key: MetricKey.new_minor_violations,
+    type: MetricType.Integer,
     name: 'New Minor Issues',
     description: 'New Minor issues',
     domain: 'Issues',
@@ -1054,10 +1054,10 @@ export const DEFAULT_METRICS: Record<string, Metric> = {
     qualitative: true,
     hidden: false,
   },
-  new_reliability_issues: {
+  [MetricKey.new_reliability_issues]: {
     id: 'e1cbc8a4-82d7-4d41-8c95-ad86fcd3d57d',
-    key: 'new_reliability_issues',
-    type: 'DATA',
+    key: MetricKey.new_reliability_issues,
+    type: MetricType.Data,
     name: 'New Reliability Issues',
     description: 'New reliability issues',
     domain: 'Reliability',
@@ -1065,10 +1065,10 @@ export const DEFAULT_METRICS: Record<string, Metric> = {
     qualitative: false,
     hidden: false,
   },
-  new_software_quality_reliability_issues: {
+  [MetricKey.new_software_quality_reliability_issues]: {
     id: 'bfcac26d-2ce7-4fbf-b5c6-ea4f6556825d',
-    key: 'new_software_quality_reliability_issues',
-    type: 'INT',
+    key: MetricKey.new_software_quality_reliability_issues,
+    type: MetricType.Integer,
     name: 'New Reliability Issues',
     description: 'New Reliability Issues',
     domain: 'Reliability',
@@ -1076,10 +1076,10 @@ export const DEFAULT_METRICS: Record<string, Metric> = {
     qualitative: true,
     hidden: false,
   },
-  new_security_hotspots: {
+  [MetricKey.new_security_hotspots]: {
     id: 'AXJMbIl9PAOIsUIE3gsw',
-    key: 'new_security_hotspots',
-    type: 'INT',
+    key: MetricKey.new_security_hotspots,
+    type: MetricType.Integer,
     name: 'New Security Hotspots',
     description: 'New Security Hotspots',
     domain: 'SecurityReview',
@@ -1087,10 +1087,10 @@ export const DEFAULT_METRICS: Record<string, Metric> = {
     qualitative: true,
     hidden: false,
   },
-  new_software_quality_security_issues: {
+  [MetricKey.new_software_quality_security_issues]: {
     id: 'ecf1983d-ea7e-4df6-b377-d16f4a5a59e6',
-    key: 'new_software_quality_security_issues',
-    type: 'INT',
+    key: MetricKey.new_software_quality_security_issues,
+    type: MetricType.Integer,
     name: 'New Security Issues',
     description: 'New Security Issues',
     domain: 'Security',
@@ -1098,10 +1098,10 @@ export const DEFAULT_METRICS: Record<string, Metric> = {
     qualitative: true,
     hidden: false,
   },
-  new_security_issues: {
+  [MetricKey.new_security_issues]: {
     id: '6887ef7d-ee21-449c-b1ff-f3f7930ba27f',
-    key: 'new_security_issues',
-    type: 'DATA',
+    key: MetricKey.new_security_issues,
+    type: MetricType.Data,
     name: 'New Security Issues',
     description: 'New security issues',
     domain: 'Security',
@@ -1109,10 +1109,10 @@ export const DEFAULT_METRICS: Record<string, Metric> = {
     qualitative: false,
     hidden: false,
   },
-  new_vulnerabilities: {
+  [MetricKey.new_vulnerabilities]: {
     id: 'AXJMbIl_PAOIsUIE3guC',
-    key: 'new_vulnerabilities',
-    type: 'INT',
+    key: MetricKey.new_vulnerabilities,
+    type: MetricType.Integer,
     name: 'New Vulnerabilities',
     description: 'New Vulnerabilities',
     domain: 'Security',
@@ -1123,7 +1123,7 @@ export const DEFAULT_METRICS: Record<string, Metric> = {
   unanalyzed_c: {
     id: 'AXTb6RMqLLQlB5osv3xN',
     key: 'unanalyzed_c',
-    type: 'INT',
+    type: MetricType.Integer,
     name: 'Number of unanalyzed c files',
     domain: 'Size',
     direction: -1,
@@ -1133,17 +1133,17 @@ export const DEFAULT_METRICS: Record<string, Metric> = {
   unanalyzed_cpp: {
     id: 'AXTb6RMtLLQlB5osv3xO',
     key: 'unanalyzed_cpp',
-    type: 'INT',
+    type: MetricType.Integer,
     name: 'Number of unanalyzed c++ files',
     domain: 'Size',
     direction: -1,
     qualitative: false,
     hidden: true,
   },
-  open_issues: {
+  [MetricKey.open_issues]: {
     id: 'AXJMbIl_PAOIsUIE3gt6',
-    key: 'open_issues',
-    type: 'INT',
+    key: MetricKey.open_issues,
+    type: MetricType.Integer,
     name: 'Open Issues',
     description: 'Open issues',
     domain: 'Issues',
@@ -1151,10 +1151,10 @@ export const DEFAULT_METRICS: Record<string, Metric> = {
     qualitative: false,
     hidden: false,
   },
-  quality_profiles: {
+  [MetricKey.quality_profiles]: {
     id: 'AXJMbImPPAOIsUIE3guZ',
-    key: 'quality_profiles',
-    type: 'DATA',
+    key: MetricKey.quality_profiles,
+    type: MetricType.Data,
     name: 'Profiles',
     description: 'Details of quality profiles used during analysis',
     domain: 'General',
@@ -1162,10 +1162,10 @@ export const DEFAULT_METRICS: Record<string, Metric> = {
     qualitative: false,
     hidden: true,
   },
-  projects: {
+  [MetricKey.projects]: {
     id: 'AXJMbImPPAOIsUIE3guo',
-    key: 'projects',
-    type: 'INT',
+    key: MetricKey.projects,
+    type: MetricType.Integer,
     name: 'Project branches',
     description: 'Number of project branches',
     domain: 'Size',
@@ -1173,10 +1173,10 @@ export const DEFAULT_METRICS: Record<string, Metric> = {
     qualitative: false,
     hidden: false,
   },
-  public_api: {
+  [MetricKey.public_api]: {
     id: 'AXJMbImPPAOIsUIE3gun',
-    key: 'public_api',
-    type: 'INT',
+    key: MetricKey.public_api,
+    type: MetricType.Integer,
     name: 'Public API',
     description: 'Public API',
     domain: 'Documentation',
@@ -1184,10 +1184,10 @@ export const DEFAULT_METRICS: Record<string, Metric> = {
     qualitative: false,
     hidden: true,
   },
-  public_documented_api_density: {
+  [MetricKey.public_documented_api_density]: {
     id: 'AXJMbImPPAOIsUIE3gur',
-    key: 'public_documented_api_density',
-    type: 'PERCENT',
+    key: MetricKey.public_documented_api_density,
+    type: MetricType.Percent,
     name: 'Public Documented API (%)',
     description: 'Public documented classes and functions balanced by ncloc',
     domain: 'Documentation',
@@ -1196,10 +1196,10 @@ export const DEFAULT_METRICS: Record<string, Metric> = {
     hidden: true,
     decimalScale: 1,
   },
-  public_undocumented_api: {
+  [MetricKey.public_undocumented_api]: {
     id: 'AXJMbImPPAOIsUIE3gus',
-    key: 'public_undocumented_api',
-    type: 'INT',
+    key: MetricKey.public_undocumented_api,
+    type: MetricType.Integer,
     name: 'Public Undocumented API',
     description: 'Public undocumented classes, functions and variables',
     domain: 'Documentation',
@@ -1207,10 +1207,10 @@ export const DEFAULT_METRICS: Record<string, Metric> = {
     qualitative: true,
     hidden: true,
   },
-  pull_request_fixed_issues: {
+  [MetricKey.pull_request_fixed_issues]: {
     id: 'AY0aC410VDhd53-OniNd',
-    key: 'pull_request_fixed_issues',
-    type: 'INT',
+    key: MetricKey.pull_request_fixed_issues,
+    type: MetricType.Integer,
     name: 'Pull request fixed issues',
     description: 'Count of issues that would be fixed by the pull request.',
     domain: 'Issues',
@@ -1218,10 +1218,10 @@ export const DEFAULT_METRICS: Record<string, Metric> = {
     qualitative: false,
     hidden: true,
   },
-  quality_gate_details: {
+  [MetricKey.quality_gate_details]: {
     id: 'AXJMbImPPAOIsUIE3guY',
-    key: 'quality_gate_details',
-    type: 'DATA',
+    key: MetricKey.quality_gate_details,
+    type: MetricType.Data,
     name: 'Quality Gate Details',
     description: 'The project detailed status with regard to its quality gate',
     domain: 'General',
@@ -1229,10 +1229,10 @@ export const DEFAULT_METRICS: Record<string, Metric> = {
     qualitative: false,
     hidden: false,
   },
-  alert_status: {
+  [MetricKey.alert_status]: {
     id: 'AXJMbImPPAOIsUIE3guX',
-    key: 'alert_status',
-    type: 'LEVEL',
+    key: MetricKey.alert_status,
+    type: MetricType.Level,
     name: 'Quality Gate Status',
     description: 'The project status with regard to its quality gate.',
     domain: 'Releasability',
@@ -1240,20 +1240,20 @@ export const DEFAULT_METRICS: Record<string, Metric> = {
     qualitative: true,
     hidden: false,
   },
-  releasability_rating: {
+  [MetricKey.releasability_rating]: {
     id: 'AXJMbImPPAOIsUIE3guc',
-    key: 'releasability_rating',
-    type: 'RATING',
+    key: MetricKey.releasability_rating,
+    type: MetricType.Rating,
     name: 'Releasability rating',
     domain: 'Releasability',
     direction: -1,
     qualitative: true,
     hidden: false,
   },
-  releasability_rating_distribution: {
+  [MetricKey.releasability_rating_distribution]: {
     id: 'AX3sJDivJHBehddvNyhM',
-    key: 'releasability_rating_distribution',
-    type: 'DATA',
+    key: MetricKey.releasability_rating_distribution,
+    type: MetricType.Data,
     name: 'Releasability Rating Distribution',
     description: 'Releasability rating distribution',
     domain: 'Releasability',
@@ -1261,10 +1261,10 @@ export const DEFAULT_METRICS: Record<string, Metric> = {
     qualitative: true,
     hidden: true,
   },
-  reliability_issues: {
+  [MetricKey.reliability_issues]: {
     id: 'b11a4b65-4070-487d-a973-8ec85e2858b3',
-    key: 'reliability_issues',
-    type: 'DATA',
+    key: MetricKey.reliability_issues,
+    type: MetricType.Data,
     name: 'Reliability Issues',
     description: 'Reliability issues',
     domain: 'Reliability',
@@ -1272,10 +1272,10 @@ export const DEFAULT_METRICS: Record<string, Metric> = {
     qualitative: false,
     hidden: false,
   },
-  software_quality_reliability_issues: {
+  [MetricKey.software_quality_reliability_issues]: {
     id: '765f3905-47df-4d9c-b568-9184f341a737',
-    key: 'software_quality_reliability_issues',
-    type: 'INT',
+    key: MetricKey.software_quality_reliability_issues,
+    type: MetricType.Integer,
     name: 'Reliability Issues',
     description: 'Reliability Issues',
     domain: 'Reliability',
@@ -1283,10 +1283,10 @@ export const DEFAULT_METRICS: Record<string, Metric> = {
     qualitative: false,
     hidden: false,
   },
-  reliability_rating: {
+  [MetricKey.reliability_rating]: {
     id: 'AXJMbIl_PAOIsUIE3guP',
-    key: 'reliability_rating',
-    type: 'RATING',
+    key: MetricKey.reliability_rating,
+    type: MetricType.Rating,
     name: 'Reliability Rating',
     description: 'Reliability rating',
     domain: 'Reliability',
@@ -1294,10 +1294,10 @@ export const DEFAULT_METRICS: Record<string, Metric> = {
     qualitative: true,
     hidden: false,
   },
-  software_quality_reliability_rating: {
+  [MetricKey.software_quality_reliability_rating]: {
     id: '6548ffa4-8a5e-4445-a28d-e2fd9fdbba78',
-    key: 'software_quality_reliability_rating',
-    type: 'RATING',
+    key: MetricKey.software_quality_reliability_rating,
+    type: MetricType.Rating,
     name: 'Reliability Rating',
     description: 'Reliability rating',
     domain: 'Reliability',
@@ -1305,10 +1305,10 @@ export const DEFAULT_METRICS: Record<string, Metric> = {
     qualitative: true,
     hidden: false,
   },
-  reliability_rating_distribution: {
+  [MetricKey.reliability_rating_distribution]: {
     id: 'AX3sJDjuJHBehddvNyhO',
-    key: 'reliability_rating_distribution',
-    type: 'DATA',
+    key: MetricKey.reliability_rating_distribution,
+    type: MetricType.Data,
     name: 'Reliability Rating Distribution',
     description: 'Reliability rating distribution',
     domain: 'Reliability',
@@ -1316,10 +1316,10 @@ export const DEFAULT_METRICS: Record<string, Metric> = {
     qualitative: true,
     hidden: true,
   },
-  new_reliability_rating_distribution: {
+  [MetricKey.new_reliability_rating_distribution]: {
     id: 'AX3sJDjvJHBehddvNyhS',
-    key: 'new_reliability_rating_distribution',
-    type: 'DATA',
+    key: MetricKey.new_reliability_rating_distribution,
+    type: MetricType.Data,
     name: 'Reliability Rating Distribution on New Code',
     description: 'Reliability rating distribution on new code',
     domain: 'Reliability',
@@ -1327,10 +1327,10 @@ export const DEFAULT_METRICS: Record<string, Metric> = {
     qualitative: true,
     hidden: true,
   },
-  new_reliability_rating: {
+  [MetricKey.new_reliability_rating]: {
     id: 'AXJMbIl_PAOIsUIE3guQ',
-    key: 'new_reliability_rating',
-    type: 'RATING',
+    key: MetricKey.new_reliability_rating,
+    type: MetricType.Rating,
     name: 'Reliability Rating on New Code',
     description: 'Reliability rating on new code',
     domain: 'Reliability',
@@ -1338,10 +1338,10 @@ export const DEFAULT_METRICS: Record<string, Metric> = {
     qualitative: true,
     hidden: false,
   },
-  new_software_quality_reliability_rating: {
+  [MetricKey.new_software_quality_reliability_rating]: {
     id: 'ab82dcac-cf81-4780-965d-1384ce9e8983',
-    key: 'new_software_quality_reliability_rating',
-    type: 'RATING',
+    key: MetricKey.new_software_quality_reliability_rating,
+    type: MetricType.Rating,
     name: 'Reliability Rating on New Code',
     description: 'Reliability rating on new code',
     domain: 'Reliability',
@@ -1349,10 +1349,10 @@ export const DEFAULT_METRICS: Record<string, Metric> = {
     qualitative: true,
     hidden: false,
   },
-  reliability_remediation_effort: {
+  [MetricKey.reliability_remediation_effort]: {
     id: 'AXJMbIl_PAOIsUIE3guN',
-    key: 'reliability_remediation_effort',
-    type: 'WORK_DUR',
+    key: MetricKey.reliability_remediation_effort,
+    type: MetricType.WorkDuration,
     name: 'Reliability Remediation Effort',
     description: 'Reliability Remediation Effort',
     domain: 'Reliability',
@@ -1360,10 +1360,10 @@ export const DEFAULT_METRICS: Record<string, Metric> = {
     qualitative: true,
     hidden: false,
   },
-  software_quality_reliability_remediation_effort: {
+  [MetricKey.software_quality_reliability_remediation_effort]: {
     id: 'f2094b93-e08c-4350-ad8f-f265974278a8',
-    key: 'software_quality_reliability_remediation_effort',
-    type: 'WORK_DUR',
+    key: MetricKey.software_quality_reliability_remediation_effort,
+    type: MetricType.WorkDuration,
     name: 'Reliability Remediation Effort',
     description: 'Reliability remediation effort',
     domain: 'Reliability',
@@ -1371,10 +1371,10 @@ export const DEFAULT_METRICS: Record<string, Metric> = {
     qualitative: true,
     hidden: false,
   },
-  new_software_quality_reliability_remediation_effort: {
+  [MetricKey.new_software_quality_reliability_remediation_effort]: {
     id: '45f9a292-5f6e-459e-8d81-134d5aaedef9',
-    key: 'new_software_quality_reliability_remediation_effort',
-    type: 'WORK_DUR',
+    key: MetricKey.new_software_quality_reliability_remediation_effort,
+    type: MetricType.WorkDuration,
     name: 'Reliability Remediation Effort on New Code',
     description: 'Reliability remediation effort on new code',
     domain: 'Reliability',
@@ -1382,10 +1382,10 @@ export const DEFAULT_METRICS: Record<string, Metric> = {
     qualitative: true,
     hidden: false,
   },
-  new_reliability_remediation_effort: {
+  [MetricKey.new_reliability_remediation_effort]: {
     id: 'AXJMbIl_PAOIsUIE3guO',
-    key: 'new_reliability_remediation_effort',
-    type: 'WORK_DUR',
+    key: MetricKey.new_reliability_remediation_effort,
+    type: MetricType.WorkDuration,
     name: 'Reliability Remediation Effort on New Code',
     description: 'Reliability remediation effort on new code',
     domain: 'Reliability',
@@ -1393,10 +1393,10 @@ export const DEFAULT_METRICS: Record<string, Metric> = {
     qualitative: true,
     hidden: false,
   },
-  reopened_issues: {
+  [MetricKey.reopened_issues]: {
     id: 'AXJMbIl_PAOIsUIE3gt7',
-    key: 'reopened_issues',
-    type: 'INT',
+    key: MetricKey.reopened_issues,
+    type: MetricType.Integer,
     name: 'Reopened Issues',
     description: 'Reopened issues',
     domain: 'Issues',
@@ -1404,10 +1404,10 @@ export const DEFAULT_METRICS: Record<string, Metric> = {
     qualitative: true,
     hidden: false,
   },
-  security_hotspots: {
+  [MetricKey.security_hotspots]: {
     id: 'AXJMbIl9PAOIsUIE3gsv',
-    key: 'security_hotspots',
-    type: 'INT',
+    key: MetricKey.security_hotspots,
+    type: MetricType.Integer,
     name: 'Security Hotspots',
     description: 'Security Hotspots',
     domain: 'SecurityReview',
@@ -1415,10 +1415,10 @@ export const DEFAULT_METRICS: Record<string, Metric> = {
     qualitative: false,
     hidden: false,
   },
-  security_hotspots_reviewed: {
+  [MetricKey.security_hotspots_reviewed]: {
     id: 'AXJMbIl9PAOIsUIE3gs0',
-    key: 'security_hotspots_reviewed',
-    type: 'PERCENT',
+    key: MetricKey.security_hotspots_reviewed,
+    type: MetricType.Percent,
     name: 'Security Hotspots Reviewed',
     description: 'Percentage of Security Hotspots Reviewed',
     domain: 'SecurityReview',
@@ -1427,10 +1427,10 @@ export const DEFAULT_METRICS: Record<string, Metric> = {
     hidden: false,
     decimalScale: 1,
   },
-  new_security_hotspots_reviewed: {
+  [MetricKey.new_security_hotspots_reviewed]: {
     id: 'AXJMbIl9PAOIsUIE3gs1',
-    key: 'new_security_hotspots_reviewed',
-    type: 'PERCENT',
+    key: MetricKey.new_security_hotspots_reviewed,
+    type: MetricType.Percent,
     name: 'Security Hotspots Reviewed on New Code',
     description: 'Percentage of Security Hotspots Reviewed on New Code',
     domain: 'SecurityReview',
@@ -1439,10 +1439,10 @@ export const DEFAULT_METRICS: Record<string, Metric> = {
     hidden: false,
     decimalScale: 1,
   },
-  security_issues: {
+  [MetricKey.security_issues]: {
     id: 'e6ddc573-16b7-4bc4-aff8-6d28b59035e0',
-    key: 'security_issues',
-    type: 'DATA',
+    key: MetricKey.security_issues,
+    type: MetricType.Data,
     name: 'Security Issues',
     description: 'Security issues',
     domain: 'Security',
@@ -1450,10 +1450,10 @@ export const DEFAULT_METRICS: Record<string, Metric> = {
     qualitative: false,
     hidden: false,
   },
-  software_quality_security_issues: {
+  [MetricKey.software_quality_security_issues]: {
     id: '7133e418-aadb-4cac-b31f-b13bf036a7ff',
-    key: 'software_quality_security_issues',
-    type: 'INT',
+    key: MetricKey.software_quality_security_issues,
+    type: MetricType.Integer,
     name: 'Security Issues',
     description: 'Security Issues',
     domain: 'Security',
@@ -1461,10 +1461,10 @@ export const DEFAULT_METRICS: Record<string, Metric> = {
     qualitative: false,
     hidden: false,
   },
-  security_rating: {
+  [MetricKey.security_rating]: {
     id: 'AXJMbIl_PAOIsUIE3guS',
-    key: 'security_rating',
-    type: 'RATING',
+    key: MetricKey.security_rating,
+    type: MetricType.Rating,
     name: 'Security Rating',
     description: 'Security rating',
     domain: 'Security',
@@ -1472,10 +1472,10 @@ export const DEFAULT_METRICS: Record<string, Metric> = {
     qualitative: true,
     hidden: false,
   },
-  software_quality_security_rating: {
+  [MetricKey.software_quality_security_rating]: {
     id: 'db22dacd-a3fd-41d2-8617-0cb7cfc86429',
-    key: 'software_quality_security_rating',
-    type: 'RATING',
+    key: MetricKey.software_quality_security_rating,
+    type: MetricType.Rating,
     name: 'Security Rating',
     description: 'Security rating',
     domain: 'Security',
@@ -1483,10 +1483,10 @@ export const DEFAULT_METRICS: Record<string, Metric> = {
     qualitative: true,
     hidden: false,
   },
-  security_rating_distribution: {
+  [MetricKey.security_rating_distribution]: {
     id: 'AX3sJDjuJHBehddvNyhP',
-    key: 'security_rating_distribution',
-    type: 'DATA',
+    key: MetricKey.security_rating_distribution,
+    type: MetricType.Data,
     name: 'Security Rating Distribution',
     description: 'Security rating distribution',
     domain: 'Security',
@@ -1494,10 +1494,10 @@ export const DEFAULT_METRICS: Record<string, Metric> = {
     qualitative: true,
     hidden: true,
   },
-  new_security_rating_distribution: {
+  [MetricKey.new_security_rating_distribution]: {
     id: 'AX3sJDjvJHBehddvNyhT',
-    key: 'new_security_rating_distribution',
-    type: 'DATA',
+    key: MetricKey.new_security_rating_distribution,
+    type: MetricType.Data,
     name: 'Security Rating Distribution on New Code',
     description: 'Security rating distribution on new code',
     domain: 'Security',
@@ -1505,10 +1505,10 @@ export const DEFAULT_METRICS: Record<string, Metric> = {
     qualitative: true,
     hidden: true,
   },
-  new_software_quality_security_rating: {
+  [MetricKey.new_software_quality_security_rating]: {
     id: '228b9a04-09a2-418e-9ea4-3584a57a95ba',
-    key: 'new_software_quality_security_rating',
-    type: 'RATING',
+    key: MetricKey.new_software_quality_security_rating,
+    type: MetricType.Rating,
     name: 'Security Rating on New Code',
     description: 'Security rating on new code',
     domain: 'Security',
@@ -1516,10 +1516,10 @@ export const DEFAULT_METRICS: Record<string, Metric> = {
     qualitative: true,
     hidden: false,
   },
-  new_security_rating: {
+  [MetricKey.new_security_rating]: {
     id: 'AXJMbImPPAOIsUIE3guT',
-    key: 'new_security_rating',
-    type: 'RATING',
+    key: MetricKey.new_security_rating,
+    type: MetricType.Rating,
     name: 'Security Rating on New Code',
     description: 'Security rating on new code',
     domain: 'Security',
@@ -1527,10 +1527,10 @@ export const DEFAULT_METRICS: Record<string, Metric> = {
     qualitative: true,
     hidden: false,
   },
-  software_quality_security_remediation_effort: {
+  [MetricKey.software_quality_security_remediation_effort]: {
     id: '43652a84-3ca7-4506-9c09-00ea2b6c6e71',
-    key: 'software_quality_security_remediation_effort',
-    type: 'WORK_DUR',
+    key: MetricKey.software_quality_security_remediation_effort,
+    type: MetricType.WorkDuration,
     name: 'Security Remediation Effort',
     description: 'Security remediation effort',
     domain: 'Security',
@@ -1538,10 +1538,10 @@ export const DEFAULT_METRICS: Record<string, Metric> = {
     qualitative: true,
     hidden: false,
   },
-  security_remediation_effort: {
+  [MetricKey.security_remediation_effort]: {
     id: 'AXJMbIl_PAOIsUIE3guG',
-    key: 'security_remediation_effort',
-    type: 'WORK_DUR',
+    key: MetricKey.security_remediation_effort,
+    type: MetricType.WorkDuration,
     name: 'Security Remediation Effort',
     description: 'Security remediation effort',
     domain: 'Security',
@@ -1549,10 +1549,10 @@ export const DEFAULT_METRICS: Record<string, Metric> = {
     qualitative: true,
     hidden: false,
   },
-  new_security_remediation_effort: {
+  [MetricKey.new_security_remediation_effort]: {
     id: 'AXJMbIl_PAOIsUIE3guR',
-    key: 'new_security_remediation_effort',
-    type: 'WORK_DUR',
+    key: MetricKey.new_security_remediation_effort,
+    type: MetricType.WorkDuration,
     name: 'Security Remediation Effort on New Code',
     description: 'Security remediation effort on new code',
     domain: 'Security',
@@ -1560,10 +1560,10 @@ export const DEFAULT_METRICS: Record<string, Metric> = {
     qualitative: true,
     hidden: false,
   },
-  new_software_quality_security_remediation_effort: {
+  [MetricKey.new_software_quality_security_remediation_effort]: {
     id: 'd5d0020a-419c-4387-b00f-523ad8a6a3e4',
-    key: 'new_software_quality_security_remediation_effort',
-    type: 'WORK_DUR',
+    key: MetricKey.new_software_quality_security_remediation_effort,
+    type: MetricType.WorkDuration,
     name: 'Security Remediation Effort on New Code',
     description: 'Security remediation effort on new code',
     domain: 'Security',
@@ -1571,10 +1571,10 @@ export const DEFAULT_METRICS: Record<string, Metric> = {
     qualitative: true,
     hidden: false,
   },
-  security_review_rating: {
+  [MetricKey.security_review_rating]: {
     id: 'AXJMbIl9PAOIsUIE3gsx',
-    key: 'security_review_rating',
-    type: 'RATING',
+    key: MetricKey.security_review_rating,
+    type: MetricType.Rating,
     name: 'Security Review Rating',
     description: 'Security Review Rating',
     domain: 'SecurityReview',
@@ -1582,10 +1582,10 @@ export const DEFAULT_METRICS: Record<string, Metric> = {
     qualitative: true,
     hidden: false,
   },
-  security_review_rating_distribution: {
+  [MetricKey.security_review_rating_distribution]: {
     id: 'AX3sJDjuJHBehddvNyhQ',
-    key: 'security_review_rating_distribution',
-    type: 'DATA',
+    key: MetricKey.security_review_rating_distribution,
+    type: MetricType.Data,
     name: 'Security Review Rating Distribution',
     description: 'Security review rating distribution',
     domain: 'Security',
@@ -1593,10 +1593,10 @@ export const DEFAULT_METRICS: Record<string, Metric> = {
     qualitative: true,
     hidden: true,
   },
-  new_security_review_rating_distribution: {
+  [MetricKey.new_security_review_rating_distribution]: {
     id: 'AX3sJDjwJHBehddvNyhU',
-    key: 'new_security_review_rating_distribution',
-    type: 'DATA',
+    key: MetricKey.new_security_review_rating_distribution,
+    type: MetricType.Data,
     name: 'Security Review Rating Distribution on New Code',
     description: 'Security review rating distribution on new code',
     domain: 'Security',
@@ -1604,10 +1604,10 @@ export const DEFAULT_METRICS: Record<string, Metric> = {
     qualitative: true,
     hidden: true,
   },
-  new_security_review_rating: {
+  [MetricKey.new_security_review_rating]: {
     id: 'AXJMbIl9PAOIsUIE3gtA',
-    key: 'new_security_review_rating',
-    type: 'RATING',
+    key: MetricKey.new_security_review_rating,
+    type: MetricType.Rating,
     name: 'Security Review Rating on New Code',
     description: 'Security Review Rating on New Code',
     domain: 'SecurityReview',
@@ -1618,7 +1618,7 @@ export const DEFAULT_METRICS: Record<string, Metric> = {
   security_hotspots_reviewed_status: {
     id: 'AXJMbIl9PAOIsUIE3gs2',
     key: 'security_hotspots_reviewed_status',
-    type: 'INT',
+    type: MetricType.Integer,
     name: 'Security Review Reviewed Status',
     description: 'Security Review Reviewed Status',
     domain: 'SecurityReview',
@@ -1629,7 +1629,7 @@ export const DEFAULT_METRICS: Record<string, Metric> = {
   new_security_hotspots_reviewed_status: {
     id: 'AXJMbIl9PAOIsUIE3gtB',
     key: 'new_security_hotspots_reviewed_status',
-    type: 'INT',
+    type: MetricType.Integer,
     name: 'Security Review Reviewed Status on New Code',
     description: 'Security Review Reviewed Status on New Code',
     domain: 'SecurityReview',
@@ -1640,7 +1640,7 @@ export const DEFAULT_METRICS: Record<string, Metric> = {
   security_hotspots_to_review_status: {
     id: 'AXJMbIl9PAOIsUIE3gs3',
     key: 'security_hotspots_to_review_status',
-    type: 'INT',
+    type: MetricType.Integer,
     name: 'Security Review To Review Status',
     description: 'Security Review To Review Status',
     domain: 'SecurityReview',
@@ -1651,7 +1651,7 @@ export const DEFAULT_METRICS: Record<string, Metric> = {
   new_security_hotspots_to_review_status: {
     id: 'AXJMbIl9PAOIsUIE3gs5',
     key: 'new_security_hotspots_to_review_status',
-    type: 'INT',
+    type: MetricType.Integer,
     name: 'Security Review To Review Status on New Code',
     description: 'Security Review To Review Status on New Code',
     domain: 'SecurityReview',
@@ -1659,10 +1659,10 @@ export const DEFAULT_METRICS: Record<string, Metric> = {
     qualitative: false,
     hidden: true,
   },
-  skipped_tests: {
+  [MetricKey.skipped_tests]: {
     id: 'AXJMbIl9PAOIsUIE3gtd',
-    key: 'skipped_tests',
-    type: 'INT',
+    key: MetricKey.skipped_tests,
+    type: MetricType.Integer,
     name: 'Skipped Unit Tests',
     description: 'Number of skipped unit tests',
     domain: 'Coverage',
@@ -1670,10 +1670,10 @@ export const DEFAULT_METRICS: Record<string, Metric> = {
     qualitative: true,
     hidden: false,
   },
-  software_quality_maintainability_rating_distribution: {
+  [MetricKey.software_quality_maintainability_rating_distribution]: {
     id: 'b39b797b-216d-4800-810e-2277012ee096',
-    key: 'software_quality_maintainability_rating_distribution',
-    type: 'DATA',
+    key: MetricKey.software_quality_maintainability_rating_distribution,
+    type: MetricType.Data,
     name: 'Software Quality Maintainability Rating Distribution',
     description: 'Software Quality Maintainability rating distribution',
     domain: 'Maintainability',
@@ -1681,10 +1681,10 @@ export const DEFAULT_METRICS: Record<string, Metric> = {
     qualitative: true,
     hidden: true,
   },
-  new_software_quality_maintainability_rating_distribution: {
+  [MetricKey.new_software_quality_maintainability_rating_distribution]: {
     id: '21d0f133-de6d-4b2e-8302-99169720f8c6',
-    key: 'new_software_quality_maintainability_rating_distribution',
-    type: 'DATA',
+    key: MetricKey.new_software_quality_maintainability_rating_distribution,
+    type: MetricType.Data,
     name: 'Software Quality Maintainability Rating Distribution on New Code',
     description: 'Software Quality Maintainability rating distribution on new code',
     domain: 'Maintainability',
@@ -1692,20 +1692,20 @@ export const DEFAULT_METRICS: Record<string, Metric> = {
     qualitative: true,
     hidden: true,
   },
-  software_quality_maintainability_rating_effort: {
+  [MetricKey.software_quality_maintainability_rating_effort]: {
     id: '0a25e15c-10c9-4d66-8dc0-41446319405d',
-    key: 'software_quality_maintainability_rating_effort',
-    type: 'DATA',
+    key: MetricKey.software_quality_maintainability_rating_effort,
+    type: MetricType.Data,
     name: 'Software Quality Maintainability Rating Effort',
     domain: 'Maintainability',
     direction: 0,
     qualitative: false,
     hidden: true,
   },
-  software_quality_reliability_rating_distribution: {
+  [MetricKey.software_quality_reliability_rating_distribution]: {
     id: '571de2d7-d1ef-460b-8f99-e29e0aa6218c',
-    key: 'software_quality_reliability_rating_distribution',
-    type: 'DATA',
+    key: MetricKey.software_quality_reliability_rating_distribution,
+    type: MetricType.Data,
     name: 'Software Quality Reliability Rating Distribution',
     description: 'Software Quality Reliability rating distribution',
     domain: 'Reliability',
@@ -1713,10 +1713,10 @@ export const DEFAULT_METRICS: Record<string, Metric> = {
     qualitative: true,
     hidden: true,
   },
-  new_software_quality_reliability_rating_distribution: {
+  [MetricKey.new_software_quality_reliability_rating_distribution]: {
     id: '77693e0a-fc61-465f-8fe0-a5fe77f4d507',
-    key: 'new_software_quality_reliability_rating_distribution',
-    type: 'DATA',
+    key: MetricKey.new_software_quality_reliability_rating_distribution,
+    type: MetricType.Data,
     name: 'Software Quality Reliability Rating Distribution on New Code',
     description: 'Software Quality Reliability rating distribution on new code',
     domain: 'Reliability',
@@ -1724,20 +1724,20 @@ export const DEFAULT_METRICS: Record<string, Metric> = {
     qualitative: true,
     hidden: true,
   },
-  software_quality_reliability_rating_effort: {
+  [MetricKey.software_quality_reliability_rating_effort]: {
     id: '38f61088-42f3-437f-b2b5-65a8fa4c7448',
-    key: 'software_quality_reliability_rating_effort',
-    type: 'DATA',
+    key: MetricKey.software_quality_reliability_rating_effort,
+    type: MetricType.Data,
     name: 'Software Quality Reliability Rating Effort',
     domain: 'Reliability',
     direction: 0,
     qualitative: false,
     hidden: true,
   },
-  software_quality_security_rating_distribution: {
+  [MetricKey.software_quality_security_rating_distribution]: {
     id: 'f9a76abe-7663-47b3-a27c-1dea7e6b4861',
-    key: 'software_quality_security_rating_distribution',
-    type: 'DATA',
+    key: MetricKey.software_quality_security_rating_distribution,
+    type: MetricType.Data,
     name: 'Software Quality Security Rating Distribution',
     description: 'Software Quality Security rating distribution',
     domain: 'Security',
@@ -1745,10 +1745,10 @@ export const DEFAULT_METRICS: Record<string, Metric> = {
     qualitative: true,
     hidden: true,
   },
-  new_software_quality_security_rating_distribution: {
+  [MetricKey.new_software_quality_security_rating_distribution]: {
     id: '2f1155cb-3802-463a-95d3-dd352bafdc0c',
-    key: 'new_software_quality_security_rating_distribution',
-    type: 'DATA',
+    key: MetricKey.new_software_quality_security_rating_distribution,
+    type: MetricType.Data,
     name: 'Software Quality Security Rating Distribution on New Code',
     description: 'Software Quality Security rating distribution on new code',
     domain: 'Security',
@@ -1756,20 +1756,20 @@ export const DEFAULT_METRICS: Record<string, Metric> = {
     qualitative: true,
     hidden: true,
   },
-  software_quality_security_rating_effort: {
+  [MetricKey.software_quality_security_rating_effort]: {
     id: 'be673f93-1b72-418c-b134-b097dae65048',
-    key: 'software_quality_security_rating_effort',
-    type: 'DATA',
+    key: MetricKey.software_quality_security_rating_effort,
+    type: MetricType.Data,
     name: 'Software Quality Security Rating Effort',
     domain: 'Security',
     direction: 0,
     qualitative: false,
     hidden: true,
   },
-  statements: {
+  [MetricKey.statements]: {
     id: 'AXJMbImPPAOIsUIE3gum',
-    key: 'statements',
-    type: 'INT',
+    key: MetricKey.statements,
+    type: MetricType.Integer,
     name: 'Statements',
     description: 'Number of statements',
     domain: 'Size',
@@ -1777,10 +1777,10 @@ export const DEFAULT_METRICS: Record<string, Metric> = {
     qualitative: false,
     hidden: false,
   },
-  software_quality_maintainability_remediation_effort: {
+  [MetricKey.software_quality_maintainability_remediation_effort]: {
     id: '24edda40-db1c-4acd-9c9b-66d5bcca8486',
-    key: 'software_quality_maintainability_remediation_effort',
-    type: 'WORK_DUR',
+    key: MetricKey.software_quality_maintainability_remediation_effort,
+    type: MetricType.WorkDuration,
     name: 'Technical Debt',
     description:
       'Total effort (in minutes) to fix all the maintainability issues on the component and therefore to comply to all the requirements.',
@@ -1789,10 +1789,10 @@ export const DEFAULT_METRICS: Record<string, Metric> = {
     qualitative: true,
     hidden: false,
   },
-  sqale_index: {
+  [MetricKey.sqale_index]: {
     id: 'AXJMbIl_PAOIsUIE3guD',
-    key: 'sqale_index',
-    type: 'WORK_DUR',
+    key: MetricKey.sqale_index,
+    type: MetricType.WorkDuration,
     name: 'Technical Debt',
     description:
       'Total effort (in minutes) to fix all the issues on the component and therefore to comply to all the requirements.',
@@ -1801,10 +1801,10 @@ export const DEFAULT_METRICS: Record<string, Metric> = {
     qualitative: true,
     hidden: false,
   },
-  software_quality_maintainability_debt_ratio: {
+  [MetricKey.software_quality_maintainability_debt_ratio]: {
     id: '8a7a5279-9dfe-4fdf-9886-9203ae50be5c',
-    key: 'software_quality_maintainability_debt_ratio',
-    type: 'PERCENT',
+    key: MetricKey.software_quality_maintainability_debt_ratio,
+    type: MetricType.Percent,
     name: 'Technical Debt Ratio',
     description:
       'Ratio of the actual technical debt compared to the estimated cost to develop the whole source code from scratch',
@@ -1814,10 +1814,10 @@ export const DEFAULT_METRICS: Record<string, Metric> = {
     hidden: false,
     decimalScale: 1,
   },
-  sqale_debt_ratio: {
+  [MetricKey.sqale_debt_ratio]: {
     id: 'AXJMbIl_PAOIsUIE3guK',
-    key: 'sqale_debt_ratio',
-    type: 'PERCENT',
+    key: MetricKey.sqale_debt_ratio,
+    type: MetricType.Percent,
     name: 'Technical Debt Ratio',
     description:
       'Ratio of the actual technical debt compared to the estimated cost to develop the whole source code from scratch',
@@ -1827,10 +1827,10 @@ export const DEFAULT_METRICS: Record<string, Metric> = {
     hidden: false,
     decimalScale: 1,
   },
-  new_software_quality_maintainability_debt_ratio: {
+  [MetricKey.new_software_quality_maintainability_debt_ratio]: {
     id: '23330467-a21e-4254-a76a-2eb99aab6f0f',
-    key: 'new_software_quality_maintainability_debt_ratio',
-    type: 'PERCENT',
+    key: MetricKey.new_software_quality_maintainability_debt_ratio,
+    type: MetricType.Percent,
     name: 'Technical Debt Ratio on New Code',
     description: 'Technical Debt Ratio on New Code',
     domain: 'Maintainability',
@@ -1839,10 +1839,10 @@ export const DEFAULT_METRICS: Record<string, Metric> = {
     hidden: false,
     decimalScale: 1,
   },
-  new_sqale_debt_ratio: {
+  [MetricKey.new_sqale_debt_ratio]: {
     id: 'AXJMbIl_PAOIsUIE3guL',
-    key: 'new_sqale_debt_ratio',
-    type: 'PERCENT',
+    key: MetricKey.new_sqale_debt_ratio,
+    type: MetricType.Percent,
     name: 'Technical Debt Ratio on New Code',
     description: 'Technical Debt Ratio of new/changed code.',
     domain: 'Maintainability',
@@ -1851,60 +1851,60 @@ export const DEFAULT_METRICS: Record<string, Metric> = {
     hidden: false,
     decimalScale: 1,
   },
-  maintainability_rating_effort: {
+  [MetricKey.maintainability_rating_effort]: {
     id: 'AXJMbImPPAOIsUIE3gvD',
-    key: 'maintainability_rating_effort',
-    type: 'DATA',
+    key: MetricKey.maintainability_rating_effort,
+    type: MetricType.Data,
     name: 'Total number of projects having worst maintainability rating',
     domain: 'Maintainability',
     direction: 0,
     qualitative: false,
     hidden: true,
   },
-  reliability_rating_effort: {
+  [MetricKey.reliability_rating_effort]: {
     id: 'AXJMbImPPAOIsUIE3gvC',
-    key: 'reliability_rating_effort',
-    type: 'DATA',
+    key: MetricKey.reliability_rating_effort,
+    type: MetricType.Data,
     name: 'Total number of projects having worst reliability rating',
     domain: 'Reliability',
     direction: 0,
     qualitative: false,
     hidden: true,
   },
-  security_rating_effort: {
+  [MetricKey.security_rating_effort]: {
     id: 'AXJMbImPPAOIsUIE3gvB',
-    key: 'security_rating_effort',
-    type: 'DATA',
+    key: MetricKey.security_rating_effort,
+    type: MetricType.Data,
     name: 'Total number of projects having worst security rating',
     domain: 'Security',
     direction: 0,
     qualitative: false,
     hidden: true,
   },
-  security_review_rating_effort: {
+  [MetricKey.security_review_rating_effort]: {
     id: 'AXJMbIl9PAOIsUIE3gs6',
-    key: 'security_review_rating_effort',
-    type: 'DATA',
+    key: MetricKey.security_review_rating_effort,
+    type: MetricType.Data,
     name: 'Total number of projects having worst security review rating',
     domain: 'Security',
     direction: 0,
     qualitative: false,
     hidden: true,
   },
-  releasability_effort: {
+  [MetricKey.releasability_effort]: {
     id: 'AXJMbImPPAOIsUIE3gub',
-    key: 'releasability_effort',
-    type: 'INT',
+    key: MetricKey.releasability_effort,
+    type: MetricType.Integer,
     name: 'Total number of projects not production ready',
     domain: 'Releasability',
     direction: -1,
     qualitative: true,
     hidden: true,
   },
-  uncovered_conditions: {
+  [MetricKey.uncovered_conditions]: {
     id: 'AXJMbIl9PAOIsUIE3gs8',
-    key: 'uncovered_conditions',
-    type: 'INT',
+    key: MetricKey.uncovered_conditions,
+    type: MetricType.Integer,
     name: 'Uncovered Conditions',
     description: 'Uncovered conditions',
     domain: 'Coverage',
@@ -1912,10 +1912,10 @@ export const DEFAULT_METRICS: Record<string, Metric> = {
     qualitative: false,
     hidden: false,
   },
-  new_uncovered_conditions: {
+  [MetricKey.new_uncovered_conditions]: {
     id: 'AXJMbIl9PAOIsUIE3gs9',
-    key: 'new_uncovered_conditions',
-    type: 'INT',
+    key: MetricKey.new_uncovered_conditions,
+    type: MetricType.Integer,
     name: 'Uncovered Conditions on New Code',
     description: 'Uncovered conditions on new code',
     domain: 'Coverage',
@@ -1923,10 +1923,10 @@ export const DEFAULT_METRICS: Record<string, Metric> = {
     qualitative: false,
     hidden: false,
   },
-  uncovered_lines: {
+  [MetricKey.uncovered_lines]: {
     id: 'AXJMbIl_PAOIsUIE3gtj',
-    key: 'uncovered_lines',
-    type: 'INT',
+    key: MetricKey.uncovered_lines,
+    type: MetricType.Integer,
     name: 'Uncovered Lines',
     description: 'Uncovered lines',
     domain: 'Coverage',
@@ -1934,10 +1934,10 @@ export const DEFAULT_METRICS: Record<string, Metric> = {
     qualitative: false,
     hidden: false,
   },
-  new_uncovered_lines: {
+  [MetricKey.new_uncovered_lines]: {
     id: 'AXJMbIl_PAOIsUIE3gtk',
-    key: 'new_uncovered_lines',
-    type: 'INT',
+    key: MetricKey.new_uncovered_lines,
+    type: MetricType.Integer,
     name: 'Uncovered Lines on New Code',
     description: 'Uncovered lines on new code',
     domain: 'Coverage',
@@ -1945,10 +1945,10 @@ export const DEFAULT_METRICS: Record<string, Metric> = {
     qualitative: false,
     hidden: false,
   },
-  test_execution_time: {
+  [MetricKey.test_execution_time]: {
     id: 'AXJMbIl9PAOIsUIE3gtb',
-    key: 'test_execution_time',
-    type: 'MILLISEC',
+    key: MetricKey.test_execution_time,
+    type: MetricType.MilliSeconds,
     name: 'Unit Test Duration',
     description: 'Execution duration of unit tests',
     domain: 'Coverage',
@@ -1956,10 +1956,10 @@ export const DEFAULT_METRICS: Record<string, Metric> = {
     qualitative: false,
     hidden: false,
   },
-  test_errors: {
+  [MetricKey.test_errors]: {
     id: 'AXJMbIl9PAOIsUIE3gtc',
-    key: 'test_errors',
-    type: 'INT',
+    key: MetricKey.test_errors,
+    type: MetricType.Integer,
     name: 'Unit Test Errors',
     description: 'Number of unit test errors',
     domain: 'Coverage',
@@ -1967,10 +1967,10 @@ export const DEFAULT_METRICS: Record<string, Metric> = {
     qualitative: true,
     hidden: false,
   },
-  test_failures: {
+  [MetricKey.test_failures]: {
     id: 'AXJMbIl9PAOIsUIE3gte',
-    key: 'test_failures',
-    type: 'INT',
+    key: MetricKey.test_failures,
+    type: MetricType.Integer,
     name: 'Unit Test Failures',
     description: 'Number of unit test failures',
     domain: 'Coverage',
@@ -1978,10 +1978,10 @@ export const DEFAULT_METRICS: Record<string, Metric> = {
     qualitative: true,
     hidden: false,
   },
-  tests: {
+  [MetricKey.tests]: {
     id: 'AXJMbIl9PAOIsUIE3gta',
-    key: 'tests',
-    type: 'INT',
+    key: MetricKey.tests,
+    type: MetricType.Integer,
     name: 'Unit Tests',
     description: 'Number of unit tests',
     domain: 'Coverage',
@@ -1989,10 +1989,10 @@ export const DEFAULT_METRICS: Record<string, Metric> = {
     qualitative: false,
     hidden: false,
   },
-  test_success_density: {
+  [MetricKey.test_success_density]: {
     id: 'AXJMbIl9PAOIsUIE3gtf',
-    key: 'test_success_density',
-    type: 'PERCENT',
+    key: MetricKey.test_success_density,
+    type: MetricType.Percent,
     name: 'Unit Test Success (%)',
     description: 'Density of successful unit tests',
     domain: 'Coverage',
@@ -2001,10 +2001,10 @@ export const DEFAULT_METRICS: Record<string, Metric> = {
     hidden: false,
     decimalScale: 1,
   },
-  vulnerabilities: {
+  [MetricKey.vulnerabilities]: {
     id: 'AXJMbIl_PAOIsUIE3guB',
-    key: 'vulnerabilities',
-    type: 'INT',
+    key: MetricKey.vulnerabilities,
+    type: MetricType.Integer,
     name: 'Vulnerabilities',
     description: 'Vulnerabilities',
     domain: 'Security',
@@ -2012,9 +2012,9 @@ export const DEFAULT_METRICS: Record<string, Metric> = {
     qualitative: false,
     hidden: false,
   },
-  releasability_rating_with_aica: {
+  [MetricKey.releasability_rating_with_aica]: {
     id: '202020a4-cf57-4997-9ff5-be073c6b7cc7',
-    key: 'releasability_rating_with_aica',
+    key: MetricKey.releasability_rating_with_aica,
     type: MetricType.Rating,
     name: 'releasability rating with AI Code Assurance',
     description: 'releasability rating with AI Code Assurance',
@@ -2023,9 +2023,9 @@ export const DEFAULT_METRICS: Record<string, Metric> = {
     qualitative: true,
     hidden: false,
   },
-  security_rating_with_aica: {
+  [MetricKey.security_rating_with_aica]: {
     id: '966a4a47-86a9-425c-87fb-595ad89232d9',
-    key: 'security_rating_with_aica',
+    key: MetricKey.security_rating_with_aica,
     type: MetricType.Rating,
     name: 'security rating with AI Code Assurance',
     description: 'security rating with AI Code Assurance',
@@ -2034,9 +2034,9 @@ export const DEFAULT_METRICS: Record<string, Metric> = {
     qualitative: true,
     hidden: false,
   },
-  software_quality_security_rating_with_aica: {
+  [MetricKey.software_quality_security_rating_with_aica]: {
     id: '3f021556-02cd-4f60-ac39-b9e6aec241f8',
-    key: 'software_quality_security_rating_with_aica',
+    key: MetricKey.software_quality_security_rating_with_aica,
     type: MetricType.Rating,
     name: 'security rating with AI Code Assurance',
     description: 'security rating with AI Code Assurance',
@@ -2045,9 +2045,9 @@ export const DEFAULT_METRICS: Record<string, Metric> = {
     qualitative: true,
     hidden: false,
   },
-  reliability_rating_with_aica: {
+  [MetricKey.reliability_rating_with_aica]: {
     id: 'e71949a5-114f-4da1-807a-057fe61b0870',
-    key: 'reliability_rating_with_aica',
+    key: MetricKey.reliability_rating_with_aica,
     type: MetricType.Rating,
     name: 'reliability rating with AI Code Assurance',
     description: 'reliability rating with AI Code Assurance',
@@ -2056,9 +2056,9 @@ export const DEFAULT_METRICS: Record<string, Metric> = {
     qualitative: true,
     hidden: false,
   },
-  software_quality_reliability_rating_with_aica: {
+  [MetricKey.software_quality_reliability_rating_with_aica]: {
     id: 'b1a3eab6-ec44-47d7-948c-d891a235d6d2',
-    key: 'software_quality_reliability_rating_with_aica',
+    key: MetricKey.software_quality_reliability_rating_with_aica,
     type: MetricType.Rating,
     name: 'reliability rating with AI Code Assurance',
     description: 'reliability rating with AI Code Assurance',
@@ -2067,9 +2067,9 @@ export const DEFAULT_METRICS: Record<string, Metric> = {
     qualitative: true,
     hidden: false,
   },
-  sqale_rating_with_aica: {
+  [MetricKey.sqale_rating_with_aica]: {
     id: '28ebe117-5ef2-4b64-b4e6-bb1247236f9e',
-    key: 'sqale_rating_with_aica',
+    key: MetricKey.sqale_rating_with_aica,
     type: MetricType.Rating,
     name: 'sqale rating with AI Code Assurance',
     description: 'sqale rating with AI Code Assurance',
@@ -2078,9 +2078,9 @@ export const DEFAULT_METRICS: Record<string, Metric> = {
     qualitative: true,
     hidden: false,
   },
-  software_quality_maintainability_rating_with_aica: {
+  [MetricKey.software_quality_maintainability_rating_with_aica]: {
     id: '69c6dbb2-ff8f-44e8-9743-318a1a31ebc5',
-    key: 'software_quality_maintainability_rating_with_aica',
+    key: MetricKey.software_quality_maintainability_rating_with_aica,
     type: MetricType.Rating,
     name: 'maintainability rating with AI Code Assurance',
     description: 'maintainability rating with AI Code Assurance',
@@ -2089,9 +2089,9 @@ export const DEFAULT_METRICS: Record<string, Metric> = {
     qualitative: true,
     hidden: false,
   },
-  security_review_rating_with_aica: {
+  [MetricKey.security_review_rating_with_aica]: {
     id: '0ba693c6-4ef7-4546-afe2-9a6e368f8a1b',
-    key: 'security_review_rating_with_aica',
+    key: MetricKey.security_review_rating_with_aica,
     type: MetricType.Rating,
     name: 'security review rating with AI Code Assurance',
     description: 'security review rating with AI Code Assurance',
@@ -2100,9 +2100,9 @@ export const DEFAULT_METRICS: Record<string, Metric> = {
     qualitative: true,
     hidden: false,
   },
-  ncloc_with_aica: {
+  [MetricKey.ncloc_with_aica]: {
     id: '4d08adad-2d05-4377-9f24-846d5270267f',
-    key: 'ncloc_with_aica',
+    key: MetricKey.ncloc_with_aica,
     type: MetricType.Integer,
     name: 'ncloc with AI Code Assurance',
     description: 'ncloc with AI Code Assurance',
@@ -2111,9 +2111,9 @@ export const DEFAULT_METRICS: Record<string, Metric> = {
     qualitative: false,
     hidden: false,
   },
-  releasability_rating_without_aica: {
+  [MetricKey.releasability_rating_without_aica]: {
     id: 'c0e822da-3fad-4909-9cf6-9e2beeeceb80',
-    key: 'releasability_rating_without_aica',
+    key: MetricKey.releasability_rating_without_aica,
     type: MetricType.Rating,
     name: 'releasability rating without AI Code Assurance',
     description: 'releasability rating without AI Code Assurance',
@@ -2122,9 +2122,9 @@ export const DEFAULT_METRICS: Record<string, Metric> = {
     qualitative: true,
     hidden: false,
   },
-  security_rating_without_aica: {
+  [MetricKey.security_rating_without_aica]: {
     id: '60aec033-ca4b-40eb-b8fe-42ce0b015ff3',
-    key: 'security_rating_without_aica',
+    key: MetricKey.security_rating_without_aica,
     type: MetricType.Rating,
     name: 'security rating without AI Code Assurance',
     description: 'security rating without AI Code Assurance',
@@ -2133,9 +2133,9 @@ export const DEFAULT_METRICS: Record<string, Metric> = {
     qualitative: true,
     hidden: false,
   },
-  software_quality_security_rating_without_aica: {
+  [MetricKey.software_quality_security_rating_without_aica]: {
     id: 'ce4f693a-b0e5-4cea-a638-3daa07ea002f',
-    key: 'software_quality_security_rating_without_aica',
+    key: MetricKey.software_quality_security_rating_without_aica,
     type: MetricType.Rating,
     name: 'security rating without AI Code Assurance',
     description: 'security rating without AI Code Assurance',
@@ -2144,9 +2144,9 @@ export const DEFAULT_METRICS: Record<string, Metric> = {
     qualitative: true,
     hidden: false,
   },
-  reliability_rating_without_aica: {
+  [MetricKey.reliability_rating_without_aica]: {
     id: 'a22f15ff-1bd7-49ab-9c0f-2bdbc9e2dc5f',
-    key: 'reliability_rating_without_aica',
+    key: MetricKey.reliability_rating_without_aica,
     type: MetricType.Rating,
     name: 'reliability rating without AI Code Assurance',
     description: 'reliability rating without AI Code Assurance',
@@ -2155,9 +2155,9 @@ export const DEFAULT_METRICS: Record<string, Metric> = {
     qualitative: true,
     hidden: false,
   },
-  software_quality_reliability_rating_without_aica: {
+  [MetricKey.software_quality_reliability_rating_without_aica]: {
     id: '93bebcd1-5b0c-498e-86dc-a2a1b453cb90',
-    key: 'software_quality_reliability_rating_without_aica',
+    key: MetricKey.software_quality_reliability_rating_without_aica,
     type: MetricType.Rating,
     name: 'reliability rating without AI Code Assurance',
     description: 'reliability rating without AI Code Assurance',
@@ -2166,9 +2166,9 @@ export const DEFAULT_METRICS: Record<string, Metric> = {
     qualitative: true,
     hidden: false,
   },
-  sqale_rating_without_aica: {
+  [MetricKey.sqale_rating_without_aica]: {
     id: '664f8c3a-6267-4f18-9c8b-287eb36cbf6c',
-    key: 'sqale_rating_without_aica',
+    key: MetricKey.sqale_rating_without_aica,
     type: MetricType.Rating,
     name: 'sqale rating without AI Code Assurance',
     description: 'sqale rating without AI Code Assurance',
@@ -2177,9 +2177,9 @@ export const DEFAULT_METRICS: Record<string, Metric> = {
     qualitative: true,
     hidden: false,
   },
-  software_quality_maintainability_rating_without_aica: {
+  [MetricKey.software_quality_maintainability_rating_without_aica]: {
     id: 'e032b140-ba3f-4358-8b6e-dac5cee8370a',
-    key: 'software_quality_maintainability_rating_without_aica',
+    key: MetricKey.software_quality_maintainability_rating_without_aica,
     type: MetricType.Rating,
     name: 'maintainability rating without AI Code Assurance',
     description: 'maintainability rating without AI Code Assurance',
@@ -2188,9 +2188,9 @@ export const DEFAULT_METRICS: Record<string, Metric> = {
     qualitative: true,
     hidden: false,
   },
-  security_review_rating_without_aica: {
+  [MetricKey.security_review_rating_without_aica]: {
     id: '8440d548-b2ca-4182-bcfb-9316eaafe5f6',
-    key: 'security_review_rating_without_aica',
+    key: MetricKey.security_review_rating_without_aica,
     type: MetricType.Rating,
     name: 'security review rating without AI Code Assurance',
     description: 'security review rating without AI Code Assurance',
@@ -2199,9 +2199,9 @@ export const DEFAULT_METRICS: Record<string, Metric> = {
     qualitative: true,
     hidden: false,
   },
-  ncloc_without_aica: {
+  [MetricKey.ncloc_without_aica]: {
     id: 'f386254a-9353-4b75-90f9-1cd5c8428924',
-    key: 'ncloc_without_aica',
+    key: MetricKey.ncloc_without_aica,
     type: MetricType.Integer,
     name: 'ncloc without AI Code Assurance',
     description: 'ncloc without AI Code Assurance',
@@ -2210,9 +2210,9 @@ export const DEFAULT_METRICS: Record<string, Metric> = {
     qualitative: false,
     hidden: false,
   },
-  new_security_rating_with_aica: {
+  [MetricKey.new_security_rating_with_aica]: {
     id: '8f6f8164-673b-46cb-9342-f5cda57b39f2',
-    key: 'new_security_rating_with_aica',
+    key: MetricKey.new_security_rating_with_aica,
     type: MetricType.Rating,
     name: 'security rating on new code with AI Code Assurance',
     description: 'security rating on new code with AI Code Assurance',
@@ -2221,9 +2221,9 @@ export const DEFAULT_METRICS: Record<string, Metric> = {
     qualitative: true,
     hidden: false,
   },
-  new_software_quality_security_rating_with_aica: {
+  [MetricKey.new_software_quality_security_rating_with_aica]: {
     id: '7865d7be-c02d-47d9-93ca-429db0c5ecca',
-    key: 'new_software_quality_security_rating_with_aica',
+    key: MetricKey.new_software_quality_security_rating_with_aica,
     type: MetricType.Rating,
     name: 'security rating on new code with AI Code Assurance',
     description: 'security rating on new code with AI Code Assurance',
@@ -2232,9 +2232,9 @@ export const DEFAULT_METRICS: Record<string, Metric> = {
     qualitative: true,
     hidden: false,
   },
-  new_reliability_rating_with_aica: {
+  [MetricKey.new_reliability_rating_with_aica]: {
     id: '9c2e8918-1a42-4dd4-b452-fa1a33f6c9f6',
-    key: 'new_reliability_rating_with_aica',
+    key: MetricKey.new_reliability_rating_with_aica,
     type: MetricType.Rating,
     name: 'reliability rating on new code with AI Code Assurance',
     description: 'reliability rating on new code with AI Code Assurance',
@@ -2243,9 +2243,9 @@ export const DEFAULT_METRICS: Record<string, Metric> = {
     qualitative: true,
     hidden: false,
   },
-  new_software_quality_reliability_rating_with_aica: {
+  [MetricKey.new_software_quality_reliability_rating_with_aica]: {
     id: '6d7462c2-d554-4b69-a28d-98d76c293209',
-    key: 'new_software_quality_reliability_rating_with_aica',
+    key: MetricKey.new_software_quality_reliability_rating_with_aica,
     type: MetricType.Rating,
     name: 'reliability rating on new code with AI Code Assurance',
     description: 'reliability rating on new code with AI Code Assurance',
@@ -2254,9 +2254,9 @@ export const DEFAULT_METRICS: Record<string, Metric> = {
     qualitative: true,
     hidden: false,
   },
-  new_maintainability_rating_with_aica: {
+  [MetricKey.new_maintainability_rating_with_aica]: {
     id: 'd6262960-b97d-4823-a01f-5cc510c3e94c',
-    key: 'new_maintainability_rating_with_aica',
+    key: MetricKey.new_maintainability_rating_with_aica,
     type: MetricType.Rating,
     name: 'maintainability rating on new code with AI Code Assurance',
     description: 'maintainability rating on new code with AI Code Assurance',
@@ -2265,9 +2265,9 @@ export const DEFAULT_METRICS: Record<string, Metric> = {
     qualitative: true,
     hidden: false,
   },
-  new_software_quality_maintainability_rating_with_aica: {
+  [MetricKey.new_software_quality_maintainability_rating_with_aica]: {
     id: '0a6a8337-cbcf-4818-9b12-efac80abb526',
-    key: 'new_software_quality_maintainability_rating_with_aica',
+    key: MetricKey.new_software_quality_maintainability_rating_with_aica,
     type: MetricType.Rating,
     name: 'maintainability rating on new code with AI Code Assurance',
     description: 'maintainability rating on new code with AI Code Assurance',
@@ -2276,9 +2276,9 @@ export const DEFAULT_METRICS: Record<string, Metric> = {
     qualitative: true,
     hidden: false,
   },
-  new_security_review_rating_with_aica: {
+  [MetricKey.new_security_review_rating_with_aica]: {
     id: '646ce134-06d7-4463-a48c-f9f8c49bb114',
-    key: 'new_security_review_rating_with_aica',
+    key: MetricKey.new_security_review_rating_with_aica,
     type: MetricType.Rating,
     name: 'security review rating on new code with AI Code Assurance',
     description: 'security review rating on new code with AI Code Assurance',
@@ -2287,9 +2287,9 @@ export const DEFAULT_METRICS: Record<string, Metric> = {
     qualitative: true,
     hidden: false,
   },
-  new_security_rating_without_aica: {
+  [MetricKey.new_security_rating_without_aica]: {
     id: '4d6c3a2d-f97d-4b81-8053-3859485942b3',
-    key: 'new_security_rating_without_aica',
+    key: MetricKey.new_security_rating_without_aica,
     type: MetricType.Rating,
     name: 'security rating on new code without AI Code Assurance',
     description: 'security rating on new code without AI Code Assurance',
@@ -2298,9 +2298,9 @@ export const DEFAULT_METRICS: Record<string, Metric> = {
     qualitative: true,
     hidden: false,
   },
-  new_software_quality_security_rating_without_aica: {
+  [MetricKey.new_software_quality_security_rating_without_aica]: {
     id: '70f78036-22a0-479e-8741-6561dd34bda0',
-    key: 'new_software_quality_security_rating_without_aica',
+    key: MetricKey.new_software_quality_security_rating_without_aica,
     type: MetricType.Rating,
     name: 'security rating on new code without AI Code Assurance',
     description: 'security rating on new code without AI Code Assurance',
@@ -2309,9 +2309,9 @@ export const DEFAULT_METRICS: Record<string, Metric> = {
     qualitative: true,
     hidden: false,
   },
-  new_reliability_rating_without_aica: {
+  [MetricKey.new_reliability_rating_without_aica]: {
     id: 'faead7b9-92b0-4e82-8ab0-f1c4e6723816',
-    key: 'new_reliability_rating_without_aica',
+    key: MetricKey.new_reliability_rating_without_aica,
     type: MetricType.Rating,
     name: 'reliability rating on new code without AI Code Assurance',
     description: 'reliability rating on new code without AI Code Assurance',
@@ -2320,9 +2320,9 @@ export const DEFAULT_METRICS: Record<string, Metric> = {
     qualitative: true,
     hidden: false,
   },
-  new_software_quality_reliability_rating_without_aica: {
+  [MetricKey.new_software_quality_reliability_rating_without_aica]: {
     id: '8d5dee24-d897-4ffa-900c-19e200341151',
-    key: 'new_software_quality_reliability_rating_without_aica',
+    key: MetricKey.new_software_quality_reliability_rating_without_aica,
     type: MetricType.Rating,
     name: 'reliability rating on new code without AI Code Assurance',
     description: 'reliability rating on new code without AI Code Assurance',
@@ -2331,9 +2331,9 @@ export const DEFAULT_METRICS: Record<string, Metric> = {
     qualitative: true,
     hidden: false,
   },
-  new_maintainability_rating_without_aica: {
+  [MetricKey.new_maintainability_rating_without_aica]: {
     id: 'd6a8a2e2-2664-4980-9317-c1cc77e77e8b',
-    key: 'new_maintainability_rating_without_aica',
+    key: MetricKey.new_maintainability_rating_without_aica,
     type: MetricType.Rating,
     name: 'maintainability rating on new code without AI Code Assurance',
     description: 'maintainability rating on new code without AI Code Assurance',
@@ -2342,9 +2342,9 @@ export const DEFAULT_METRICS: Record<string, Metric> = {
     qualitative: true,
     hidden: false,
   },
-  new_software_quality_maintainability_rating_without_aica: {
+  [MetricKey.new_software_quality_maintainability_rating_without_aica]: {
     id: 'a3002b80-7ae2-424b-a07f-c93f6673d3f7',
-    key: 'new_software_quality_maintainability_rating_without_aica',
+    key: MetricKey.new_software_quality_maintainability_rating_without_aica,
     type: MetricType.Rating,
     name: 'maintainability rating on new code without AI Code Assurance',
     description: 'maintainability rating on new code without AI Code Assurance',
@@ -2353,9 +2353,9 @@ export const DEFAULT_METRICS: Record<string, Metric> = {
     qualitative: true,
     hidden: false,
   },
-  new_security_review_rating_without_aica: {
+  [MetricKey.new_security_review_rating_without_aica]: {
     id: 'af69f104-7d0a-4e62-8bad-cdbe6de99a8d',
-    key: 'new_security_review_rating_without_aica',
+    key: MetricKey.new_security_review_rating_without_aica,
     type: MetricType.Rating,
     name: 'security review rating on new code without AI Code Assurance',
     description: 'security review rating on new code without AI Code Assurance',
@@ -2364,9 +2364,9 @@ export const DEFAULT_METRICS: Record<string, Metric> = {
     qualitative: true,
     hidden: false,
   },
-  sca_severity_vulnerability: {
+  [MetricKey.sca_severity_vulnerability]: {
     id: 'f05cae63-9b08-4766-ac74-efcc63b07984',
-    key: 'sca_severity_vulnerability',
+    key: MetricKey.sca_severity_vulnerability,
     type: MetricType.ScaRisk,
     name: 'Severity of a vulnerability dependency risk',
     description: 'Severity of a vulnerability dependency risk',
@@ -2375,9 +2375,9 @@ export const DEFAULT_METRICS: Record<string, Metric> = {
     qualitative: false,
     hidden: false,
   },
-  new_sca_severity_vulnerability: {
+  [MetricKey.new_sca_severity_vulnerability]: {
     id: 'aed61ec1-f142-4e13-88ba-7c2ecd195fb6',
-    key: 'new_sca_severity_vulnerability',
+    key: MetricKey.new_sca_severity_vulnerability,
     type: MetricType.ScaRisk,
     name: 'Severity of a new vulnerability dependency risk',
     description: 'Severity of a new vulnerability dependency risk',
@@ -2386,9 +2386,9 @@ export const DEFAULT_METRICS: Record<string, Metric> = {
     qualitative: false,
     hidden: false,
   },
-  new_sca_severity_licensing: {
+  [MetricKey.new_sca_severity_licensing]: {
     id: 'f0scae63-49bb-4766-ac74-efcc63b0758729',
-    key: 'new_sca_severity_licensing',
+    key: MetricKey.new_sca_severity_licensing,
     type: MetricType.ScaRisk,
     name: 'Severity of a new licensing dependency risk',
     description: 'Severity of a new licensing dependency risk',
@@ -2397,9 +2397,9 @@ export const DEFAULT_METRICS: Record<string, Metric> = {
     qualitative: false,
     hidden: false,
   },
-  new_bugs_severity: {
+  [MetricKey.new_bugs_severity]: {
     id: 'new_bugs_severity',
-    key: 'new_bugs_severity',
+    key: MetricKey.new_bugs_severity,
     type: MetricType.IssueSeverity,
     name: 'New Bugs Severity',
     description: 'Worst severity of new bug issues',
@@ -2408,9 +2408,9 @@ export const DEFAULT_METRICS: Record<string, Metric> = {
     qualitative: false,
     hidden: false,
   },
-  new_maintainability_issue_severity: {
+  [MetricKey.new_maintainability_issue_severity]: {
     id: 'new_maintainability_issue_severity',
-    key: 'new_maintainability_issue_severity',
+    key: MetricKey.new_maintainability_issue_severity,
     type: MetricType.IssueSeverity,
     name: 'New Maintainability Issue Severity',
     description: 'Worst severity of new maintainability issues',
@@ -2419,9 +2419,9 @@ export const DEFAULT_METRICS: Record<string, Metric> = {
     qualitative: false,
     hidden: false,
   },
-  new_security_issue_severity: {
+  [MetricKey.new_security_issue_severity]: {
     id: 'new_security_issue_severity',
-    key: 'new_security_issue_severity',
+    key: MetricKey.new_security_issue_severity,
     type: MetricType.IssueSeverity,
     name: 'New Security Issue Severity',
     description: 'Worst severity of new security issues',
