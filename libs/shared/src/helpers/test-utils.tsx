@@ -157,7 +157,7 @@ export function renderWithRoutes(
 
   function BrowserWrapper({ children }: Readonly<PropsWithChildren>) {
     return (
-      <BrowserRouter>
+      <BrowserRouter useTransitions={false}>
         <ContextWrapper>
           <Routes>{children}</Routes>
         </ContextWrapper>
