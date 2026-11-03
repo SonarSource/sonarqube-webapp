@@ -72,6 +72,14 @@ describe('assignee', () => {
   });
 });
 
+describe('status', () => {
+  it('renders the provided status content', () => {
+    setupWithProps({ status: <span>Read-only status</span> });
+
+    expect(byText('Read-only status').get()).toBeInTheDocument();
+  });
+});
+
 describe('deferral date', () => {
   it('renders the deferral date content when provided', () => {
     setupWithProps({ deferralDate: <span>Deferred until Jan 1 2024</span> });
@@ -245,6 +253,7 @@ describe('tags popup coordinated via IssuePopupContext (as wired by IssueTabView
               assign={{ ...defaultAssign, isSelected: true }}
               headerRef={createRef()}
               issue={baseIssue}
+              status={<button type="button">Status select</button>}
               tags={{
                 canSetTags: true,
                 isOpen: popupContext?.currentPopup === IssuePopupName.EditTags,
@@ -308,6 +317,7 @@ function renderWithHeader(scrollBehavior: string) {
         assign={defaultAssign}
         headerRef={headerRef}
         issue={baseIssue}
+        status={<button type="button">Status select</button>}
         tags={defaultTags}
       />
     </>,
@@ -320,6 +330,7 @@ function setupWithProps(props: Partial<ComponentProps<typeof IssueMetadata>> = {
       assign={defaultAssign}
       headerRef={createRef()}
       issue={baseIssue}
+      status={<button type="button">Status select</button>}
       tags={defaultTags}
       {...props}
     />,

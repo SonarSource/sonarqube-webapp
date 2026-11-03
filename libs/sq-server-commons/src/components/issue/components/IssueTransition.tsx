@@ -22,11 +22,6 @@ import { ButtonVariety } from '@sonarsource/echoes-react';
 import * as React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { StatusTransition } from '~shared/components/status-transition/StatusTransition';
-import {
-  isTransitionVisible,
-  orderIssueTransitions,
-  transitionRequiresComment,
-} from '~shared/helpers/issues';
 import { isInput, isShortcut } from '../../../helpers/keyboardEventHelpers';
 import { KeyboardKeys } from '../../../helpers/keycodes';
 import { getKeyboardShortcutEnabled } from '../../../helpers/preferences';
@@ -34,6 +29,7 @@ import { useIssueCommentMutation, useIssueTransitionMutation } from '../../../qu
 import { IssueActions, IssueStatus } from '../../../types/issues';
 import { Issue } from '../../../types/types';
 import { updateIssue } from '../actions';
+import { useIssueTransitions } from '../hooks/useIssueTransitions';
 
 interface Props {
   isOpen: boolean;
@@ -73,14 +69,7 @@ export default function IssueTransition(props: Readonly<Props>) {
     [canComment, issue.key, onChange, addIssueComment, setIssueTransition, togglePopup],
   );
 
-  const transitions = orderIssueTransitions(issue.transitions.filter(isTransitionVisible)).map(
-    (transition) => ({
-      value: transition,
-      requiresComment: transitionRequiresComment(transition),
-    }),
-  );
-
-  const canTransition = transitions.length > 0;
+  const { transitions, canTransition } = useIssueTransitions(issue.transitions);
 
   const handleKeyDown = React.useCallback(
     (event: KeyboardEvent) => {

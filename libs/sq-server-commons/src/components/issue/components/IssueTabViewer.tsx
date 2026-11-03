@@ -20,6 +20,7 @@
 
 import { Divider, Layout, Text, toast } from '@sonarsource/echoes-react';
 import classNames from 'classnames';
+import { noop } from 'lodash';
 import { ComponentType, ReactNode, useCallback, useContext, useRef } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { Location } from 'react-router';
@@ -38,6 +39,7 @@ import { IssueSeverity } from '~shared/types/issues';
 import { RuleDetails } from '~shared/types/rules';
 import { setIssueAssignee, setIssueSeverity } from '../../../api/issues';
 import { ToggleButton } from '../../../design-system';
+import { HighlightRing } from '../../../design-system/components/HighlightRing';
 import { fillBranchLike } from '../../../helpers/branch-like';
 import { getKeyboardShortcutEnabled } from '../../../helpers/preferences';
 import { withUseGetFixSuggestionsIssues } from '../../../queries/fix-suggestions';
@@ -52,10 +54,12 @@ import IssueTypePill from '../../shared/IssueTypePill';
 import { WorkspaceContext } from '../../workspace/context';
 import { updateIssue } from '../actions';
 import { useIssueTabs } from '../hooks/useIssueTabs';
+import { useIssueTransitions } from '../hooks/useIssueTransitions';
 import { useSetIssueTags } from '../hooks/useSetIssueTags';
 import IssueTagsPopup from '../popups/IssueTagsPopup';
 import { AssigneeDropdown } from './AssigneeDropdown';
 import { hasIssueBadges, IssueBadges } from './IssueBadges';
+import IssueTransition from './IssueTransition';
 
 interface IssueTabViewerProps {
   activityTabContent?: ReactNode;
@@ -130,6 +134,7 @@ function IssueTabViewer(props: Readonly<IssueTabViewerProps>) {
   const canAssign = issue.actions.includes(IssueActions.Assign);
   const canSetSeverity = issue.actions.includes(IssueActions.SetSeverity);
   const { canSetTags, setTags } = useSetIssueTags(issue, onIssueChange);
+  const { canTransition } = useIssueTransitions(issue.transitions);
   const assignedUser = issue.assigneeName ?? issue.assignee;
 
   const handleAssign = useCallback(
@@ -210,7 +215,6 @@ function IssueTabViewer(props: Readonly<IssueTabViewerProps>) {
             {navigationActions}
           </div>
         }
-        onIssueChange={onIssueChange}
         ref={headerRef}
         ruleDetails={ruleDetails}
       />
@@ -285,6 +289,23 @@ function IssueTabViewer(props: Readonly<IssueTabViewerProps>) {
                 rule={ruleDetails}
                 showCleanCodeAttribute={!isStandardMode}
                 showImpact={!isStandardMode}
+                status={
+                  canTransition ? (
+                    <HighlightRing
+                      className="sw:relative"
+                      data-guiding-id={`issue-transition-${issue.key}`}
+                    >
+                      <IssueTransition
+                        isOpen={popupContext?.currentPopup === IssuePopupName.Transition}
+                        issue={issue}
+                        onChange={onIssueChange}
+                        togglePopup={popupContext?.togglePopup ?? noop}
+                      />
+                    </HighlightRing>
+                  ) : (
+                    <FormattedMessage id={`issue.issue_status.${issue.issueStatus}`} />
+                  )
+                }
                 tags={{
                   canSetTags,
                   isOpen: popupContext?.currentPopup === IssuePopupName.EditTags,

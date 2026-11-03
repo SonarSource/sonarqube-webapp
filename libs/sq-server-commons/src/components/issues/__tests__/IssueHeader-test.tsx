@@ -34,7 +34,6 @@ function setup(issueOverrides: Partial<Issue> = {}, ruleOverrides: Partial<RuleD
       closeIssue={jest.fn()}
       issue={issue}
       navigation={<nav>tabs</nav>}
-      onIssueChange={jest.fn()}
       ruleDetails={ruleDetails}
     />,
   );

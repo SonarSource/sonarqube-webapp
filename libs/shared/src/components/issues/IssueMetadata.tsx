@@ -87,6 +87,8 @@ interface Props {
   showCleanCodeAttribute?: boolean;
   properties?: ReactNode;
   externalRulesRepoNames?: Record<string, string>;
+  /** Status control (transition select) or read-only status, depending on what the user can do. */
+  status: ReactNode;
 }
 
 export function IssueMetadata({
@@ -105,6 +107,7 @@ export function IssueMetadata({
   showCleanCodeAttribute = true,
   properties,
   externalRulesRepoNames,
+  status,
 }: Readonly<Props>) {
   const { formatMessage } = useIntl();
   const sidebarRef = useRef<HTMLElement>(null);
@@ -130,6 +133,12 @@ export function IssueMetadata({
             renderDropdown={assign.renderDropdown}
           />
         </dd>
+        <Divider className="sw:my-1" />
+
+        <dt>
+          <Text isHighlighted>{formatMessage({ id: 'issue.details.status' })}</Text>
+        </dt>
+        <dd>{status}</dd>
         <Divider className="sw:my-1" />
 
         {deferralDate}

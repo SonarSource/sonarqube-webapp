@@ -136,6 +136,7 @@ export function StatusTransition<T extends string>(props: Readonly<StatusTransit
             className="it__issue-transition"
             isDisabled={transitions.length === 0}
             isLoading={isTransiting}
+            size="medium"
             suffix={transitions.length > 0 ? <IconChevronDown /> : null}
             variety={variety ?? ButtonVariety.DefaultGhost}
           >

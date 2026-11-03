@@ -38,23 +38,14 @@ interface Props {
   branchLike?: BranchLike;
   issue: Issue;
   navigation: ReactNode;
-  onIssueChange: (issue: Issue) => void;
   ruleDetails: RuleDetails;
   closeIssue: () => void;
   ref?: Ref<HTMLDivElement>;
 }
 
 function IssueHeader(props: Readonly<Props>) {
-  const {
-    additionalIssueActions,
-    branchLike,
-    issue,
-    navigation,
-    onIssueChange,
-    ruleDetails,
-    closeIssue,
-    ref,
-  } = props;
+  const { additionalIssueActions, branchLike, issue, navigation, ruleDetails, closeIssue, ref } =
+    props;
 
   const issueUrl = getComponentIssuesUrl(issue.project, {
     ...getBranchLikeQuery(branchLike),
@@ -68,11 +59,7 @@ function IssueHeader(props: Readonly<Props>) {
   return (
     <Layout.PageHeader
       actions={
-        <IssueActionsComponent
-          additionalIssueActions={additionalIssueActions}
-          issue={issue}
-          onChange={onIssueChange}
-        />
+        <IssueActionsComponent additionalIssueActions={additionalIssueActions} issue={issue} />
       }
       className="sw:z-normal"
       description={

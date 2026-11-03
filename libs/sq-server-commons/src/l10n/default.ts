@@ -1928,6 +1928,7 @@ export const defaultMessages = {
   'issue.details.code_attribute': 'Code Attribute',
   'issue.details.properties': 'Properties',
   'issue.details.software_quality_impacts': 'Software quality impacts',
+  'issue.details.status': 'Status',
   'issue.details.tags': 'Tags',
   'issue.details.type': 'Type',
   'issue.comment.add_comment': 'Add Comment',

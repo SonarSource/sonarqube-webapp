@@ -19,37 +19,20 @@
  */
 
 import { ButtonVariety } from '@sonarsource/echoes-react';
-import { noop } from 'lodash';
-import React, { useContext } from 'react';
-import { IssuePopupContext, IssuePopupName } from '~shared/components/issues/IssuePopupContext';
-import { HighlightRing } from '../../../design-system/components/HighlightRing';
+import React from 'react';
 import { Issue } from '../../../types/types';
-import IssueTransition from './IssueTransition';
 import SonarLintBadge from './SonarLintBadge';
 
 interface Props {
   issue: Issue;
-  onChange: (issue: Issue) => void;
   additionalIssueActions?: React.ComponentType<{ issue: Issue; variety?: ButtonVariety }>[];
 }
 
 export function IssueActions(props: Readonly<Props>) {
-  const { issue, onChange, additionalIssueActions } = props;
-  const popupContext = useContext(IssuePopupContext);
-  const currentPopup = popupContext?.currentPopup;
-  const togglePopup = popupContext?.togglePopup ?? noop;
+  const { issue, additionalIssueActions } = props;
 
   return (
     <div className="it__issue-header-actions sw:flex sw:gap-2">
-      <HighlightRing className="sw:relative" data-guiding-id={`issue-transition-${issue.key}`}>
-        <IssueTransition
-          isOpen={currentPopup === IssuePopupName.Transition}
-          issue={issue}
-          onChange={onChange}
-          togglePopup={togglePopup}
-          variety={ButtonVariety.Default}
-        />
-      </HighlightRing>
       {issue.quickFixAvailable && <SonarLintBadge variant="button" />}
       {additionalIssueActions?.map((ActionComponent, index) => (
         <ActionComponent
