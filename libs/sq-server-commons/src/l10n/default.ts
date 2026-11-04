@@ -21,6 +21,22 @@
 /* eslint-disable camelcase */
 
 export const defaultMessages = {
+  'pr_remediation.page': 'Remediation overview',
+  'pr_remediation.pull_requests': 'Pull requests',
+  'pr_remediation.heading': 'Pull request remediation',
+  'pr_remediation.description':
+    'Track upstream remediation through {findingType, select, sca {dependency risks} other {issues}} closed during pull request review, helping prevent problems from reaching target branches.',
+  'pr_remediation.finding_type': 'Finding type',
+  'pr_remediation.issues': 'Issues',
+  'pr_remediation.dependency_risks': 'Dependency risks',
+  'pr_remediation.loading': 'Loading pull request remediation',
+  'pr_remediation.load_error': 'Could not load pull request remediation. Try again.',
+  'pr_remediation.no_analysis': 'No pull requests were analyzed in this scope during the period',
+  'pr_remediation.no_analysis_description': 'Missing analysis isn’t the same as nothing closed.',
+  'pr_remediation.history_unavailable': 'No comparable reporting history in this scope',
+  'pr_remediation.history_unavailable_description':
+    'Missing history isn’t the same as zero remediation. Try a shorter period.',
+
   //------------------------------------------------------------------------------
   //
   // GENERIC WORDS, sorted alphabetically
