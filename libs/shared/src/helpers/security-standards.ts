@@ -140,6 +140,20 @@ export function renderOwaspTop10ForLlm2025Category(
   );
 }
 
+export function renderOwaspTop10ForLlm2026Category(
+  standards: Pick<StandardsInformation, StandardsInformationKey.OWASP_TOP10_FOR_LLM_2026>,
+  category: string,
+  withPrefix = false,
+): string {
+  return renderOwaspCategory(
+    StandardsInformationKey.OWASP_TOP10_FOR_LLM_2026,
+    standards,
+    category,
+    withPrefix,
+    'LLM',
+  );
+}
+
 function normalizeCategoryWithLeadingZeros(
   category: string,
   prefix: string,
@@ -162,7 +176,8 @@ function renderOwaspCategory<
     | StandardsInformationKey.OWASP_TOP10_2021
     | StandardsInformationKey.OWASP_TOP10_2025
     | StandardsInformationKey.OWASP_TOP10
-    | StandardsInformationKey.OWASP_TOP10_FOR_LLM_2025,
+    | StandardsInformationKey.OWASP_TOP10_FOR_LLM_2025
+    | StandardsInformationKey.OWASP_TOP10_FOR_LLM_2026,
 >(
   type: T,
   standards: Partial<Pick<StandardsInformation, T>>,

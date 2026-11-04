@@ -101,6 +101,7 @@ describe('standards renderers', () => {
         title: 'Software or Data Integrity Failures',
       },
     },
+    'owaspLlmTop10-2026': { llm3: { title: 'Excessive Agency' } },
     'owaspLlmTop10-2025': {
       llm1: {
         title: 'Prompt Injection',

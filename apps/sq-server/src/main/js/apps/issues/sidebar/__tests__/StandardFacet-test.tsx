@@ -180,6 +180,7 @@ it('should clear standards facet including owaspMobileTop10-2024', async () => {
     'owaspAsvs-4.0': [],
     'owaspAsvs-5.0': [],
     'owaspLlmTop10-2025': [],
+    'owaspLlmTop10-2026': [],
     'owaspMasvs-v2': [],
     'owaspMobileTop10-2024': [],
     owaspTop10: [],

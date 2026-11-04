@@ -177,6 +177,7 @@ export function mockStandards(): StandardsInformation {
         title: 'Broken Access Control',
       },
     },
+    'owaspLlmTop10-2026': {},
     'owaspLlmTop10-2025': {
       llm1: {
         title: 'Prompt Injection',

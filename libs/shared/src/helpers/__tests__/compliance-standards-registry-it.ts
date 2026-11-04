@@ -53,6 +53,39 @@ import {
 import { STANDARDS_REGISTRY } from '../compliance-standards-registry-definitions';
 
 describe('compliance-standards-registry', () => {
+  it('keeps LLM 2025 and 2026 issue filters and facet counts separate', async () => {
+    const oldKey = StandardsInformationKey.OWASP_TOP10_FOR_LLM_2025;
+    const newKey = StandardsInformationKey.OWASP_TOP10_FOR_LLM_2026;
+    const serialized = buildComplianceStandards({
+      [oldKey]: ['LLM06'],
+      [newKey]: ['LLM03'],
+    });
+    expect(serialized).toBe(
+      'owasp_llm-top10:urn:sonar-security-standard:owasp:llm-top10:2026=LLM03&owasp_llm-top10:urn:sonar-security-standard:owasp:llm-top10:2025=LLM06',
+    );
+    expect(parseComplianceStandards(serialized)).toEqual({
+      [oldKey]: ['LLM06'],
+      [newKey]: ['LLM03'],
+    });
+    expect(
+      mapBackendFacetKeyToQueryProp(
+        'owasp_llm-top10:urn:sonar-security-standard:owasp:llm-top10:2026',
+      ),
+    ).toBe(newKey);
+    expect(getStandardsAvailableInIssuesFilter().map((s) => s.key)).toEqual(
+      expect.arrayContaining([oldKey, newKey]),
+    );
+    const { getStandards } = await import('../security-standards');
+    const standards = await getStandards();
+    expect(getStandardDefinition(newKey)?.renderCategory(standards, 'LLM03')).toBe(
+      'LLM3 - Excessive Agency',
+    );
+    expect(getStandardDefinition(oldKey)?.renderCategory(standards, 'LLM03')).toBe(
+      'LLM3 - Supply Chain',
+    );
+    expect(getStandardsInformationKeyFromRegistry(SecurityStandard.OWASP_LLM_TOP10)).toBe(newKey);
+  });
+
   describe('STANDARDS_REGISTRY', () => {
     it('should contain all expected standards', () => {
       expect(STANDARDS_REGISTRY.length).toBeGreaterThan(0);
@@ -444,9 +477,11 @@ describe('compliance-standards-registry', () => {
       expect(hasOwaspDefault).toBe(true);
     });
 
-    it('should return exactly 3 defaults', () => {
+    it('defaults to LLM 2026 while keeping 2025 available for custom selection', () => {
       const defaults = getDefaultPdfStandards();
-      expect(defaults).toHaveLength(3);
+      expect(defaults).toHaveLength(4);
+      expect(defaults).toContain(StandardsInformationKey.OWASP_TOP10_FOR_LLM_2026);
+      expect(defaults).not.toContain(StandardsInformationKey.OWASP_TOP10_FOR_LLM_2025);
     });
   });
 
@@ -535,12 +570,15 @@ describe('compliance-standards-registry', () => {
       expect(mobileGroup?.options.some((o) => o.label === '2024')).toBe(true);
     });
 
-    it('should include OWASP Top 10 for LLM 2025', () => {
+    it('should offer both OWASP LLM versions with 2026 first', () => {
       const pdfStandards = generatePdfExportStandards();
       const llmGroup = pdfStandards.find((g) => g.id === 'owaspLlmTop10');
 
       expect(llmGroup).toBeDefined();
-      expect(llmGroup?.options.some((o) => o.label === '2025')).toBe(true);
+      expect(llmGroup?.options).toEqual([
+        { id: 'owaspLlmTop10-2026', label: '2026' },
+        { id: 'owaspLlmTop10-2025', label: '2025' },
+      ]);
     });
 
     it('should include CASA standard', () => {

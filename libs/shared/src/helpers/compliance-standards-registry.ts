@@ -370,6 +370,13 @@ export function getDefaultPdfStandards(): string[] {
     defaults.push(latestOwaspTop10.key);
   }
 
+  const latestOwaspLlm = STANDARDS_REGISTRY.find(
+    (def) => def.enumKey === 'OWASP_LLM_TOP10' && def.availableInPDFReports,
+  );
+  if (latestOwaspLlm) {
+    defaults.push(latestOwaspLlm.key);
+  }
+
   return defaults;
 }
 

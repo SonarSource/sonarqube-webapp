@@ -25,6 +25,7 @@ export enum SecurityStandard {
   OWASP_ASVS_4_0 = 'owaspAsvs-4.0',
   OWASP_ASVS_5_0 = 'owaspAsvs-5.0',
   OWASP_LLM_TOP10 = 'owaspLlmTop10-2025',
+  OWASP_LLM_TOP10_2026 = 'owaspLlmTop10-2026',
   // Note: MASVS uses 'v2' suffix (not a numeric version like ASVS 4.0/5.0)
   OWASP_MASVS = 'owaspMasvs-v2',
   OWASP_MOBILE_TOP10_2024 = 'owaspMobileTop10-2024',
@@ -65,6 +66,7 @@ export enum StandardsInformationKey {
   OWASP_TOP10_2025 = 'owaspTop10-2025',
   OWASP_TOP10 = 'owaspTop10',
   OWASP_TOP10_FOR_LLM_2025 = 'owaspLlmTop10-2025',
+  OWASP_TOP10_FOR_LLM_2026 = 'owaspLlmTop10-2026',
   OWASP_MOBILE_TOP10_2024 = 'owaspMobileTop10-2024',
   PCI_DSS_3_2 = 'pciDss-3.2',
   PCI_DSS_4_0 = 'pciDss-4.0',
