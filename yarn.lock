@@ -7265,13 +7265,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@swc-contrib/mut-cjs-exports@npm:19.0.0":
-  version: 19.0.0
-  resolution: "@swc-contrib/mut-cjs-exports@npm:19.0.0"
+"@swc-contrib/mut-cjs-exports@npm:20.0.0":
+  version: 20.0.0
+  resolution: "@swc-contrib/mut-cjs-exports@npm:20.0.0"
   peerDependencies:
     "@swc/core": ^1.16.0
     "@swc/jest": ^0.2.37
-  checksum: 10/f9ab3988af5048aa25efefb8b7f409819df08156acc92d13c3263968ca032556bf475dab67da7dff8babb45e18c9057f3ba20d01fd02adc9bcb979a147c19938
+  checksum: 10/fe193f80c7af03046a7132f6b19a2b5471f1a871be29a236e542373c1c3b6ed00e954e08ef07e0f4070816ecdebf574a494885c23c4108c95ae4fcea0481c5f9
   languageName: node
   linkType: hard
 
@@ -7478,12 +7478,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@swc/plugin-emotion@npm:19.0.0":
-  version: 19.0.0
-  resolution: "@swc/plugin-emotion@npm:19.0.0"
+"@swc/plugin-emotion@npm:20.0.0":
+  version: 20.0.0
+  resolution: "@swc/plugin-emotion@npm:20.0.0"
   dependencies:
     "@swc/counter": "npm:^0.1.3"
-  checksum: 10/6449cbe5630d719eb531e99ce6c7657a78b2f69004c2e499e14cee70af72e870fb108e0dce9d7d2b34957369e5254f746ee224ee25d7d1ab422b60cff9e7118e
+  checksum: 10/7ee0186c4fc0bde3ebdf3ec58cb318dced8fbf6b081a31192c2ca30a1e8051df56d6fc6a4c11b2272623b7ce3e16d412d988dac55b7a224c632c955815aa7efa
   languageName: node
   linkType: hard
 
@@ -19652,12 +19652,12 @@ __metadata:
     "@sprig-technologies/sprig-browser": "npm:2.48.2"
     "@stripe/react-stripe-js": "npm:7.0.0"
     "@stripe/stripe-js": "npm:10.1.0"
-    "@swc-contrib/mut-cjs-exports": "npm:19.0.0"
+    "@swc-contrib/mut-cjs-exports": "npm:20.0.0"
     "@swc-node/register": "npm:1.11.1"
     "@swc/core": "npm:1.16.18"
     "@swc/helpers": "npm:0.5.23"
     "@swc/jest": "npm:0.2.39"
-    "@swc/plugin-emotion": "npm:19.0.0"
+    "@swc/plugin-emotion": "npm:20.0.0"
     "@tailwindcss/vite": "npm:4.3.3"
     "@tanstack/react-query": "npm:5.56.2"
     "@tanstack/react-query-devtools": "npm:5.56.2"
