@@ -144,6 +144,7 @@ export const defaultMessages = {
   go_back: 'Go back',
   got_it: 'Got it',
   help: 'Help',
+  'help_menu.ask.closed': 'Open Ask AI to continue.',
   'help_menu.ask.frame': 'Ask AI assistant',
   'help_menu.ask.loading': 'Loading Ask AI…',
   'help_menu.ask.error': 'Ask AI couldn’t load. Please try again.',
