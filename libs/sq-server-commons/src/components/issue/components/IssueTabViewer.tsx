@@ -27,6 +27,7 @@ import { Location } from 'react-router';
 import { useIsNoticeDismissed } from '~adapters/helpers/notices';
 import { useCurrentUser } from '~adapters/helpers/users';
 import { AssigneeUser } from '~shared/components/issues/IssueAssign';
+import { IssueHeaderRefContext } from '~shared/components/issues/IssueHeaderRefContext';
 import { IssueMetadata } from '~shared/components/issues/IssueMetadata';
 import {
   IssuePopupContext,
@@ -197,127 +198,129 @@ function IssueTabViewer(props: Readonly<IssueTabViewerProps>) {
 
   return (
     <IssuePopupProvider resetKey={issue.key}>
-      <IssueHeader
-        additionalIssueActions={additionalIssueActions}
-        branchLike={fillBranchLike(issue.branch, issue.pullRequest)}
-        closeIssue={closeIssue}
-        issue={issue}
-        navigation={
-          // No bottom margin here: IssueHeader already wraps `navigation` in `sw:mb-300`.
-          <div className="sw:flex sw:justify-between sw:items-center">
-            {/* This toggle button is used as tabs, do not replace it with Echoes ToggleButtonGroup */}
-            <ToggleButton
-              onChange={handleSelectTabs}
-              options={tabs}
-              role="tablist"
-              value={selectedTab.key}
-            />
-            {navigationActions}
-          </div>
-        }
-        ref={headerRef}
-        ruleDetails={ruleDetails}
-      />
-
-      <Layout.PageContent className="sw:grid sw:grid-cols-5 sw:gap-6">
-        <div
-          aria-labelledby={`tab-${selectedTab.key}`}
-          className="sw:flex sw:flex-col sw:col-span-4"
-          id={`tabpanel-${selectedTab.key}`}
-          role="tabpanel"
-        >
-          {tabs
-            .filter((t) => t.key === selectedTab.key)
-            .map((tab) => (
-              <div
-                className={classNames({
-                  'sw:hidden': tab.key !== selectedTab.key,
-                })}
-                key={tab.key}
-              >
-                <TabSelectorContext.Provider value={handleSelectTabs}>
-                  {tab.content}
-                </TabSelectorContext.Provider>
-              </div>
-            ))}
-        </div>
-        <div className="sw:col-span-1">
-          <IssuePopupContext.Consumer>
-            {(popupContext) => (
-              <IssueMetadata
-                assign={{
-                  canAssign,
-                  isSelected: true,
-                  onAssign: handleAssign,
-                  renderDropdown: ({ menuIsOpen, onMenuClose, onSelect }) => (
-                    <AssigneeDropdown
-                      assignedUser={assignedUser}
-                      assigneeAvatar={issue.assigneeAvatar}
-                      assigneeLogin={issue.assigneeLogin}
-                      menuIsOpen={menuIsOpen}
-                      onMenuClose={onMenuClose}
-                      onSelect={onSelect}
-                    />
-                  ),
-                }}
-                externalRulesRepoNames={externalRulesRepoNames}
-                headerRef={headerRef}
-                isShortcutEnabled={getKeyboardShortcutEnabled()}
-                issue={issue}
-                issueType={
-                  isStandardMode && (
-                    <>
-                      <dt>
-                        <Text isHighlighted>
-                          <FormattedMessage id="issue.details.type" />
-                        </Text>
-                      </dt>
-                      <dd>
-                        <IssueTypePill
-                          issueType={issue.type}
-                          onSetSeverity={canSetSeverity ? handleSeverityChange : undefined}
-                          severity={issue.severity}
-                        />
-                      </dd>
-                      <Divider className="sw:my-1" />
-                    </>
-                  )
-                }
-                line={issue.line}
-                onSetSeverity={canSetSeverity ? handleSeverityChange : undefined}
-                properties={hasIssueBadges(issue) ? <IssueBadges issue={issue} /> : undefined}
-                rule={ruleDetails}
-                showCleanCodeAttribute={!isStandardMode}
-                showImpact={!isStandardMode}
-                status={
-                  canTransition ? (
-                    <HighlightRing
-                      className="sw:relative"
-                      data-guiding-id={`issue-transition-${issue.key}`}
-                    >
-                      <IssueTransition
-                        isOpen={popupContext?.currentPopup === IssuePopupName.Transition}
-                        issue={issue}
-                        onChange={onIssueChange}
-                        togglePopup={popupContext?.togglePopup ?? noop}
-                      />
-                    </HighlightRing>
-                  ) : (
-                    <FormattedMessage id={`issue.issue_status.${issue.issueStatus}`} />
-                  )
-                }
-                tags={{
-                  canSetTags,
-                  isOpen: popupContext?.currentPopup === IssuePopupName.EditTags,
-                  overlay: <IssueTagsPopup selectedTags={issue.tags ?? []} setTags={setTags} />,
-                  selectedIssueKey: issue.key,
-                  togglePopup: popupContext?.togglePopup,
-                }}
+      <IssueHeaderRefContext.Provider value={headerRef}>
+        <IssueHeader
+          additionalIssueActions={additionalIssueActions}
+          branchLike={fillBranchLike(issue.branch, issue.pullRequest)}
+          closeIssue={closeIssue}
+          issue={issue}
+          navigation={
+            // No bottom margin here: IssueHeader already wraps `navigation` in `sw:mb-300`.
+            <div className="sw:flex sw:justify-between sw:items-center">
+              {/* This toggle button is used as tabs, do not replace it with Echoes ToggleButtonGroup */}
+              <ToggleButton
+                onChange={handleSelectTabs}
+                options={tabs}
+                role="tablist"
+                value={selectedTab.key}
               />
-            )}
-          </IssuePopupContext.Consumer>
-        </div>
-      </Layout.PageContent>
+              {navigationActions}
+            </div>
+          }
+          ref={headerRef}
+          ruleDetails={ruleDetails}
+        />
+
+        <Layout.PageContent className="sw:grid sw:grid-cols-5 sw:gap-6">
+          <div
+            aria-labelledby={`tab-${selectedTab.key}`}
+            className="sw:flex sw:flex-col sw:col-span-4"
+            id={`tabpanel-${selectedTab.key}`}
+            role="tabpanel"
+          >
+            {tabs
+              .filter((t) => t.key === selectedTab.key)
+              .map((tab) => (
+                <div
+                  className={classNames({
+                    'sw:hidden': tab.key !== selectedTab.key,
+                  })}
+                  key={tab.key}
+                >
+                  <TabSelectorContext.Provider value={handleSelectTabs}>
+                    {tab.content}
+                  </TabSelectorContext.Provider>
+                </div>
+              ))}
+          </div>
+          <div className="sw:col-span-1">
+            <IssuePopupContext.Consumer>
+              {(popupContext) => (
+                <IssueMetadata
+                  assign={{
+                    canAssign,
+                    isSelected: true,
+                    onAssign: handleAssign,
+                    renderDropdown: ({ menuIsOpen, onMenuClose, onSelect }) => (
+                      <AssigneeDropdown
+                        assignedUser={assignedUser}
+                        assigneeAvatar={issue.assigneeAvatar}
+                        assigneeLogin={issue.assigneeLogin}
+                        menuIsOpen={menuIsOpen}
+                        onMenuClose={onMenuClose}
+                        onSelect={onSelect}
+                      />
+                    ),
+                  }}
+                  externalRulesRepoNames={externalRulesRepoNames}
+                  headerRef={headerRef}
+                  isShortcutEnabled={getKeyboardShortcutEnabled()}
+                  issue={issue}
+                  issueType={
+                    isStandardMode && (
+                      <>
+                        <dt>
+                          <Text isHighlighted>
+                            <FormattedMessage id="issue.details.type" />
+                          </Text>
+                        </dt>
+                        <dd>
+                          <IssueTypePill
+                            issueType={issue.type}
+                            onSetSeverity={canSetSeverity ? handleSeverityChange : undefined}
+                            severity={issue.severity}
+                          />
+                        </dd>
+                        <Divider className="sw:my-1" />
+                      </>
+                    )
+                  }
+                  line={issue.line}
+                  onSetSeverity={canSetSeverity ? handleSeverityChange : undefined}
+                  properties={hasIssueBadges(issue) ? <IssueBadges issue={issue} /> : undefined}
+                  rule={ruleDetails}
+                  showCleanCodeAttribute={!isStandardMode}
+                  showImpact={!isStandardMode}
+                  status={
+                    canTransition ? (
+                      <HighlightRing
+                        className="sw:relative"
+                        data-guiding-id={`issue-transition-${issue.key}`}
+                      >
+                        <IssueTransition
+                          isOpen={popupContext?.currentPopup === IssuePopupName.Transition}
+                          issue={issue}
+                          onChange={onIssueChange}
+                          togglePopup={popupContext?.togglePopup ?? noop}
+                        />
+                      </HighlightRing>
+                    ) : (
+                      <FormattedMessage id={`issue.issue_status.${issue.issueStatus}`} />
+                    )
+                  }
+                  tags={{
+                    canSetTags,
+                    isOpen: popupContext?.currentPopup === IssuePopupName.EditTags,
+                    overlay: <IssueTagsPopup selectedTags={issue.tags ?? []} setTags={setTags} />,
+                    selectedIssueKey: issue.key,
+                    togglePopup: popupContext?.togglePopup,
+                  }}
+                />
+              )}
+            </IssuePopupContext.Consumer>
+          </div>
+        </Layout.PageContent>
+      </IssueHeaderRefContext.Provider>
     </IssuePopupProvider>
   );
 }

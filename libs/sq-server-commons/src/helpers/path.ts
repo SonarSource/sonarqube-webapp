@@ -49,8 +49,7 @@ export function collapsePath(path: string, limit = 30): string {
  * // returns 'src/.../js/components/navigator/app/models/'
  * collapsedDirFromPath('src/main/js/components/navigator/app/models/state.js')
  */
-export function collapsedDirFromPath(path: string | null): string | null {
-  const limit = 25;
+export function collapsedDirFromPath(path: string | null, limit = 25): string | null {
   if (typeof path === 'string') {
     const tokens = path.split('/').slice(0, -1);
     if (tokens.length > 2) {

@@ -38,7 +38,7 @@ import { IssueAssign, type IssueAssignProps } from './IssueAssign';
 import { IssueProperties } from './IssueProperties';
 import { IssueTags } from './IssueTags';
 import { SoftwareImpactPillList } from './SoftwareImpactPillList';
-import { useStickySidebar } from './useStickySidebar';
+import { STICKY_TOP_PADDING, useStickyBelowHeader } from './useStickyBelowHeader';
 
 interface IssueMetadataIssue {
   assignee?: string;
@@ -111,7 +111,7 @@ export function IssueMetadata({
 }: Readonly<Props>) {
   const { formatMessage } = useIntl();
   const sidebarRef = useRef<HTMLElement>(null);
-  const { isSticky, top } = useStickySidebar(headerRef, sidebarRef);
+  const { isSticky, top } = useStickyBelowHeader(headerRef, sidebarRef, STICKY_TOP_PADDING);
 
   return (
     <aside

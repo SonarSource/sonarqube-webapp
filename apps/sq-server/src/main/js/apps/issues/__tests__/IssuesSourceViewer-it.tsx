@@ -52,6 +52,8 @@ const ui = {
   expandLinesAbove: byRole('button', { name: 'source_viewer.expand_above' }),
   expandLinesBelow: byRole('button', { name: 'source_viewer.expand_below' }),
 
+  fileHeader: (path: string) => byRole('region', { name: path }),
+
   preview: byRole('radio', { name: 'preview' }),
   code: byRole('radio', { name: 'code' }),
 
@@ -116,6 +118,23 @@ describe('issues source viewer', () => {
     await waitFor(() => {
       expect(ui.line1.getAll()).toHaveLength(2);
     });
+  });
+
+  it('should show a file header for every component', async () => {
+    renderProjectIssuesApp('project/issues?issues=issue101&open=issue101&id=myproject');
+    await waitOnDataLoaded();
+
+    expect(await ui.fileHeader('test1.js').find()).toBeInTheDocument();
+    expect(ui.fileHeader('test2.js').get()).toBeInTheDocument();
+  });
+
+  it('should show a single file header for a component with several snippets', async () => {
+    renderProjectIssuesApp('project/issues?issues=issue1&open=issue1&id=myproject');
+    await waitOnDataLoaded();
+
+    // There are two snippets, but they belong to the same component
+    expect(await screen.findAllByRole('table')).toHaveLength(2);
+    expect(ui.fileHeader('huge.js').getAll()).toHaveLength(1);
   });
 
   it('should expand a few lines and show SCM info', async () => {

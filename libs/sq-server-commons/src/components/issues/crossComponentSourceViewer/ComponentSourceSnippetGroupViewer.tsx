@@ -52,7 +52,6 @@ import { TabKeys } from '../../issue/hooks/useIssueTabs';
 import { TabSelectorContext } from '../../rules/TabSelectorContext';
 import { locationsByLine } from '../../SourceViewer/helpers/indexing';
 import { IssueSourceViewerScrollContext } from '../IssueSourceViewerScrollContext';
-import { IssueSourceViewerHeader } from './IssueSourceViewerHeader';
 import SnippetViewer from './SnippetViewer';
 import {
   EXPAND_BY_LINES,
@@ -310,13 +309,6 @@ export default class ComponentSourceSnippetGroupViewer extends React.PureCompone
             </div>
           </FlagMessage>
         )}
-
-        <IssueSourceViewerHeader
-          className={issueIsClosed && !issueIsFileLevel ? 'sw:mb-0' : ''}
-          issueKey={issue.key}
-          loading={loading}
-          sourceViewerFile={snippetGroup.component}
-        />
 
         {issue.component === snippetGroup.component.key &&
           issue.textRange === undefined &&

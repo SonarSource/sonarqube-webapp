@@ -19,7 +19,7 @@
  */
 
 import styled from '@emotion/styled';
-import { cssVar, LinkStandalone, Text } from '@sonarsource/echoes-react';
+import { cssVar, LinkStandalone, Spinner, Text } from '@sonarsource/echoes-react';
 import { ReactNode } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { isDefined } from '../../helpers/types';
@@ -45,7 +45,6 @@ export function LinesOfCodeEllipses(props: Readonly<LinesOfCodeEllipsesProps>) {
         label={<ExpandLabel {...props} />}
         onClick={handleClick}
       />
-
       {handleShowAllClick && (
         <ExpandLink
           direction={LinesOfCodeEllipsesDirection.Middle}
@@ -71,7 +70,7 @@ function ExpandLink(props: Readonly<ExpandLinkProps>) {
       colorOverride="echoes-color-text-disabled"
       size="small"
     >
-      <LinesOfCodeEllipsesIcon color="echoes-color-icon-disabled" direction={direction} />
+      <Spinner />
       {label}
     </Text>
   ) : (

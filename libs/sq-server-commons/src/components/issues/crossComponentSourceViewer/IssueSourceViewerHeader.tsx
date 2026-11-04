@@ -119,7 +119,7 @@ export function IssueSourceViewerHeader(props: Readonly<Props>) {
             {displayProjectName && <ChevronRightIcon className="sw:mr-2" />}
 
             <Text isSubtle>
-              {collapsedDirFromPath(path)}
+              {collapsedDirFromPath(path, 15)}
               {fileFromPath(path)}
             </Text>
             <ClipboardIconButton

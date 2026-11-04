@@ -18,11 +18,13 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Spinner } from '@sonarsource/echoes-react';
+import { cssVar, Spinner } from '@sonarsource/echoes-react';
 import { findLastIndex, keyBy } from 'lodash';
 import * as React from 'react';
 import { throwGlobalError } from '~adapters/helpers/error';
 import { getSources } from '~shared/api/sources';
+import { useIssueHeaderRef } from '~shared/components/issues/IssueHeaderRefContext';
+import { useStickyBelowHeader } from '~shared/components/issues/useStickyBelowHeader';
 import { getBranchLikeQuery } from '~shared/helpers/branch-like';
 import { isFile } from '~shared/helpers/component';
 import { HttpStatus } from '~shared/types/request';
@@ -53,6 +55,7 @@ import {
 } from '../../SourceViewer/helpers/indexing';
 import { WorkspaceContext } from '../../workspace/context';
 import ComponentSourceSnippetGroupViewer from './ComponentSourceSnippetGroupViewer';
+import { IssueSourceViewerHeader } from './IssueSourceViewerHeader';
 import { groupLocationsByComponent } from './utils';
 
 interface Props {
@@ -66,6 +69,11 @@ interface Props {
   selectedFlowIndex: number | undefined;
 }
 
+interface ClassProps extends Props {
+  /** Offset (in px) at which the source viewer headers stick below the issue page header. */
+  stickyHeaderTop: number;
+}
+
 interface State {
   components: Record<string, SnippetsByComponent>;
   duplicatedFiles?: Record<string, DuplicatedFile>;
@@ -75,7 +83,7 @@ interface State {
   notAccessible: boolean;
 }
 
-export default class CrossComponentSourceViewer extends React.PureComponent<Props, State> {
+class CrossComponentSourceViewerClass extends React.PureComponent<ClassProps, State> {
   mounted = false;
   state: State = {
     components: {},
@@ -89,7 +97,7 @@ export default class CrossComponentSourceViewer extends React.PureComponent<Prop
     this.fetchIssueFlowSnippets();
   }
 
-  componentDidUpdate(prevProps: Props) {
+  componentDidUpdate(prevProps: ClassProps) {
     if (prevProps.issue.key !== this.props.issue.key) {
       this.fetchIssueFlowSnippets();
     }
@@ -235,21 +243,37 @@ export default class CrossComponentSourceViewer extends React.PureComponent<Prop
                 file: snippetGroup.component,
               }}
             >
-              <ComponentSourceSnippetGroupViewer
-                branchLike={this.props.branchLike}
-                duplications={duplications}
-                duplicationsByLine={duplicationsByLine}
-                highlightedLocationMessage={this.props.highlightedLocationMessage}
-                isLastOccurenceOfPrimaryComponent={i === lastOccurenceOfPrimaryComponent}
-                issue={issue}
-                issuesByLine={issuesByComponent[snippetGroup.component.key] || {}}
-                loadDuplications={this.fetchDuplications}
-                locations={snippetGroup.locations || []}
-                onIssueSelect={this.props.onIssueSelect}
-                onLocationSelect={this.props.onLocationSelect}
-                renderDuplicationPopup={this.renderDuplicationPopup}
-                snippetGroup={snippetGroup}
-              />
+              {/* The wrapper bounds the sticky header: it only sticks while its snippet group is in view */}
+              <div>
+                <div
+                  className="sw:sticky sw:z-top-navbar"
+                  data-testid="sticky-source-viewer-header"
+                  style={{
+                    background: cssVar('color-surface-canvas-default'),
+                    top: this.props.stickyHeaderTop,
+                  }}
+                >
+                  <IssueSourceViewerHeader
+                    issueKey={issue.key}
+                    sourceViewerFile={snippetGroup.component}
+                  />
+                </div>
+                <ComponentSourceSnippetGroupViewer
+                  branchLike={this.props.branchLike}
+                  duplications={duplications}
+                  duplicationsByLine={duplicationsByLine}
+                  highlightedLocationMessage={this.props.highlightedLocationMessage}
+                  isLastOccurenceOfPrimaryComponent={i === lastOccurenceOfPrimaryComponent}
+                  issue={issue}
+                  issuesByLine={issuesByComponent[snippetGroup.component.key] || {}}
+                  loadDuplications={this.fetchDuplications}
+                  locations={snippetGroup.locations || []}
+                  onIssueSelect={this.props.onIssueSelect}
+                  onLocationSelect={this.props.onLocationSelect}
+                  renderDuplicationPopup={this.renderDuplicationPopup}
+                  snippetGroup={snippetGroup}
+                />
+              </div>
             </SourceViewerContext.Provider>
           );
         })}
@@ -257,3 +281,12 @@ export default class CrossComponentSourceViewer extends React.PureComponent<Prop
     );
   }
 }
+
+/** Computes the sticky offset once for all headers, since hooks can't be used in the class. */
+function CrossComponentSourceViewer(props: Readonly<Props>) {
+  const { top } = useStickyBelowHeader(useIssueHeaderRef());
+
+  return <CrossComponentSourceViewerClass {...props} stickyHeaderTop={top} />;
+}
+
+export default CrossComponentSourceViewer;
