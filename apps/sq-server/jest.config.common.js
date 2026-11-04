@@ -51,9 +51,6 @@ module.exports = {
     '~adapters/components/layout/GlobalFooter':
       '<rootDir>/apps/sq-server/__mocks__/GlobalFooter.tsx',
 
-    // mock useArchitectureModelLocation so tests don't each have to mock the settings API (see the __mocks__ file)
-    '^~adapters/helpers/useArchitectureModelLocation$':
-      '<rootDir>/apps/sq-server/__mocks__/useArchitectureModelLocation.ts',
     // mock useProjectId so tests don't each have to jest.mock it (see the __mocks__ file)
     '^~adapters/helpers/useProjectId$': '<rootDir>/apps/sq-server/__mocks__/useProjectId.ts',
 
