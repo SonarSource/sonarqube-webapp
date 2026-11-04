@@ -3570,6 +3570,22 @@ export const defaultMessages = {
   'architecture.page.model.pattern_confirm.message':
     'Assigning a pattern will remove all child components of this group. Are you sure you want to continue?',
   'architecture.page.model.edit.title': 'Edit mode',
+  'architecture.page.model.source.file.badge': 'Read only · From repository file',
+  'architecture.page.model.source.file.badge.tooltip':
+    "Managed by the architecture file in the repository. It can't be edited here.",
+  'architecture.page.model.source.file.unavailable':
+    "We couldn't load the intended architecture used by the last analysis, so the one saved here is shown read-only. Reload the page to try again.",
+  'architecture.page.model.source.file.change_source':
+    'You can also <link>change where the intended architecture comes from</link>.',
+  'architecture.page.model.source.file.file_unusable':
+    'The last analysis found no usable architecture file, so it ran without an intended architecture. Add or fix the file in the repository and run a new analysis.',
+  'architecture.page.model.source.file.title': 'Read only',
+  'architecture.page.model.source.file.branch':
+    "This intended architecture is read from the architecture file in the repository, so it can't be changed here. To change it, update the file and run a new analysis.",
+  'architecture.page.model.source.file.pull_request':
+    "This pull request's intended architecture is read from the architecture file in its branch, so it can't be changed here. To change it, update the file and run a new analysis.",
+  'architecture.page.model.source.file.main_branch_fallback':
+    "This branch or pull request has no analysed intended architecture, so the main branch's is shown. It is read from the architecture file in the repository and can't be changed here. To change it, update the file and run a new analysis.",
   'architecture.page.model.edit.hint':
     'Drag a component to another to define a relationship. Any missing relationship is considered forbidden.',
   'architecture.page.model.edit.orphan_warning.title': 'Warning',

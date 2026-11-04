@@ -221,3 +221,6 @@ CLAUDE.local.md
 
 # Cursor hook runtime state (local bookkeeping, not project config)
 .cursor/hooks/state/
+
+# Short-lived local MSW mocks for validation, see private/apps/sq-cloud/src/api/mocks/README.md
+private/apps/sq-cloud/src/api/mocks/*.local.*
