@@ -12012,7 +12012,7 @@ export const defaultMessages = {
   'securityreport.download.pdf.modal.selection_label':
     'Choose Security standards to include in PDF',
   'securityreport.download.pdf.modal.default_selection_text':
-    'Includes Security standards: Sonar, OWASP Top 10 2025, and CWE Top 25 2024',
+    'Includes Security standards: Sonar, OWASP Top 10 2025, CWE Top 25 2024, and OWASP Top 10 for LLM 2026',
   'securityreport.download.pdf.modal.custom_selection_text':
     'Choose one or more from the list of available Security standards',
   'securityreport.download.pdf.modal.custom_selection_label': 'Select Security standard(s)',
