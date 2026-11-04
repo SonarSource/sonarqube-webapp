@@ -1,10 +1,12 @@
 #!/bin/bash
 
+set -euo pipefail
+
 lock_file=${2:-./yarn.lock}
 
 getRepoxPackages() {
 # Find all packages that have the repox registry in their resolution
-  awk '/^"/ { package=$0 } /repox.jfrog.io/ { print package }' $lock_file | sort | uniq
+  awk '/^"/ { package=$0 } /repox.jfrog.io/ { print package }' "$lock_file" | sort | uniq
 }
 
 check() {
@@ -29,6 +31,10 @@ update() {
     exit 0
   fi
 
+  lock_backup=$(mktemp "${lock_file}.backup.XXXXXX")
+  cp -- "$lock_file" "$lock_backup"
+  trap 'status=$?; if [ "$status" -ne 0 ]; then cp -- "$lock_backup" "$lock_file"; fi; rm -f -- "$lock_backup" "${lock_file}.tmp"' EXIT
+
   # Remove the full matching package blocks from yarn.lock
   awk -v packages="$repox_packages" '
   BEGIN {
@@ -46,14 +52,17 @@ update() {
       print $0;
     }
   }
-  ' $lock_file > "${lock_file}.tmp"
+  ' "$lock_file" > "${lock_file}.tmp"
 
   # Replace the original yarn.lock with the updated one
-  mv "${lock_file}.tmp" $lock_file
+  mv -- "${lock_file}.tmp" "$lock_file"
 
-  yarn config set npmRegistryServer "https://registry.npmjs.org/"
-  yarn
-  yarn config unset npmRegistryServer
+  YARN_NPM_REGISTRY_SERVER="https://registry.npmjs.org/" yarn
+
+  if [ -n "$(getRepoxPackages)" ]; then
+    echo "The $lock_file file still contains packages referencing repox registry." >&2
+    exit 1
+  fi
 
   echo "The $lock_file file has been updated to remove packages referencing repox registry."
 }

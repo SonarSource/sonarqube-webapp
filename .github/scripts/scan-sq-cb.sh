@@ -45,6 +45,7 @@ scanner_params=(
     "-Dsonar.analysis.sha1=${GITHUB_SHA}"
     "-Dsonar.eslint.reportPaths=${ESLINT_REPORT_PATH}"
     "-Dsonar.javascript.lcov.reportPaths=build/reports/coverage/lcov.info"
+    "-Dsonar.javascript.node.maxspace=6144"
     "-Dsonar.sources=apps/sq-server/,libs/",
     "-Dsonar.inclusions=**/src/**"
     "-Dsonar.exclusions=**/__tests__/**"
@@ -77,4 +78,4 @@ scanner_params=(
                                 **/helpers/cookies.ts,
                                 **/*Legacy.*")
 
-yarn run sonar-scanner "${scanner_params[@]}"
+yarn run sonar-scanner-npm "${scanner_params[@]}"
