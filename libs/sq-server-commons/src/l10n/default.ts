@@ -3582,6 +3582,8 @@ export const defaultMessages = {
   'architecture.page.model.source.file.title': 'Read only',
   'architecture.page.model.source.file.branch':
     "This intended architecture is read from the architecture file in the repository, so it can't be changed here. To change it, update the file and run a new analysis.",
+  'architecture.page.model.source.file.pending':
+    "This project's intended architecture is defined by the architecture file in the repository, so it can't be changed here. It will be shown once an analysis reads the file.",
   'architecture.page.model.source.file.pull_request':
     "This pull request's intended architecture is read from the architecture file in its branch, so it can't be changed here. To change it, update the file and run a new analysis.",
   'architecture.page.model.source.file.main_branch_fallback':

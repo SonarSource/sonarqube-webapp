@@ -39,3 +39,14 @@ export interface ArchitectureFlags {
   isCurrentOrganizationMember: boolean;
   isLoading: boolean;
 }
+
+export const ARCHITECTURE_MODEL_LOCATION_KEY = 'sonar.architecture.model.location';
+
+/** Where the project's intended architecture is defined. `dynamic` prefers the repository file when it exists. */
+export type ArchitectureModelLocation = 'dynamic' | 'file' | 'server';
+
+// The backend has sent both `file` and `FILE`, so the value is matched case-insensitively
+export function parseArchitectureModelLocation(value: unknown): ArchitectureModelLocation {
+  const location = typeof value === 'string' ? value.toLowerCase() : value;
+  return location === 'file' || location === 'server' ? location : 'dynamic';
+}

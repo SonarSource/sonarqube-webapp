@@ -21,6 +21,7 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { renderHook } from '@testing-library/react';
 import { useFlags } from '~adapters/helpers/feature-flags';
+import { ensure } from '~shared/helpers/types';
 import { AvailableFeaturesContext } from '../../../context/available-features/AvailableFeaturesContext';
 import { CurrentUserContext } from '../../../context/current-user/CurrentUserContext';
 import { mockCurrentUser, mockLoggedInUser } from '../../../helpers/testMocks';
@@ -34,6 +35,7 @@ import {
   useArchitectureFlags,
   useSetArchitectureEnterpriseEnabledMutation,
 } from '../useArchitectureFlags';
+import { useArchitectureModelLocation } from '../useArchitectureModelLocation';
 import { useCanAdministrateArchitectureGlobally } from '../useCanAdministrateArchitectureGlobally';
 import { useIsArchitectureFeatureAdvertised } from '../useIsArchitectureFeatureAdvertised';
 
@@ -214,5 +216,43 @@ describe('useSetArchitectureEnterpriseEnabledMutation', () => {
       key: SettingsKey.ArchitectureEnterpriseEnabled,
       value: 'false',
     });
+  });
+});
+
+describe('useArchitectureModelLocation', () => {
+  function getSelect() {
+    const [, options] = ensure(
+      jest.mocked(useGetValueQuery).mock.lastCall,
+      'useGetValueQuery was not called',
+    );
+    return options?.select as (setting: { key: string; value?: string } | null) => unknown;
+  }
+
+  it('reads the project setting', () => {
+    renderHook(() => useArchitectureModelLocation('project-key'));
+
+    expect(useGetValueQuery).toHaveBeenCalledWith(
+      { component: 'project-key', key: 'sonar.architecture.model.location' },
+      expect.objectContaining({ enabled: true }),
+    );
+  });
+
+  it.each([
+    ['SERVER', 'server'],
+    ['FILE', 'file'],
+    ['DYNAMIC', 'dynamic'],
+    ['server', 'server'],
+    ['unexpected', 'dynamic'],
+    [undefined, 'dynamic'],
+  ])('maps the setting value %s to %s', (value, expected) => {
+    renderHook(() => useArchitectureModelLocation('project-key'));
+
+    expect(getSelect()({ key: 'sonar.architecture.model.location', value })).toBe(expected);
+  });
+
+  it('falls back to dynamic when the setting has no value', () => {
+    renderHook(() => useArchitectureModelLocation('project-key'));
+
+    expect(getSelect()(null)).toBe('dynamic');
   });
 });
