@@ -3570,6 +3570,9 @@ export const defaultMessages = {
   'architecture.page.model.pattern_confirm.message':
     'Assigning a pattern will remove all child components of this group. Are you sure you want to continue?',
   'architecture.page.model.edit.title': 'Edit mode',
+  'architecture.page.model.source.server.badge': 'Server managed',
+  'architecture.page.model.source.server.badge.tooltip':
+    "This intended architecture is saved in SonarQube for the whole project, so it's the same on every branch and pull request.",
   'architecture.page.model.source.file.badge': 'Read only · From repository file',
   'architecture.page.model.source.file.badge.tooltip':
     "Managed by the architecture file in the repository. It can't be edited here.",

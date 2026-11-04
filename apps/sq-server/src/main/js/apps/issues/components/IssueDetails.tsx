@@ -192,6 +192,7 @@ export default function IssueDetails(props: Readonly<IssueDetailsProps>) {
                 hasFeature(Feature.Architecture) &&
                 addons.architecture?.OpenIntendedArchitecture && (
                   <addons.architecture.OpenIntendedArchitecture
+                    branchLike={fillBranchLike(openIssue.branch, openIssue.pullRequest)}
                     projectKey={openIssue.project}
                     ruleKey={openIssue.rule}
                   />
