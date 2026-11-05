@@ -22,12 +22,12 @@ module.exports = {
   meta: {
     type: 'problem',
     docs: {
-      description: 'Warn against importing the LaunchDarkly useFlags hook in shared code',
+      description: 'Forbid importing the LaunchDarkly useFlags hook directly in shared code',
       category: 'Best Practices',
     },
     messages: {
       noLaunchDarklyDirectUsage:
-        'Do no import and use the LaunchDarkly useFlags hook directly from shared code. Use our internal useFlags wrapper from ~adapters/helpers/feature-flags instead.',
+        'Do not import or use the LaunchDarkly useFlags hook directly from shared code. Use the useFlags adapter from ~adapters/helpers/feature-flags instead.',
     },
   },
   create(context) {

@@ -95,6 +95,8 @@ Use `<JIRA-ID> <description>` with a single space and no colon—for example, `S
 - **MANDATORY**: Run `yarn oxfmt <file>` immediately after editing a file supported by oxfmt (such as JavaScript, TypeScript, CSS, JSON, or Markdown). For Python files, use the Python package's Black formatter instead.
 - **MANDATORY**: Before committing or declaring a task done, ALWAYS run `yarn nx run sq-cloud:ts-check` (or `sq-server` as appropriate). The IDE diagnostics tool is not sufficient — it misses real TypeScript errors that `tsc --noEmit` catches in CI.
 
+React Router 8 conventions live in `.gitar/review/conventions.md`.
+
 When you need to use echoes components, always use the `echoes-components` skill!
 
 @.gitar/review/general-design.md

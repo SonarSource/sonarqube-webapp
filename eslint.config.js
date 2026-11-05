@@ -756,6 +756,10 @@ module.exports = [
         {
           paths: [
             {
+              name: 'launchdarkly-react-client-sdk',
+              message: 'Use @launchdarkly/react-sdk instead of launchdarkly-react-client-sdk.',
+            },
+            {
               name: 'react-router-dom',
               message: 'Use react-router for routing APIs and react-router/dom for DOM-only APIs.',
             },
@@ -764,6 +768,22 @@ module.exports = [
       ],
       'no-restricted-syntax': [
         'error',
+        {
+          selector:
+            "CallExpression[callee.object.name='jest'][callee.property.name='mock'][arguments.0.value='launchdarkly-react-client-sdk']",
+          message:
+            'Mock @launchdarkly/react-sdk or jest-launchdarkly-mock instead of launchdarkly-react-client-sdk.',
+        },
+        {
+          selector:
+            "CallExpression[callee.object.name='jest'][callee.property.name='requireActual'][arguments.0.value='launchdarkly-react-client-sdk']",
+          message: 'Require @launchdarkly/react-sdk instead of launchdarkly-react-client-sdk.',
+        },
+        {
+          selector: "TSImportType[source.value='launchdarkly-react-client-sdk']",
+          message:
+            'Use @launchdarkly/react-sdk in TypeScript import types instead of launchdarkly-react-client-sdk.',
+        },
         {
           selector:
             "CallExpression[callee.object.name='jest'][callee.property.name='mock'][arguments.0.value='react-router-dom']",

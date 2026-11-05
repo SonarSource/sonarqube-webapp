@@ -55,6 +55,15 @@
 - Private feature tests in public test files must be wrapped in `// BEGIN-PRIVATE-FEATURE-TESTS` / `// END-PRIVATE-FEATURE-TESTS` markers.
 - ALWAYS use `await selector.find()` instead of `waitFor()` when looking for a possibly not-yet-rendered selector.
 
+## React Router 8
+
+- Import routing APIs from `react-router`. Reserve `react-router/dom` for DOM-only APIs such as `RouterProvider`.
+- If a screen already uses the shared router abstraction (`useRouter`, `withRouter`, `router.push`, `router.replace`, `router.setSearchParams`, `location.query`), keep using it instead of introducing parallel raw React Router hooks.
+- Prefer `router.push()` for user-driven navigation that should add a history entry.
+- Prefer `router.replace()` or `setSearchParams(..., { replace: true })` for redirects, canonicalization, and URL-state synchronization that should not add Back-button noise.
+- Reach for raw `navigate()` only when you intentionally need history moves such as `navigate(-1)` / `navigate(1)`, or other React Router behavior that the shared `push` and `replace` helpers do not model.
+- In tests, prefer `renderWithRouter()` and `renderWithRoutes()` from `libs/shared/src/helpers/test-utils.tsx`. Use `routerMode: 'browser'` when you need BrowserRouter history or transition behavior; otherwise keep the default memory-router setup.
+
 ## Dependencies
 
 - New dependencies added to `package.json` without a corresponding entry in `package.json.md`.
