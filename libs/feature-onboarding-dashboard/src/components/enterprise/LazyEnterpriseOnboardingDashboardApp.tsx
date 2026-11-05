@@ -34,6 +34,7 @@ const EnterpriseOnboardingDashboardApp = lazyLoadComponent(
 
 interface Props {
   addOrganizationUrl: Partial<Path>;
+  createOrganizationUrl?: Partial<Path>;
   enterpriseId: string;
   getBindingUrl: (organizationKey: string) => Partial<Path>;
   getDashboardUrl: (organizationKey: string) => Partial<Path>;

@@ -18,13 +18,16 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Heading, HeadingSize, Text } from '@sonarsource/echoes-react';
+import { Button, ButtonVariety, Heading, HeadingSize, Text } from '@sonarsource/echoes-react';
 import { ReactNode } from 'react';
 import { useIntl } from 'react-intl';
 import { JourneyEnterpriseState, JourneyState, JourneyStep } from '~shared/types/onboarding';
+import { OnboardingDashboardAction } from '~shared/types/onboarding-dashboard-telemetry';
 import { PanelDonut } from '../journey/charts/PanelDonut';
 import { DevopsConfigurationsDonut } from '../journey/panels/DevopsConfigurationsDonut';
 import { getAnalyzeSegments, getImportSegments } from '../journey/panels/panelSegments';
+import { useOnboardingDashboardTracking } from '../telemetry/OnboardingDashboardTelemetry';
+import { useCreateOrganizationUrl } from './CreateOrganizationUrlContext';
 import { ViewAllOrganizationsButton } from './ViewAllOrganizationsButton';
 import { formatCompactCount } from './formatCompactCount';
 
@@ -97,7 +100,33 @@ function EnterpriseBindingPanel({ enterprise }: Readonly<{ enterprise: JourneyEn
             { bound: organizationsBound, total: organizationsTotal },
           )}
         </Text>
+
+        <CreateOrganizationButton />
       </PanelText>
+    </div>
+  );
+}
+
+function CreateOrganizationButton() {
+  const { formatMessage } = useIntl();
+  const { trackActionSelected } = useOnboardingDashboardTracking();
+  const createOrganizationUrl = useCreateOrganizationUrl();
+
+  if (createOrganizationUrl === undefined) {
+    return null;
+  }
+
+  return (
+    <div>
+      <Button
+        onClick={() => {
+          trackActionSelected(OnboardingDashboardAction.CreateOrganization);
+        }}
+        to={createOrganizationUrl}
+        variety={ButtonVariety.Primary}
+      >
+        {formatMessage({ id: 'onboarding_dashboard.enterprise.binding.create_organization' })}
+      </Button>
     </div>
   );
 }

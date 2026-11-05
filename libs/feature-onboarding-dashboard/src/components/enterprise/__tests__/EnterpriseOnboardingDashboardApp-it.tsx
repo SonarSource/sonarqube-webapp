@@ -97,6 +97,7 @@ const ui = {
   anyLockedCta: byRole('button', { name: /onboarding_dashboard\.journey\.locked\./ }),
 
   viewAll: byRole('button', { name: `${PREFIX}.organizations.view_all` }),
+  createOrganization: byRole('link', { name: `${PREFIX}.binding.create_organization` }),
 
   // Coverage and organizations
   banner: (unavailable: number, total: number) =>
@@ -118,15 +119,19 @@ const ui = {
   projectsTable: byRole('table', { name: 'onboarding_dashboard.projects.title' }),
 };
 
-function renderEnterpriseDashboard() {
+function renderEnterpriseDashboard(
+  props: Partial<React.ComponentProps<typeof LazyEnterpriseOnboardingDashboardApp>> = {},
+) {
   return renderWithRoutes(
     <Route
       element={
         <LazyEnterpriseOnboardingDashboardApp
           addOrganizationUrl={{ pathname: '/enterprise/acme' }}
+          createOrganizationUrl={{ pathname: '/create-organization', search: '?enterpriseId=x' }}
           enterpriseId={ENTERPRISE_ID}
           getBindingUrl={(key) => ({ pathname: `/organizations/${key}/edit` })}
           getDashboardUrl={(key) => ({ pathname: `/organizations/${key}/project-coverage` })}
+          {...props}
         />
       }
       path="project-coverage"
@@ -187,6 +192,41 @@ describe('journey', () => {
 
     await user.click(ui.stepperProjects(10).get());
     expect(await ui.analyzePanelTitle.find()).toBeInTheDocument();
+    expect(byText(`${PREFIX}.analyze.summary.80.800`).get()).toBeInTheDocument();
+  });
+
+  describe('create organization', () => {
+    it('is offered on the binding panel, to the flow that creates it in the enterprise', async () => {
+      const { user } = renderEnterpriseDashboard();
+
+      await user.click(await ui.stepperBinding(8).find());
+
+      expect(await ui.createOrganization.find()).toHaveAttribute(
+        'href',
+        '/create-organization?enterpriseId=x',
+      );
+    });
+
+    it('is not on the other panels', async () => {
+      const { user } = renderEnterpriseDashboard();
+
+      await user.click(await ui.stepperRepositories(88).find());
+      expect(await ui.importPanelTitle.find()).toBeInTheDocument();
+      expect(ui.createOrganization.query()).not.toBeInTheDocument();
+
+      await user.click(ui.stepperProjects(10).get());
+      expect(await ui.analyzePanelTitle.find()).toBeInTheDocument();
+      expect(ui.createOrganization.query()).not.toBeInTheDocument();
+    });
+
+    it('is not offered to a user who may not create an organization', async () => {
+      const { user } = renderEnterpriseDashboard({ createOrganizationUrl: undefined });
+
+      await user.click(await ui.stepperBinding(8).find());
+
+      expect(await ui.bindingPanelTitle.find()).toBeInTheDocument();
+      expect(ui.createOrganization.query()).not.toBeInTheDocument();
+    });
   });
 
   describe('view all', () => {

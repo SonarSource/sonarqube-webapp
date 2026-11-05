@@ -63,6 +63,10 @@ const ui = {
   }),
   table: byRole('table', { name: `${PREFIX}.organizations.title` }),
   viewAll: byRole('button', { name: `${PREFIX}.organizations.view_all` }),
+  createOrganization: byRole('link', { name: `${PREFIX}.binding.create_organization` }),
+  stepperBinding: byRole('button', {
+    name: `onboarding_dashboard.journey.step.ring_count_aria_label.8.${PREFIX}.step.binding.title`,
+  }),
 };
 
 beforeAll(async () => {
@@ -87,6 +91,7 @@ function renderEnterpriseDashboard() {
         element={
           <LazyEnterpriseOnboardingDashboardApp
             addOrganizationUrl={{ pathname: '/enterprise/acme' }}
+            createOrganizationUrl={{ pathname: '/create-organization' }}
             enterpriseId={ENTERPRISE_ID}
             getBindingUrl={(key) => ({ pathname: `/organizations/${key}/edit` })}
             getDashboardUrl={(key) => ({ pathname: `/organizations/${key}/project-coverage` })}
@@ -98,11 +103,8 @@ function renderEnterpriseDashboard() {
         element={<div>organization dashboard</div>}
         path="organizations/:key/project-coverage"
       />
+      <Route element={<div>create organization</div>} path="create-organization" />
     </>,
-    {
-      initialEntries: ['/project-coverage'],
-      userEventOptions: { delay: null, pointerEventsCheck: PointerEventsCheckLevel.Never },
-    },
   );
 }
 
@@ -194,6 +196,21 @@ it('reports that all the organizations were asked for, from the panel it was ask
       action: OnboardingDashboardAction.ViewAllOrganizations,
       enterpriseId: ENTERPRISE_ID,
       surface: OnboardingDashboardSurface.ProjectsPanel,
+    }),
+  );
+});
+
+it('reports that an organization is being created, from the binding panel', async () => {
+  const { user } = renderDashboard();
+
+  await user.click(await ui.stepperBinding(8).find());
+  await user.click(await ui.createOrganization.find());
+
+  expect(mockTelemetry.trackActionSelected).toHaveBeenCalledWith(
+    expect.objectContaining({
+      action: OnboardingDashboardAction.CreateOrganization,
+      enterpriseId: ENTERPRISE_ID,
+      surface: OnboardingDashboardSurface.BindingPanel,
     }),
   );
 });

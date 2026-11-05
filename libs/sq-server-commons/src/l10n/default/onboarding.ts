@@ -1288,6 +1288,7 @@ export const onboardingMessages = {
     'Each organization of your enterprise is bound to its own DevOps platform. Binding keeps them synchronized and enables the easy import of projects into SonarQube Cloud. Use the organizations table below to bind the ones that are not.',
   'onboarding_dashboard.enterprise.binding.bound_label': 'Bound',
   'onboarding_dashboard.enterprise.binding.legend.not_bound': 'Not bound',
+  'onboarding_dashboard.enterprise.binding.create_organization': 'Create organization',
   'onboarding_dashboard.enterprise.import.title': 'Import repositories',
   'onboarding_dashboard.enterprise.import.description':
     'Repositories found on the DevOps platforms of all your organizations, and how many of them are imported. Open an organization from the table below to import its missing repositories.',

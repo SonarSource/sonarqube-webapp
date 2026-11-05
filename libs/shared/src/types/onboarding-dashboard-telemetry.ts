@@ -38,6 +38,7 @@ export enum OnboardingDashboardAction {
   ConfigureCi = 'configure_ci',
   ConfigureProject = 'configure_project',
   ConfigureScanners = 'configure_scanners',
+  CreateOrganization = 'create_organization',
   DisableAutoImport = 'disable_auto_import',
   EnableAutoImport = 'enable_auto_import',
   HowToRunNewScan = 'how_to_run_new_scan',

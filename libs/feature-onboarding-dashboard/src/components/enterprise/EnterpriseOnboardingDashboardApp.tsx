@@ -44,6 +44,7 @@ import {
   OnboardingDashboardTelemetryProvider,
   useTrackOnboardingDashboardViewed,
 } from '../telemetry/OnboardingDashboardTelemetry';
+import { CreateOrganizationUrlContext } from './CreateOrganizationUrlContext';
 import { OrganizationsCoverageBanner } from './OrganizationsCoverageBanner';
 import { OrganizationsCoverageCard } from './OrganizationsCoverageCard';
 
@@ -63,8 +64,9 @@ const ENTERPRISE_LOCKED_STATISTICS_CONTENT: LockedStatisticsContent = {
 };
 
 interface Props {
-  /** Where an enterprise administrator adds an organization to the enterprise. */
   addOrganizationUrl: Partial<Path>;
+  /** Omitted when the user may not create organizations. */
+  createOrganizationUrl?: Partial<Path>;
   /** Identifier (UUID) of the enterprise, as the onboarding endpoints take it. */
   enterpriseId: string;
   /** Where the binding setup of an organization lives. */
@@ -80,7 +82,9 @@ interface Props {
 export default function EnterpriseOnboardingDashboardApp(props: Readonly<Props>) {
   return (
     <OnboardingDashboardTelemetryProvider enterpriseId={props.enterpriseId}>
-      <EnterpriseOnboardingDashboard {...props} />
+      <CreateOrganizationUrlContext.Provider value={props.createOrganizationUrl}>
+        <EnterpriseOnboardingDashboard {...props} />
+      </CreateOrganizationUrlContext.Provider>
     </OnboardingDashboardTelemetryProvider>
   );
 }
