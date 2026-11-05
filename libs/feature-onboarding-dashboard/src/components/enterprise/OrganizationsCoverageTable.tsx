@@ -19,8 +19,6 @@
  */
 
 import {
-  Badge,
-  BadgeVariety,
   Button,
   ButtonVariety,
   cssVar,
@@ -52,14 +50,13 @@ import { TableHeaderRows } from '../projects/TableHeaderRows';
 
 /** Organization and actions get the room; the figures stay compact. */
 const GRID_TEMPLATE =
-  'minmax(220px, 2fr) minmax(150px, 1fr) minmax(120px, 1fr) minmax(120px, 1fr) minmax(180px, 1.5fr) auto';
+  'minmax(220px, 2fr) minmax(120px, 1fr) minmax(120px, 1fr) minmax(180px, 1.5fr) auto';
 
 /** The number of columns the "couldn't load" message of an unavailable organization spans. */
-const FIGURE_COLUMNS_COUNT = 4;
+const FIGURE_COLUMNS_COUNT = 3;
 
 const COLUMNS: ProjectsTableColumn[] = [
   { labelKey: 'onboarding_dashboard.enterprise.organizations.col.organization' },
-  { labelKey: 'onboarding_dashboard.enterprise.organizations.col.platform' },
   { labelKey: 'onboarding_dashboard.enterprise.organizations.col.repositories' },
   { labelKey: 'onboarding_dashboard.enterprise.organizations.col.projects' },
   { labelKey: 'onboarding_dashboard.enterprise.organizations.col.progress' },
@@ -104,9 +101,9 @@ interface Props {
 }
 
 /**
- * The per-organization roll-up of an enterprise: one row per organization with its DevOps
- * platform, repositories, projects and progress, a drill-down to the dashboard of the
- * organization and, for one that is not bound yet, the way to bind it.
+ * The per-organization roll-up of an enterprise: one row per organization, led by the icon of its
+ * DevOps platform, with its repositories, projects and progress, a drill-down to the dashboard of
+ * the organization and, for one that is not bound yet, the way to bind it.
  *
  * Presentational: the search, the sort and the page are owned by the caller, which fetches them
  * server-side. An organization whose figures could not be read has no numbers, never zeros.
@@ -231,11 +228,15 @@ function OrganizationRow({
   return (
     <Table.Row>
       <Table.Cell className="sw:justify-start">
-        <div className="sw:flex sw:min-w-0 sw:flex-col">
-          <Text isHighlighted>{name}</Text>
-          <Text className="sw:truncate" isSubtle size={TextSize.Small}>
-            {key}
-          </Text>
+        <div className="sw:flex sw:min-w-0 sw:items-center sw:gap-2">
+          <PlatformIcon organization={organization} />
+
+          <div className="sw:flex sw:min-w-0 sw:flex-col">
+            <Text isHighlighted>{name}</Text>
+            <Text className="sw:truncate" isSubtle size={TextSize.Small}>
+              {key}
+            </Text>
+          </div>
         </div>
       </Table.Cell>
 
@@ -252,10 +253,6 @@ function OrganizationRow({
         </Table.Cell>
       ) : (
         <>
-          <Table.Cell className="sw:justify-start">
-            <PlatformCell organization={organization} />
-          </Table.Cell>
-
           <Table.Cell className="sw:justify-start">
             <FigureText
               done={organization.repositories?.imported}
@@ -311,36 +308,21 @@ function OrganizationRow({
   );
 }
 
-/** The platform an organization is bound to, or the way it is not. */
-function PlatformCell({ organization }: Readonly<{ organization: OnboardingOrganizationRow }>) {
+/** Icon of the organization's DevOps platform; none when unbound or the platform has no icon. */
+function PlatformIcon({ organization }: Readonly<{ organization: OnboardingOrganizationRow }>) {
   const { formatMessage } = useIntl();
   const { bound, devopsPlatform } = organization;
-  const platformConfig = isKnownPlatform(devopsPlatform)
-    ? PLATFORM_CONFIG[devopsPlatform]
-    : undefined;
+  const platformConfig =
+    bound && isKnownPlatform(devopsPlatform) ? PLATFORM_CONFIG[devopsPlatform] : undefined;
   const iconSrc = useAlmIconSrc(platformConfig?.imageKey);
 
-  if (!bound) {
-    return (
-      <Badge variety={BadgeVariety.Neutral}>
-        {formatMessage({ id: 'onboarding_dashboard.enterprise.organizations.not_bound' })}
-      </Badge>
-    );
-  }
-
-  if (platformConfig === undefined) {
-    // Bound to a platform the dashboard has no icon or label for: the raw id is the best it has.
-    return <Text>{devopsPlatform ?? NO_DATA}</Text>;
+  if (platformConfig === undefined || iconSrc === undefined) {
+    return null;
   }
 
   const label = formatMessage({ id: platformConfig.qualifiedLabelKey ?? platformConfig.labelKey });
 
-  return (
-    <div className="sw:flex sw:min-w-0 sw:items-center sw:gap-2">
-      {iconSrc !== undefined && <Image alt="" className="sw:shrink-0" height={16} src={iconSrc} />}
-      <Text>{label}</Text>
-    </div>
-  );
+  return <Image alt={label} className="sw:shrink-0" height={16} src={iconSrc} />;
 }
 
 /** "done / total", the total being a dash where the backend could not discover it. */

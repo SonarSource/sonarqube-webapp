@@ -34,7 +34,8 @@ const ui = {
   sortProgress: byRole('radio', { name: `${PREFIX}.sort.progress` }),
   sortName: byRole('radio', { name: `${PREFIX}.sort.name` }),
   pageTwo: byRole('button', { name: 'pagination.page_x.2' }),
-  notBound: byText(`${PREFIX}.not_bound`),
+  platformIcon: (platform: string) => byRole('img', { name: platform }),
+  platformColumn: byRole('columnheader', { name: `${PREFIX}.col.platform` }),
   unavailable: byText(`${PREFIX}.unavailable`),
   results: (size: number, total: number) =>
     byText(`onboarding_dashboard.table.results_size.${size}.${total}`),
@@ -104,13 +105,26 @@ it('shows the repositories and projects as done over total, and the progress as 
   expect(ui.progress('Legacy tools').get()).toHaveValue(0);
 });
 
-it('names the platform of a bound organization and flags an unbound one', () => {
+it('leads the name of a bound organization with the icon of its platform, in no column of its own', () => {
   renderTable();
 
-  expect(ui.table.byText('alm.github').get()).toBeInTheDocument();
-  expect(ui.table.byText('alm.gitlab').get()).toBeInTheDocument();
-  // Only Legacy tools is available and unbound: Payments is unavailable, so its binding is unknown.
-  expect(ui.notBound.getAll()).toHaveLength(1);
+  expect(ui.platformColumn.query()).not.toBeInTheDocument();
+  expect(ui.table.byText('alm.github').query()).not.toBeInTheDocument();
+
+  // Web core is bound to GitHub and Data platform to GitLab; the icon is in the row of its name.
+  const rowOf = (name: string) =>
+    ui.rows.getAll().find((row) => row.textContent?.includes(name)) as HTMLElement;
+
+  expect(rowOf('Web core')).toContainElement(ui.platformIcon('alm.github').get());
+  expect(rowOf('Data platform')).toContainElement(ui.platformIcon('alm.gitlab').get());
+});
+
+it('shows no icon for an organization that is not bound', () => {
+  const legacy = mockOnboardingOrganizations().filter(({ key }) => key === 'legacy-tools');
+  renderTable({ organizations: legacy, total: 1 });
+
+  expect(ui.table.byText('Legacy tools').get()).toBeInTheDocument();
+  expect(ui.table.byRole('img').query()).not.toBeInTheDocument();
 });
 
 it('drills down to the dashboard of an organization', () => {
@@ -160,12 +174,10 @@ describe('an organization that could not be loaded', () => {
     expect(ui.table.byText('Payments').get()).toBeInTheDocument();
     expect(ui.unavailable.get()).toBeInTheDocument();
 
-    // No count, no percentage, no bar, no dash standing in for data — and no "not bound" either,
-    // since whether it is bound is not known.
-    expect(ui.table.byText(/journey\.step\.count/).query()).not.toBeInTheDocument();
-    expect(ui.table.byText(/onboarding_dashboard\.percent/).query()).not.toBeInTheDocument();
+    // Only the name, the message over the figures, and the actions.
+    expect(ui.table.byRole('cell').getAll()).toHaveLength(3);
     expect(ui.progress('Payments').query()).not.toBeInTheDocument();
-    expect(ui.notBound.query()).not.toBeInTheDocument();
+    expect(ui.table.byRole('img').query()).not.toBeInTheDocument();
   });
 
   it('can still be opened, to see what is wrong from its own dashboard', () => {
