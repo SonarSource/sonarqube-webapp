@@ -41,15 +41,29 @@ function deriveEnterpriseState(overview: OnboardingOverview): JourneyEnterpriseS
     return undefined;
   }
 
+  const { projects, repositories } = overview.steps;
+  // Unlike an organization, an enterprise often has no discovery count to report (not every
+  // organization's platform can be asked), and the page must say so rather than count against 0.
+  const discovered = repositories.discovered ?? null;
+  // Without the repositories still to import, the projects that exist are the denominator that is known.
+  const projectsTotal = projects.total ?? projects.analyzed + projects.notScanned;
+
   return {
+    analyzedPct: toPercent(projects.analyzed, projectsTotal, projects.percent),
     byPlatform: (byPlatform ?? [])
       .filter((share): share is typeof share & { platform: OnboardingAlm } =>
-        KNOWN_PLATFORMS.has(share.platform),
+        isKnownPlatform(share.platform),
       )
       .map(({ count, platform }) => ({ count, platform })),
     coverage: overview.coverage ?? null,
+    discovered,
+    importedPct:
+      discovered === null
+        ? null
+        : toPercent(repositories.imported, discovered, repositories.percent),
     organizationsBound: configured,
     organizationsTotal: total,
+    projectsTotal,
   };
 }
 

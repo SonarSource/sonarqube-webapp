@@ -25,6 +25,7 @@ import { JourneyEnterpriseState, JourneyState, JourneyStep } from '~shared/types
 import { PanelDonut } from '../journey/charts/PanelDonut';
 import { DevopsConfigurationsDonut } from '../journey/panels/DevopsConfigurationsDonut';
 import { getAnalyzeSegments, getImportSegments } from '../journey/panels/panelSegments';
+import { formatCompactCount } from './formatCompactCount';
 
 interface Props {
   enterprise: JourneyEnterpriseState;
@@ -41,9 +42,9 @@ export function EnterpriseDetailPanel({ enterprise, selectedStep, state }: Reado
     case JourneyStep.Binding:
       return <EnterpriseBindingPanel enterprise={enterprise} />;
     case JourneyStep.Repositories:
-      return <EnterpriseImportPanel state={state} />;
+      return <EnterpriseImportPanel enterprise={enterprise} state={state} />;
     case JourneyStep.Projects:
-      return <EnterpriseAnalyzePanel state={state} />;
+      return <EnterpriseAnalyzePanel enterprise={enterprise} state={state} />;
   }
 }
 
@@ -99,20 +100,29 @@ function EnterpriseBindingPanel({ enterprise }: Readonly<{ enterprise: JourneyEn
   );
 }
 
-function EnterpriseImportPanel({ state }: Readonly<{ state: JourneyState }>) {
-  const { formatMessage } = useIntl();
+function EnterpriseImportPanel({
+  enterprise,
+  state,
+}: Readonly<{ enterprise: JourneyEnterpriseState; state: JourneyState }>) {
+  const { formatMessage, locale } = useIntl();
+  const { discovered, importedPct } = enterprise;
+  const isTotalKnown = discovered !== null && importedPct !== null;
+
+  // Without a total there is no "not imported" share to draw; a legend entry reading 0 would claim one.
+  const segments = getImportSegments(state, formatMessage, { omitNotImported: !isTotalKnown });
 
   return (
     <div className="sw:flex sw:items-start sw:gap-8">
       <PanelDonut
-        centerLabel={formatMessage(
-          { id: 'onboarding_dashboard.percent' },
-          { percent: state.importedPct },
-        )}
+        centerLabel={
+          isTotalKnown
+            ? formatMessage({ id: 'onboarding_dashboard.percent' }, { percent: importedPct })
+            : formatCompactCount(state.imported, locale)
+        }
         centerSubLabel={formatMessage({
           id: 'onboarding_dashboard.journey.import.imported_label',
         })}
-        segments={getImportSegments(state, formatMessage)}
+        segments={segments}
       />
 
       <PanelText
@@ -120,30 +130,52 @@ function EnterpriseImportPanel({ state }: Readonly<{ state: JourneyState }>) {
         titleId="onboarding_dashboard.enterprise.import.title"
       >
         <Text isHighlighted>
-          {formatMessage(
-            { id: 'onboarding_dashboard.enterprise.import.summary' },
-            { discovered: state.discovered, imported: state.imported },
-          )}
+          {isTotalKnown
+            ? formatMessage(
+                { id: 'onboarding_dashboard.enterprise.import.summary' },
+                { discovered, imported: state.imported },
+              )
+            : formatMessage(
+                { id: 'onboarding_dashboard.enterprise.import.summary_unknown' },
+                { imported: state.imported },
+              )}
         </Text>
+
+        {!isTotalKnown && (
+          <Text as="p" isSubtle>
+            {formatMessage({ id: 'onboarding_dashboard.enterprise.import.total_unknown' })}
+          </Text>
+        )}
       </PanelText>
     </div>
   );
 }
 
-function EnterpriseAnalyzePanel({ state }: Readonly<{ state: JourneyState }>) {
+function EnterpriseAnalyzePanel({
+  enterprise,
+  state,
+}: Readonly<{ enterprise: JourneyEnterpriseState; state: JourneyState }>) {
   const { formatMessage } = useIntl();
+  const { analyzedPct, discovered, projectsTotal } = enterprise;
+
+  // With the repositories still to import unknown, "not imported" is unknown, not 0.
+  const segments = getAnalyzeSegments(
+    { analyze: state.analyze, analyzed: state.analyzed, totalProjects: projectsTotal },
+    formatMessage,
+    { omitNotImported: discovered === null },
+  );
 
   return (
     <div className="sw:flex sw:items-start sw:gap-8">
       <PanelDonut
         centerLabel={formatMessage(
           { id: 'onboarding_dashboard.percent' },
-          { percent: state.analyzedPct },
+          { percent: analyzedPct },
         )}
         centerSubLabel={formatMessage({
           id: 'onboarding_dashboard.journey.analyze.analyzed_label',
         })}
-        segments={getAnalyzeSegments(state, formatMessage)}
+        segments={segments}
       />
 
       <PanelText
@@ -153,7 +185,7 @@ function EnterpriseAnalyzePanel({ state }: Readonly<{ state: JourneyState }>) {
         <Text isHighlighted>
           {formatMessage(
             { id: 'onboarding_dashboard.enterprise.analyze.summary' },
-            { analyzed: state.analyzed, total: state.totalProjects },
+            { analyzed: state.analyzed, total: projectsTotal },
           )}
         </Text>
       </PanelText>

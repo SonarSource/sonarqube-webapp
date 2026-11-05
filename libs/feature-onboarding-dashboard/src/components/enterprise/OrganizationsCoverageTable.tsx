@@ -364,7 +364,6 @@ function FigureText({
   );
 }
 
-/** The progress of an organization as a bar, with the percentage written next to it. */
 /**
  * Native `<progress>` for built-in semantics. Its track and fill are vendor pseudo-elements, styled
  * via arbitrary variants with Echoes tokens as CSS custom properties. Classes are written in full so

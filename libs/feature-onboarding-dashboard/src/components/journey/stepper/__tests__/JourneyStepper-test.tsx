@@ -236,12 +236,18 @@ describe('enterprise', () => {
     return mockState({
       configured: bound,
       enterprise: {
+        analyzedPct: 10,
         byPlatform: [{ count: bound, platform: OnboardingDevopsPlatform.Github }],
         coverage: null,
+        discovered: 800,
+        importedPct: 88,
         organizationsBound: bound,
         organizationsTotal: 12,
+        projectsTotal: 800,
       },
+      imported: 700,
       isBound: bound > 0,
+      analyzed: 80,
       ...overrides,
     });
   }
@@ -270,6 +276,54 @@ describe('enterprise', () => {
       byText('onboarding_dashboard.enterprise.step.binding.count.8.12').get(),
     ).toBeInTheDocument();
     expect(ui.bindingBound.query()).not.toBeInTheDocument();
+  });
+
+  it('reads the repositories and projects cards from the enterprise figures', () => {
+    renderStepper({ state: enterpriseState() });
+
+    expect(ui.countLabel(700, 800).get()).toBeInTheDocument();
+    expect(ui.countLabel(80, 800).get()).toBeInTheDocument();
+  });
+
+  describe('when the repositories on the platforms could not be counted', () => {
+    // 9,710 imported, no total: the backend sent null, which is not "0 repositories".
+    function uncountedState() {
+      const state = enterpriseState();
+      return {
+        ...state,
+        analyzed: 555,
+        enterprise: {
+          ...state.enterprise!,
+          analyzedPct: 6,
+          discovered: null,
+          importedPct: null,
+          projectsTotal: 9710,
+        },
+        imported: 9710,
+      };
+    }
+
+    it('shows the imported count on its own instead of a share of 0', () => {
+      renderStepper({ state: uncountedState() });
+
+      expect(
+        byText('onboarding_dashboard.enterprise.step.imported_count.9710').get(),
+      ).toBeInTheDocument();
+      expect(byText(/step\.count\.9710\./).query()).not.toBeInTheDocument();
+      expect(ui.donutLabel(0).query()).not.toBeInTheDocument();
+    });
+
+    it('puts the count in the ring, as the organizations step does, rather than a 0% donut', () => {
+      renderStepper({ state: uncountedState() });
+
+      expect(byText('9.7K').get()).toBeInTheDocument();
+    });
+
+    it('counts the analyzed projects against the projects that exist', () => {
+      renderStepper({ state: uncountedState() });
+
+      expect(ui.countLabel(555, 9710).get()).toBeInTheDocument();
+    });
   });
 
   it('locks the repositories and projects steps while no organization is bound', () => {

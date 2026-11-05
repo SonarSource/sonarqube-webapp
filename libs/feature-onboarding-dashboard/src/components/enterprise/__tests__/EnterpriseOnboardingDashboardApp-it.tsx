@@ -18,7 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { waitFor } from '@testing-library/react';
+import { waitForElementToBeRemoved } from '@testing-library/react';
 import { PointerEventsCheckLevel } from '@testing-library/user-event';
 import { http, HttpResponse } from 'msw';
 import { Route } from 'react-router';
@@ -187,6 +187,35 @@ describe('journey', () => {
     expect(await ui.analyzePanelTitle.find()).toBeInTheDocument();
   });
 
+  describe('when the repositories on the platforms could not be counted', () => {
+    // The backend sends null totals when no organization could report a discovery count. The page used to read
+    // them as 0 and say "9710 of 0 repositories imported".
+    beforeEach(() => {
+      onboardingMock.setEnterpriseOverview(mockOnboardingUncountedEnterpriseOverview());
+    });
+
+    it('says how many repositories are imported, without inventing a total', async () => {
+      const { user } = renderEnterpriseDashboard();
+
+      await user.click(
+        await byRole('button', {
+          name: 'onboarding_dashboard.journey.step.ring_count_aria_label.9.7K.onboarding_dashboard.journey.step.repositories.title',
+        }).find(),
+      );
+
+      expect(await byText(`${PREFIX}.import.summary_unknown.9710`).find()).toBeInTheDocument();
+      expect(byText(`${PREFIX}.import.total_unknown`).get()).toBeInTheDocument();
+    });
+
+    it('counts the analyzed projects against the projects that exist', async () => {
+      const { user } = renderEnterpriseDashboard();
+
+      await user.click(await ui.stepperProjects(6).find());
+
+      expect(await byText(`${PREFIX}.analyze.summary.555.9710`).find()).toBeInTheDocument();
+    });
+  });
+
   it('shows the timeline of the enterprise', async () => {
     renderEnterpriseDashboard();
 
@@ -291,9 +320,7 @@ describe('organizations table', () => {
     await user.type(ui.search.get(), 'data');
 
     // The search is debounced, then fetched: the other organizations leave once it has landed.
-    await waitFor(() => {
-      expect(ui.table.byText('Web core').query()).not.toBeInTheDocument();
-    });
+    await waitForElementToBeRemoved(() => ui.table.byText('Web core').query());
     expect(ui.table.byText('Data platform').get()).toBeInTheDocument();
   });
 

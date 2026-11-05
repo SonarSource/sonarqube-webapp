@@ -348,14 +348,29 @@ export interface JourneyState {
 
 /** What the first step of the journey reports for an enterprise: organizations bound over all. */
 export interface JourneyEnterpriseState {
+  /** Share of the existing projects that are analyzed, 0-100. */
+  analyzedPct: number;
   /** Bound organizations per DevOps platform the UI knows, largest first. */
   byPlatform: OnboardingDevopsPlatformConfigurations[];
   /** How much of the enterprise the figures cover, null when the backend doesn't say. */
   coverage: OnboardingCoverage | null;
+  /**
+   * Repositories found on the DevOps platforms of the organizations, or null when none of them could
+   * report a count. Null is not zero: it means the total is unknown, so nothing can be said to be
+   * a share of it.
+   */
+  discovered: number | null;
+  /** Share of the discovered repositories that are imported, 0-100; null while `discovered` is null. */
+  importedPct: number | null;
   /** Organizations bound to a DevOps platform. */
   organizationsBound: number;
   /** Organizations in the enterprise whose figures were read. */
   organizationsTotal: number;
+  /**
+   * What the analyzed projects are counted against: every project plus every discovered repository not
+   * imported yet when the backend knows the latter, otherwise the projects that exist.
+   */
+  projectsTotal: number;
 }
 
 export enum OnboardingRepositoriesVisibility {
@@ -461,7 +476,7 @@ export enum OnboardingOrganizationSort {
 }
 
 /** Whether the figures of an enterprise organization could be read. */
-export type OnboardingOrganizationAvailability = 'AVAILABLE' | 'UNAVAILABLE';
+type OnboardingOrganizationAvailability = 'AVAILABLE' | 'UNAVAILABLE';
 
 /** The repositories step of one organization of an enterprise. */
 interface OnboardingOrganizationRepositories {

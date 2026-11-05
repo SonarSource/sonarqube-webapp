@@ -22,6 +22,7 @@ import { useIntl } from 'react-intl';
 import { useOnboardingDevopsConfigurations } from '~adapters/helpers/useOnboardingDevopsConfigurations';
 import { JourneyState, JourneyStep } from '~shared/types/onboarding';
 import { StepCardVisual } from '../../../types/types';
+import { formatCompactCount } from '../../enterprise/formatCompactCount';
 import { getBindingStepCard, getEnterpriseBindingStepCard } from './bindingStepCard';
 import { StepCard } from './StepCard';
 
@@ -37,13 +38,28 @@ interface Props {
  * panel below can react to the selection.
  */
 export function JourneyStepper({ onSelectStep, selectedStep, state }: Readonly<Props>) {
-  const { formatMessage } = useIntl();
+  const { formatMessage, locale } = useIntl();
   const { byPlatform } = useOnboardingDevopsConfigurations();
 
   const countLabel = (done: number, total: number) =>
     formatMessage({ id: 'onboarding_dashboard.journey.step.count' }, { done, total });
 
   const { enterprise } = state;
+
+  // Unknown discovered count (not 0): show the imported number alone.
+  const isImportedCountOnly = enterprise?.discovered === null;
+  let repositoriesLine: string;
+  if (isImportedCountOnly) {
+    repositoriesLine = formatMessage(
+      { id: 'onboarding_dashboard.enterprise.step.imported_count' },
+      { imported: state.imported },
+    );
+  } else {
+    repositoriesLine = countLabel(state.imported, enterprise?.discovered ?? state.discovered);
+  }
+  const repositoriesVisual = isImportedCountOnly ? StepCardVisual.CountRing : StepCardVisual.Donut;
+  const projectsTotal = enterprise?.projectsTotal ?? state.totalProjects;
+
   const bindingCard =
     enterprise === undefined
       ? getBindingStepCard({
@@ -82,25 +98,26 @@ export function JourneyStepper({ onSelectStep, selectedStep, state }: Readonly<P
       />
 
       <StepCard
-        donutPercent={state.importedPct}
+        donutPercent={enterprise?.importedPct ?? state.importedPct}
         isLocked={!state.isBound}
         isSelected={selectedStep === JourneyStep.Repositories}
         onSelect={() => {
           onSelectStep(JourneyStep.Repositories);
         }}
-        secondaryLine={state.isBound ? countLabel(state.imported, state.discovered) : undefined}
+        ringLabel={isImportedCountOnly ? formatCompactCount(state.imported, locale) : undefined}
+        secondaryLine={state.isBound ? repositoriesLine : undefined}
         title={formatMessage({ id: 'onboarding_dashboard.journey.step.repositories.title' })}
-        visual={state.isBound ? StepCardVisual.Donut : StepCardVisual.RingLocked}
+        visual={state.isBound ? repositoriesVisual : StepCardVisual.RingLocked}
       />
 
       <StepCard
-        donutPercent={state.analyzedPct}
+        donutPercent={enterprise?.analyzedPct ?? state.analyzedPct}
         isLocked={!state.isBound}
         isSelected={selectedStep === JourneyStep.Projects}
         onSelect={() => {
           onSelectStep(JourneyStep.Projects);
         }}
-        secondaryLine={state.isBound ? countLabel(state.analyzed, state.totalProjects) : undefined}
+        secondaryLine={state.isBound ? countLabel(state.analyzed, projectsTotal) : undefined}
         title={formatMessage({ id: 'onboarding_dashboard.journey.step.projects.title' })}
         visual={state.isBound ? StepCardVisual.Donut : StepCardVisual.RingLocked}
       />

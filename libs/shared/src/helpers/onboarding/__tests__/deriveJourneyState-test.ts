@@ -191,27 +191,60 @@ describe('enterprise scope', () => {
     const state = deriveJourneyState(mockOnboardingEnterpriseOverview());
 
     expect(state.enterprise).toEqual({
+      analyzedPct: 10,
       byPlatform: [
         { count: 5, platform: OnboardingDevopsPlatform.Github },
         { count: 2, platform: OnboardingDevopsPlatform.Gitlab },
         { count: 1, platform: OnboardingDevopsPlatform.AzureDevops },
       ],
       coverage: { organizationsTotal: 12, organizationsUnavailable: 1 },
+      discovered: 800,
+      importedPct: 88,
       organizationsBound: 8,
       organizationsTotal: 12,
+      projectsTotal: 800,
     });
     expect(state).toMatchObject({ configured: 8, isBound: true, overallPct: 45 });
   });
 
-  it('is unbound while no organization is bound', () => {
+  describe('when the backend cannot count the repositories on the platforms', () => {
+    // No organization reported a discovery count, so the totals are null.
+    function withoutDiscovery() {
+      return deriveJourneyState(mockOnboardingUncountedEnterpriseOverview());
+    }
+
+    it('keeps the repositories total unknown instead of reading it as 0', () => {
+      expect(withoutDiscovery().enterprise).toMatchObject({ discovered: null, importedPct: null });
+    });
+
+    it('counts the analyzed projects against the projects that exist', () => {
+      expect(withoutDiscovery().enterprise).toMatchObject({
+        // 555 / (555 + 9155)
+        analyzedPct: 6,
+        projectsTotal: 9710,
+      });
+    });
+
+    it('still reports the imported count', () => {
+      expect(withoutDiscovery().imported).toBe(9710);
+    });
+  });
+
+  it('does not mistake a discovery count of 0 for an unknown one', () => {
     const overview = mockOnboardingEnterpriseOverview();
     const state = deriveJourneyState({
       ...overview,
       steps: {
         ...overview.steps,
-        devopsPlatforms: { byPlatform: [], configured: 0, total: 12 },
+        repositories: { discovered: 0, imported: 0, percent: null },
       },
     });
+
+    expect(state.enterprise?.discovered).toBe(0);
+  });
+
+  it('is unbound while no organization is bound', () => {
+    const state = deriveJourneyState(mockOnboardingUnboundEnterpriseOverview());
 
     expect(state).toMatchObject({
       activeStep: JourneyStep.Binding,

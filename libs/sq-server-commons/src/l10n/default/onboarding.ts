@@ -1282,6 +1282,7 @@ export const onboardingMessages = {
   'onboarding_dashboard.repositories.filter.public': 'Public',
   'onboarding_dashboard.enterprise.step.binding.title': 'DevOps platforms configured',
   'onboarding_dashboard.enterprise.step.binding.count': '{bound} of {total} organizations bound',
+  'onboarding_dashboard.enterprise.step.imported_count': '{imported} imported',
   'onboarding_dashboard.enterprise.binding.title': 'Bind your organizations',
   'onboarding_dashboard.enterprise.binding.description':
     'Each organization of your enterprise is bound to its own DevOps platform. Binding keeps them synchronized and enables the easy import of projects into SonarQube Cloud. Use the organizations table below to bind the ones that are not.',
@@ -1292,6 +1293,9 @@ export const onboardingMessages = {
     'Repositories found on the DevOps platforms of all your organizations, and how many of them are imported. Open an organization from the table below to import its missing repositories.',
   'onboarding_dashboard.enterprise.import.summary':
     '{imported} of {discovered} repositories imported',
+  'onboarding_dashboard.enterprise.import.summary_unknown': '{imported} repositories imported',
+  'onboarding_dashboard.enterprise.import.total_unknown':
+    'How many repositories your DevOps platforms hold could not be determined, so no share can be shown.',
   'onboarding_dashboard.enterprise.analyze.title': 'Analyze your projects',
   'onboarding_dashboard.enterprise.analyze.description':
     'Projects of all your organizations, and how many of them have reported an analysis. Open an organization from the table below to set up analysis for the ones that have not.',
