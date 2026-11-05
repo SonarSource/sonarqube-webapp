@@ -171,14 +171,7 @@ function normalizeCategoryWithLeadingZeros(
   return { normalized, display };
 }
 
-function renderOwaspCategory<
-  T extends
-    | StandardsInformationKey.OWASP_TOP10_2021
-    | StandardsInformationKey.OWASP_TOP10_2025
-    | StandardsInformationKey.OWASP_TOP10
-    | StandardsInformationKey.OWASP_TOP10_FOR_LLM_2025
-    | StandardsInformationKey.OWASP_TOP10_FOR_LLM_2026,
->(
+function renderOwaspCategory<T extends keyof StandardsInformation>(
   type: T,
   standards: Partial<Pick<StandardsInformation, T>>,
   category: string,
