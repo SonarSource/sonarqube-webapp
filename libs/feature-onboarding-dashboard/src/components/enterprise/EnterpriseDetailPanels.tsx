@@ -25,6 +25,7 @@ import { JourneyEnterpriseState, JourneyState, JourneyStep } from '~shared/types
 import { PanelDonut } from '../journey/charts/PanelDonut';
 import { DevopsConfigurationsDonut } from '../journey/panels/DevopsConfigurationsDonut';
 import { getAnalyzeSegments, getImportSegments } from '../journey/panels/panelSegments';
+import { ViewAllOrganizationsButton } from './ViewAllOrganizationsButton';
 import { formatCompactCount } from './formatCompactCount';
 
 interface Props {
@@ -83,6 +84,7 @@ function EnterpriseBindingPanel({ enterprise }: Readonly<{ enterprise: JourneyEn
         centerSubLabelId="onboarding_dashboard.enterprise.binding.bound_label"
         configured={organizationsBound}
         unboundCount={Math.max(organizationsTotal - organizationsBound, 0)}
+        viewAll={<ViewAllOrganizationsButton />}
       />
 
       <PanelText
@@ -123,6 +125,7 @@ function EnterpriseImportPanel({
           id: 'onboarding_dashboard.journey.import.imported_label',
         })}
         segments={segments}
+        viewAll={<ViewAllOrganizationsButton />}
       />
 
       <PanelText
@@ -176,6 +179,7 @@ function EnterpriseAnalyzePanel({
           id: 'onboarding_dashboard.journey.analyze.analyzed_label',
         })}
         segments={segments}
+        viewAll={<ViewAllOrganizationsButton />}
       />
 
       <PanelText

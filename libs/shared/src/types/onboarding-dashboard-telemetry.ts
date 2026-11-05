@@ -46,6 +46,7 @@ export enum OnboardingDashboardAction {
   OpenRepositoryAccessSettings = 'open_repository_access_settings',
   RerunAutomaticAnalysis = 'rerun_automatic_analysis',
   RestoreProjectAccess = 'restore_project_access',
+  ViewAllOrganizations = 'view_all_organizations',
   ViewAllRepositories = 'view_all_repositories',
   ViewBindingSettings = 'view_binding_settings',
   ViewOrganizationDashboard = 'view_organization_dashboard',

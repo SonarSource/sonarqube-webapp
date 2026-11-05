@@ -30,7 +30,7 @@ import {
 } from '~shared/types/onboarding-dashboard-telemetry';
 import { usePaginatedTableState } from '../projects/usePaginatedTableState';
 import { useOnboardingDashboardTracking } from '../telemetry/OnboardingDashboardTelemetry';
-import { ORGANIZATIONS_PAGE_SIZE } from './enterpriseConstants';
+import { ORGANIZATIONS_PAGE_SIZE, ORGANIZATIONS_SECTION_ID } from './enterpriseConstants';
 import { OrganizationsCoverageTable } from './OrganizationsCoverageTable';
 
 interface Props {
@@ -73,36 +73,38 @@ export function OrganizationsCoverageCard({
   };
 
   return (
-    <Card>
-      <Card.Header
-        description={formatMessage({
-          id: 'onboarding_dashboard.enterprise.organizations.description',
-        })}
-        title={formatMessage({ id: 'onboarding_dashboard.enterprise.organizations.title' })}
-      />
-      <Card.Body>
-        {isError ? (
-          <MessageCallout variety="danger">
-            <FormattedMessage id="default_error_message" />
-          </MessageCallout>
-        ) : (
-          <OrganizationsCoverageTable
-            getBindingUrl={getBindingUrl}
-            getDashboardUrl={getDashboardUrl}
-            isLoading={isLoading}
-            onAction={handleAction}
-            onPageChange={onPageChange}
-            onSearchChange={onSearchChange}
-            onSortChange={handleSortChange}
-            organizations={data?.organizations ?? []}
-            pageIndex={pageIndex}
-            pageSize={ORGANIZATIONS_PAGE_SIZE}
-            searchValue={searchValue}
-            sort={sort}
-            total={data?.page.total}
-          />
-        )}
-      </Card.Body>
-    </Card>
+    <div className="sw:scroll-mt-6" id={ORGANIZATIONS_SECTION_ID}>
+      <Card>
+        <Card.Header
+          description={formatMessage({
+            id: 'onboarding_dashboard.enterprise.organizations.description',
+          })}
+          title={formatMessage({ id: 'onboarding_dashboard.enterprise.organizations.title' })}
+        />
+        <Card.Body>
+          {isError ? (
+            <MessageCallout variety="danger">
+              <FormattedMessage id="default_error_message" />
+            </MessageCallout>
+          ) : (
+            <OrganizationsCoverageTable
+              getBindingUrl={getBindingUrl}
+              getDashboardUrl={getDashboardUrl}
+              isLoading={isLoading}
+              onAction={handleAction}
+              onPageChange={onPageChange}
+              onSearchChange={onSearchChange}
+              onSortChange={handleSortChange}
+              organizations={data?.organizations ?? []}
+              pageIndex={pageIndex}
+              pageSize={ORGANIZATIONS_PAGE_SIZE}
+              searchValue={searchValue}
+              sort={sort}
+              total={data?.page.total}
+            />
+          )}
+        </Card.Body>
+      </Card>
+    </div>
   );
 }

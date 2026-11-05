@@ -96,6 +96,8 @@ const ui = {
   // The organization's placeholders say "Bind organization" / "Import repositories": none of them.
   anyLockedCta: byRole('button', { name: /onboarding_dashboard\.journey\.locked\./ }),
 
+  viewAll: byRole('button', { name: `${PREFIX}.organizations.view_all` }),
+
   // Coverage and organizations
   banner: (unavailable: number, total: number) =>
     byText(`${PREFIX}.coverage.banner.${unavailable}.${total}`),
@@ -187,9 +189,36 @@ describe('journey', () => {
     expect(await ui.analyzePanelTitle.find()).toBeInTheDocument();
   });
 
+  describe('view all', () => {
+    const scrollIntoView = jest.fn();
+
+    // Replaces the global stub so the call can be asserted.
+    beforeEach(() => {
+      scrollIntoView.mockClear();
+      HTMLElement.prototype.scrollIntoView = scrollIntoView;
+    });
+
+    it.each([
+      ['binding step', () => ui.stepperBinding(8)],
+      ['repositories step', () => ui.stepperRepositories(88)],
+      ['projects step', () => ui.stepperProjects(10)],
+    ])(
+      'scrolls smoothly from the panel of the %s to the organizations table',
+      async (_step, getStepper) => {
+        const { user } = renderEnterpriseDashboard();
+
+        await user.click(await getStepper().find());
+        await user.click(await ui.viewAll.find());
+
+        expect(scrollIntoView).toHaveBeenCalledTimes(1);
+        expect(scrollIntoView).toHaveBeenCalledWith({ behavior: 'smooth', block: 'start' });
+        expect(scrollIntoView.mock.contexts[0] as HTMLElement).toContainElement(ui.table.get());
+      },
+    );
+  });
+
   describe('when the repositories on the platforms could not be counted', () => {
-    // The backend sends null totals when no organization could report a discovery count. The page used to read
-    // them as 0 and say "9710 of 0 repositories imported".
+    // The backend sends null totals when no organization could report a discovery count.
     beforeEach(() => {
       onboardingMock.setEnterpriseOverview(mockOnboardingUncountedEnterpriseOverview());
     });

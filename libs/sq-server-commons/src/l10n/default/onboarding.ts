@@ -1322,6 +1322,7 @@ export const onboardingMessages = {
   'onboarding_dashboard.enterprise.organizations.col.actions': 'Actions',
   'onboarding_dashboard.enterprise.organizations.unavailable': "Couldn't load",
   'onboarding_dashboard.enterprise.organizations.progress.label': 'Progress of {name}',
+  'onboarding_dashboard.enterprise.organizations.view_all': 'View all',
   'onboarding_dashboard.enterprise.organizations.action.view': 'View dashboard',
   'onboarding_dashboard.enterprise.organizations.action.view.label': 'View the dashboard of {name}',
   'onboarding_dashboard.enterprise.organizations.action.bind': 'Bind',

@@ -62,6 +62,7 @@ const ui = {
     name: `${PREFIX}.organizations.action.view.label.Web core`,
   }),
   table: byRole('table', { name: `${PREFIX}.organizations.title` }),
+  viewAll: byRole('button', { name: `${PREFIX}.organizations.view_all` }),
 };
 
 beforeAll(async () => {
@@ -177,6 +178,22 @@ it('reports that the dashboard of an organization was opened, from the organizat
       action: OnboardingDashboardAction.ViewOrganizationDashboard,
       enterpriseId: ENTERPRISE_ID,
       surface: OnboardingDashboardSurface.OrganizationsTable,
+    }),
+  );
+});
+
+it('reports that all the organizations were asked for, from the panel it was asked on', async () => {
+  // jsdom does not implement it; each test file has its own jsdom, so nothing is left to restore.
+  HTMLElement.prototype.scrollIntoView = jest.fn();
+  const { user } = renderEnterpriseDashboard();
+
+  await user.click(await ui.viewAll.find());
+
+  expect(mockTelemetry.trackActionSelected).toHaveBeenCalledWith(
+    expect.objectContaining({
+      action: OnboardingDashboardAction.ViewAllOrganizations,
+      enterpriseId: ENTERPRISE_ID,
+      surface: OnboardingDashboardSurface.ProjectsPanel,
     }),
   );
 });

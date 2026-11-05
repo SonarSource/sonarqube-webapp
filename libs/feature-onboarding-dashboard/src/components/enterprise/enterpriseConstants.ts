@@ -23,3 +23,6 @@
  * share one cache entry.
  */
 export const ORGANIZATIONS_PAGE_SIZE = 25;
+
+/** The id of the Organizations section, which the "View all" of the step panels scrolls to. */
+export const ORGANIZATIONS_SECTION_ID = 'onboarding-organizations-section';

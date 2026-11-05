@@ -19,6 +19,7 @@
  */
 
 import { Button, ButtonVariety, cssVar } from '@sonarsource/echoes-react';
+import { ReactNode } from 'react';
 import { useIntl } from 'react-intl';
 import {
   JourneyStep,
@@ -38,11 +39,10 @@ interface Props {
   centerSubLabelId?: string;
   /** Organizations bound to none, drawn as a neutral segment (enterprise only). */
   unboundCount?: number;
-  /**
-   * Lets the details modal hand the user on to another step of the journey. Without it there is no
-   * details modal — an enterprise has no single list of configurations to open.
-   */
+  /** Lets the details modal hand the user on to another step. Without it there is no modal. */
   onSelectStep?: (step: JourneyStep) => void;
+  /** What shows below the legend where there is no details modal to open. */
+  viewAll?: ReactNode;
 }
 
 // Segments follow PLATFORM_CONFIG's declaration order, not the response order, so the ring and
@@ -53,6 +53,7 @@ export function DevopsConfigurationsDonut({
   configured,
   onSelectStep,
   unboundCount = 0,
+  viewAll,
 }: Readonly<Props>) {
   const { formatMessage } = useIntl();
 
@@ -82,7 +83,9 @@ export function DevopsConfigurationsDonut({
       centerSubLabel={formatMessage({ id: centerSubLabelId })}
       segments={segments}
       viewAll={
-        onSelectStep === undefined ? undefined : (
+        onSelectStep === undefined ? (
+          viewAll
+        ) : (
           <DevopsConfigurationsModal onSelectStep={onSelectStep}>
             <Button variety={ButtonVariety.PrimaryGhost}>
               {formatMessage({ id: 'onboarding_dashboard.journey.binding.view_details' })}
