@@ -56,7 +56,7 @@ ruleTester.run(
       },
       {
         code: `
-          import { useFlags } from 'launchdarkly-react-client-sdk';
+          import { useFlags } from '@launchdarkly/react-sdk';
           useFlags();
         `,
         filename: 'private/apps/sq-cloud/src/sq-cloud-adapters/helpers/feature-flags.ts',
@@ -65,7 +65,7 @@ ruleTester.run(
     invalid: [
       {
         code: `
-          import { useFlags } from 'launchdarkly-react-client-sdk';
+          import { useFlags } from '@launchdarkly/react-sdk';
           useFlags();
         `,
         filename: 'libs/shared/src/test.ts',
@@ -73,7 +73,7 @@ ruleTester.run(
       },
       {
         code: `
-          import { useFlags } from 'launchdarkly-react-client-sdk';
+          import { useFlags } from '@launchdarkly/react-sdk';
           useFlags();
         `,
         filename: 'apps/sq-server/src/test.ts',

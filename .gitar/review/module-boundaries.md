@@ -11,7 +11,7 @@
 
 ## LaunchDarkly feature flags
 
-- Shared code must use the custom `useFlags` implementation, not the standard `useFlags` from `launchdarkly-react-client-sdk` directly — the custom one uses real LD on SQC but reads a static array on SQS, so using the wrong one silently breaks SQS. This is ESLint-enforced.
+- Shared code must use the custom `useFlags` implementation, not the standard `useFlags` from `@launchdarkly/react-sdk` directly — the custom one uses real LD on SQC but reads a static array on SQS, so using the wrong one silently breaks SQS. This is ESLint-enforced.
 
 ## Code placement
 

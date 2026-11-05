@@ -43,7 +43,10 @@ module.exports = {
       ImportDeclaration(node) {
         const importPath = node.source.value;
 
-        if (importPath.includes('launchdarkly-react-client-sdk')) {
+        if (
+          importPath.includes('@launchdarkly/react-sdk') ||
+          importPath.includes('launchdarkly-react-client-sdk')
+        ) {
           fnNames.push(
             ...node.specifiers
               .filter((specifier) => specifier.imported.name === 'useFlags')

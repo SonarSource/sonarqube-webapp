@@ -18,6 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import type { LDClient } from '@launchdarkly/react-sdk';
 import { TooltipProvider } from '@sonarsource/echoes-react';
 import {
   createEvent,
@@ -253,13 +254,13 @@ export function mockForwardRefComponent<T>(
 }
 
 /**
- * @description A temporary fix for the jest-launchdarkly-mock library to avoide TS Errors
+ * @description A temporary fix for the jest-launchdarkly-mock library to avoid TS Errors
  * @see https://github.com/launchdarkly/jest-launchdarkly-mock/issues/84
  */
 export const LdClientMock = {
   ...ldClientMock,
   addHook: jest.fn(),
-};
+} as unknown as jest.Mocked<LDClient>;
 
 /**
  * Fire a custom keyboard event on window

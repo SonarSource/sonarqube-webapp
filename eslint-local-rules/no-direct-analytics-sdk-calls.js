@@ -36,10 +36,11 @@ module.exports = {
   create(context) {
     return {
       Identifier(node) {
-        const name = node.name;
+        const { name } = node;
+        const callTarget = getCalledMethod(node);
 
         // Check for identify() calls
-        if (name === 'identify') {
+        if (name === 'identify' && callTarget) {
           const parentNode = getExportedParent(node);
           const parentName = getParentName(parentNode);
 
@@ -52,7 +53,8 @@ module.exports = {
             return;
           }
 
-          const callerObject = node.parent?.object;
+          const callerObject = callTarget.object;
+
           const isMixpanelCall =
             callerObject?.type === 'Identifier' && callerObject?.name.toLowerCase() === 'mixpanel';
 
@@ -63,8 +65,9 @@ module.exports = {
         }
 
         // Check for track() calls
-        if (name === 'track') {
-          const callerObject = node.parent?.object;
+        if (name === 'track' && callTarget) {
+          const callerObject = callTarget.object;
+
           const isMixpanelCall =
             callerObject?.type === 'Identifier' && callerObject?.name.toLowerCase() === 'mixpanel';
 
@@ -88,6 +91,30 @@ module.exports = {
 };
 
 const NODE_TYPES = ['FunctionDeclaration', 'VariableDeclaration'];
+
+function getCalledMethod(node) {
+  const parentNode = node.parent;
+
+  if (parentNode?.type !== 'MemberExpression' || parentNode.property !== node) {
+    return null;
+  }
+
+  const grandParentNode = parentNode.parent;
+
+  if (grandParentNode?.type === 'CallExpression' && grandParentNode.callee === parentNode) {
+    return parentNode;
+  }
+
+  if (grandParentNode?.type === 'ChainExpression') {
+    const callExpression = grandParentNode.expression;
+
+    if (callExpression?.type === 'CallExpression' && callExpression.callee === parentNode) {
+      return parentNode;
+    }
+  }
+
+  return null;
+}
 
 function getExportedParent(node) {
   let parentNode = node.parent;

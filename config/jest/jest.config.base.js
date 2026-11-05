@@ -113,6 +113,10 @@ const projectConfig = {
     '.+\\.(md|jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$': `${__dirname}/FileStub.js`,
     '.+\\.(css|styl|less|sass|scss)$': `${__dirname}/CSSStub.js`,
 
+    // The upstream package still targets the legacy React SDK package name, so remap all Jest
+    // imports to the workspace shim that mocks @launchdarkly/react-sdk instead.
+    '^jest-launchdarkly-mock$': `${__dirname}/jest-launchdarkly-mock.js`,
+
     // Shared libraries aliases, following token is used in the nx shared-library generator
     // <<shared-libraries-aliases>>
     '^~feature-dast/(.+)': '<rootDir>/private/libs/feature-dast/src/$1',
@@ -135,7 +139,7 @@ const projectConfig = {
     '^d3-(.*)$': `<rootDir>/node_modules/d3-$1/dist/d3-$1.min.js`,
   },
 
-  setupFiles: [],
+  setupFiles: [`${__dirname}/jest-launchdarkly-mock.js`],
 
   snapshotSerializers: ['@emotion/jest/serializer'],
   testEnvironment: `${__dirname}/jsdom-extended.js`,

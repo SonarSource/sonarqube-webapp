@@ -37,7 +37,7 @@ ruleTester.run('no-direct-analytics-sdk-calls', noDirectAnalyticsSdkCalls, {
     {
       code: `
       import { updateLaunchDarklyMultiContext } from '~helpers/vendors/launchdarkly';
-      import { useLDClient } from 'launchdarkly-react-client-sdk';
+      import { useLDClient } from '@launchdarkly/react-sdk';
 
       const launchDarklyClient = useLDClient();
 
@@ -47,7 +47,7 @@ ruleTester.run('no-direct-analytics-sdk-calls', noDirectAnalyticsSdkCalls, {
     {
       code: `
       import { updateLaunchDarklyMultiContext } from '~helpers/vendors/launchdarkly';
-      import { useLDClient } from 'launchdarkly-react-client-sdk';
+      import { useLDClient } from '@launchdarkly/react-sdk';
 
       const launchDarklyClient = useLDClient();
 
@@ -74,11 +74,20 @@ ruleTester.run('no-direct-analytics-sdk-calls', noDirectAnalyticsSdkCalls, {
       }
       `,
     },
+    {
+      code: `
+      declare module 'jest-launchdarkly-mock' {
+        export const ldClientMock: {
+          identify: () => void;
+        };
+      }
+      `,
+    },
   ],
   invalid: [
     {
       code: `
-      import { useLDClient } from 'launchdarkly-react-client-sdk';
+      import { useLDClient } from '@launchdarkly/react-sdk';
 
       async function useTest() {
         const launchDarklyClient = useLDClient();
@@ -93,7 +102,7 @@ ruleTester.run('no-direct-analytics-sdk-calls', noDirectAnalyticsSdkCalls, {
     },
     {
       code: `
-      import { useLDClient } from 'launchdarkly-react-client-sdk';
+      import { useLDClient } from '@launchdarkly/react-sdk';
 
       export async function useTest() {
         const launchDarklyClient = useLDClient();
@@ -108,7 +117,7 @@ ruleTester.run('no-direct-analytics-sdk-calls', noDirectAnalyticsSdkCalls, {
     },
     {
       code: `
-      import { useLDClient } from 'launchdarkly-react-client-sdk';
+      import { useLDClient } from '@launchdarkly/react-sdk';
 
       const useTest = () => {
         const launchDarklyClient = useLDClient();
@@ -123,7 +132,7 @@ ruleTester.run('no-direct-analytics-sdk-calls', noDirectAnalyticsSdkCalls, {
     },
     {
       code: `
-      import { useLDClient } from 'launchdarkly-react-client-sdk';
+      import { useLDClient } from '@launchdarkly/react-sdk';
 
       export const useTest = async () => {
         const launchDarklyClient = useLDClient();
