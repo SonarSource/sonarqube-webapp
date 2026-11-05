@@ -52,34 +52,22 @@ export const defaultMessages = {
   add_verb: 'Add',
   admin: 'Admin',
   after: 'After',
-  ai_code: 'AI Code',
-  ai_code_assurance: 'AI CODE ASSURANCE',
   alpha: 'Alpha',
   apply: 'Apply',
   all: 'All',
   and: 'And',
   anonymous: 'Anonymous',
-  any: 'Any',
-  ascending: 'Ascending',
   assignee: 'Assignee',
   author: 'Author',
-  billion: 'Billion',
-  bitbucket: 'Bitbucket',
   back: 'Back',
   backup: 'Backup',
   backup_verb: 'Back up',
-  best: 'Best',
   beta: 'Beta',
-  blocker: 'Blocker',
   bold: 'Bold',
   branch: 'Branch',
-  'branch.small': 'branch',
   branches: 'Branches',
   breadcrumbs: 'Breadcrumbs',
   expand_breadcrumb: 'Expand breadcrumb',
-  expand_breadcrumbs: 'Expand breadcrumbs',
-  by_: 'by',
-  calendar: 'Calendar',
   cancel: 'Cancel',
   category: 'Category',
   connect: 'Connect',
@@ -93,161 +81,98 @@ export const defaultMessages = {
   classes: 'Classes',
   clear_file: 'Clear file',
   close: 'Close',
-  closed: 'Closed',
   code: 'Code',
-  color: 'Color',
-  collapse: 'Collapse',
-  collapse_all: 'Collapse all',
   compare: 'Compare',
-  complete: 'Complete',
   component: 'Component',
   contains_ai_code: 'Contains AI code',
-  configure: 'Configure',
   confirm: 'Confirm',
   continue: 'Continue',
   copy: 'Copy',
   create: 'Create',
-  create_new_element: 'Create new element',
   created: 'Created',
-  created_on: 'Created on',
   criteria: 'Criteria',
-  critical: 'Critical',
   csv: 'CSV',
   current: 'current',
   current_noun: 'Current',
-  customize: 'Customize',
   date: 'Date',
-  days: 'Days',
   default: 'Default',
   delete: 'Delete',
-  delete_x: 'Delete {0}',
   deprecated: 'Deprecated',
-  descending: 'Descending',
   description: 'Description',
   directories: 'Directories',
-  directory: 'Directory',
   disabled_: 'disabled',
   dismiss: 'Dismiss',
   dismiss_permanently: 'Dismiss permanently',
-  display: 'Display',
   documentation: 'documentation',
   done: 'Done',
   download_verb: 'Download',
   duplications: 'Duplications',
   end_date: 'End date',
   edit: 'Edit',
-  enabled_: 'enabled',
   error: 'Error',
   events: 'Events',
   example: 'Example',
-  expand: 'Expand',
-  expand_all: 'Expand all',
-  explore: 'Explore',
   extend: 'Extend',
-  false: 'False',
   favorite: 'Favorite',
   field_required: 'This field is required',
   fields_marked_with_x_required: 'All fields marked with {star} are required',
   file: 'File',
   files: 'Files',
   filters: 'Filters',
-  folder: 'Folder',
-  follow: 'Follow',
-  format: 'Format',
   from: 'From',
-  global: 'Global',
-  github: 'GitHub',
   go_back: 'Go back',
-  got_it: 'Got it',
   help: 'Help',
-  'help_menu.ask.closed': 'Open Ask AI to continue.',
-  'help_menu.ask.frame': 'Ask AI assistant',
-  'help_menu.ask.loading': 'Loading Ask AI…',
-  'help_menu.ask.error': 'Ask AI couldn’t load. Please try again.',
-  'help_menu.ask.resize': 'Resize Ask AI panel',
   here: 'here',
   hide: 'Hide',
-  ide: 'IDE',
   inactive: 'Inactive',
-  info: 'Info',
-  issue: 'Issue',
   issues: 'Issues',
-  inheritance: 'Inheritance',
-  intended: 'Intended',
   internal: 'internal',
   json: 'JSON',
   key: 'Key',
-  later: 'Later',
   language: 'Language',
   last_analysis: 'Last Analysis',
   learn_more: 'Learn More',
-  learn_more_x: 'Learn More: {link}',
   learn_more_in_doc: 'Learn more in documentation',
-  lets_go: "Let's go",
-  library: 'Library',
   line_number: 'Line Number',
-  links: 'Links',
   list_of_issues: 'List of issues',
   list_of_projects: 'List of projects',
   list_of_rules: 'List of rules',
   load_more: 'Load more',
-  load_verb: 'Load',
   loading: 'Loading',
   login: 'Login',
-  major: 'Major',
-  manual: 'Manual',
   max: 'Max',
-  max_results_reached: 'Only the first {0} results are displayed',
-  me: 'Me',
   member: 'Member',
   members: 'Members',
-  menu: 'Menu',
   min: 'Min',
-  minor: 'Minor',
   more: 'More',
   more_x: '{0} more',
   more_actions: 'More Actions',
   move: 'Move',
-  my_issues: 'My Issues',
-  my_favorite: 'My Favorite',
   my_favorites: 'My favorites',
-  my_projects: 'My Projects',
   name: 'Name',
-  navigation: 'Navigation',
   never: 'Never',
   new: 'New',
   next: 'Next',
   next_month_x: 'next month {month}',
   new_name: 'New name',
-  next_: 'next',
   none: 'None',
   no_file_selected: 'No file selected',
   no_tags: 'No tags',
-  not_now: 'Not now',
   not_impacted: 'Not impacted',
   off: 'off',
   on: 'on',
-  or: 'Or',
-  open: 'Open',
   open_in_ide: 'Open in IDE',
   'open_in_ide.safari.not_supported': 'Not supported',
   'open_in_ide.safari.not_supported.title': 'Feature not supported in Safari',
   'open_in_ide.safari.not_supported.description':
     'The "Open in IDE" feature is not supported in Safari. This is due to Safari\'s strict security policies regarding custom protocol links which are required to open files directly in your IDE. Please use Chrome or Firefox for this functionality.',
   open_issues: 'Open issues',
-  optional: 'Optional',
-  order: 'Order',
-  owner: 'Owner',
   parameters: 'Parameters',
   password: 'Password',
   confirm_password: 'Confirm Password',
   main: 'Main',
-  path: 'Path',
   permalink: 'Permanent Link',
-  plugin: 'Plugin',
   preview: 'Preview',
-  previous: 'Previous',
-  previous_: 'previous',
   previous_month_x: 'previous month {month}',
   prioritized: 'Prioritized',
   profile_name: 'Profile name',
@@ -256,17 +181,11 @@ export const defaultMessages = {
   projects: 'Projects',
   projects_: 'project(s)',
   x_projects_: '{count} project(s)',
-  project_plural: 'projects',
   projects_management: 'Projects management',
   pull_request: 'Pull request',
   'pull_request.gitlab': 'Merge request',
-  'pull_request.small': 'pull request',
   pull_requests: 'Pull requests',
   'pull_requests.gitlab': 'Merge requests',
-  quality_gate: 'Quality gate',
-  quality_profile: 'Quality profile',
-  raw: 'Raw',
-  recent_history: 'Recent History',
   recently_browsed: 'Recently Browsed',
   recommended: 'Recommended',
   references: 'References',
@@ -279,87 +198,50 @@ export const defaultMessages = {
   required: 'Required',
   reset_verb: 'Reset',
   reset_to_default: 'Reset To Default',
-  reset_date: 'Reset dates',
-  resolution: 'Resolution',
-  resolve: 'Resolve',
   restart: 'Restart',
   restore: 'Restore',
-  result: 'Result',
-  results: 'Results',
-  x_results: '{0} results',
-  review: 'Review',
   rule: 'Rule',
   rules: 'Rules',
   save: 'Save',
-  search_results: 'Search results',
   search_verb: 'Search',
-  secondary: 'Secondary',
-  see_all: 'See all',
-  see_x: 'See {0}',
   select_verb: 'Select',
   selected: 'Selected',
-  select_tags: 'Add or remove tags',
-  set: 'Set',
-  set_up: 'Set Up',
   setup: 'Setup',
   settings: 'Settings',
   severity: 'Severity',
-  severity_deprecated: 'Severity (deprecated)',
-  shared: 'Shared',
   start_date: 'Start date',
   x_show: '{0} shown',
   x_selected: '{0} selected',
   x_of_y_shown: '{0} of {1} shown',
-  size: 'Size',
-  skip: 'Skip',
   skip_to_content: 'Skip to main content',
   sonar: 'Sonar',
   status: 'Status',
   submit: 'Submit',
   support: 'Support',
   success: 'Success',
-  table: 'Table',
   tags: 'Tags',
   tags_list_x: 'Tags list: {tags}',
-  technical_debt: 'Technical Debt',
   template: 'Template',
-  title: 'Title',
   to: 'To',
   to_: 'to',
   total: 'Total',
-  tours: 'Tours',
-  treemap: 'Treemap',
-  true: 'True',
   troubleshooting_steps: 'Troubleshooting steps',
   type: 'Type',
   unassigned: 'Not assigned',
   uncheck_all: 'Uncheck all',
-  unit_test: 'Unit test',
-  unit_tests: 'Unit tests',
   unknown: 'Unknown',
-  unresolved: 'Unresolved',
   update: 'Update',
   updated: 'Updated',
-  updated_: 'updated',
-  updated_on: 'Updated on',
   updates: 'Updates',
   update_verb: 'Update',
-  updating: 'Updating',
   unselected: 'Unselected',
   user: 'User',
   username: 'Username',
-  value: 'Value',
-  variation: 'Variation',
-  version: 'Version',
   version_x: 'Version {0}',
   vex: 'VEX',
-  view: 'View',
-  views: 'Views',
   violations: 'Violations',
   visibility: 'Visibility',
   warnings: 'Warnings',
-  with: 'With',
-  worst: 'Worst',
   yes: 'Yes',
   no: 'No',
   valid_input: 'Valid input',
@@ -372,29 +254,21 @@ export const defaultMessages = {
 
   '404_not_found': '404 Not found',
   address_mistyped_or_page_moved: 'You may have mistyped the address or the page may have moved.',
-  and_worse: 'and worse',
   are_you_sure: 'Are you sure?',
-  as_explained_here: 'as explained here',
-  assigned_to: 'Assigned to',
   bulk_change: 'Bulk Change',
   bulleted_point: 'Bulleted point',
   clear: 'Clear',
   clear_x_filter: 'Clear {0} filters',
   clear_all_filters: 'Clear all filters',
-  coding_rules: 'Rules',
-  copy_permalink: 'Copy permalink',
   copy_to_clipboard: 'Click to copy to clipboard',
   copied_action: 'Copied to clipboard',
-  created_by: 'Created by',
   default_error_message: 'The request cannot be processed. Try again later.',
   default_component_error_message: 'The component cannot be loaded. Try again later.',
   default_save_field_error_message: 'This field cannot be saved. Try again later.',
-  default_severity: 'Default severity',
   edit_permissions: 'Edit Permissions',
   show_permissions: 'Show Permissions',
   facet_might_have_more_results:
     'There might be more results, try another set of filters to see them.',
-  false_positive: 'False positive',
   go_back_to_homepage: 'Back to homepage',
   hidden_for_security: 'Hidden for security',
   last_analysis_before: 'Last analysis before',
@@ -410,7 +284,6 @@ export const defaultMessages = {
   management: 'Management',
   more_information: 'More information',
   new_violations: 'New violations',
-  new_window: 'New window',
   no_data: 'No data',
   no_measure_value_x: 'No measure value for {0}',
   results_shown_x: '{count} results shown',
@@ -427,7 +300,6 @@ export const defaultMessages = {
   'select_list.no_items': 'No items',
   'select_list.no_selected_items': 'No selected items',
   'select_list.no_unselected_items': 'No unselected items',
-  'no_results_search.favorites.2': 'Would you like to search among {url} projects?',
   opens_in_new_window: 'Opens in a new window',
   page_extension_failed: 'Page extension failed.',
   page_not_found: 'The page you were looking for does not exist',
@@ -441,20 +313,9 @@ export const defaultMessages = {
   show_x_more: 'Show {x} more',
   show_more: 'Show more',
   show_more_filter_x: 'Show more results for "{0}" filter',
-  show_all: 'Show All',
   show_them: 'Show Them',
   should_be_unique: 'Should be unique',
   since_x: 'since {0}',
-  since_version: 'since version {0}',
-  'since_version.short': '{0}',
-  since_version_detailed: 'since version {0} ({1})',
-  'since_version_detailed.short': '{0} ({1})',
-  since_previous_version: 'since previous version',
-  'since_previous_version.short': '\u0394 version',
-  since_previous_version_detailed: 'since previous version ({0} - {1})',
-  since_previous_version_with_only_date: 'since previous version ({0})',
-  'since_previous_version_detailed.short': '\u0394 version ({0})',
-  this_name_is_already_taken: 'This name is already taken.',
   tooltip_is_interactive:
     'This is a tooltip with interactive elements. Use the TAB key to cycle through the interactive elements.',
   unexpected_error: 'An unexpected error occurred.',
@@ -464,7 +325,6 @@ export const defaultMessages = {
   'work_duration.x_days': '{0}d',
   'work_duration.x_hours': '{0}h',
   'work_duration.x_minutes': '{0}min',
-  'work_duration.about': '~ {0}',
 
   //------------------------------------------------------------------------------
   //
@@ -520,13 +380,6 @@ export const defaultMessages = {
   Thu: 'Thu',
   Fri: 'Fri',
   Sat: 'Sat',
-  Su: 'Su',
-  Mo: 'Mo',
-  Tu: 'Tu',
-  We: 'We',
-  Th: 'Th',
-  Fr: 'Fr',
-  Sa: 'Sa',
 
   'clear.start': 'Clear start date',
   'clear.end': 'Clear end date',
@@ -668,13 +521,11 @@ export const defaultMessages = {
   //
   //------------------------------------------------------------------------------
 
-  'event.category.All': 'All',
   'event.category.VERSION': 'Version',
   'event.category.QUALITY_GATE': 'Quality gate',
   'event.category.QUALITY_PROFILE': 'Quality profile',
   'event.category.SQ_UPGRADE': '{productName} upgrade',
   'event.category.DEFINITION_CHANGE': 'Definition Change',
-  'event.category.ISSUE_DETECTION': 'Issue Detection',
   'event.category.OTHER': 'Other',
   'event.quality_gate.still_x': 'Still {status}',
   'event.quality_gate.ERROR': 'Failed',
@@ -694,7 +545,6 @@ export const defaultMessages = {
   //
   //------------------------------------------------------------------------------
 
-  'global_nav.account.tooltip': 'Account',
   'global_nav.news.tooltip': 'Product news',
 
   //------------------------------------------------------------------------------
@@ -710,7 +560,6 @@ export const defaultMessages = {
   'layout.settings': 'Administration',
   'layout.policies': 'Policies',
   'layout.onboarding_dashboard': 'Project coverage',
-  'layout.architecture': 'Architecture',
   'layout.security_hotspots': 'Security hotspots',
   'layout.settings.TRK': 'Project settings',
   'layout.settings.APP': 'Application settings',
@@ -766,7 +615,6 @@ export const defaultMessages = {
   'sidebar.project_settings': 'Configuration',
   'sidebar.security': 'Security',
   'sidebar.system': 'System',
-  'sidebar.tools': 'Tools',
 
   //------------------------------------------------------------------------------
   //
@@ -1524,7 +1372,6 @@ export const defaultMessages = {
   'global_permissions.page': 'Global permissions',
   'global_permissions.page.description':
     'Grant and revoke permissions to make changes at the global level. These permissions include editing quality profiles, executing analysis, and performing global system administration.',
-  'roles.page': 'Project Permissions',
   'roles.page.description2':
     'Grant and revoke project-level permissions. Permissions can be granted to groups or individual users.',
   'roles.page.description_portfolio':
@@ -1627,26 +1474,17 @@ export const defaultMessages = {
   'project_baseline.update_success': 'New code definition has been updated',
 
   'baseline.specific_analysis': 'Specific analysis',
-  'baseline.specific_analysis.description': 'Choose an analysis as the baseline for the new code.',
   'baseline.reference_branch': 'Reference branch',
 
-  'baseline.reference_branch.description': 'Choose a branch as the baseline for the new code.',
-  'baseline.reference_branch.usecase': 'Recommended for projects using feature branches.',
-  'baseline.reference_branch.description2':
-    'The branch you select as the reference branch will need its own new code definition to prevent it from using itself as a reference.',
-
-  'baseline.last_analysis_before': 'Last analysis before',
   'baseline.next_analysis_notice': 'Changes will take effect after the next analysis',
 
   'baseline.reference_branch.does_not_exist':
     'Branch {branch} could not be found in {productName}.',
   'baseline.reference_branch.invalid_branch_setting':
     'Branch {0} cannot use itself as a reference. Define a specific setting instead of using the project-level setting.',
-  'baseline.edit_branch_setting': "Edit the branch's setting",
 
   'branch_list.branch': 'Branch',
   'branch_list.current_setting': 'Setting',
-  'branch_list.current_baseline': 'Current Baseline',
   'branch_list.actions': 'Actions',
   'branch_list.show_actions_for_x': 'Show actions for branch {0}',
   'branch_list.edit_for_x': 'Edit {0}',
@@ -1693,7 +1531,6 @@ export const defaultMessages = {
   'permissions.page': 'Permissions',
   'quality_profiles.page': 'Quality profiles',
   'quality_gates.page': 'Quality gates',
-  'patterns.page': 'Patterns (architecture)',
   'issues.page': 'Issues',
   'issues.skip_to_filters': 'Skip to issue filters',
   'issues.skip_to_list': 'Skip to issues list',
@@ -1710,7 +1547,6 @@ export const defaultMessages = {
   'portfolio_dashboards.health.page': 'Portfolio health dashboard',
   'portfolio_dashboards.all.page': 'All dashboards',
   'portfolio_dashboards.create_dashboard': 'Create custom dashboard',
-  'portfolio_dashboards.delete_confirm_title': 'Delete dashboard',
   'portfolio_dashboards.search_placeholder': 'Search for dashboard...',
   'portfolio_dashboards.number_of_dashboards':
     '<b>{count}</b> {count, plural, one {dashboard} other {dashboards}}',
@@ -1735,7 +1571,6 @@ export const defaultMessages = {
     'We could not duplicate your dashboard. Try again.',
   'project_dashboard.list.toast.edit_success': 'Dashboard {dashboardName} updated.',
   'project_dashboard.list.toast.duplicate_success': 'Dashboard {dashboardName} duplicated.',
-  'project_dashboard.built_in': 'Built-in dashboard',
   'project_dashboard.overview.banner.title': 'Meet the new Overview',
   'project_dashboard.overview.banner.description':
     "The Overview page has a new look, putting your project health metrics front and center. Looking for the previous Overview page? It's still available, now as the <link>analysis summary page.</link>",
@@ -1752,9 +1587,6 @@ export const defaultMessages = {
   // ASYNC PROCESS
   //
   //------------------------------------------------------------------------------
-
-  'process.still_working': 'Still Working...',
-  'process.fail': 'Failed',
 
   //------------------------------------------------------------------------------
   //
@@ -1782,7 +1614,6 @@ export const defaultMessages = {
   'audit_logs.housekeeping_policy.Yearly': 'one year',
 
   'audit_logs.download': 'Download Audit Logs',
-  'audit_logs.download_start.try_again': 'Try Again',
   'audit_logs.download_start.sentence.1':
     'Your download should start shortly. For longer periods this might take some time.',
   'audit_logs.download_start.sentence.2':
@@ -1834,21 +1665,14 @@ export const defaultMessages = {
   'hotspots.tabs.vulnerability_description': 'Assess the risk',
   'hotspots.tabs.fix_recommendations': 'How can I fix it?',
   'hotspots.tabs.activity': 'Activity',
-  'hotspots.tabs.code.short': 'Where',
-  'hotspots.tabs.risk_description.short': 'What',
-  'hotspots.tabs.vulnerability_description.short': 'Assess',
-  'hotspots.tabs.fix_recommendations.short': 'How',
-  'hotspots.tabs.activity.short': 'Activity',
   'hotspots.review_history.created': 'created Security Hotspot',
   'hotspots.review_history.comment_added': 'added a comment',
   'hotspots.comment.field': 'Comment:',
-  'hotspots.comment.open': 'Comment',
   'hotspots.comment.submit': 'Comment',
   'hotspots.open_in_ide.success': 'Success. Switch to your IDE to see the security hotspot.',
   'hotspots.open_in_ide.failure':
     "Unable to connect to your IDE to open the Security Hotspot. Please make sure you're running the latest version of SonarQube for IDE.",
 
-  'hotspots.assignee.select_user': 'Select a user...',
   'hotspots.assignee.change_user': 'Click to change assignee',
   'hotspots.status.cannot_change_status': "Changing a hotspot's status requires permission.",
   'hotspots.status.review': 'Review',
@@ -1870,7 +1694,6 @@ export const defaultMessages = {
   'hotspots.status_option.SAFE': 'Safe',
   'hotspots.status_option.SAFE.description':
     'The code has been reviewed and does not pose a risk. It does not need to be modified.',
-  'hotspots.get_permalink': 'Get Permalink',
   'hotspots.no_associated_lines':
     'This Security Hotspot is not associated with any specific lines of code.',
   'hotspots.congratulations': 'Congratulations!',
@@ -1886,7 +1709,6 @@ export const defaultMessages = {
   'hotspot.filters.title': 'Filters',
   'hotspot.filters.title_x': 'Apply filters to security hotspots; currently applied: {count}',
   'hotspot.filters.assignee.assigned_to_me': 'Assigned to me',
-  'hotspot.filters.assignee.all': 'All',
   'hotspot.filters.clear': 'Clear filters',
   'hotspot.filters.status': 'Status filter',
   'hotspot.filters.status.to_review': 'To review',
@@ -1894,9 +1716,7 @@ export const defaultMessages = {
   'hotspot.filters.status.acknowledged': 'Acknowledged',
   'hotspot.filters.status.fixed': 'Fixed',
   'hotspot.filters.status.FIXED': 'Fixed',
-  'hotspot.filters.period': 'Period filter',
   'hotspot.filters.period.since_leak_period': 'New code',
-  'hotspot.filters.period.overall': 'Overall code',
   'hotspot.filters.status.safe': 'Safe',
   'hotspot.filters.status.SAFE': 'Safe',
   'hotspot.filters.by_file_or_list_x': 'Your hotspots are currently filtered, {show_all_link}',
@@ -1907,7 +1727,6 @@ export const defaultMessages = {
 
   'hotspots.reviewed.tooltip':
     'Percentage of open Security Hotspots that have been reviewed (Acknowledged, Fixed or Safe)',
-  'hotspots.review_hotspot': 'Review Hotspot',
 
   'hotspots.assign.success': 'Security Hotspot was successfully assigned to {0}',
   'hotspots.assign.unassign.success': 'Security Hotspot was successfully unassigned',
@@ -1927,49 +1746,33 @@ export const defaultMessages = {
   'issues.on_file_x': 'Issues on file {file}',
   'tags.add_tags': 'Add Tags',
   'tags.remove_tags': 'Remove Tags',
-  'issue.no_tag': 'No tags',
   'issue.create_tag': 'Create Tag',
-  'issue.create_tag_x': 'Create Tag "{0}"',
   'issue.tags': 'Tags',
   'tags.edit_button_label': 'Edit tags: {tags}',
-  'issue.permalink_copy': 'Copy permalink to current issue: "{title}"',
   'issue.assign.assigned_to_x_click_to_change': 'Assigned to {user}, click to change',
   'issue.assign.unassigned_click_to_assign': 'Unassigned, click to assign issue',
   'issue.assign.formlink': 'Assign',
-  'issue.assign.to_me': 'to me',
   'issue.quick_fix': 'Quick fix',
-  'issue.quick_fix_available_with_sonarlint': 'Quick fix available in {link}',
   'issue.quick_fix_available_with_sonarlint_no_link': 'Quick fix available in SonarQube for IDE',
   'issue.details.assignee': 'Assignee',
-  'issue.details.deferral_date': 'Reopening Date',
   'issue.details.code_attribute': 'Code Attribute',
   'issue.details.properties': 'Properties',
   'issue.details.software_quality_impacts': 'Software quality impacts',
   'issue.details.status': 'Status',
   'issue.details.tags': 'Tags',
   'issue.details.type': 'Type',
-  'issue.comment.add_comment': 'Add Comment',
   'issue.comment.add_comment.submit': 'Comment',
-  'issue.comment.add_comment.cancel': 'Cancel adding comment',
   'issue.comment.enter_comment': 'Enter Comment',
   'issue.comment.formlink': 'Comment',
-  'issue.comment.formlink.total': 'comment',
-  'issue.comment.formlink.total.plural': 'comments',
-  'issue.comment.explain_why': 'Consider explaining why',
-  'issue.comment.posted_on': 'Comment posted on',
   'issue.comment.edit': 'Edit comment',
-  'issue.comment.edit.cancel': 'Cancel editing comment',
   'issue.comment.delete': 'Delete comment',
   'issue.comment.delete_confirm_message': 'Do you want to delete this comment?',
-  'issue.comment.empty.list': 'There are no comments yet on this issue.',
-  'issue.rule_details': 'Rule Details',
   'issue.back_to_issues_list': 'Back to issues list',
   'issue.send_notifications': 'Send Notifications',
   'issue.label': 'Issue on file {file} and line {line} - {issue},',
   'issue.why_this_issue': 'Why is this an issue?',
   'issue.why_this_issue.long':
     "Why is this an issue? Open the rule's details at the bottom of the page.",
-  'issue.severity.updated_notification.link.standard': "This {type}'s",
   'issue.severity.updated_notification.link.mqr': "This issue's",
   'issue.severity.updated_notification':
     '{issueLink, select, other { {issueLink} }} {quality, select, other { {quality} }} severity was changed from {before} to {after}',
@@ -1982,31 +1785,6 @@ export const defaultMessages = {
     "Issues that don't affect the quality gate or measures, but should be triaged to avoid technical debt accumulation",
   'issue.transition.in_sandbox_helptext':
     'If "In sandbox" status is changed, it can\'t be assigned again',
-  'issue.transition': 'Transition',
-  'issue.transition.accept': 'Accept',
-  'issue.transition.accept.description':
-    "Won't fix immediately, but will no longer affect the quality gate",
-  'issue.transition.confirm': 'Confirm',
-  'issue.transition.confirm.description':
-    'Confirmation that the issue is valid. Issue impacts the quality gate',
-  'issue.transition.unconfirm': 'Open',
-  'issue.transition.unconfirm.description': 'Issue impacts the quality gate',
-  'issue.transition.resolve': 'Fixed',
-  'issue.transition.resolve.description':
-    'Marked manually as fixed, but will reopen after the next analysis',
-  'issue.transition.falsepositive': 'False Positive',
-  'issue.transition.falsepositive.description': 'Analysis is incorrect',
-  'issue.transition.reopen': 'Open',
-  'issue.transition.reopen.description': 'Issue impacts the quality gate',
-  'issue.transition.wontfix': "Won't Fix",
-  'issue.transition.wontfix.description': 'Deprecated',
-  'issue.transition.openasvulnerability': 'Open as Vulnerability',
-  'issue.transition.openasvulnerability.description':
-    "There's a Vulnerability in the code that must be fixed",
-  'issue.transition.resolveasreviewed': 'Resolve as Reviewed',
-  'issue.transition.resolveasreviewed.description': 'There is no Vulnerability in the code',
-  'issue.transition.resetastoreview': 'Reset as To Review',
-  'issue.transition.resetastoreview.description': 'The Security Hotspot should be analyzed again',
   'issue.transition.status_change': 'Status change',
   'issue.transition.go_back_change_status': 'Go back to status change',
   'issue.transition.change_status': 'Change status',
@@ -2059,14 +1837,11 @@ export const defaultMessages = {
     'This issue is {status}. It was detected in the file below and is no longer being detected.',
   'issue.closed.project_level':
     'This issue is {status}. It was detected in the project below and is no longer being detected.',
-  'issues.assignee.change_user': 'Click to change assignee',
   'issue.prioritized_rule.description':
     'The associated rule has been designated as a priority in the quality profile, indicating that all corresponding issues in Overall Code should be fixed.',
 
   'issues.action_select': 'Select issue',
   'issues.action_select.label': 'Select issue {0}',
-  'issue.set_severity': 'Change Severity',
-  'issue.set_type': 'Change Type',
 
   'issue.type.CODE_SMELL': 'Code smell',
   'issue.type.BUG': 'Bug',
@@ -2087,14 +1862,6 @@ export const defaultMessages = {
   'issue.type.severity.button.change':
     '{type} of {severity} severity . Click to change the severity.',
 
-  'issue.severity.deprecation.title':
-    'Severities are now directly tied to the software quality impacted. This old severity is deprecated and can no longer be modified.',
-  'issue.severity.deprecation.filter_by': 'You can now filter issues by:',
-  'issue.severity.deprecation.documentation': 'Documentation',
-  'issue.severity.new': 'The new severities',
-
-  'issue.cct_attribute.label': 'Code attribute',
-  'issue.software_qualities.label': 'Software qualities impacted',
   'issue.impact.severity.tooltip':
     'This issue has a {severity} impact on the {quality} of your software.',
 
@@ -2124,7 +1891,6 @@ export const defaultMessages = {
   'cct.clean_code_attribute_category.RESPONSIBLE.advice':
     'To be responsible, the code must take into account its ethical obligations on data and potential impact of societal norms.',
 
-  'cct.clean_code_attribute': 'Code attribute',
   'cct.clean_code_attribute.CLEAR': 'Not clear',
   'cct.clean_code_attribute.CLEAR.rule': 'Clear',
   'cct.clean_code_attribute.CLEAR.issue.title':
@@ -2271,27 +2037,20 @@ export const defaultMessages = {
   'issue.resolution.REMOVED': 'Removed',
   'issue.resolution.REMOVED.description':
     'Either the rule or the resource was changed (removed, relocated, parameters changed, etc.) so that analysis no longer finds these issues.',
-  'issue.unresolved.description': 'Unresolved issues have not been addressed in any way.',
 
   'issue.preview.jupyter_notebook.error':
     'Error while loading the Jupyter notebook. Use the Code tab to see issue details.',
 
-  'issue.action.permalink': 'Get permalink',
   'issue.line_affected': 'Line affected',
   'issue.introduced': 'Introduced',
-  'issue.rule_status': 'Rule status',
   'issue.effort': 'Effort',
   'issue.x_effort': '{0} effort',
   'issue.ncloc_x.short': 'L{0}',
   'issue.1_code_variant': '1 variant',
   'issue.x_code_variants': '{0} variants',
-  'issue.filter_similar_issues': 'Filter Similar Issues',
-  'issue.this_issue_involves_x_code_locations': 'This issue involves {0} code location(s)',
-  'issue.this_flow_involves_x_code_locations': 'This flow involves {0} code location(s)',
   'issue.from_external_rule_engine': 'Issue detected by an external rule engine: {0}',
   'issue.external_issue_description': 'This is external rule {0}. No details are available.',
   'issues.loading_issues': 'Loading issues',
-  'issues.return_to_list': 'Return to List',
   'issues.bulk_change_X_issues': 'Bulk Change {0} Issue(s)',
   'issues.fix_x_with_agent': '{count, plural, =0 {Fix with agent} other {Fix {count} with agent}}',
   'issues.fix_with_agent': 'Fix with agent',
@@ -2476,14 +2235,8 @@ export const defaultMessages = {
   'project_agent_activity.show_more': 'Show more',
   'issues.select_all_issues': 'Select all Issues',
   'issues.issues': 'issues',
-  'issues.to_select_issues': 'Select issues',
-  'issues.to_navigate': 'Navigate to issue',
-  'issues.to_navigate_back': 'to navigate back',
-  'issues.to_navigate_issue_locations': 'to navigate issue locations',
-  'issues.to_switch_flows': 'to switch flows',
   'issues.new_code': 'Issues in new code',
   'issues.new_code_period': 'New Code Period',
-  'issues.max_new_code_period': 'Max New Code Period',
   'issues.my_issues': 'My Issues',
   'issues.sort.label': 'Sort by',
   'issues.sort.PRIORITY': 'Priority',
@@ -2493,7 +2246,6 @@ export const defaultMessages = {
   'issues.no_issues': 'No Issues. Hooray!',
   'issues.fixed_issues': 'Fixed issues',
   'issues.fixed_issues.description': 'List of issues that will be fixed by {pullRequest}',
-  'issues.x_more_locations': '+ {0} more locations',
   'issues.not_all_issue_show': 'Not all issues are included',
   'issues.not_all_issue_show_why': 'You do not have access to all projects in this portfolio',
   'issues.qg_mismatch.title': 'Mode metrics mismatch',
@@ -2508,7 +2260,6 @@ export const defaultMessages = {
   'issue.activity.add_comment': 'Add a comment',
 
   // ISSUES SUBNAVIGATION
-  'issue.hint.navigate': 'Navigate locations',
   'issues.x_execution_flows':
     '{flowsCount, plural, one {{flows} execution flow} other {{flows} execution flows}}',
   'issues.execution_flow': 'execution flow',
@@ -2541,10 +2292,8 @@ export const defaultMessages = {
   // ISSUE CHANGELOG
   //
   //------------------------------------------------------------------------------
-  'issue.changelog.found_on_x_show_more': 'Found on {0}; click to see changelog',
   'issue.changelog.changed_to': '{0} changed to {1}',
   'issue.changelog.was': 'was {0}',
-  'issue.changelog.webhook_source': ' (change triggered by a {0} webhook)',
   'issue.change.file_move': 'The file has been moved from {0} to {1}',
   'issue.change.from_branch':
     "The issue has been copied from branch ''{branchA}'' to branch ''{branchB}''",
@@ -3434,12 +3183,6 @@ export const defaultMessages = {
   // ARCHITECTURE PAGE
   //
   //------------------------------------------------------------------------------
-  'architecture.empty_state.title': 'The architecture diagram is not available',
-  'architecture.empty_state.body':
-    'If your project is compatible with the architecture feature, please run a new scan and the diagram will appear here.',
-  'architecture.empty_state.body1': 'Supported Languages: {supported_languages}',
-  'architecture.empty_state.body2': 'Active Languages: {active_languages}',
-  'architecture.empty_state.get_started.title': 'Get started!',
   'architecture.project_too_big.title': 'Project too big to display',
   'architecture.project_too_big.body': "This project is too big and can't be displayed.",
   'architecture.page.deviations': 'Deviations',
@@ -3477,22 +3220,14 @@ export const defaultMessages = {
   'architecture.page.model.intended.legend.bullet.4':
     'Relations can only be defined between sibling components',
   'architecture.page.model.intended.legend.bullet.5': 'Relations are inherited by children',
-  'architecture.page.model.visual.new_group': 'New Group',
-  'architecture.page.model.visual.sidebar.title': 'Source Nodes',
-  'architecture.page.model.visual.sidebar.description': 'Drag nodes to create groups in the model',
   'architecture.page.model.visual.button.add_component.label': 'Add component',
-  'architecture.page.model.visual.button.add_component': 'Component',
   'architecture.page.model.navigation_guard.title': 'You have unsaved changes',
   'architecture.page.model.navigation_guard.message':
     'If you leave now, your progress will be lost. Are you sure you want to discard your changes?',
   'architecture.page.model.navigation_guard.leave': 'Exit without saving',
   'architecture.page.model.navigation_guard.stay': 'Keep editing',
-  'architecture.page.dashboard.no_model.title': 'Intended architecture not defined',
-  'architecture.page.dashboard.model.description_admin':
-    'Create an intended architecture for this project with a few top components to detect the first deviations.',
   'architecture.page.dashboard.model.description_view_only':
     'An architecture administrator should define the intended architecture to detect deviations.',
-  'architecture.page.dashboard.model.create_model': 'Get started',
   'architecture.page.dashboard.has_disabled_rules':
     'Some rules can be activated to raise issues on deviations and flaws.',
   'architecture.page.dashboard.resources_link':
@@ -3511,8 +3246,6 @@ export const defaultMessages = {
   'architecture.page.model.seed.start_from_scratch': 'Start from scratch',
   'architecture.page.model.no_architecture_available':
     "This project doesn't have an intended architecture defined. Architecture administrators are able to create it.",
-  'architecture.page.model.invalid_groups':
-    'Invalid {groupsCount, plural, one {group} other {groups}}: {groups}',
   'architecture.page.model.visual.detail_view.simple': 'Simple',
   'architecture.page.model.visual.detail_view.detailed': 'Detailed',
   'architecture.page.model.errors.constraint.duplicate':
@@ -3544,7 +3277,6 @@ export const defaultMessages = {
   'architecture.page.model.modal.move_component.new_location': 'New location:',
   'architecture.page.model.modal.move_component.warning':
     'When moving the component, all sibling relationships will be lost.',
-  'architecture.page.model.modal.move_component_name': 'Component name',
   'architecture.page.model.modal.move_component_name_placeholder': 'Enter component name...',
   'architecture.page.model.modal.move_component.disabled_duplicate':
     'This component has a child with the same name.',
@@ -3558,21 +3290,7 @@ export const defaultMessages = {
     'You cannot move this component to the language root.',
   'architecture.page.model.modal.rename_component.title': "Rename ''{label}''",
   'architecture.page.model.modal.rename_component.new_name': 'New name',
-  'architecture.page.model.modal.code_artifacts': 'Code Artifacts',
-  'architecture.page.model.modal.search_artifacts': 'Search artifacts',
-  'architecture.page.model.modal.covered_by': 'covered by {pattern}',
-  'architecture.page.model.modal.assigned': 'Assigned',
-  'architecture.page.model.modal.unassigned': 'Unassigned',
-  'architecture.page.model.link_description': 'of the project.',
-  'architecture.page.model.loading_description': 'Intended architecture loading...',
-  'architecture.page.model.visual.search.placeholder': 'Search...',
   'architecture.page.model.visual.no_components_available': 'No components can be added',
-  'architecture.page.model.relationships.incoming.label': 'Has incoming relationships',
-  'architecture.page.model.relationships.outgoing.label': 'Has outgoing relationships',
-  'architecture.page.model.relationships.no-siblings':
-    'This component has no siblings and cannot have relationships.',
-  'architecture.page.model.relationships.all_selected':
-    'All components are already part of a relationship.',
   'architecture.page.model.spotlight.interface_design': 'Interface Design',
   'architecture.page.model.spotlight.component_structure': 'Component structure',
   'architecture.page.model.spotlight.description': 'Description',
@@ -3587,7 +3305,6 @@ export const defaultMessages = {
   'architecture.page.model.pattern_confirm.title': 'Assign pattern?',
   'architecture.page.model.pattern_confirm.message':
     'Assigning a pattern will remove all child components of this group. Are you sure you want to continue?',
-  'architecture.page.model.edit.title': 'Edit mode',
   'architecture.page.model.source.server.badge': 'Server managed',
   'architecture.page.model.source.server.badge.tooltip':
     "This intended architecture is saved in SonarQube for the whole project, so it's the same on every branch and pull request.",
@@ -3618,21 +3335,13 @@ export const defaultMessages = {
   'architecture.page.model.edit.orphan_warning.save': 'Save anyway',
   'architecture.page.model.edit.interface_warning.description':
     'Without at least one interface member, all components will be inaccessible from the outside.',
-  'architecture.page.model.modal.add_component': 'Add Component',
-  'architecture.page.model.modal.add_subcomponent': 'Add Sub-Component',
-  'architecture.page.model.modal.add_component.title': 'New Component',
   'architecture.page.model.modal.add_component.description':
     'Add a new component to your architecture model.',
-  'architecture.page.model.modal.add_subcomponent.title': 'New Sub-Component',
   'architecture.page.model.modal.add_subcomponent.description':
     'Add a new sub-component to {parentName}.',
-  'architecture.page.model.modal.for_existing_code': 'For existing code',
-  'architecture.page.model.modal.for_future_code': 'For future code',
   'architecture.page.model.modal.choose_existing_component': 'Choose an existing component',
   'architecture.page.model.modal.choose_existing_subcomponent': 'Choose an existing sub-component',
-  'architecture.page.model.modal.select_placeholder': 'Select a component...',
   'architecture.page.model.modal.name_in_intended_architecture': 'Name in intended architecture',
-  'architecture.page.model.node.action_needed': 'You must define relationships.',
   'architecture.page.model.view_details': 'View details',
   'architecture.page.model.interface_badge.has_hidden_children':
     '{count, plural, one {# hidden group} other {# hidden groups}}',
@@ -3686,7 +3395,6 @@ export const defaultMessages = {
   'architecture.page.smells_description':
     'Shows architecture problems that tend to worsen over time. Left unaddressed, they increase coupling and make changes harder to localize.',
   'architecture.page.deviations_card': 'Deviations',
-  'architecture.page.architecture_deviations': 'Deviations',
   'architecture.page.structural_flaws': 'Flaws',
   'architecture.page.deviations_card_description':
     'Shows how much and where the codebase diverges from the intended architecture. Deviations appear in structure, which describes how elements are organized, and in relationships, which describe how elements depend on each other.',
@@ -3699,19 +3407,11 @@ export const defaultMessages = {
   'architecture.disallowed_dependencies.table.depth': 'Depth',
   'architecture.disallowed_dependencies.table.weight': 'Occurrences',
   'architecture.disallowed_dependencies.table.issues': 'Open issues',
-  'architecture.disallowed_dependencies.description':
-    'Dependencies between two code components that are not explicitly allowed in the intended architecture.',
   'architecture.page.misplaced_components': 'Structure',
   'architecture.page.misplaced_components_full': 'Structural deviations',
   'architecture.page.misplaced_components.count':
     '{count, plural, one {<bold>1</bold> Structural deviation} other {<bold>{count}</bold> Structural deviations}}',
   'architecture.page.deviations.no_data': 'No deviations found',
-  'architecture.misplaced_components.description':
-    'Components in the intended architecture referencing code artifacts that are located elsewhere in the codebase.',
-  'architecture.admin.promotion.message':
-    'Try Design & Architecture free Early Access to Visualize your codebase and start formalizing your software architecture. <link>Enable Design & Architecture</link>',
-  'architecture.user.promotion.message':
-    'You now have Design & Architecture enabled in Early Access, you can start to visualize your codebase, define and verify your architecture. <link>Take me there!</link>',
   'architecture.no_graph_file.message':
     'No data available. Please run an analysis first, or see the analysis logs for more information.',
   'architecture.unsupported_language.message': 'No supported languages found for this project.',
@@ -3738,11 +3438,6 @@ export const defaultMessages = {
   'architecture.patterns.edit.spotlight.structure.title': 'Structure',
   'architecture.patterns.edit.spotlight.structure.label': 'Add child component',
   'architecture.patterns.edit.spotlight.structure.placeholder': "'<name>'",
-  'architecture.patterns.column.projects': 'Projects',
-  'architecture.nodes.orphans.label': 'Orphans ({orphansCount})',
-  'architecture.nodes.orphans.name': 'Orphans',
-  'architecture.tangles.description':
-    'Groups of code components interconnected in a complex way, making them harder to understand and maintain.',
   'architecture.tangles.title':
     '{containersCount} {containerWord} and {elementsCount} {elementWord}{filename}',
   'architecture.tangles.title.filename': ' inside {filename}',
@@ -3776,32 +3471,18 @@ export const defaultMessages = {
   'architecture.tangle.directive.absent.description':
     'No directive exists to remove this dependency.',
   'architecture.tangle.directive.deletion.success': 'Dependency removal cancelled',
-  'architecture.tangle.directive.callout.message': 'Select a dependency to manage its removal.',
   'architecture.directives.error.ecosystem_unresolved':
     "Cannot determine the project's primary language. Please reload and try again.",
-  'architecture.discovery.description': 'Discover the structure of your project.',
-  'architecture.discovery.spotlight.path.copy': 'Copy: {path}',
-  'architecture.discovery.spotlight.incoming_dependencies':
-    '{count, plural, one {1 incoming dependency} other {{count} incoming dependencies}}',
-  'architecture.discovery.spotlight.outgoing_dependencies':
-    '{count, plural, one {1 outgoing dependency} other {{count} outgoing dependencies}}',
-  'architecture.discovery.spotlight.direct': 'Direct',
-  'architecture.discovery.spotlight.transitive': 'Transitive',
   'architecture.discovery.spotlight.no_incoming_dependencies': 'No incoming dependencies',
   'architecture.discovery.spotlight.no_outgoing_dependencies': 'No outgoing dependencies',
   'architecture.discovery.spotlight.parent_no_dependencies_message':
     'Select a child item on the graph to see its dependencies.',
-  'architecture.discovery.spotlight.weight':
-    '{weight, plural, one {1 underlying dependency} other {{weight} underlying dependencies}}',
   'architecture.search.x_found': '{count} found',
   'architecture.search.more': 'Top results shown. Refine for more.',
   'architecture.discovery.rollup.button.on': 'Simple',
   'architecture.discovery.rollup.button.off': 'Detailed',
   'architecture.discovery.rollup.button.disabled_tooltip':
     'Select a component or relationship to switch between Simple and Detailed views',
-  'architecture.model.no_subcomponents': 'No subcomponents',
-  'architecture.model.add_subcomponent': 'Subcomponent',
-  'architecture.model.add_subcomponent_label': 'Add subcomponent',
   'architecture.misplaced_components.table.misplaced_component': 'Component',
   'architecture.misplaced_components.table.depth': 'Depth',
   'architecture.misplaced_components.table.weight': 'Occurrences',
@@ -3819,7 +3500,6 @@ export const defaultMessages = {
   'architecture.directives.type.rename': 'Rename',
   'architecture.directives.create.button': 'Create directive',
   'architecture.directives.delete.button': 'Delete directive',
-  'architecture.project_relationships.page': 'Exit points',
   'architecture.project_relationships.nav': 'Exit points',
   'architecture.list.delete.confirm.title': 'Delete',
   'architecture.list.delete.confirm.body': "Are you sure you want to delete ''{name}''?",
@@ -3829,7 +3509,6 @@ export const defaultMessages = {
   'architecture.external_interfaces.list.delete.confirm.body':
     "Deleting the system component ''{name}'' will also remove it from any project relationships where it is currently used. This can't be undone.",
   'architecture.organization.cross_project.title': 'Cross-project architecture',
-  'architecture.organization.current.page': 'Current architecture',
   'architecture.enterprise_settings.nav': 'Architecture',
   'architecture.enterprise_settings.title': 'Architecture settings',
   'architecture.enterprise_settings.checkbox.title': 'Enable enterprise architecture features',
@@ -3987,7 +3666,6 @@ export const defaultMessages = {
   'projects.not_analyzed.APP': "None of the Application's projects have been analyzed.",
   'projects.no_new_code_period.TRK': 'Project has no new code data yet.',
   'projects.no_new_code_period.APP': 'Application has no new code data yet.',
-  'projects.new_code_period_x': 'New code: last {0}',
   'projects.configure_analysis': 'Configure analysis',
   'projects.configure_analysis_for_x': 'Configure analysis for project {project}',
   'projects.last_analysis_on_x': 'Last analysis: {date}',
@@ -4020,13 +3698,9 @@ export const defaultMessages = {
   'projects.view.overall': 'Overall Status',
   'projects.view.overall_code': 'Overall Code',
   'projects.view.new_code': 'New Code',
-  'projects.worse_of_reliablity_and_security': 'Worse of Reliability and Security',
-  'projects.limited_set_of_projects':
-    'Displayed project set limited to the top {0} projects based on current sort: {1}.',
   'projects.facets.quality_gate': 'Quality gate',
   'projects.facets.quality_gate.warning_help':
     'Warning status is deprecated. This filter will disappear when no Warning quality gate remains.',
-  'projects.facets.rating_x': '{0} rating',
   'projects.facets.rating_option.reliability.legacy.1': '≥ 0 info issues',
   'projects.facets.rating_option.reliability.legacy.2': '≥ 1 minor issue',
   'projects.facets.rating_option.reliability.legacy.3': '≥ 1 major issue',
@@ -4069,28 +3743,18 @@ export const defaultMessages = {
   'projects.facets.security.description': 'Vulnerability count',
   'projects.facets.reliability.description': 'Bug count',
   'projects.facets.languages': 'Languages',
-  'projects.facets.search.languages': 'Search for languages',
-  'projects.facets.new_lines': 'New Lines',
   'projects.facets.new_ncloc': 'New lines of code',
   'projects.facets.tags': 'Tags',
-  'projects.facets.search.tags': 'Search for tags',
   'projects.facets.qualifier': 'Type',
-  'projects.facets.qualitygate_label_x': 'Click to filter projects with a {0} quality gate.',
   'projects.facets.rating_label_single_x': 'Click to filter projects with a {0} rating of {1}.',
   'projects.facets.rating_label_multi_x':
     'Click to filter projects with a {0} rating of {1} or worse.',
   'projects.facets.label_no_data_x': 'Click to filter projects with no {0} data.',
-  'projects.facets.label_text_x': 'Click to filter projects by {0}: {1}',
   'projects.facets.size.label.1': 'Click to filter projects with fewer than 1k lines of code',
   'projects.facets.size.label.2': 'Click to filter projects with 1k lines of code or more',
   'projects.facets.size.label.3': 'Click to filter projects with 10k lines of code or more',
   'projects.facets.size.label.4': 'Click to filter projects with 100k lines of code or more',
   'projects.facets.size.label.5': 'Click to filter projects with more than 500k lines of code',
-  'projects.facets.new_lines.label.1': 'Click to filter projects with fewer than 1k new lines',
-  'projects.facets.new_lines.label.2': 'Click to filter projects with 1k new lines or more',
-  'projects.facets.new_lines.label.3': 'Click to filter projects with 10k new lines or more',
-  'projects.facets.new_lines.label.4': 'Click to filter projects with 100k new lines or more',
-  'projects.facets.new_lines.label.5': 'Click to filter projects with more than 500k new lines',
   'projects.facets.new_ncloc.label.1':
     'Click to filter projects with fewer than 1k new lines of code',
   'projects.facets.new_ncloc.label.2': 'Click to filter projects with 1k new lines of code or more',
@@ -4112,24 +3776,6 @@ export const defaultMessages = {
   'projects.facets.duplication.label.5': 'Click to filter projects with more than 20% duplication',
   'projects.facets.no_available_filters_clear_others':
     'No available filters. Clear other filters to see options.',
-  'projects.sort.disabled':
-    'Disabled because sorting cannot affect the displayed result with the current project selection.',
-  'projects.sort.analysis_date': 'by last analysis date (oldest first)',
-  'projects.sort.-analysis_date': 'by last analysis date (latest first)',
-  'projects.sort.name': 'by name',
-  'projects.sort.-name': 'by name',
-  'projects.sort.reliability': 'by reliability (best first)',
-  'projects.sort.-reliability': 'by reliability (worst first)',
-  'projects.sort.security': 'by security (best first)',
-  'projects.sort.-security': 'by security (worst first)',
-  'projects.sort.maintainability': 'by maintainability (best first)',
-  'projects.sort.-maintainability': 'by maintainability (worst first)',
-  'projects.sort.coverage': 'by coverage (best first)',
-  'projects.sort.-coverage': 'by coverage (worst first)',
-  'projects.sort.duplications': 'by duplications (best first)',
-  'projects.sort.-duplications': 'by duplications (worst first)',
-  'projects.sort.size': 'by size (smallest first)',
-  'projects.sort.-size': 'by size (biggest first)',
   'projects.show_more': 'Show more projects',
   'projects.security_hotspots_reviewed': 'Hotspots Reviewed',
   'projects.awaiting_scan': 'Change in Calculation',
@@ -4145,12 +3791,8 @@ export const defaultMessages = {
   'projects.ai_code_assurance_off.description': 'AI Code Assurance is off',
   'projects.ai_code_assurance_fail.description': 'AI Code Assurance failed',
   'projects.ai_code_assurance_pass.description': 'AI Code Assurance passed',
-  'projects.ai_code_assurance_on.content':
-    'This project contains AI-generated code and benefits from Sonar’s AI Code Assurance.',
   'projects.ai_code_assurance.edit_quality_gate': 'Change quality gate',
   'projects.ai_code.tooltip.content': 'This project contains AI-generated code.',
-  'projects.ai_code_assurance.tooltip.content':
-    'This project contains AI-generated code and benefits from Sonar’s AI Code Assurance.',
   'projects.ai_code_detected.title': 'AI code detected',
   'projects.ai_code_detected.description': 'This project may contain AI-generated code.',
   'projects.ai_code_detected.link': 'Review AI-Generated Code setting',
@@ -4260,7 +3902,6 @@ export const defaultMessages = {
     'Average time to resolve dependency risks in the last 30 days.<br></br><br></br>Includes dependency risks that are closed (no longer appear in a subsequent analysis) and those that are marked safe within the last 30 days.<br></br><br></br>This metric <b>excludes</b> confirmed and false positive dependency risks.<br></br><br></br><link>Learn more about metrics</link>',
   'dashboard.widget.header.title.issue_density_tooltip':
     'The number of issues relative to lines of code, normalized as issues per 1K LOC.<br></br><br></br>Issue density helps you compare projects more fairly, regardless of size.<br></br><br></br><link>Learn more about metrics</link>',
-  'dashboard.add_widgets': 'Add widgets',
   'dashboard.add_widget_modal.define_widget.visualization': 'Visualization',
   'dashboard.add_widget_modal.define_widget.visualization.select': 'Select visualization',
   'dashboard.add_widget_modal.define_widget.visualization.group.single_value': 'Single value',
@@ -4314,7 +3955,6 @@ export const defaultMessages = {
   'dashboard.add_widget_modal.define_widget.slice.by_security_category': 'By Security Category',
   'dashboard.add_widget_modal.define_widget.slice.by_coverage': 'By Coverage',
   'dashboard.add_widget_modal.define_widget.slice.by_duplications': 'By Duplications',
-  'dashboard.add_widget_modal.define_widget.facet_type': 'Facet Type',
   'dashboard.add_widget_modal.define_widget.facet_type.select': 'Select facet type',
   'dashboard.add_widget_modal.define_widget': '1. Define your widget',
   'dashboard.add_widget_modal.define_widget.description':
@@ -4361,7 +4001,6 @@ export const defaultMessages = {
   'dashboard.pie_chart.header.slice.project_status': 'Quality gate status',
   'dashboard.sparkline.aria.trend_down':
     'Downward trend of {percent} from the first to the last value.',
-  'dashboard.add_widget_modal.preview.title': 'Preview',
   'dashboard.add_widget_modal.apply_filters_section.select.scope.label': 'Scope',
   'dashboard.add_widget_modal.apply_filters_section.select.scope.option.overall_code':
     'Overall code',
@@ -4401,11 +4040,8 @@ export const defaultMessages = {
   'dashboard.add_widget_modal.apply_filters_section.select.status.label': 'Status',
   'dashboard.add_widget_modal.apply_filters_section.select.status.placeholder': 'Select statuses',
   'dashboard.widget.error.description': 'Something went wrong while fetching results',
-  'dashboard.widget.trend_indicator': '{change} (last 30 days)',
-  'dashboard.widget.trend_indicator.absolute': '{change} (last 30 days)',
   'dashboard.widget.trend_indicator.badge.absolute': '{change}',
   'dashboard.widget.trend_indicator.badge.relative': '{change}',
-  'dashboard.widget.trend_indicator.no_change': 'No change (last 30 days)',
   'dashboard.line_chart.limited_history_warning': 'Data available from {date} onwards.',
   'dashboard.line_chart.single_data': 'Only one data point available to display',
   'dashboard.line_chart.single_data_series':
@@ -4418,7 +4054,6 @@ export const defaultMessages = {
   'dashboard.delete_section_title': 'Delete Section',
   'dashboard.delete_section_confirm':
     'Are you sure you want to delete this section? This will permanently remove the section and all its widgets.',
-  'dashboard.list.number_of_dashboards': '<b>{count}</b> dashboard(s)',
   'dashboard.modal.permission_access.title': 'Permissions and access',
   'project_dashboard.modal.permission_access.private_project_description':
     'Visible and editable by anyone with browse access to this private project.',
@@ -4431,8 +4066,6 @@ export const defaultMessages = {
   'dashboard.view_all_dashboards': 'View all dashboards',
   'dashboard.download_schema': 'Save dashboard schema',
   'dashboard.download_pdf': 'Download dashboard as PDF',
-  'project_dashboard.widget.no_issues': 'No issues found',
-  'project_dashboard.widget.other': 'Other',
   'project_dashboard.widget.tooltip.count': 'Count: {count}',
   'project_dashboard.widget.tooltip.percentage': 'Percentage: {percentage}',
   'project_dashboard.widget.pie_chart': 'Pie chart',
@@ -4648,7 +4281,6 @@ export const defaultMessages = {
   //
   //------------------------------------------------------------------------------
   'settings.key_x': 'Key: {0}',
-  'settings.default_x': 'Default: {0}',
   'settings.not_set': '(not set)',
   'settings.state.saving': 'Saving...',
   'settings.state.saved': 'Saved!',
@@ -4659,7 +4291,6 @@ export const defaultMessages = {
     'Provide a value or use "Reset" to set the value to the default one.',
   'settings.state.value_cant_be_empty_no_default': 'Provide a value.',
   'settings.state.url_not_valid': '{url} is not a valid URL',
-  'settings._default': '(default)',
   'settings.boolean.true': 'True',
   'settings.boolean.false': 'False',
   'settings.default.no_value': "'<no value>'",
@@ -4674,7 +4305,6 @@ export const defaultMessages = {
     'This feature is deprecated and will be removed in a future release',
 
   'settings.search.placeholder': 'Find in settings',
-  'settings.search.results': 'Search results list',
 
   'settings.json.format': 'Format JSON',
   'settings.json.format_error': 'Formatting requires valid JSON. Please fix it and retry.',
@@ -4683,16 +4313,11 @@ export const defaultMessages = {
     'Narrow the focus by configure what will be analyzed and how. Learn more about <link>analysis scope</link>.',
   'settings.analysis_scope.wildcards.introduction':
     'You can set analysis parameters by using the following <link>wild card patterns</link>:',
-  'settings.analysis_scope.wildcards.link': 'wild card patterns',
   'settings.analysis_scope.wildcards.zero_more_char': 'Match zero or more characters',
   'settings.analysis_scope.wildcards.zero_more_dir': 'Match zero or more directories',
   'settings.analysis_scope.wildcards.single_char': 'Match a single character',
-  'settings.analysis_scope.learn_more': 'Read more about analysis scope',
 
   'settings.new_code_period.category': 'New code',
-  'settings.new_code_period.title': 'New Code',
-
-  'settings.languages.select_a_language_placeholder': 'Select a language',
 
   'settings.projects.default_visibility_of_new_projects': 'Default visibility of new projects:',
   'settings.projects.change_visibility_form.label': 'Change default visibility of new projects',
@@ -4726,8 +4351,6 @@ export const defaultMessages = {
     'Create your first Azure DevOps configuration to start analyzing your repositories on {productName}.',
   'settings.almintegration.empty.bitbucket':
     'Create your first Bitbucket configuration to start analyzing your repositories on {productName}.',
-  'settings.almintegration.empty.bitbucketcloud':
-    'Create your first Bitbucket Cloud configuration to start analyzing your repositories on {productName}.',
   'settings.almintegration.empty.github':
     'Create your first GitHub configuration to start analyzing your repositories on {productName}.',
   'settings.almintegration.empty.gitlab':
@@ -4819,7 +4442,6 @@ export const defaultMessages = {
   'settings.almintegration.form.name.bitbucket': 'Configuration name',
   'settings.almintegration.form.name.bitbucket.help':
     'Give your configuration a clear and succinct name. This name will be used at project level to identify the correct configured Bitbucket instance for a project.',
-  'settings.almintegration.form.name.bitbucketcloud': 'Configuration name',
   'settings.almintegration.form.name.bitbucketcloud.help':
     'Give your configuration a clear and succinct name. This name will be used at project level to identify the correct configured Bitbucket Cloud instance for a project.',
   'settings.almintegration.form.name.github': 'Configuration name',
@@ -4880,7 +4502,6 @@ export const defaultMessages = {
     '{productName} needs a {pat} to report the quality gate status on Pull Requests in Bitbucket Data Center. To create this token, we recommend using a dedicated Bitbucket Data Center account with administration permissions. The token itself needs {permission} permission. {doc_link}',
   'settings.almintegration.form.personal_access_token.bitbucket.help.url': 'Personal Access Token',
   'settings.almintegration.form.save': 'Save configuration',
-  'settings.almintegration.form.cancel': 'Cancel',
   'settings.almintegration.form.secret.field': 'This field is hidden for security reasons.',
   'settings.almintegration.form.secret.update_field': 'Update field value',
   'settings.almintegration.form.secret.update_field_x': 'Update {0} value',
@@ -5007,7 +4628,6 @@ export const defaultMessages = {
     'Just-in-Time provisioning',
   'settings.authentication.github.form.provisioning_with_github.description':
     'Users, groups and permissions are automatically provisioned from your GitHub organizations. Once activated, users and groups can only be created and modified from your GitHub organizations/teams. Existing local users will be kept and can only be deactivated. {documentation}',
-  'settings.authentication.github.form.description.doc': 'For more details, see {documentation}.',
   'settings.authentication.github.form.provisioning_at_login.description':
     'Users and groups are synchronized only when users log in to {productName}. {documentation}',
   'settings.authentication.github.form.provisioning.disabled':
@@ -5019,7 +4639,6 @@ export const defaultMessages = {
   'settings.authentication.github.form.projectVisibility.description':
     'Change project visibility based on GitHub repository visibility. If disabled, every provisioned project will be private in {productName} and visible only to users with explicit GitHub permissions for the corresponding repository. Changes take effect at the next synchronization.',
   'settings.authentication.github.synchronize_now': 'Synchronize now',
-  'settings.authentication.github.synchronization_finish': 'Synchronization is done.',
   'settings.authentication.github.configuration.validation.details': 'View details',
   'settings.authentication.github.configuration.validation.valid.short': 'Configuration is valid.',
   'settings.authentication.github.configuration.validation.valid':
@@ -5157,16 +4776,8 @@ export const defaultMessages = {
     'Once you transition to automatic provisioning, groups, users and group memberships will be managed by your identity provider. You will no longer have the ability to edit them within {productName}. Do you want to proceed with this change?',
   'settings.authentication.saml.confirm.jit.description':
     'Switching to Just-in-Time provisioning removes all information provided while automatic provisioning through SCIM was active. These changes cannot be reverted. Are you sure?',
-  'settings.authentication.saml.form.loading': 'Loading SAML configuration',
   'settings.authentication.saml.form.not_configured': 'SAML is not configured',
-  'settings.authentication.saml.form.create': 'New SAML configuration',
-  'settings.authentication.saml.form.edit': 'Edit SAML configuration',
-  'settings.authentication.saml.form.save': 'Save configuration',
   'settings.authentication.saml.form.test': 'Test configuration',
-  'settings.authentication.saml.form.test.help.dirty': 'You must save your changes',
-  'settings.authentication.saml.form.test.help.incomplete': 'Some mandatory fields are empty',
-  'settings.authentication.saml.form.save_success': 'Saved successfully',
-  'settings.authentication.saml.form.save_partial': 'Saved partially',
   'settings.authentication.saml.form.provisioning_at_login':
     'Just-in-Time user and group provisioning (default)',
   'settings.authentication.saml.form.provisioning_at_login.sub':
@@ -5242,23 +4853,7 @@ export const defaultMessages = {
   'settings.pr_decoration.binding.form.gitlab.repository.help':
     'The Project ID is a numerical unique identifier for your project. You can find it on your Project Overview.',
 
-  'settings.email_notification.category': 'Email notification',
-  'settings.email_notification.header': 'SMTP Configuration',
-
   // Design and Architecture
-  'settings.design_and_architecture.category': 'Design & Architecture',
-  'settings.design_and_architecture.header': 'Design & Architecture',
-  'settings.design_and_architecture.description.1':
-    "This free trial is being offered at Sonar's discretion and may be discontinued in the future. At the end of the trial, Design & Architecture will become a paid feature. Your organization will not incur and changes for using this feature during the trial period.",
-  'settings.design_and_architecture.description.2':
-    'Activate this option to enable any user in your organization to visualize your codebase directly in SonarQube.',
-  'settings.design_and_architecture.description.3':
-    'By activating this option, you agree to the <link>Early Access Terms</link>',
-  'settings.design_and_architecture.enable': 'Enable Design & Architecture',
-  'settings.design_and_architecture.disable': 'Disable Design & Architecture',
-  'settings.design_and_architecture.tour.title': 'Enable Design & Architecture',
-  'settings.design_and_architecture.tour.content':
-    'You can enable Design & Architecture later by going to Administration > Configuration > Design & Architecture.',
 
   // Mode
   'settings.mode.title': 'Mode',
@@ -5298,20 +4893,6 @@ export const defaultMessages = {
   'settings.early_access.title': 'Early access features',
   'settings.early_access.description':
     'Features listed below are offered for free in early access trial at Sonar’s discretion. The trial may be discontinued at any time. Your organization will not be charged for using them during the trial. Terms and conditions may apply.',
-  'settings.early_access.misra.title': 'MISRA Compliance',
-  'settings.early_access.misra.description.line1':
-    'Enable this feature to preview additional MISRA C++2023 rules.',
-  'settings.early_access.misra.description.line2':
-    'At the end of the trial, the MISRA Compliance early access features will be deactivated and all new MISRA C++2023 rules will be removed from the quality profiles. Your organization will not be charged.',
-  'settings.early_access.misra.checkbox_label': 'Enable early access MISRA Compliance',
-  'settings.early_access.misra.dialog_title':
-    'You are about to {enable, select, true {enable} other {disable}} early access trial to MISRA Compliance feature',
-  'settings.early_access.misra.dialog_description.enable':
-    'A preview of additional MISRA C++2023 rules will be available for this instance. <p>Sonar may stop the trial at any time. When it stops, the MISRA Compliance early access features will be deactivated, all new MISRA C++2023 rules will be removed from the quality profiles, and all related detected issues will be closed.</p> Your organization will not be charged.',
-  'settings.early_access.misra.dialog_description.disable':
-    'All new MISRA C++2023 rules will be removed from the quality profiles, and all related detected issues will be closed. As long as the early access to this feature is available, you can enable it again. <p>Are you sure you want to continue?</p>',
-  'settings.early_access.misra.success':
-    'Early access to MISRA Compliance {enabled, select, true {is enabled} other {is disabled}} for this instance',
 
   // Sandbox issue settings
   'settings.sandbox_issues.title': 'Sandbox specific issue categories after SonarQube update',
@@ -5339,7 +4920,6 @@ export const defaultMessages = {
     'Allow project admins to customize issue type and severity',
   'settings.sandbox_issues.override_admins.helpText':
     'If unchecked, the settings above are enforced on all projects',
-  'settings.sandbox_issues.override_admins.invalid': 'Define if admins can override your choice',
   'settings.sandbox_issues.default_enablement.title': 'Default project setting',
   'settings.sandbox_issues.default_enablement.yes.description':
     'Active for all existing and future projects. Can be disabled by project admins',
@@ -5389,7 +4969,6 @@ export const defaultMessages = {
   'settings.slack.install_app.hint':
     'Did you know you can install SonarQube for Slack to multiple workspaces?',
   'settings.slack.update_configuration_modal.title': 'Slack configuration',
-  'settings.slack.update_configuration_modal.hint': 'How can I update my secrets?',
   'settings.slack.update_configuration_modal.update_button': 'Update configuration',
   'settings.slack.remove_configuration': 'Remove Slack configuration',
   'settings.slack.remove_configuration_modal.title':
@@ -5496,11 +5075,6 @@ export const defaultMessages = {
   'property.sonar.coverage.exclusions.description':
     'Patterns used to exclude some files from coverage report.',
   'property.category.technicalDebt': 'Technical debt',
-  'property.error.notBoolean': 'Valid options are "true" and "false"',
-  'property.error.notInteger': 'Only digits are allowed',
-  'property.error.notFloat': 'Not a floating point number',
-  'property.error.notRegexp': 'Regular expression must be valid',
-  'property.error.notInOptions': 'Not a valid option',
   'property.category.scm': 'SCM',
   'property.category.housekeeping': 'Housekeeping',
   'property.category.housekeeping.general': 'General',
@@ -5565,7 +5139,6 @@ export const defaultMessages = {
     'You are about to disable the Software Composition Analysis (SCA) feature',
   'property.sca.confirm.modal.description.disable':
     'Users will not be able to scan their projects for issues in their third-party dependencies any more. Are you sure you want to continue?',
-  'property.sca.message.updated': 'Sonar SCA {0}',
 
   'property.sca.admin.selftest.title': 'Check connection to the SonarQube SCA service',
   'property.sca.admin.selftest.description':
@@ -5594,7 +5167,6 @@ export const defaultMessages = {
     'SCA has been enabled and will run on a project-by-project basis.',
   'property.sca.admin.disabled.message.body':
     'You must enable SCA for each project you want SCA analysis for. Then, the next time an analysis runs on one of your projects, the scan will check the project’s dependencies for risks. For information on <link>how to ensure your projects are ready for SCA analysis</link> and more, view our complete configuration guide.',
-  'property.sca.admin.disabled.message.link': 'View configuration guide',
 
   'property.aicodefix.admin.title': 'Enable AI-generated fix suggestions',
   'property.aicodefix.admin.description':
@@ -5612,11 +5184,6 @@ export const defaultMessages = {
     'Enable AI CodeFix on selected projects only',
   'property.aicodefix.admin.enable.some.projects.note':
     'AI CodeFix will not be automatically enabled on new projects.',
-  'property.aicodefix.admin.early_access.title': 'Free - early access feature',
-  'property.aicodefix.admin.early_access.content1':
-    "This no-cost trial is offered to you at Sonar's discretion during the early access period.",
-  'property.aicodefix.admin.early_access.content2':
-    'Sonar may stop the trial at any time. At the end of the trial, the AI CodeFix feature will be deactivated and your organization will not be charged.',
   'property.aicodefix.admin.promotion.title':
     'This SonarQube Server edition doesn’t support this feature',
   'property.aicodefix.admin.promotion.subtitle': 'Unlock AI-generated fix suggestions',
@@ -5624,10 +5191,8 @@ export const defaultMessages = {
     'Enable users to generate AI-suggested code fixes for issues on selected projects or across all projects using the Sonar AI CodeFix service.',
   'property.aicodefix.admin.promotion.content_2':
     'To have access to AI CodeFix, upgrade to Enterprise edition and above.',
-  'property.aicodefix.admin.promotion.learn_more': 'Learn more about {link}',
   'property.aicodefix.admin.promotion.more_about_ai_fix_suggestions':
     'More about AI-generated fix suggestions',
-  'property.aicodefix.admin.promotion.plan_pricing': 'Plans and pricing',
   'property.aicodefix.admin.promotion.enterprise_only': 'Enterprise only',
   'property.aicodefix.admin.promotion.checkDocumentation': 'Check documentation',
   'aicodefix.admin.provider.title': 'Provider',
@@ -5640,10 +5205,6 @@ export const defaultMessages = {
   'aicodefix.admin.custom_headers.secret': 'Secret',
   'aicodefix.admin.custom_headers.add': 'Add custom header',
   'aicodefix.admin.custom_headers.delete': 'Remove header {name}',
-  'aicodefix.azure_open_ai.endpoint.label': 'Endpoint',
-  'aicodefix.azure_open_ai.endpoint.help': 'Provide Azure OpenAI API endpoint',
-  'aicodefix.azure_open_ai.apiKey.label': 'API Key',
-  'aicodefix.azure_open_ai.apiKey.help': 'Provide Azure OpenAI API key',
   'aicodefix.admin.provider.secret.placeholder': 'Value is hidden, type a new key to update',
   'aicodefix.updated': 'AI CodeFix settings is {0} on your instance!',
   'aicodefix.update_error': 'Fail to save settings. {0}',
@@ -5661,14 +5222,10 @@ export const defaultMessages = {
   // SEARCH ENGINE FOR RESOURCES
   //
   //------------------------------------------------------------------------------
-  'search.shortcut_hint': 'Hint: Press {shortcut} from anywhere to open this search bar.',
-  'search.show_more.hint': 'Press {key} to display',
-  'search.placeholder': 'Search for projects...',
   'search.search_for_projects': 'Search projects',
   'search.search_for_cves':
     'Search by vulnerability{withLicense, select, true { or license ID} other {}}...',
   'search.search_for_dependencies': 'Search by dependency name...',
-  'search.search_for_members': 'Search for members...',
   'search.search_for_users': 'Search for users...',
   'search.search_for_users_or_groups': 'Search for users or groups...',
   'search.search_by_login_or_name': 'Search by login or name...',
@@ -5682,10 +5239,8 @@ export const defaultMessages = {
   'search.search_for_authors': 'Search for authors...',
   'search.search_for_directories': 'Search for directories...',
   'search.search_for_files': 'Search for files...',
-  'search.search_for_modules': 'Search for modules...',
   'search.search_for_metrics': 'Search for metrics...',
   'search.search_for_profiles': 'Search for quality profiles...',
-  'search.tooShort': 'Please enter at least {0} characters',
 
   'global_search.shortcut_hint': "Hint: Press 'S' from anywhere to open this search bar.",
 
@@ -5694,54 +5249,14 @@ export const defaultMessages = {
   // GLOBAL HELP
   //
   //------------------------------------------------------------------------------
-  'help.section.links': 'Links',
-  'help.section.shortcuts': 'Shortcuts',
-  'help.section.tutorials': 'Tutorials',
 
-  'shortcuts.section.global': 'Global',
-  'shortcuts.section.global.search': 'quickly open search bar',
-  'shortcuts.section.global.shortcuts': 'open this window',
   'shortcuts.section.global.facets.multiselection': 'Add to selection',
-
-  'shortcuts.section.issues': 'Issues Page',
-  'shortcuts.section.issues.navigate_between_issues': 'navigate between issues',
-  'shortcuts.section.issues.open_details': 'go from the list of issues to the source code',
-  'shortcuts.section.issues.return_to_list': 'return back to the list',
-
-  'shortcuts.section.issue.do_transition': 'do an issue transition',
-  'shortcuts.section.issue.assign': 'assign issue',
-  'shortcuts.section.issue.assign_to_me': 'assign issue to the current user',
-  'shortcuts.section.issue.change_severity': 'change severity of issue',
-  'shortcuts.section.issue.comment': 'comment issue',
-  'shortcuts.section.issue.submit_comment': 'submit comment',
-  'shortcuts.section.issue.change_tags': 'change tags of issue',
-
-  'shortcuts.section.rules': 'Rules Page',
-  'shortcuts.section.rules.navigate_between_rules': 'navigate between rules',
-  'shortcuts.section.rules.open_details': 'go from the list of rules to the rule details',
-  'shortcuts.section.rules.return_to_list': 'return back to the list',
-  'shortcuts.section.rules.activate': 'activate selected rule',
-  'shortcuts.section.rules.deactivate': 'deactivate selected rule',
-
-  'shortcuts.on_page.intro': 'This page allows you to use the following keyboard shortcuts:',
-  'shortcuts.on_page.left_x': 'Left arrow key: {0}',
-  'shortcuts.on_page.left_right_x': 'Left and right arrow keys: {0}',
-  'shortcuts.on_page.up_down_x': 'Up and down arrow keys: {0}',
-  'shortcuts.on_page.meta_x': 'Alt key + arrow keys: {0}',
-
-  'tutorials.onboarding': 'Analyze a new project',
-  'tutorials.skip': 'Skip this tutorial',
-  'tutorials.finish': 'Finish this tutorial',
-  'tutorials.find_tutorial_back_in_help': 'Find this tutorial back anytime in the Help section',
-  'tutorials.find_tutorial_back_in_plus': 'Find this tutorial back anytime in the "+" menu',
 
   //------------------------------------------------------------------------------
   //
   // SELECT2.js
   //
   //------------------------------------------------------------------------------
-  'select2.noMatches': 'No matches',
-  'select2.searching': 'Searching...',
   'select2.tooShort': 'Please enter at least {0} characters',
 
   //------------------------------------------------------------------------------
@@ -5780,8 +5295,6 @@ export const defaultMessages = {
   'code_viewer.not_all_measures_are_shown': 'Not all projects and applications are included',
   'code_viewer.not_all_measures_are_shown.help':
     'You do not have access to all projects and/or applications.',
-  'code_viewer.portfolio_code_toggle_disabled.help':
-    'New Code and Overall Code measures are not available when searching for projects or applications.',
   'code_viewer.loading': 'Source code is loading',
 
   //------------------------------------------------------------------------------
@@ -5789,21 +5302,6 @@ export const defaultMessages = {
   // CUSTOM MEASURES
   //
   //------------------------------------------------------------------------------
-  'custom_measures.page': 'Custom Measures',
-  'custom_measures.page.description':
-    "Update the values of custom metrics for this project. Changes will take effect at the project's next analysis. Custom metrics must be created at the global level.",
-  'custom_measures.deprecated': 'Custom measures are deprecated and will be removed soon.',
-  'custom_measures.pending': 'Pending',
-  'custom_measures.pending_tooltip':
-    'The value will be integrated to project during next analysis.',
-  'custom_measures.all_metrics_taken':
-    'There are already measures on all available custom metrics.',
-  'custom_measures.delete_custom_measure': 'Delete Custom Measure',
-  'custom_measures.delete_custom_measure.confirmation':
-    'Are you sure you want to delete custom measure "{0}"?',
-  'custom_measures.create_custom_measure': 'Create Custom Measure',
-  'custom_measures.update_custom_measure': 'Update Custom Measure',
-  'custom_measures.metric': 'Metric',
 
   //------------------------------------------------------------------------------
   //
@@ -5847,7 +5345,6 @@ export const defaultMessages = {
   //------------------------------------------------------------------------------
 
   'project_branch_selector.title': 'Branches and pull requests',
-  'project_branch_selector.filters': 'Filter by branches or pull requests',
   'project_branch_selector.search': 'Search branches or pull requests',
   'project_branch_selector.none': 'No results',
   'project_branch_selector.link.all': 'View all',
@@ -5860,7 +5357,6 @@ export const defaultMessages = {
   //
   //------------------------------------------------------------------------------
 
-  'project_activity.analysis': 'Analysis',
   'project_activity.analysis_build_string_X': 'Build string: {0}',
   'project_activity.add_version': 'Create Version',
   'project_activity.analysis_X_actions': 'Show actions for analysis {0}',
@@ -5894,7 +5390,6 @@ export const defaultMessages = {
   'project_activity.graphs.duplications': 'Duplications',
   'project_activity.graphs.custom': 'Custom',
   'project_activity.graphs.custom.add': 'Add metric',
-  'project_activity.graphs.custom.add_metric': 'Add a metric',
   'project_activity.graphs.custom.select_metric': 'Select metric to display',
   'project_activity.graphs.custom.add_metric_info':
     'Only 3 metrics of the same type can be displayed on one graph. You can have a maximum of two graphs.',
@@ -5905,7 +5400,6 @@ export const defaultMessages = {
     'This metric has no historical data to display.',
   'project_activity.graphs.custom.metric_no_history.coverage':
     'No coverage data available. Make sure coverage analysis is set up correctly.',
-  'project_activity.graphs.custom.search': 'Search for a metric by name',
   'project_activity.graphs.custom.type_x_message':
     'Only "{0}" metrics are available with your current selection.',
   'project_activity.graphs.graph_shown_x': 'Graph shown for {0}.',
@@ -5952,7 +5446,6 @@ export const defaultMessages = {
   'project_quality_profile.instance_default': 'Instance default:',
   'project_quality_profile.successfully_updated':
     '{0} quality profile has been successfully updated.',
-  'project_quality_profile.subtitle': 'Manage project quality profiles',
   'project_quality_profile.always_use_default': 'Always use the instance default quality profile',
   'project_quality_profile.current': 'Current quality profile',
   'project_quality_profile.always_use_specific': 'Always use a specific quality profile',
@@ -6002,15 +5495,12 @@ export const defaultMessages = {
   'ai_generated_code_not_protected.description':
     'The quality gate used by this project is not qualified for AI Code Assurance.',
   'ai_generated_code.change_quality_gate': 'Change quality gate',
-  'ai_generated_code.success_message': 'AI-generated Code setting has been successfully updated.',
   'ai_generated_code.autodetect': 'Autodetect AI-Generated Code',
   'ai_generated_code.autodetect.description':
     'Select this option to allow SonarQube Server to <link>autodetect AI-generated code</link> in this project. This feature currently supports organizations using GitHub and GitHub Copilot, and relies on the “GitHub Copilot Business” Organization permission from the GitHub App.',
   'ai_generated_code.autodetect.label': 'Autodetect AI-generated code in this project',
   'ai_generated_code.autodetect.turned_off_globally':
     'This setting is turned off globally for this SonarQube Server instance. It cannot be turned on for this project.',
-  'ai_generated_code.autodetect.success_message':
-    'Autodetect AI-generated has been successfully updated.',
   'ai_generated_code.autodetect.detected_code':
     'This project may contain AI-generated code. Some contributors in this project used GitHub Copilot recently. We recommend that you activate "Contains AI-generated code" below to benefit from Sonar\'s AI Code Assurance.',
   'ai_generated_code.review_profiles.title': 'Review this project’s quality profiles',
@@ -6025,7 +5515,6 @@ export const defaultMessages = {
   // PROJECT QUALITY GATE PAGE
   //
   //------------------------------------------------------------------------------
-  'project_quality_gate.default_qgate': 'Default',
   'project_quality_gate.successfully_updated': 'Quality gate has been successfully updated.',
   'project_quality_gate.always_use_default': 'Always use the instance default quality gate',
   'project_quality_gate.always_use_specific': 'Always use a specific quality gate',
@@ -6056,7 +5545,6 @@ export const defaultMessages = {
 
   'project_deletion.delete_resource_confirmation': 'Are you sure you want to delete "{name}"?',
   'project_deletion.resource_deleted': "Project ''{name}'' has been successfully deleted.",
-  'projects_management.delete_resource_confirmation': 'Are you sure you want to delete "{0}"?',
   'projects_management.delete_selected_warning': "You're about to delete {0} selected items.",
   'projects_management.delete_all_warning': "You're about to delete all {0} items.",
   'projects_management.project_has_been_successfully_created':
@@ -6082,17 +5570,9 @@ export const defaultMessages = {
   'project.info.quality_gate': 'Quality gate used',
   'project.info.quality_gate.link_label':
     '{gate} - quality gate used for this project. Click to navigate to the quality gate page.',
-  'project.info.to_notifications': 'Set notifications',
   'project.info.notifications': 'Notifications',
   'project.info.main_branch': 'Main branch',
   'project.info.see_more_info_on_x_locs': 'See more information on your {0} lines of code',
-  'project.info.make_home.title': 'Use as homepage',
-  'project.info.make_home.label': 'Make this project my homepage',
-  'application.info.make_home.label': 'Make this application my homepage',
-  'project.info.make_home.tooltip':
-    "This means you'll be redirected to this project whenever you log in to {productName} or click on the top-left {productName} logo.",
-  'application.info.make_home.tooltip':
-    "This means you'll be redirected to this application whenever you log in to {productName} or click on the top-left {productName} logo.",
   'overview.project_key.tooltip.TRK':
     'Your project key is a unique identifier for your project. If you are using Maven, make sure the key matches the "groupId:artifactId" format.',
   'overview.project_key.tooltip.APP':
@@ -6170,7 +5650,6 @@ export const defaultMessages = {
   'quality_profiles.copy_x_title': 'Copy Profile "{profile}" - {language}',
   'quality_profiles.extend_x_title': 'Extend Profile "{profile}" - {language}',
   'quality_profiles.rename_x_title': 'Rename Profile {profile} - {language}',
-  'quality_profiles.deprecated': 'deprecated',
   'quality_profiles.severity_set_to': 'Severity set to',
   'quality_profiles.changelog.ACTIVATED': 'Activated',
   'quality_profiles.changelog.DEACTIVATED': 'Deactivated',
@@ -6189,7 +5668,6 @@ export const defaultMessages = {
   'quality_profiles.changelog.impact_removed':
     'Software impact {oldSoftwareQuality} with severity {oldSeverity} was removed',
   'quality_profiles.changelog.sq_upgrade': 'Instance updated to {productName} {sqVersion}',
-  'quality_profiles.deleted_profile': "The profile {0} doesn't exist anymore",
   'quality_profiles.projects_for_default':
     'Every project not specifically associated with a quality profile will be associated to this one by default.',
   'quality_profile.x_rules': '{count} rule(s)',
@@ -6205,12 +5683,7 @@ export const defaultMessages = {
   'quality_profiles.change_parent': 'Change Parent',
   'quality_profiles.change_parent_warning':
     'By changing the parent of this profile, any information on inherited rules that were manually disabled will be lost. This means some previously disabled rules might be re-enabled.',
-  'quality_profiles.all_profiles': 'All Profiles',
   'quality_profiles.x_profiles': '{name}, {count} profile(s)',
-  'quality_profiles.projects.select_hint':
-    'Click to associate this project with the quality profile',
-  'quality_profiles.projects.deselect_hint':
-    'Click to remove association between this project and the quality profile',
   'quality_profile.empty_comparison': 'The quality profiles are equal.',
   'quality_profiles.activate_more': 'Activate More',
   'quality_profiles.activate_more.help.built_in':
@@ -6245,7 +5718,6 @@ export const defaultMessages = {
     'These deprecated rules will eventually disappear. You should proactively investigate replacing them.',
   'quality_profiles.deprecated_rules_are_still_activated':
     'Deprecated rules are still activated on {count} quality profile(s):',
-  'quality_profiles.sonarway_missing_rules': 'Sonar way rules not included',
   'quality_profiles.sonarway_missing_rules_description':
     'Recommended rules are missing from your profile',
   'quality_profiles.x_sonarway_missing_rules':
@@ -6267,8 +5739,6 @@ export const defaultMessages = {
   'quality_profiles.built_in.description':
     'Sonar way serves as the definitive baseline for codebases where human intuition and authorship drive the logic. While AI might assist, this profile is built on the principle that humans must still read, understand, and evolve the code over years of development.',
   'quality_profiles.built_in.description.learn_more': '<link>Learn why in our documentation</link>',
-  'quality_profiles.extends_built_in':
-    'Because this quality profile inherits from a built-in quality profile, it might be updated automatically.',
   'quality_profiles.no_built_in_updates_warning':
     'This quality profile does not inherit from a built-in profile. It will not benefit from automatic updates when new rules are introduced.',
   'quality_profiles.no_built_in_updates_warning_admin':
@@ -6281,7 +5751,6 @@ export const defaultMessages = {
     'Users with the global "Administer quality profiles" permission and those listed below can manage this quality profile.',
   'quality_profiles.grant_permissions_to_more_users': 'Grant permissions to more users',
   'quality_profiles.grant_permissions_to_user_or_group': 'Grant permissions to a user or a group',
-  'quality_profiles.additional_user_groups': 'Additional users / groups:',
   'quality_profiles.search_description': 'Search users by login or name, and groups by name:',
   'quality_profiles.permissions.remove.user': 'Remove permission from user',
   'quality_profiles.permissions.remove.user_x': 'Remove permission from user {0}',
@@ -6295,9 +5764,6 @@ export const defaultMessages = {
     'Create a new quality profile as a replica of "{profile}".  The two profiles will then evolve independently.',
   'quality_profiles.extend_help':
     'Create a child quality profile inheriting all active rules from "{profile}". Changes to "{profile}" will impact the child profile.',
-  'quality_profiles.extend_description': 'This profile extends {link}.',
-  'quality_profiles.extend_description_help':
-    'Changes to "{0}" or any of its parents may impact this quality profile.',
   'quality_profiles.chose_creation_type': 'What type of profile do you want to create?',
   'quality_profiles.creation_from_extend': 'Extend an existing quality profile',
   'quality_profiles.creation_from_extend_description_1':
@@ -6314,7 +5780,6 @@ export const defaultMessages = {
     'Create a new quality profile with no active rules by default.',
   'quality_profiles.creation.choose_parent_quality_profile': 'Profile to extend',
   'quality_profiles.creation.choose_copy_quality_profile': 'Profile to copy',
-  'quality_profiles.name_invalid': 'Quality profile name should not be empty',
   'quality_profiles.actions': 'Open {0} {1} quality profile actions',
   'quality_profiles.aica.tooltip.icon':
     'Standard for projects where human authorship drive the logic, although AI assisted',
@@ -6341,7 +5806,6 @@ export const defaultMessages = {
     'SonarQube Advanced Security add-on is required for this condition to work.',
   'quality_gates.is_default_no_conditions':
     'This is the default quality gate, but it has no configured conditions. Please configure at least 1 condition for this quality gate.',
-  'quality_gates.is_built_in.description': 'Sonar way is recommended for most projects. {link}',
   'quality_gates.is_built_in.tooltip': 'Built-in quality gate reflecting recommended practices',
   'quality_gates.is_built_in.ai.tooltip':
     'Built-in quality gate reflecting recommended practices for AI-generated code',
@@ -6374,16 +5838,11 @@ export const defaultMessages = {
   'quality_gates.conditions.error_message.percent': 'Value must be between 0 and 100',
   'quality_gates.conditions.error_message.default': 'Value is invalid',
   'quality_gates.no_conditions': 'No Conditions',
-  'quality_gates.health_icons': 'Project health icons represent:',
   'quality_gates.projects_for_default':
     'Every project not specifically associated to a quality gate will be associated to this one by default.',
   'quality_gates.projects.with': 'With',
   'quality_gates.projects.without': 'Without',
   'quality_gates.projects.all': 'All',
-  'quality_gates.projects.noResults': 'No Projects',
-  'quality_gates.projects.select_hint': 'Click to associate this project with the quality gate',
-  'quality_gates.projects.deselect_hint':
-    'Click to remove association between this project and the quality gate',
   'quality_gates.projects.cannot_associate_projects_no_conditions':
     'You must configure at least 1 condition before you can assign projects to this quality gate.',
   'quality_gates.projects.ai_assured_message': 'This project contains AI-generated code.',
@@ -6391,16 +5850,8 @@ export const defaultMessages = {
   'quality_gates.operator.inverted.LT': 'greater than or equal',
   'quality_gates.operator.GT': 'is greater than',
   'quality_gates.operator.inverted.GT': 'less than or equal',
-  'quality_gates.operator.EQ': 'equals',
-  'quality_gates.operator.NE': 'is not',
-  'quality_gates.operator.LT.short': '<',
-  'quality_gates.operator.GT.short': '>',
-  'quality_gates.operator.EQ.short': '=',
-  'quality_gates.operator.NE.short': '\u2260',
   'quality_gates.operator.LT.rating': 'is better than',
   'quality_gates.operator.GT.rating': 'is worse than',
-  'quality_gates.operator.EQ.rating': 'is',
-  'quality_gates.operator.NE.rating': 'is not',
   'quality_gates.operator.GTE.issueSeverity': 'is greater than or equal to',
   'quality_gates.operator.LT.issueSeverity': 'is less than',
   'quality_gates.operator.least': 'at least',
@@ -6440,14 +5891,10 @@ export const defaultMessages = {
   'quality_gates.conditions.new_code.long': 'Conditions on New Code',
   'quality_gates.conditions.new_code.description':
     'Conditions on new code apply to all branches and to pull requests.',
-  'quality_gates.conditions.new_code_1': '1 condition failed on new code',
-  'quality_gates.conditions.new_code_x': '{0} conditions failed on new code',
   'quality_gates.conditions.overall_code': 'On Overall Code',
   'quality_gates.conditions.overall_code.long': 'Conditions on Overall Code',
   'quality_gates.conditions.overall_code.description':
     'Conditions on overall code apply to branches only.',
-  'quality_gates.conditions.overall_code_1': '1 condition failed on overall code',
-  'quality_gates.conditions.overall_code_x': '{0} conditions failed on overall code',
   'quality_gates.conditions.x_conditions_failed':
     '{conditions} {conditions, plural, one {condition} other {conditions}} failed',
   'quality_gates.conditions.operator': 'Operator',
@@ -6455,16 +5902,8 @@ export const defaultMessages = {
   'quality_gates.conditions.threshold': 'Set condition value',
   'quality_gates.conditions.where': 'Where?',
   'quality_gates.duplicated_conditions': 'This quality gate has duplicated conditions:',
-  'quality_gates.intro.1':
-    'Quality gate is the set of conditions the project must meet before it can be released into production.',
-  'quality_gates.intro.2':
-    'It is possible to set a default quality gate, which will be applied to all projects not explicitly assigned to some other gate.',
   'quality_gates.built_in': 'Built-in',
   'quality_gates.built_in.helper': 'Built-in, immutable quality gate reflecting best practices.',
-  'quality_gates.built_in.description.1': 'This quality gate is provided by default.',
-  'quality_gates.built_in.description.2':
-    'It will automatically be updated with the latest recommendations.',
-  'quality_gates.status': 'Quality gate status',
   'quality_gates.help.title': 'What is a quality gate?',
   'quality_gates.help.desc':
     "It`s a set of measure-based, Boolean conditions. It helps you know immediately whether your projects are production-ready. Ideally, all projects will use the same quality gate. Each project's quality gate status is displayed prominently on its homepage.",
@@ -6485,8 +5924,6 @@ export const defaultMessages = {
 
   'quality_gates.banner.builtin.title':
     'This quality gate reflects <link>Sonar recommended practices</link>',
-  'quality_gates.banner.builtin.ai.title':
-    "This quality gate reflects Sonar's recommended practices for AI-generated code",
   'quality_gates.banner.recommendation_update.title': 'Consider updating conditions on new code',
   'quality_gates.banner.recommendation_update.description':
     'Updating conditions on new code would align this gate with <link>standards recommended by Sonar</link>',
@@ -6515,9 +5952,6 @@ export const defaultMessages = {
     '{count} {count, plural, one {condition} other {conditions}} on new code will be modified',
   'quality_gates.fix_modal.to_modify.accessible_item':
     '{metric} is changing from "{op} {oldValue}" to "{op} {newValue}"',
-  'quality_gates.fix_modal.to_remove.title': 'Some conditions on new code can be removed',
-  'quality_gates.fix_modal.to_remove.description':
-    'The following conditions are not <link>recommended by Sonar</link>',
   'quality_gates.fix_modal.to_remove.selection.description':
     'All selected conditions will be removed. Deselect conditions you want to retain.',
   'quality_gates.fix_modal.success': 'Conditions on new code were successfully updated',
@@ -6548,7 +5982,6 @@ export const defaultMessages = {
     'Note that the update to {mode} might cause your quality gate to fail. {link}',
   'quality_gates.update_conditions.description.link':
     'For more information, refer to the documentation.',
-  'quality_gates.update_conditions.standard_mode_header': 'Standard Experience Metric',
   'quality_gates.metric.standard_mode_short': 'Standard Experience',
   'quality_gates.metric.standard_mode_long': 'Standard Experience Metric',
   'quality_gates.metric.mqr_mode_short': 'MQR Mode',
@@ -6583,7 +6016,6 @@ export const defaultMessages = {
   // RULES DOCUMENTATION PAGE
   //
   //------------------------------------------------------------------------------
-  'rules.parameters': 'Parameters',
   'rules.status.beta': 'Beta',
   'rules.status.BETA': 'Beta',
   'rules.status.BETA.help':
@@ -6605,8 +6037,6 @@ export const defaultMessages = {
   //------------------------------------------------------------------------------
   'coding_rules.active_in_all_profiles':
     'The rule is already activated on all available quality profiles.',
-  'coding_rules.severity_deprecated':
-    'Changing rule severities is deprecated and will not be possible in the future.',
   'coding_rules.custom_severity.title': 'Rule severity in this quality profile',
   'coding_rules.custom_severity.description.standard':
     'Changing rule severity in a quality profile {link}',
@@ -6623,11 +6053,9 @@ export const defaultMessages = {
   'coding_rules.activate': 'Activate',
   'coding_rules.activate_in': 'Activate In',
   'coding_rules.activate_in_quality_profile': 'Activate in quality profile',
-  'coding_rules.activation_severity': 'Activation Severity',
   'coding_rules.activation_custom_severity':
     'Custom {count, plural, one {severity} other {severities}}:',
   'coding_rules.available_since': 'Available since',
-  'coding_rules.bulk_change': 'Bulk Change',
   'coding_rules.bulk_change.success': '{2} rule(s) changed in profile {0} - {1}',
   'coding_rules.bulk_change.warning':
     '{2} rule(s) changed, {3} rule(s) ignored in profile {0} - {1}',
@@ -6676,7 +6104,6 @@ export const defaultMessages = {
   'coding_rules.deactivate': 'Deactivate',
   'coding_rules.deactivate.confirm':
     'Are you sure you want to deactivate this rule in the profile?',
-  'coding_rules.deactivate_in_all_quality_profiles': 'Deactivate In All {0} Profiles',
   'coding_rules.see_actions_for_profile_x': 'See rule actions for profile {x}',
   'coding_rules.inherits': '"{0}" inherits from "{1}"',
   'coding_rules.issues': 'Issues',
@@ -6688,26 +6115,20 @@ export const defaultMessages = {
   'coding_rules.most_violating_projects.link': 'See full list of issues',
   'coding_rules.need_extend_or_copy':
     "Rules in built-in quality profiles can't be changed. You can create a customizable quality profile based on a built-in one by Copying or Extending it in the quality profiles list.",
-  'coding_rules.no_results': 'No Coding Rules',
   'coding_rules.no_issue_detected_for_projects':
     'No issues were detected for this rule in the main project branches.',
   'coding_rules.no_tags': 'No tags',
   'coding_rules.original': 'Original:',
   'coding_rules.overrides': '"{0}" overrides "{1}"',
-  'coding_rules.parameter.empty': '(empty)',
   'coding_rules.parameters': 'Parameters',
   'coding_rules.parameters.default_value': 'Default Value:',
   'coding_rules.quality_profiles': 'Quality profiles',
   'coding_rules.quality_profiles.description':
     "List of all quality profiles where this rule is activated. Built-in profiles can't be changed.",
-  'coding_rules.quality_profiles.template_caption':
-    'This rule template was activated on the following profiles in previous versions of {instance}. It is not possible anymore to do so. Instead, please create a custom rule.',
   'coding_rules.quality_profile': 'Quality profile',
   'coding_rules.reactivate': 'Reactivate',
   'coding_rules.reactivate.help':
     'A rule with the same key has been previously deleted. Please reactivate the existing rule or modify the key to create a new rule.',
-  'coding_rules.return_to_list': 'Return to list',
-  'coding_rules.see_all': 'See all rules',
   'coding_rules.remove_extended_description': 'Remove Extended Description',
   'coding_rules.remove_extended_description.confirm':
     'Are you sure you want to remove the extended description?',
@@ -6725,8 +6146,6 @@ export const defaultMessages = {
   'coding_rules.skip_to_filters': 'Skip to rules filters',
   'coding_rules.software_qualities.label': 'Software qualities impacted',
   'coding_rules.cct_attribute.label': 'Code attribute',
-  'coding_rules.to_select_rules': 'Select rules',
-  'coding_rules.to_navigate': 'Navigate to rule',
   'coding_rules.prioritized_rule.title': 'Prioritized rule',
   'coding_rules.impact_severity.tooltip_customized.standard':
     '{type} of {severity} severity. This is a custom severity associated with the quality profile selected. Click for more information.',
@@ -6746,37 +6165,17 @@ export const defaultMessages = {
 
   'coding_rules.update_custom_rule': 'Update Custom Rule',
 
-  'coding_rules.filters.activation': 'Activation',
-  'coding_rules.filters.activation.active': 'Active',
   'coding_rules.filters.activation.active_rules': 'Active Rules',
-  'coding_rules.filters.activation.inactive': 'Inactive',
-  'coding_rules.filters.activation.help':
-    'Activation criterion is available when a quality profile is selected',
-  'coding_rules.filters.active_severity': 'Active Severity',
-  'coding_rules.filters.active_severity.inactive':
-    'Active severity criterion is available when a quality profile is selected',
-  'coding_rules.filters.availableSince': 'Available since',
-  'coding_rules.filters.characteristic': 'Characteristic',
-  'coding_rules.filters.description': 'Description',
-  'coding_rules.filters.quality_profile': 'Quality profile',
-  'coding_rules.filters.inheritance': 'Inheritance',
   'coding_rules.filters.inheritance.inactive':
     'Inheritance criterion is available when an inherited quality profile is selected',
   'coding_rules.filters.inheritance.none': 'Not Inherited',
   'coding_rules.filters.inheritance.inherited': 'Inherited',
   'coding_rules.filters.inheritance.x_inherited_from_y': '{count} inherited from "{name}"',
   'coding_rules.filters.inheritance.overrides': 'Overridden',
-  'coding_rules.filters.key': 'Key',
-  'coding_rules.filters.language': 'Language',
   'coding_rules.filters.language.inactive':
     'Language criterion is only available when no quality profile is selected',
-  'coding_rules.filters.name': 'Name',
-  'coding_rules.filters.repository': 'Repository',
-  'coding_rules.filters.severity': 'Severity',
   'coding_rules.filters.security_hotspots': 'Security hotspot',
   'coding_rules.filters.status': 'Status',
-  'coding_rules.filters.tag': 'Tag',
-  'coding_rules.filters.template': 'Templates',
   'coding_rules.filters.template.is_template': 'Show templates only',
   'coding_rules.filters.template.is_not_template': 'Hide templates',
   'coding_rules.filters.prioritizedRule.disabled':
@@ -6805,14 +6204,9 @@ export const defaultMessages = {
   'coding_rules.facet.available_since': 'Available since',
   'coding_rules.facet.inheritance': 'Inheritance',
   'coding_rules.facet.template': 'Template',
-  'coding_rules.facet.rule_key': 'Rule',
   'coding_rules.facet.types': 'Type',
   'coding_rules.facet.prioritizedRule': 'Prioritized rules',
   'coding_rules.facet.security_hotspots.show_only': 'Show security hotspots only',
-  'coding_rules.facets.languages': 'Languages',
-  'coding_rules.facets.tags': 'Tags',
-  'coding_rules.facets.repositories': 'Repositories',
-  'coding_rules.facets.top': 'Top {0}',
 
   'coding_rules.rule_id': 'Rule ID:',
 
@@ -6834,7 +6228,6 @@ export const defaultMessages = {
   'coding_rules.external_rule.engine_tooltip': 'Rule provided by an external rule engine: {0}',
   'coding_rules.external_rule.engine': 'Engine:',
 
-  'coding_rules.description_section.title.introduction': 'Introduction',
   'coding_rules.description_section.title.root_cause': 'Why is this an issue?',
   'coding_rules.description_section.title.root_cause.SECURITY_HOTSPOT': 'What is the risk?',
   'coding_rules.description_section.title.assess_the_problem': 'Assess the risk',
@@ -6965,7 +6358,6 @@ export const defaultMessages = {
   'email_notification.overview.authentication_type': 'Authentication type',
   'email_notification.overview.private': 'Hidden for security reasons',
   'email_notification.form.private': '**************',
-  'email_notification.overview.value': '{0} value',
   'email_notification.test.title': 'Test configuration',
   'email_notification.test.modal_title': 'Test email',
   'email_notification.test.to_address': 'To',
@@ -6987,7 +6379,6 @@ export const defaultMessages = {
   // NOTIFICATIONS
   //
   //------------------------------------------------------------------------------
-  'notification.notification': 'Notification',
   'notification.for': 'Notify me for',
   'notification.by': 'by {channel}',
   'notification.channel.EmailNotificationChannel': 'Email',
@@ -7016,24 +6407,11 @@ export const defaultMessages = {
   //
   //------------------------------------------------------------------------------
 
-  'alerts.operator.<': 'is less than',
-  'alerts.operator.>': 'is greater than',
-  'alerts.operator.=': 'equals',
-  'alerts.operator.!=': 'is not',
-
-  'alert.tooltip.error': 'This is an error message.',
-  'alert.tooltip.warning': 'This is a warning message.',
-  'alert.tooltip.success': 'This is a success message.',
-  'alert.tooltip.info': 'This is an info message.',
-
-  'alert.dismiss': 'Dismiss this message',
-
   //------------------------------------------------------------------------------
   //
   // USER
   //
   //------------------------------------------------------------------------------
-  'user.password_doesnt_match_confirmation': "Password doesn't match confirmation.",
   'user.password.conditions': 'Your password must include at least:',
   'user.password.condition.12_characters': '12 characters',
   'user.password.condition.1_upper_case': '1 upper case letter',
@@ -7047,7 +6425,6 @@ export const defaultMessages = {
   'user.login_or_email_used_as_scm_account':
     'Login and email are automatically considered as SCM accounts',
   'user.x_deleted': '{0} (deleted)',
-  'user.confirm_password.no_match': 'Passwords do not match',
 
   'login.page': 'Log in',
   'login.login_to_sonarqube': 'Welcome to {productName}',
@@ -7055,7 +6432,6 @@ export const defaultMessages = {
   'login.more_options': 'Log in with credentials',
   'login.unauthorized_access_alert':
     'You are not authorized to access this page. Please log in with more privileges and try again.',
-  'login.with_x': 'With {0}',
   'login.or': 'Or',
   'login.authentication_failed': 'Invalid username or password.',
   'login.logout_failed': 'Logout failed',
@@ -7097,11 +6473,9 @@ export const defaultMessages = {
   'my_profile.password.title': 'Enter a new password',
   'my_profile.password.old': 'Old Password',
   'my_profile.password.changed': 'The password has been changed!',
-  'my_profile.notifications.submit': 'Save changes',
   'my_profile.overall_notifications.title': 'General notifications',
   'my_profile.per_project_notifications.title': 'Notifications per project',
   'my_profile.per_project_notifications.add': 'Add a project',
-  'my_profile.per_project_notifications.edit': 'Set notifications',
   'my_profile.per_project_notifications.filter': 'Filter projects',
   'my_profile.news_notifications.title': 'SonarQube new features notifications',
   'my_profile.news_notifications.label':
@@ -7112,7 +6486,6 @@ export const defaultMessages = {
   'my_account.no_project_notifications': 'You have not set project notifications yet.',
   'my_account.profile': 'Profile',
   'my_account.security': 'Security',
-  'my_account.appearance': 'Appearance',
   'my_account.appearance.title': 'Appearance',
   'my_account.tokens_description':
     "If you want to enforce security by not providing credentials of a real {instance} user to run your code scan or to invoke web services, you can provide a User Token as a replacement of the user login. This will increase the security of your installation by not letting your analysis user's password going through your network.",
@@ -7126,12 +6499,10 @@ export const defaultMessages = {
   'my_account.projects.no_results': 'You have no project admin privileges.',
   'my_account.projects.analyzed_x': 'Analyzed {0}',
   'my_account.projects.never_analyzed': 'Never analyzed',
-  'my_account.search_project': 'Search Project',
   'my_account.set_notifications_for': 'Search for a project by name',
   'my_account.set_notifications_for.title': 'Add a project',
   'my_account.set_notifications_for.help': 'Minimum 2 characters',
   'my_account.create_new.TRK': 'Add a project',
-  'my_account.add_project': 'Add Project',
   'my_account.add_project.manual': 'Local project',
   'my_account.add_project.azure': 'From Azure DevOps',
   'my_account.add_project.bitbucket': 'From Bitbucket Data Center',
@@ -7143,9 +6514,6 @@ export const defaultMessages = {
   'my_account.reset_password.page': 'Update password',
   'my_account.reset_password': 'Update your password',
   'my_account.reset_password.explain': 'This account should not use the default password.',
-
-  'my_account.create_new_project_portfolio_or_application':
-    'Analyze new project / Create new portfolio or application',
 
   'my_account.preferences': 'Preferences',
   'my_account.preferences.keyboard_shortcuts': 'Enable Keyboard Shortcuts',
@@ -7165,10 +6533,6 @@ export const defaultMessages = {
   // PROJECT PROVISIONING
   //
   //------------------------------------------------------------------------------
-  'provisioning.no_analysis':
-    'No analysis has been performed since creation. The only available section is the configuration.',
-  'provisioning.no_analysis.delete': 'Either you should retry analysis or simply {link}.',
-  'provisioning.no_analysis.delete_project': 'delete the project',
   'provisioning.no_analysis_on_main_branch': '"{0}" branch has not been analyzed yet.',
   'provisioning.no_analysis_on_main_branch.bad_configuration':
     '"{0}" branch has not been analyzed yet and you have multiple branches already. It looks like it is not your {1}, check your configuration.',
@@ -7308,9 +6672,7 @@ export const defaultMessages = {
   'metric.bugs.description': 'Bugs',
   'metric.bugs.name': 'Bugs',
   'metric.bugs.short_name': 'Bugs',
-  'metric.ca.description': 'Afferent couplings',
   'metric.ca.name': 'Afferent Couplings',
-  'metric.ce.description': 'Efferent couplings',
   'metric.ce.name': 'Efferent Couplings',
   'metric.classes.description': 'Classes',
   'metric.classes.name': 'Classes',
@@ -8155,7 +7517,6 @@ export const defaultMessages = {
   'permission_templates.page.description':
     '<link>Manage templates</link> of project permission sets. The default template will be applied to all new projects.',
   'permission_templates.search_placeholder': 'Search for templates...',
-  'permission_templates.search_aria_label': 'Search permission templates',
   'permission_templates.no_results': 'No permission templates found matching "{query}"',
   'permission_templates.no_templates': 'No permission templates have been created yet.',
   'permission_templates.set_default': 'Set Default',
@@ -8170,7 +7531,6 @@ export const defaultMessages = {
   'permission_template.do_you_want_to_delete_template_xxx':
     'Are you sure that you want to delete permission template "{0}"?',
   'permission_template.edit_template': 'Edit Permission Template',
-  'permission_template.edit_permissions': 'Edit Permissions: {0}',
   'permission_template.key_pattern': 'Project key pattern',
   'permission_template.key_pattern.description': 'Should be a valid regular expression',
   'permission_template.default_for': 'Default for {qualifiers}',
@@ -8232,8 +7592,6 @@ export const defaultMessages = {
     'Your user token has now been generated & sent to your {productHost}.',
   'external-product-connection.success.next': 'Return to your {productHost} to complete the setup.',
 
-  'external-product-connection.unspecified-ide': 'an unspecified IDE',
-
   'sonarlint-connected-mode-doc': 'documentation about SonarQube for IDE Connected Mode',
   //------------------------------------------------------------------------------
   //
@@ -8263,7 +7621,6 @@ export const defaultMessages = {
   'keyboard_shortcuts_modal.assign_issue': ' Assign issue',
   'keyboard_shortcuts_modal.assign_issue_to_me': ' Assign issue to me',
   'keyboard_shortcuts_modal.change_tags_of_issue': ' Change tags of issue',
-  'keyboard_shortcuts_modal.select_an_issue': ' Select an issue',
   'keyboard_shortcuts_modal.issues_page': ' Issues page',
   'keyboard_shortcuts_modal.issue_details_page.navigate_issue_locations':
     ' To navigate issue locations',
@@ -8283,37 +7640,19 @@ export const defaultMessages = {
   // COMPONENT VIEWER
   //
   //------------------------------------------------------------------------------
-  'component_viewer.measure_section.unit_tests': 'Tests',
 
-  'component_viewer.transition.covers': 'Covers',
   'component_viewer.transition.duplication': 'Duplicated By',
 
-  'component_viewer.tests.ordered_by': 'ordered by',
-  'component_viewer.tests.duration': 'duration',
-  'component_viewer.tests.test_name': 'name',
-  'component_viewer.tests.status': 'status',
-
-  'component_viewer.x_lines_are_covered': '{0} lines are covered',
-  'component_viewer.details': 'Details',
   'component_viewer.show_raw_source': 'Show Raw Source',
-  'component_viewer.more_actions': 'More Actions',
   'component_viewer.new_window': 'Open in New Window',
   'component_viewer.open_in_workspace': 'Pin This File',
   'component_viewer.open_in_workspace_X': 'Pin {0} File',
-  'component_viewer.copy_permalink': 'Click to copy permalink to clipboard',
-  'component_viewer.covered_lines': 'Covered Lines',
-  'component_viewer.show_details': 'Show Measures',
-  'component_viewer.file_measures': 'File measures',
-  'component_viewer.show_all_measures': 'Show all measures',
   'component_viewer.no_component': 'The component has been removed or never existed.',
   'component_viewer.copy_path_to_clipboard': 'Copy the file path to the clipboard',
   'component_viewer.action_menu': 'File actions menu',
 
   'source_viewer.view_all_issues': 'See all issues in this file',
   'source_viewer.expand_all_lines': 'Show all lines of code',
-  'source_viewer.covered': 'Covered by the following tests',
-  'source_viewer.not_covered': 'Not covered by tests',
-  'source_viewer.conditions': 'conditions',
   'source_viewer.line_X': 'Line: {0}',
   'source_viewer.click_for_scm_info': 'Click to see SCM information for line {0}',
   'source_viewer.author_X': 'Author: {0}',
@@ -8323,8 +7662,6 @@ export const defaultMessages = {
   'source_viewer.jupyter.preview.error':
     'Error while loading the Jupyter notebook. Use the Code tab to view raw.',
 
-  'source_viewer.tooltip.duplicated_line':
-    'This line is duplicated. Click to see duplicated blocks.',
   'source_viewer.tooltip.duplicated_block': 'Duplicated block. Click for details.',
   'source_viewer.tooltip.covered': 'Fully covered by tests.',
   'source_viewer.tooltip.covered.conditions': 'Fully covered by tests ({0} conditions).',
@@ -8333,8 +7670,6 @@ export const defaultMessages = {
     'Partially covered by tests ({0} of {1} conditions).',
   'source_viewer.tooltip.uncovered': 'Not covered by tests.',
   'source_viewer.tooltip.uncovered.conditions': 'Not covered by tests ({0} conditions).',
-  'source_viewer.tooltip.no_information_about_tests':
-    'There is no extra information about test files.',
   'source_viewer.tooltip.scm.commited_on': 'Committed on',
   'source_viewer.tooltip.scm.revision': 'Revision',
 
@@ -8358,7 +7693,6 @@ export const defaultMessages = {
   'source_viewer.coverage.uncovered': 'Uncovered code',
   'source_viewer.coverage.partially-covered': 'Partially covered code',
 
-  'source_viewer.loading_more_lines': 'Loading more lines...',
   'lines_of_code_ellipsis.show_x_lines': 'Show {count} lines',
   'lines_of_code_ellipsis.show_more_lines': 'Show more lines',
   'lines_of_code_ellipsis.show_all_lines': 'Show all lines',
@@ -8372,7 +7706,6 @@ export const defaultMessages = {
   'workspace.full_window': 'Expand to full window',
   'workspace.normal_size': 'Collapse to normal size',
   'workspace.close': 'Remove from the list of pinned files',
-  'workspace.no_rule': 'The rule has been removed or never existed.',
 
   //------------------------------------------------------------------------------
   //
@@ -8405,15 +7738,8 @@ export const defaultMessages = {
   'marketplace.all': 'All',
   'marketplace.installed': 'Installed',
   'marketplace.updates_only': 'Updates Only',
-  'marketplace.restart': 'Restart',
   'marketplace.revert': 'Revert',
   'marketplace.install': 'Install',
-  'marketplace.upgrade_to_x': 'Upgrade to {0}',
-  'marketplace.downgrade_to_x': 'Downgrade to {0}',
-  'marketplace.installing': 'Installing...',
-  'marketplace.upgrade': 'Upgrade',
-  'marketplace.downgrade': 'Downgrade',
-  'marketplace.checking_license': 'Checking your license...',
   'marketplace._installed': 'installed',
   'marketplace.available_under_commercial_license': 'Available under our commercial editions',
   'marketplace.learn_more': 'Learn more',
@@ -8440,8 +7766,6 @@ export const defaultMessages = {
   'marketplace.i_accept_the': 'I accept the',
   'marketplace.terms_and_conditions': 'Terms and Conditions',
   'marketplace.release_notes': 'Release Notes',
-  'marketplace.how_to_setup_cluster_url':
-    'Further configuration is required to set up a cluster. See {url} documentation.',
   'marketplace.search': 'Search by features, tags, or categories...',
 
   'marketplace.risk_consent.title': 'Installation of plugins',
@@ -8493,22 +7817,6 @@ export const defaultMessages = {
     'The last analysis on this project ({branch}) failed. You can find more details below by clicking on the cog menu, and then "{stacktrace}".',
   'component_navigation.status.failed_branch_X.admin.help':
     'The last {type} on this project ({branch}) failed. You can find more details below by clicking on the cog menu, and then "{stacktrace}".',
-  'component_navigation.status.pending': 'There is a pending background task.',
-  'component_navigation.status.pending_X': 'There is a pending {type}.',
-  'component_navigation.status.pending.admin.link':
-    'There is a pending background task. More details available on the {url} page.',
-  'component_navigation.status.pending_X.admin.link':
-    'There is a pending {type}. More details available on the {url} page.',
-  'component_navigation.status.pending.admin.help': 'There is a pending background task.',
-  'component_navigation.status.pending_X.admin.help': 'There is a pending {type}.',
-  'component_navigation.status.in_progress': 'A background task is in progress.',
-  'component_navigation.status.in_progress_X': 'The {type} is in progress.',
-  'component_navigation.status.in_progress.admin.link':
-    'A background task is in progress. More details available on the {url} page.',
-  'component_navigation.status.in_progress_X.admin.link':
-    'The {type} is in progress. More details available on the {url} page.',
-  'component_navigation.status.in_progress.admin.help': 'A background task is in progress.',
-  'component_navigation.status.in_progress_X.admin.help': 'The {type} is in progress.',
   'component_navigation.status.last_blocked_due_to_bad_license_X':
     'Last analysis blocked due to an invalid license, which has since been corrected. Please reanalyze this {0}.',
 
@@ -8550,15 +7858,11 @@ export const defaultMessages = {
   'background_tasks.currents_filter.ONLY_CURRENTS': 'Only Latest Analysis',
 
   'background_tasks.date_filter': 'Date',
-  'background_tasks.date_filter.ALL': 'Any Date',
-  'background_tasks.date_filter.TODAY': 'Today',
-  'background_tasks.date_filter.CUSTOM': 'Custom',
 
   'background_tasks.table.status': 'Status',
   'background_tasks.table.task': 'Task',
   'background_tasks.table.id': 'ID',
   'background_tasks.table.submitted': 'Submitted',
-  'background_tasks.table.submitter': 'Submitter',
   'background_tasks.table.started': 'Started',
   'background_tasks.table.finished': 'Finished',
   'background_tasks.table.duration': 'Duration',
@@ -8615,7 +7919,6 @@ export const defaultMessages = {
     'Export project issues, measures and measure history for import into an Enterprise Edition or higher instance of the same version and similar configuration. The export file will be generated to the file system. It must then be copied to the target file system for import.',
   'project_dump.page.description_without_import2':
     'The export file will be generated to the file system. It must then be copied to the target file system for import.',
-  'project_dump.refresh': 'Refresh',
   'project_dump.see_details': 'See Details',
   'project_dump.export': 'Export',
   'project_dump.do_export': 'Export Project',
@@ -8684,7 +7987,6 @@ export const defaultMessages = {
   'system.logs.web': 'Web Server',
   'system.logs_level': 'Logs level',
   'system.logs_level.change': 'Change logs level',
-  'system.new_version_available': 'A new version of {productName} is available.',
   'system.restart_does_not_reload_sonar_properties':
     'Also note that a restart will not reload the sonar.properties file.',
   'system.see_whats_new': "See what's new!",
@@ -8709,10 +8011,6 @@ export const defaultMessages = {
   // OVERVIEW
   //
   //------------------------------------------------------------------------------
-  'overview.X_conditions_failed':
-    '{conditions} {conditions, plural, one {failed condition} other {failed conditions}}',
-  'overview.failed_condition.x_rating_required': '{rating} is {value}. Required {threshold}',
-  'overview.failed_condition.x_required': '{metric}. Required {threshold}',
   'overview.fix_failed_conditions_with_sonarlint':
     'Fix issues before they fail your quality gate with {link}. Power up with connected mode!',
   'overview.new_issues': 'New issues',
@@ -8727,20 +8025,15 @@ export const defaultMessages = {
   'overview.quality_gate_x': 'Quality gate: {status}',
   'overview.quality_gate.help':
     "A quality gate is a set of measure-based Boolean conditions. It helps you know immediately whether your project is production-ready. If your current status is not Passed, you'll see which measures caused the problem and the values required to pass.",
-  'overview.quality_gate_failed_with_x': 'with {0} errors',
-  'overview.quality_gate_code_clean': 'Your code is clean!',
   'overview.quality_gate.all_conditions_passed': 'All conditions passed',
   'overview.quality_gate.conditions_failed': 'Some conditions failed',
   'overview.quality_gate.run_analysis': 'Run analysis to generate status',
   'summary.x_conditions_failed.formatted':
     '{conditionsFormatted} {conditions, plural, one {condition} other {conditions}} failed',
-  'overview.you_should_define_quality_gate': 'You should define a quality gate on this project.',
   'overview.quality_gate.ignored_conditions':
     'Some quality gate conditions on New Code were ignored because of the small number of New Lines',
   'overview.quality_gate.ignored_conditions.tooltip':
     "At the start of a new code period, if very few lines have been added or modified, it might be difficult to reach the desired level of code coverage or duplications. To prevent quality gate failure when there's little that can be done about it, quality gate conditions about duplications in new code and coverage on new code are ignored until the number of new lines is at least 20. An administrator can disable this in the general settings.",
-  'overview.quality_gate.conditions_on_new_code':
-    'Only conditions on new code that are defined in the quality gate are checked. See the {link} associated to the project for details.',
   'overview.quality_gates.conditions.condition_simplification_tour.title':
     'One condition, zero issues',
   'overview.quality_gates.conditions.condition_simplification_tour.content':
@@ -8753,14 +8046,10 @@ export const defaultMessages = {
   'overview.coverage.on_x_new_lines': 'On {link} lines to cover.',
   'overview.new_duplicated_lines_density.on_x_new_lines': 'On {link} New Lines.',
   'overview.duplicated_lines_density.on_x_new_lines': 'On {link} lines.',
-  'overview.quality_gate.require_fixing': '{count, plural, one {requires} other {require}} fixing',
-  'overview.quality_gate.require_reviewing':
-    '{count, plural, one {requires} other {require}} reviewing',
   'overview.quality_gate.required_x': 'Required {operator} {requirement}',
   'overview.quality_gate.required_x_reviewed': 'Required review: {requirement}',
   'quality_gate_panel.below_X_required': 'below {0} required',
   'overview.quality_profiles': 'Quality profiles used',
-  'overview.new_code_period_x': 'New Code: {0}',
   'overview.max_new_code_period_from_x': 'Max New Code from: {0}',
   'overview.started_x': 'Started {0}',
   'overview.set_as_homepage': 'Set as homepage',
@@ -8768,39 +8057,20 @@ export const defaultMessages = {
   'overview.overall_code': 'Overall Code',
   'overview.last_analysis_x': 'Last analysis {date}',
   'overview.previous_analysis_x': 'Previous analysis was {0}',
-  'overview.started_on_x': 'Started on {0}',
-  'overview.previous_analysis_on_x': 'Previous analysis on {0}',
-  'overview.on_new_code': 'On New Code',
-  'overview.on_new_code_long': 'Conditions on New Code',
-  'overview.see_list_of_x_y_issues': 'See the list of {0} {1}',
   'overview.see_more_details_on_x_of_y': 'See more details on {0} of {1}',
   'overview.see_more_details_on_x_y': 'See more details on {0} {1}',
   'overview.metric_not_computed': 'Not computed',
-  'overview.coverage.not_computed':
-    'Not computed. <doc>Check language support and import guides</doc>',
   'overview.coverage.no_coverage.description':
     'A few extra steps are needed to set up coverage analysis.',
   'overview.coverage.setup': 'Set up coverage analysis',
   'overview.coverage.not_enough_lines': 'There are not enough lines to compute coverage',
-  'overview.about_this_portfolio': 'About This Portfolio',
-  'overview.about_this_project.APP': 'About This Application',
-  'overview.about_this_project.TRK': 'About This Project',
-  'overview.project_activity.APP': 'Application Activity',
-  'overview.project_activity.TRK': 'Project Activity',
-  'overview.project_activity.click_to_see': 'Click to see project activity',
   'overview.external_links': 'External Links',
   'overview.project_key.APP': 'Application Key',
   'overview.project_key.TRK': 'Project Key',
-  'overview.project_key.click_to_copy': 'Click to copy the key to your clipboard',
   'overview.activity': 'Activity',
   'overview.activity.graph_shows_data_for_x':
     'This graph shows historical data for {0}. Click on the "Activity" link below to see more information.',
-  'overview.recent_activity': 'Recent Activity',
   'overview.accepted_issues': 'Accepted issues',
-  'overview.accepted_issues.description':
-    'Issues that are valid, but were not fixed and represent accepted technical debt.',
-  'overview.accepted_issues.total': 'Total accepted issues',
-  'overview.high_impact_accepted_issues': 'Blocker and High Severity Accepted Issues',
   'overview.measures.empty_explanation':
     'Measures on New Code will appear after the second analysis of this branch.',
   'overview.measures.same_reference.explanation':
@@ -8808,7 +8078,6 @@ export const defaultMessages = {
   'overview.measures.bad_reference.explanation':
     'This branch could not be compared to its reference branch. See the SCM or analysis report for more details.',
   'overview.measures.bad_setting.link': 'This can be fixed in the {setting_link} setting.',
-  'overview.measures.security_hotspots_reviewed': 'Reviewed',
   'overview.measures.software_impact.total_open_issues': 'Open issues',
   'overview.measures.software_impact.count_tooltip':
     'Issues in code can impact multiple Software Qualities, so the sum of impacts tends to be greater than the total amount of issues.',
@@ -8816,14 +8085,10 @@ export const defaultMessages = {
     'See the list of {count} open {softwareQuality} issues',
   'overview.measures.software_impact.severity.see_x_open_issues':
     'See {count} open {softwareQuality} issues with {severity} severity',
-  'overview.measures.software_impact.severity.HIGH': 'H',
   'overview.measures.software_impact.severity.HIGH.tooltip': 'High Impact',
   'overview.measures.software_impact.severity.HIGH.improve_tooltip': 'high',
-  'overview.measures.software_impact.severity.MEDIUM': 'M',
   'overview.measures.software_impact.severity.MEDIUM.tooltip': 'Medium Impact',
   'overview.measures.software_impact.severity.MEDIUM.improve_tooltip': 'medium',
-  'overview.measures.software_impact.severity.LOW': 'L',
-  'overview.measures.software_impact.severity.LOW.tooltip': 'Low Impact',
   'overview.measures.software_impact.severity.LOW.improve_tooltip': 'low',
   'overview.measures.software_impact.improve_rating_tooltip':
     'The {softwareQuality} rating is {ratingLabel} when there is at least one issue with {severity} impact on the {_softwareQuality} of your software.',
@@ -8840,9 +8105,6 @@ export const defaultMessages = {
   'overview.project.branch_X_empty': 'The "{0}" branch of this project is empty.',
   'overview.project.main_branch_no_lines_of_code': 'The main branch has no lines of code.',
   'overview.project.main_branch_empty': 'The main branch of this project is empty.',
-  'overview.project.branch_needs_new_analysis':
-    'The branch data is incomplete. Run a new analysis to update it.',
-  'overview.project.last_analysis.date_time': 'Last analysis started on {0}',
   'overview.project.next_steps.set_up_pr_deco_and_ci.admin':
     "To benefit from more of {productName}'s features, {link_ci} and set up DevOps platform integration in your {link_project_settings}.",
   'overview.project.next_steps.set_up_pr_deco_and_ci':
@@ -8862,13 +8124,6 @@ export const defaultMessages = {
   'overview.missing_project_data':
     'The calculation of counts and ratings for security, reliability, and maintainability has changed, which may impact this {qualifier, select, VW {portfolio after all projects are analyzed} APP {application after all projects are analyzed} other {project after the next analysis}}.  <link>Learn more in SonarQube documentation</link>',
 
-  'overview.coverage_on': 'Coverage on',
-  'overview.coverage_on_X_lines': 'Coverage on {count} Lines to cover',
-  'overview.coverage_on_X_new_lines': 'Coverage on {count} New Lines to cover',
-  'overview.duplications_on': 'Duplications on',
-  'overview.duplications_on_X_lines': 'Duplications on {count} Lines',
-  'overview.duplications_on_X_new_lines': 'Duplications on {count} New Lines',
-
   'overview.period.previous_version': 'Since {0}',
 
   // Old periods, necessary to display project that haven't been analyzed with new setting (MMF-1579)
@@ -8885,21 +8140,10 @@ export const defaultMessages = {
   'overview.period.reference_branch': 'Compared to {0}',
 
   'overview.failed.badge': '{counter} failed',
-  'overview.gate.ERROR': 'Failed',
-  'overview.gate.WARN': 'Warning',
-  'overview.gate.OK': 'Passed',
-  'overview.gate.view.no_alert': 'The view has passed the quality gate.',
-  'overview.gate.view.warnings':
-    'The view has warnings on the following quality gate conditions: {0}.',
-  'overview.gate.view.errors': 'The view failed the quality gate on the following conditions: {0}.',
-
-  'overview.measurement_type.DUPLICATION': 'Duplications',
-  'overview.measurement_type.COVERAGE': 'Coverage',
 
   'overview.measures.failed_badge': 'Failed',
 
   'overview.complexity_tooltip.function': '{0} functions have complexity around {1}',
-  'overview.complexity_tooltip.file': '{0} files have complexity around {1}',
 
   'overview.deprecated_profile':
     'This quality profile uses {0} deprecated rules and should be updated.',
@@ -8918,7 +8162,6 @@ export const defaultMessages = {
   'overview.sonarlint_ad.close_promotion': 'Close SonarQube for IDE promotion',
 
   'overview.badges.get_badge': 'Badges',
-  'overview.badges.title': 'Get project badges',
   'overview.badges.description.TRK':
     'Show the status of your project metrics on your README or website.',
   'overview.badges.description.VW':
@@ -8928,9 +8171,6 @@ export const defaultMessages = {
   'overview.badges.type': 'Badge type',
   'overview.badges.metric': 'Customize badge',
   'overview.badges.format': 'Code format',
-  'overview.badges.options.colors.white': 'White',
-  'overview.badges.options.colors.black': 'Black',
-  'overview.badges.options.colors.orange': 'Orange',
   'overview.badges.options.formats.md': 'Markdown',
   'overview.badges.options.formats.url': 'Image URL only',
   'overview.badges.measure': 'Metric',
@@ -8945,8 +8185,6 @@ export const defaultMessages = {
   'overview.badges.quality_gate': 'Quality gate',
   'overview.badges.quality_gate.alt':
     'This is an image of a quality gate badge that displays the current quality gate status of your project.',
-  'overview.badges.quality_gate.description':
-    'Displays the current quality gate status of your project.',
   'overview.badges.quality_gate.description.APP':
     'Displays the current quality gate status of your application.',
   'overview.badges.quality_gate.description.TRK':
@@ -8956,8 +8194,6 @@ export const defaultMessages = {
   'overview.badges.ai_code_assurance': 'AI Code Assurance',
   'overview.badges.ai_code_assurance.alt':
     "This is an image of an AI Code Assurance badge that displays the current status of Sonar's AI Code Assurance.",
-  'overview.badges.ai_code_assurance.description':
-    "Displays the current status of Sonar's AI Code Assurance.",
   'overview.badges.ai_code_assurance.description.TRK':
     "Displays the current status of Sonar's AI Code Assurance of your project.",
   'overview.badges.leak_warning':
@@ -8974,10 +8210,6 @@ export const defaultMessages = {
   'overview.activity.variations.new_analysis': 'New analysis:',
   'overview.activity.variations.first_analysis': 'First analysis:',
 
-  'overview.ai_assurance.unsolved_overall.title': 'Unresolved findings in overall code',
-  'overview.ai_assurance.unsolved_overall.description':
-    'Some unresolved findings in this branch’s overall code may represent a risk. We recommend reviewing these findings before releasing the branch.',
-  'overview.ai_assurance.unsolved_overall.dismiss': 'Dismiss unresolved overall code findings',
   'overview.issues.issue_from_update': '{count} from SonarQube update',
   'overview.issues.issue_from_update.tooltip': 'Issues appearing as a result of SonarQube updates',
 
@@ -9039,7 +8271,6 @@ export const defaultMessages = {
   'code.aica_enabled_projects': 'AI Code Assurance enabled projects',
   'code.aica_enabled_projects.tooltip':
     "Projects in this portfolio that contain AI-generated code and benefit from Sonar's AI Code Assurance.",
-  'code.open_component_page': "Open Component's Page",
   'code.search_placeholder': 'Search for files...',
   'code.search_placeholder.application': 'Search for projects...',
   'code.search_placeholder.portfolio': 'Search for projects and sub-portfolios...',
@@ -9085,13 +8316,9 @@ export const defaultMessages = {
   'component_measures.legend.help_x': 'Click to toggle visibility for data with rating {0}.',
   'component_measures.legend.only_first_500_files': 'Only showing data for the first 500 files',
   'component_measures.no_history': "There isn't enough data to generate an activity graph.",
-  'component_measures.not_found': 'The requested measure was not found.',
   'component_measures.empty': 'No measures.',
   'component_measures.select_files': 'Select files',
   'component_measures.navigate': 'Navigate',
-  'component_measures.to_select_files': 'to select files',
-  'component_measures.to_navigate': 'to navigate',
-  'component_measures.to_navigate_files': 'to next/previous file',
   'component_measures.hidden_best_score_metrics':
     'There are {0} hidden components with a score of {1}.',
   'component_measures.hidden_best_score_metrics_show_label': 'Show hidden components',
@@ -9134,8 +8361,6 @@ export const defaultMessages = {
   'component_measures.subnavigation_category.tests_category': 'Tests',
 
   'component_measures.facet_category.overall_category.estimated': 'Estimated after merge',
-  'component_measures.bubble_chart.zoom_level':
-    'Current zoom level. Scroll on the chart to zoom or unzoom, click here to reset.',
   'component_measures.not_all_measures_are_shown': 'Not all projects and applications are included',
   'component_measures.not_all_measures_are_shown.help':
     'You do not have access to all projects and/or applications. Measures are still computed based on all projects and applications.',
@@ -9194,18 +8419,10 @@ export const defaultMessages = {
   //
   //------------------------------------------------------------------------------
   'footer.community': 'Community',
-  'footer.contact_us': 'Contact us',
   'footer.documentation': 'Documentation',
-  'footer.help': 'Help',
   'footer.license.lgplv3': 'LGPL v3',
   'footer.license.sqs': 'Terms & Conditions',
-  'footer.news': 'News',
   'footer.plugins': 'Plugins',
-  'footer.pricing': 'Pricing',
-  'footer.privacy': 'Privacy',
-  'footer.security': 'Security',
-  'footer.status': 'Status',
-  'footer.terms': 'Terms',
   'footer.version.full': 'v{version}{status}',
   'footer.version.short': 'v{version}',
   'footer.version.status': '{status}',
@@ -9221,7 +8438,6 @@ export const defaultMessages = {
   //
   //------------------------------------------------------------------------------
   'new_code_definition.question': 'Instance default new code definition:',
-  'new_code_definition.specific_setting': 'Define a specific setting for this project',
   'new_code_definition.previous_version': 'Previous version',
   'new_code_definition.previous_version.usecase':
     'Recommended for <b>projects following regular versions or releases.</b>',
@@ -9235,7 +8451,6 @@ export const defaultMessages = {
   'new_code_definition.number_days.description':
     'Any code that has changed in the last x days is considered new code. If no action is taken on a new issue after x days, this issue will become part of the overall code.',
 
-  'new_code_definition.reference_branch': 'Reference branch',
   'new_code_definition.reference_branch.notice':
     'The main branch will be set as the reference branch when the project is created. You will be able to choose another branch as the reference branch when your project will have more branches.',
 
@@ -9308,12 +8523,6 @@ export const defaultMessages = {
 
   'onboarding.create_project.select_method.no_alm_yet.admin':
     'First, you need to set up a DevOps platform configuration.',
-  'onboarding.create_project.select_method.manual': 'Local project',
-  'onboarding.create_project.select_method.azure': 'From Azure DevOps',
-  'onboarding.create_project.select_method.bitbucket': 'From Bitbucket Data Center',
-  'onboarding.create_project.select_method.bitbucketcloud': 'From Bitbucket Cloud',
-  'onboarding.create_project.select_method.github': 'From GitHub',
-  'onboarding.create_project.select_method.gitlab': 'From GitLab',
   'onboarding.create_project.import_select_method.manual': 'Create a local project',
   'onboarding.create_project.import_select_method.azure': 'Import from Azure DevOps',
   'onboarding.create_project.import_select_method.bitbucket': 'Import from Bitbucket Data Center',
@@ -9322,7 +8531,6 @@ export const defaultMessages = {
   'onboarding.create_project.import_select_method.gitlab': 'Import from GitLab',
   'onboarding.create_project.alm_not_configured':
     'Contact your admin to set up the global configuration allowing you to import project from this DevOps Platform',
-  'onboarding.create_project.check_alm_supported': 'Checking if available',
   'onboarding.create_project.project_key': 'Project key',
   'onboarding.create_project.project_key.duplicate_key': 'The project key name is already taken.',
   'onboarding.create_project.project_key.wrong_format':
@@ -9349,7 +8557,6 @@ export const defaultMessages = {
     'Local projects won’t benefit from the features associated with DevOps Platforms integration unless you configure them in the project settings.',
   'onboarding.create_project.repository_imported': 'Already imported',
   'onboarding.create_project.import': 'Import',
-  'onboarding.create_project.see_project': 'See the project',
   'onboarding.create_project.search_projects_by_name': 'Search for project name starting with...',
   'onboarding.create_project.search_repositories_by_name':
     'Search for repository name starting with...',
@@ -9358,7 +8565,6 @@ export const defaultMessages = {
   'onboarding.create_project.search_mode.repository': 'Repository',
   'onboarding.create_project.search_projects_repositories': 'Search for projects and repositories',
   'onboarding.create_project.search_repositories': 'Search for a repository',
-  'onboarding.create_project.select_repositories': 'Select repositories',
   'onboarding.create_project.select_all_repositories': 'Select currently visible repositories',
 
   'onboarding.create_application.key.description':
@@ -9428,16 +8634,10 @@ export const defaultMessages = {
 
   'onboarding.create_project.no_bbs_projects':
     'No projects could be fetched from Bitbucket Data Center. Contact your system administrator, or {link}.',
-  'onboarding.create_project.no_bbs_repos':
-    'No repositories were found for this project. Contact your system administrator, or {link}.',
   'onboarding.create_project.update_your_token': 'update your personal access token',
-  'onboarding.create_project.no_bbs_repos.filter': 'No repositories match your filter.',
-  'onboarding.create_project.only_showing_X_first_repos':
-    "We're only displaying the first {0} repositories. If you're looking for a repository that's not in this list, use the search above.",
   'onboarding.create_project.see_on': 'See on {almName}',
 
   'onboarding.create_project.search_prompt': 'Search for projects',
-  'onboarding.create_project.set_up': 'Set up',
   'onboarding.create_project.subtitle_monorepo_setup_link': 'set up a monorepo',
   'onboarding.create_project.azure.title': 'Azure project onboarding',
   'onboarding.create_project.azure.subtitle': 'Import projects from one of your Azure projects',
@@ -9467,7 +8667,6 @@ export const defaultMessages = {
   'onboarding.create_project.github.subtitle.with_monorepo':
     'Import repositories from one of your GitHub organizations or {monorepoSetupLink}.',
   'onboarding.create_project.github.choose_organization': 'Choose an organization',
-  'onboarding.create_project.github.choose_repository': 'Choose the repository',
   'onboarding.create_project.github.warning.message':
     'Could not connect to GitHub. Please contact an administrator to configure GitHub integration.',
   'onboarding.create_project.github.warning.message_admin':
@@ -9478,8 +8677,6 @@ export const defaultMessages = {
     "We couldn't load any organizations with your key. Contact an administrator.",
   'onboarding.create_project.github.no_orgs_admin':
     "We couldn't load any organizations. Make sure the GitHub App is installed in at least one organization and check the GitHub instance configuration in the {link}.",
-  'onboarding.create_project.github.no_projects':
-    'No projects could be fetched from GitHub. Contact your system administrator.',
   'onboarding.create_project.gitlab.title': 'GitLab project onboarding',
   'onboarding.create_project.gitlab.subtitle': 'Import projects from one of your GitLab groups',
   'onboarding.create_project.gitlab.subtitle.reset_pat': 'Reset your GitLab personal access token',
@@ -9565,7 +8762,6 @@ export const defaultMessages = {
   'onboarding.token.generate.GLOBAL_ANALYSIS_TOKEN': 'Generate a global token',
   'onboarding.token.use_existing_token': 'Use existing token',
   'onboarding.token.use_existing_token.label': 'Existing token value',
-  'onboarding.token.use_existing_token.help': 'Paste an existing token value into the input field.',
   'onboarding.token.warning_project_token_scope':
     'Please note that this token will only allow you to analyze the current project. If you want to use the same token to analyze multiple projects, you need to generate a global token in your {link}. See the {doc_link} for more information.',
   'onboarding.token.name.label': 'Token name',
@@ -9676,8 +8872,6 @@ export const defaultMessages = {
   'onboarding.analysis.java.maven.text':
     "Running a {instance} analysis with Maven is straightforward. You just need to run the following command in your project's folder.",
   'onboarding.analysis.java.maven.docs_link': 'official documentation of the Scanner for Maven',
-  'onboarding.analysis.java.maven.text.custom':
-    "Run the following command in your project's folder.",
 
   'onboarding.analysis.java.gradle.header': 'Execute the Scanner for Gradle',
   'onboarding.analysis.java.gradle.text.1':
@@ -9690,7 +8884,6 @@ export const defaultMessages = {
   'onboarding.analysis.msbuild.header': 'Download and unzip the SonarScanner for .NET',
   'onboarding.analysis.msbuild.text':
     'Visit the {link} to download the latest version for .NET framework. Make sure to add the directory containing {code} to the {path} environment variable.',
-  'onboarding.analysis.msbuild.execute': 'Execute the SonarScanner for .NET',
   'onboarding.analysis.msbuild.execute.text':
     'Running a {instance} analysis is straightforward. You just need to execute the following commands at the root of your solution.',
   'onboarding.analysis.msbuild.docs_link': 'documentation of the SonarScanner for .NET',
@@ -9712,18 +8905,12 @@ export const defaultMessages = {
   'onboarding.analysis.sq_scanner.execute': 'Execute the Scanner',
   'onboarding.analysis.sq_scanner.execute.text':
     "Running a {instance} analysis is straightforward. You just need to execute the following commands in your project's folder.",
-  'onboarding.analysis.sq_scanner.execute.text.custom':
-    "Run the following commands in your project's folder.",
   'onboarding.analysis.sq_scanner.docs': 'Please visit the {link} for more details.',
-  'onboarding.analysis.sq_scanner.docs_use_case':
-    'Please visit the {link} for more details, and the {useCaseLink} to know more about this use case.',
   'onboarding.analysis.sq_scanner.docs_link': 'official documentation of the Scanner',
   'onboarding.analysis.sq_scanner.sonar_token_env.header':
     'Configure a SONAR_TOKEN environment variable in your CI settings',
   'onboarding.analysis.sq_scanner.sonar_token_env.var_name': 'Add an environment variable called',
   'onboarding.analysis.sq_scanner.sonar_token_env.var_value': 'Give it the following value',
-  'onboarding.analysis.sqscanner.docs.gradle.title':
-    'official documentation of the Scanner for Gradle',
   'onboarding.analysis.sqscanner.docs.gradle.example_project.title':
     'live Gradle-based example project',
 
@@ -9733,12 +8920,9 @@ export const defaultMessages = {
   'onboarding.analysis.dotnetcore.global.text.path':
     'Make sure dotnet tools folder is in your path. See dotnet global tools documentation for more information.',
 
-  'onboarding.tutorial.return_to_list': 'Choose another option',
-  'onboarding.tutorial.ci_outro.all_set.title': "You're all set!",
   'onboarding.tutorial.ci_outro.done': 'And you are done!',
   'onboarding.tutorial.ci_outro.refresh_text':
     "If everything is running successfully, once the analysis is complete you'll be redirected to the Overview page of your project where the new analysis results will be displayed. This can take a few minutes.",
-  'onboarding.tutorial.ci_outro.commit': 'Commit and push your code to start the analysis.',
   'onboarding.tutorial.ci_outro.commit.why.gitlab':
     'Each new push you make on your branches or merge requests will trigger a new analysis in {productName}. We will decorate merge requests directly on GitLab for you.',
   'onboarding.tutorial.ci_outro.commit.why.github':
@@ -9751,7 +8935,6 @@ export const defaultMessages = {
     'Each new push you make on your branches or pull requests will trigger a new analysis in {productName}. We will decorate pull requests directly on Azure for you.',
   'onboarding.tutorial.ci_outro.commit.why.no_branches':
     'Each new push you make on your main branch will trigger a new analysis in {productName}.',
-  'onboarding.tutorial.ci_outro.refresh': 'This page will then refresh with your analysis results.',
   'onboarding.tutorial.ci_outro.refresh.why':
     "If the page doesn't refresh after a while, please double-check the analysis configuration, and check your logs.",
   'onboarding.tutorial.other.project_key.sentence':
@@ -9772,8 +8955,6 @@ export const defaultMessages = {
   'onboarding.tutorial.choose_method': 'How do you want to analyze your repository?',
   'onboarding.tutorial.choose_method.devops_platform.description':
     'Do you want to integrate with your favorite CI? Choose one of the following tutorials.',
-  'onboarding.tutorial.choose_method.local.description':
-    'Are you just testing or have an advanced use-case? Analyze your project locally.',
   'onboarding.tutorial.choose_method.local': 'Locally',
   'onboarding.tutorial.choose_method.other-ci': 'Other CI',
   'onboarding.tutorial.choose_method.jenkins': 'With Jenkins',
@@ -9837,11 +9018,8 @@ export const defaultMessages = {
   'onboarding.tutorial.with.github_action.yaml.title': 'Create Workflow YAML File',
   'onboarding.tutorial.with.github_action.yaml.create_yml':
     'Create or update your {file} YAML file with the following content:',
-  'onboarding.tutorial.with.github_action.dart':
-    'Add the following steps to your GitHub Actions Workflow after build of your Flutter or Dart project:',
 
   'onboarding.tutorial.with.gitlab-ci.title': 'Analyze your project with GitLab CI',
-  'onboarding.tutorial.with.gitlab_ci.project_key.title': 'Set your project key',
   'onboarding.tutorial.with.gitlab_ci.project_key.maven.step2':
     'Add the following to your {file} file:',
   'onboarding.tutorial.with.gitlab_ci.project_key.gradle.step2':
@@ -9918,7 +9096,6 @@ export const defaultMessages = {
   'onboarding.tutorial.with.jenkins.prereqs.step_by_step_guide.link': 'Analysis Prerequisites',
   'onboarding.tutorial.with.jenkins.prereqs.following_are_recommendations':
     'We recommend using the configuration in the following steps for the best results, but you can customize it as needed.',
-  'onboarding.tutorial.with.jenkins.prereqs.done': 'Configure Analysis',
   'onboarding.tutorial.with.jenkins.multi_branch_pipeline.title':
     'Create a Multibranch Pipeline Job',
   'onboarding.tutorial.with.jenkins.multi_branch_pipeline.intro':
@@ -10428,9 +9605,7 @@ export const defaultMessages = {
   // BRANCHES
   //
   //------------------------------------------------------------------------------
-  'branches.branch': 'Branch',
   'branches.main_branch': 'Main Branch',
-  'branches.pr': 'PR',
   'branches.see_the_pr': 'See the PR',
   'branches.see_the_pr_on_x': 'See the PR on {dop}',
 
@@ -10483,27 +9658,9 @@ export const defaultMessages = {
   // PORTFOLIOS
   //
   //------------------------------------------------------------------------------
-  'portfolio.has_always_been_x': 'has always been {rating}',
-  'portfolio.was_x_y': 'was {rating} {date}',
-  'portfolio.x_in_y': '{project_branches} in {rating}',
-  'portfolio.project_branch': 'project branch',
-  'portfolio.project_branches': 'project branches',
-  'portfolio.has_qg_status': 'Has quality gate status',
-  'portfolio.have_qg_status': 'Have quality gate status',
-  'portfolio.empty': 'This portfolio is empty.',
-  'portfolio.no_lines_of_code': 'All projects in this portfolio are empty',
-  'portfolio.not_computed': 'This portfolio is not yet computed.',
   'portfolio.app.empty': 'This application is empty.',
   'portfolio.app.no_lines_of_code': 'All projects in this application are empty',
-  'portfolio.metric_trend': 'Metric trend',
-  'portfolio.lowest_rated_project_branches': 'Lowest rated project branches',
-  'portfolio.health_factors': 'Portfolio health factors',
   'portfolio.activity_link': 'See full history of analyses',
-  'portfolio.measures_link': 'Measures',
-  'portfolio.language_breakdown_link': 'Language breakdown',
-  'portfolio.breakdown': 'Portfolio breakdown',
-  'portfolio.number_of_projects': 'Number of project branches',
-  'portfolio.number_of_lines': 'Number of lines of code',
   'portfolio.details': 'Portfolio Details',
   'portfolio.details.breakdown': 'Breakdown by projects, applications, and nested portfolios',
 
@@ -10515,17 +9672,6 @@ export const defaultMessages = {
   // METRIC DOMAINS HELP TEXT
   //
   //------------------------------------------------------------------------------
-
-  'portfolio.metric_domain.releasability.help':
-    'Ratio of projects in the Portfolio that have passed the quality gate.',
-  'portfolio.metric_domain.reliability.help':
-    'Average Reliability rating for all projects in the portfolio.',
-  'portfolio.metric_domain.vulnerabilities.help':
-    'Average security rating for all projects in the portfolio.',
-  'portfolio.metric_domain.security_hotspots.help':
-    'Average security review rating for all projects in the portfolio.',
-  'portfolio.metric_domain.maintainability.help':
-    'Average maintainability rating for all projects in the portfolio.',
 
   //------------------------------------------------------------------------------
   //
@@ -10565,7 +9711,6 @@ export const defaultMessages = {
   'users.page.managed_description.recommendation':
     'We recommend that you delete local users to ensure all operations are done on your identity provider. Read more about {link}.',
   'users.page.managing_users': 'managing users',
-  'users.info': 'User',
   'users.deactivate': 'Deactivate',
   'users.deactivate_user': 'Deactivate User',
   'users.deactivate_user.confirmation': 'Are you sure you want to deactivate "{0} ({1})"?',
@@ -10573,7 +9718,6 @@ export const defaultMessages = {
   'users.delete_user.help':
     'A user account cannot be reactivated once their personal information is deleted. {link}',
   'users.delete_user.help.link': 'Learn more',
-  'users.delete_user.documentation': 'Authentication',
   'users.create_user': 'Create User',
   'users.create_user.scm_account_new': 'New SCM account',
   'users.create_user.scm_account_x': 'SCM account "{0}"',
@@ -10602,9 +9746,6 @@ export const defaultMessages = {
   'users.update_tokens': 'Update tokens',
   'users.update_tokens_for_x': 'Update tokens for user {0}',
   'users.user_name': 'Name',
-  'users.add': 'Add user',
-  'users.remove': 'Remove user',
-  'users.search_description': 'Search users by login or name',
   'users.activity_filter.label': 'Filter users by activity',
   'users.activity_filter.placeholder': 'All users',
   'users.activity_filter.helptext.sonarqube':
@@ -10644,7 +9785,6 @@ export const defaultMessages = {
   'users.tokens.expiration.0': 'No expiration',
   'users.tokens.new_token_created':
     'New token "{0}" has been created. Make sure you copy it now, you won\'t be able to see it again!',
-  'users.generate_new_token': 'Generate New Token',
   'users.new_token': 'New token value',
   'users.change_admin_password.page': 'Change password',
   'users.change_admin_password.instance_is_at_risk': 'Secure your {productName} instance',
@@ -10675,7 +9815,6 @@ export const defaultMessages = {
   'groups.update_group': 'Update Group',
   'groups.users.edit': 'Change {0} members',
   'groups.users.view': 'View {0} members',
-  'groups.edit': 'Edit {0}',
   'groups.actions': 'Group actions for {0}',
   'group_membership.remove_user.error': 'User {0} is not a member of group {1}',
 
@@ -10739,10 +9878,6 @@ export const defaultMessages = {
     '{productName} completed the reload of project data. Some {link} causing some projects to remain unavailable.',
   'indexation.completed_with_error.link': 'tasks failed or canceled',
   'indexation.admin_link': 'See {link} for more information.',
-  'indexation.page_unavailable.title.issues': 'Issues page is temporarily unavailable',
-  'indexation.page_unavailable.title.portfolios': 'Portfolios page is temporarily unavailable',
-  'indexation.page_unavailable.title':
-    '{componentQualifier} {componentName} is temporarily unavailable',
   'indexation.page_unavailable.description': '{productName} is reindexing project data.',
   'indexation.page_unavailable.description.additional_information':
     'This page is unavailable until this process is complete. {link}',
@@ -10859,8 +9994,6 @@ export const defaultMessages = {
     'You have successfully unsubscribed from receiving {frequency} PDF report about this {qualifier}',
   'component_report.unsubscribe_x_success_no_frequency':
     'You have successfully unsubscribed from receiving PDF report about this {qualifier}',
-  'component_report.unsubscribe_success':
-    "Subscription successfully canceled. You won't receive these reports by email anymore.",
   'component_report.unsubscribe.page_title': 'Unsubscribe from report',
   'component_report.toggletip.permanent_branches.description':
     "Reports are only available for permanent branches. A permanent branch is one that has been marked as 'Keep when inactive'.",
@@ -10883,7 +10016,6 @@ export const defaultMessages = {
   // GUIDING
   //
   //------------------------------------------------------------------------------
-  'guiding.step_x_of_y': '{0} of {1}',
 
   //------------------------------------------------------------------------------
   //
@@ -10935,10 +10067,8 @@ export const defaultMessages = {
   'application_console.branches.no_branches':
     'No branches yet. You can create branches once projects are selected for this Application.',
   'application_console.page': 'Edit definition',
-  'application_console.delete_application': 'Delete Application',
   'application_console.recompute': 'Recompute',
   'application_console.refresh_started': 'Your application will be recomputed soon',
-  'application_console.do_you_want_to_delete': 'Are you sure that you want to delete "{0}"?',
 
   //------------------------------------------------------------------------------
   //
@@ -10966,7 +10096,6 @@ export const defaultMessages = {
   'oauth.slack_binding.error.toast.description':
     'You were unable to link your SonarQube Instance and Slack accounts',
   'oauth.slack_binding.documentation_link': 'View documentation',
-  'oauth.slack_binding.get_started_button': 'Get started',
 
   //------------------------------------------------------------------------------
   //
@@ -10974,75 +10103,22 @@ export const defaultMessages = {
   //
   //------------------------------------------------------------------------------
 
-  'views.add': 'Add',
   'views.all': 'All',
-  'views.apply': 'Apply',
-  'views.by_default': 'All remaining projects not associated to "{0}"',
-  'views.by_language': 'All projects whose language is',
-  'views.by_manual_measure': 'All projects whose manual measure',
-  'views.by_manual_measure.none_available':
-    'No metrics available. Please create a manual metric with type "Text" on the "Manual Metrics" page.',
-  'views.is': 'is',
-  'views.by_none': 'Following manually selected projects:',
-  'views.by_regexp': 'All projects matching regular expression',
-  'views.cannot_delete_referred_view':
-    'Portfolio "{0}" must be removed from the following portfolio(s) before it is deleted:',
-  'views.collapse': 'collapse',
-  'views.refresh': 'Refresh',
   'views.recompute': 'Recompute',
   'views.recompute_all': 'Recompute All',
-  'views.create': 'Create',
   'views.create_new': 'Create Portfolio',
-  'views.create_success': 'Portfolio was successfully created',
-  'views.criteria': 'Criteria',
-  'views.deleted_metric': '<deleted manual metric>',
   'views.deleted_project': 'Deleted project',
-  'views.deleted_server': 'Server has been removed',
-  'views.deleted_view':
-    'The definition of this portfolio has probably been deleted and this portfolio will not appear anymore once the portfolios have all been rebuilt.',
-  'views.delete_success': 'Portfolio definition "{0}" has been successfully deleted',
-  'views.delete_view': 'delete',
-  'views.delete.project': 'Remove Project',
-  'views.delete.subview': 'Delete Portfolio',
   'views.delete.view': 'Delete Portfolio',
   'views.remove_x': 'Remove {qualifier}',
   'view.refresh.started': 'All portfolios will be recomputed soon',
   'view.refresh.started.one': 'Your portfolio will be recomputed soon',
-  'views.do_you_want_to_change_selection_mode':
-    'This action will replace any existing project selection on portfolio "{0}". Do you want to continue?',
-  'views.is_referenced_by': 'This will automatically delete "{0}" from all its parent portfolios',
   'views.do_you_want_to_delete_x': 'Are you sure that you want to delete "{portfolio}"?',
   'views.do_you_want_to_remove_x': 'Are you sure that you want to remove "{portfolio}"?',
-  'views.do_you_want_to_delete_subview': 'Are you sure that you want to delete portfolio "{0}"?',
-  'views.do_you_want_to_delete_project_from_view':
-    'Are you sure that you want to remove project "{0}" from portfolio "{1}"?',
-  'views.do_you_want_to_delete_project_from_subview':
-    'Are you sure that you want to remove project "{0}" from portfolio "{1}"?',
-  'views.duplicate_key': 'A portfolio with the key "{0}" already exists',
   'views.edit': 'Edit',
-  'views.edit_subview': 'Edit "{0}"',
-  'views.edit_view': 'Edit "{0}"',
-  'views.filter_projects': 'Filter',
-  'views.associate.view.explain': 'Associate projects with one of the following options:',
-  'views.associate.subview.explain': 'Associate projects with one of the following options:',
-  'views.empty.language': "can't be blank",
-  'views.empty.regexp': "can't be blank",
-  'views.empty': 'empty',
-  'views.expand': 'expand',
-  'views.hierarchy': 'hierarchy',
-  'views.invalid.criteria': 'Only one criteria can be used (regexp, language or manual measure)',
-  'views.invalid.key':
-    '"{0}" is invalid. Only letters, digits, dashes and underscores are supported.',
-  'views.invalid.regexp': 'is not a valid java regular expression, for example [a-zA-Z]*-[0-9]+',
-  'views.invalid.tag_key': "can't be blank",
-  'views.invalid.tag_value': "can't be blank if a value is specified",
-  'views.language.desc': 'Filter on a language',
-  'views.language': 'Language',
   'views.list': 'Portfolios',
   'views.mode.standard': 'Standard',
   'views.mode.local': 'Reference',
   'views.move': 'Move',
-  'views.move.project': 'Move "{0}" into',
   'views.move.select.new.parent.view': 'Select destination',
   'views.move.subview': 'Move "{portfolio}" into',
   'views.application.branches': 'Select branches to compute',
@@ -11051,16 +10127,7 @@ export const defaultMessages = {
   'views.new_child_to': 'Add Portfolio to "{portfolio}"',
   'views.new_application_to': 'Add Application to "{portfolio}"',
   'views.none': 'No portfolios',
-  'views.no_project': 'No project',
-  'views.no_server': 'No server',
-  'views.no_server_available': 'No server available',
   'views.open_dashbard': 'Open Dashboard',
-  'views.projects_distribution': 'Projects distribution',
-  'views.projects_distribution.in': '{count} in {rating}',
-  'views.projects_distribution.quality_gate': '{rating}: {count}',
-  'views.projects.add': 'Add Projects',
-  'views.projects.associate': 'Associate Projects to "{0}"',
-  'views.projects.associated': 'Associated Projects',
   'views.referenced_x': 'Referenced {qualifier}',
 
   'views.structure.nav': 'Portfolio structure navigation menu',
@@ -11068,8 +10135,6 @@ export const defaultMessages = {
   //
   // When updating the line below, please also update com.sonar.views.batch.ViewFilters.languageFilter(View)
   //
-  'views.projects.by_regexp': 'All projects matching regular expression "{0}"',
-  'views.projects.by_tag': 'All projects whose {0} is {1}',
   'views.projects.selection_mode': 'Projects and branches selection mode',
   'views.projects.selection_mode.NONE': 'None',
   'views.projects.selection_mode.NONE.description':
@@ -11095,23 +10160,8 @@ export const defaultMessages = {
     'This portfolio contains the {branch} branch of every project marked by the following tags: {tags}.',
   'views.projects.selection_mode.main_branch': 'main',
   'views.already_selected_in': '"{0}" is already selected in "{1}"',
-  'views.projects.select_language': 'Language',
-  'views.projects.set': 'Associate Projects',
-  'views.projects': 'Projects',
-  'views.regexp.desc':
-    'A valid regular expression, eg. ".*Business" to match project names or keys that end with "Business".',
-  'views.regexp': 'Regexp',
-  'views.remove_project': 'Remove',
   'views.search': 'Search',
-  'views.set_criteria': 'Set criteria',
-  'views.server': 'Server',
-  'views.structure.name': 'Structure of the portfolio',
-  'views.tag.desc': 'Manual measure',
-  'views.tag': 'Manual measure',
-  'views.update': 'Update',
-  'views.update_success': 'Portfolio was successfully updated',
   'views.view': 'Portfolio',
-  'views.advanced_settings': 'Advanced Settings',
   'views.key.description':
     'If specified, this value is used as the key instead of generating it from the name of the Portfolio.',
   'views.key.valid_characters':
@@ -11133,9 +10183,6 @@ export const defaultMessages = {
   'portfolio.branch': 'Branch selection',
   'portfolio.branch.description':
     'The branch name that will be selected for every project if it exists. Leave empty to select the main branch.',
-  'portfolio.custom_measure': 'Custom Measure',
-  'portfolio.deprecated_custom_measure_mode':
-    '"By Custom Measure" selection mode is deprecated. Please use "By Tags" instead.',
 
   'portfolio_console.project_inaccessible': 'You do not have access to this project',
 
@@ -11165,27 +10212,16 @@ export const defaultMessages = {
   'governance.section.review': 'Security Review',
   'governance.section.security': 'Security',
   'governance.section.maintainability': 'Maintainability',
-  'governance.section.application.reliability': 'Bugs',
-  'governance.section.application.security': 'Vulnerabilities',
   'governance.section.application.security_hotspots_reviewed': 'Hotspots Reviewed',
-  'governance.section.application.maintainability': 'Code Smells',
   'governance.section.sca': 'Dependency Risks',
   'governance.projects': 'Projects',
   'governance.x_projects_failed': '{count} project(s) failed',
   'governance.x_projects_in_y': '{projectCount} project(s) in {rating}',
-  'governance.and': 'and',
   'governance.has_always_been_x': 'has always been {rating}',
   'governance.was': 'was',
   'governance.not_computed.VW': 'This portfolio is not yet computed.',
-  'governance.not_computed.APP': 'This application is not yet computed.',
   'governance.no_projects.VW': 'This portfolio is empty.',
-  'governance.no_projects.APP': 'This application is empty.',
   'governance.no_ncloc.VW': 'This portfolio contains only empty projects.',
-  'governance.no_ncloc.APP': 'This application contains only empty projects.',
-  'governance.show_all': 'Show All',
-  'governance.no_security_review_rating': 'Not yet computed',
-
-  'governance_report.page': 'Executive report',
 
   // Metrics
   'metric.releasability_effort.name': 'Total number of projects not production ready',
@@ -11193,10 +10229,7 @@ export const defaultMessages = {
 
   // Report
   'report.page': 'Executive report',
-  'report.cant_download': "You don't have right permissions to see the report.",
-  'report.can_download': 'You can print the main information from this page into a PDF file.',
   'report.configured_globally_note': '(configured globally)',
-  'report.configuration': 'Advanced Configuration',
   'report.frequency': 'Frequency',
   'report.frequency.admin': 'Customize the frequency used to send PDF reports for that portfolio.',
   'report.frequency.default': 'Default',
@@ -11216,13 +10249,6 @@ export const defaultMessages = {
   'report.recipients': 'Other Recipients',
   'report.recipients.admin':
     'Add email addresses of people who do not have an account on SonarQube Server but still want to get PDF reports for that portfolio.',
-  'report.work_duration.x_days': '{0} days',
-  'report.work_duration.one_day': '1 day',
-  'report.work_duration.x_hours': '{0} hours',
-  'report.work_duration.one_hour': '1 hour',
-  'report.work_duration.x_minutes': '{0} minutes',
-  'report.work_duration.one_minute': '1 minute',
-  'report.work_duration.about': '~ {0}',
   'report.delete_recipient': 'Delete recipient {0}',
 
   'application_settings.page': 'Application Settings',
@@ -11292,7 +10318,6 @@ export const defaultMessages = {
   'portfolio_overview.project_branches_all': 'All selected project branches',
   'portfolio_overview.project_branches_rating': '{link} in {rating}',
   'portfolio_overview.see_all': 'See All',
-  'portfolio_overview.cannot_see_all': 'Some projects are inaccessible',
   'portfolio_overview.cannot_see_all.help':
     'You do not have access to all projects in this portfolio',
 
@@ -11303,8 +10328,6 @@ export const defaultMessages = {
   'portfolio_overview.releasability.title': 'Releasability',
   'portfolio_overview.releasability.description':
     'Ratio of passing quality gates over failing ones. The quality gate of a project can have conditions both on New Code and Overall Code.',
-  'portfolio_overview.releasability.help':
-    "This rating is based on the ratio of passing quality gates over failing ones for all projects in your Portfolio. Projects' quality gates have conditions on both New Code and Overall Code.",
   'portfolio_overview.releasability.rating.help':
     'This rating is based on the ratio of passing quality gates over failing ones. The quality gate of a project can have conditions both on New Code and Overall Code.',
   'portfolio_overview.releasability.portfolio_health': 'Portfolio health',
@@ -11569,8 +10592,6 @@ export const defaultMessages = {
     'Turning off overage will pause {product} as soon as you’ve used your limit, it won’t run again until your limit resets.',
   'license.products.overage.dialog.deactivate.warning.monthly':
     'Turning off overage will pause {product} as soon as you’ve used your monthly limit, it won’t run again until your limit resets.',
-  'license.products.overage.dialog.deactivate.billed':
-    'You will still be billed for already-consumed overage.',
   'license.products.overage.dialog.learn_more': 'Learn more',
   'license.products.overage.dialog.terms': 'Terms and conditions',
   // Mirrors what the activation endpoint says when a licence enables overage without the settings
@@ -11757,8 +10778,6 @@ export const defaultMessages = {
   'new_code.page.description':
     "The new code definition sets the criteria for what's considered new code, allowing you to focus on the most recent changes in your project.<br></br><br></br>This setting establishes the instance’s default new code definition, that will be applied to all new and existing projects, and can be further customized at the project level.<br></br>{url}",
   'new_code.page.description.documentation_link': 'Learn more in documentation',
-  'new_code.changes_affect_new_projects_only': 'Changes will only affect new projects',
-  'new_code.page.notification.success': 'New code definition updated successfully',
 
   // Toggle Tips
   'toggle_tip.aria_label.quality_gate': 'More information about quality gate',
@@ -11770,9 +10789,7 @@ export const defaultMessages = {
 
   // Beamer
   'beamer.panel.title': "What's new on SonarQube",
-  'beamer.category.new': 'New',
   'beamer.news.error': 'Failed to load news',
-  'beamer.news.community_post': 'Community post',
   'beamer.news.no_news': 'No news available',
 
   // ----------------------------------------------------------------------------
@@ -11871,8 +10888,6 @@ export const defaultMessages = {
     'To bind to a Jira project, your instance admin must grant binding permissions to project admins',
   'project_settings.jira_binding.bound.no_permissions':
     'To edit or delete this binding, your instance admin must grant binding permissions to project admins in the instance settings.',
-  'project_settings.jira_binding.no_summary':
-    'To see issues for this release, configure Jira releases and versions. See <link>instructions in our documentation</link>',
   'project_settings.jira.binding.bind_success': "''{sqProject}'' has been connected to Jira",
   'project_settings.jira.binding.update_bind_success':
     "You have successfully changed your Jira connection to ''{name}''",
@@ -11907,15 +10922,8 @@ export const defaultMessages = {
   'issue.jira.work_item_deletion_success': 'Link to Jira issue {0} has been removed',
   'issue.jira.work_item_creation': 'Push to Jira',
   'issue.jira.work_item_creation.in_progress': 'Pushing to Jira',
-  'issue.jira.work_item_creation.count':
-    'Push {count} {count, plural, one {issue} other {issues}} to Jira',
   'issue.jira.work_item_creation_success': 'Work item {0} created in Jira',
   'issue.jira.work_type_dropdown': 'Choose Jira work type',
-  'issue.jira.view_work_item': 'View work item',
-  'issue.jira.work_items_creation_failure':
-    "An error occurred. Please make sure you don't try to push the same issue twice to Jira.",
-  'issue.jira.work_items_creation.success':
-    'Jira work {count, plural, one {item} other {items}} <link>{jiraWorkItemKey}</link> has been successfully created and linked to {count} SonarQube {count, plural, one {issue} other {issues}}',
 
   // ----------------------------------------------------------------------------
   //
@@ -12118,14 +11126,7 @@ export const defaultMessages = {
   'onboarding_dashboard.journey.import.description':
     "Import all your repositories to unlock central visibility into your team's code health and block vulnerabilities before they hit production.",
   'onboarding_dashboard.journey.import.cta': 'Import',
-  'onboarding_dashboard.journey.import.auto': 'Automatically import new repositories',
-  'onboarding_dashboard.journey.import.auto_loading': 'Loading auto-import settings',
-  'onboarding_dashboard.journey.import.auto_toggle_error':
-    'Failed to update auto-import setting. Please try again.',
   'onboarding_dashboard.journey.import.auto_edit_aria_label': 'Edit auto-import setting',
-  'onboarding_dashboard.journey.import.auto_help':
-    '"All repositories" must be selected in GitHub\'s <link>Repository Access settings</link>',
-  'onboarding_dashboard.journey.import.recommended': 'Recommended',
   'onboarding_dashboard.journey.import.cli_title': 'Bulk import your repositories',
   'onboarding_dashboard.journey.import.cli_description':
     'Use our CLI tool to import high quantities of repositories at the same time.',
@@ -12265,17 +11266,9 @@ export const defaultMessages = {
   'security_alerts.detail.sca_issue.action': 'Action',
   'security_alerts.detail.sca_issue.view_risk': 'View risk details',
 
-  'group_notifications.page': 'Group notification subscriptions',
-  'group_notifications.page.description':
-    'Manage which groups have their security alert banners reshown when a new alert is published.',
   'group_notifications.add': 'Add subscription',
-  'group_notifications.remove': 'Remove',
   'group_notifications.empty': 'No group subscriptions configured.',
-  'group_notifications.group': 'Group',
   'group_notifications.notification_type': 'Notification type',
-  'group_notifications.modal.title': 'Add group subscription',
-  'group_notifications.modal.select_group': 'Select a group',
-  'group_notifications.modal.select_type': 'Select a notification type',
   'group_notifications.subscriptions': 'Notification subscriptions',
   'group_notifications.manage_subscriptions': 'Manage subscriptions',
   'group_notifications.subscriptions_count':
@@ -12290,8 +11283,6 @@ export const defaultMessages = {
 
   'security_alerts.security_alert_banner.message':
     'New security alerts were detected in your projects in the past week. <link>View all security alerts</link>',
-  'billing.repo_auto_import_enabled.description.bitbucket':
-    'New repositories in your Bitbucket workspace will be imported automatically.',
   'onboarding.create_organization.repo_auto_import.helper.bitbucket':
     'Automatically import new repositories from your connected Bitbucket workspace. Existing repositories are not imported.',
   'onboarding.create_organization.repo_auto_import.label.bitbucket':
