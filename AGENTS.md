@@ -12,6 +12,7 @@ This project is a monorepo that contains many packages to build a SaaS Cloud and
 - `echoes-components` for working with Echoes design system `@sonarsource/echoes-react`.
 - `webapp-code-sharing` for understanding the complex project organization of this NX repo.
 - `webapp-testing` for understanding how to write good tests.
+- `webapp-private-feature` for creating or restructuring a `private/libs/feature-*` library.
 
 Load these skills only when the task actually requires them — do not load them at startup.
 
