@@ -28,6 +28,7 @@ import {
   OnboardingProjectScanStatus,
   OnboardingProjectsResponse,
   OnboardingScope,
+  OnboardingSortDirection,
   OnboardingStatistics,
 } from '../types/onboarding';
 
@@ -54,7 +55,9 @@ export interface OnboardingProjectsQuery {
 export type OnboardingOverviewQuery = OnboardingScope;
 
 export interface OnboardingOrganizationsQuery {
-  /** Identifier (UUID) of the enterprise to report on. Required: the roll-up only exists for one. */
+  /** Defaults to ascending on the backend. */
+  direction?: OnboardingSortDirection;
+  /** Enterprise UUID. */
   enterpriseId: string;
   pageIndex?: number;
   pageSize?: number;

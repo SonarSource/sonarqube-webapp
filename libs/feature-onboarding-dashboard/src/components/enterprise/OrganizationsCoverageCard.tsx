@@ -23,14 +23,16 @@ import { useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { Path } from 'react-router';
 import { useOnboardingOrganizationsQuery } from '~shared/queries/onboarding';
-import { OnboardingOrganizationSort } from '~shared/types/onboarding';
-import {
-  OnboardingDashboardAction,
-  OnboardingDashboardFilter,
-} from '~shared/types/onboarding-dashboard-telemetry';
+import { OnboardingOrganizationSort, OnboardingSortDirection } from '~shared/types/onboarding';
+import { OnboardingDashboardFilter } from '~shared/types/onboarding-dashboard-telemetry';
 import { usePaginatedTableState } from '../projects/usePaginatedTableState';
 import { useOnboardingDashboardTracking } from '../telemetry/OnboardingDashboardTelemetry';
-import { ORGANIZATIONS_PAGE_SIZE, ORGANIZATIONS_SECTION_ID } from './enterpriseConstants';
+import {
+  DEFAULT_ORGANIZATIONS_DIRECTION,
+  DEFAULT_ORGANIZATIONS_SORT,
+  ORGANIZATIONS_PAGE_SIZE,
+  ORGANIZATIONS_SECTION_ID,
+} from './enterpriseConstants';
 import { OrganizationsCoverageTable } from './OrganizationsCoverageTable';
 
 interface Props {
@@ -50,12 +52,14 @@ export function OrganizationsCoverageCard({
 }: Readonly<Props>) {
   const { formatMessage } = useIntl();
   const { trackActionSelected, trackFilterChanged } = useOnboardingDashboardTracking();
-  const [sort, setSort] = useState(OnboardingOrganizationSort.Progress);
-  // A new sort starts over from the first page, as a new search does.
-  const { onPageChange, onSearchChange, pageIndex, query, searchValue } =
-    usePaginatedTableState(sort);
+  const [sort, setSort] = useState(DEFAULT_ORGANIZATIONS_SORT);
+  const [direction, setDirection] = useState(DEFAULT_ORGANIZATIONS_DIRECTION);
+  const { onPageChange, onSearchChange, pageIndex, query, searchValue } = usePaginatedTableState(
+    `${sort}:${direction}`,
+  );
 
   const { data, isError, isLoading } = useOnboardingOrganizationsQuery({
+    direction,
     enterpriseId,
     pageIndex,
     pageSize: ORGANIZATIONS_PAGE_SIZE,
@@ -68,8 +72,9 @@ export function OrganizationsCoverageCard({
     setSort(nextSort);
   };
 
-  const handleAction = (action: OnboardingDashboardAction) => {
-    trackActionSelected(action);
+  const handleDirectionChange = (nextDirection: OnboardingSortDirection) => {
+    trackFilterChanged(OnboardingDashboardFilter.OrganizationSortDirection, nextDirection);
+    setDirection(nextDirection);
   };
 
   return (
@@ -88,10 +93,12 @@ export function OrganizationsCoverageCard({
             </MessageCallout>
           ) : (
             <OrganizationsCoverageTable
+              direction={direction}
               getBindingUrl={getBindingUrl}
               getDashboardUrl={getDashboardUrl}
               isLoading={isLoading}
-              onAction={handleAction}
+              onAction={trackActionSelected}
+              onDirectionChange={handleDirectionChange}
               onPageChange={onPageChange}
               onSearchChange={onSearchChange}
               onSortChange={handleSortChange}

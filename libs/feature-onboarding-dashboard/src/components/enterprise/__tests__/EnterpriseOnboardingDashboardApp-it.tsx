@@ -18,10 +18,8 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { waitForElementToBeRemoved } from '@testing-library/react';
-import { PointerEventsCheckLevel } from '@testing-library/user-event';
+import { waitFor, waitForElementToBeRemoved } from '@testing-library/react';
 import { http, HttpResponse } from 'msw';
-import { Route } from 'react-router';
 import { API_V2_MOCKS_PREFIX } from '~adapters/helpers/urls';
 import {
   mockOnboardingEnterpriseOverview,
@@ -104,7 +102,10 @@ const ui = {
     byText(`${PREFIX}.coverage.banner.${unavailable}.${total}`),
   table: byRole('table', { name: `${PREFIX}.organizations.title` }),
   search: byRole('searchbox'),
-  sortName: byRole('radio', { name: `${PREFIX}.organizations.sort.name` }),
+  sortBy: byRole('combobox', { name: `${PREFIX}.organizations.sort.label` }),
+  sortOption: (name: string) => byRole('option', { name: `${PREFIX}.organizations.sort.${name}` }),
+  sortAscending: byRole('button', { name: `${PREFIX}.organizations.sort.ascending` }),
+  sortDescending: byRole('button', { name: `${PREFIX}.organizations.sort.descending` }),
   unavailable: byText(`${PREFIX}.organizations.unavailable`),
   pageTwo: byRole('button', { name: 'pagination.page_x.2' }),
   viewDashboard: (name: string) =>
@@ -372,19 +373,40 @@ describe('organizations table', () => {
     );
   });
 
-  it('sorts by name when asked to, and searches', async () => {
+  it('reverses the order when asked to, whichever sort it is', async () => {
     const { user } = renderEnterpriseDashboard();
     expect(await ui.table.byText('Web core').find()).toBeInTheDocument();
 
-    await user.click(ui.sortName.get());
+    // Most progressed first; the organization that could not be read stays last.
+    await user.click(ui.sortAscending.get());
+    await ui.sortDescending.find();
+    await waitFor(() => {
+      expect(rowNames()).toEqual(['Web core', 'Data platform', 'Legacy tools', 'Payments']);
+    });
 
-    await ui.table.byText('Payments').find();
-    expect(rowNames()).toEqual([
-      'Data platformdata-platform',
-      'Legacy toolslegacy-tools',
-      'Paymentspayments',
-      'Web coreweb-core',
-    ]);
+    await user.click(ui.sortBy.get());
+    await user.click(await ui.sortOption('name').find());
+
+    await waitFor(() => {
+      expect(rowNames()).toEqual(['Web core', 'Payments', 'Legacy tools', 'Data platform']);
+    });
+  });
+
+  it('sorts by name when asked to', async () => {
+    const { user } = renderEnterpriseDashboard();
+    expect(await ui.table.byText('Web core').find()).toBeInTheDocument();
+
+    await user.click(ui.sortBy.get());
+    await user.click(await ui.sortOption('name').find());
+
+    await waitFor(() => {
+      expect(rowNames()).toEqual(['Data platform', 'Legacy tools', 'Payments', 'Web core']);
+    });
+  });
+
+  it('searches the organizations', async () => {
+    const { user } = renderEnterpriseDashboard();
+    expect(await ui.table.byText('Web core').find()).toBeInTheDocument();
 
     await user.type(ui.search.get(), 'data');
 

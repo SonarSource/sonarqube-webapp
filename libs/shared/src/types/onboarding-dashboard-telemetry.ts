@@ -59,6 +59,7 @@ export enum OnboardingDashboardFilter {
   DevopsPlatform = 'devops_platform',
   GateStatus = 'gate_status',
   OrganizationSort = 'organization_sort',
+  OrganizationSortDirection = 'organization_sort_direction',
   RepositoryVisibility = 'repository_visibility',
   ScanStatus = 'scan_status',
 }

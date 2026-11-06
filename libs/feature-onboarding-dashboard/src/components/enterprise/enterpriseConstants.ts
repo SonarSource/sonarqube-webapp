@@ -18,11 +18,17 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { OnboardingOrganizationSort, OnboardingSortDirection } from '~shared/types/onboarding';
+
 /**
  * Page size of the organizations table. Its first page is prefetched with the same size, so both
  * share one cache entry.
  */
 export const ORGANIZATIONS_PAGE_SIZE = 25;
 
-/** The id of the Organizations section, which the "View all" of the step panels scrolls to. */
+/** The table opens with the least progressed organization first. */
+export const DEFAULT_ORGANIZATIONS_SORT = OnboardingOrganizationSort.Progress;
+export const DEFAULT_ORGANIZATIONS_DIRECTION = OnboardingSortDirection.Ascending;
+
+/** Scroll target of the "View all" buttons. */
 export const ORGANIZATIONS_SECTION_ID = 'onboarding-organizations-section';

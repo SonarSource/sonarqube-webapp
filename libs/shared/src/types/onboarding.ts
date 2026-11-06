@@ -475,6 +475,12 @@ export enum OnboardingOrganizationSort {
   Progress = 'PROGRESS',
 }
 
+/** Which way a sort runs: the natural order of its key (A to Z, least progressed first), or the reverse. */
+export enum OnboardingSortDirection {
+  Ascending = 'ASC',
+  Descending = 'DESC',
+}
+
 /** Whether the figures of an enterprise organization could be read. */
 type OnboardingOrganizationAvailability = 'AVAILABLE' | 'UNAVAILABLE';
 

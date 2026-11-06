@@ -25,8 +25,11 @@ import {
   onboardingOrganizationsQueryOptions,
   onboardingStatisticsQueryOptions,
 } from '~shared/queries/onboarding';
-import { OnboardingOrganizationSort } from '~shared/types/onboarding';
-import { ORGANIZATIONS_PAGE_SIZE } from './enterpriseConstants';
+import {
+  DEFAULT_ORGANIZATIONS_DIRECTION,
+  DEFAULT_ORGANIZATIONS_SORT,
+  ORGANIZATIONS_PAGE_SIZE,
+} from './enterpriseConstants';
 
 const EnterpriseOnboardingDashboardApp = lazyLoadComponent(
   () => import('./EnterpriseOnboardingDashboardApp'),
@@ -50,10 +53,11 @@ export function LazyEnterpriseOnboardingDashboardApp(props: Readonly<Props>) {
   usePrefetchQuery(onboardingStatisticsQueryOptions({ enterpriseId }));
   usePrefetchQuery(
     onboardingOrganizationsQueryOptions({
+      direction: DEFAULT_ORGANIZATIONS_DIRECTION,
       enterpriseId,
       pageIndex: 1,
       pageSize: ORGANIZATIONS_PAGE_SIZE,
-      sort: OnboardingOrganizationSort.Progress,
+      sort: DEFAULT_ORGANIZATIONS_SORT,
     }),
   );
 

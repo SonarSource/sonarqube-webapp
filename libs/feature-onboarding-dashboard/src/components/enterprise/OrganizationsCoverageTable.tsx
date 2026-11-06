@@ -32,7 +32,6 @@ import {
   TableVariety,
   Text,
   TextSize,
-  ToggleButtonGroup,
 } from '@sonarsource/echoes-react';
 import { CSSProperties } from 'react';
 import { useIntl } from 'react-intl';
@@ -40,13 +39,19 @@ import { Path } from 'react-router';
 import { Image } from '~adapters/components/common/Image';
 import { useAlmIconSrc } from '~adapters/helpers/almIcons';
 import { toDisplayPercent } from '~shared/helpers/onboarding/percent';
-import { OnboardingOrganizationRow, OnboardingOrganizationSort } from '~shared/types/onboarding';
+import {
+  isKnownPlatform,
+  OnboardingOrganizationRow,
+  OnboardingOrganizationSort,
+  OnboardingSortDirection,
+} from '~shared/types/onboarding';
 import { OnboardingDashboardAction } from '~shared/types/onboarding-dashboard-telemetry';
 import { NO_DATA } from '../dashboardConstants';
-import { isKnownPlatform, PLATFORM_CONFIG } from '../devops/platformConfig';
+import { PLATFORM_CONFIG } from '../devops/platformConfig';
 import { ProjectsTableColumn } from '../projects/ProjectsTable';
 import { TableBodyRows } from '../projects/TableBodyRows';
 import { TableHeaderRows } from '../projects/TableHeaderRows';
+import { OrganizationsSortControl } from './OrganizationsSortControl';
 
 /** Organization and actions get the room; the figures stay compact. */
 const GRID_TEMPLATE =
@@ -67,25 +72,13 @@ const COLUMNS: ProjectsTableColumn[] = [
   },
 ];
 
-const SORT_OPTIONS = [
-  {
-    labelKey: 'onboarding_dashboard.enterprise.organizations.sort.progress',
-    value: OnboardingOrganizationSort.Progress,
-  },
-  {
-    labelKey: 'onboarding_dashboard.enterprise.organizations.sort.name',
-    value: OnboardingOrganizationSort.Name,
-  },
-];
-
 interface Props {
-  /** Where the binding setup of an organization lives, for the call-to-action of an unbound one. */
+  direction: OnboardingSortDirection;
   getBindingUrl: (organizationKey: string) => Partial<Path>;
-  /** Where the dashboard of an organization lives, the drill-down of every row. */
   getDashboardUrl: (organizationKey: string) => Partial<Path>;
   isLoading: boolean;
-  /** Reported when a row action is selected, so the owner can track it. */
-  onAction?: (action: OnboardingDashboardAction, organization: OnboardingOrganizationRow) => void;
+  onAction?: (action: OnboardingDashboardAction) => void;
+  onDirectionChange: (direction: OnboardingSortDirection) => void;
   onPageChange: (pageIndex: number) => void;
   onSearchChange: (value: string) => void;
   onSortChange: (sort: OnboardingOrganizationSort) => void;
@@ -101,18 +94,17 @@ interface Props {
 }
 
 /**
- * The per-organization roll-up of an enterprise: one row per organization, led by the icon of its
- * DevOps platform, with the projects it has imported and analyzed and its progress, the way to
- * view and manage the organization and, for one that is not bound yet, the way to bind it.
- *
- * Presentational: the search, the sort and the page are owned by the caller, which fetches them
- * server-side. An organization whose figures could not be read has no numbers, never zeros.
+ * Per-organization roll-up: imported and analyzed figures, progress and row actions. Presentational:
+ * search, sort and page are owned by the caller. An unreadable organization shows no numbers, never
+ * zeros.
  */
 export function OrganizationsCoverageTable({
+  direction,
   getBindingUrl,
   getDashboardUrl,
   isLoading,
   onAction,
+  onDirectionChange,
   onPageChange,
   onSearchChange,
   onSortChange,
@@ -126,14 +118,6 @@ export function OrganizationsCoverageTable({
   const { formatMessage } = useIntl();
 
   const totalPages = Math.ceil((total ?? 0) / pageSize);
-
-  const handleSortChange = (value: string) => {
-    const nextSort = SORT_OPTIONS.find((option) => option.value === value)?.value;
-
-    if (nextSort !== undefined) {
-      onSortChange(nextSort);
-    }
-  };
 
   return (
     <LoadingContainer
@@ -154,13 +138,11 @@ export function OrganizationsCoverageTable({
               width={SearchInputWidth.Large}
             />
 
-            <ToggleButtonGroup
-              onChange={handleSortChange}
-              options={SORT_OPTIONS.map(({ labelKey, value }) => ({
-                label: formatMessage({ id: labelKey }),
-                value,
-              }))}
-              selected={sort}
+            <OrganizationsSortControl
+              direction={direction}
+              onDirectionChange={onDirectionChange}
+              onSortChange={onSortChange}
+              sort={sort}
             />
           </div>
 

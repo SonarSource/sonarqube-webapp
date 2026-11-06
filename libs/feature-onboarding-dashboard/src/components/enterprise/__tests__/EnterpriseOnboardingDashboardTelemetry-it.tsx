@@ -57,7 +57,9 @@ const ui = {
   stepperRepositories: byRole('button', {
     name: 'onboarding_dashboard.journey.step.ring_count_aria_label.onboarding_dashboard.percent.88.onboarding_dashboard.journey.step.repositories.title',
   }),
-  sortName: byRole('radio', { name: `${PREFIX}.organizations.sort.name` }),
+  sortBy: byRole('combobox', { name: `${PREFIX}.organizations.sort.label` }),
+  sortOption: (name: string) => byRole('option', { name: `${PREFIX}.organizations.sort.${name}` }),
+  sortAscending: byRole('button', { name: `${PREFIX}.organizations.sort.ascending` }),
   viewDashboard: byRole('link', {
     name: `${PREFIX}.organizations.action.view.label.Web core`,
   }),
@@ -138,11 +140,12 @@ it('names the enterprise on the events of the journey', async () => {
   );
 });
 
-it('reports a new sort of the organizations, and that one is opened', async () => {
-  const { user } = renderEnterpriseDashboard();
+it('reports a new sort of the organizations', async () => {
+  const { user } = renderDashboard();
 
   await ui.table.byText('Web core').find();
-  await user.click(ui.sortName.get());
+  await user.click(ui.sortBy.get());
+  await user.click(await ui.sortOption('name').find());
 
   expect(mockTelemetry.trackFilterChanged).toHaveBeenCalledWith(
     expect.objectContaining({

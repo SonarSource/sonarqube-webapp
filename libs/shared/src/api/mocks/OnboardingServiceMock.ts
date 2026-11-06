@@ -31,6 +31,7 @@ import {
   OnboardingProjectGateStatus,
   OnboardingProjectScanHealth,
   OnboardingProjectScanStatus,
+  OnboardingSortDirection,
   OnboardingStatistics,
 } from '../../types/onboarding';
 import { HttpStatus } from '../../types/request';
@@ -403,6 +404,8 @@ export class OnboardingServiceMock extends AbstractServiceMock<OnboardingService
 
       const needle = (url.searchParams.get('q') ?? '').trim().toLowerCase();
       const sort = url.searchParams.get('sort') ?? OnboardingOrganizationSort.Progress;
+      const isDescending =
+        url.searchParams.get('direction') === String(OnboardingSortDirection.Descending);
       const pageIndex = Number(url.searchParams.get('pageIndex') ?? '1');
       const pageSize = Number(this.overridePageSize ?? url.searchParams.get('pageSize') ?? '50');
 
@@ -412,15 +415,17 @@ export class OnboardingServiceMock extends AbstractServiceMock<OnboardingService
           name.toLowerCase().includes(needle) ||
           key.toLowerCase().includes(needle),
       );
-      // Unavailable organizations have no progress and come last, as the contract says.
+      // Unavailable organizations have no progress and come last, in either direction, as the contract says.
+      const direction = isDescending ? -1 : 1;
       const sorted =
         sort === String(OnboardingOrganizationSort.Name)
-          ? [...matching].sort((a, b) => a.name.localeCompare(b.name))
-          : [...matching].sort(
-              (a, b) =>
-                (a.progressPct ?? Number.POSITIVE_INFINITY) -
-                (b.progressPct ?? Number.POSITIVE_INFINITY),
-            );
+          ? [...matching].sort((a, b) => direction * a.name.localeCompare(b.name))
+          : [...matching].sort((a, b) => {
+              if (a.progressPct == null || b.progressPct == null) {
+                return Number(a.progressPct == null) - Number(b.progressPct == null);
+              }
+              return direction * (a.progressPct - b.progressPct);
+            });
 
       const start = (pageIndex - 1) * pageSize;
 

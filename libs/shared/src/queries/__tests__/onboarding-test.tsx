@@ -36,6 +36,7 @@ import {
 } from '../../api/onboarding';
 import {
   OnboardingOrganizationSort,
+  OnboardingSortDirection,
   OnboardingProjectScanStatus,
   OnboardingProjectsResponse,
 } from '../../types/onboarding';
@@ -270,8 +271,9 @@ describe('enterprise scope', () => {
 });
 
 describe('useOnboardingOrganizationsQuery', () => {
-  it('passes the enterprise, search, sort and page through, and keys the cache on them', async () => {
+  it('passes the enterprise, search, sort and page through', async () => {
     const params = {
+      direction: OnboardingSortDirection.Descending,
       enterpriseId: 'ent-uuid',
       pageIndex: 2,
       pageSize: 25,

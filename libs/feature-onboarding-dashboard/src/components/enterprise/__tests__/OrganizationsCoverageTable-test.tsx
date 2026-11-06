@@ -21,7 +21,11 @@
 import { mockOnboardingOrganizations } from '~shared/api/mocks/OnboardingServiceMock';
 import { renderWithRouter } from '~shared/helpers/test-utils';
 import { byRole, byText } from '~shared/helpers/testSelector';
-import { OnboardingOrganizationRow, OnboardingOrganizationSort } from '~shared/types/onboarding';
+import {
+  OnboardingOrganizationRow,
+  OnboardingOrganizationSort,
+  OnboardingSortDirection,
+} from '~shared/types/onboarding';
 import { OnboardingDashboardAction } from '~shared/types/onboarding-dashboard-telemetry';
 import { OrganizationsCoverageTable } from '../OrganizationsCoverageTable';
 
@@ -31,8 +35,10 @@ const ui = {
   table: byRole('table', { name: `${PREFIX}.title` }),
   rows: byRole('row'),
   search: byRole('searchbox'),
-  sortProgress: byRole('radio', { name: `${PREFIX}.sort.progress` }),
-  sortName: byRole('radio', { name: `${PREFIX}.sort.name` }),
+  sortBy: byRole('combobox', { name: 'projects.sort_by' }),
+  sortOption: (name: string) => byRole('option', { name: `${PREFIX}.sort.${name}` }),
+  sortAscending: byRole('button', { name: `${PREFIX}.sort.ascending` }),
+  sortDescending: byRole('button', { name: `${PREFIX}.sort.descending` }),
   pageTwo: byRole('button', { name: 'pagination.page_x.2' }),
   platformIcon: (platform: string) => byRole('img', { name: platform }),
   platformColumn: byRole('columnheader', { name: `${PREFIX}.col.platform` }),
@@ -52,11 +58,13 @@ function renderTable(props: Partial<React.ComponentProps<typeof OrganizationsCov
     onAction: jest.fn(),
     onPageChange: jest.fn(),
     onSearchChange: jest.fn(),
+    onDirectionChange: jest.fn(),
     onSortChange: jest.fn(),
   };
 
   const result = renderWithRouter(
     <OrganizationsCoverageTable
+      direction={OnboardingSortDirection.Ascending}
       getBindingUrl={getBindingUrl}
       getDashboardUrl={getDashboardUrl}
       isLoading={false}
@@ -227,21 +235,39 @@ describe('an organization that could not be loaded', () => {
 });
 
 describe('sorting', () => {
-  it('opens on the sort it is given', () => {
+  it('opens on the sort it is given, in a Sort by dropdown', () => {
     renderTable({ sort: OnboardingOrganizationSort.Name });
 
-    expect(ui.sortName.get()).toBeChecked();
-    expect(ui.sortProgress.get()).not.toBeChecked();
+    expect(ui.sortBy.get()).toHaveValue(`${PREFIX}.sort.name`);
   });
 
-  it('asks for the new sort when it is toggled', async () => {
+  it('asks for the new sort when another is picked', async () => {
     const { onSortChange, user } = renderTable();
 
-    expect(ui.sortProgress.get()).toBeChecked();
+    expect(ui.sortBy.get()).toHaveValue(`${PREFIX}.sort.progress`);
 
-    await user.click(ui.sortName.get());
+    await user.click(ui.sortBy.get());
+    await user.click(await ui.sortOption('name').find());
 
     expect(onSortChange).toHaveBeenCalledWith(OnboardingOrganizationSort.Name);
+  });
+
+  it('offers to reverse an ascending order', async () => {
+    const { onDirectionChange, user } = renderTable();
+
+    await user.click(ui.sortAscending.get());
+    expect(onDirectionChange).toHaveBeenLastCalledWith(OnboardingSortDirection.Descending);
+  });
+
+  it('offers to restore a descending order', async () => {
+    const { onDirectionChange, user } = renderTable({
+      direction: OnboardingSortDirection.Descending,
+    });
+
+    expect(ui.sortAscending.query()).not.toBeInTheDocument();
+
+    await user.click(ui.sortDescending.get());
+    expect(onDirectionChange).toHaveBeenLastCalledWith(OnboardingSortDirection.Ascending);
   });
 });
 
