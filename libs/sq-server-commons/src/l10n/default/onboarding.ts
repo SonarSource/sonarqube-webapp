@@ -1311,7 +1311,7 @@ export const onboardingMessages = {
     "{unavailable} of {total} organizations couldn't be loaded. Totals exclude them.",
   'onboarding_dashboard.enterprise.organizations.title': 'Organizations',
   'onboarding_dashboard.enterprise.organizations.description':
-    'Where each organization of your enterprise stands on its journey, least progressed first.',
+    'Compare imported projects against discovered repositories across your bound DevOps platforms to identify where gaps in project analysis exist.',
   'onboarding_dashboard.enterprise.organizations.search': 'Search organizations...',
   'onboarding_dashboard.enterprise.organizations.loading': 'Loading organizations',
   'onboarding_dashboard.enterprise.organizations.sort.progress': 'Least progressed first',
