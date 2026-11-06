@@ -2103,6 +2103,9 @@ export const defaultMessages = {
   'remediation_agent.error.branch_creation_failed': 'Fix branch could not be created',
   'remediation_agent.error.branch_creation_failed.context':
     'The agent could not create a branch for the fix. Check that the DevOps platform integration can create branches in this repository.',
+  'remediation_agent.error.checkout_failed': 'Commit could not be checked out',
+  'remediation_agent.error.checkout_failed.context':
+    'The agent could not check out the commit for this analysis, usually because the branch was rebased or force-pushed. Re-run the analysis.',
   'remediation_agent.error.db_error': 'Internal error',
   'remediation_agent.error.db_error.context': 'An internal error occurred. Please try again later.',
   'remediation_agent.error.dispatch_failed': 'Job could not be dispatched',
