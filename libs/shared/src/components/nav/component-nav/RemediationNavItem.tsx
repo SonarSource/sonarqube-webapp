@@ -18,24 +18,45 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { IconSparkle, Layout, SidebarNavigationItemProps } from '@sonarsource/echoes-react';
+import {
+  IconSparkle,
+  Layout,
+  SidebarNavigationItemProps,
+  Tooltip,
+} from '@sonarsource/echoes-react';
 import { ComponentProps } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { NewBadge } from '../../badges/NewBadge';
 
 interface Props {
   expirationDate: ComponentProps<typeof NewBadge>['expirationDate'];
+  suffix?: SidebarNavigationItemProps['suffix'];
   to: SidebarNavigationItemProps['to'];
+  tooltipContent?: string;
 }
 
-export function RemediationNavItem({ expirationDate, to }: Readonly<Props>) {
-  return (
+export function RemediationNavItem({
+  expirationDate,
+  suffix,
+  to,
+  tooltipContent,
+}: Readonly<Props>) {
+  const item = (
     <Layout.SidebarNavigation.Item
       Icon={IconSparkle}
-      suffix={<NewBadge expirationDate={expirationDate} />}
+      disableTooltip={tooltipContent !== undefined}
+      suffix={suffix === undefined ? <NewBadge expirationDate={expirationDate} /> : suffix}
       to={to}
     >
       <FormattedMessage id="navigation.project.group.remediation" />
     </Layout.SidebarNavigation.Item>
+  );
+
+  return tooltipContent === undefined ? (
+    item
+  ) : (
+    <Tooltip content={tooltipContent} side="right">
+      {item}
+    </Tooltip>
   );
 }
