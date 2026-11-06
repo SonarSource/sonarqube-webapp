@@ -88,6 +88,24 @@ it('lists every organization with its name and key', async () => {
   expect(ui.results(4, 4).get()).toBeInTheDocument();
 });
 
+it('shows the organization, the projects imported and analyzed, the progress and the way to manage', () => {
+  renderTable();
+
+  expect(
+    ui.table
+      .byRole('columnheader')
+      .getAll()
+      .map((header) => header.textContent),
+  ).toEqual([
+    `${PREFIX}.col.organization`,
+    `${PREFIX}.col.imported`,
+    `${PREFIX}.col.analyzed`,
+    `${PREFIX}.col.progress`,
+    `${PREFIX}.col.actions`,
+  ]);
+  expect(ui.viewDashboard('Web core').get()).toHaveTextContent(`${PREFIX}.action.view`);
+});
+
 it('shows the repositories and projects as done over total, and the progress as a bar', () => {
   renderTable();
 

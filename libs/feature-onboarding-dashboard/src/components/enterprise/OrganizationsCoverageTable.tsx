@@ -57,8 +57,8 @@ const FIGURE_COLUMNS_COUNT = 3;
 
 const COLUMNS: ProjectsTableColumn[] = [
   { labelKey: 'onboarding_dashboard.enterprise.organizations.col.organization' },
-  { labelKey: 'onboarding_dashboard.enterprise.organizations.col.repositories' },
-  { labelKey: 'onboarding_dashboard.enterprise.organizations.col.projects' },
+  { labelKey: 'onboarding_dashboard.enterprise.organizations.col.imported' },
+  { labelKey: 'onboarding_dashboard.enterprise.organizations.col.analyzed' },
   { labelKey: 'onboarding_dashboard.enterprise.organizations.col.progress' },
   {
     isLabelHidden: true,
@@ -102,8 +102,8 @@ interface Props {
 
 /**
  * The per-organization roll-up of an enterprise: one row per organization, led by the icon of its
- * DevOps platform, with its repositories, projects and progress, a drill-down to the dashboard of
- * the organization and, for one that is not bound yet, the way to bind it.
+ * DevOps platform, with the projects it has imported and analyzed and its progress, the way to
+ * view and manage the organization and, for one that is not bound yet, the way to bind it.
  *
  * Presentational: the search, the sort and the page are owned by the caller, which fetches them
  * server-side. An organization whose figures could not be read has no numbers, never zeros.
