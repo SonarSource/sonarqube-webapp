@@ -116,32 +116,10 @@ export class ProjectQualityProfilesApp extends React.PureComponent<Props, State>
       .filter(
         ({ language }) => !selectedProjectProfiles.some((p) => p.profile.language === language),
       )
-      .map(({ key }) => {
-        const profile = allProfiles.find((p) => p.key === key);
-        if (profile) {
-          // If the profile is the default profile, all is good.
-          if (profile.isDefault) {
-            return { profile, selected: false };
-          }
+      .map(({ language }) => {
+        const defaultProfile = allProfiles.find((p) => p.isDefault && p.language === language);
 
-          // If it is neither the default, nor explicitly selected, it
-          // means this is outdated information. This can only mean the
-          // user wants to use the default profile, but it will only
-          // be taken into account after a new analysis. Fetch the
-          // default profile.
-          const defaultProfile = allProfiles.find(
-            (p) => p.isDefault && p.language === profile.language,
-          );
-
-          return (
-            defaultProfile && {
-              profile: defaultProfile,
-              selected: false,
-            }
-          );
-        }
-
-        return undefined;
+        return defaultProfile && { profile: defaultProfile, selected: false };
       })
       .filter(isDefined);
 

@@ -254,6 +254,56 @@ it('should be able to add and change profile for languages', async () => {
   expect(ui.builtInTag.get()).toBeInTheDocument();
 });
 
+it.each([
+  { key: 'html', deleted: false },
+  { key: 'deleted-html', deleted: true },
+])('shows the current default when the last-used profile is $key', async ({ key, deleted }) => {
+  const user = userEvent.setup();
+  renderProjectQualityProfilesApp(
+    {},
+    {
+      configuration: { showQualityProfiles: true },
+      qualityProfiles: [{ key, language: 'html', name: 'previous HTML profile', deleted }],
+    },
+  );
+
+  expect(await ui.htmlDefaultProfile.find()).toBeInTheDocument();
+  expect(ui.htmlLanguage.get()).toBeInTheDocument();
+  expect(ui.htmlProfile.query()).not.toBeInTheDocument();
+  expect(byText('project_quality_profile.instance_default').get()).toBeInTheDocument();
+
+  await user.click(
+    byRole('button', { name: 'project_quality_profile.change_profile_x.HTML' }).get(),
+  );
+
+  expect(ui.radioButtonUseInstanceDefault.get()).toBeChecked();
+  expect(ui.radioButtonUseSpecific.get()).not.toBeChecked();
+});
+
+it('keeps an explicitly selected profile when the last-used profile was deleted', async () => {
+  const user = userEvent.setup();
+  renderProjectQualityProfilesApp(
+    {},
+    {
+      configuration: { showQualityProfiles: true },
+      qualityProfiles: [
+        { key: 'deleted-ts', language: 'ts', name: 'previous TS profile', deleted: true },
+      ],
+    },
+  );
+
+  expect(await byText('ts profile').find()).toBeInTheDocument();
+  expect(ui.profileRows.getAll()).toHaveLength(5);
+  expect(byText('project_quality_profile.instance_default').query()).not.toBeInTheDocument();
+
+  await user.click(
+    byRole('button', { name: 'project_quality_profile.change_profile_x.Typescript' }).get(),
+  );
+
+  expect(ui.radioButtonUseSpecific.get()).toBeChecked();
+  expect(ui.radioButtonUseInstanceDefault.get()).not.toBeChecked();
+});
+
 it('cannot add a profile for language with no rules', async () => {
   const user = userEvent.setup();
   renderProjectQualityProfilesApp();
