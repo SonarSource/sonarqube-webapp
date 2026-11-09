@@ -22,8 +22,6 @@ const fs = require('fs');
 const path = require('path');
 
 const repoRoot = path.resolve(__dirname, '..');
-const CLOUD_MESSAGES_JSON = path.join(repoRoot, 'private/apps/sq-cloud/src/l10n/messages.json');
-const SERVER_DEFAULT_TS = path.join(repoRoot, 'libs/sq-server-commons/src/l10n/default.ts');
 const CLOUD_MESSAGES_DIR = path.join(repoRoot, 'private/apps/sq-cloud/src/l10n/messages/');
 const SERVER_DEFAULT_DIR = path.join(repoRoot, 'libs/sq-server-commons/src/l10n/default/');
 
@@ -60,10 +58,6 @@ function getCloudL10nKeysSet() {
         keys.add(key);
       }
     }
-  } else if (fs.existsSync(CLOUD_MESSAGES_JSON)) {
-    for (const key of Object.keys(JSON.parse(fs.readFileSync(CLOUD_MESSAGES_JSON, 'utf8')))) {
-      keys.add(key);
-    }
   }
   memoizedCloudKeys = keys;
   return memoizedCloudKeys;
@@ -81,25 +75,19 @@ function getServerL10nKeysSet() {
         keys.add(key);
       }
     }
-  } else if (fs.existsSync(SERVER_DEFAULT_TS)) {
-    for (const key of keysFromServerDefaultTs(fs.readFileSync(SERVER_DEFAULT_TS, 'utf8'))) {
-      keys.add(key);
-    }
   }
   memoizedServerKeys = keys;
   return memoizedServerKeys;
 }
 
 function localizationCatalogResolvable(platform) {
-  const cloudResolvable = fs.existsSync(CLOUD_MESSAGES_DIR) || fs.existsSync(CLOUD_MESSAGES_JSON);
-  const serverResolvable = fs.existsSync(SERVER_DEFAULT_DIR) || fs.existsSync(SERVER_DEFAULT_TS);
   if (platform === 'cloud') {
-    return cloudResolvable;
+    return fs.existsSync(CLOUD_MESSAGES_DIR);
   }
   if (platform === 'server') {
-    return serverResolvable;
+    return fs.existsSync(SERVER_DEFAULT_DIR);
   }
-  return cloudResolvable && serverResolvable;
+  return fs.existsSync(CLOUD_MESSAGES_DIR) && fs.existsSync(SERVER_DEFAULT_DIR);
 }
 
 function inferPlatformFromFilePath(absoluteFilePath) {
@@ -226,11 +214,11 @@ module.exports = {
     ],
     messages: {
       unknownKeyCloud:
-        'Unknown SonarCloud l10n key "{{key}}". Add it to the SonarCloud localization catalog.',
+        'Unknown SonarCloud l10n key "{{key}}". Add it to private/apps/sq-cloud/src/l10n/messages/.',
       unknownKeyServer:
-        'Unknown SonarQube Server l10n key "{{key}}". Add it to the SonarQube Server localization catalog.',
+        'Unknown SonarQube Server l10n key "{{key}}". Add it to libs/sq-server-commons/src/l10n/default/.',
       unknownKeyShared:
-        'Unknown shared l10n key "{{key}}". Add it to both the SonarCloud and SonarQube Server localization catalogs.',
+        'Unknown shared l10n key "{{key}}". Add it to both private/apps/sq-cloud/src/l10n/messages/ and libs/sq-server-commons/src/l10n/default/.',
     },
   },
 

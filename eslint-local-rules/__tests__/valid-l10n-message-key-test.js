@@ -37,6 +37,20 @@ const ruleTester = new RuleTester({
 
 ruleTester.run('valid-l10n-message-key', validL10nMessageKey, {
   valid: [
+    ...[
+      'settings',
+      'license.activate_offline',
+      'overview.page',
+      'tutorials.onboarding',
+      'views',
+      'branches',
+      'issue',
+      'ai_capabilities.title',
+      'about',
+    ].map((key) => ({
+      code: `import { FormattedMessage } from 'react-intl'; const message = <FormattedMessage id="${key}" />;`,
+      options: [{ platform: 'server' }],
+    })),
     {
       code: `
         import { FormattedMessage } from 'react-intl';
@@ -111,6 +125,13 @@ ruleTester.run('valid-l10n-message-key', validL10nMessageKey, {
     },
   ],
   invalid: [
+    {
+      code: `import { FormattedMessage } from 'react-intl'; const message = <FormattedMessage id="key_missing_from_all_source_catalogs" />;`,
+      options: [{ platform: 'server' }],
+      errors: [
+        { messageId: 'unknownKeyServer', data: { key: 'key_missing_from_all_source_catalogs' } },
+      ],
+    },
     {
       code: `
         import { FormattedMessage } from 'react-intl';

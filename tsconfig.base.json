@@ -18,6 +18,7 @@
     "noImplicitOverride": false,
     "noFallthroughCasesInSwitch": true,
     "resolveJsonModule": true,
+    "rewriteRelativeImportExtensions": true,
     "strict": true,
     "strictFunctionTypes": false,
     "noUnusedLocals": true,

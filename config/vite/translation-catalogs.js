@@ -26,10 +26,6 @@ const translationCatalogGroups = [
     name: (id) => `messages-${path.basename(id, path.extname(id))}`,
     test: /[/\\]l10n[/\\](?:messages|default)[/\\][^/\\]+\.(?:json|ts)$/,
   },
-  {
-    name: 'messages',
-    test: /(?:libs[\\/]sq-server-commons[\\/]src[\\/]l10n[\\/]default\.ts|private[\\/]apps[\\/]sq-cloud[\\/]src[\\/]l10n[\\/]messages\.json)$/,
-  },
 ];
 
 module.exports = { translationCatalogGroups };
