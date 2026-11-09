@@ -19,6 +19,8 @@
  */
 
 import {
+  Badge,
+  BadgeVariety,
   Button,
   ButtonVariety,
   cssVar,
@@ -51,6 +53,7 @@ import { PLATFORM_CONFIG } from '../devops/platformConfig';
 import { ProjectsTableColumn } from '../projects/ProjectsTable';
 import { TableBodyRows } from '../projects/TableBodyRows';
 import { TableHeaderRows } from '../projects/TableHeaderRows';
+import { OrganizationAccess, useOrganizationAccess } from './OrganizationAccessContext';
 import { OrganizationsSortControl } from './OrganizationsSortControl';
 
 /** Organization and actions get the room; the figures stay compact. */
@@ -192,6 +195,29 @@ export function OrganizationsCoverageTable({
   );
 }
 
+const ACCESS_LABEL_IDS: Record<OrganizationAccess, string> = {
+  [OrganizationAccess.Admin]: 'onboarding_dashboard.enterprise.organizations.access.admin',
+  [OrganizationAccess.Member]: 'onboarding_dashboard.enterprise.organizations.access.member',
+  [OrganizationAccess.None]: 'onboarding_dashboard.enterprise.organizations.access.none',
+};
+
+/** Why an organization cannot be opened or bound from here, by what the viewer is to it. */
+type BlockedAccess = OrganizationAccess.Member | OrganizationAccess.None;
+
+const VIEW_BLOCKED_LABEL_IDS: Record<BlockedAccess, string> = {
+  [OrganizationAccess.Member]:
+    'onboarding_dashboard.enterprise.organizations.action.view.blocked.member',
+  [OrganizationAccess.None]:
+    'onboarding_dashboard.enterprise.organizations.action.view.blocked.none',
+};
+
+const BIND_BLOCKED_LABEL_IDS: Record<BlockedAccess, string> = {
+  [OrganizationAccess.Member]:
+    'onboarding_dashboard.enterprise.organizations.action.bind.blocked.member',
+  [OrganizationAccess.None]:
+    'onboarding_dashboard.enterprise.organizations.action.bind.blocked.none',
+};
+
 type RowProps = Pick<Props, 'getBindingUrl' | 'getDashboardUrl' | 'onAction'> & {
   organization: OnboardingOrganizationRow;
 };
@@ -206,6 +232,11 @@ function OrganizationRow({
   const { availability, key, name } = organization;
 
   const isUnavailable = availability === 'UNAVAILABLE';
+  // Managing an organization, and binding it, take its administration permission: one the viewer lacks is shown
+  // as such, and its buttons say why they are off instead of leading to a page that does not exist for them.
+  const access = useOrganizationAccess(key);
+  const blockedAccess =
+    access === OrganizationAccess.Member || access === OrganizationAccess.None ? access : undefined;
 
   return (
     <Table.Row>
@@ -219,6 +250,12 @@ function OrganizationRow({
               {key}
             </Text>
           </div>
+
+          {access !== undefined && (
+            <Badge className="sw:shrink-0" variety={BadgeVariety.Neutral}>
+              {formatMessage({ id: ACCESS_LABEL_IDS[access] })}
+            </Badge>
+          )}
         </div>
       </Table.Cell>
 
@@ -256,35 +293,55 @@ function OrganizationRow({
       )}
 
       <Table.Cell className="sw:justify-end sw:gap-2">
-        {!isUnavailable && !organization.bound && (
+        {!isUnavailable &&
+          !organization.bound &&
+          (blockedAccess === undefined ? (
+            <Button
+              ariaLabel={formatMessage(
+                { id: 'onboarding_dashboard.enterprise.organizations.action.bind.label' },
+                { name },
+              )}
+              onClick={() => {
+                onAction?.(OnboardingDashboardAction.BindOrganization, organization);
+              }}
+              to={getBindingUrl(key)}
+              variety={ButtonVariety.Primary}
+            >
+              {formatMessage({ id: 'onboarding_dashboard.enterprise.organizations.action.bind' })}
+            </Button>
+          ) : (
+            <Button
+              ariaLabel={formatMessage({ id: BIND_BLOCKED_LABEL_IDS[blockedAccess] }, { name })}
+              isDisabled
+              variety={ButtonVariety.Primary}
+            >
+              {formatMessage({ id: 'onboarding_dashboard.enterprise.organizations.action.bind' })}
+            </Button>
+          ))}
+
+        {blockedAccess === undefined ? (
           <Button
             ariaLabel={formatMessage(
-              { id: 'onboarding_dashboard.enterprise.organizations.action.bind.label' },
+              { id: 'onboarding_dashboard.enterprise.organizations.action.view.label' },
               { name },
             )}
             onClick={() => {
-              onAction?.(OnboardingDashboardAction.BindOrganization, organization);
+              onAction?.(OnboardingDashboardAction.ViewOrganizationDashboard, organization);
             }}
-            to={getBindingUrl(key)}
-            variety={ButtonVariety.Primary}
+            to={getDashboardUrl(key)}
+            variety={ButtonVariety.Default}
           >
-            {formatMessage({ id: 'onboarding_dashboard.enterprise.organizations.action.bind' })}
+            {formatMessage({ id: 'onboarding_dashboard.enterprise.organizations.action.view' })}
+          </Button>
+        ) : (
+          <Button
+            ariaLabel={formatMessage({ id: VIEW_BLOCKED_LABEL_IDS[blockedAccess] }, { name })}
+            isDisabled
+            variety={ButtonVariety.Default}
+          >
+            {formatMessage({ id: 'onboarding_dashboard.enterprise.organizations.action.view' })}
           </Button>
         )}
-
-        <Button
-          ariaLabel={formatMessage(
-            { id: 'onboarding_dashboard.enterprise.organizations.action.view.label' },
-            { name },
-          )}
-          onClick={() => {
-            onAction?.(OnboardingDashboardAction.ViewOrganizationDashboard, organization);
-          }}
-          to={getDashboardUrl(key)}
-          variety={ButtonVariety.Default}
-        >
-          {formatMessage({ id: 'onboarding_dashboard.enterprise.organizations.action.view' })}
-        </Button>
       </Table.Cell>
     </Table.Row>
   );

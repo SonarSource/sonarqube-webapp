@@ -30,6 +30,7 @@ import {
   DEFAULT_ORGANIZATIONS_SORT,
   ORGANIZATIONS_PAGE_SIZE,
 } from './enterpriseConstants';
+import { OrganizationAccess } from './OrganizationAccessContext';
 
 const EnterpriseOnboardingDashboardApp = lazyLoadComponent(
   () => import('./EnterpriseOnboardingDashboardApp'),
@@ -41,6 +42,7 @@ interface Props {
   enterpriseId: string;
   getBindingUrl: (organizationKey: string) => Partial<Path>;
   getDashboardUrl: (organizationKey: string) => Partial<Path>;
+  getOrganizationAccess?: (organizationKey: string) => OrganizationAccess;
 }
 
 /**

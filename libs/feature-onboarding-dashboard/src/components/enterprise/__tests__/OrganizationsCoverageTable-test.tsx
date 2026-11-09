@@ -27,7 +27,13 @@ import {
   OnboardingSortDirection,
 } from '~shared/types/onboarding';
 import { OnboardingDashboardAction } from '~shared/types/onboarding-dashboard-telemetry';
+import { OrganizationAccess, OrganizationAccessContext } from '../OrganizationAccessContext';
 import { OrganizationsCoverageTable } from '../OrganizationsCoverageTable';
+import {
+  AdminsQueryResult,
+  adminsQueryResult,
+  PREFIX as ENTERPRISE_PREFIX,
+} from './enterpriseDashboardTestSetup';
 
 const PREFIX = 'onboarding_dashboard.enterprise.organizations';
 
@@ -43,6 +49,11 @@ const ui = {
   platformIcon: (platform: string) => byRole('img', { name: platform }),
   platformColumn: byRole('columnheader', { name: `${PREFIX}.col.platform` }),
   unavailable: byText(`${PREFIX}.unavailable`),
+  access: (access: string) => byText(`${PREFIX}.access.${access}`),
+  blockedView: (access: string, name: string) =>
+    byRole('button', { name: `${PREFIX}.action.view.blocked.${access}.${name}` }),
+  blockedBind: (access: string, name: string) =>
+    byRole('button', { name: `${PREFIX}.action.bind.blocked.${access}.${name}` }),
   results: (size: number, total: number) =>
     byText(`onboarding_dashboard.table.results_size.${size}.${total}`),
   viewDashboard: (name: string) => byRole('link', { name: `${PREFIX}.action.view.label.${name}` }),
@@ -53,7 +64,18 @@ const ui = {
 const getBindingUrl = (key: string) => ({ pathname: `/organizations/${key}/edit` });
 const getDashboardUrl = (key: string) => ({ pathname: `/organizations/${key}/project-coverage` });
 
-function renderTable(props: Partial<React.ComponentProps<typeof OrganizationsCoverageTable>> = {}) {
+// Viewer's access by organization key.
+const ACCESS: Record<string, OrganizationAccess> = {
+  'data-platform': OrganizationAccess.Member,
+  'legacy-tools': OrganizationAccess.None,
+  payments: OrganizationAccess.Admin,
+  'web-core': OrganizationAccess.Admin,
+};
+
+function renderTable(
+  props: Partial<React.ComponentProps<typeof OrganizationsCoverageTable>> = {},
+  getOrganizationAccess?: (organizationKey: string) => OrganizationAccess,
+) {
   const callbacks = {
     onAction: jest.fn(),
     onPageChange: jest.fn(),
@@ -63,20 +85,22 @@ function renderTable(props: Partial<React.ComponentProps<typeof OrganizationsCov
   };
 
   const result = renderWithRouter(
-    <OrganizationsCoverageTable
-      direction={OnboardingSortDirection.Ascending}
-      getBindingUrl={getBindingUrl}
-      getDashboardUrl={getDashboardUrl}
-      isLoading={false}
-      organizations={mockOnboardingOrganizations()}
-      pageIndex={1}
-      pageSize={25}
-      searchValue=""
-      sort={OnboardingOrganizationSort.Progress}
-      total={4}
-      {...callbacks}
-      {...props}
-    />,
+    <OrganizationAccessContext.Provider value={getOrganizationAccess}>
+      <OrganizationsCoverageTable
+        direction={OnboardingSortDirection.Ascending}
+        getBindingUrl={getBindingUrl}
+        getDashboardUrl={getDashboardUrl}
+        isLoading={false}
+        organizations={mockOnboardingOrganizations()}
+        pageIndex={1}
+        pageSize={25}
+        searchValue=""
+        sort={OnboardingOrganizationSort.Progress}
+        total={4}
+        {...callbacks}
+        {...props}
+      />
+    </OrganizationAccessContext.Provider>,
   );
 
   return { ...result, ...callbacks };
@@ -323,5 +347,59 @@ describe('without any organization', () => {
     renderTable({ organizations: [], total: 0 });
 
     expect(ui.table.byText('—').getAll().length).toBeGreaterThan(0);
+  });
+});
+
+describe('what the viewer is to each organization', () => {
+  const getAccess = (key: string) => ACCESS[key];
+
+  it('says so on every row: administrator, member, or not a member', () => {
+    renderTable({}, getAccess);
+
+    expect(ui.table.byText(`${PREFIX}.access.admin`).getAll()).toHaveLength(2);
+    expect(ui.access('member').get()).toBeInTheDocument();
+    expect(ui.access('none').get()).toBeInTheDocument();
+  });
+
+  it('opens the organizations the viewer administers, as it always did', () => {
+    renderTable({}, getAccess);
+
+    expect(ui.viewDashboard('Web core').get()).toHaveAttribute(
+      'href',
+      '/organizations/web-core/project-coverage',
+    );
+  });
+
+  it('holds back View & manage from a member who is not an administrator, and says why', () => {
+    renderTable({}, getAccess);
+
+    expect(ui.blockedView('member', 'Data platform').get()).toBeDisabled();
+    // No link to a page the viewer cannot open: that is what led to the page that does not exist.
+    expect(ui.viewDashboard('Data platform').query()).not.toBeInTheDocument();
+  });
+
+  it('holds back View & manage from someone who is not a member, and says why', () => {
+    renderTable({}, getAccess);
+
+    expect(ui.blockedView('none', 'Legacy tools').get()).toBeDisabled();
+    expect(ui.viewDashboard('Legacy tools').query()).not.toBeInTheDocument();
+  });
+
+  it('holds back Bind from the same viewer, since it opens an administration page too', () => {
+    renderTable({}, getAccess);
+
+    // Legacy tools is the one organization that is not bound.
+    expect(ui.blockedBind('none', 'Legacy tools').get()).toBeDisabled();
+    expect(ui.bind('Legacy tools').query()).not.toBeInTheDocument();
+  });
+
+  it('holds nothing back, and says nothing, while it is not known what the viewer is', () => {
+    renderTable();
+
+    expect(ui.access('admin').query()).not.toBeInTheDocument();
+    expect(ui.access('member').query()).not.toBeInTheDocument();
+    expect(ui.access('none').query()).not.toBeInTheDocument();
+    expect(ui.viewDashboard('Data platform').get()).toBeInTheDocument();
+    expect(ui.bind('Legacy tools').get()).toBeInTheDocument();
   });
 });

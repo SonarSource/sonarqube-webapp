@@ -1332,6 +1332,17 @@ export const onboardingMessages = {
   'onboarding_dashboard.enterprise.organizations.action.bind': 'Bind',
   'onboarding_dashboard.enterprise.organizations.action.bind.label':
     'Bind {name} to a DevOps platform',
+  'onboarding_dashboard.enterprise.organizations.access.admin': 'Admin',
+  'onboarding_dashboard.enterprise.organizations.access.member': 'Member',
+  'onboarding_dashboard.enterprise.organizations.access.none': 'Not a member',
+  'onboarding_dashboard.enterprise.organizations.action.view.blocked.member':
+    'View and manage {name} is not available: the Administer Organization permission is required',
+  'onboarding_dashboard.enterprise.organizations.action.view.blocked.none':
+    'View and manage {name} is not available: you are not a member of this organization',
+  'onboarding_dashboard.enterprise.organizations.action.bind.blocked.member':
+    'Binding {name} to a DevOps platform is not available: the Administer Organization permission is required',
+  'onboarding_dashboard.enterprise.organizations.action.bind.blocked.none':
+    'Binding {name} to a DevOps platform is not available: you are not a member of this organization',
   'onboarding_dashboard.enterprise.empty.title': 'No organizations yet',
   'onboarding_dashboard.enterprise.empty.description':
     'Add an organization to your enterprise to start following its onboarding progress here.',

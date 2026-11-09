@@ -36,6 +36,7 @@ import { renderWithRoutes } from '~shared/helpers/test-utils';
 import { byRole, byText } from '~shared/helpers/testSelector';
 import { OnboardingOrganizationRow } from '~shared/types/onboarding';
 import { LazyEnterpriseOnboardingDashboardApp } from '../LazyEnterpriseOnboardingDashboardApp';
+import { OrganizationAccess } from '../OrganizationAccessContext';
 
 const ENTERPRISE_ID = 'enterprise-uuid';
 const PREFIX = 'onboarding_dashboard.enterprise';
@@ -352,6 +353,35 @@ describe('organizations coverage', () => {
 
     expect(await ui.unavailable.find()).toBeInTheDocument();
     expect(ui.table.byText('Payments').get()).toBeInTheDocument();
+  });
+});
+
+describe('what the viewer is to each organization', () => {
+  const getOrganizationAccess = (key: string) =>
+    key === 'web-core' ? OrganizationAccess.Admin : OrganizationAccess.None;
+
+  it('says it on the table and holds back what takes administration rights', async () => {
+    renderEnterpriseDashboard({ getOrganizationAccess });
+
+    expect(await ui.table.byText('Web core').find()).toBeInTheDocument();
+    expect(ui.table.byText(`${PREFIX}.organizations.access.admin`).get()).toBeInTheDocument();
+    expect(ui.table.byText(`${PREFIX}.organizations.access.none`).getAll()).toHaveLength(3);
+    // The administered one opens as before; the others do not lead to a page that does not exist for the viewer.
+    expect(ui.viewDashboard('Web core').get()).toBeInTheDocument();
+    expect(ui.viewDashboard('Data platform').query()).not.toBeInTheDocument();
+    expect(
+      byRole('button', {
+        name: `${PREFIX}.organizations.action.view.blocked.none.Data platform`,
+      }).get(),
+    ).toBeDisabled();
+  });
+
+  it('holds nothing back when it is not provided', async () => {
+    renderEnterpriseDashboard();
+
+    expect(await ui.table.byText('Web core').find()).toBeInTheDocument();
+    expect(ui.table.byText(/organizations\.access\./).query()).not.toBeInTheDocument();
+    expect(ui.viewDashboard('Data platform').get()).toBeInTheDocument();
   });
 });
 

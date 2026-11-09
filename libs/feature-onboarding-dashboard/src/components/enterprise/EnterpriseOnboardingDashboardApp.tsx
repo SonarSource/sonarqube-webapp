@@ -45,6 +45,7 @@ import {
   useTrackOnboardingDashboardViewed,
 } from '../telemetry/OnboardingDashboardTelemetry';
 import { CreateOrganizationUrlContext } from './CreateOrganizationUrlContext';
+import { OrganizationAccess, OrganizationAccessContext } from './OrganizationAccessContext';
 import { OrganizationsCoverageBanner } from './OrganizationsCoverageBanner';
 import { OrganizationsCoverageCard } from './OrganizationsCoverageCard';
 
@@ -67,11 +68,10 @@ interface Props {
   addOrganizationUrl: Partial<Path>;
   /** Omitted when the user may not create organizations. */
   createOrganizationUrl?: Partial<Path>;
-  /** Identifier (UUID) of the enterprise, as the onboarding endpoints take it. */
   enterpriseId: string;
-  /** Where the binding setup of an organization lives. */
+  /** Omitted while unknown: nothing is held back. */
+  getOrganizationAccess?: (organizationKey: string) => OrganizationAccess;
   getBindingUrl: (organizationKey: string) => Partial<Path>;
-  /** Where the dashboard of an organization lives. */
   getDashboardUrl: (organizationKey: string) => Partial<Path>;
 }
 
@@ -83,7 +83,9 @@ export default function EnterpriseOnboardingDashboardApp(props: Readonly<Props>)
   return (
     <OnboardingDashboardTelemetryProvider enterpriseId={props.enterpriseId}>
       <CreateOrganizationUrlContext.Provider value={props.createOrganizationUrl}>
-        <EnterpriseOnboardingDashboard {...props} />
+        <OrganizationAccessContext.Provider value={props.getOrganizationAccess}>
+          <EnterpriseOnboardingDashboard {...props} />
+        </OrganizationAccessContext.Provider>
       </CreateOrganizationUrlContext.Provider>
     </OnboardingDashboardTelemetryProvider>
   );
