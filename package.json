@@ -179,7 +179,7 @@
     "@typescript-eslint/eslint-plugin": "8.71.0",
     "@typescript-eslint/parser": "8.71.0",
     "@typescript-eslint/rule-tester": "8.71.0",
-    "@vitejs/plugin-react": "6.1.2",
+    "@vitejs/plugin-react": "6.2.1",
     "agentation": "3.0.2",
     "autoprefixer": "10.5.3",
     "babel-plugin-transform-react-qa-classes": "1.6.0",
