@@ -97,7 +97,7 @@ function EnterpriseBindingPanel({ enterprise }: Readonly<{ enterprise: JourneyEn
         <Text isHighlighted>
           {formatMessage(
             { id: 'onboarding_dashboard.enterprise.step.binding.count' },
-            { bound: organizationsBound, total: organizationsTotal },
+            { count: organizationsBound },
           )}
         </Text>
 

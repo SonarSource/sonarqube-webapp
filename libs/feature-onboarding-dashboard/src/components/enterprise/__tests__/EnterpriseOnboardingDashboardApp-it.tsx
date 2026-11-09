@@ -78,8 +78,7 @@ const ui = {
     }),
   lockedStep: (titleId: string) =>
     byRole('button', { name: `onboarding_dashboard.journey.step.locked_aria_label.${titleId}` }),
-  bindingCaption: (bound: number, total: number) =>
-    byText(`${PREFIX}.step.binding.count.${bound}.${total}`),
+  bindingCaption: (bound: number) => byText(`${PREFIX}.step.binding.count.${bound}`),
 
   // Detail panels
   bindingPanelTitle: byText(`${PREFIX}.binding.title`),
@@ -156,10 +155,9 @@ describe('scope', () => {
   it('reads the figures of the enterprise, not those of an organization', async () => {
     renderEnterpriseDashboard();
 
-    // 8 of 12 organizations bound, 700 of 800 repositories (88%), 80 of 800 projects (10%): the
-    // enterprise dataset, where the default one is a single organization of 301 repositories.
+    // Enterprise dataset, where the default one is a single organization of 301 repositories.
     expect(await ui.stepperBinding(8).find()).toBeInTheDocument();
-    expect(ui.bindingCaption(8, 12).get()).toBeInTheDocument();
+    expect(ui.bindingCaption(8).get()).toBeInTheDocument();
     expect(ui.stepperRepositories(88).get()).toBeInTheDocument();
     expect(ui.stepperProjects(10).get()).toBeInTheDocument();
   });
@@ -179,9 +177,11 @@ describe('journey', () => {
     await user.click(await ui.stepperBinding(8).find());
 
     expect(await ui.bindingPanelTitle.find()).toBeInTheDocument();
-    // 8 of 12 are bound, so 4 are not.
+    expect(byText('alm.github').get()).toBeInTheDocument();
+    expect(byText('alm.gitlab').get()).toBeInTheDocument();
+    expect(byText('alm.azure').get()).toBeInTheDocument();
     expect(ui.notBoundLegend.get()).toBeInTheDocument();
-    expect(ui.bindingCaption(8, 12).getAll().length).toBeGreaterThan(1);
+    expect(ui.bindingCaption(8).getAll()).toHaveLength(2);
   });
 
   it('moves between the steps, each with its own panel', async () => {
@@ -307,13 +307,7 @@ describe('journey', () => {
 
     expect(await ui.stepperBindingUnbound.find()).toBeInTheDocument();
     // On the card, and in the panel of the step it opens on.
-    expect(ui.bindingCaption(0, 12).getAll()).toHaveLength(2);
-    expect(
-      ui.lockedStep('onboarding_dashboard.journey.step.repositories.title').get(),
-    ).toBeInTheDocument();
-    expect(
-      ui.lockedStep('onboarding_dashboard.journey.step.projects.title').get(),
-    ).toBeInTheDocument();
+    expect(ui.bindingCaption(0).getAll()).toHaveLength(2);
 
     expect(await ui.lockedStatsTitle.find()).toBeInTheDocument();
     expect(ui.overTimeChart.query()).not.toBeInTheDocument();

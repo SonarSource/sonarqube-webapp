@@ -73,7 +73,7 @@ export function JourneyStepper({ onSelectStep, selectedStep, state }: Readonly<P
   if (enterprise !== undefined) {
     bindingSecondaryLine = formatMessage(
       { id: 'onboarding_dashboard.enterprise.step.binding.count' },
-      { bound: enterprise.organizationsBound, total: enterprise.organizationsTotal },
+      { count: enterprise.organizationsBound },
     );
   } else if (bindingCard.secondaryLineId !== undefined) {
     bindingSecondaryLine = formatMessage({ id: bindingCard.secondaryLineId });

@@ -1281,7 +1281,8 @@ export const onboardingMessages = {
   'onboarding_dashboard.repositories.filter.private': 'Private',
   'onboarding_dashboard.repositories.filter.public': 'Public',
   'onboarding_dashboard.enterprise.step.binding.title': 'DevOps platforms configured',
-  'onboarding_dashboard.enterprise.step.binding.count': '{bound} of {total} organizations bound',
+  'onboarding_dashboard.enterprise.step.binding.count':
+    '{count, plural, one {# organization bound} other {# organizations bound}}',
   'onboarding_dashboard.enterprise.step.imported_count': '{imported} imported',
   'onboarding_dashboard.enterprise.binding.title': 'Bind your organizations',
   'onboarding_dashboard.enterprise.binding.description':

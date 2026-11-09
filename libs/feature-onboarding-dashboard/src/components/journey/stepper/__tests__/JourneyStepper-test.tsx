@@ -262,7 +262,7 @@ describe('enterprise', () => {
     ).toBeInTheDocument();
     expect(byText('8').get()).toBeInTheDocument();
     expect(
-      byText('onboarding_dashboard.enterprise.step.binding.count.8.12').get(),
+      byText('onboarding_dashboard.enterprise.step.binding.count.8').get(),
     ).toBeInTheDocument();
     expect(ui.binding.query()).not.toBeInTheDocument();
   });
@@ -273,7 +273,7 @@ describe('enterprise', () => {
     renderStepper({ state: enterpriseState() });
 
     expect(
-      byText('onboarding_dashboard.enterprise.step.binding.count.8.12').get(),
+      byText('onboarding_dashboard.enterprise.step.binding.count.8').get(),
     ).toBeInTheDocument();
     expect(ui.bindingBound.query()).not.toBeInTheDocument();
   });
@@ -334,7 +334,7 @@ describe('enterprise', () => {
       'false',
     );
     expect(
-      byText('onboarding_dashboard.enterprise.step.binding.count.0.12').get(),
+      byText('onboarding_dashboard.enterprise.step.binding.count.0').get(),
     ).toBeInTheDocument();
     expect(ui.lockedCard(REPOSITORIES_TITLE).get()).toHaveAttribute('aria-disabled', 'true');
     expect(ui.lockedCard(PROJECTS_TITLE).get()).toHaveAttribute('aria-disabled', 'true');
