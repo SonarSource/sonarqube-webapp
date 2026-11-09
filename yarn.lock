@@ -2051,7 +2051,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/runtime@npm:^7.12.0, @babel/runtime@npm:^7.12.5, @babel/runtime@npm:^7.16.3, @babel/runtime@npm:^7.18.3, @babel/runtime@npm:^7.20.13, @babel/runtime@npm:^7.22.6, @babel/runtime@npm:^7.5.5, @babel/runtime@npm:^7.7.6, @babel/runtime@npm:^7.8.7":
+"@babel/runtime@npm:^7.12.0, @babel/runtime@npm:^7.12.5, @babel/runtime@npm:^7.16.3, @babel/runtime@npm:^7.18.3, @babel/runtime@npm:^7.22.6, @babel/runtime@npm:^7.5.5, @babel/runtime@npm:^7.7.6, @babel/runtime@npm:^7.8.7":
   version: 7.27.1
   resolution: "@babel/runtime@npm:7.27.1"
   checksum: 10/34cefcbf781ea5a4f1b93f8563327b9ac82694bebdae91e8bd9d7f58d084cbe5b9a6e7f94d77076e15b0bcdaa0040a36cb30737584028df6c4673b4c67b2a31d
@@ -3019,7 +3019,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@floating-ui/react@npm:^0.27.16":
+"@floating-ui/react@npm:^0.27.20":
   version: 0.27.20
   resolution: "@floating-ui/react@npm:0.27.20"
   dependencies:
@@ -4200,30 +4200,29 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@mantine/core@npm:8.3.18":
-  version: 8.3.18
-  resolution: "@mantine/core@npm:8.3.18"
+"@mantine/core@npm:9.7.3":
+  version: 9.7.3
+  resolution: "@mantine/core@npm:9.7.3"
   dependencies:
-    "@floating-ui/react": "npm:^0.27.16"
+    "@floating-ui/react": "npm:^0.27.20"
     clsx: "npm:^2.1.1"
-    react-number-format: "npm:^5.4.4"
-    react-remove-scroll: "npm:^2.7.1"
-    react-textarea-autosize: "npm:8.5.9"
-    type-fest: "npm:^4.41.0"
+    react-number-format: "npm:^5.4.5"
+    react-remove-scroll: "npm:^2.7.2"
+    type-fest: "npm:^5.10.0"
   peerDependencies:
-    "@mantine/hooks": 8.3.18
-    react: ^18.x || ^19.x
-    react-dom: ^18.x || ^19.x
-  checksum: 10/1ac226df8b4a26fe5e4a92710abcbcc5e8d80a25bd2f2e7f99f1764d0ef603961bf237642ed0795049bd877ff1a3a612d41f613cea442a852adce5ccb4483c1b
+    "@mantine/hooks": 9.7.3
+    react: ^19.2.0
+    react-dom: ^19.2.0
+  checksum: 10/684299b0c01c71b5016892d46196b54929e4cbdb9fcaae2b455787b1f0bc8c1e0a4bb209afc467502925e8ce32f8fc5644671f1a659f16531e6dae8468700229
   languageName: node
   linkType: hard
 
-"@mantine/hooks@npm:8.3.18":
-  version: 8.3.18
-  resolution: "@mantine/hooks@npm:8.3.18"
+"@mantine/hooks@npm:9.7.3":
+  version: 9.7.3
+  resolution: "@mantine/hooks@npm:9.7.3"
   peerDependencies:
-    react: ^18.x || ^19.x
-  checksum: 10/a7ed06619095afc183046eea8a46c3780eb538a460f201c99da48b36ebacb6653daafcf3905ec473179335303994c602d477acacbf4cdfd65e8653062eb9a6cd
+    react: ^19.2.0
+  checksum: 10/a7abcfc4b34e847dab0045e21f5fee962d0a6f8f382f3a9ef7a60347a03306435f4e1a1bfca5336bad507780567d476729ff396bbbad48fa3a3e67198f646938
   languageName: node
   linkType: hard
 
@@ -7255,12 +7254,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@sonarsource/echoes-react@npm:6.1.0":
-  version: 6.1.0
-  resolution: "@sonarsource/echoes-react@npm:6.1.0"
+"@sonarsource/echoes-react@npm:6.2.0":
+  version: 6.2.0
+  resolution: "@sonarsource/echoes-react@npm:6.2.0"
   dependencies:
-    "@mantine/core": "npm:8.3.18"
-    "@mantine/hooks": "npm:8.3.18"
+    "@mantine/core": "npm:9.7.3"
+    "@mantine/hooks": "npm:9.7.3"
     "@material-symbols/font-400": "npm:0.45.4"
     "@radix-ui/react-alert-dialog": "npm:1.1.18"
     "@radix-ui/react-checkbox": "npm:1.3.6"
@@ -7279,10 +7278,10 @@ __metadata:
   peerDependencies:
     "@emotion/react": ^11.0.0
     "@emotion/styled": ^11.0.0
-    react: ^19.0.0
-    react-dom: ^19.0.0
+    react: ^19.2.0
+    react-dom: ^19.2.0
     react-intl: ^10.0.0
-  checksum: 10/d254b25f5aa4d429073d9bf460e3009d3c868bd5e8336cfec4015c5eb677f14b83b71df8c0159fdbb5841ea9210e7c693ce8d966f3d2cd4da959b1b6e3eb6d5d
+  checksum: 10/486aa38ef487b6b6512204f8e29c98bde0caf5b7cff8b787cb60824753278df9d6d612e192e5659383becf9a2d67201b42beac2687b5ee6493e1db82174d9cd9
   languageName: node
   linkType: hard
 
@@ -18605,7 +18604,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-number-format@npm:^5.4.4":
+"react-number-format@npm:^5.4.5":
   version: 5.4.5
   resolution: "react-number-format@npm:5.4.5"
   peerDependencies:
@@ -18631,7 +18630,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-remove-scroll@npm:^2.7.1, react-remove-scroll@npm:^2.7.2":
+"react-remove-scroll@npm:^2.7.2":
   version: 2.7.2
   resolution: "react-remove-scroll@npm:2.7.2"
   dependencies:
@@ -18724,19 +18723,6 @@ __metadata:
     "@types/react":
       optional: true
   checksum: 10/62498094ff3877a37f351b29e6cad9e38b2eb1ac3c0cb27ebf80aee96554f80b35e17bdb552bcd7ac8b7cb9904fea93ea5668f2057c73d38f90b5d46bb9b27ab
-  languageName: node
-  linkType: hard
-
-"react-textarea-autosize@npm:8.5.9":
-  version: 8.5.9
-  resolution: "react-textarea-autosize@npm:8.5.9"
-  dependencies:
-    "@babel/runtime": "npm:^7.20.13"
-    use-composed-ref: "npm:^1.3.0"
-    use-latest: "npm:^1.2.1"
-  peerDependencies:
-    react: ^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0
-  checksum: 10/9babf6d667e93ea4629c79dce837551634f2b3309d191013908d781a98cd4bf211ea8e529ea5eb4f0046f6ea1e3c985272c1309fe09390917eb2e5c86ba75b72
   languageName: node
   linkType: hard
 
@@ -19656,7 +19642,7 @@ __metadata:
     "@sentry/react": "npm:10.65.0"
     "@sentry/vite-plugin": "npm:11.8.0"
     "@sonar/scan": "npm:5.0.2"
-    "@sonarsource/echoes-react": "npm:6.1.0"
+    "@sonarsource/echoes-react": "npm:6.2.0"
     "@sprig-technologies/sprig-browser": "npm:2.48.2"
     "@stripe/react-stripe-js": "npm:7.0.0"
     "@stripe/stripe-js": "npm:10.1.0"
@@ -20812,10 +20798,19 @@ __metadata:
   languageName: node
   linkType: hard
 
-"type-fest@npm:^4.27.0, type-fest@npm:^4.41.0":
+"type-fest@npm:^4.27.0":
   version: 4.41.0
   resolution: "type-fest@npm:4.41.0"
   checksum: 10/617ace794ac0893c2986912d28b3065ad1afb484cad59297835a0807dc63286c39e8675d65f7de08fafa339afcb8fe06a36e9a188b9857756ae1e92ee8bda212
+  languageName: node
+  linkType: hard
+
+"type-fest@npm:^5.10.0":
+  version: 5.10.0
+  resolution: "type-fest@npm:5.10.0"
+  dependencies:
+    tagged-tag: "npm:^1.0.0"
+  checksum: 10/299a575a3d2bbc74f70da508629c448806dd5c51cbd2c5adf05b1755636f9f3b12c803b2c52c0eac561d4472ddc5e8ab42b88954cb238b101c9d4595906aea7f
   languageName: node
   linkType: hard
 
@@ -21332,19 +21327,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"use-composed-ref@npm:^1.3.0":
-  version: 1.4.0
-  resolution: "use-composed-ref@npm:1.4.0"
-  peerDependencies:
-    react: ^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0
-  peerDependenciesMeta:
-    "@types/react":
-      optional: true
-  checksum: 10/a0f199ba510e008ce7b6166d9bda095f1e4e4449089bde665938a9689a0d236a6cca655f18d7272208aaca20bb364ef5fc895d5e37128f29814c1141a4258ab1
-  languageName: node
-  linkType: hard
-
-"use-isomorphic-layout-effect@npm:^1.1.1, use-isomorphic-layout-effect@npm:^1.2.0":
+"use-isomorphic-layout-effect@npm:^1.2.0":
   version: 1.2.0
   resolution: "use-isomorphic-layout-effect@npm:1.2.0"
   peerDependencies:
@@ -21353,20 +21336,6 @@ __metadata:
     "@types/react":
       optional: true
   checksum: 10/84fc1074b4e3ee2886fde944baef4ec210453fc78861429fe50ae97be8209e492f18c059c6b2ff1a21df231d72d1638707dabca889bd9d7bee36f21c196a0d19
-  languageName: node
-  linkType: hard
-
-"use-latest@npm:^1.2.1":
-  version: 1.3.0
-  resolution: "use-latest@npm:1.3.0"
-  dependencies:
-    use-isomorphic-layout-effect: "npm:^1.1.1"
-  peerDependencies:
-    react: ^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0
-  peerDependenciesMeta:
-    "@types/react":
-      optional: true
-  checksum: 10/913e95c272b67743ff1a0df61375058ae6ead368fd5631748e33699b2341aa89b07be03aa4cde4140a856adae70a6e0f299920cc1ad326f4afd310ba250604bd
   languageName: node
   linkType: hard
 
