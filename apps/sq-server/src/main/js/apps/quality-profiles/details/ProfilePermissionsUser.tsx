@@ -50,7 +50,7 @@ export function ProfilePermissionsUser({ user, profile }: Readonly<Props>) {
     <div className="sw:flex sw:items-center sw:justify-between">
       <div className="sw:flex sw:truncate">
         <Avatar
-          className="sw:mt-1/2 sw:mr-3 sw:grow-0 sw:shrink-0"
+          className="sw:mt-25 sw:mr-3 sw:grow-0 sw:shrink-0"
           hash={user.avatar}
           name={user.name}
           size="xs"

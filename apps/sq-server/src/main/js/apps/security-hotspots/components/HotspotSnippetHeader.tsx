@@ -54,7 +54,7 @@ function HotspotSnippetHeader(props: HotspotSnippetHeaderProps) {
       className={`sw:box-border sw:flex sw:gap-2 sw:justify-between sw:mt-6 sw:px-4
                   sw:py-3`}
     >
-      <Text className="sw:flex sw:flex-1 sw:flex-wrap sw:gap-2 sw:items-center sw:my-1/2" isSubtle>
+      <Text className="sw:flex sw:flex-1 sw:flex-wrap sw:gap-2 sw:items-center sw:my-25" isSubtle>
         {displayProjectName && (
           <span>
             <LinkStandalone

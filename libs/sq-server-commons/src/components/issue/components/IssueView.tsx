@@ -178,7 +178,7 @@ export default function IssueView(props: Readonly<Props>) {
     >
       <section aria-label={issue.message} className="sw:flex sw:gap-3">
         {hasCheckbox && (
-          <span className="sw:mt-1/2 sw:ml-1 sw:self-start">
+          <span className="sw:mt-25 sw:ml-1 sw:self-start">
             <Checkbox
               ariaLabel={translateWithParameters('issues.action_select.label', issue.message)}
               checked={checked ?? false}

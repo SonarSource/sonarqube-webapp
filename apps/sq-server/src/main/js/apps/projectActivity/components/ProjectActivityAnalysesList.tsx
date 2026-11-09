@@ -146,7 +146,7 @@ export default class ProjectActivityAnalysesList extends React.PureComponent<Pro
             {newCodePeriod.baselineAnalysisKey !== undefined &&
               newCodePeriod.firstNewCodeAnalysisKey === undefined && (
                 <BaselineMarker className="sw:typo-default sw:mb-2">
-                  <span className="sw:py-1/2 sw:px-1">
+                  <span className="sw:py-25 sw:px-1">
                     <FormattedMessage id="project_activity.new_code_period_start" />
                   </span>
                   <Tooltip

@@ -122,7 +122,7 @@ export default function ProjectActivityAnalysis(props: Readonly<ProjectActivityA
           }}
         >
           <div className="it__project-activity-time">
-            <ActivityTime className="sw:h-500 sw:typo-semibold sw:text-right sw:mr-2 sw:py-1/2">
+            <ActivityTime className="sw:h-500 sw:typo-semibold sw:text-right sw:mr-2 sw:py-25">
               <TimeFormatter date={parsedDate} long={false}>
                 {(formattedTime) => (
                   <time dateTime={parsedDate.toISOString()}>{formattedTime}</time>
@@ -222,7 +222,7 @@ export default function ProjectActivityAnalysis(props: Readonly<ProjectActivityA
       </Tooltip>
       {isBaseline && (
         <BaselineMarker className="sw:typo-default sw:mt-2">
-          <span className="sw:py-1/2 sw:px-1">
+          <span className="sw:py-25 sw:px-1">
             {translate('project_activity.new_code_period_start')}
           </span>
           <Tooltip content={translate('project_activity.new_code_period_start.help')} side="top">

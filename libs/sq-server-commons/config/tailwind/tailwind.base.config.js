@@ -111,7 +111,6 @@ module.exports = {
       // Defined spacing values based on our grid size
       spacing: {
         0: '0',
-        '1/2': '0.125rem', // 2px
         1: '0.25rem', // 4px
         2: '0.5rem', // 8px
         3: '0.75rem', // 12px

@@ -66,7 +66,7 @@ export default function EventInner({ event, readonly }: EventInnerProps) {
       : event.description;
 
   return (
-    <div className="sw:min-w-0 sw:flex-1 sw:py-1/2">
+    <div className="sw:min-w-0 sw:flex-1 sw:py-25">
       <div className="sw:flex sw:items-start">
         <span className="sw:inline-flex sw:items-center sw:gap-1">
           <Text isSubtle>

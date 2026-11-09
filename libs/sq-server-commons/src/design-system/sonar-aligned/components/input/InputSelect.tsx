@@ -80,7 +80,7 @@ export function InputSelect<
       classNames={{
         container: () => 'sw:relative sw:inline-block sw:align-middle',
         placeholder: () => 'sw:truncate sw:leading-4',
-        menu: () => 'sw:z-dropdown-menu sw:ml-1/2 sw:mt-2',
+        menu: () => 'sw:z-dropdown-menu sw:ml-25 sw:mt-2',
         menuList: () => 'sw:overflow-y-auto sw:py-2 sw:max-h-[12.25rem]',
         clearIndicator: () => 'sw:p-0',
         dropdownIndicator: () => classNames(props.isClearable && 'sw:p-0'),

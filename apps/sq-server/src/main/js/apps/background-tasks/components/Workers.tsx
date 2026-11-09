@@ -91,7 +91,7 @@ export default class Workers extends React.PureComponent<{}, State> {
       <div className="sw:flex sw:items-center">
         {!loading && workerCount > 1 && (
           <Tooltip content={<FormattedMessage id="background_tasks.number_of_workers.warning" />}>
-            <div className="sw:py-1/2 sw:mr-1">
+            <div className="sw:py-25 sw:mr-1">
               <FlagWarningIcon />
             </div>
           </Tooltip>

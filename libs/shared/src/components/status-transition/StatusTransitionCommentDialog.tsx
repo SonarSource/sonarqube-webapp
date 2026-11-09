@@ -104,7 +104,7 @@ export function IssueTransitionCommentDialog<T extends string>({
                 }}
               />
               <ToggleTip
-                className="sw:mt-1/2"
+                className="sw:mt-25"
                 description={
                   <FormattedMessage
                     id="status_transition.comment.share.helper"

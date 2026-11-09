@@ -80,7 +80,7 @@ export function SelectionCard(props: Readonly<SelectionCardProps>) {
     >
       <StyledContent>
         {isActionable && (
-          <div className="sw:items-start sw:mt-1/2 sw:mr-2">
+          <div className="sw:items-start sw:mt-25 sw:mr-2">
             <RadioButtonStyled
               as="i"
               className={classNames({

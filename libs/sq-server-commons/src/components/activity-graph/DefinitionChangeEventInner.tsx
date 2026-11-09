@@ -138,7 +138,7 @@ export class DefinitionChangeEventInner extends React.PureComponent<Props, State
     const { event, readonly } = this.props;
     const { expanded } = this.state;
     return (
-      <div className="sw:w-full sw:typo-default sw:py-1/2">
+      <div className="sw:w-full sw:typo-default sw:py-25">
         <div className="sw:flex sw:justify-between">
           <Text className="sw:mr-1" isHighlighted isSubtle>
             {translate('event.category', event.category)}
