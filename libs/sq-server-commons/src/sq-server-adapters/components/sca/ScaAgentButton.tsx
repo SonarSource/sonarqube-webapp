@@ -24,7 +24,6 @@
  * Props mirror the cloud adapter: { risk: ReleaseRiskBase; branch?: BranchData }
  * Cannot import from feature-sca here due to circular dependency.
  */
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export default function ScaAgentButton(_props: Readonly<{ branch?: unknown; risk: unknown }>) {
   return null;
 }

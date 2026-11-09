@@ -1073,6 +1073,8 @@ export const securityMessages = {
     'Dependencies with license {license} should not be used',
   'dependencies.risks.type.vulnerability': 'Vulnerability',
   'dependencies.risks.type.malware': 'Malicious package',
+  'dependencies.risks.not_fixable_by_agent.tooltip':
+    'This risk is not currently fixable by the remediation agent.',
   'dependencies.risk': 'Dependency Risk',
   'dependencies.risks': 'Dependency risks',
   'dependencies.risks.reachability': 'Reachability',
