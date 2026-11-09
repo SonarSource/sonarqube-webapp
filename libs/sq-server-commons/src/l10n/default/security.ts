@@ -2159,6 +2159,7 @@ export const securityMessages = {
     'Based on severity of malicious package risks',
   'sca.container_images.tag': 'Tag: {tag}',
   'sca.container_images.tag_label': 'Tag',
+  'sca.container_images.empty.start_setup': 'Start Setup',
   'sca.container_images.empty.steps': 'Scan setup instructions',
   'sca.container_images.empty.download.title': 'Download the scanner',
   'sca.container_images.empty.download.action': 'Download scanner',
