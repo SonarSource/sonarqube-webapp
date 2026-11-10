@@ -20,6 +20,7 @@
 
 import {
   keepPreviousData,
+  skipToken,
   useMutation,
   UseMutationResult,
   useQueries,
@@ -37,6 +38,7 @@ import {
   OnboardingBoundProjectCounts,
   OnboardingDevopsPlatform,
   OnboardingDopSettingsQueryData,
+  OnboardingOrganizationAdmins,
   OnboardingRepositoriesQuery,
   OnboardingRepositoriesResponse,
 } from '~shared/types/onboarding';
@@ -338,4 +340,13 @@ async function fetchRepositoriesForDopSetting(
     default:
       return { page: { pageIndex, pageSize, total: 0 }, repositories: [] };
   }
+}
+
+/** SQ-Server has no organizations: the query is never run. */
+export function useOrganizationAdminsQuery(organizationKey: string) {
+  return useQuery<OnboardingOrganizationAdmins>({
+    queryKey: ['onboarding', 'organization-admins', organizationKey],
+    queryFn: skipToken,
+    staleTime: StaleTime.LONG,
+  });
 }

@@ -35,7 +35,20 @@ import {
   PREFIX as ENTERPRISE_PREFIX,
 } from './enterpriseDashboardTestSetup';
 
-const PREFIX = 'onboarding_dashboard.enterprise.organizations';
+const PREFIX = `${ENTERPRISE_PREFIX}.organizations`;
+
+const mockUseOrganizationAdminsQuery = jest.fn<AdminsQueryResult, [string]>();
+
+// Product-specific; covered by the adapter tests.
+jest.mock('~adapters/queries/onboarding', () => ({
+  useOrganizationAdminsQuery: (organizationKey: string) =>
+    mockUseOrganizationAdminsQuery(organizationKey),
+}));
+
+beforeEach(() => {
+  mockUseOrganizationAdminsQuery.mockReset();
+  mockUseOrganizationAdminsQuery.mockReturnValue(adminsQueryResult({ isPending: true }));
+});
 
 const ui = {
   table: byRole('table', { name: `${PREFIX}.title` }),
@@ -50,10 +63,9 @@ const ui = {
   platformColumn: byRole('columnheader', { name: `${PREFIX}.col.platform` }),
   unavailable: byText(`${PREFIX}.unavailable`),
   access: (access: string) => byText(`${PREFIX}.access.${access}`),
-  blockedView: (access: string, name: string) =>
-    byRole('button', { name: `${PREFIX}.action.view.blocked.${access}.${name}` }),
-  blockedBind: (access: string, name: string) =>
-    byRole('button', { name: `${PREFIX}.action.bind.blocked.${access}.${name}` }),
+  requestAccess: (name: string) =>
+    byRole('button', { name: `${PREFIX}.action.request_access.label.${name}` }),
+  modalTitle: byText(`${ENTERPRISE_PREFIX}.request_access.title`),
   results: (size: number, total: number) =>
     byText(`onboarding_dashboard.table.results_size.${size}.${total}`),
   viewDashboard: (name: string) => byRole('link', { name: `${PREFIX}.action.view.label.${name}` }),
@@ -370,27 +382,40 @@ describe('what the viewer is to each organization', () => {
     );
   });
 
-  it('holds back View & manage from a member who is not an administrator, and says why', () => {
+  it('offers a member who is not an administrator to ask for admin access, in place of View & manage', async () => {
     renderTable({}, getAccess);
 
-    expect(ui.blockedView('member', 'Data platform').get()).toBeDisabled();
-    // No link to a page the viewer cannot open: that is what led to the page that does not exist.
+    expect(ui.requestAccess('Data platform').get()).toBeEnabled();
+    await expect(ui.requestAccess('Data platform').get()).toHaveATooltipWithContent(
+      `${PREFIX}.action.request_access.hint`,
+    );
+    // No link to a page the viewer cannot open.
     expect(ui.viewDashboard('Data platform').query()).not.toBeInTheDocument();
   });
 
-  it('holds back View & manage from someone who is not a member, and says why', () => {
+  it('offers someone who is not a member the same, in place of Bind and View & manage', () => {
     renderTable({}, getAccess);
 
-    expect(ui.blockedView('none', 'Legacy tools').get()).toBeDisabled();
+    // Legacy tools is the only unbound organization: Bind needs admin rights too.
+    expect(ui.requestAccess('Legacy tools').get()).toBeEnabled();
+    expect(ui.bind('Legacy tools').query()).not.toBeInTheDocument();
     expect(ui.viewDashboard('Legacy tools').query()).not.toBeInTheDocument();
   });
 
-  it('holds back Bind from the same viewer, since it opens an administration page too', () => {
+  it('does not offer it for an organization the viewer administers', () => {
     renderTable({}, getAccess);
 
-    // Legacy tools is the one organization that is not bound.
-    expect(ui.blockedBind('none', 'Legacy tools').get()).toBeDisabled();
-    expect(ui.bind('Legacy tools').query()).not.toBeInTheDocument();
+    expect(ui.requestAccess('Web core').query()).not.toBeInTheDocument();
+    expect(ui.requestAccess('Payments').query()).not.toBeInTheDocument();
+  });
+
+  it('reports the request and opens the modal', async () => {
+    const { onAction, user } = renderTable({}, getAccess);
+
+    await user.click(ui.requestAccess('Data platform').get());
+
+    expect(onAction).toHaveBeenCalledWith(OnboardingDashboardAction.RequestAdminAccess);
+    expect(await ui.modalTitle.find()).toBeInTheDocument();
   });
 
   it('holds nothing back, and says nothing, while it is not known what the viewer is', () => {

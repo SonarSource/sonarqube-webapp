@@ -35,6 +35,7 @@ import {
   useOnboardingBoundProjectCountsQuery,
   useOnboardingDopSettingsQuery,
   useOnboardingRepositoriesQuery,
+  useOrganizationAdminsQuery,
 } from '../onboarding';
 
 const mockGetDopSettings = jest.fn();
@@ -463,5 +464,20 @@ describe('useOnboardingBoundProjectCountsQuery (SQS adapter)', () => {
 
     expect(second.result.current.data).toEqual({ gh: 12 });
     expect(mockGetProjectBindings).toHaveBeenCalledTimes(1);
+  });
+});
+
+describe('useOrganizationAdminsQuery (SQS adapter)', () => {
+  it('stays pending without ever fetching, as there are no organizations to ask', () => {
+    const { result } = renderHook(() => useOrganizationAdminsQuery('any'), {
+      wrapper: getContextWrapper(),
+    });
+
+    expect(result.current).toMatchObject({
+      data: undefined,
+      fetchStatus: 'idle',
+      isError: false,
+      isPending: true,
+    });
   });
 });

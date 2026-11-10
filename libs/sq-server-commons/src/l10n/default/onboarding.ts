@@ -1332,17 +1332,26 @@ export const onboardingMessages = {
   'onboarding_dashboard.enterprise.organizations.action.bind': 'Bind',
   'onboarding_dashboard.enterprise.organizations.action.bind.label':
     'Bind {name} to a DevOps platform',
+  'onboarding_dashboard.enterprise.organizations.action.request_access': 'Get admin access',
+  'onboarding_dashboard.enterprise.organizations.action.request_access.label':
+    'Get admin access to {name}',
+  'onboarding_dashboard.enterprise.organizations.action.request_access.hint':
+    'You need admin access to continue',
   'onboarding_dashboard.enterprise.organizations.access.admin': 'Admin',
   'onboarding_dashboard.enterprise.organizations.access.member': 'Member',
   'onboarding_dashboard.enterprise.organizations.access.none': 'Not a member',
-  'onboarding_dashboard.enterprise.organizations.action.view.blocked.member':
-    'View and manage {name} is not available: the Administer Organization permission is required',
-  'onboarding_dashboard.enterprise.organizations.action.view.blocked.none':
-    'View and manage {name} is not available: you are not a member of this organization',
-  'onboarding_dashboard.enterprise.organizations.action.bind.blocked.member':
-    'Binding {name} to a DevOps platform is not available: the Administer Organization permission is required',
-  'onboarding_dashboard.enterprise.organizations.action.bind.blocked.none':
-    'Binding {name} to a DevOps platform is not available: you are not a member of this organization',
+  'onboarding_dashboard.enterprise.request_access.title': 'Request admin access',
+  'onboarding_dashboard.enterprise.request_access.description':
+    "To view and manage the organization's project coverage dashboard, you need organization admin rights.",
+  'onboarding_dashboard.enterprise.request_access.not_member':
+    'You are not a member of this organization. Ask one of its administrators for admin access.',
+  'onboarding_dashboard.enterprise.request_access.admins.title':
+    'Contact one of the organization administrators:',
+  'onboarding_dashboard.enterprise.request_access.admins.copy': 'Copy the email address of {name}',
+  'onboarding_dashboard.enterprise.request_access.admins.more':
+    '{count, plural, one {# more administrator} other {# more administrators}}',
+  'onboarding_dashboard.enterprise.request_access.admins.error':
+    'The administrators could not be loaded.',
   'onboarding_dashboard.enterprise.empty.title': 'No organizations yet',
   'onboarding_dashboard.enterprise.empty.description':
     'Add an organization to your enterprise to start following its onboarding progress here.',

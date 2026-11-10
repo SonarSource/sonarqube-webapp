@@ -26,7 +26,13 @@ import {
   OnboardingDashboardSurface,
   OnboardingDashboardTelemetry,
 } from '~shared/types/onboarding-dashboard-telemetry';
-import { LazyEnterpriseOnboardingDashboardApp } from '../LazyEnterpriseOnboardingDashboardApp';
+import { OrganizationAccess } from '../OrganizationAccessContext';
+import {
+  ENTERPRISE_ID,
+  renderEnterpriseDashboard,
+  setupOnboardingMock,
+  ui,
+} from './enterpriseDashboardTestSetup';
 
 function mockTracker<K extends keyof OnboardingDashboardTelemetry>() {
   return jest.fn<unknown, Parameters<OnboardingDashboardTelemetry[K]>>();
@@ -46,61 +52,18 @@ jest.mock('~adapters/helpers/useOnboardingDashboardTelemetry', () => ({
   useOnboardingDashboardTelemetry: () => mockTelemetry,
 }));
 
-const ENTERPRISE_ID = 'enterprise-uuid';
-const PREFIX = 'onboarding_dashboard.enterprise';
-
-const ui = {
-  // The journey opens on the projects step: another step has to be picked to select one.
-  stepperProjects: byRole('button', {
-    name: 'onboarding_dashboard.journey.step.ring_count_aria_label.onboarding_dashboard.percent.10.onboarding_dashboard.journey.step.projects.title',
-  }),
-  stepperRepositories: byRole('button', {
-    name: 'onboarding_dashboard.journey.step.ring_count_aria_label.onboarding_dashboard.percent.88.onboarding_dashboard.journey.step.repositories.title',
-  }),
-  sortBy: byRole('combobox', { name: `${PREFIX}.organizations.sort.label` }),
-  sortOption: (name: string) => byRole('option', { name: `${PREFIX}.organizations.sort.${name}` }),
-  sortAscending: byRole('button', { name: `${PREFIX}.organizations.sort.ascending` }),
-  viewDashboard: byRole('link', {
-    name: `${PREFIX}.organizations.action.view.label.Web core`,
-  }),
-  table: byRole('table', { name: `${PREFIX}.organizations.title` }),
-  viewAll: byRole('button', { name: `${PREFIX}.organizations.view_all` }),
-  createOrganization: byRole('link', { name: `${PREFIX}.binding.create_organization` }),
-  stepperBinding: byRole('button', {
-    name: `onboarding_dashboard.journey.step.ring_count_aria_label.8.${PREFIX}.step.binding.title`,
-  }),
-};
-
-beforeAll(async () => {
-  await import('../EnterpriseOnboardingDashboardApp');
-});
+setupOnboardingMock();
 
 beforeEach(() => {
   Object.values(mockTelemetry).forEach((track) => {
     track.mockClear();
   });
-  registerServiceMocks(new OnboardingServiceMock());
 });
 
-afterEach(() => {
-  resetServiceMocks();
-});
-
-function renderEnterpriseDashboard() {
-  return renderWithRoutes(
+function renderDashboard(props: Parameters<typeof renderEnterpriseDashboard>[0] = {}) {
+  return renderEnterpriseDashboard(
+    props,
     <>
-      <Route
-        element={
-          <LazyEnterpriseOnboardingDashboardApp
-            addOrganizationUrl={{ pathname: '/enterprise/acme' }}
-            createOrganizationUrl={{ pathname: '/create-organization' }}
-            enterpriseId={ENTERPRISE_ID}
-            getBindingUrl={(key) => ({ pathname: `/organizations/${key}/edit` })}
-            getDashboardUrl={(key) => ({ pathname: `/organizations/${key}/project-coverage` })}
-          />
-        }
-        path="project-coverage"
-      />
       <Route
         element={<div>organization dashboard</div>}
         path="organizations/:key/project-coverage"
@@ -187,10 +150,22 @@ it('reports that the dashboard of an organization was opened, from the organizat
   );
 });
 
+it('reports that admin access to an organization was asked for, from the organizations table', async () => {
+  const { user } = renderDashboard({ getOrganizationAccess: () => OrganizationAccess.None });
+
+  await user.click(await ui.requestAccess('Web core').find());
+
+  expect(mockTelemetry.trackActionSelected).toHaveBeenCalledWith(
+    expect.objectContaining({
+      action: OnboardingDashboardAction.RequestAdminAccess,
+      enterpriseId: ENTERPRISE_ID,
+      surface: OnboardingDashboardSurface.OrganizationsTable,
+    }),
+  );
+});
+
 it('reports that all the organizations were asked for, from the panel it was asked on', async () => {
-  // jsdom does not implement it; each test file has its own jsdom, so nothing is left to restore.
-  HTMLElement.prototype.scrollIntoView = jest.fn();
-  const { user } = renderEnterpriseDashboard();
+  const { user } = renderDashboard();
 
   await user.click(await ui.viewAll.find());
 

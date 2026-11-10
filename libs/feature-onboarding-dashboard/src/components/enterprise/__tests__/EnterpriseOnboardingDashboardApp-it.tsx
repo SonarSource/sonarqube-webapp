@@ -28,126 +28,39 @@ import {
   mockOnboardingUncountedEnterpriseOverview,
   mockOnboardingUnboundEnterpriseOverview,
 } from '~shared/api/mocks/OnboardingServiceMock';
-import {
-  registerServiceMocks,
-  resetServiceMocks,
-  server,
-  trackRequestedUrls,
-} from '~shared/api/mocks/server';
-import { renderWithRoutes } from '~shared/helpers/test-utils';
+import { server } from '~shared/api/mocks/server';
 import { byRole, byText } from '~shared/helpers/testSelector';
 import { OnboardingOrganizationRow } from '~shared/types/onboarding';
-import { LazyEnterpriseOnboardingDashboardApp } from '../LazyEnterpriseOnboardingDashboardApp';
 import { OrganizationAccess } from '../OrganizationAccessContext';
+import {
+  AdminsQueryResult,
+  adminsQueryResult,
+  PREFIX,
+  renderEnterpriseDashboard,
+  setupOnboardingMock,
+  ui,
+} from './enterpriseDashboardTestSetup';
 
-const ENTERPRISE_ID = 'enterprise-uuid';
-const PREFIX = 'onboarding_dashboard.enterprise';
+const mockUseOrganizationAdminsQuery = jest.fn<AdminsQueryResult, [string]>();
 
-/**
- * The enterprise dashboard body, as the enterprise page mounts it. The page chrome around it —
- * header, ring, the admin check — is covered by the page's own suite.
- */
-const onboardingMock = new OnboardingServiceMock();
+// Product-specific; covered by the adapter tests.
+jest.mock('~adapters/queries/onboarding', () => ({
+  ...jest.requireActual<typeof import('~adapters/queries/onboarding')>(
+    '~adapters/queries/onboarding',
+  ),
+  useOrganizationAdminsQuery: (organizationKey: string) =>
+    mockUseOrganizationAdminsQuery(organizationKey),
+}));
 
-beforeAll(async () => {
-  // The dashboard is lazy-loaded: preloading it keeps the first test from timing out on the cold
-  // import before any UI is mounted.
-  await import('../EnterpriseOnboardingDashboardApp');
-});
+const onboardingMock = setupOnboardingMock();
 
 beforeEach(() => {
-  registerServiceMocks(onboardingMock);
+  mockUseOrganizationAdminsQuery.mockReset();
 });
 
 const ORGANIZATION_NAMES = ['Web core', 'Data platform', 'Legacy tools', 'Payments'];
 
-const ui = {
-  error: byText('default_error_message'),
-  loading: byText('onboarding_dashboard.loading'),
-
-  // Journey stepper: the first step is an enterprise one, the other two read like an organization's.
-  stepperBinding: (count: number) =>
-    byRole('button', {
-      name: `onboarding_dashboard.journey.step.ring_count_aria_label.${count}.${PREFIX}.step.binding.title`,
-    }),
-  stepperBindingUnbound: byRole('button', { name: `${PREFIX}.step.binding.title` }),
-  stepperRepositories: (percent: number) =>
-    byRole('button', {
-      name: `onboarding_dashboard.journey.step.ring_count_aria_label.onboarding_dashboard.percent.${percent}.onboarding_dashboard.journey.step.repositories.title`,
-    }),
-  stepperProjects: (percent: number) =>
-    byRole('button', {
-      name: `onboarding_dashboard.journey.step.ring_count_aria_label.onboarding_dashboard.percent.${percent}.onboarding_dashboard.journey.step.projects.title`,
-    }),
-  lockedStep: (titleId: string) =>
-    byRole('button', { name: `onboarding_dashboard.journey.step.locked_aria_label.${titleId}` }),
-  bindingCaption: (bound: number) => byText(`${PREFIX}.step.binding.count.${bound}`),
-
-  // Detail panels
-  bindingPanelTitle: byText(`${PREFIX}.binding.title`),
-  importPanelTitle: byText(`${PREFIX}.import.title`),
-  analyzePanelTitle: byText(`${PREFIX}.analyze.title`),
-  notBoundLegend: byText(`${PREFIX}.binding.legend.not_bound`),
-
-  // Statistics
-  overTimeChart: byRole('img', { name: 'onboarding_dashboard.journey.overtime.title' }),
-  overTimeTitle: byText('onboarding_dashboard.journey.overtime.title'),
-  lockedStatsTitle: byText(`${PREFIX}.locked.stats.title`),
-  lockedMoreTitle: byText(`${PREFIX}.locked.more.title`),
-  // The organization's placeholders say "Bind organization" / "Import repositories": none of them.
-  anyLockedCta: byRole('button', { name: /onboarding_dashboard\.journey\.locked\./ }),
-
-  viewAll: byRole('button', { name: `${PREFIX}.organizations.view_all` }),
-  createOrganization: byRole('link', { name: `${PREFIX}.binding.create_organization` }),
-
-  // Coverage and organizations
-  banner: (unavailable: number, total: number) =>
-    byText(`${PREFIX}.coverage.banner.${unavailable}.${total}`),
-  table: byRole('table', { name: `${PREFIX}.organizations.title` }),
-  search: byRole('searchbox'),
-  sortBy: byRole('combobox', { name: `${PREFIX}.organizations.sort.label` }),
-  sortOption: (name: string) => byRole('option', { name: `${PREFIX}.organizations.sort.${name}` }),
-  sortAscending: byRole('button', { name: `${PREFIX}.organizations.sort.ascending` }),
-  sortDescending: byRole('button', { name: `${PREFIX}.organizations.sort.descending` }),
-  unavailable: byText(`${PREFIX}.organizations.unavailable`),
-  pageTwo: byRole('button', { name: 'pagination.page_x.2' }),
-  viewDashboard: (name: string) =>
-    byRole('link', { name: `${PREFIX}.organizations.action.view.label.${name}` }),
-  bind: (name: string) =>
-    byRole('link', { name: `${PREFIX}.organizations.action.bind.label.${name}` }),
-
-  // Empty enterprise
-  emptyTitle: byText(`${PREFIX}.empty.title`),
-  addOrganization: byRole('link', { name: `${PREFIX}.empty.cta` }),
-  // The organization's own tables must never leak into the enterprise's
-  projectsTable: byRole('table', { name: 'onboarding_dashboard.projects.title' }),
-};
-
-function renderEnterpriseDashboard(
-  props: Partial<React.ComponentProps<typeof LazyEnterpriseOnboardingDashboardApp>> = {},
-) {
-  return renderWithRoutes(
-    <Route
-      element={
-        <LazyEnterpriseOnboardingDashboardApp
-          addOrganizationUrl={{ pathname: '/enterprise/acme' }}
-          createOrganizationUrl={{ pathname: '/create-organization', search: '?enterpriseId=x' }}
-          enterpriseId={ENTERPRISE_ID}
-          getBindingUrl={(key) => ({ pathname: `/organizations/${key}/edit` })}
-          getDashboardUrl={(key) => ({ pathname: `/organizations/${key}/project-coverage` })}
-          {...props}
-        />
-      }
-      path="project-coverage"
-    />,
-    {
-      initialEntries: ['/project-coverage'],
-      userEventOptions: { delay: null, pointerEventsCheck: PointerEventsCheckLevel.Never },
-    },
-  );
-}
-
-/** The first cell of each organization row: its name and its key. */
+/** The names of the organizations, in the order of the rows. */
 function rowNames() {
   return byRole('row')
     .getAll(ui.table.get())
@@ -367,41 +280,59 @@ describe('organizations coverage', () => {
     expect(await ui.stepperBinding(8).find()).toBeInTheDocument();
     expect(ui.banner(0, 12).query()).not.toBeInTheDocument();
   });
-
-  it('shows an organization that could not be loaded without any figure', async () => {
-    renderEnterpriseDashboard();
-
-    expect(await ui.unavailable.find()).toBeInTheDocument();
-    expect(ui.table.byText('Payments').get()).toBeInTheDocument();
-  });
 });
+
+// A member of the data platform, who administers the others.
+const MEMBER_OF_DATA_PLATFORM: Record<string, OrganizationAccess> = {
+  'data-platform': OrganizationAccess.Member,
+  'legacy-tools': OrganizationAccess.Admin,
+  payments: OrganizationAccess.Admin,
+  'web-core': OrganizationAccess.Admin,
+};
 
 describe('what the viewer is to each organization', () => {
   const getOrganizationAccess = (key: string) =>
     key === 'web-core' ? OrganizationAccess.Admin : OrganizationAccess.None;
 
-  it('says it on the table and holds back what takes administration rights', async () => {
+  it('says it on the table and offers to ask for what takes administration rights', async () => {
     renderEnterpriseDashboard({ getOrganizationAccess });
 
     expect(await ui.table.byText('Web core').find()).toBeInTheDocument();
     expect(ui.table.byText(`${PREFIX}.organizations.access.admin`).get()).toBeInTheDocument();
     expect(ui.table.byText(`${PREFIX}.organizations.access.none`).getAll()).toHaveLength(3);
-    // The administered one opens as before; the others do not lead to a page that does not exist for the viewer.
+    // Only the administered one is a link.
     expect(ui.viewDashboard('Web core').get()).toBeInTheDocument();
     expect(ui.viewDashboard('Data platform').query()).not.toBeInTheDocument();
-    expect(
-      byRole('button', {
-        name: `${PREFIX}.organizations.action.view.blocked.none.Data platform`,
-      }).get(),
-    ).toBeDisabled();
+    expect(ui.requestAccess('Data platform').get()).toBeEnabled();
   });
 
-  it('holds nothing back when it is not provided', async () => {
-    renderEnterpriseDashboard();
+  it('tells a member who the administrators of the organization are', async () => {
+    mockUseOrganizationAdminsQuery.mockReturnValue(
+      adminsQueryResult({
+        data: {
+          admins: [{ email: 'ada@acme.test', id: 'ada-id', login: 'ada', name: 'Ada Lovelace' }],
+          total: 1,
+        },
+      }),
+    );
+    const { user } = renderEnterpriseDashboard({
+      getOrganizationAccess: (key) => MEMBER_OF_DATA_PLATFORM[key],
+    });
 
-    expect(await ui.table.byText('Web core').find()).toBeInTheDocument();
-    expect(ui.table.byText(/organizations\.access\./).query()).not.toBeInTheDocument();
-    expect(ui.viewDashboard('Data platform').get()).toBeInTheDocument();
+    await user.click(await ui.requestAccess('Data platform').find());
+
+    expect(await ui.requestAccessTitle.find()).toBeInTheDocument();
+    expect(byText('Ada Lovelace').get()).toBeInTheDocument();
+    expect(byText('ada@acme.test').get()).toBeInTheDocument();
+  });
+
+  it('only asks someone who is not a member to ask the administrators', async () => {
+    const { user } = renderEnterpriseDashboard({ getOrganizationAccess });
+
+    await user.click(await ui.requestAccess('Data platform').find());
+
+    expect(await ui.requestAccessTitle.find()).toBeInTheDocument();
+    expect(byText(`${PREFIX}.request_access.not_member`).get()).toBeInTheDocument();
   });
 });
 

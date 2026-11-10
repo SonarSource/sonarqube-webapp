@@ -32,6 +32,16 @@ export enum OnboardingDevopsPlatform {
 /** ALM platforms a discovered repository / project can originate from. */
 export type OnboardingAlm = Exclude<OnboardingDevopsPlatform, OnboardingDevopsPlatform.NotBound>;
 
+/** Whether a backend platform id is one of the {@link OnboardingAlm} platforms the UI knows. */
+export function isKnownPlatform(platform: string | null | undefined): platform is OnboardingAlm {
+  return (
+    platform !== null &&
+    platform !== undefined &&
+    platform !== OnboardingDevopsPlatform.NotBound &&
+    Object.values<string>(OnboardingDevopsPlatform).includes(platform)
+  );
+}
+
 /**
  * ALM providers that have an icon asset under `/images/alm(s)/{key}.svg`. These keys
  * must exist in each product's theme `images` map so the theme-aware icon resolver can
@@ -517,6 +527,22 @@ export interface OnboardingOrganizationRow {
   progressPct?: number | null;
   projects?: OnboardingOrganizationProjects | null;
   repositories?: OnboardingOrganizationRepositories | null;
+}
+
+/** An administrator of an organization, as the request for admin access lists them. */
+export interface OnboardingOrganizationAdmin {
+  /** Absent when the administrator has none on record. */
+  email?: string;
+  id: string;
+  login: string;
+  /** The display name, which is the login for an administrator who has none. */
+  name: string;
+}
+
+export interface OnboardingOrganizationAdmins {
+  /** First page of administrators; `total` counts all of them. */
+  admins: OnboardingOrganizationAdmin[];
+  total: number;
 }
 
 /** Response of `GET /api/v2/onboarding/organizations`. */
