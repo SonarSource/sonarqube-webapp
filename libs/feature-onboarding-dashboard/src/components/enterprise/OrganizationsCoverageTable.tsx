@@ -22,6 +22,7 @@ import {
   Badge,
   BadgeVariety,
   Button,
+  ButtonGroup,
   ButtonVariety,
   cssVar,
   IconWarning,
@@ -35,7 +36,7 @@ import {
   Text,
   TextSize,
 } from '@sonarsource/echoes-react';
-import { CSSProperties } from 'react';
+import { CSSProperties, ReactElement } from 'react';
 import { useIntl } from 'react-intl';
 import { Path } from 'react-router';
 import { Image } from '~adapters/components/common/Image';
@@ -238,6 +239,65 @@ function OrganizationRow({
   const blockedAccess =
     access === OrganizationAccess.Member || access === OrganizationAccess.None ? access : undefined;
 
+  const viewLabel = formatMessage({
+    id: 'onboarding_dashboard.enterprise.organizations.action.view',
+  });
+  const viewButton =
+    blockedAccess === undefined ? (
+      <Button
+        ariaLabel={formatMessage(
+          { id: 'onboarding_dashboard.enterprise.organizations.action.view.label' },
+          { name },
+        )}
+        onClick={() => {
+          onAction?.(OnboardingDashboardAction.ViewOrganizationDashboard, organization);
+        }}
+        to={getDashboardUrl(key)}
+        variety={ButtonVariety.Default}
+      >
+        {viewLabel}
+      </Button>
+    ) : (
+      <Button
+        ariaLabel={formatMessage({ id: VIEW_BLOCKED_LABEL_IDS[blockedAccess] }, { name })}
+        isDisabled
+        variety={ButtonVariety.Default}
+      >
+        {viewLabel}
+      </Button>
+    );
+
+  const bindLabel = formatMessage({
+    id: 'onboarding_dashboard.enterprise.organizations.action.bind',
+  });
+  let bindButton: ReactElement | undefined;
+  if (!isUnavailable && !organization.bound) {
+    bindButton =
+      blockedAccess === undefined ? (
+        <Button
+          ariaLabel={formatMessage(
+            { id: 'onboarding_dashboard.enterprise.organizations.action.bind.label' },
+            { name },
+          )}
+          onClick={() => {
+            onAction?.(OnboardingDashboardAction.BindOrganization, organization);
+          }}
+          to={getBindingUrl(key)}
+          variety={ButtonVariety.Default}
+        >
+          {bindLabel}
+        </Button>
+      ) : (
+        <Button
+          ariaLabel={formatMessage({ id: BIND_BLOCKED_LABEL_IDS[blockedAccess] }, { name })}
+          isDisabled
+          variety={ButtonVariety.Default}
+        >
+          {bindLabel}
+        </Button>
+      );
+  }
+
   return (
     <Table.Row>
       <Table.Cell className="sw:justify-start">
@@ -292,55 +352,17 @@ function OrganizationRow({
         </>
       )}
 
-      <Table.Cell className="sw:justify-end sw:gap-2">
-        {!isUnavailable &&
-          !organization.bound &&
-          (blockedAccess === undefined ? (
-            <Button
-              ariaLabel={formatMessage(
-                { id: 'onboarding_dashboard.enterprise.organizations.action.bind.label' },
-                { name },
-              )}
-              onClick={() => {
-                onAction?.(OnboardingDashboardAction.BindOrganization, organization);
-              }}
-              to={getBindingUrl(key)}
-              variety={ButtonVariety.Primary}
-            >
-              {formatMessage({ id: 'onboarding_dashboard.enterprise.organizations.action.bind' })}
-            </Button>
-          ) : (
-            <Button
-              ariaLabel={formatMessage({ id: BIND_BLOCKED_LABEL_IDS[blockedAccess] }, { name })}
-              isDisabled
-              variety={ButtonVariety.Primary}
-            >
-              {formatMessage({ id: 'onboarding_dashboard.enterprise.organizations.action.bind' })}
-            </Button>
-          ))}
-
-        {blockedAccess === undefined ? (
-          <Button
-            ariaLabel={formatMessage(
-              { id: 'onboarding_dashboard.enterprise.organizations.action.view.label' },
-              { name },
-            )}
-            onClick={() => {
-              onAction?.(OnboardingDashboardAction.ViewOrganizationDashboard, organization);
-            }}
-            to={getDashboardUrl(key)}
-            variety={ButtonVariety.Default}
-          >
-            {formatMessage({ id: 'onboarding_dashboard.enterprise.organizations.action.view' })}
-          </Button>
+      <Table.Cell className="sw:justify-end">
+        {bindButton === undefined ? (
+          viewButton
         ) : (
-          <Button
-            ariaLabel={formatMessage({ id: VIEW_BLOCKED_LABEL_IDS[blockedAccess] }, { name })}
-            isDisabled
-            variety={ButtonVariety.Default}
-          >
-            {formatMessage({ id: 'onboarding_dashboard.enterprise.organizations.action.view' })}
-          </Button>
+          // Bind and View & manage are two actions on the same organization: one control, in the default style so
+          // that the table, which has no primary action of its own, does not draw the eye to every unbound row. A
+          // combined group squares the corners it joins, so it is only used for two buttons.
+          <ButtonGroup isCombined>
+            {bindButton}
+            {viewButton}
+          </ButtonGroup>
         )}
       </Table.Cell>
     </Table.Row>
