@@ -19,6 +19,7 @@
  */
 
 import type { IntlShape } from 'react-intl';
+import { getConfiguredIssueStatuses } from '~shared/helpers/dashboard-issue-statuses';
 import { SoftwareImpactSeverity } from '~shared/types/clean-code-taxonomy';
 import {
   DashboardMetricType,
@@ -65,11 +66,14 @@ export function buildTopListIssueCountFilterSegments(
   }
 
   const { measureFilters, metricKey } = widget.metric;
-  if (metricKey !== RichMetricKey.Hotspots && measureFilters?.issueStatus) {
+  const statuses = getConfiguredIssueStatuses(measureFilters);
+  if (metricKey !== RichMetricKey.Hotspots && statuses) {
     const statusLabel = formatMessage({
       id: 'dashboard.add_widget_modal.apply_filters_section.select.status.label',
     });
-    const statusValue = formatMessage({ id: `issue.status.${measureFilters.issueStatus}` });
+    const statusValue = statuses
+      .map((status) => formatMessage({ id: `issue.status.${status}` }))
+      .join(', ');
     segments.push(`${statusLabel}: ${statusValue}`);
   }
 

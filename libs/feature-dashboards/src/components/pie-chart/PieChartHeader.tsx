@@ -45,6 +45,7 @@ export function PieChartHeader({
     filter,
     isPortfolioDashboard: isPortfolioDashboardWidget,
     isStandardMode,
+    issueStatuses: props.issueStatuses,
     metric,
     scope,
     slice,

@@ -35,6 +35,7 @@ import {
 } from './widgetConfigReducerLineChart';
 import {
   handleSetPieFilter,
+  handleSetPieIssueStatuses,
   handleSetPieMetric,
   handleSetPieScope,
   handleSetPieShowLegend,
@@ -97,6 +98,8 @@ export function widgetConfigReducer(
       return handleSetPieScope(state, action, options);
     case 'SET_PIE_FILTER':
       return handleSetPieFilter(state, action);
+    case 'SET_PIE_ISSUE_STATUSES':
+      return handleSetPieIssueStatuses(state, action);
     case 'SET_PIE_SHOW_LEGEND':
       return handleSetPieShowLegend(state, action);
     case 'RESET':

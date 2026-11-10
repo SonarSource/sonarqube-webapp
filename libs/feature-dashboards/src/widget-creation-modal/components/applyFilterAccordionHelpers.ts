@@ -18,6 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { getConfiguredIssueStatuses } from '~shared/helpers/dashboard-issue-statuses';
 import { SoftwareImpactSeverity, SoftwareQuality } from '~shared/types/clean-code-taxonomy';
 import { HistoryRange } from '../../data/widgets/line-chart';
 import {
@@ -112,11 +113,20 @@ export function getSeverityFilterLegacyRangeNotice(
 
 export function applyIssueStatusMeasureFilters(
   measureFilters: MeasureFilters | undefined,
-  status: IssueStatus | '',
+  status: string,
 ): MeasureFilters {
+  const statuses = status
+    .split(',')
+    .filter((value): value is IssueStatus =>
+      Object.values(IssueStatus).includes(value as IssueStatus),
+    );
+  if (statuses.length > 1) {
+    return { ...measureFilters, issueStatus: undefined, issueStatuses: statuses };
+  }
   return {
     ...measureFilters,
-    issueStatus: status || undefined,
+    issueStatus: statuses[0],
+    ...(measureFilters?.issueStatuses ? { issueStatuses: undefined } : {}),
   };
 }
 
@@ -285,8 +295,22 @@ export function buildLineChartTimeRangeSelectData(
 
 export function buildRichMetricIssueStatusSelectOptions(
   formatMessage: (descriptor: { id: string }) => string,
-): Array<{ label: string; value: IssueStatus | '' }> {
+  measureFilters?: MeasureFilters,
+): Array<{ label: string; value: string }> {
+  const statuses = getConfiguredIssueStatuses(measureFilters);
+  const storedSelection =
+    statuses && statuses.length > 1
+      ? [
+          {
+            label: statuses
+              .map((status) => formatMessage({ id: `issue.status.${status}` }))
+              .join(', '),
+            value: statuses.join(','),
+          },
+        ]
+      : [];
   return [
+    ...storedSelection,
     {
       label: formatMessage({
         id: 'dashboard.add_widget_modal.apply_filters_section.software_quality.all',

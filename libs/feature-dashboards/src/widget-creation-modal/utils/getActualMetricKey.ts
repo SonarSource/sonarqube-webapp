@@ -18,6 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { getSingleIssueStatus } from '~shared/helpers/dashboard-issue-statuses';
 import { MetricKey } from '~shared/types/metrics';
 import {
   DashboardMetric,
@@ -59,14 +60,15 @@ export function getActualMetricKey(metric: DashboardMetric): MetricKey | undefin
 
   const { measureFilters } = metric;
 
-  if (measureFilters?.issueStatus) {
+  const issueStatus = getSingleIssueStatus(measureFilters);
+  if (issueStatus) {
     const statusToMetricMap: Partial<Record<IssueStatus, MetricKey>> = {
       [IssueStatus.Open]: MetricKey.open_issues,
       [IssueStatus.Confirmed]: MetricKey.confirmed_issues,
       [IssueStatus.Accepted]: MetricKey.accepted_issues,
       [IssueStatus.FalsePositive]: MetricKey.false_positive_issues,
     };
-    return statusToMetricMap[measureFilters.issueStatus] || MetricKey.violations;
+    return statusToMetricMap[issueStatus] || MetricKey.violations;
   }
 
   if (measureFilters?.impactSoftwareQuality) {

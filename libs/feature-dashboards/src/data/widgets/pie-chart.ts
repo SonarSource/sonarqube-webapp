@@ -24,8 +24,10 @@ import { PieChartPastry } from '../../types/visualization';
 import { CodeScope } from '../../types/widget-common';
 import {
   createDashboardWidgetSpec,
+  issueStatusesSchema,
   RichMetricKey,
   type DashboardWidgetSpec,
+  type IssueStatus,
   type WidgetEditBehavior,
 } from './shared';
 
@@ -111,6 +113,7 @@ const sliceSchema = v.union([
 const key = 'pieChart' as const;
 
 export const pieChartPropsSchema = {
+  issueStatuses: issueStatusesSchema,
   filter: filterSchema,
   metric: metricSchema,
   scope: v.enum(CodeScope),
@@ -119,6 +122,7 @@ export const pieChartPropsSchema = {
 };
 
 export type Props = {
+  issueStatuses?: IssueStatus[];
   filter: Filter;
   metric: Metric;
   pastry?: PieChartPastry;

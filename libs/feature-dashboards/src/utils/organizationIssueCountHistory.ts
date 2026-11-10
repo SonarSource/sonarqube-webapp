@@ -36,6 +36,7 @@ import {
 import {
   GetIssueCountHistoryParams,
   IssueCountSliceBy,
+  IssueCountStatus,
   PORTFOLIO_SECURITY_HOTSPOT_ISSUE_TYPES,
   type IssueCountSnapshotParams,
 } from '../types/organization-issue-count-history';
@@ -65,6 +66,7 @@ export function mapPieChartToIssueHistoryParams(args: {
   entityId: string;
   entityType: EntityType;
   filter: PieChartFilter;
+  issueStatuses?: IssueCountStatus[];
   metric: PieChartMetric;
   slice: PieChartSlice;
 }): IssueCountSnapshotParams | null {
@@ -107,7 +109,10 @@ export function mapPieChartToIssueHistoryParams(args: {
     ...base,
     ...mapIssueFilterToHistoryParams(filter),
     statuses:
-      slice === PieChartIssueSlice.IssueStatuses ? undefined : [...FILTERABLE_CODE_ISSUE_STATUSES],
+      args.issueStatuses ??
+      (slice === PieChartIssueSlice.IssueStatuses
+        ? undefined
+        : [...FILTERABLE_CODE_ISSUE_STATUSES]),
     sliceBy,
   };
 }

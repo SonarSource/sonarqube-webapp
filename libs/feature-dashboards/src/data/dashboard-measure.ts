@@ -18,6 +18,10 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import {
+  getConfiguredIssueStatuses,
+  getSingleIssueStatus,
+} from '~shared/helpers/dashboard-issue-statuses';
 import { SoftwareImpactSeverity, SoftwareQuality } from '~shared/types/clean-code-taxonomy';
 import {
   FILTERABLE_CODE_ISSUE_STATUSES,
@@ -113,14 +117,15 @@ function actualMetricKey(metric: DashboardMetric): MetricKey | undefined {
   if (metric.metricKey === RichMetricKey.Hotspots) {
     return MetricKey.security_hotspots;
   }
-  if (metric.measureFilters?.issueStatus) {
+  const issueStatus = getSingleIssueStatus(metric.measureFilters);
+  if (issueStatus) {
     const metricByStatus: Partial<Record<IssueStatus, MetricKey>> = {
       [IssueStatus.Open]: MetricKey.open_issues,
       [IssueStatus.Confirmed]: MetricKey.confirmed_issues,
       [IssueStatus.Accepted]: MetricKey.accepted_issues,
       [IssueStatus.FalsePositive]: MetricKey.false_positive_issues,
     };
-    return metricByStatus[metric.measureFilters.issueStatus];
+    return metricByStatus[issueStatus];
   }
   return metric.measureFilters?.impactSoftwareQuality
     ? {
@@ -149,7 +154,7 @@ function mqrIssueFilters(
 
   return {
     ...severityFilters,
-    statuses: filters?.issueStatus ? [filters.issueStatus] : statuses,
+    statuses: getConfiguredIssueStatuses(filters) ?? statuses,
   };
 }
 

@@ -1220,4 +1220,88 @@ describe('ApplyFilterAccordion', () => {
       ),
     ).toBeInTheDocument();
   });
+
+  it.each([
+    [VisualizationType.Count, 'SET_COUNT_MEASURE_FILTERS'],
+    [VisualizationType.TopList, 'SET_TOP_LIST_MEASURE_FILTERS'],
+  ] as const)(
+    'shows stored status lists and permits replacing or clearing them for %s',
+    async (selectedType, actionType) => {
+      const measureFilters = {
+        issueStatuses: [IssueStatus.Open, IssueStatus.Confirmed],
+        impactSoftwareQuality: SoftwareQuality.Security,
+      };
+      const state: WidgetConfigState = {
+        selectedType,
+        configs: {
+          count: {
+            complete: true,
+            metric: { ...richIssuesDashboardMetric, measureFilters },
+            scope: CodeScope.Overall,
+            showTrendIndicator: false,
+          },
+          topList: {
+            complete: true,
+            limit: TopListLimit.Five,
+            measureFilters,
+            metric: TopListMetric.IssueCount,
+            rankBy: TopListRankBy.Rule,
+            scope: CodeScope.Overall,
+          },
+        },
+      };
+      const dispatch = jest.fn();
+      const { user } = renderWithRouter(
+        <ApplyFilterAccordion
+          Accordion={Accordion}
+          applyFiltersAccordionOpen
+          dispatch={dispatch}
+          isPortfolioWidgetConfigurator={false}
+          metricPickerOptions={metricPickerOptions}
+          setApplyFiltersAccordionOpen={jest.fn()}
+          state={state}
+        />,
+      );
+      await user.click(
+        screen.getByRole('combobox', {
+          name: 'dashboard.add_widget_modal.apply_filters_section.select.status.label',
+        }),
+      );
+      expect(
+        await screen.findByRole('option', {
+          name: 'issue.status.OPEN, issue.status.CONFIRMED',
+          selected: true,
+        }),
+      ).toBeInTheDocument();
+      expect(screen.queryByRole('checkbox')).not.toBeInTheDocument();
+      await user.click(screen.getByRole('option', { name: 'issue.status.ACCEPTED' }));
+      expect(dispatch).toHaveBeenLastCalledWith({
+        type: actionType,
+        measureFilters: {
+          impactSoftwareQuality: SoftwareQuality.Security,
+          issueStatus: IssueStatus.Accepted,
+          issueStatuses: undefined,
+        },
+      });
+      await user.click(
+        screen.getByRole('combobox', {
+          name: 'dashboard.add_widget_modal.apply_filters_section.select.status.label',
+        }),
+      );
+      await user.click(
+        await screen.findByRole('option', {
+          name: 'issue.status.OPEN, issue.status.CONFIRMED',
+          selected: true,
+        }),
+      );
+      expect(dispatch).toHaveBeenLastCalledWith({
+        type: actionType,
+        measureFilters: {
+          impactSoftwareQuality: SoftwareQuality.Security,
+          issueStatus: undefined,
+          issueStatuses: undefined,
+        },
+      });
+    },
+  );
 });

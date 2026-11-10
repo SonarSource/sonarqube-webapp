@@ -94,6 +94,7 @@ export function extractCompleteConfig(state: WidgetConfigState): CompleteWidgetC
       slice: config.slice,
       scope: config.scope,
       filter: config.filter,
+      ...(config.issueStatuses ? { issueStatuses: config.issueStatuses } : {}),
       showLegend: config.showLegend,
     };
   }
@@ -106,6 +107,7 @@ export function extractCompleteConfig(state: WidgetConfigState): CompleteWidgetC
       slice: config.slice,
       scope: config.scope,
       filter: config.filter,
+      ...(config.issueStatuses ? { issueStatuses: config.issueStatuses } : {}),
       showLegend: config.showLegend,
       pastry: PieChartPastry.Donut,
     };
@@ -153,6 +155,7 @@ function pieChartConfigFromCompletePieLikeWidget(
   return {
     complete: true,
     filter,
+    ...(config.issueStatuses ? { issueStatuses: config.issueStatuses } : {}),
     metric: config.metric,
     scope: config.scope,
     showLegend: config.showLegend,

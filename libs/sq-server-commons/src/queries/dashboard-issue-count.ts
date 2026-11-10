@@ -20,6 +20,7 @@
 
 import { queryOptions } from '@tanstack/react-query';
 import { getBranchLikeQuery } from '~shared/helpers/branch-like';
+import { getConfiguredIssueStatuses } from '~shared/helpers/dashboard-issue-statuses';
 import { createQueryHook, StaleTime } from '~shared/queries/common';
 import { FILTERABLE_CODE_ISSUE_STATUSES } from '~shared/types/issues';
 import { searchIssues } from '../api/issues';
@@ -45,7 +46,8 @@ export const useIssueCountSearchQuery = createQueryHook(
         searchIssues({
           componentKeys: params.componentKey,
           issueStatuses:
-            params.measureFilters?.issueStatus ?? FILTERABLE_CODE_ISSUE_STATUSES.join(','),
+            getConfiguredIssueStatuses(params.measureFilters)?.join(',') ??
+            FILTERABLE_CODE_ISSUE_STATUSES.join(','),
           ps: 1,
           inNewCodePeriod: params.scope === CodeScope.New,
           ...getIssueFilterQuery(params.measureFilters, params.isStandardMode === true),

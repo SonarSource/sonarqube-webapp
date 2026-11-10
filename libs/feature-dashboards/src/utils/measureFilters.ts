@@ -18,6 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { getConfiguredIssueStatuses } from '~shared/helpers/dashboard-issue-statuses';
 import { FILTERABLE_CODE_ISSUE_STATUSES } from '~shared/types/issues';
 import { MeasureFilters } from '../types/dashboard-widget';
 
@@ -33,9 +34,7 @@ export function buildMeasureFilterParams(measureFilters: MeasureFilters | undefi
   issueStatuses: string;
 } {
   const issueStatuses =
-    measureFilters?.issueStatus === undefined
-      ? ALL_FILTERABLE_CODE_ISSUE_STATUSES
-      : measureFilters.issueStatus;
+    getConfiguredIssueStatuses(measureFilters)?.join(',') ?? ALL_FILTERABLE_CODE_ISSUE_STATUSES;
 
   return {
     issueStatuses,

@@ -22,6 +22,7 @@ import { MetricKey } from '~shared/types/metrics';
 import { HistoryRange, type LineChartGroupByValue } from '../../data/widgets/line-chart';
 import {
   DashboardMetric,
+  IssueStatus,
   MeasureFilters,
   PieChartFilter,
   PieChartMetric,
@@ -134,6 +135,7 @@ export type PieChartConfig =
   | {
       complete: false;
       filter: PieChartFilter;
+      issueStatuses?: IssueStatus[];
       metric: PieChartMetric | null;
       scope: CodeScope;
       showLegend: boolean;
@@ -142,6 +144,7 @@ export type PieChartConfig =
   | {
       complete: true;
       filter: PieChartFilter;
+      issueStatuses?: IssueStatus[];
       metric: PieChartMetric;
       scope: CodeScope;
       showLegend: boolean;
@@ -209,6 +212,7 @@ export type WidgetConfigAction =
   | { slice: PieChartSlice | null; type: 'SET_PIE_SLICE' }
   | { scope: CodeScope; type: 'SET_PIE_SCOPE' }
   | { filter: PieChartFilter | ''; type: 'SET_PIE_FILTER' }
+  | { issueStatuses: MeasureFilters['issueStatuses']; type: 'SET_PIE_ISSUE_STATUSES' }
   | { showLegend: boolean; type: 'SET_PIE_SHOW_LEGEND' }
   | { type: 'RESET' }
   | { payload: WidgetConfigState; type: 'INITIALIZE' };

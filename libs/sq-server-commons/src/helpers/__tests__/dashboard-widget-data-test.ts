@@ -969,3 +969,20 @@ describe('isKnownUnsupportedDashboardHistoryMetric', () => {
     expect(isKnownUnsupportedDashboardHistoryMetric(metricKey)).toBe(expected);
   });
 });
+
+it('uses explicitly configured statuses for Server history and pie snapshots', () => {
+  const statuses = ['OPEN', 'CONFIRMED'];
+  expect(
+    issueHistoryQueryExtras({ issueStatuses: statuses }, RichMetricKey.Issues, undefined),
+  ).toEqual(expect.objectContaining({ statuses }));
+  expect(
+    mapPieChartToIssueHistoryParams({
+      entityId: 'portfolio',
+      entityType: 'PORTFOLIO',
+      filter: PieChartIssueFilter.Security,
+      issueStatuses: statuses,
+      metric: PieChartMetric.IssueCount,
+      slice: PieChartIssueSlice.ImpactSeverities,
+    }),
+  ).toEqual(expect.objectContaining({ statuses }));
+});

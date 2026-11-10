@@ -18,6 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { getSingleIssueStatus } from '~shared/helpers/dashboard-issue-statuses';
 import { SoftwareQuality } from '~shared/types/clean-code-taxonomy';
 import { MetricKey } from '~shared/types/metrics';
 import {
@@ -42,7 +43,7 @@ function isEligibleIssueCountMetric(
   }
 
   const { measureFilters } = metric;
-  const isOpenIssuesConfiguration = measureFilters?.issueStatus === IssueStatus.Open;
+  const isOpenIssuesConfiguration = getSingleIssueStatus(measureFilters) === IssueStatus.Open;
 
   return (
     measureFilters?.impactSoftwareQuality !== undefined &&

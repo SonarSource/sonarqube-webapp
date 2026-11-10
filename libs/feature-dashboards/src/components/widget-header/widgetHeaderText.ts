@@ -19,6 +19,10 @@
  */
 
 import type { IntlShape } from 'react-intl';
+import {
+  getConfiguredIssueStatuses,
+  getSingleIssueStatus,
+} from '~shared/helpers/dashboard-issue-statuses';
 import { SoftwareImpactSeverity } from '~shared/types/clean-code-taxonomy';
 import { MetricKey } from '~shared/types/metrics';
 import type { LineChartGroupByValue } from '../../data/widgets/line-chart';
@@ -318,8 +322,9 @@ function getMeasureFilterTitleParts(
   const parts: MessageTitlePart[] = [];
   const severities = measureFilters?.impactSeverities;
 
-  if (measureFilters?.issueStatus) {
-    parts.push({ messageId: `issue.status.${measureFilters.issueStatus}` });
+  const singleStatus = getSingleIssueStatus(measureFilters);
+  if (singleStatus) {
+    parts.push({ messageId: `issue.status.${singleStatus}` });
   }
 
   if (severities && severities.length > 0 && severities.length < 5) {
@@ -366,12 +371,13 @@ function appendLocalizedMeasureFilterSegments(
   measureFilters: MeasureFilters | undefined,
   isStandardMode: boolean,
 ): void {
-  if (measureFilters?.issueStatus) {
+  const statuses = getConfiguredIssueStatuses(measureFilters);
+  if (statuses) {
     segments.push(
       buildLabeledSegment(
         formatMessage,
         'dashboard.add_widget_modal.apply_filters_section.select.status.label',
-        [`issue.status.${measureFilters.issueStatus}`],
+        statuses.map((status) => `issue.status.${status}`),
       ),
     );
   }

@@ -20,6 +20,7 @@
 
 import { Dispatch, useCallback, useMemo } from 'react';
 import { useIntl, type IntlShape } from 'react-intl';
+import { getConfiguredIssueStatuses } from '~shared/helpers/dashboard-issue-statuses';
 import { MetricKey } from '~shared/types/metrics';
 import { HistoryRange } from '../../data/widgets/line-chart';
 import {
@@ -314,8 +315,8 @@ export function useMetricWidgetApplyFiltersViewModel({
     !metricSupportsNewCodeScope;
 
   const issueStatusSelectOptions = useMemo(
-    () => buildRichMetricIssueStatusSelectOptions(formatMessage),
-    [formatMessage],
+    () => buildRichMetricIssueStatusSelectOptions(formatMessage, measureFilters),
+    [formatMessage, measureFilters],
   );
 
   const scopeHelpText = getScopeHelpText({
@@ -401,7 +402,7 @@ export function useMetricWidgetApplyFiltersViewModel({
           isIssueStatusFilterDisabled: groupByFilterConflict === 'issueStatus',
           isSoftwareQualityFilterDisabled: groupByFilterConflict === 'impactSoftwareQuality',
           issueStatusSelectOptions,
-          issueStatusValue: measureFilters?.issueStatus ?? '',
+          issueStatusValue: getConfiguredIssueStatuses(measureFilters)?.join(',') ?? '',
           setIssueStatusFilter,
           setSeverityFilter,
           setSoftwareQualityFilter,

@@ -117,6 +117,7 @@ function renderWidgetHeader(
       return (
         <HeaderComponent
           filter={completeConfig.filter}
+          issueStatuses={completeConfig.issueStatuses}
           metric={completeConfig.metric}
           pastry={completeConfig.pastry}
           scope={completeConfig.scope}
@@ -130,6 +131,7 @@ function renderWidgetHeader(
       return (
         <HeaderComponent
           filter={completeConfig.filter}
+          issueStatuses={completeConfig.issueStatuses}
           metric={completeConfig.metric}
           scope={completeConfig.scope}
           showLegend={completeConfig.showLegend}
@@ -183,6 +185,7 @@ function renderWidgetBody(
       return (
         <BodyComponent
           filter={completeConfig.filter}
+          issueStatuses={completeConfig.issueStatuses}
           metric={completeConfig.metric}
           pastry={completeConfig.pastry}
           scope={completeConfig.scope}
@@ -196,6 +199,7 @@ function renderWidgetBody(
       return (
         <BodyComponent
           filter={completeConfig.filter}
+          issueStatuses={completeConfig.issueStatuses}
           metric={completeConfig.metric}
           scope={completeConfig.scope}
           showLegend={completeConfig.showLegend}

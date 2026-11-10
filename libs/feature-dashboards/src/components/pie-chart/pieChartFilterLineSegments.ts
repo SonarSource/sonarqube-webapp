@@ -24,6 +24,7 @@ import {
   PieChartFilter,
   PieChartHotspotFilter,
   PieChartIssueFilter,
+  PieChartMetric,
   PieChartWidgetProps,
 } from '../../types/dashboard-widget';
 import { CodeScope } from '../../types/widget-common';
@@ -85,7 +86,7 @@ export function mapPieChartHotspotFilterToIssueCountStatuses(
   }
 }
 
-type BuildArgs = Pick<PieChartWidgetProps, 'filter' | 'metric' | 'slice'> & {
+type BuildArgs = Pick<PieChartWidgetProps, 'filter' | 'metric' | 'slice' | 'issueStatuses'> & {
   isPortfolioDashboard: boolean;
   isStandardMode?: boolean;
   scope: CodeScope;
@@ -98,12 +99,23 @@ export function getPieChartFilterLineSegments(
     filter,
     isPortfolioDashboard,
     isStandardMode = false,
+    issueStatuses,
     metric,
     scope,
     slice,
   }: Readonly<BuildArgs>,
 ): string[] {
   const segments: string[] = [formatMessage({ id: `dashboard_widget.codescope.${scope}` })];
+
+  if (metric === PieChartMetric.IssueCount && issueStatuses?.length) {
+    segments.push(
+      buildLabeledSegment(
+        formatMessage,
+        'dashboard.add_widget_modal.apply_filters_section.select.status.label',
+        issueStatuses.map((status) => `issue.status.${status}`),
+      ),
+    );
+  }
 
   if (filter && isPieChartIssueFilter(filter)) {
     segments.push(

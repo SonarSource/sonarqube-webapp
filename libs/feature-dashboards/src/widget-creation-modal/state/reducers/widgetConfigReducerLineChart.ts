@@ -44,6 +44,7 @@ function clearMeasureFilterConflictForGroupBy(
   return {
     ...measureFilters,
     [conflict]: undefined,
+    ...(conflict === 'issueStatus' ? { issueStatuses: undefined } : {}),
   };
 }
 

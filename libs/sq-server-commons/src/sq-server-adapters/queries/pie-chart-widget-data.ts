@@ -383,10 +383,11 @@ export function useOrganizationPieChartData(
         entityId,
         entityType,
         filter: widget.filter,
+        issueStatuses: widget.issueStatuses,
         metric: widget.metric,
         slice: widget.slice,
       }),
-    [entityId, entityType, widget.filter, widget.metric, widget.slice],
+    [entityId, entityType, widget.filter, widget.issueStatuses, widget.metric, widget.slice],
   );
   const canonicalSliceBy = canonicalHistoryParams?.sliceBy;
   const historyParams = useMemo(
@@ -446,7 +447,7 @@ export function useOrganizationPieChartData(
     {
       componentKeys: componentKey,
       facets: widget.slice,
-      issueStatuses: FILTERABLE_CODE_ISSUE_STATUSES.join(','),
+      issueStatuses: widget.issueStatuses?.join(',') ?? FILTERABLE_CODE_ISSUE_STATUSES.join(','),
       ps: 1,
       inNewCodePeriod: false,
       ...resolveIssueSearchFiltersForMode(

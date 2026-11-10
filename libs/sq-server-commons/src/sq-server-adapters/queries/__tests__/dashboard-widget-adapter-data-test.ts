@@ -165,6 +165,35 @@ describe('dashboard widget adapter queries', () => {
 
   describe('pie-chart queries', () => {
     it.each(['PROJECT_BRANCH', 'PORTFOLIO'] as const)(
+      'preserves configured statuses and status changes for %s snapshots',
+      (entityType) => {
+        const { rerender } = renderHook(
+          ({ issueStatuses }) =>
+            useOrganizationPieChartData({
+              entity: { entityId: 'entity-statuses', entityType },
+              widget: {
+                filter: 'security',
+                metric: PieChartMetric.IssueCount,
+                scope: CodeScope.Overall,
+                slice: PieChartIssueSlice.ImpactSeverities,
+                issueStatuses,
+              },
+            }),
+          { initialProps: { issueStatuses: ['OPEN', 'CONFIRMED'] }, wrapper: getContextWrapper() },
+        );
+        expect(mockUseDashboardIssueCountHistoryQuery).toHaveBeenLastCalledWith(
+          expect.objectContaining({ statuses: ['OPEN', 'CONFIRMED'] }),
+          expect.anything(),
+        );
+        rerender({ issueStatuses: ['ACCEPTED'] });
+        expect(mockUseDashboardIssueCountHistoryQuery).toHaveBeenLastCalledWith(
+          expect.objectContaining({ statuses: ['ACCEPTED'] }),
+          expect.anything(),
+        );
+      },
+    );
+
+    it.each(['PROJECT_BRANCH', 'PORTFOLIO'] as const)(
       'uses the latest available %s snapshot without requiring data today',
       (entityType) => {
         const yesterday = new Date();

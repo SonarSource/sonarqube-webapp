@@ -22,6 +22,7 @@ import { Select, Text, TextSize } from '@sonarsource/echoes-react';
 import { Dispatch, type ReactNode } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import {
+  IssueStatus,
   PieChartFilter,
   PieChartHotspotSlice,
   PieChartIssueSlice,
@@ -37,6 +38,7 @@ import type { PieChartConfig, WidgetConfigAction } from '../state/widgetConfigTy
 import {
   buildPieChartFilterSelectOptions,
   buildPieChartScopeSelectData,
+  buildRichMetricIssueStatusSelectOptions,
 } from './applyFilterAccordionHelpers';
 import {
   ApplyFiltersAccordionContent,
@@ -153,6 +155,7 @@ export function PieChartApplyFilters({
     slice: pieChartSlice,
     scope: pieChartScope,
     filter: pieChartFilter,
+    issueStatuses,
   } = pieConfig;
   const hidePieFilterSelect =
     pieChartMetric === PieChartMetric.LineCount || pieChartMetric === PieChartMetric.ProjectCount;
@@ -198,6 +201,23 @@ export function PieChartApplyFilters({
       ) : (
         <ApplyFiltersAccordionContent>
           {!metricPickerOptions.hideWidgetScopeFilter && pieScopeControl}
+
+          {pieChartMetric === PieChartMetric.IssueCount &&
+            pieChartSlice !== PieChartIssueSlice.IssueStatuses && (
+              <Select
+                data={buildRichMetricIssueStatusSelectOptions(formatMessage, { issueStatuses })}
+                label={formatMessage({
+                  id: 'dashboard.add_widget_modal.apply_filters_section.select.status.label',
+                })}
+                onChange={(value) => {
+                  dispatch({
+                    type: 'SET_PIE_ISSUE_STATUSES',
+                    issueStatuses: value ? (value.split(',') as IssueStatus[]) : undefined,
+                  });
+                }}
+                value={issueStatuses?.join(',') ?? ''}
+              />
+            )}
 
           {!hidePieFilterSelect && (
             <Select

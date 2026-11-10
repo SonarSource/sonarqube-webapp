@@ -21,7 +21,6 @@
 import { Select } from '@sonarsource/echoes-react';
 import { useIntl } from 'react-intl';
 import { SoftwareQuality } from '~shared/types/clean-code-taxonomy';
-import { IssueStatus } from '../../types/dashboard-widget';
 import type { RichMeasureFiltersSlice } from '../hooks/applyFiltersViewModelSlices';
 import { getIssueFilterTypeLabelMessageId } from '../utils/issueFilterPresentation';
 import {
@@ -66,7 +65,7 @@ export function MetricWidgetRichMeasureFilters({
             id: 'dashboard.add_widget_modal.apply_filters_section.select.status.label',
           })}
           onChange={(value) => {
-            setIssueStatusFilter(value as IssueStatus | '');
+            setIssueStatusFilter(value ?? '');
           }}
           value={issueStatusValue}
         />

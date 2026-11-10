@@ -86,6 +86,7 @@ export function handleSetPieSlice(
         ...pieConfig,
         filter,
         slice: action.slice,
+        ...(action.slice === PieChartIssueSlice.IssueStatuses ? { issueStatuses: undefined } : {}),
         complete: complete as false,
       },
       options,
@@ -124,6 +125,25 @@ export function handleSetPieFilter(
       ...pieConfig,
       filter: filterDisabledForHotspotReviewStatusSlice ? '' : action.filter,
     };
+  });
+}
+
+export function handleSetPieIssueStatuses(
+  state: WidgetConfigState,
+  action: Extract<WidgetConfigAction, { type: 'SET_PIE_ISSUE_STATUSES' }>,
+): WidgetConfigState {
+  if (!isPieSelected(state)) {
+    return state;
+  }
+  return updateCurrentConfig(state, (config) => {
+    const pieConfig = config as PieChartConfig;
+    if (
+      pieConfig.metric !== PieChartMetric.IssueCount ||
+      pieConfig.slice === PieChartIssueSlice.IssueStatuses
+    ) {
+      return pieConfig;
+    }
+    return { ...pieConfig, issueStatuses: action.issueStatuses };
   });
 }
 
@@ -174,6 +194,8 @@ function nextPieConfigAfterMetricChange(
   return {
     ...pieConfig,
     metric: action.metric,
+    issueStatuses:
+      action.metric === PieChartMetric.IssueCount ? pieConfig.issueStatuses : undefined,
     scope,
     slice,
     filter,

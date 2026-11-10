@@ -20,7 +20,6 @@
 
 import { SoftwareQuality } from '~shared/types/clean-code-taxonomy';
 import { HistoryRange } from '../../data/widgets/line-chart';
-import { IssueStatus } from '../../types/dashboard-widget';
 import { CodeScope } from '../../types/widget-common';
 import type { MeasureFilterCapability } from '../utils/measureFilterConfig';
 
@@ -61,9 +60,9 @@ export interface RichMeasureFiltersSlice {
   isStandardMode: boolean;
   isIssueStatusFilterDisabled: boolean;
   isSoftwareQualityFilterDisabled: boolean;
-  issueStatusSelectOptions: Array<{ label: string; value: IssueStatus | '' }>;
-  issueStatusValue: IssueStatus | '';
-  setIssueStatusFilter: (status: IssueStatus | '') => void;
+  issueStatusSelectOptions: Array<{ label: string; value: string }>;
+  issueStatusValue: string;
+  setIssueStatusFilter: (status: string) => void;
   setSeverityFilter: (option: string) => void;
   setSoftwareQualityFilter: (quality: SoftwareQuality | '') => void;
   severityFilterLegacyRangeNotice: string | undefined;

@@ -20,7 +20,7 @@
 
 import { useCallback } from 'react';
 import { SoftwareQuality } from '~shared/types/clean-code-taxonomy';
-import { IssueStatus, MeasureFilters } from '../../types/dashboard-widget';
+import { MeasureFilters } from '../../types/dashboard-widget';
 import {
   applyIssueStatusMeasureFilters,
   applySeverityMeasureFilters,
@@ -34,7 +34,7 @@ export function useRichMeasureFilterHandlers(
   preserveSeverityWhenSoftwareQualityIsCleared = false,
 ) {
   const setIssueStatusFilter = useCallback(
-    (status: IssueStatus | '') => {
+    (status: string) => {
       updateMeasureFilters(applyIssueStatusMeasureFilters(measureFilters, status));
     },
     [measureFilters, updateMeasureFilters],

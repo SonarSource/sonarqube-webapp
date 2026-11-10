@@ -68,7 +68,7 @@ function buildIssueSearchQuery(
   return {
     componentKeys: projectKey,
     facets: widget.slice,
-    issueStatuses: FILTERABLE_CODE_ISSUE_STATUSES.join(','),
+    issueStatuses: widget.issueStatuses?.join(',') ?? FILTERABLE_CODE_ISSUE_STATUSES.join(','),
     ps: 1,
     inNewCodePeriod: false,
     ...resolveIssueSearchFiltersForMode({ impactSoftwareQuality }, isStandardMode),

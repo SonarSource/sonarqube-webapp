@@ -20,6 +20,7 @@
 
 import { Dispatch, useCallback, useMemo } from 'react';
 import { useIntl } from 'react-intl';
+import { getConfiguredIssueStatuses } from '~shared/helpers/dashboard-issue-statuses';
 import { SoftwareQuality } from '~shared/types/clean-code-taxonomy';
 import { MetricKey } from '~shared/types/metrics';
 import { IssueStatus, MeasureFilters } from '../../types/dashboard-widget';
@@ -75,8 +76,8 @@ export function useTopListApplyFiltersViewModel({
     );
 
   const issueStatusSelectOptions = useMemo(
-    () => buildRichMetricIssueStatusSelectOptions(formatMessage),
-    [formatMessage],
+    () => buildRichMetricIssueStatusSelectOptions(formatMessage, measureFilters),
+    [formatMessage, measureFilters],
   );
 
   const updateMeasureFilters = useCallback(
@@ -138,7 +139,7 @@ export function useTopListApplyFiltersViewModel({
     isIssueStatusFilterDisabled: false,
     isSoftwareQualityFilterDisabled: false,
     issueStatusSelectOptions,
-    issueStatusValue: measureFilters?.issueStatus ?? '',
+    issueStatusValue: getConfiguredIssueStatuses(measureFilters)?.join(',') ?? '',
     setIssueStatusFilter,
     setSeverityFilter,
     setSoftwareQualityFilter,

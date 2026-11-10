@@ -50,6 +50,24 @@ const formatMessage = ((
 const getLocalizedMetricName = jest.fn(({ key }: { key: string }) => key);
 
 describe('getDashboardMetricTitle', () => {
+  it('keeps a single status configured as a list in the title', () => {
+    expect(
+      getDashboardMetricTitle({
+        formatMessage,
+        getLocalizedMetricName,
+        hasHistoryRange: false,
+        metric: {
+          type: DashboardMetricType.Rich,
+          metricKey: RichMetricKey.Issues,
+          measureFilters: {
+            issueStatuses: [IssueStatus.Confirmed],
+            impactSoftwareQuality: SoftwareQuality.Security,
+          },
+        },
+      }),
+    ).toBe(`issue.status.CONFIRMED software_quality.SECURITY ${MetricKey.issues}`);
+  });
+
   it('formats severity-filtered rich metric parts in an over-time title', () => {
     const title = getDashboardMetricTitle({
       formatMessage,
@@ -216,6 +234,37 @@ describe('getDashboardMetricTitle', () => {
 });
 
 describe('getMetricWidgetHeaderText', () => {
+  it.each([
+    [false, ''],
+    [true, ' over time'],
+  ] as const)(
+    'keeps multiple statuses in the filter line instead of the title (history: %s)',
+    (hasHistoryRange, suffix) => {
+      const header = getMetricWidgetHeaderText({
+        formatMessage,
+        getLocalizedMetricName,
+        hasHistoryRange,
+        metric: {
+          type: DashboardMetricType.Rich,
+          metricKey: RichMetricKey.Issues,
+          measureFilters: {
+            issueStatus: IssueStatus.Accepted,
+            issueStatuses: [IssueStatus.Open, IssueStatus.Confirmed],
+            impactSoftwareQuality: SoftwareQuality.Security,
+          },
+        },
+        scope: CodeScope.Overall,
+      });
+
+      expect(header.title).toBe(`software_quality.SECURITY ${MetricKey.issues}${suffix}`);
+      expect(header.filterSegments).toEqual([
+        'dashboard_widget.codescope.overall',
+        'dashboard.add_widget_modal.apply_filters_section.select.status.label: issue.status.OPEN, issue.status.CONFIRMED',
+        'dashboard.add_widget_modal.apply_filters_section.select.software_quality.label: software_quality.SECURITY',
+      ]);
+    },
+  );
+
   it('builds time range, scope, grouped filters, and title text', () => {
     const header = getMetricWidgetHeaderText({
       formatMessage,

@@ -154,3 +154,18 @@ it('keeps New-code issue language pie data unsupported', () => {
     ),
   ).toThrow(DASHBOARD_WIDGET_ADAPTER_UNAVAILABLE_MESSAGE);
 });
+
+it('passes configured statuses to the language pie search fallback', () => {
+  renderHook(
+    () =>
+      useProjectPieChartSegmentsSearchQuery(
+        { ...widget, issueStatuses: ['OPEN', 'CONFIRMED'] },
+        'project-key',
+      ),
+    { wrapper: getContextWrapper() },
+  );
+  expect(mockUseIssuesSearchQuery).toHaveBeenCalledWith(
+    expect.objectContaining({ issueStatuses: 'OPEN,CONFIRMED' }),
+    expect.anything(),
+  );
+});

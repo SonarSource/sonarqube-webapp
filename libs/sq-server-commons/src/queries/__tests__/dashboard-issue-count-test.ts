@@ -97,3 +97,22 @@ describe('dashboard issue count queries', () => {
     );
   });
 });
+
+it('passes an explicit status list to Server issue search', async () => {
+  jest.mocked(searchIssues).mockResolvedValue({ paging: { total: 7 } } as never);
+  const { result } = renderHook(
+    () =>
+      useIssueCountSearchQuery({
+        componentKey: 'project-statuses',
+        scope: CodeScope.Overall,
+        measureFilters: { issueStatuses: ['OPEN', 'CONFIRMED'] },
+      }),
+    { wrapper: getContextWrapper() },
+  );
+  await waitFor(() => {
+    expect(result.current.data).toBe(7);
+  });
+  expect(searchIssues).toHaveBeenLastCalledWith(
+    expect.objectContaining({ issueStatuses: 'OPEN,CONFIRMED' }),
+  );
+});

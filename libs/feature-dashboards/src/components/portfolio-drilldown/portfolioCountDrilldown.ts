@@ -19,6 +19,7 @@
  */
 
 import type { IntlShape } from 'react-intl';
+import { getConfiguredIssueStatuses } from '~shared/helpers/dashboard-issue-statuses';
 import type { SoftwareImpactSeverity, SoftwareQuality } from '~shared/types/clean-code-taxonomy';
 import { FILTERABLE_CODE_ISSUE_STATUSES } from '~shared/types/issues';
 import { MetricKey, MetricType } from '~shared/types/metrics';
@@ -109,9 +110,9 @@ function getIssueRequest(
         : organizationIssueImpactQueryValuesForSoftwareQualities([quality]);
   }
 
-  request.statuses = measureFilters?.issueStatus
-    ? [measureFilters.issueStatus]
-    : [...FILTERABLE_CODE_ISSUE_STATUSES];
+  request.statuses = getConfiguredIssueStatuses(measureFilters) ?? [
+    ...FILTERABLE_CODE_ISSUE_STATUSES,
+  ];
 
   if (!measureFilters?.impactSoftwareQuality) {
     const [severity] = measureFilters?.impactSeverities ?? [];

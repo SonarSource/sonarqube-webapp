@@ -21,6 +21,7 @@
 import { cssVar } from '@sonarsource/echoes-react';
 import type { IntlShape } from 'react-intl';
 import { CHART_CATEGORICAL_COLORS } from '~shared/helpers/charts';
+import { getConfiguredIssueStatuses } from '~shared/helpers/dashboard-issue-statuses';
 import { parseLanguageDistributionCounts } from '~shared/helpers/languageDistribution';
 import { parseDistributionCounts } from '~shared/helpers/measures';
 import { isAicaMetric } from '~shared/helpers/metrics';
@@ -89,6 +90,7 @@ export interface MeasureFilters {
   impactSeverities?: SoftwareImpactSeverity[];
   impactSoftwareQuality?: string;
   issueStatus?: string;
+  issueStatuses?: string[];
 }
 
 export interface DashboardMetric {
@@ -98,6 +100,7 @@ export interface DashboardMetric {
 }
 
 export interface PieChartWidget {
+  issueStatuses?: string[];
   filter: string;
   metric: string;
   scope: string;
@@ -446,9 +449,12 @@ function getIssueHistoryStatuses(
   measureFilters: MeasureFilters | undefined,
   richMetricKey: string | undefined,
 ): string[] | undefined {
-  const issueStatus = measureFilters?.issueStatus;
-  if (issueStatus && ['OPEN', 'CONFIRMED', 'ACCEPTED', 'FALSE_POSITIVE'].includes(issueStatus)) {
-    return [issueStatus];
+  const statuses = getConfiguredIssueStatuses(measureFilters);
+  if (
+    statuses?.length &&
+    statuses.every((status) => ['OPEN', 'CONFIRMED', 'ACCEPTED', 'FALSE_POSITIVE'].includes(status))
+  ) {
+    return statuses;
   }
   return richMetricKey === RichMetricKey.Hotspots ? undefined : [...FILTERABLE_CODE_ISSUE_STATUSES];
 }
@@ -954,6 +960,7 @@ export function mapPieChartToIssueHistoryParams(args: {
   entityId: string;
   entityType: DashboardEntityType;
   filter: string;
+  issueStatuses?: string[];
   metric: string;
   slice: string;
 }): {
@@ -1003,7 +1010,10 @@ export function mapPieChartToIssueHistoryParams(args: {
     impacts: quality ? impactsForQuality(quality) : [...DEFAULT_ISSUE_IMPACTS],
     sliceBy,
     statuses:
-      slice === PieChartIssueSlice.IssueStatuses ? undefined : [...FILTERABLE_CODE_ISSUE_STATUSES],
+      args.issueStatuses ??
+      (slice === PieChartIssueSlice.IssueStatuses
+        ? undefined
+        : [...FILTERABLE_CODE_ISSUE_STATUSES]),
   };
 }
 

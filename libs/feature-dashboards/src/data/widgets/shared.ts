@@ -85,12 +85,16 @@ export interface MeasureFilters {
   impactSeverities?: SoftwareImpactSeverity[];
   impactSoftwareQuality?: SoftwareQuality;
   issueStatus?: IssueStatus;
+  issueStatuses?: IssueStatus[];
 }
+
+export const issueStatusesSchema = v.optional(v.pipe(v.array(v.enum(IssueStatus)), v.minLength(1)));
 
 const measureFiltersSchema = v.object({
   impactSeverities: v.optional(v.array(v.enum(SoftwareImpactSeverity))),
   impactSoftwareQuality: v.optional(v.enum(SoftwareQuality)),
   issueStatus: v.optional(v.enum(IssueStatus)),
+  issueStatuses: issueStatusesSchema,
 }) satisfies GenericSchema<unknown, MeasureFilters>;
 
 export enum DashboardMetricType {

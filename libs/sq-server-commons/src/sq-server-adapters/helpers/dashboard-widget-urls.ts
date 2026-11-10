@@ -21,6 +21,7 @@
 import type { Path } from 'history';
 import type { To } from 'react-router';
 import { getBranchLikeQuery } from '~shared/helpers/branch-like';
+import { getConfiguredIssueStatuses } from '~shared/helpers/dashboard-issue-statuses';
 import { getComponentIssuesUrl, getPathUrlAsString, getRuleUrl } from '~shared/helpers/urls';
 import { BranchLikeBase } from '~shared/types/branch-like';
 import { SoftwareImpactSeverity } from '~shared/types/clean-code-taxonomy';
@@ -112,7 +113,8 @@ export function buildProjectRichCountWidgetLink(
       },
       isStandardMode,
     ),
-    issueStatuses: measureFilters?.issueStatus ?? ALL_FILTERABLE_CODE_ISSUE_STATUSES,
+    issueStatuses:
+      getConfiguredIssueStatuses(measureFilters)?.join(',') ?? ALL_FILTERABLE_CODE_ISSUE_STATUSES,
     ...(scope === CodeScope.New ? { inNewCodePeriod: 'true' } : {}),
     ...getBranchLikeQuery(branchLike),
   });
@@ -184,7 +186,10 @@ function getProjectIssuePieChartSegmentUrl(
     params.set('inNewCodePeriod', 'true');
   }
   if (slice !== PieChartIssueSlice.IssueStatuses) {
-    params.set('issueStatuses', ALL_FILTERABLE_CODE_ISSUE_STATUSES);
+    params.set(
+      'issueStatuses',
+      props.issueStatuses?.join(',') ?? ALL_FILTERABLE_CODE_ISSUE_STATUSES,
+    );
   }
   const filterSoftwareQuality = resolvePieChartFilterSoftwareQuality(filter);
   const impactSoftwareQuality =
@@ -223,8 +228,9 @@ export function getProjectDashboardTopListRowUrl(
 
   if (metric.type === DashboardMetricType.Rich) {
     const filters = metric.measureFilters;
-    if (filters?.issueStatus) {
-      params.set('issueStatuses', filters.issueStatus);
+    const statuses = getConfiguredIssueStatuses(filters);
+    if (statuses) {
+      params.set('issueStatuses', statuses.join(','));
     }
     addIssueModeFilters(params, filters ?? {}, isStandardMode);
   }

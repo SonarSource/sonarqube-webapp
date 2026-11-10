@@ -215,22 +215,24 @@ function issueCountSeveritiesForProjectIssueCountsQuery(segmentValue: string): I
 
 function getPieChartAllImpactSeveritiesIssueCountRequest(
   filter: PieChartFilter,
+  statuses: IssueCountStatus[],
 ): ProjectIssueCountsDrilldownRequest {
   const quality = getSoftwareQualityForIssueFilter(filter);
   if (quality !== null) {
     return {
       impacts: organizationIssueImpactQueryValuesForSoftwareQualities([quality]),
-      statuses: [...FILTERABLE_CODE_ISSUE_STATUSES],
+      statuses,
     };
   }
 
-  return { statuses: [...FILTERABLE_CODE_ISSUE_STATUSES] };
+  return { statuses };
 }
 
 function getPieChartImpactSeveritiesIssueCountRequest(
   filter: PieChartFilter,
   issueType: IssueType | undefined,
   segmentValue: string,
+  statuses: IssueCountStatus[],
 ): ProjectIssueCountsDrilldownRequest {
   const quality = getSoftwareQualityForIssueFilter(filter);
   if (quality !== null) {
@@ -240,14 +242,14 @@ function getPieChartImpactSeveritiesIssueCountRequest(
         severity === null
           ? organizationIssueImpactQueryValuesForSoftwareQualities([quality])
           : [`${quality}:${severity}`],
-      statuses: [...FILTERABLE_CODE_ISSUE_STATUSES],
+      statuses,
     };
   }
 
   return {
     issueTypes: issueType === undefined ? undefined : [issueType],
     severities: issueCountSeveritiesForProjectIssueCountsQuery(segmentValue),
-    statuses: [...FILTERABLE_CODE_ISSUE_STATUSES],
+    statuses,
   };
 }
 
@@ -297,13 +299,14 @@ function getUnfilteredDescriptor(
     return null;
   }
 
+  const statuses = widget.issueStatuses ?? [...FILTERABLE_CODE_ISSUE_STATUSES];
   const issueType = isPieChartIssueFilter(widget.filter)
     ? PROJECT_ISSUE_TYPE_BY_FILTER[widget.filter]
     : undefined;
   let request: ProjectIssueCountsDrilldownRequest;
   switch (widget.slice) {
     case PieChartIssueSlice.ImpactSeverities:
-      request = getPieChartAllImpactSeveritiesIssueCountRequest(widget.filter);
+      request = getPieChartAllImpactSeveritiesIssueCountRequest(widget.filter, statuses);
       break;
     case PieChartIssueSlice.IssueStatuses: {
       const quality = getSoftwareQualityForIssueFilter(widget.filter);
@@ -315,13 +318,12 @@ function getUnfilteredDescriptor(
           : {
               impacts: organizationIssueImpactQueryValuesForSoftwareQualities([quality]),
             };
+      request.statuses = widget.issueStatuses;
       break;
     }
     case PieChartIssueSlice.ImpactSoftwareQualities:
     case PieChartIssueSlice.Rules:
-      request = getPieChartIssueCountScopeRequest(widget.filter, [
-        ...FILTERABLE_CODE_ISSUE_STATUSES,
-      ]);
+      request = getPieChartIssueCountScopeRequest(widget.filter, statuses);
       break;
     case PieChartIssueSlice.CleanCodeAttributeCategories:
     case PieChartIssueSlice.Languages:
@@ -388,6 +390,7 @@ function getIssueDescriptor(
   segmentValue: string,
   base: PortfolioDashboardDrilldownDescriptorBase,
 ): PortfolioDashboardIssueDrilldownDescriptor | null {
+  const statuses = widget.issueStatuses ?? [...FILTERABLE_CODE_ISSUE_STATUSES];
   const issueType = isPieChartIssueFilter(widget.filter)
     ? PROJECT_ISSUE_TYPE_BY_FILTER[widget.filter]
     : undefined;
@@ -402,6 +405,7 @@ function getIssueDescriptor(
           widget.filter,
           issueType,
           segmentValue,
+          statuses,
         ),
       };
     case PieChartIssueSlice.IssueStatuses:
@@ -439,7 +443,7 @@ function getIssueDescriptor(
             (severity) =>
               `${impactSoftwareQuality}:${severity}` as OrganizationIssueImpactQueryValue,
           ),
-          statuses: [...FILTERABLE_CODE_ISSUE_STATUSES],
+          statuses,
         },
       };
     }
@@ -448,7 +452,7 @@ function getIssueDescriptor(
         ...base,
         kind: 'issue-counts',
         request: {
-          ...getPieChartIssueCountScopeRequest(widget.filter, [...FILTERABLE_CODE_ISSUE_STATUSES]),
+          ...getPieChartIssueCountScopeRequest(widget.filter, statuses),
           ruleKeys: [segmentValue],
         },
       };

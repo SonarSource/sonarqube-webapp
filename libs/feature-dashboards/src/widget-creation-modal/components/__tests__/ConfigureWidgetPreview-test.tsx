@@ -23,9 +23,14 @@ import { renderWithRouter } from '~shared/helpers/test-utils';
 import type { WidgetBodyMap, WidgetHeaderMap } from '../../../dashboard-layout/logic/types';
 import {
   DashboardMetricType,
+  IssueStatus,
+  PieChartIssueSlice,
+  PieChartMetric,
   RichMetricKey,
+  type PieChartWidgetProps,
   type ProjectDashboardWidgetPropMap,
 } from '../../../types/dashboard-widget';
+import { PieChartPastry } from '../../../types/visualization';
 import {
   CodeScope,
   TopListLimit,
@@ -33,6 +38,14 @@ import {
   VisualizationType,
 } from '../../../types/widget-common';
 import { ConfigureWidgetPreview } from '../ConfigureWidgetPreview';
+
+function StatusHeader({ issueStatuses }: Readonly<PieChartWidgetProps>) {
+  return <div>Header statuses: {issueStatuses?.join(',') ?? 'All'}</div>;
+}
+
+function StatusBody({ issueStatuses }: Readonly<PieChartWidgetProps>) {
+  return <div>Body statuses: {issueStatuses?.join(',') ?? 'All'}</div>;
+}
 
 describe('ConfigureWidgetPreview', () => {
   const noopHeader = () => null;
@@ -94,6 +107,36 @@ describe('ConfigureWidgetPreview', () => {
     expect(screen.getByTestId('top-list-preview-header')).toBeInTheDocument();
     expect(screen.getByTestId('top-list-preview-body')).toBeInTheDocument();
     expect(screen.getByTestId('widget-preview-body')).toBeInTheDocument();
+  });
+
+  it.each([
+    { widgetType: VisualizationType.PieChart },
+    { widgetType: VisualizationType.DonutChart, pastry: PieChartPastry.Donut },
+  ] as const)('updates $widgetType preview headers and bodies when statuses change', (kind) => {
+    const renderPreview = (issueStatuses: IssueStatus[] | undefined) => (
+      <ConfigureWidgetPreview
+        bodyMap={{ ...bodyMap, pieChart: StatusBody, donutChart: StatusBody }}
+        completeConfig={{
+          ...kind,
+          filter: '',
+          metric: PieChartMetric.IssueCount,
+          scope: CodeScope.Overall,
+          showLegend: true,
+          slice: PieChartIssueSlice.ImpactSeverities,
+          issueStatuses,
+        }}
+        headerMap={{ ...headerMap, pieChart: StatusHeader, donutChart: StatusHeader }}
+      />
+    );
+    const { rerender } = renderWithRouter(renderPreview([IssueStatus.Open, IssueStatus.Confirmed]));
+    expect(screen.getByText('Header statuses: OPEN,CONFIRMED')).toBeInTheDocument();
+    expect(screen.getByText('Body statuses: OPEN,CONFIRMED')).toBeInTheDocument();
+    rerender(renderPreview([IssueStatus.Accepted]));
+    expect(screen.getByText('Header statuses: ACCEPTED')).toBeInTheDocument();
+    expect(screen.getByText('Body statuses: ACCEPTED')).toBeInTheDocument();
+    rerender(renderPreview(undefined));
+    expect(screen.getByText('Header statuses: All')).toBeInTheDocument();
+    expect(screen.getByText('Body statuses: All')).toBeInTheDocument();
   });
 
   it('blocks click actions in the preview body', () => {

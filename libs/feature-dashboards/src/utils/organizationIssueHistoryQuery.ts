@@ -18,6 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { getConfiguredIssueStatuses } from '~shared/helpers/dashboard-issue-statuses';
 import { SoftwareQuality } from '~shared/types/clean-code-taxonomy';
 import { FILTERABLE_CODE_ISSUE_STATUSES } from '~shared/types/issues';
 import { MetricKey } from '~shared/types/metrics';
@@ -76,19 +77,18 @@ function issueHistoryImpactsForSoftwareQualityMetricKey(
 function getIssueHistoryStatusExtra(
   issueStatuses: string | undefined,
 ): Pick<GetIssueCountHistoryParams, 'statuses'> {
-  if (!issueStatuses || issueStatuses.includes(',')) {
+  if (!issueStatuses) {
     return {};
   }
 
-  const normalizedStatus = issueStatuses.trim().toUpperCase();
-  if (
-    normalizedStatus === 'FIXED' ||
-    !ORGANIZATION_ISSUE_COUNT_STATUSES.includes(normalizedStatus as IssueCountStatus)
-  ) {
-    return {};
-  }
-
-  return { statuses: [normalizedStatus as IssueCountStatus] };
+  const statuses = parseCsvValues(issueStatuses)
+    .map((status) => status.trim().toUpperCase())
+    .filter(
+      (status): status is IssueCountStatus =>
+        status !== 'FIXED' &&
+        ORGANIZATION_ISSUE_COUNT_STATUSES.includes(status as IssueCountStatus),
+    );
+  return statuses.length ? { statuses } : {};
 }
 
 /** Build `impacts` from filter CSVs (`impactSoftwareQualities`, optional `impactSeverities`). */
@@ -125,7 +125,7 @@ export function issueHistoryQueryExtras(
     'impacts' | 'issueTypes' | 'severities' | 'statuses'
   > = {
     ...getIssueHistoryImpactsFromSoftwareQualityFilter(fp.impactSoftwareQualities, severities),
-    ...getIssueHistoryStatusExtra(fp.issueStatuses),
+    ...getIssueHistoryStatusExtra(getConfiguredIssueStatuses(measureFilters)?.join(',')),
   };
 
   if (extras.impacts === undefined && !fp.impactSoftwareQualities && severities.length > 0) {
