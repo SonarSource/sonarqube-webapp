@@ -24,7 +24,6 @@ Run `yarn nx g shared-library` (pick `type:feature` + `visibility:private`). It 
 After the generator has run, do these additional manual steps:
 
 - Add `"validate-tailwind-prefixes": {}` to `project.json` targets.
-- Add a `tsconfigRootDir` block for the lib in `eslint.config.js` (copy the `feature-dast` block). Without it, linting from the repo root (e.g. IDE) may resolve the wrong tsconfig; `lint-files` still works.
 - Delete the placeholder `src/index.ts`; do not add a barrel file. Consumers import deep paths (`~feature-name/routes` or `~feature-name/components/PageName/PageNameApp`). Barrels pull the whole lib into whatever imports them, defeating route lazy-loading and inviting circular imports.
 - Fill in the generated `README.md` with feature-specific context if useful, or delete it. Don't leave the template TODO.
 - Use the **private** copyright header (`All rights reserved`) for new source files; the generated placeholder has an LGPL header.

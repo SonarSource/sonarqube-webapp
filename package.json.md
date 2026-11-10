@@ -69,15 +69,15 @@ Schema validation library used by sq-cloud to validate dashboard and widget conf
 
 Used by `.github/scripts/report-bundle-metrics/send-bundle-metrics.js` to send metrics to CloudWatch.
 
-### @eslint/js
-
-Required explicit dependency in ESLint v10 — provides `eslint:recommended` and other built-in rule configs. Was previously bundled inside the `eslint` package in v9 but is now a standalone package that must be declared explicitly.
-
 ### @hey-api/openapi-ts
 
 Generates the checked-in SonarQube Cloud TypeScript types and Axios SDK from the merged OpenAPI contract, and the SonarQube Server types and Axios SDK from the Community OpenAPI specification.
 
 The `@hey-api/json-schema-ref-parser/js-yaml` resolution keeps its exact transitive dependency on the nearest complete vulnerability fix.
+
+### eslint
+
+Not used as a linter. The ESLint plugins and ESLint core rules that Oxlint loads as JS plugins import it, and the local rule tests use its `RuleTester`.
 
 ### eslint-plugin-jest-dom (patched)
 
@@ -125,7 +125,7 @@ Replaces eslint-plugin-header, which has been abandoned.
 
 ### @typescript-eslint/rule-tester
 
-Used to test our custom eslint rules in `./eslint-local-rules`.
+Used to test our custom lint rules in `./eslint-local-rules`. The rules use the ESLint rule API, which Oxlint runs as JS plugins.
 
 ### vite-tsconfig-paths
 
@@ -182,6 +182,14 @@ Used to mock API requests in tests and dev mode.
 ### otpauth
 
 Used by sq-cloud-e2e-tests to generate TOTP codes when logging in github or bitbucket.
+
+### oxlint
+
+Lints the repository using `.oxlintrc.json`. Rules missing from Oxlint, or whose native implementation behaves differently, run through the ESLint plugins loaded as Oxlint JS plugins from `config/oxlint/`.
+
+### oxlint-tsgolint
+
+Runs Oxlint's type-aware rules (the `typescript/no-unsafe-*` family, `no-floating-promises`, …) with the TypeScript-Go backend.
 
 ## resolutions
 

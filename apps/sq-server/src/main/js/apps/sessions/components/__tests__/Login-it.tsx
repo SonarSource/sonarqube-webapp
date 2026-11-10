@@ -116,7 +116,7 @@ beforeEach(() => {
 });
 
 it('should behave correctly', async () => {
-  /* eslint-disable camelcase */
+  /* eslint-disable eslint-js/camelcase */
   mockUseLocation.mockReturnValue(mockLocation({ query: { return_to: '/some/path' } }));
   const user = userEvent.setup();
 

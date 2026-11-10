@@ -96,7 +96,7 @@ export async function animateExpansion(
     }, 0);
   } else {
     // False positive:
-    // eslint-disable-next-line require-atomic-updates
+    // eslint-disable-next-line eslint-js/require-atomic-updates
     wrapper.style.maxHeight = `${targetHeight}px`;
   }
 

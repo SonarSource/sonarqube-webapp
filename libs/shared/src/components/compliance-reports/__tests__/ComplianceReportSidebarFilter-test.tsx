@@ -19,9 +19,11 @@
  */
 
 import { screen } from '@testing-library/react';
-import { ComplianceReportFilter } from '../../../components/compliance-reports/ComplianceReportSidebarFilter';
 import { renderWithContext } from '../../../helpers/test-utils';
-import { ComplianceReportSidebarFilter } from '../ComplianceReportSidebarFilter';
+import {
+  ComplianceReportFilter,
+  ComplianceReportSidebarFilter,
+} from '../ComplianceReportSidebarFilter';
 
 describe('ComplianceReportSidebarFilter', () => {
   it('renders the filter options, selected filter, and result count', () => {

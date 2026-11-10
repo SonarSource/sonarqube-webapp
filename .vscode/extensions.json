@@ -4,7 +4,6 @@
     "christian-kohler.path-intellisense",
     "oxc.oxc-vscode",
     "SonarSource.sonarlint-vscode",
-    "dbaeumer.vscode-eslint",
     "webpro.vscode-knip",
     "mgmcdermott.vscode-language-babel",
     "styled-components.vscode-styled-components",

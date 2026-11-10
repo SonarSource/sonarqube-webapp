@@ -313,21 +313,21 @@ describe('security page', () => {
         await user.click(ui.tokenTypeSelect.get());
         await user.click(byRole('option', { name: tokenTypeLabel }).get());
 
-        // eslint-disable-next-line jest/no-conditional-expect
+        // eslint-disable-next-line jest-js/no-conditional-expect
         expect(generateButton).toBeDisabled();
-        // eslint-disable-next-line jest/no-conditional-expect
+        // eslint-disable-next-line jest-js/no-conditional-expect
         expect(screen.getByRole('textbox', { name: 'users.tokens.name' })).toBeInTheDocument();
-        // eslint-disable-next-line jest/no-conditional-expect
+        // eslint-disable-next-line jest-js/no-conditional-expect
         expect(screen.getAllByRole('combobox')).toHaveLength(3);
 
         await user.click(ui.projectSelect.get());
         await user.click(byRole('option', { name: 'Project Name 1' }).get());
-        // eslint-disable-next-line jest/no-conditional-expect
+        // eslint-disable-next-line jest-js/no-conditional-expect
         expect(generateButton).toBeEnabled();
       } else {
         await user.click(ui.tokenTypeSelect.get());
         await user.click(byRole('option', { name: tokenTypeLabel }).get());
-        // eslint-disable-next-line jest/no-conditional-expect
+        // eslint-disable-next-line jest-js/no-conditional-expect
         expect(generateButton).toBeEnabled();
       }
 
@@ -358,7 +358,7 @@ describe('security page', () => {
       expect(await within(row).findByText(tokenTypeShortLabel)).toBeInTheDocument();
       // eslint-disable-next-line jest/no-conditional-in-test
       if (tokenTypeOption === TokenType.Project) {
-        // eslint-disable-next-line jest/no-conditional-expect
+        // eslint-disable-next-line jest-js/no-conditional-expect
         expect(await within(row).findByText('Project Name 1')).toBeInTheDocument();
       }
 

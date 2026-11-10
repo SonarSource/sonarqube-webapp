@@ -217,10 +217,10 @@ it.each([
       ([key, value]: [key: 'de' | 'ee' | 'dce', value: boolean]) => {
         // eslint-disable-next-line jest/no-conditional-in-test
         if (value) {
-          // eslint-disable-next-line jest/no-conditional-expect
+          // eslint-disable-next-line jest-js/no-conditional-expect
           expect(ui[`${key}Title`].get()).toBeInTheDocument();
         } else {
-          // eslint-disable-next-line jest/no-conditional-expect
+          // eslint-disable-next-line jest-js/no-conditional-expect
           expect(ui[`${key}Title`].query()).not.toBeInTheDocument();
         }
       },

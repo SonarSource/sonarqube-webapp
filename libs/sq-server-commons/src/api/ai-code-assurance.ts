@@ -59,7 +59,7 @@ export function setProjectAiGeneratedCode(
   isAiCodeAssurance: boolean,
 ): Promise<void> {
   return post('/api/projects/set_contains_ai_code', {
-    // eslint-disable-next-line camelcase
+    // eslint-disable-next-line eslint-js/camelcase
     contains_ai_code: isAiCodeAssurance,
     project,
   }).catch(throwGlobalError);

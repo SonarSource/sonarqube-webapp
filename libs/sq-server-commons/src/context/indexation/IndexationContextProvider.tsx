@@ -18,7 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-/* eslint-disable react/no-unused-state */
+/* eslint-disable react-js/no-unused-state */
 
 import * as React from 'react';
 import { AppState } from '../../types/appstate';

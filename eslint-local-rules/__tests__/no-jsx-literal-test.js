@@ -38,6 +38,12 @@ ruleTester.run('no-jsx-literals', noJsxLiterals, {
   valid: [
     {
       code: `
+      function test() {
+        return <strong>&le;&nbsp;&#8805;</strong>;
+      }`,
+    },
+    {
+      code: `
       function test(props: {x: string}) {
         const {x} = props;
         return <>{x}</>;

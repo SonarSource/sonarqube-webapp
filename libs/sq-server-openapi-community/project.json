@@ -17,13 +17,12 @@
     "format-write": {},
     "lint": {
       "options": {
-        "cwd": "{projectRoot}",
-        "command": "eslint --quiet src/runtime.ts src/__tests__"
+        "command": "oxlint --quiet {projectRoot}/src/runtime.ts {projectRoot}/src/__tests__"
       }
     },
     "lint-report": {
       "options": {
-        "command": "eslint --format json --output-file build/reports/eslint-report/eslint-report.json src/runtime.ts src/__tests__"
+        "command": "node config/oxlint/lint-report.mjs --output-file {projectRoot}/build/reports/eslint-report/eslint-report.json {projectRoot}/src/runtime.ts {projectRoot}/src/__tests__"
       }
     },
     "ts-check": {}

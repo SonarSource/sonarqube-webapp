@@ -184,13 +184,13 @@ use `waitFor()` only when there is no direct element appearance to await, such a
 
 within() should not be used. Use chaining instead. i.e. `byRole(...).byRole(...)`
 
-don't forget to await when using waitFor, findBy or user events, otherwise the assertion won't be done (ESLint should remind you of that)
+don't forget to await when using waitFor, findBy or user events, otherwise the assertion won't be done (the linter should remind you of that)
 
 when using RTL query functions, avoid using regexes unless necessary: it makes the test less readable with no real benefit
 
 The Testing Playground extension or screen.logTestingPlaygroundURL() makes it easier to select elements on the screen
 
-Use jest.mocked instead of (myFn as jest.Mock) when mocking an imported function. This will make sure the types of the function are forwarded to the mock function (ESLint should remind you of that too)
+Use jest.mocked instead of (myFn as jest.Mock) when mocking an imported function. This will make sure the types of the function are forwarded to the mock function (the linter should remind you of that too)
 
 Use helpers/mocks data and functions to mock some app assets (projects, issues, quality gates, ..)
 

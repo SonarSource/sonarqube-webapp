@@ -74,7 +74,7 @@ export class SystemAnnouncement extends React.PureComponent<WithAvailableFeature
     });
   };
 
-  // eslint-disable-next-line react/sort-comp
+  // eslint-disable-next-line react-js/sort-comp
   handleVisibilityChange = throttle(() => {
     if (document.visibilityState === 'visible') {
       this.getSettings();

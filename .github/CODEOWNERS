@@ -35,7 +35,8 @@
 
 # Specific files
 
-/.eslintignore                                      @SonarSource/platform-front-end-eng-squad
+/.oxlintrc.json                                     @SonarSource/platform-front-end-eng-squad
+/config/oxlint/                                     @SonarSource/platform-front-end-eng-squad
 /.gitattributes                                     @SonarSource/platform-front-end-eng-squad
 /.gitignore                                         @SonarSource/platform-front-end-eng-squad
 /.oxfmtrc.json                                     @SonarSource/platform-front-end-eng-squad

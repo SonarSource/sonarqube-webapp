@@ -13,13 +13,10 @@
     "browserslist",
     "csstype",
     "env-cmd",
-    "globals",
     "jest-environment-node",
-    "jsonc-eslint-parser",
     "nyc",
     "openapi-merge-cli",
-    "ts-node",
-    "typescript-eslint"
+    "ts-node"
   ],
   "ignoreBinaries": ["cdxgen!"],
   "ignoreUnresolved": ["~sq-server-commons/design-system"],
@@ -66,8 +63,8 @@
       "babel": {
         "config": ["babel.config.js"]
       },
-      "eslint": {
-        "config": ["eslint.config.js"]
+      "oxlint": {
+        "config": [".oxlintrc.json"]
       },
       "jest": {
         "config": [
@@ -113,9 +110,6 @@
         "scripts/**/*.{js,ts}",
         "config/**/*.{js,mjs,ts}"
       ],
-      "eslint": {
-        "config": ["../../eslint.config.js"]
-      },
       "jest": {
         "config": ["jest.config*.js"]
       },
@@ -158,9 +152,6 @@
       "paths": {
         "~adapters/*": ["src/sq-cloud-adapters/*"]
       },
-      "eslint": {
-        "config": ["../../../eslint.config.js"]
-      },
       "jest": {
         "config": ["config/jest/jest.config*.js"]
       },
@@ -178,9 +169,6 @@
     "private/sq-cloud-e2e-tests": {
       "entry": ["tests/**/*.{ts,tsx}", "fixtures/**/*.{ts,tsx}", "utils/**/*.{ts,tsx}"],
       "project": ["**/*.{ts,tsx,js}", "!resources/**"],
-      "eslint": {
-        "config": ["../../eslint.config.js"]
-      },
       "playwright": {
         "config": ["playwright.config.ts"]
       }
@@ -192,9 +180,6 @@
     "tools/nx-automation": {
       "entry": ["src/index.ts", "src/generators/**/generator.ts"],
       "project": ["src/**/*.{ts,js}", "!src/generators/**/files/**"],
-      "eslint": {
-        "config": ["../../eslint.config.js"]
-      },
       "nx": {
         "config": ["generators.json", "project.json"]
       }

@@ -106,7 +106,7 @@ export default function BitbucketProjectCreate({
     );
 
     // This function will not be run concurrently thanks to the check `if ([...] || isLoadingRepositories)` above
-    // eslint-disable-next-line require-atomic-updates
+    // eslint-disable-next-line eslint-js/require-atomic-updates
     repositoryRequestPaging.current = {
       isLastPage,
       nextPageStart,

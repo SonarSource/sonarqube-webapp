@@ -25,8 +25,6 @@ const ruleTester = new RuleTester({
   languageOptions: {
     parser: require('@typescript-eslint/parser'),
     parserOptions: {
-      project: './tsconfig.json',
-      tsconfigRootDir: __dirname + '/../test-config',
       ecmaFeatures: {
         jsx: true,
       },
@@ -90,8 +88,86 @@ ruleTester.run(
       }
       `,
       },
+      {
+        code: `
+      import useCustomQuery from '~queries/custom-query';
+      function useThing(project?: { key: string }) {
+        return useCustomQuery({ enabled: project?.key !== undefined });
+      }
+      `,
+      },
+      {
+        code: `
+      import useCustomQuery from '~queries/custom-query';
+      function useThing(project?: { key: string }) {
+        return useCustomQuery({ enabled: Boolean(project?.key) });
+      }
+      `,
+      },
+      {
+        code: `
+      import useCustomQuery from '~queries/custom-query';
+      function useThing({ enabled = true }: { enabled?: boolean }) {
+        return useCustomQuery({ enabled });
+      }
+      `,
+      },
+      {
+        code: `
+      import useCustomQuery from '~queries/custom-query';
+      function useThing(enabled?: boolean) {
+        return useCustomQuery({ enabled: enabled ?? false });
+      }
+      `,
+      },
     ],
     invalid: [
+      {
+        code: `
+      import useCustomQuery from '~queries/custom-query';
+      function useThing(project?: { key: string }) {
+        return useCustomQuery({ enabled: project?.key });
+      }
+      `,
+        errors: [{ messageId: 'noUndefinedEnabled' }],
+      },
+      {
+        code: `
+      import useCustomQuery from '~queries/custom-query';
+      function useThing(enabled?: boolean) {
+        return useCustomQuery({ enabled });
+      }
+      `,
+        errors: [{ messageId: 'noUndefinedEnabled' }],
+      },
+      {
+        code: `
+      import useCustomQuery from '~queries/custom-query';
+      function useThing(project?: { isReady: boolean }) {
+        const isReady = project?.isReady;
+        return useCustomQuery({ enabled: isReady });
+      }
+      `,
+        errors: [{ messageId: 'noUndefinedEnabled' }],
+      },
+      {
+        code: `
+      import useCustomQuery from '~queries/custom-query';
+      function useThing(isReady: boolean, project?: { key: string }) {
+        return useCustomQuery({ enabled: isReady && project?.key });
+      }
+      `,
+        errors: [{ messageId: 'noUndefinedEnabled' }],
+      },
+      {
+        code: `
+      import { queryOptions } from '@tanstack/react-query';
+      function getOptions(isReady: boolean) {
+        return queryOptions({ queryKey: ['x'], enabled: isReady ? true : undefined });
+      }
+      `,
+        errors: [{ messageId: 'noUndefinedEnabled' }],
+      },
       {
         code: `
       import useCustomQuery from '~queries/custom-query';

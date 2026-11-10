@@ -107,15 +107,38 @@
     },
     "lint": {
       "options": {
-        "cwd": "{projectRoot}",
-        "command": "eslint --quiet src"
-      }
+        "cwd": "{workspaceRoot}",
+        "command": "oxlint --quiet {projectRoot}/src"
+      },
+      "inputs": [
+        "default",
+        "^default",
+        "{workspaceRoot}/.oxlintrc.json",
+        "{workspaceRoot}/config/oxlint/**/*",
+        "{workspaceRoot}/eslint-local-rules/**/*",
+        {
+          "externalDependencies": ["oxlint", "oxlint-tsgolint"]
+        }
+      ],
+      "cache": true
     },
     "lint-report": {
       "options": {
-        "command": "eslint --format json --output-file build/reports/eslint-report/eslint-report.json src"
+        "cwd": "{workspaceRoot}",
+        "command": "node config/oxlint/lint-report.mjs --output-file {projectRoot}/build/reports/eslint-report/eslint-report.json {projectRoot}/src"
       },
-      "outputs": ["{projectRoot}/build/reports/eslint-report/**"]
+      "inputs": [
+        "default",
+        "^default",
+        "{workspaceRoot}/.oxlintrc.json",
+        "{workspaceRoot}/config/oxlint/**/*",
+        "{workspaceRoot}/eslint-local-rules/**/*",
+        {
+          "externalDependencies": ["oxlint", "oxlint-tsgolint"]
+        }
+      ],
+      "outputs": ["{projectRoot}/build/reports/eslint-report/**"],
+      "cache": true
     },
     "lint-files": {
       "executor": "nx:run-commands",
@@ -129,8 +152,12 @@
       "inputs": [
         "default",
         "^default",
+        "{workspaceRoot}/.oxlintrc.json",
+        "{workspaceRoot}/config/oxlint/**/*",
         "{workspaceRoot}/eslint-local-rules/**/*",
-        { "runtime": "git status --porcelain=v1 --untracked-files=all" }
+        {
+          "runtime": "git status --porcelain=v1 --untracked-files=all"
+        }
       ],
       "cache": true
     },
@@ -188,24 +215,7 @@
     }
   },
   "plugins": [
-    {
-      "plugin": "@nx/eslint/plugin",
-      "options": {
-        "targetName": "lint"
-      }
-    },
-    {
-      "plugin": "@nx/eslint/plugin",
-      "options": {
-        "targetName": "lint-report"
-      }
-    },
-    {
-      "plugin": "@nx/eslint/plugin",
-      "options": {
-        "targetName": "lint-files"
-      }
-    },
+    "./config/oxlint/nx-plugin.mjs",
     {
       "plugin": "@nx/vite/plugin",
       "options": {

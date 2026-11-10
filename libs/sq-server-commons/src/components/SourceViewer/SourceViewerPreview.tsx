@@ -268,7 +268,7 @@ function PortalLineIssuesIndicator(props: {
   const router = useRouter();
 
   // We use this state to force-re-render the component when the jupyterRef changes
-  // eslint-disable-next-line react/hook-use-state
+  // eslint-disable-next-line react-js/hook-use-state
   const [, setMutationCount] = useState(0);
 
   useEffect(() => {

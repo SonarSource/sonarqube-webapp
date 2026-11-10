@@ -18,7 +18,6 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-/* eslint-disable @typescript-eslint/prefer-optional-chain */
 import styled from '@emotion/styled';
 import { cssVar, Tooltip, TooltipSide } from '@sonarsource/echoes-react';
 import { max } from 'd3-array';

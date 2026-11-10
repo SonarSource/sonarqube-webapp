@@ -67,9 +67,9 @@ This also applies when passing extra jest flags like `--updateSnapshot`. Never u
 
 When you need to write tests (and are NOT running `/browse-and-verify`), use the `webapp-testing` skill.
 
-## ESLint validation
+## Lint validation
 
-Before committing or declaring a task done, run the owning project's NX `lint-files` target on only the ESLint-supported files you added or modified during the task. Run from the repository root:
+Before committing or declaring a task done, run the owning project's NX `lint-files` target on only the lint-supported files (`.js`, `.ts`, `.tsx`) you added or modified during the task. Run from the repository root:
 
 ```bash
 yarn nx run <project-name>:lint-files -- "src/path/to/modified-file.ts" "src/path/to/another-modified-file.tsx"
@@ -77,11 +77,11 @@ yarn nx run <project-name>:lint-files -- "src/path/to/modified-file.ts" "src/pat
 
 - File paths are relative to the owning project root, where the target runs. Group files by project and run once per project; use explicit, quoted paths instead of `src` or broad globs.
 - Keep NX caching enabled and use a consistent file order when rerunning the command. NX includes command-line arguments in the task hash, so different file lists have separate cache entries.
-- **Never use `--quiet` for this validation.** Both `yarn lint` and the default NX `lint` command include `--quiet`, which hides warning-level issues. Use `lint-files`, which shows warnings and fails on them with `--max-warnings 0`.
-- With no file arguments, `lint-files` checks unstaged tracked files and untracked files supported by ESLint in that project. Staged-only changes and deleted files are excluded. Use this shortcut only when it covers your task's changes and does not include unrelated user changes; otherwise pass an explicit file list. With no matching files, it exits without scanning anything.
+- **Never use `--quiet` for this validation.** Both `yarn lint` and the default NX `lint` command include `--quiet`, which hides warning-level issues. Use `lint-files`, which shows warnings and fails on them with `--deny-warnings`.
+- With no file arguments, `lint-files` checks unstaged tracked files and untracked files supported by Oxlint in that project. Staged-only changes and deleted files are excluded. Use this shortcut only when it covers your task's changes and does not include unrelated user changes; otherwise pass an explicit file list. With no matching files, it exits without scanning anything.
 - Fix errors and warnings in the changed code, then rerun the same targeted command. If using `--fix`, rerun without `--fix` to verify the result. Do not suppress rules or lower their severity to make validation pass.
 - Include new, staged, and unstaged files you changed; exclude deleted files and unrelated user changes. Do not lint the entire repository or project for this check.
-- If no changed files are supported by ESLint, skip this check and say why. Report any remaining warnings or validation blockers explicitly.
+- If no changed files are supported by Oxlint, skip this check and say why. Report any remaining warnings or validation blockers explicitly.
 
 # Commit and PR titles
 

@@ -18,6 +18,29 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+const AXIOS_REQUEST_METHODS = new Set([
+  'get',
+  'post',
+  'put',
+  'delete',
+  'patch',
+  'head',
+  'options',
+  'create',
+]);
+
+function getRequestMethodImports(node) {
+  if (node.importKind === 'type') {
+    return [];
+  }
+  return node.specifiers.filter(
+    (spec) =>
+      spec.type === 'ImportSpecifier' &&
+      spec.importKind !== 'type' &&
+      AXIOS_REQUEST_METHODS.has(spec.imported.name ?? spec.imported.value),
+  );
+}
+
 module.exports = {
   meta: {
     type: 'problem',
@@ -32,6 +55,7 @@ Replace \`import axios from 'axios'\` with \`import { axiosClient } from '~share
 Use \`axiosClient\` for requests that should show error toasts automatically, or \`axiosToCatch\` when you want to handle errors manually.`,
       noDirectAxiosUsage: `Use \`axiosClient\` or \`axiosToCatch\` from \`~shared/helpers/axios-clients\` instead of using axios directly.
 Replace \`axios.{{ method }}\` with \`axiosClient.{{ method }}\` or \`axiosToCatch.{{ method }}\`.`,
+      noDirectAxiosNamedImport: `Use \`axiosClient\` or \`axiosToCatch\` from \`~shared/helpers/axios-clients\` instead of importing \`{{ method }}\` from axios directly.`,
     },
     fixable: 'code',
   },
@@ -73,6 +97,14 @@ Replace \`axios.{{ method }}\` with \`axiosClient.{{ method }}\` or \`axiosToCat
               },
             });
           }
+
+          for (const spec of getRequestMethodImports(node)) {
+            context.report({
+              node: spec,
+              messageId: 'noDirectAxiosNamedImport',
+              data: { method: spec.imported.name ?? spec.imported.value },
+            });
+          }
         }
       },
 
@@ -88,17 +120,7 @@ Replace \`axios.{{ method }}\` with \`axiosClient.{{ method }}\` or \`axiosToCat
           const method = node.property.name;
 
           // Only flag axios method calls, not other properties
-          const httpMethods = [
-            'get',
-            'post',
-            'put',
-            'delete',
-            'patch',
-            'head',
-            'options',
-            'create',
-          ];
-          if (httpMethods.includes(method)) {
+          if (AXIOS_REQUEST_METHODS.has(method)) {
             context.report({
               node,
               messageId: 'noDirectAxiosUsage',

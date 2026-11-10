@@ -18,12 +18,60 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-const ts = require('typescript');
-const path = require('path');
-
 //------------------------------------------------------------------------------
 // Rule Definition
 //------------------------------------------------------------------------------
+
+const MAX_RESOLUTION_DEPTH = 5;
+
+function typeIncludesUndefined(typeNode) {
+  if (!typeNode) {
+    return false;
+  }
+  switch (typeNode.type) {
+    case 'TSTypeAnnotation':
+      return typeIncludesUndefined(typeNode.typeAnnotation);
+    case 'TSUndefinedKeyword':
+    case 'TSVoidKeyword':
+      return true;
+    case 'TSUnionType':
+      return typeNode.types.some(typeIncludesUndefined);
+    default:
+      return false;
+  }
+}
+
+function getPropertyName(property) {
+  if (property.key.type === 'Identifier') {
+    return property.key.name;
+  }
+  return property.key.type === 'Literal' ? String(property.key.value) : null;
+}
+
+function getPatternTypeAnnotation(pattern) {
+  if (pattern.typeAnnotation) {
+    return pattern.typeAnnotation;
+  }
+  return pattern.parent?.type === 'AssignmentPattern' ? pattern.parent.left.typeAnnotation : null;
+}
+
+function destructuredPropertyCanBeUndefined(identifier) {
+  const property = identifier.parent;
+  if (property?.type !== 'Property' || property.value !== identifier) {
+    return false;
+  }
+  const pattern = property.parent;
+  const annotation = pattern?.type === 'ObjectPattern' && getPatternTypeAnnotation(pattern);
+  const typeLiteral = annotation?.typeAnnotation;
+  if (typeLiteral?.type !== 'TSTypeLiteral') {
+    return false;
+  }
+  const name = getPropertyName(property);
+  const member = typeLiteral.members.find(
+    (m) => m.type === 'TSPropertySignature' && m.key.type === 'Identifier' && m.key.name === name,
+  );
+  return Boolean(member && (member.optional || typeIncludesUndefined(member.typeAnnotation)));
+}
 
 module.exports = {
   meta: {
@@ -31,7 +79,7 @@ module.exports = {
     docs: {
       description:
         "Disallow potentially `undefined` values for the `enabled` option in custom query hooks imported from a 'queries' folder.",
-      recommended: 'error', // For modern ESLint, this is still useful.
+      recommended: 'error',
     },
     messages: {
       noUndefinedEnabled:
@@ -39,38 +87,83 @@ module.exports = {
       noUndefinedEnabledInQueryHook:
         'Variables that could be `undefined` should not be used directly for the `enabled` option in query hooks. Use `false` or a default value to handle the undefined case.',
     },
-    schema: [], // No options for this rule
-    // This property tells ESLint to provide type information.
-    requiresTypeChecking: true,
+    schema: [],
   },
 
   create(context) {
-    // Accessing parser services directly from context, which is available
-    // because `requiresTypeChecking` is true.
-    const parserServices = context.sourceCode.parserServices;
-    const typeChecker = parserServices?.program?.getTypeChecker();
-
-    if (!typeChecker || !parserServices) {
-      // If type checking is not available, skip this rule
-      return {};
-    }
-
     // Track variables that are created with createQueryHook
     const queryHookVariables = new Set();
 
-    /**
-     * Checks if a TypeScript type can be 'undefined'.
-     * @param {ts.Type} type The type to check.
-     * @returns {boolean} True if the type includes `undefined`.
-     */
-    function typeCanBeUndefined(type) {
-      if (type.flags & ts.TypeFlags.Undefined) {
+    function findVariable(node, name) {
+      let scope = context.sourceCode.getScope(node);
+      while (scope) {
+        const variable = scope.set.get(name);
+        if (variable) {
+          return variable;
+        }
+        scope = scope.upper;
+      }
+      return null;
+    }
+
+    function identifierCanBeUndefined(node, depth) {
+      if (node.name === 'undefined') {
         return true;
       }
-      if (type.isUnion()) {
-        return type.types.some((t) => t.flags & ts.TypeFlags.Undefined);
+      const definition = findVariable(node, node.name)?.defs[0];
+      if (!definition) {
+        return false;
+      }
+      if (definition.type === 'Variable') {
+        const declarator = definition.node;
+        if (declarator.id.type !== 'Identifier') {
+          return false;
+        }
+        if (declarator.id.typeAnnotation) {
+          return typeIncludesUndefined(declarator.id.typeAnnotation);
+        }
+        return !declarator.init || canBeUndefined(declarator.init, depth + 1);
+      }
+      if (definition.type === 'Parameter') {
+        const { name } = definition;
+        if (name.parent?.type === 'AssignmentPattern' && name.parent.left === name) {
+          return false;
+        }
+        return (
+          Boolean(name.optional) ||
+          typeIncludesUndefined(name.typeAnnotation) ||
+          destructuredPropertyCanBeUndefined(name)
+        );
       }
       return false;
+    }
+
+    // Syntactic approximation of the former type check: only what is visible in the file.
+    function canBeUndefined(node, depth = 0) {
+      if (!node || depth > MAX_RESOLUTION_DEPTH) {
+        return false;
+      }
+      switch (node.type) {
+        case 'Identifier':
+          return identifierCanBeUndefined(node, depth);
+        case 'ChainExpression':
+          return true;
+        case 'UnaryExpression':
+          return node.operator === 'void';
+        case 'ConditionalExpression':
+          return canBeUndefined(node.consequent, depth) || canBeUndefined(node.alternate, depth);
+        case 'LogicalExpression':
+          return node.operator === '&&'
+            ? canBeUndefined(node.left, depth) || canBeUndefined(node.right, depth)
+            : canBeUndefined(node.right, depth);
+        case 'TSAsExpression':
+        case 'TSSatisfiesExpression':
+          return node.type === 'TSAsExpression'
+            ? typeIncludesUndefined(node.typeAnnotation)
+            : canBeUndefined(node.expression, depth);
+        default:
+          return false;
+      }
     }
 
     /**
@@ -100,26 +193,8 @@ module.exports = {
       }
 
       const enabledValueNode = enabledProperty.value;
-      const tsNode = parserServices.esTreeNodeToTSNodeMap.get(enabledValueNode);
 
-      // Get the type at the location
-      let type = typeChecker.getTypeAtLocation(tsNode);
-
-      // If this is an identifier (variable), try to get its declared type
-      if (enabledValueNode.type === 'Identifier') {
-        const symbol = typeChecker.getSymbolAtLocation(tsNode);
-        if (symbol && symbol.valueDeclaration) {
-          const declaredType = typeChecker.getTypeOfSymbolAtLocation(
-            symbol,
-            symbol.valueDeclaration,
-          );
-          if (declaredType) {
-            type = declaredType;
-          }
-        }
-      }
-
-      if (typeCanBeUndefined(type)) {
+      if (canBeUndefined(enabledValueNode)) {
         context.report({
           node: enabledValueNode,
           messageId: 'noUndefinedEnabled',

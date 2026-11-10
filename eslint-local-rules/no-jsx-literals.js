@@ -38,7 +38,8 @@ module.exports = {
     return {
       JSXText(node) {
         // Skip if only whitespace (or a single character)
-        const text = node.value.trim();
+        // Oxlint exposes JSX entities such as `&le;` undecoded, so they must not count as words.
+        const text = node.value.replace(/&(#\d+|#x[\da-f]+|[a-z][a-z\d]*);/gi, ' ').trim();
         const isEnglish = !!text.match(/[a-zA-Z0-9]+/); // Symbols like "," , ".", "*" may be OK
         if (!isEnglish) {
           return;

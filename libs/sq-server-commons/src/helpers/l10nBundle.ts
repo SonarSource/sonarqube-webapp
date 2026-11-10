@@ -31,7 +31,7 @@ import { getL10nBundleFromCache, persistL10nBundleInCache } from './l10nBundleCa
 
 const DEFAULT_LOCALE = 'en';
 const DEFAULT_MESSAGES: Record<string, string> = {
-  // eslint-disable-next-line camelcase
+  // eslint-disable-next-line eslint-js/camelcase
   default_error_message: 'The request cannot be processed. Try again later.',
 };
 

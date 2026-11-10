@@ -1,6 +1,5 @@
 {
   "recommendations": [
-    "dbaeumer.vscode-eslint",
     "mgmcdermott.vscode-language-babel",
     "sonarsource.sonarlint-vscode",
     "oxc.oxc-vscode",

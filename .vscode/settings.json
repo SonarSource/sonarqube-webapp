@@ -1,6 +1,6 @@
 {
   "editor.codeActionsOnSave": {
-    "source.fixAll.eslint": "explicit",
+    "source.fixAll.oxc": "explicit",
     "source.organizeImports": "explicit"
   },
   "editor.formatOnSave": true,
@@ -9,18 +9,7 @@
   ],
   "editor.tabSize": 2,
   "editor.detectIndentation": false,
-  "eslint.workingDirectories": [
-    {
-      "mode": "auto"
-    }
-  ],
-  "eslint.run": "onSave",
-  "eslint.validate": [
-    "javascript",
-    "javascriptreact",
-    "typescript",
-    "typescriptreact"
-  ],
+  "oxc.typeAware": true,
   "npm.packageManager": "yarn",
   "jestrunner.configPath": {
     "**/sq-cloud/**/*": "private/apps/sq-cloud/config/jest/jest.config.js",

@@ -127,7 +127,7 @@ Queries find their places in either `libs/shared` or the `adapters`, it all depe
 
 ### **LaunchDarkly feature flags**
 
-We provide a custom `useFlags` implementation for the shared features/code that must be used by everyone. This custom implementation is different for the two products, it uses the normal LD useFlags on SQC but just reads a static array of flags in SQS and doesn’t use LD at all. This is enforced with eslint.
+We provide a custom `useFlags` implementation for the shared features/code that must be used by everyone. This custom implementation is different for the two products, it uses the normal LD useFlags on SQC but just reads a static array of flags in SQS and doesn’t use LD at all. This is enforced by the linter.
 
 ### **Old theming system**
 

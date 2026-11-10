@@ -46,14 +46,14 @@ describe('ListFooter', () => {
         renderListFooter({ total, count, pageSize });
 
         /* eslint-disable jest/no-conditional-in-test */
-        /* eslint-disable jest/no-conditional-expect */
+        /* eslint-disable jest-js/no-conditional-expect */
         if (expected) {
           expect(screen.getByRole('button')).toBeInTheDocument();
         } else {
           expect(screen.queryByRole('button')).not.toBeInTheDocument();
         }
         /* eslint-enable jest/no-conditional-in-test */
-        /* eslint-enable jest/no-conditional-expect */
+        /* eslint-enable jest-js/no-conditional-expect */
       },
     );
   });

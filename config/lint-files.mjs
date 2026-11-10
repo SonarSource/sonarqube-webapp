@@ -18,13 +18,25 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { ESLint } from 'eslint';
 import { execFile } from 'node:child_process';
+import { join } from 'node:path';
 import { parseArgs, promisify } from 'node:util';
+import { runOxlint } from './oxlint/run-oxlint.mjs';
 
-if (process.env.NX_LINT_PROJECT_ROOT) {
-  process.chdir(process.env.NX_LINT_PROJECT_ROOT);
-}
+const SUPPORTED_FILE = /\.(js|ts|tsx)$/;
+const FORMATS = [
+  'agent',
+  'checkstyle',
+  'default',
+  'github',
+  'gitlab',
+  'json',
+  'junit',
+  'sarif',
+  'stylish',
+  'unix',
+];
+const projectRoot = process.env.NX_LINT_PROJECT_ROOT ?? '.';
 
 // NX forwards boolean options as --fix=true or --fix=false.
 const args = process.argv
@@ -40,48 +52,55 @@ const options = {
   'fix-dry-run': { type: 'boolean' },
   format: { type: 'string', short: 'f' },
 };
-const { values, positionals: files } = parseArgs({
+const { values, positionals } = parseArgs({
   args,
   options,
   allowPositionals: true,
   allowNegative: true,
 });
-const eslint = new ESLint({
-  fix: values.fix || values['fix-dry-run'] || false,
-  warnIgnored: false,
-});
+
+const format = FORMATS.find((knownFormat) => knownFormat === values.format);
+
+if (values.format && !format) {
+  console.error(`Unsupported format "${values.format}". Use one of: ${FORMATS.join(', ')}.`);
+  process.exit(2);
+}
+
+if (values['fix-dry-run']) {
+  console.error('Oxlint cannot report fixes without applying them; use --fix instead.');
+  process.exit(2);
+}
+
+let files = positionals;
 
 if (files.length === 0) {
   const changes = await Promise.all(
     [
       ['diff', '--name-only', '--diff-filter=d', '--relative', '-z', '--', '.'],
       ['ls-files', '--others', '--exclude-standard', '-z', '--', '.'],
-    ].map((args) => promisify(execFile)('git', args)),
+    ].map((gitArgs) => promisify(execFile)('git', gitArgs, { cwd: projectRoot })),
   );
-  const changedFiles = new Set(changes.flatMap(({ stdout }) => stdout.split('\0').filter(Boolean)));
-  const candidates = await Promise.all(
-    [...changedFiles]
-      .sort((left, right) => left.localeCompare(right))
-      .map(async (file) => ({ file, ignored: await eslint.isPathIgnored(file) })),
+  files = [...new Set(changes.flatMap(({ stdout }) => stdout.split('\0').filter(Boolean)))].sort(
+    (left, right) => left.localeCompare(right),
   );
-  files.push(...candidates.filter(({ ignored }) => !ignored).map(({ file }) => file));
 }
 
-if (files.length === 0) {
-  console.log('No unstaged files supported by ESLint in this project.');
+const lintedFiles = files
+  .filter((file) => SUPPORTED_FILE.test(file))
+  .map((file) => join(projectRoot, file));
+
+if (lintedFiles.length === 0) {
+  console.log('No unstaged files supported by Oxlint in this project.');
 } else {
-  const results = await eslint.lintFiles(files);
-  if (values.fix) {
-    await ESLint.outputFixes(results);
-  }
-  const formatter = await eslint.loadFormatter(values.format);
-  const output = await formatter.format(results);
-  if (output) {
-    console.log(output);
-  }
-  process.exitCode = results.some(
-    ({ errorCount, warningCount }) => errorCount > 0 || warningCount > 0,
-  )
-    ? 1
-    : 0;
+  const { status } = runOxlint(
+    [
+      '--deny-warnings',
+      '--no-error-on-unmatched-pattern',
+      ...(values.fix ? ['--fix'] : []),
+      ...(format ? ['--format', format] : []),
+    ],
+    lintedFiles,
+    { stdio: 'inherit' },
+  );
+  process.exitCode = status ?? 1;
 }

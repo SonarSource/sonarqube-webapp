@@ -18,7 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-/* eslint-disable react/no-unused-prop-types */
+/* eslint-disable react-js/no-unused-prop-types */
 import { BannerVariety, Layout, Link, LinkHighlight, Spinner } from '@sonarsource/echoes-react';
 import classNames from 'classnames';
 import { FormattedMessage, useIntl } from 'react-intl';

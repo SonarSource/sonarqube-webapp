@@ -70,6 +70,19 @@ ruleTester.run('no-direct-axios-import', rule, {
     {
       code: "import { AxiosResponse } from 'axios';",
     },
+    {
+      code: "import { AxiosError, isAxiosError, isCancel } from 'axios';",
+    },
+    {
+      code: "import type { create } from 'axios';",
+    },
+    {
+      code: "import { type get } from 'axios';",
+    },
+    {
+      code: "import { create } from 'axios';",
+      filename: 'axios-clients.ts',
+    },
   ],
   invalid: [
     // Invalid: Direct axios default import
@@ -142,6 +155,29 @@ ruleTester.run('no-direct-axios-import', rule, {
         },
       ],
       output: 'axiosClient.create();',
+    },
+    // Invalid: Named imports of request methods
+    {
+      code: "import { AxiosError, create } from 'axios';",
+      errors: [
+        {
+          messageId: 'noDirectAxiosNamedImport',
+          data: { method: 'create' },
+        },
+      ],
+    },
+    {
+      code: "import { get as axiosGet, post } from 'axios';",
+      errors: [
+        {
+          messageId: 'noDirectAxiosNamedImport',
+          data: { method: 'get' },
+        },
+        {
+          messageId: 'noDirectAxiosNamedImport',
+          data: { method: 'post' },
+        },
+      ],
     },
   ],
 });

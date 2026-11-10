@@ -79,7 +79,7 @@ yarn validate
 
 ```
 
-For fast ESLint feedback on specific files, including warning-level issues, run the
+For fast lint feedback on specific files, including warning-level issues, run the
 cacheable `lint-files` target from the repository root. Paths are relative to the
 owning project root:
 
@@ -89,7 +89,7 @@ yarn nx run sq-server:lint-files -- "src/path/to/file.ts" "src/path/to/another-f
 
 Run once per project when files span multiple projects. Warnings cause the command
 to fail. Omit the file arguments to check unstaged tracked files and untracked files
-supported by ESLint within that project (staged-only changes are excluded):
+supported by Oxlint within that project (staged-only changes are excluded):
 
 ```bash
 yarn nx run sq-server:lint-files
@@ -97,7 +97,8 @@ yarn nx run sq-server:lint-files
 
 If no matching files exist, the target exits without scanning anything.
 
-The target supports `--fix`, `--fix-dry-run`, and `--format` (`-f`).
+The target supports `--fix` and `--format` (`-f`). `--fix-dry-run` is rejected because
+Oxlint cannot report fixes without applying them.
 Options without file arguments use the same automatic file
 selection. Ignored files do not produce warnings; actual lint warnings still fail.
 Other options are rejected to avoid mistaking option values for file paths.

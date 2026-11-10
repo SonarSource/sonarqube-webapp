@@ -80,9 +80,9 @@ export function ProfilePermissionsFormSelect({ profile, selected, onChange }: Re
     };
     Promise.all([searchUsers(parameters), searchGroups(parameters)])
       .then(([{ users }, { groups }]) => [...users, ...groups].map(getOption))
-      // eslint-disable-next-line promise/no-callback-in-promise
+      // eslint-disable-next-line promise-js/no-callback-in-promise
       .then(cb)
-      // eslint-disable-next-line promise/no-callback-in-promise
+      // eslint-disable-next-line promise-js/no-callback-in-promise
       .catch(() => {
         cb([]);
       });
