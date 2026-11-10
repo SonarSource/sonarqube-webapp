@@ -22,7 +22,7 @@ import type { Path } from 'history';
 import type { To } from 'react-router';
 import { getBranchLikeQuery } from '~shared/helpers/branch-like';
 import { getConfiguredIssueStatuses } from '~shared/helpers/dashboard-issue-statuses';
-import { getComponentIssuesUrl, getPathUrlAsString, getRuleUrl } from '~shared/helpers/urls';
+import { getComponentIssuesUrl, getRuleUrl } from '~shared/helpers/urls';
 import { BranchLikeBase } from '~shared/types/branch-like';
 import { SoftwareImpactSeverity } from '~shared/types/clean-code-taxonomy';
 import { FILTERABLE_CODE_ISSUE_STATUSES } from '~shared/types/issues';
@@ -95,7 +95,7 @@ export function getProjectDashboardSummaryUrl(
 }
 
 export function getProjectDashboardRuleUrl(rule: string, organization?: string): string {
-  return getPathUrlAsString(getRuleUrl(rule, organization));
+  return serializeDashboardWidgetUrl(getRuleUrl(rule, organization));
 }
 
 export function buildProjectRichCountWidgetLink(

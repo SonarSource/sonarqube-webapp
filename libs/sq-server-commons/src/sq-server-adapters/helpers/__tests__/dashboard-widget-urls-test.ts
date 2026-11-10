@@ -18,7 +18,11 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import type { To } from 'react-router';
+import { createElement } from 'react';
+import { Link, MemoryRouter, type To } from 'react-router';
+import * as system from '~adapters/helpers/system';
+import { byRole } from '~shared/helpers/testSelector';
+import { render } from '~shared/helpers/test-utils';
 import type { BranchLikeBase } from '~shared/types/branch-like';
 import { SoftwareImpactSeverity } from '~shared/types/clean-code-taxonomy';
 import { MetricKey } from '~shared/types/metrics';
@@ -46,6 +50,7 @@ import {
 } from '../dashboard-widget-urls';
 
 const CUSTOM_METRICS_PARAM = 'custom_metrics';
+const RULE_KEY_PARAM = 'rule_key';
 
 function expectUrl(to: To, pathname: string, params: Record<string, string>) {
   const url = new URL(serializeDashboardWidgetUrl(to), 'http://localhost');
@@ -126,7 +131,7 @@ describe('Server dashboard widget URL seams', () => {
     );
   });
 
-  it('builds activity, measure, summary, and rule links', () => {
+  it('builds activity, measure, and summary links', () => {
     expectUrl(
       getProjectDashboardMeasureHistoryUrl('project-key', MetricKey.coverage),
       '/project/activity',
@@ -151,7 +156,30 @@ describe('Server dashboard widget URL seams', () => {
     expectUrl(getProjectDashboardSummaryUrl('project-key', true), '/summary/overall', {
       id: 'project-key',
     });
-    expect(getProjectDashboardRuleUrl('typescript:S1')).toContain('rule_key=typescript%3AS1');
+  });
+
+  it.each(['', '/test'])('adds the context path %j to rule links only once', (basename) => {
+    const baseUrlSpy = jest.spyOn(system, 'getBaseUrl').mockReturnValue(basename);
+
+    try {
+      const to = getProjectDashboardRuleUrl('typescript:S1');
+      expectUrl(to, '/coding_rules', { open: 'typescript:S1', [RULE_KEY_PARAM]: 'typescript:S1' });
+
+      render(
+        createElement(
+          MemoryRouter,
+          { basename, initialEntries: [`${basename}/`] },
+          createElement(Link, { to }, 'Rule name'),
+        ),
+      );
+
+      expect(byRole('link', { name: 'Rule name' }).get()).toHaveAttribute(
+        'href',
+        `${basename}/coding_rules?open=typescript%3AS1&rule_key=typescript%3AS1`,
+      );
+    } finally {
+      baseUrlSpy.mockRestore();
+    }
   });
 
   it('builds project Issue Count pie-chart segment links', () => {
