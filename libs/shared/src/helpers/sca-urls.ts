@@ -120,6 +120,7 @@ const RISKS_OPTIONAL_PARAMS = [
   'riskStatuses',
   'qualities',
   'severities',
+  'fixLevels',
   'types',
   'standard',
   'standardCategory',

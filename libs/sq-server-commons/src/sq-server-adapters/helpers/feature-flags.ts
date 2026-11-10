@@ -28,6 +28,7 @@ interface SQSFlagSet extends FlagSet {
     maxNodesCount: number;
   };
   scaKeyChangesPrView: boolean;
+  scaEnableFixLevelsFilter: boolean;
   scaShowRiskCopyAiPromptButton: boolean;
 }
 
@@ -38,6 +39,7 @@ const defaultFlags: SQSFlagSet = {
   designArchitectureSquadExtensionPack: true,
   designArchitectureSquadPerformanceLimits: DEFAULT_PERFORMANCE_LIMITS,
   scaKeyChangesPrView: false,
+  scaEnableFixLevelsFilter: false,
   scaShowRiskCopyAiPromptButton: false,
 };
 

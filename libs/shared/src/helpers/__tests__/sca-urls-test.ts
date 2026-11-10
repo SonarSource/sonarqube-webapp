@@ -25,6 +25,7 @@ import {
   getReleaseDetailsUrl,
   getRiskDetailsTabUrl,
   getRiskDetailsUrl,
+  getRisksUrl,
   getRisksUrlForComponent,
   RiskDetailsTab,
   useScaBaseUrl,
@@ -43,6 +44,16 @@ jest.mock('react-router', () => {
 });
 
 describe('sca-urls', () => {
+  describe('getRisksUrl', () => {
+    it('preserves the fixLevels query parameter when building a risk URL', () => {
+      const result = getRisksUrl({ currentSearch: '?id=my-project&fixLevels=PATCH,MINOR' });
+      const params = new URLSearchParams(result.search);
+
+      expect(params.get('id')).toBe('my-project');
+      expect(params.get('fixLevels')).toBe('PATCH,MINOR');
+    });
+  });
+
   describe('useScaBaseUrl', () => {
     it('should return default base URL when no SCA routes found', () => {
       jest.mocked(useLocation).mockReturnValue(mockLocation({ pathname: '/some/other/path' }));

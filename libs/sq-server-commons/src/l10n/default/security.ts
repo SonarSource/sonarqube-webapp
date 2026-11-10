@@ -1148,6 +1148,8 @@ export const securityMessages = {
   'dependencies.risks.epss.awaiting_details':
     'Risk severity may change once EPSS is available (typically 24 hours after CVE is published)',
   'dependencies.risks.epss.withdrawn': 'N/A (withdrawn)',
+  'dependencies.risks.fix_level': 'Fix level',
+  'dependencies.risks.fix_level.no_fix': 'No known fix',
   'dependencies.risks.quality': 'Software quality',
   'dependencies.risks.quality.SECURITY': 'Security',
   'dependencies.risks.quality.SECURITY.description': 'Security quality description',
@@ -1312,6 +1314,8 @@ export const securityMessages = {
   'dependencies.lightwell_fixability.table.column.lightwell_fixable': 'Lightwell fix',
   'dependencies.lightwell_fixability.table.column.major_upgrade_only': 'Major upgrade',
   'dependencies.lightwell_fixability.table.column.no_fix': 'No fix',
+  'dependencies.lightwell_fixability.table.bucket_link_aria':
+    '{count, plural, one {View # risk fixable by {fixLevel} for {project}} other {View # risks fixable by {fixLevel} for {project}}}',
   'dependencies.lightwell_fixability.table.column.fixed_by_minor': 'Fixed by minor',
   'dependencies.lightwell_fixability.table.column.fixed_by_minor_tooltip_with_lightwell':
     'Share of open risk fixable today without a major upgrade — via a patch, minor release, or Lightwell.',
