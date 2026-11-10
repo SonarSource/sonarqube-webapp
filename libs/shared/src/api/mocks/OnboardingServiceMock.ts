@@ -335,6 +335,10 @@ export class OnboardingServiceMock extends AbstractServiceMock<OnboardingService
     this.data.enterpriseOverview = enterpriseOverview;
   };
 
+  setEnterpriseStatistics = (enterpriseStatistics: OnboardingStatistics) => {
+    this.data.enterpriseStatistics = enterpriseStatistics;
+  };
+
   setForbidEnterprise = (forbidEnterprise: boolean) => {
     this.data.forbidEnterprise = forbidEnterprise;
   };

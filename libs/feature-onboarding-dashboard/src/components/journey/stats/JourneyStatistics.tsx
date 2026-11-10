@@ -102,13 +102,18 @@ export function JourneyStatistics({
 
   const isLoading = level === undefined && !(isBound === true && isTimelineError);
 
+  // Bound, but nothing imported and nothing analyzed yet: there is no history to plot, and the
+  // placeholder below says what unlocks it. While the binding is unknown the slot stays, as its
+  // skeleton, so the section does not appear and vanish.
+  const hasNothingToPlot = isBound === true && timeline !== undefined && !hasCoverage(timeline);
+
   return (
     <LoadingContainer
       className="sw:flex sw:flex-col sw:gap-6"
       isLoading={isLoading}
       loadingMessage={formatMessage({ id: 'onboarding_dashboard.loading' })}
     >
-      {isBound !== false && (
+      {isBound !== false && !hasNothingToPlot && (
         <TimelineSlot
           isBound={isBound}
           isTimelineError={isTimelineError}
@@ -132,6 +137,12 @@ export function JourneyStatistics({
         />
       )}
     </LoadingContainer>
+  );
+}
+
+function hasCoverage(timeline: OnboardingTimelinePoint[]) {
+  return timeline.some(
+    ({ projectsScanned, repositoriesImported }) => projectsScanned > 0 || repositoriesImported > 0,
   );
 }
 

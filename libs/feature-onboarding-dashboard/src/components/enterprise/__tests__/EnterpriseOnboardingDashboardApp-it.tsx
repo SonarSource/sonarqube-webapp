@@ -24,7 +24,9 @@ import { API_V2_MOCKS_PREFIX } from '~adapters/helpers/urls';
 import {
   mockOnboardingEnterpriseOverview,
   mockOnboardingOrganizations,
-  OnboardingServiceMock,
+  mockOnboardingStatistics,
+  mockOnboardingUncountedEnterpriseOverview,
+  mockOnboardingUnboundEnterpriseOverview,
 } from '~shared/api/mocks/OnboardingServiceMock';
 import {
   registerServiceMocks,
@@ -89,6 +91,7 @@ const ui = {
 
   // Statistics
   overTimeChart: byRole('img', { name: 'onboarding_dashboard.journey.overtime.title' }),
+  overTimeTitle: byText('onboarding_dashboard.journey.overtime.title'),
   lockedStatsTitle: byText(`${PREFIX}.locked.stats.title`),
   lockedMoreTitle: byText(`${PREFIX}.locked.more.title`),
   // The organization's placeholders say "Bind organization" / "Import repositories": none of them.
@@ -294,16 +297,33 @@ describe('journey', () => {
     expect(ui.lockedStatsTitle.query()).not.toBeInTheDocument();
   });
 
-  it('locks the last two steps and the statistics while no organization is bound', async () => {
-    const overview = mockOnboardingEnterpriseOverview();
-    onboardingMock.setEnterpriseOverview({
-      ...overview,
-      progressPct: 0,
-      steps: {
-        ...overview.steps,
-        devopsPlatforms: { byPlatform: [], configured: 0, total: 12 },
-      },
-    });
+  it('leaves the timeline out and offers to unlock more while nothing was imported or analyzed', async () => {
+    onboardingMock.setEnterpriseStatistics(
+      mockOnboardingStatistics({
+        timeline: [{ date: '2025-05-01T00:00:00Z', projectsScanned: 0, repositoriesImported: 0 }],
+      }),
+    );
+    renderEnterpriseDashboard();
+
+    expect(await ui.lockedMoreTitle.find()).toBeInTheDocument();
+    expect(ui.overTimeTitle.query()).not.toBeInTheDocument();
+    expect(ui.overTimeChart.query()).not.toBeInTheDocument();
+  });
+
+  it('keeps the timeline once a project is analyzed, even if nothing is imported', async () => {
+    onboardingMock.setEnterpriseStatistics(
+      mockOnboardingStatistics({
+        timeline: [{ date: '2025-05-01T00:00:00Z', projectsScanned: 2, repositoriesImported: 0 }],
+      }),
+    );
+    renderEnterpriseDashboard();
+
+    expect(await ui.overTimeChart.find()).toBeInTheDocument();
+    expect(ui.lockedMoreTitle.get()).toBeInTheDocument();
+  });
+
+  it('locks the statistics while no organization is bound', async () => {
+    onboardingMock.setEnterpriseOverview(mockOnboardingUnboundEnterpriseOverview());
     renderEnterpriseDashboard();
 
     expect(await ui.stepperBindingUnbound.find()).toBeInTheDocument();

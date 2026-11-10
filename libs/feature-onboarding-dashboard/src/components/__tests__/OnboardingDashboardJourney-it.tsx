@@ -142,6 +142,16 @@ it('plots only the analysis series and offers to unlock more while the timeline 
   expect(ui.lockedMoreTitle.get()).toBeInTheDocument();
 });
 
+it('leaves the timeline out and offers to unlock more while nothing is imported or analyzed', async () => {
+  onboardingMock.setStatistics(mockOnboardingStatistics({ timeline: [] }));
+  renderOnboardingDashboard();
+
+  expect(await ui.lockedMoreTitle.find()).toBeInTheDocument();
+  // The legend belongs to the timeline card, which is drawn even when there is no graph to show.
+  expect(ui.overTimeProjectsScannedLegend.query()).not.toBeInTheDocument();
+  expect(ui.overTimeChart.query()).not.toBeInTheDocument();
+});
+
 it('replaces the chart with the "unlock statistics" placeholder while the org is unbound', async () => {
   // No configured DevOps platform: deriveJourneyState reports the Unbound level.
   onboardingMock.setOverview(mockOnboardingOverview({ devopsPlatforms: { configured: 0 } }));
