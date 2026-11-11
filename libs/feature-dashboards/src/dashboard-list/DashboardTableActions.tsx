@@ -29,6 +29,7 @@ interface Props {
   isVisible: boolean;
   onDelete: (controls: { close: () => void }) => void;
   onDuplicate?: () => void;
+  onEditDashboard?: () => void;
   onEditNameDescription?: () => void;
 }
 
@@ -41,6 +42,7 @@ export function DashboardTableActions({
   isVisible,
   onDelete,
   onDuplicate,
+  onEditDashboard,
   onEditNameDescription,
 }: Readonly<Props>) {
   return (
@@ -55,6 +57,7 @@ export function DashboardTableActions({
           isDeleting={isDeleting}
           onDelete={onDelete}
           onDuplicate={onDuplicate}
+          onEditDashboard={onEditDashboard}
           onEditNameDescription={onEditNameDescription}
         />
       }
