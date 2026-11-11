@@ -40,6 +40,14 @@ export function isHunterAgentRuleEngine(externalRuleEngine?: string) {
   return externalRuleEngine?.toLowerCase() === HUNTER_AGENT_EXTERNAL_RULE_ENGINE;
 }
 
+/** Issues that an agent creates with their own issue-specific rule description */
+export function isAgentFindingRuleEngine(externalRuleEngine?: string) {
+  return (
+    isHunterAgentRuleEngine(externalRuleEngine) ||
+    externalRuleEngine?.toLowerCase() === 'sunset-radar'
+  );
+}
+
 export function getExternalRuleKey(ruleKey: string) {
   return ruleKey.startsWith(EXTERNAL_RULE_REPO_PREFIX)
     ? ruleKey.slice(EXTERNAL_RULE_REPO_PREFIX.length)

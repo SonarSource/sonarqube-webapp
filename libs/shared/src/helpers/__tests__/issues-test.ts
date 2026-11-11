@@ -21,6 +21,7 @@
 import { IssueTransition } from '../../types/issues';
 import {
   getExternalRuleKey,
+  isAgentFindingRuleEngine,
   isHunterAgentRuleEngine,
   isHunterAgentRuleKey,
   orderIssueTransitions,
@@ -37,6 +38,23 @@ describe('isHunterAgentRuleEngine', () => {
     expect(isHunterAgentRuleEngine('eslint')).toBe(false);
     expect(isHunterAgentRuleEngine('')).toBe(false);
     expect(isHunterAgentRuleEngine()).toBe(false);
+  });
+});
+
+describe('isAgentFindingRuleEngine', () => {
+  it.each(['hunter-agent', 'HUNTER-AGENT', 'sunset-radar', 'Sunset-Radar'])(
+    'detects the agent rule engine %s',
+    (engine) => {
+      expect(isAgentFindingRuleEngine(engine)).toBe(true);
+    },
+  );
+
+  it.each(['eslint', 'sunset', 'sunset-radar-2', ''])('rejects the rule engine "%s"', (engine) => {
+    expect(isAgentFindingRuleEngine(engine)).toBe(false);
+  });
+
+  it('rejects an undefined rule engine', () => {
+    expect(isAgentFindingRuleEngine()).toBe(false);
   });
 });
 
