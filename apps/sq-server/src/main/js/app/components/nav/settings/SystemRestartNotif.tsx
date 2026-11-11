@@ -18,26 +18,24 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { Link, MessageCallout } from '@sonarsource/echoes-react';
 import { FormattedMessage } from 'react-intl';
-import { FlagMessage, Link } from '~design-system';
 import { getInstance } from '~sq-server-commons/helpers/system';
 
 export default function SystemRestartNotif() {
   return (
-    <FlagMessage className="sw:w-full" variant="info">
-      <span>
-        <FormattedMessage
-          id="system.instance_restarting"
-          values={{
-            instance: getInstance(),
-            link: (
-              <Link to="/admin/background_tasks">
-                <FormattedMessage id="background_tasks.page" />
-              </Link>
-            ),
-          }}
-        />
-      </span>
-    </FlagMessage>
+    <MessageCallout variety="info">
+      <FormattedMessage
+        id="system.instance_restarting"
+        values={{
+          instance: getInstance(),
+          link: (
+            <Link to="/admin/background_tasks">
+              <FormattedMessage id="background_tasks.page" />
+            </Link>
+          ),
+        }}
+      />
+    </MessageCallout>
   );
 }

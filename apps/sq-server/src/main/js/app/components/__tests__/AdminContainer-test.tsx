@@ -18,17 +18,34 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { waitForElementToBeRemoved } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import * as React from 'react';
+import { IntlProvider } from 'react-intl';
 import { Route, useOutletContext } from 'react-router';
 import { byLabelText, byRole, byTestId, byText } from '~shared/helpers/testSelector';
-import { getSystemStatus, waitSystemUPStatus } from '~sq-server-commons/api/system';
+import { cancelPendingPlugins, getPendingPlugins } from '~sq-server-commons/api/plugins';
+import { getSystemStatus, restart, waitSystemUPStatus } from '~sq-server-commons/api/system';
 import AdminContext from '~sq-server-commons/context/AdminContext';
 import { mockAppState } from '~sq-server-commons/helpers/testMocks';
-import { RenderContext, renderAppRoutes } from '~sq-server-commons/helpers/testReactTestingUtils';
+import {
+  RenderContext,
+  renderAppRoutes,
+  renderComponent,
+} from '~sq-server-commons/helpers/testReactTestingUtils';
+import { defaultMessages } from '~sq-server-commons/l10n/default';
 import { AdminPagesContext } from '~sq-server-commons/types/admin';
 import { AdminContainer, AdminContainerProps } from '../AdminContainer';
+import PendingPluginsActionNotif from '../nav/settings/PendingPluginsActionNotif';
 
+
+jest.mock('react-intl', () => ({
+  ...jest.requireActual<typeof import('react-intl')>('react-intl'),
+  useIntl: () => ({
+    formatMessage: ({ id }: { id: string }, values = {}) =>
+      [id, ...Object.values(values)].join('.'),
+  }),
+}));
 
 jest.mock('~sq-server-commons/api/navigation', () => ({
   getSettingsNavigation: jest
@@ -37,6 +54,7 @@ jest.mock('~sq-server-commons/api/navigation', () => ({
 }));
 
 jest.mock('~sq-server-commons/api/plugins', () => ({
+  cancelPendingPlugins: jest.fn().mockResolvedValue(undefined),
   getPendingPlugins: jest.fn().mockResolvedValue({
     installing: [{ key: '1', name: 'installing' }],
     updating: [
@@ -48,6 +66,7 @@ jest.mock('~sq-server-commons/api/plugins', () => ({
 }));
 
 jest.mock('~sq-server-commons/api/system', () => ({
+  restart: jest.fn().mockResolvedValue(undefined),
   getSystemStatus: jest.fn().mockResolvedValue({ status: 'DOWN' }),
   waitSystemUPStatus: jest.fn().mockResolvedValue({ status: 'RESTARTING' }),
 }));
@@ -97,6 +116,91 @@ it('should render nav and provide context to children', async () => {
 
   expect(await byText('UP').find()).toBeInTheDocument();
   expect(reload).toHaveBeenCalled();
+});
+
+it.each([
+  ['installing', 'install', 1, 'plugin'],
+  ['installing', 'install', 2, 'plugins'],
+  ['updating', 'update', 1, 'plugin'],
+  ['updating', 'update', 2, 'plugins'],
+  ['removing', 'uninstall', 1, 'plugin'],
+  ['removing', 'uninstall', 2, 'plugins'],
+] as const)('pluralizes %s notifications (%s, %i %s)', (action, verb, count, noun) => {
+  renderComponent(
+    <IntlProvider locale="en" messages={defaultMessages}>
+      <PendingPluginsActionNotif
+        fetchSystemStatus={jest.fn()}
+        pending={{
+          installing: [],
+          updating: [],
+          removing: [],
+          [action]: Array.from({ length: count }, (_, index) => ({
+            key: String(index),
+            name: `Plugin ${index}`,
+          })),
+        }}
+        refreshPending={jest.fn()}
+        systemStatus="UP"
+      />
+    </IntlProvider>,
+  );
+
+  const notification = byText(new RegExp(`${verb}.*plugin`)).get();
+  expect(notification).toHaveTextContent(`${verb} ${count} ${noun}`);
+  expect(notification).toContainHTML(`<strong>${count}</strong>`);
+});
+
+it('restarts the server after confirming pending plugin changes', async () => {
+  jest.mocked(getSystemStatus).mockResolvedValueOnce({ id: '', version: '', status: 'UP' });
+  let finishRestart!: (status: Awaited<ReturnType<typeof waitSystemUPStatus>>) => void;
+  jest.mocked(waitSystemUPStatus).mockReturnValueOnce(
+    new Promise((resolve) => {
+      finishRestart = resolve;
+    }),
+  );
+  const user = userEvent.setup();
+  renderAdminContainer();
+
+  expect(await ui.revertButton.find()).toBeInTheDocument();
+  await user.click(await ui.restartButton.find());
+  jest.mocked(getSystemStatus).mockResolvedValueOnce({ id: '', version: '', status: 'RESTARTING' });
+  await user.click(await ui.confirmRestartButton.find());
+
+  expect(await ui.restartingMessage.find()).toBeInTheDocument();
+  expect(restart).toHaveBeenCalledTimes(1);
+  expect(ui.restartButton.query()).not.toBeInTheDocument();
+  expect(ui.revertButton.query()).not.toBeInTheDocument();
+
+  finishRestart({ id: '', version: '', status: 'UP' });
+  expect(await byText('UP').find()).toBeInTheDocument();
+});
+
+it('reverts pending plugin changes and removes the restart notification', async () => {
+  jest.mocked(getSystemStatus).mockResolvedValueOnce({ id: '', version: '', status: 'UP' });
+  const user = userEvent.setup();
+  renderAdminContainer();
+
+  await ui.restartButton.find();
+  jest
+    .mocked(getPendingPlugins)
+    .mockResolvedValueOnce({ installing: [], updating: [], removing: [] });
+  const notificationRemoved = waitForElementToBeRemoved(() => ui.restartButton.query());
+  await user.click(await ui.revertButton.find());
+
+  await notificationRemoved;
+  expect(cancelPendingPlugins).toHaveBeenCalledTimes(1);
+  expect(ui.revertButton.query()).not.toBeInTheDocument();
+});
+
+it('does not offer restart or revert when there are no pending plugins', async () => {
+  jest
+    .mocked(getPendingPlugins)
+    .mockResolvedValueOnce({ installing: [], updating: [], removing: [] });
+  renderAdminContainer();
+
+  expect(await ui.pagesList.byText('asdf').find()).toBeInTheDocument();
+  expect(ui.restartButton.query()).not.toBeInTheDocument();
+  expect(ui.revertButton.query()).not.toBeInTheDocument();
 });
 
 
@@ -170,6 +274,10 @@ function TestChildComponent() {
 
 const ui = {
   nav: byTestId('sidebar-navigation-wrapper'),
+  restartButton: byRole('button', { name: 'system.restart_server' }),
+  confirmRestartButton: byRole('button', { name: 'restart' }),
+  revertButton: byRole('button', { name: 'marketplace.revert' }),
+  restartingMessage: byText(/system.instance_restarting/),
   pagesList: byLabelText('pages'),
   pluginsInstallingList: byLabelText('plugins - installing'),
   pluginsUpdatingList: byLabelText('plugins - updating'),

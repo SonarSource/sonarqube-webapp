@@ -42,6 +42,8 @@ import { PendingPluginResult } from '~sq-server-commons/types/plugins';
 import { SysStatus } from '~sq-server-commons/types/types';
 import handleRequiredAuthorization from '../utils/handleRequiredAuthorization';
 import { AdministrationSidebar } from './nav/administration/AdministrationSidebar';
+import PendingPluginsActionNotif from './nav/settings/PendingPluginsActionNotif';
+import SystemRestartNotif from './nav/settings/SystemRestartNotif';
 
 export interface AdminContainerProps {
   appState: AppState;
@@ -110,6 +112,10 @@ export function AdminContainer({ appState }: Readonly<AdminContainerProps>) {
   }
 
   const adminPagesContext: AdminPagesContext = { adminPages };
+  const hasPendingPlugins =
+    pendingPlugins.installing.length > 0 ||
+    pendingPlugins.updating.length > 0 ||
+    pendingPlugins.removing.length > 0;
 
   const ArchitectureEnterpriseAccessProvider: React.ComponentType<React.PropsWithChildren> =
     addons.architecture?.ArchitectureEnterpriseAccessProvider ?? React.Fragment;
@@ -126,6 +132,21 @@ export function AdminContainer({ appState }: Readonly<AdminContainerProps>) {
             { page: translate('layout.settings') },
           )}
         />
+
+        {(systemStatus === 'RESTARTING' || hasPendingPlugins) && (
+          <div className="sw:[grid-area:content-header] sw:py-100 sw:px-200">
+            {systemStatus === 'RESTARTING' ? (
+              <SystemRestartNotif />
+            ) : (
+              <PendingPluginsActionNotif
+                fetchSystemStatus={fetchSystemStatus}
+                pending={pendingPlugins}
+                refreshPending={fetchPendingPlugins}
+                systemStatus={systemStatus}
+              />
+            )}
+          </div>
+        )}
 
         <AdminContext.Provider value={adminContextValue}>
           <Outlet context={adminPagesContext} />

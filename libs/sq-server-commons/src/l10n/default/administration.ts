@@ -1130,9 +1130,10 @@ export const administrationMessages = {
   'marketplace.plugin_list.no_plugins.installed': 'No installed plugins',
   'marketplace.plugin_list.no_plugins.updates': 'No plugin updates available',
   'marketplace.instance_needs_to_be_restarted_to': '{instance} needs to be restarted in order to',
-  'marketplace.install_x_plugins': 'install {nb} plugins',
-  'marketplace.update_x_plugins': 'update {nb} plugins',
-  'marketplace.uninstall_x_plugins': 'uninstall {nb} plugins',
+  'marketplace.install_x_plugins': 'install <b>{nb}</b> {nb, plural, one {plugin} other {plugins}}',
+  'marketplace.update_x_plugins': 'update <b>{nb}</b> {nb, plural, one {plugin} other {plugins}}',
+  'marketplace.uninstall_x_plugins':
+    'uninstall <b>{nb}</b> {nb, plural, one {plugin} other {plugins}}',
   'marketplace.not_activated': 'Update Center is not activated.',
   'marketplace.all': 'All',
   'marketplace.installed': 'Installed',

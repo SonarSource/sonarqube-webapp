@@ -18,10 +18,9 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Button, ButtonGroup } from '@sonarsource/echoes-react';
+import { Button, ButtonGroup, MessageCallout } from '@sonarsource/echoes-react';
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
-import { FlagMessage } from '~design-system';
 import { cancelPendingPlugins } from '~sq-server-commons/api/plugins';
 import InstanceMessage from '~sq-server-commons/components/common/InstanceMessage';
 import RestartButton from '~sq-server-commons/components/common/RestartButton';
@@ -49,24 +48,9 @@ export default class PendingPluginsActionNotif extends React.PureComponent<Props
     }
 
     return (
-      <FlagMessage className="sw:w-full" variant="info">
-        <div className="sw:flex sw:items-center">
-          <span className="sw:mr-1">
-            <InstanceMessage message={translate('marketplace.instance_needs_to_be_restarted_to')} />
-          </span>
-          {[
-            { length: installing.length, msg: 'marketplace.install_x_plugins' },
-            { length: updating.length, msg: 'marketplace.update_x_plugins' },
-            { length: removing.length, msg: 'marketplace.uninstall_x_plugins' },
-          ]
-            .filter(({ length }) => length > 0)
-            .map(({ length, msg }, idx) => (
-              <span key={msg}>
-                {idx > 0 && '; '}
-                <FormattedMessage id={msg} values={{ nb: <strong>{length}</strong> }} />
-              </span>
-            ))}
-          <ButtonGroup className="sw:ml-2">
+      <MessageCallout
+        action={
+          <ButtonGroup>
             <RestartButton
               fetchSystemStatus={this.props.fetchSystemStatus}
               systemStatus={this.props.systemStatus}
@@ -75,8 +59,28 @@ export default class PendingPluginsActionNotif extends React.PureComponent<Props
               <FormattedMessage id="marketplace.revert" />
             </Button>
           </ButtonGroup>
-        </div>
-      </FlagMessage>
+        }
+        variety="info"
+      >
+        <span className="sw:mr-1">
+          <InstanceMessage message={translate('marketplace.instance_needs_to_be_restarted_to')} />
+        </span>
+        {[
+          { length: installing.length, msg: 'marketplace.install_x_plugins' },
+          { length: updating.length, msg: 'marketplace.update_x_plugins' },
+          { length: removing.length, msg: 'marketplace.uninstall_x_plugins' },
+        ]
+          .filter(({ length }) => length > 0)
+          .map(({ length, msg }, idx) => (
+            <span key={msg}>
+              {idx > 0 && '; '}
+              <FormattedMessage
+                id={msg}
+                values={{ nb: length, b: (text) => <strong>{text}</strong> }}
+              />
+            </span>
+          ))}
+      </MessageCallout>
     );
   }
 }
