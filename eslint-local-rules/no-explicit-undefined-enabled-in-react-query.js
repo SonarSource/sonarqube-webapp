@@ -73,12 +73,159 @@ function destructuredPropertyCanBeUndefined(identifier) {
   return Boolean(member && (member.optional || typeIncludesUndefined(member.typeAnnotation)));
 }
 
+const EXIT_STATEMENTS = new Set([
+  'BreakStatement',
+  'ContinueStatement',
+  'ReturnStatement',
+  'ThrowStatement',
+]);
+
+function getChainLinkObject(node) {
+  switch (node?.type) {
+    case 'MemberExpression':
+      return node.object;
+    case 'CallExpression':
+      return node.callee;
+    case 'TSNonNullExpression':
+      return node.expression;
+    default:
+      return null;
+  }
+}
+
+function getOptionalObjects(node) {
+  const objects = [];
+  for (let current = node; getChainLinkObject(current); current = getChainLinkObject(current)) {
+    if (current.optional) {
+      objects.push(getChainLinkObject(current));
+    }
+  }
+  return objects;
+}
+
+function exits(statement) {
+  if (EXIT_STATEMENTS.has(statement.type)) {
+    return true;
+  }
+  return statement.type === 'BlockStatement' && statement.body.length > 0
+    ? exits(statement.body.at(-1))
+    : false;
+}
+
+function getEarlierExitGuards(statements, child) {
+  return statements
+    .slice(0, statements.indexOf(child))
+    .filter((statement) => statement.type === 'IfStatement' && exits(statement.consequent))
+    .map((statement) => ({ test: statement.test, truthy: false }));
+}
+
+function getBranchGuard(parent, child) {
+  if (child === parent.consequent) {
+    return [{ test: parent.test, truthy: true }];
+  }
+  return child === parent.alternate ? [{ test: parent.test, truthy: false }] : [];
+}
+
+function getEnclosingGuards(parent, child) {
+  switch (parent.type) {
+    case 'ConditionalExpression':
+    case 'IfStatement':
+      return getBranchGuard(parent, child);
+    case 'LogicalExpression':
+      return child === parent.right && parent.operator !== '??'
+        ? [{ test: parent.left, truthy: parent.operator === '&&' }]
+        : [];
+    case 'BlockStatement':
+    case 'Program':
+      return getEarlierExitGuards(parent.body, child);
+    case 'SwitchCase':
+      return getEarlierExitGuards(parent.consequent, child);
+    default:
+      return [];
+  }
+}
+
+function getGuards(node) {
+  const guards = [];
+  for (let child = node; child.parent; child = child.parent) {
+    guards.push(...getEnclosingGuards(child.parent, child));
+  }
+  return guards;
+}
+
+function normalizeChain(text) {
+  return text.replaceAll('?.', '.');
+}
+
+function isNullish(node) {
+  return (node.type === 'Literal' && node.value === null) || isUndefined(node);
+}
+
+function isUndefined(node) {
+  return node.type === 'Identifier' && node.name === 'undefined';
+}
+
+function isDefinedValue(node) {
+  return node.type === 'Literal' && node.value !== null;
+}
+
+function readsThrough(node, text, sourceCode) {
+  if (normalizeChain(sourceCode.getText(node)) === text) {
+    return true;
+  }
+  const inner = node.type === 'ChainExpression' ? node.expression : getChainLinkObject(node);
+  return inner ? readsThrough(inner, text, sourceCode) : false;
+}
+
+function comparisonImpliesDefined(test, text, truthy, sourceCode) {
+  const { left, operator, right } = test;
+  const [other, operand] = isNullish(left) || isDefinedValue(left) ? [left, right] : [right, left];
+  if (!readsThrough(operand, text, sourceCode)) {
+    return false;
+  }
+  const isEquality = operator === '==' || operator === '===';
+  const isInequality = operator === '!=' || operator === '!==';
+  if (isDefinedValue(other)) {
+    return isEquality === truthy && (isEquality || isInequality);
+  }
+  const excludesNullish = operator.length === 2 || isUndefined(other);
+  return excludesNullish && isNullish(other) && (isInequality ? truthy : !truthy);
+}
+
+function logicalImpliesDefined(test, text, truthy, sourceCode) {
+  const left = impliesDefined(test.left, text, truthy, sourceCode);
+  const right = impliesDefined(test.right, text, truthy, sourceCode);
+  const bothSidesHaveOutcome = (test.operator === '&&') === truthy;
+  return bothSidesHaveOutcome ? left || right : left && right;
+}
+
+function impliesDefined(test, text, truthy, sourceCode) {
+  switch (test.type) {
+    case 'UnaryExpression':
+      return test.operator === '!' && impliesDefined(test.argument, text, !truthy, sourceCode);
+    case 'LogicalExpression':
+      return test.operator !== '??' && logicalImpliesDefined(test, text, truthy, sourceCode);
+    case 'BinaryExpression':
+      return comparisonImpliesDefined(test, text, truthy, sourceCode);
+    default:
+      return truthy && readsThrough(test, text, sourceCode);
+  }
+}
+
+function isNullChecked(chain, sourceCode) {
+  const guards = getGuards(chain);
+  return getOptionalObjects(chain.expression).every((object) => {
+    const text = normalizeChain(sourceCode.getText(object));
+    return guards.some(({ test, truthy }) => impliesDefined(test, text, truthy, sourceCode));
+  });
+}
+
 module.exports = {
   meta: {
     type: 'problem',
     docs: {
       description:
-        "Disallow potentially `undefined` values for the `enabled` option in custom query hooks imported from a 'queries' folder.",
+        "Disallow potentially `undefined` values for the `enabled` option in react-query calls and in query hooks imported from a 'queries' folder. Hooks built with `createQueryHook` are also checked exactly by their types; this syntax-only rule is kept for direct react-query calls and hand-written hooks, which the types do not cover. Optional chains are treated as null-checked when an enclosing condition, or an earlier exiting `if`, rules out a nullish optional object on the branch where the chain runs.",
       recommended: 'error',
     },
     messages: {
@@ -91,9 +238,6 @@ module.exports = {
   },
 
   create(context) {
-    // Track variables that are created with createQueryHook
-    const queryHookVariables = new Set();
-
     function findVariable(node, name) {
       let scope = context.sourceCode.getScope(node);
       while (scope) {
@@ -147,7 +291,7 @@ module.exports = {
         case 'Identifier':
           return identifierCanBeUndefined(node, depth);
         case 'ChainExpression':
-          return true;
+          return !isNullChecked(node, context.sourceCode);
         case 'UnaryExpression':
           return node.operator === 'void';
         case 'ConditionalExpression':
@@ -164,14 +308,6 @@ module.exports = {
         default:
           return false;
       }
-    }
-
-    /**
-     * Checks if a call expression is createQueryHook
-     * @param {import('@typescript-eslint/types/dist/generated/ast-spec').CallExpression} node
-     */
-    function isCreateQueryHookCall(node) {
-      return node.callee.type === 'Identifier' && node.callee.name === 'createQueryHook';
     }
 
     /**
@@ -345,49 +481,6 @@ module.exports = {
 
         const functionName = node.callee.name;
 
-        // Check if this function is a createQueryHook call
-        // First check our tracked variables, then fall back to definition traversal
-        let isQueryHook = queryHookVariables.has(functionName);
-
-        if (!isQueryHook) {
-          // Check if this function call itself returns a query hook and is being called with createQueryHook signature
-          // Look for patterns like: useModeQuery({ enabled: someValue })
-          // where useModeQuery = createQueryHook(...)
-          // Traverse up the scope chain to find the variable
-          let scopeToCheck = context.sourceCode.getScope(node);
-          let variableToCheck = null;
-
-          while (scopeToCheck && !variableToCheck) {
-            variableToCheck = scopeToCheck.variables.find((v) => v.name === functionName);
-            scopeToCheck = scopeToCheck.upper;
-          }
-
-          if (variableToCheck && variableToCheck.defs && variableToCheck.defs.length > 0) {
-            const definition = variableToCheck.defs[0];
-            if (definition.type === 'Variable' && definition.node.init) {
-              const init = definition.node.init;
-              // Check if this variable was assigned the result of createQueryHook
-              if (init.type === 'CallExpression' && isCreateQueryHookCall(init)) {
-                isQueryHook = true;
-              }
-            }
-          }
-        }
-
-        if (isQueryHook) {
-          // Handle `useQuery(options)` signature
-          if (node.arguments.length === 1) {
-            const optionsNode = node.arguments[0];
-            checkOptionsNode(optionsNode);
-          }
-          // Handle `useQuery(data, options)` signature
-          else if (node.arguments.length >= 2) {
-            const optionsNode = node.arguments[1];
-            checkOptionsNode(optionsNode);
-          }
-          return;
-        }
-
         // --- Step 1: Identify if the called function is from a query hook file ---
 
         // Find the import declaration for this function
@@ -440,36 +533,6 @@ module.exports = {
         else if (node.arguments.length >= 2) {
           const optionsNode = node.arguments[1];
           checkOptionsNode(optionsNode);
-        }
-      },
-
-      /**
-       * Visitor for variable declarations to track createQueryHook variables
-       */
-      VariableDeclarator(node) {
-        if (node.init && node.init.type === 'CallExpression' && isCreateQueryHookCall(node.init)) {
-          if (node.id.type === 'Identifier') {
-            queryHookVariables.add(node.id.name);
-          }
-        }
-      },
-
-      /**
-       * Visitor for export declarations to track exported createQueryHook variables
-       */
-      ExportNamedDeclaration(node) {
-        if (node.declaration && node.declaration.type === 'VariableDeclaration') {
-          for (const declarator of node.declaration.declarations) {
-            if (
-              declarator.init &&
-              declarator.init.type === 'CallExpression' &&
-              isCreateQueryHookCall(declarator.init)
-            ) {
-              if (declarator.id.type === 'Identifier') {
-                queryHookVariables.add(declarator.id.name);
-              }
-            }
-          }
         }
       },
     };

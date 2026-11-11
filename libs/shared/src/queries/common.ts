@@ -77,7 +77,7 @@ type ResultType<TOptions extends SuspenseQueryOptions, TError, SelectType> = TOp
   ? UseSuspenseQueryResult<SelectType, TError>
   : UseQueryResult<SelectType, TError>;
 
-export type QueryOptionsType<
+type QueryOptionsType<
   TQueryData,
   TError,
   SelectType,
@@ -97,6 +97,40 @@ export type QueryOptionsType<
     : Omit<UseQueryOptions<TQueryData, TError, SelectType, TQueryKey>, 'queryKey' | 'queryFn'> &
         TOptions;
 
+type RequireDefinedEnabled<TPassedOptions> = 'enabled' extends keyof TPassedOptions
+  ? {} extends Pick<TPassedOptions, 'enabled'>
+    ? unknown
+    : undefined extends TPassedOptions['enabled']
+      ? { enabled: Exclude<TPassedOptions['enabled'], undefined> }
+      : unknown
+  : unknown;
+
+type RejectUnknownKeys<TPassedOptions, TKnownOptions> = {
+  [K in Exclude<keyof TPassedOptions, keyof TKnownOptions>]: never;
+};
+
+/**
+ * `enabled: undefined` means enabled in react-query, so a present `enabled` must not include
+ * `undefined`. `TPassedOptions` only exists to infer the options type the caller passed, and
+ * `RejectUnknownKeys` restores the excess property check that inferring it disables.
+ */
+export type QueryHookOptionsType<
+  TQueryData,
+  TError,
+  SelectType,
+  TQueryKey extends QueryKey,
+  TOptions extends SuspenseQueryOptions = {},
+  TPassedOptions = unknown,
+> = QueryOptionsType<TQueryData, TError, SelectType, TQueryKey, TOptions> &
+  TPassedOptions &
+  NoInfer<
+    RequireDefinedEnabled<TPassedOptions> &
+      RejectUnknownKeys<
+        TPassedOptions,
+        QueryOptionsType<TQueryData, TError, SelectType, TQueryKey, TOptions>
+      >
+  >;
+
 export function createQueryHook<
   T = unknown,
   TQueryData = unknown,
@@ -114,12 +148,34 @@ export function createQueryHook<
         | UseQueryOptions<TQueryData, TError, TData, TQueryKey>
         | UseSuspenseQueryOptions<TQueryData, TError, TData, TQueryKey>),
 ): unknown extends T
-  ? <TOptions extends SuspenseQueryOptions = SuspenseQueryOptions, SelectType = TData>(
-      options?: QueryOptionsType<TQueryData, TError, SelectType, TQueryKey, TOptions>,
+  ? <
+      TOptions extends SuspenseQueryOptions = SuspenseQueryOptions,
+      SelectType = TData,
+      TPassedOptions = unknown,
+    >(
+      options?: QueryHookOptionsType<
+        TQueryData,
+        TError,
+        SelectType,
+        TQueryKey,
+        TOptions,
+        TPassedOptions
+      >,
     ) => ResultType<TOptions, TError, SelectType>
-  : <TOptions extends SuspenseQueryOptions = SuspenseQueryOptions, SelectType = TData>(
+  : <
+      TOptions extends SuspenseQueryOptions = SuspenseQueryOptions,
+      SelectType = TData,
+      TPassedOptions = unknown,
+    >(
       data: T,
-      options?: QueryOptionsType<TQueryData, TError, SelectType, TQueryKey, TOptions>,
+      options?: QueryHookOptionsType<
+        TQueryData,
+        TError,
+        SelectType,
+        TQueryKey,
+        TOptions,
+        TPassedOptions
+      >,
     ) => ResultType<TOptions, TError, SelectType>;
 
 export function createQueryHook(

@@ -20,7 +20,7 @@
 
 import { UseQueryResult } from '@tanstack/react-query';
 import { EntitlementCheck, EntitlementCheckFeatureKey, ResourceType } from '../types/billing';
-import { QueryOptionsType } from './common';
+import { QueryHookOptionsType } from './common';
 
 export interface EntitlementCheckParams {
   featureKey: EntitlementCheckFeatureKey;
@@ -55,7 +55,17 @@ export function notEntitled(featureKey: EntitlementCheckFeatureKey): Entitlement
   return { featureKey, entitled: false, consumption: null, value: null, excludedValues: [] };
 }
 
-export type EntitlementCheckQueryFunctionType = <SelectType = EntitlementCheck>(
+export type EntitlementCheckQueryFunctionType = <
+  SelectType = EntitlementCheck,
+  TPassedOptions = unknown,
+>(
   params: EntitlementCheckParams,
-  options?: QueryOptionsType<EntitlementCheck, Error, SelectType, (string | undefined)[]>,
+  options?: QueryHookOptionsType<
+    EntitlementCheck,
+    Error,
+    SelectType,
+    (string | undefined)[],
+    {},
+    TPassedOptions
+  >,
 ) => UseQueryResult<SelectType>;

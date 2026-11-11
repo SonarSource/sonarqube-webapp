@@ -23,7 +23,7 @@ import { useAddons } from '../../context/addons/AddonsContext';
 
 export const useEntitlementCheckQuery: EntitlementCheckQueryFunctionType = (
   { featureKey, resourceId, resourceType },
-  options = {},
+  options,
 ) => {
   const { useEntitlementCheckQuery } = useAddons().entitlements ?? {};
   if (!useEntitlementCheckQuery) {
