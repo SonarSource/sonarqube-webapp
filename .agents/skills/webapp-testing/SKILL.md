@@ -1,6 +1,6 @@
 ---
 name: webapp-testing
-description: "Use this skill when you need to write or understand testing best practices in webapp"
+description: 'Use this skill when you need to write or understand testing best practices in webapp'
 allowed-tools: Read, Grep, Glob, Bash
 ---
 
@@ -11,7 +11,7 @@ allowed-tools: Read, Grep, Glob, Bash
 - **SQ-Server:** `apps/sq-server/jest.config.js`
 - **SQ-Cloud:** `private/apps/sq-cloud/config/jest/`
 
--------
+---
 
 ## Testing Approach and Philosophy
 
@@ -21,8 +21,8 @@ Tests must bring additional trust in the code. We must not test implementation d
 
 We define the following naming strategy:
 
-- Integration tests use the *-it.ts* file naming pattern (e.g., Facet-it.tsx).
-- Unit tests use the *-test.ts* file naming pattern (e.g., utils-test.ts).
+- Integration tests use the _-it.ts_ file naming pattern (e.g., Facet-it.tsx).
+- Unit tests use the _-test.ts_ file naming pattern (e.g., utils-test.ts).
 
 ## There are 3 layers of testing
 
@@ -55,7 +55,7 @@ Snapshot testing saves the result of a function, typically the DOM rendered by a
 - Do Not snapshot test: styling, logic, DOM layout
 - Do snapshot test: Code samples, like in the Tutorials. Their exact contents are the feature!
 
--------
+---
 
 ## Smart Mock Best Practices
 
@@ -92,7 +92,7 @@ export class MyServiceMock extends AbstractServiceMock<MyServiceData> {
 }
 
 export const MyServiceDefaultDataset: MyServiceData = {
-  foo: 'bar'
+  foo: 'bar',
 };
 ```
 
@@ -108,7 +108,9 @@ beforeEach(() => {
 });
 ```
 
--------
+A mock should typically be used in the test where it is needed rather than in global test setup. `private/apps/sq-cloud/config/jest/SetupTests-it.ts` is not appropriate for most feature-specific service mocks.
+
+---
 
 ## Critical Testing Rule
 
@@ -119,11 +121,11 @@ Use `waitFor()` only when there is no observable UI change to await directly, fo
 ```tsx
 // ❌ Bad
 await waitFor(() => {
-  expect(screen.getByText("Loading complete")).toBeInTheDocument();
+  expect(screen.getByText('Loading complete')).toBeInTheDocument();
 });
 
 // ✅ Good
-const loadingText = await screen.findByText("Loading complete");
+const loadingText = await screen.findByText('Loading complete');
 expect(loadingText).toBeInTheDocument();
 ```
 

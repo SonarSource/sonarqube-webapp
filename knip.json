@@ -37,6 +37,7 @@
       "entry": [
         "libs/**/src/index.{ts,tsx}!",
         "private/libs/**/src/index.{ts,tsx}!",
+        "private/libs/feature-cbom/src/queries/cbom.ts!",
         "private/libs/sq-server-features/src/feature-*/index.{ts,tsx}!",
         "private/libs/sq-cloud-openapi/generate-client.mjs",
         "private/libs/sq-cloud-openapi/src/runtime.ts",
