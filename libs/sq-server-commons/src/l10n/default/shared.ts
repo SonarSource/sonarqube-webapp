@@ -1699,4 +1699,17 @@ export const sharedMessages = {
   'pr_remediation.history_unavailable': 'No comparable reporting history in this scope',
   'pr_remediation.history_unavailable_description':
     'Missing history isn’t the same as zero remediation. Try a shorter period.',
+  'main_branch_remediation.main_branches': 'Main branches',
+  'main_branch_remediation.heading': 'Main branch remediation',
+  'main_branch_remediation.description':
+    'Track {findingType, select, sca {dependency risks} other {issues}} closed in the main branches of projects in your organization.',
+  'main_branch_remediation.closedFindings.title': 'Closed during this period',
+  'main_branch_remediation.backlogHistory.title': 'How did the backlog change?',
+  'main_branch_remediation.introducedAndResolvedFindings.title': 'Introduced vs. closed',
+  'main_branch_remediation.openFindingsAge.title':
+    'Age of open {findingType, select, sca {dependency risks} other {issues}}',
+  'main_branch_remediation.mttr.title': 'Mean time to resolve',
+  'main_branch_remediation.loading': 'Loading main branch remediation',
+  'main_branch_remediation.error': 'Could not load this widget. Try again.',
+  'main_branch_remediation.unavailable': 'Data is unavailable for this widget.',
 };
