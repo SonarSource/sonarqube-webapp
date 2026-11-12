@@ -60,6 +60,7 @@ export function PermissionHeader(props: Readonly<Props>) {
 
   return (
     <Table.ColumnHeaderCell
+      className="sw:wrap-normal"
       label={label}
       toggleTip={{
         ariaLabel: intl.formatMessage(

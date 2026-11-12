@@ -178,7 +178,7 @@ export default class HoldersList extends React.PureComponent<
           aria-colcount={permissions.length + 1} // don't count the avatar column
           ariaLabel={this.intl.formatMessage({ id: 'permissions.page' })}
           className="it__permission-list"
-          gridTemplate={`max-content 1fr repeat(${permissions.length}, auto)`}
+          gridTemplate={`max-content minmax(10rem, 1fr) repeat(${permissions.length}, auto)`}
         >
           <Table.Header>
             <Table.Row>
