@@ -42,7 +42,7 @@ describe('useNativeBrowserNavigationBlocker', () => {
   let confirmSpy: jest.SpyInstance;
   let historyBackSpy: jest.SpyInstance;
   let originalLocation: Location;
-  let pushStateSpy: jest.SpyInstance;
+  let pushStateSpy: jest.SpyInstance<void, [unknown, string, (string | URL | null)?]>;
 
   beforeEach(() => {
     beforeUnloadCallback = undefined;
@@ -171,11 +171,90 @@ describe('useNativeBrowserNavigationBlocker', () => {
 
     Object.defineProperty(globalThis.history, 'state', {
       configurable: true,
-      value: { navigationBlocked: true },
+      value: pushStateSpy.mock.calls[0][0],
     });
     unmount();
 
     expect(historyBackSpy).toHaveBeenCalledTimes(1);
+  });
+
+  it('runs actions immediately when no history guard is active', () => {
+    const action = jest.fn();
+    const { result } = renderHook(() => useNativeBrowserNavigationBlocker(false));
+    act(() => {
+      result.current(action);
+    });
+    expect(action).toHaveBeenCalledTimes(1);
+    expect(historyBackSpy).not.toHaveBeenCalled();
+  });
+
+  it('waits for its guard to be removed before running one action', () => {
+    const originalState = { key: 'editor', idx: 1, usr: { filter: 'active' } };
+    Object.defineProperty(globalThis.history, 'state', {
+      configurable: true,
+      value: originalState,
+    });
+    const action = jest.fn();
+    const repeatedAction = jest.fn();
+    const { result, rerender } = renderHook(
+      ({ block }) => useNativeBrowserNavigationBlocker(block),
+      { initialProps: { block: true } },
+    );
+    Object.defineProperty(globalThis.history, 'state', {
+      configurable: true,
+      value: pushStateSpy.mock.calls[0][0],
+    });
+    act(() => {
+      result.current(action);
+      result.current(repeatedAction);
+    });
+    expect(historyBackSpy).toHaveBeenCalledTimes(1);
+    expect(action).not.toHaveBeenCalled();
+    Object.defineProperty(globalThis.history, 'state', {
+      configurable: true,
+      value: originalState,
+    });
+    act(() => {
+      globalThis.dispatchEvent(new PopStateEvent('popstate', { state: originalState }));
+    });
+    expect(action).toHaveBeenCalledTimes(1);
+    expect(repeatedAction).not.toHaveBeenCalled();
+    expect(confirmSpy).not.toHaveBeenCalled();
+    expect(globalThis.history.state).toEqual(originalState);
+    rerender({ block: false });
+    expect(historyBackSpy).toHaveBeenCalledTimes(1);
+  });
+
+  it('cancels a pending action when unmounted without traversing again', () => {
+    const action = jest.fn();
+    const { result, unmount } = renderHook(() => useNativeBrowserNavigationBlocker(true));
+    Object.defineProperty(globalThis.history, 'state', {
+      configurable: true,
+      value: pushStateSpy.mock.calls[0][0],
+    });
+    act(() => {
+      result.current(action);
+    });
+    unmount();
+    act(() => {
+      globalThis.dispatchEvent(new PopStateEvent('popstate'));
+    });
+    expect(action).not.toHaveBeenCalled();
+    expect(historyBackSpy).toHaveBeenCalledTimes(1);
+  });
+
+  it('does not traverse a guard owned by another blocker', () => {
+    const action = jest.fn();
+    const { result } = renderHook(() => useNativeBrowserNavigationBlocker(true));
+    Object.defineProperty(globalThis.history, 'state', {
+      configurable: true,
+      value: { navigationBlocked: true, navigationBlockedBy: 'another-blocker' },
+    });
+    act(() => {
+      result.current(action);
+    });
+    expect(action).toHaveBeenCalledTimes(1);
+    expect(historyBackSpy).not.toHaveBeenCalled();
   });
 
   it('continues browser history navigation after confirmation', () => {

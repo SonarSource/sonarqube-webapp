@@ -19,6 +19,7 @@
  */
 
 import { Outlet, Route, generatePath, useLocation } from 'react-router';
+import { DashboardMode } from '~feature-dashboards/types/dashboard-list';
 import { PROJECT_BASE_URL } from '~adapters/helpers/urls';
 import NotFound from '~shared/components/NotFound';
 import { getBranchLikeQuery } from '~shared/helpers/branch-like';
@@ -58,14 +59,14 @@ function withProjectKey(
   path: string,
   projectKey?: string,
   isDashboardView = false,
-  branchParameters?: BranchParameters,
+  queryParameters?: BranchParameters & { mode?: DashboardMode.Edit },
 ) {
   const searchParams = new URLSearchParams({
     ...(projectKey ? { id: projectKey } : {}),
     ...(isDashboardView
       ? { [PROJECT_DASHBOARD_VIEW_QUERY_PARAM]: PROJECT_DASHBOARD_VIEW_QUERY_VALUE }
       : {}),
-    ...branchParameters,
+    ...queryParameters,
   });
   const search = searchParams.toString();
   return search ? `${path}?${search}` : path;
@@ -80,8 +81,17 @@ export function getProjectDashboardsListRoute(projectKey?: string, branchLike?: 
   );
 }
 
-export function getProjectCustomDashboardRoute(dashboardId: string, projectKey?: string) {
-  return withProjectKey(generatePath(PROJECT_CUSTOM_DASHBOARD_ROUTE, { dashboardId }), projectKey);
+export function getProjectCustomDashboardRoute(
+  dashboardId: string,
+  projectKey?: string,
+  { mode }: { mode?: DashboardMode.Edit } = {},
+) {
+  return withProjectKey(
+    generatePath(PROJECT_CUSTOM_DASHBOARD_ROUTE, { dashboardId }),
+    projectKey,
+    false,
+    mode ? { mode } : undefined,
+  );
 }
 
 export function getProjectBuiltInDashboardRoute(

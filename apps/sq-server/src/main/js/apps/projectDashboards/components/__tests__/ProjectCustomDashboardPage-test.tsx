@@ -20,30 +20,37 @@
 
 import { act, screen } from '@testing-library/react';
 import type { ReactNode } from 'react';
-import { DashboardType } from '~feature-dashboards/types/dashboard-list';
-import { renderWithRouter } from '~shared/helpers/test-utils';
+import { Link, Route, useParams } from 'react-router';
+import { EmptyDashboard } from '~feature-dashboards/dashboard-layout/EmptyDashboard';
+import { useNativeBrowserNavigationBlocker } from '~feature-dashboards/hooks/useNativeBrowserNavigationBlocker';
+import { DashboardMode, DashboardType } from '~feature-dashboards/types/dashboard-list';
+import { renderWithRouter, renderWithRoutes } from '~shared/helpers/test-utils';
 import { mockAppState } from '~sq-server-commons/helpers/testMocks';
 import { EditionKey } from '~sq-server-commons/types/editions';
 import { Permissions } from '~sq-server-commons/types/permissions';
 import { getProjectCustomDashboardRoute } from '../../routes';
 import { ProjectCustomDashboardPage } from '../ProjectCustomDashboardPage';
 
-const mockUpdate = jest.fn();
+const mockUpdate = jest.fn<undefined, [unknown, { onSuccess: () => void; onError: () => void }]>();
 const mockDelete = jest.fn();
-const mockDuplicate = jest.fn();
+const mockDuplicate = jest.fn<
+  undefined,
+  [unknown, { onSuccess: (dashboard: { id: string; name: string }) => void; onError: () => void }]
+>();
 const mockRetry = jest.fn();
 const mockResetTargetSection = jest.fn();
-const mockUseUsersByIdsQuery = jest.fn();
-const mockDownloadDashboardSchema = jest.fn();
-const mockNavigate = jest.fn();
+const mockUseUsersByIdsQuery = jest.fn<
+  { data: Record<string, { avatar: string; name: string }>; isPending: boolean },
+  [string[]]
+>();
+const mockDownloadDashboardSchema = jest.fn<undefined, [unknown]>();
 let mockCurrentUser: { isLoggedIn: boolean; permissions: { global: Permissions[] } };
 let mockDashboardId = '77acc15a-1742-42ff-9469-7e4de1faa19f';
 let mockQuery: { data?: unknown; error?: unknown; isPending: boolean; refetch: () => void };
 
 jest.mock('react-router', () => ({
   ...jest.requireActual<typeof import('react-router')>('react-router'),
-  useNavigate: () => mockNavigate,
-  useParams: () => ({ dashboardId: mockDashboardId }),
+  useParams: jest.fn(() => ({ dashboardId: mockDashboardId })),
 }));
 
 jest.mock('~sq-server-commons/context/componentContext/withComponentContext', () => ({
@@ -62,7 +69,9 @@ jest.mock('~sq-server-commons/queries/users', () => ({
   useUsersByIdsQuery: (ids: string[]) => mockUseUsersByIdsQuery(ids),
 }));
 jest.mock('~feature-dashboards/helpers/downloadDashboardSchema', () => ({
-  downloadDashboardSchema: (dashboard: unknown) => mockDownloadDashboardSchema(dashboard),
+  downloadDashboardSchema: (dashboard: unknown) => {
+    mockDownloadDashboardSchema(dashboard);
+  },
 }));
 
 jest.mock('../../../../queries/project-dashboards', () => ({
@@ -145,16 +154,28 @@ jest.mock('~feature-dashboards/hooks/useNativeBrowserNavigationBlocker', () => (
 
 jest.mock('~feature-dashboards/dashboard-layout/DashboardCustomDashboardContent', () => ({
   DashboardCustomDashboardContent: ({
+    canEdit,
     isEditing,
     onAddWidgetToSection,
     onWidgetEdit,
+    setIsEditing,
   }: {
+    canEdit: boolean;
     isEditing: boolean;
     onAddWidgetToSection: (index: number) => void;
     onWidgetEdit: (index: number, widget: never) => void;
+    setIsEditing: (editing: boolean) => void;
   }) => (
     <div data-testid="dashboard-content">
       editing:{String(isEditing)}
+      <EmptyDashboard
+        canEdit={canEdit}
+        editDescriptionDocUrl="https://example.com/edit"
+        editModeButtonLabelKey="project_dashboard.empty.button.enter_edit_mode"
+        isEditing={isEditing}
+        nonEditDescriptionDocUrl="https://example.com/view"
+        setIsEditing={setIsEditing}
+      />
       <button
         onClick={() => {
           onAddWidgetToSection(0);
@@ -418,6 +439,10 @@ describe('ProjectCustomDashboardPage', () => {
     mockDashboardId = '77acc15a-1742-42ff-9469-7e4de1faa19f';
     setupQuery();
     jest.clearAllMocks();
+    jest.mocked(useNativeBrowserNavigationBlocker).mockImplementation(() => (action) => {
+      action();
+    });
+    jest.mocked(useParams).mockImplementation(() => ({ dashboardId: mockDashboardId }));
     mockUseUsersByIdsQuery.mockReturnValue({
       data: { 'editor-id': { avatar: 'avatar', name: 'Alice' } },
       isPending: false,
@@ -451,12 +476,7 @@ describe('ProjectCustomDashboardPage', () => {
 
     expect(screen.getByText('Custom project dashboard')).toBeInTheDocument();
     expect(screen.getByTestId('dashboard-content')).toHaveTextContent('editing:false');
-    const editStatus = screen.getByText(
-      (_content, element) =>
-        element?.tagName === 'SPAN' &&
-        element.textContent?.includes('project_dashboard.last_edited_by') === true &&
-        element.textContent.includes('Alice'),
-    );
+    const editStatus = screen.getByText(/project_dashboard.last_edited_by/, { selector: 'span' });
     expect(editStatus).toHaveTextContent('project_dashboard.last_edited_by');
     expect(editStatus).toHaveTextContent('Alice');
     expect(mockUseUsersByIdsQuery).toHaveBeenCalledWith(['editor-id']);
@@ -485,6 +505,159 @@ describe('ProjectCustomDashboardPage', () => {
     expect(screen.queryByRole('button', { name: 'download-schema' })).not.toBeInTheDocument();
   });
 
+  it('waits for dashboard data before opening the requested editor', async () => {
+    setupQuery({ data: undefined, isPending: true });
+    const { rerender, unmount } = renderWithRoutes(
+      <Route element={<ProjectCustomDashboardPage />} path="/" />,
+      {
+        initialEntries: ['/?id=project-key&filter=active&mode=edit'],
+        routerMode: 'browser',
+      },
+    );
+    expect(screen.getByText('loading-dashboard')).toBeInTheDocument();
+    setupQuery();
+    rerender(<Route element={<ProjectCustomDashboardPage />} path="/" />);
+    expect(await screen.findByRole('button', { name: 'exit-edit' })).toBeInTheDocument();
+    expect(window.location.search).toBe('?id=project-key&filter=active&mode=edit');
+    const reloadUrl = window.location.pathname + window.location.search;
+    unmount();
+    renderWithRouter(<ProjectCustomDashboardPage />, {
+      initialEntries: [reloadUrl],
+      routerMode: 'browser',
+    });
+    expect(await screen.findByRole('button', { name: 'exit-edit' })).toBeInTheDocument();
+  });
+
+  it('does not enable URL-requested editing for anonymous users', () => {
+    mockCurrentUser.isLoggedIn = false;
+    renderWithRouter(<ProjectCustomDashboardPage />, {
+      initialEntries: ['/?id=project-key&mode=edit'],
+    });
+    expect(screen.queryByRole('button', { name: 'exit-edit' })).not.toBeInTheDocument();
+  });
+
+  it.each(['dashboard.edit_dashboard', 'project_dashboard.empty.button.enter_edit_mode'])(
+    'synchronizes URL state when editing is entered via %s',
+    async (buttonName) => {
+      const { user } = renderWithRouter(<ProjectCustomDashboardPage />, {
+        initialEntries: ['/?id=project-key&filter=active'],
+        routerMode: 'browser',
+      });
+      const historyLength = window.history.length;
+      await user.click(screen.getByRole('button', { name: buttonName }));
+      expect(await screen.findByRole('button', { name: 'exit-edit' })).toBeInTheDocument();
+      expect(window.location.search).toBe('?id=project-key&filter=active&mode=edit');
+      await user.click(screen.getByRole('button', { name: 'exit-edit' }));
+      expect(
+        await screen.findByRole('button', { name: 'dashboard.edit_dashboard' }),
+      ).toBeInTheDocument();
+      expect(window.location.search).toBe('?id=project-key&filter=active');
+      expect(window.history).toHaveLength(historyLength);
+    },
+  );
+
+  it('removes only edit mode after successfully saving a new dashboard', async () => {
+    mockUpdate.mockImplementationOnce((_data, { onSuccess }) => {
+      onSuccess();
+    });
+    const { user } = renderWithRouter(<ProjectCustomDashboardPage />, {
+      initialEntries: ['/?id=project-key&filter=active&mode=edit'],
+      routerMode: 'browser',
+    });
+    await user.click(await screen.findByRole('button', { name: 'save-changes' }));
+    expect(
+      await screen.findByRole('button', { name: 'dashboard.edit_dashboard' }),
+    ).toBeInTheDocument();
+    expect(window.location.search).toBe('?id=project-key&filter=active');
+  });
+
+  it.each(['save-changes', 'exit-edit'])(
+    'returns to the source after dirty %s and Back with the real blocker',
+    async (buttonName) => {
+      jest
+        .mocked(useNativeBrowserNavigationBlocker)
+        .mockImplementation(
+          jest.requireActual<
+            typeof import('~feature-dashboards/hooks/useNativeBrowserNavigationBlocker')
+          >('~feature-dashboards/hooks/useNativeBrowserNavigationBlocker')
+            .useNativeBrowserNavigationBlocker,
+        );
+      jest
+        .mocked(useParams)
+        .mockImplementation(
+          jest.requireActual<typeof import('react-router')>('react-router').useParams,
+        );
+      mockUpdate.mockImplementationOnce((_input, { onSuccess }) => {
+        onSuccess();
+      });
+      const editorUrl = `/project/dashboards/${mockDashboardId}?id=project-key&filter=active&mode=edit`;
+      const { user } = renderWithRoutes(
+        <>
+          <Route element={<Link to={editorUrl}>Open editor</Link>} path="/source" />
+          <Route element={<ProjectCustomDashboardPage />} path="/project/dashboards/:dashboardId" />
+        </>,
+        { initialEntries: ['/source'], routerMode: 'browser' },
+      );
+      await user.click(screen.getByRole('link', { name: 'Open editor' }));
+      await user.click(await screen.findByRole('button', { name: 'create-section' }));
+      await user.click(screen.getByRole('button', { name: 'confirm-section' }));
+      expect(window.history.state).toHaveProperty('navigationBlocked', true);
+      await user.click(screen.getByRole('button', { name: buttonName }));
+      expect(
+        await screen.findByRole('button', { name: 'dashboard.edit_dashboard' }),
+      ).toBeInTheDocument();
+      expect(window.location.search).toBe('?id=project-key&filter=active');
+      expect(window.history.state).not.toHaveProperty('navigationBlocked');
+      act(() => {
+        window.history.back();
+      });
+      expect(await screen.findByRole('link', { name: 'Open editor' })).toBeInTheDocument();
+      expect(window.location.pathname).toBe('/source');
+    },
+  );
+
+  it('returns to the original dashboard in view mode after duplicating and navigating Back', async () => {
+    jest
+      .mocked(useParams)
+      .mockImplementation(
+        jest.requireActual<typeof import('react-router')>('react-router').useParams,
+      );
+    const sourceUrl = `/project/dashboards/${mockDashboardId}?id=project-key`;
+    const { user } = renderWithRoutes(
+      <Route element={<ProjectCustomDashboardPage />} path="/project/dashboards/:dashboardId" />,
+      { initialEntries: [sourceUrl], routerMode: 'browser' },
+    );
+    await user.click(screen.getByRole('button', { name: 'duplicate-dashboard' }));
+    await user.click(screen.getByRole('button', { name: 'save-metadata' }));
+    act(() => {
+      mockDuplicate.mock.calls[0][1].onSuccess({
+        id: '88acc15a-1742-42ff-9469-7e4de1faa19f',
+        name: 'Copied dashboard',
+      });
+    });
+    expect(await screen.findByRole('button', { name: 'exit-edit' })).toBeInTheDocument();
+    expect(window.location.pathname).toBe(
+      '/project/dashboards/88acc15a-1742-42ff-9469-7e4de1faa19f',
+    );
+    await act(async () => {
+      const popped = new Promise<void>((resolve) => {
+        window.addEventListener(
+          'popstate',
+          () => {
+            resolve();
+          },
+          { once: true },
+        );
+      });
+      window.history.back();
+      await popped;
+    });
+    expect(
+      await screen.findByRole('button', { name: 'dashboard.edit_dashboard' }),
+    ).toBeInTheDocument();
+    expect(window.location.pathname + window.location.search).toBe(sourceUrl);
+  });
+
   it('duplicates the dashboard from the menu', async () => {
     const { user } = renderProjectCustomDashboardPage();
 
@@ -509,9 +682,11 @@ describe('ProjectCustomDashboardPage', () => {
       mockDuplicate.mock.calls[0][1].onSuccess({ id: 'new-id', name: 'Renamed' });
     });
 
-    expect(mockNavigate).toHaveBeenCalledWith(
-      getProjectCustomDashboardRoute('new-id', 'project-key'),
-    );
+    expect(
+      await screen.findByText(
+        getProjectCustomDashboardRoute('new-id', 'project-key', { mode: DashboardMode.Edit }),
+      ),
+    ).toBeInTheDocument();
     expect(screen.queryByRole('button', { name: 'save-metadata' })).not.toBeInTheDocument();
   });
 

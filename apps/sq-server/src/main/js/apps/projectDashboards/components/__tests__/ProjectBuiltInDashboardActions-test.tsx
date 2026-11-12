@@ -24,9 +24,13 @@ import { renderWithRouter } from '~shared/helpers/test-utils';
 import type { ProjectDashboardData } from '../../../../types/project-dashboards';
 import { ProjectBuiltInDashboardActions } from '../ProjectBuiltInDashboardActions';
 
-const mockCreate = jest.fn();
-const mockDuplicate = jest.fn();
-const mockDownloadDashboardSchema = jest.fn();
+type MutationCallbacks = {
+  onError: () => void;
+  onSuccess: (dashboard: { id: string; name: string }) => void;
+};
+const mockCreate = jest.fn<undefined, [unknown, MutationCallbacks]>();
+const mockDuplicate = jest.fn<undefined, [unknown, MutationCallbacks]>();
+const mockDownloadDashboardSchema = jest.fn<undefined, [ProjectDashboardData]>();
 const mockNavigate = jest.fn();
 let mockProjectId: string | undefined = 'project-id';
 
@@ -48,8 +52,9 @@ jest.mock('~sq-server-commons/sq-server-adapters/helpers/useProjectId', () => ({
 }));
 
 jest.mock('~feature-dashboards/helpers/downloadDashboardSchema', () => ({
-  downloadDashboardSchema: (dashboard: ProjectDashboardData) =>
-    mockDownloadDashboardSchema(dashboard),
+  downloadDashboardSchema: (dashboard: ProjectDashboardData) => {
+    mockDownloadDashboardSchema(dashboard);
+  },
 }));
 
 jest.mock('../ProjectDashboardModal', () => ({
@@ -129,7 +134,9 @@ describe('ProjectBuiltInDashboardActions', () => {
     act(() => {
       mockCreate.mock.calls[0][1].onSuccess({ id: 'created-id', name: 'Created dashboard' });
     });
-    expect(mockNavigate).toHaveBeenCalledWith('/project/dashboards/created-id?id=project-key');
+    expect(mockNavigate).toHaveBeenCalledWith(
+      '/project/dashboards/created-id?id=project-key&mode=edit',
+    );
   });
 
   it('duplicates and downloads a built-in dashboard from the menu', async () => {
@@ -165,7 +172,9 @@ describe('ProjectBuiltInDashboardActions', () => {
         name: 'Duplicated dashboard',
       });
     });
-    expect(mockNavigate).toHaveBeenCalledWith('/project/dashboards/duplicated-id?id=project-key');
+    expect(mockNavigate).toHaveBeenCalledWith(
+      '/project/dashboards/duplicated-id?id=project-key&mode=edit',
+    );
 
     await user.click(screen.getByRole('button', { name: 'more_actions' }));
     await user.click(screen.getByRole('menuitem', { name: 'dashboard.download_schema' }));

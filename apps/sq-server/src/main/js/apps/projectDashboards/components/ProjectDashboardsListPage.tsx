@@ -228,7 +228,11 @@ export function ProjectDashboardsListPage() {
                     isDismissable: true,
                   });
 
-                  push(getProjectCustomDashboardRoute(created.id, projectKey));
+                  push(
+                    getProjectCustomDashboardRoute(created.id, projectKey, {
+                      mode: DashboardMode.Edit,
+                    }),
+                  );
                 },
                 onError: () => {
                   toast.error({

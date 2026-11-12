@@ -89,7 +89,8 @@ function isEmptyDashboard(dashboard: DashboardInstance<ProjectDashboardWidgetPro
 
 export function ProjectCustomDashboardPage() {
   const { formatMessage } = useIntl();
-  const { push } = useRouter();
+  const { push, searchParams, setSearchParams } = useRouter();
+  const urlDashboardMode = searchParams.get('mode');
   const { component } = useComponent();
   const { currentUser, isLoggedIn } = useCurrentUser();
   const { hasFeature } = useAvailableFeatures();
@@ -101,7 +102,6 @@ export function ProjectCustomDashboardPage() {
   const editDocumentationUrl = useDocUrl(DocLink.ProjectManagementCreateDashboards);
   const viewDocumentationUrl = useDocUrl(DocLink.ProjectManagementAllDashboards);
   const invalidId = Boolean(dashboardId) && !isApiResourceUuid(dashboardId);
-  const [isEditing, setIsEditing] = useState(false);
   const [isAddWidgetModalOpen, setIsAddWidgetModalOpen] = useState(false);
   const [isEditWidgetModalOpen, setIsEditWidgetModalOpen] = useState(false);
   const [isCreateSectionModalOpen, setIsCreateSectionModalOpen] = useState(false);
@@ -130,6 +130,8 @@ export function ProjectCustomDashboardPage() {
   const { mutate: updateDashboard, isPending: isUpdating } = useUpdateProjectDashboardMutation();
   const { mutate: deleteDashboard, isPending: isDeleting } = useDeleteProjectDashboardMutation();
   const dashboard = query.data;
+  const isEditing =
+    canEdit && urlDashboardMode === DashboardMode.Edit && dashboard?.type === DashboardType.Custom;
   const effectiveLayout = localLayout ?? dashboard?.layout ?? null;
   const state = getDashboardCustomDashboardState({
     dashboard,
@@ -142,6 +144,21 @@ export function ProjectCustomDashboardPage() {
       setLocalLayout(dashboard.layout);
     }
   }, [dashboard?.layout]);
+
+  const setEditMode = (editing: boolean) => {
+    setSearchParams(
+      (previous) => {
+        const next = new URLSearchParams(previous);
+        if (editing) {
+          next.set('mode', DashboardMode.Edit);
+        } else {
+          next.delete('mode');
+        }
+        return next;
+      },
+      { replace: true },
+    );
+  };
 
   const setDashboardWithUnsavedChanges = useCallback(
     (value: SetStateAction<DashboardInstance<ProjectDashboardWidgetPropMap>>) => {
@@ -156,43 +173,16 @@ export function ProjectCustomDashboardPage() {
   const { initialWidgetProps, handleOpenEditWidget, handleSaveEditWidget } = useEditWidget({
     setDashboardWithUnsavedChanges,
   });
-  useNativeBrowserNavigationBlocker(canEdit && isEditing && hasUnsavedChanges);
-
-  const handleSaveChanges = useCallback(() => {
-    if (!dashboard || !effectiveLayout) {
-      return;
-    }
-    updateDashboard(
-      {
-        dashboardId: dashboard.id,
-        description: dashboard.description,
-        layout: effectiveLayout,
-        name: dashboard.name,
-        projectId,
-      },
-      {
-        onSuccess: () => {
-          setIsEditing(false);
-          setHasUnsavedChanges(false);
-          toast.success({
-            description: formatMessage({ id: 'project_dashboard.custom.toast.save_success' }),
-            isDismissable: true,
-          });
-        },
-        onError: () => {
-          toast.error({
-            description: formatMessage({ id: 'project_dashboard.custom.toast.save_error' }),
-            isDismissable: true,
-          });
-        },
-      },
-    );
-  }, [dashboard, effectiveLayout, formatMessage, projectId, updateDashboard]);
+  const runWithoutBlocking = useNativeBrowserNavigationBlocker(
+    canEdit && isEditing && hasUnsavedChanges,
+  );
 
   const handleExitEdit = () => {
-    setIsEditing(false);
-    setHasUnsavedChanges(false);
-    setLocalLayout(dashboard?.layout ?? null);
+    runWithoutBlocking(() => {
+      setHasUnsavedChanges(false);
+      setLocalLayout(dashboard?.layout ?? null);
+      setEditMode(false);
+    });
   };
   const handleCreateSection = (name: string, description: string) => {
     const newSection = normalizeSection({
@@ -257,6 +247,36 @@ export function ProjectCustomDashboardPage() {
       />
     );
   }
+  const handleSaveChanges = () => {
+    updateDashboard(
+      {
+        dashboardId: dashboard.id,
+        description: dashboard.description,
+        layout: effectiveLayout,
+        name: dashboard.name,
+        projectId,
+      },
+      {
+        onSuccess: () => {
+          runWithoutBlocking(() => {
+            setHasUnsavedChanges(false);
+            setEditMode(false);
+          });
+          toast.success({
+            description: formatMessage({ id: 'project_dashboard.custom.toast.save_success' }),
+            isDismissable: true,
+          });
+        },
+        onError: () => {
+          toast.error({
+            description: formatMessage({ id: 'project_dashboard.custom.toast.save_error' }),
+            isDismissable: true,
+          });
+        },
+      },
+    );
+  };
+
   const dashboardForModal = {
     ...createEmptyDashboard<ProjectDashboardWidgetPropMap>(DashboardType.Custom),
     ...dashboard,
@@ -284,7 +304,7 @@ export function ProjectCustomDashboardPage() {
       {!isEditing && canEdit && (
         <Button
           onClick={() => {
-            setIsEditing(true);
+            setEditMode(true);
           }}
           variety={ButtonVariety.Primary}
         >
@@ -382,7 +402,7 @@ export function ProjectCustomDashboardPage() {
             handleOpenEditWidget(index, widget);
             setIsEditWidgetModalOpen(true);
           }}
-          setIsEditing={setIsEditing}
+          setIsEditing={setEditMode}
         />
       </ProjectPageTemplate>
 
@@ -458,7 +478,11 @@ export function ProjectCustomDashboardPage() {
                     isDismissable: true,
                   });
 
-                  push(getProjectCustomDashboardRoute(created.id, component.key));
+                  push(
+                    getProjectCustomDashboardRoute(created.id, component.key, {
+                      mode: DashboardMode.Edit,
+                    }),
+                  );
                 },
               },
             );

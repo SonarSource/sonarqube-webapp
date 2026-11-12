@@ -19,6 +19,7 @@
  */
 
 import { screen } from '@testing-library/react';
+import { DashboardMode } from '~feature-dashboards/types/dashboard-list';
 import { Route } from 'react-router';
 import { renderWithRoutes } from '~shared/helpers/test-utils';
 import { ComponentQualifier } from '~shared/types/component';
@@ -194,4 +195,16 @@ describe('project dashboard routes', () => {
     expect(await screen.findByRole('heading', { name: 'page_not_found' })).toBeInTheDocument();
     expect(screen.queryByTestId(testId)).not.toBeInTheDocument();
   });
+});
+
+it('builds an edit-mode custom dashboard URL without losing the entity key', () => {
+  expect(
+    getProjectCustomDashboardRoute('copy-id', 'entity/key & value', { mode: DashboardMode.Edit }),
+  ).toBe('/project/dashboards/copy-id?id=entity%2Fkey+%26+value&mode=edit');
+});
+
+it('builds an edit-mode dashboard URL when the project key is omitted', () => {
+  expect(getProjectCustomDashboardRoute('copy-id', undefined, { mode: DashboardMode.Edit })).toBe(
+    '/project/dashboards/copy-id?mode=edit',
+  );
 });

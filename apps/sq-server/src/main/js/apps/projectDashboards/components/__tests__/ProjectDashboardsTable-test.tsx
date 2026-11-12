@@ -18,7 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { screen } from '@testing-library/react';
+import { act, screen } from '@testing-library/react';
 import type { ReactNode } from 'react';
 import { DashboardMode, DashboardType } from '~feature-dashboards/types/dashboard-list';
 import { renderWithRouter } from '~shared/helpers/test-utils';
@@ -28,7 +28,10 @@ import { ProjectDashboardsTable } from '../ProjectDashboardsTable';
 const mockNavigate = jest.fn();
 const mockUpdate = jest.fn();
 const mockDelete = jest.fn();
-const mockDuplicate = jest.fn();
+const mockDuplicate = jest.fn<
+  undefined,
+  [unknown, { onSuccess: (dashboard: { id: string; name: string }) => void; onError: () => void }]
+>();
 const mockPrefetch = jest.fn().mockResolvedValue(undefined);
 
 jest.mock('react-router', () => ({
@@ -235,6 +238,21 @@ describe('ProjectDashboardsTable', () => {
     expect(mockPrefetch).toHaveBeenCalled();
     expect(screen.getByTestId(`modal-${DashboardMode.Duplicate}`)).toBeInTheDocument();
   });
+
+  it.each([DashboardType.Custom, DashboardType.BuiltIn])(
+    'opens the duplicate of a %s dashboard directly in edit mode',
+    async (type) => {
+      const user = setup([dashboard({ type, name: 'Source dashboard' })]);
+      await user.click(screen.getByRole('button', { name: 'duplicate-Source dashboard' }));
+      await user.click(screen.getByRole('button', { name: 'save' }));
+      act(() => {
+        mockDuplicate.mock.calls[0][1].onSuccess({ id: 'copy-id', name: 'Copied dashboard' });
+      });
+      expect(mockNavigate).toHaveBeenCalledWith(
+        '/project/dashboards/copy-id?id=project-key&mode=edit',
+      );
+    },
+  );
 
   it('deletes a custom dashboard', async () => {
     const user = setup([dashboard()]);

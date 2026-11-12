@@ -254,7 +254,9 @@ describe('ProjectDashboardsListPage', () => {
       mockCreate.mock.calls[0][1].onSuccess({ id: 'new-id', name: 'New dashboard' });
     });
 
-    expect(mockNavigate).toHaveBeenCalledWith('/project/dashboards/new-id?id=project-key');
+    expect(mockNavigate).toHaveBeenCalledWith(
+      '/project/dashboards/new-id?id=project-key&mode=edit',
+    );
   });
 
   it.each([EditionKey.enterprise, EditionKey.datacenter])(

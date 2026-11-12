@@ -18,12 +18,23 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { useCallback, useEffect } from 'react';
+import { useCallback, useEffect, useId, useRef } from 'react';
 import { useIntl } from 'react-intl';
 
 import { useNavigationBlockerEffects } from '~shared/hooks/useNavigationBlockerEffects';
 
-export function useNativeBrowserNavigationBlocker(shouldBlock: boolean): void {
+export function useNativeBrowserNavigationBlocker(
+  shouldBlock: boolean,
+): (action: () => void) => void {
+  const blockerId = useId();
+  const unblockRef = useRef<((action: () => void) => void) | null>(null);
+  const runWithoutBlocking = useCallback((action: () => void) => {
+    if (unblockRef.current) {
+      unblockRef.current(action);
+    } else {
+      action();
+    }
+  }, []);
   const { formatMessage } = useIntl();
 
   const onLinkNavigation = useCallback(
@@ -55,11 +66,14 @@ export function useNativeBrowserNavigationBlocker(shouldBlock: boolean): void {
     }
 
     const currentState = (globalThis.history.state ?? {}) as Record<string, unknown>;
-    globalThis.history.pushState({ ...currentState, navigationBlocked: true }, '');
+    const guardState = { ...currentState, navigationBlocked: true, navigationBlockedBy: blockerId };
+    globalThis.history.pushState(guardState, '');
+    let isGuardActive = true;
+    let pendingPopState: (() => void) | undefined;
 
     const handlePopState = () => {
       if (shouldBlock) {
-        globalThis.history.pushState({ ...currentState, navigationBlocked: true }, '');
+        globalThis.history.pushState(guardState, '');
 
         // eslint-disable-next-line no-alert
         const shouldNavigate = globalThis.confirm(
@@ -76,12 +90,39 @@ export function useNativeBrowserNavigationBlocker(shouldBlock: boolean): void {
     };
 
     globalThis.addEventListener('popstate', handlePopState);
-    return () => {
+    unblockRef.current = (action) => {
+      if (!isGuardActive) {
+        return;
+      }
+      isGuardActive = false;
       globalThis.removeEventListener('popstate', handlePopState);
       const state = globalThis.history.state as Record<string, unknown> | null;
-      if (state?.navigationBlocked) {
+      if (state?.navigationBlockedBy === blockerId) {
+        // Wait until the real editor entry is current before updating its URL.
+        pendingPopState = () => {
+          pendingPopState = undefined;
+          unblockRef.current = null;
+          action();
+        };
+        globalThis.addEventListener('popstate', pendingPopState, { once: true });
+        globalThis.history.back();
+      } else {
+        unblockRef.current = null;
+        action();
+      }
+    };
+    return () => {
+      unblockRef.current = null;
+      globalThis.removeEventListener('popstate', handlePopState);
+      if (pendingPopState) {
+        globalThis.removeEventListener('popstate', pendingPopState);
+      }
+      const state = globalThis.history.state as Record<string, unknown> | null;
+      if (isGuardActive && state?.navigationBlockedBy === blockerId) {
         globalThis.history.back();
       }
     };
-  }, [formatMessage, isNavigatingRef, shouldBlock]);
+  }, [blockerId, formatMessage, isNavigatingRef, shouldBlock]);
+
+  return runWithoutBlocking;
 }

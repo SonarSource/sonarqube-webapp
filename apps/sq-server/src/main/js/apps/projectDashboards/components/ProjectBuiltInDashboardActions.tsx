@@ -105,7 +105,7 @@ export function ProjectBuiltInDashboardActions({
           isDismissable: true,
         });
 
-        push(getProjectCustomDashboardRoute(created.id, projectKey));
+        push(getProjectCustomDashboardRoute(created.id, projectKey, { mode: DashboardMode.Edit }));
       },
     };
 
