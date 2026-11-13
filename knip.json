@@ -61,9 +61,6 @@
         "{config,eslint-local-rules,@types,tools/scan-components,.github/scripts}/**/*.{ts,tsx,js,mjs,mts}"
       ],
       "ignoreFiles": ["eslint-local-rules/test-config/react.tsx"],
-      "babel": {
-        "config": ["babel.config.js"]
-      },
       "oxlint": {
         "config": [".oxlintrc.json"]
       },

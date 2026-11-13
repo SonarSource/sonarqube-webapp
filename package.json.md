@@ -87,17 +87,9 @@ Not used as a linter. The ESLint plugins and ESLint core rules that Oxlint loads
 
 Library used to generate CycloneDX SBOM.
 
-### @rolldown/plugin-babel
-
-Runs the shared Babel configuration (Emotion and QA component attributes) alongside `@vitejs/plugin-react` v6, which no longer provides Babel transforms.
-
-### @types/babel__core
-
-Provides the Babel option types required by `@rolldown/plugin-babel` in the TypeScript Vite configuration.
-
 ### rolldown
 
-Required peer dependency of `@rolldown/plugin-babel`, aligned with the Rolldown version used by Vite.
+Provides the Oxc parser (`rolldown/parseAst`) and native `RolldownMagicString` used by the Vite plugins in `config/vite/` that replace the former Babel transforms: `emotion-styled-targets` (Emotion component selector targets and dev labels) and `qa-component-attribute` (`data-component` attributes). Aligned with the Rolldown version used by Vite.
 
 ### @sprig-technologies/sprig-browser
 
@@ -167,7 +159,7 @@ Used in jest config files to improve the jest watch mode.
 
 ### knip
 
-Finds unused files, dependencies, and exports across the monorepo. Configured in `knip.json` with plugins for Nx, Vite, Jest, ESLint, Playwright, Tailwind, Babel, and MSW. Run via `yarn knip` for the full graph or `yarn knip:production` for production-only analysis. Production patterns end in `!`; test and mock-only files are explicitly excluded there, while Knip ignores `@internal` exports in production and preserves `@public` exports as API surface. Production runs also ignore exports used within their declaring file, since their implementation is live production code even when the export exists only for tests. Knip treats re-exports as internally referenced under this option as well, so unused re-exports in intermediate barrel files are a known production-report blind spot; the full-graph run continues to report unnecessary exports that have no external consumers. Install the recommended [Knip VS Code extension](https://marketplace.visualstudio.com/items?itemName=webpro.vscode-knip) (`webpro.vscode-knip`) for inline diagnostics while editing. Validate jobs run `yarn knip:report`, which writes a shared Sonar report at `build/reports/knip/external-issues.json` for import via `sonar.externalIssuesReportPaths` (each product scan imports only issues on files in its own `sonar.sources`). Run `yarn test-knip-report` for reporter unit tests.
+Finds unused files, dependencies, and exports across the monorepo. Configured in `knip.json` with plugins for Nx, Vite, Jest, ESLint, Playwright, Tailwind, and MSW. Run via `yarn knip` for the full graph or `yarn knip:production` for production-only analysis. Production patterns end in `!`; test and mock-only files are explicitly excluded there, while Knip ignores `@internal` exports in production and preserves `@public` exports as API surface. Production runs also ignore exports used within their declaring file, since their implementation is live production code even when the export exists only for tests. Knip treats re-exports as internally referenced under this option as well, so unused re-exports in intermediate barrel files are a known production-report blind spot; the full-graph run continues to report unnecessary exports that have no external consumers. Install the recommended [Knip VS Code extension](https://marketplace.visualstudio.com/items?itemName=webpro.vscode-knip) (`webpro.vscode-knip`) for inline diagnostics while editing. Validate jobs run `yarn knip:report`, which writes a shared Sonar report at `build/reports/knip/external-issues.json` for import via `sonar.externalIssuesReportPaths` (each product scan imports only issues on files in its own `sonar.sources`). Run `yarn test-knip-report` for reporter unit tests.
 
 The Knip scripts prefix the command with `NX_DAEMON=false`. Knip loads tool configs (e.g. `jest.config.ts` via the Jest plugin), which can invoke Nx APIs and trip the background Nx daemon — often surfacing as `Daemon process terminated and closed the connection`. Disabling the daemon for read-only Knip runs is the [documented workaround](https://knip.dev/reference/known-issues#nx-daemon); it does not affect normal `yarn nx` usage.
 

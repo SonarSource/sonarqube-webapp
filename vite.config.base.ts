@@ -18,7 +18,6 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import babel from '@rolldown/plugin-babel';
 import react from '@vitejs/plugin-react';
 import autoprefixer from 'autoprefixer';
 import path, { resolve } from 'node:path';
@@ -27,9 +26,10 @@ import license from 'rollup-plugin-license';
 import { UserConfig } from 'vite';
 import { analyzer } from 'vite-bundle-analyzer';
 import requireTransform from 'vite-plugin-require-transform';
-import babelConfig from './babel.config';
 import { ALLOWED_LICENSE_TEXT, ALLOWED_LICENSES, generateLicenseText } from './config/license';
+import { emotionStyledTargets } from './config/vite/emotion-styled-targets';
 import { productionMockGuard } from './config/vite/production-mock-guard';
+import { qaComponentAttribute } from './config/vite/qa-component-attribute';
 import { translationCatalogGroups } from './config/vite/translation-catalogs';
 
 export const DEFAULT_DEV_SERVER_PORT = 3000;
@@ -51,7 +51,7 @@ const licenseBanner = '/*! licenses: /vendor.LICENSE.txt */';
 export const baseViteConfig = {
   build: {
     outDir: resolve(projectRoot, buildOutputDir),
-    // Vite reads build.target for the JS bundle. package.json browserslist is still consumed elsewhere in the toolchain (Autoprefixer, Babel/Jest).
+    // Vite reads build.target for the JS bundle. package.json browserslist is still consumed elsewhere in the toolchain (Autoprefixer, Jest).
     target: 'baseline-widely-available',
     rolldownOptions: {
       // we define all the places where a user can land that requires its own bundle entry point.
@@ -149,7 +149,8 @@ export const baseViteConfig = {
     // additional plugins to allow for the transformation of our existing code to what vite is expecting.
     requireTransform({}),
     react(),
-    babel(babelConfig),
+    emotionStyledTargets(),
+    qaComponentAttribute(),
     analyzeBundle &&
       analyzer({
         fileName: resolve(projectRoot, 'build/bundle-metrics.json'),
