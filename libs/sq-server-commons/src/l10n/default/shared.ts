@@ -1726,4 +1726,39 @@ export const sharedMessages = {
   'main_branch_remediation.backlogHistory.date': '{date} (UTC)',
   'main_branch_remediation.backlogHistory.keyboard_hint':
     'Use Left and Right arrows to explore five-day snapshots, Home and End for the first and last, and Escape to dismiss details.',
+  'main_branch_remediation.openFindingsAge.as_of': 'As of {date} (UTC)',
+  'main_branch_remediation.openFindingsAge.duration':
+    '{unit, select, months {{value} months} other {{value} {days, plural, one {day} other {days}}}}',
+  'main_branch_remediation.openFindingsAge.median_exact':
+    'Median age: {value} {days, plural, one {day} other {days}}',
+  'main_branch_remediation.openFindingsAge.median_caption':
+    'Median age of open {findingType, select, sca {dependency risks} other {issues}}',
+  'main_branch_remediation.openFindingsAge.no_open':
+    'No open {findingType, select, sca {dependency risks} other {issues}}.',
+  'main_branch_remediation.openFindingsAge.no_median': 'Median age is unavailable.',
+  'main_branch_remediation.openFindingsAge.bucket_below': '<{end, number} days',
+  'main_branch_remediation.openFindingsAge.bucket_between': '{start, number}–<{end, number} days',
+  'main_branch_remediation.openFindingsAge.bucket_older': '{start, number}+ days',
+  'main_branch_remediation.openFindingsAge.open':
+    'Open {findingType, select, sca {dependency risks} other {issues}}',
+  'main_branch_remediation.openFindingsAge.row':
+    '{range}: {count, number} {findingType, select, sca {open dependency risks} other {open issues}}',
+  'main_branch_remediation.openFindingsAge.keyboard_hint':
+    'Use Up and Down arrows to explore age buckets, Home and End for the first and last, and Escape to dismiss details.',
+  'main_branch_remediation.introducedAndResolvedFindings.description':
+    'Are {findingType, select, sca {dependency risks} other {issues}} closed as fast as new ones are introduced?',
+  'main_branch_remediation.introducedAndResolvedFindings.more_closed':
+    '{count, number} more closed than introduced in the last {days, number} days',
+  'main_branch_remediation.introducedAndResolvedFindings.more_introduced':
+    '{count, number} more introduced than closed in the last {days, number} days',
+  'main_branch_remediation.introducedAndResolvedFindings.balanced':
+    'The same number closed and introduced in the last {days, number} days',
+  'main_branch_remediation.introducedAndResolvedFindings.totals':
+    '{closed, number} closed, {introduced, number} introduced',
+  'main_branch_remediation.introducedAndResolvedFindings.show_net': 'Show net change',
+  'main_branch_remediation.introducedAndResolvedFindings.introduced': 'Introduced',
+  'main_branch_remediation.introducedAndResolvedFindings.closed': 'Closed',
+  'main_branch_remediation.introducedAndResolvedFindings.net': 'Net change',
+  'main_branch_remediation.introducedAndResolvedFindings.chart_label':
+    '{findingType, select, sca {Dependency risks} other {Issues}} introduced above zero and closed below zero by interval',
 };
