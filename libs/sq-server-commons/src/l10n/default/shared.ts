@@ -1712,4 +1712,18 @@ export const sharedMessages = {
   'main_branch_remediation.loading': 'Loading main branch remediation',
   'main_branch_remediation.error': 'Could not load this widget. Try again.',
   'main_branch_remediation.unavailable': 'Data is unavailable for this widget.',
+  'main_branch_remediation.backlogHistory.description':
+    'Last {days, number} days, as of {date} (UTC)',
+  'main_branch_remediation.backlogHistory.open':
+    '{findingType, select, sca {Open dependency risks} other {Open issues}}',
+  'main_branch_remediation.backlogHistory.chart_label':
+    '{findingType, select, sca {Dependency risk} other {Issue}} backlog history',
+  'main_branch_remediation.backlogHistory.change': '{delta} compared with the start of the period',
+  'main_branch_remediation.backlogHistory.no_change': 'No change since the start of the period',
+  'main_branch_remediation.backlogHistory.missing_end': 'The report-end count is unavailable.',
+  'main_branch_remediation.backlogHistory.missing_baseline': 'The starting count is unavailable.',
+  'main_branch_remediation.backlogHistory.unavailable': 'Unavailable',
+  'main_branch_remediation.backlogHistory.date': '{date} (UTC)',
+  'main_branch_remediation.backlogHistory.keyboard_hint':
+    'Use Left and Right arrows to explore five-day snapshots, Home and End for the first and last, and Escape to dismiss details.',
 };
