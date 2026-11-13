@@ -57,7 +57,7 @@ interface Props {
  */
 export function AnalyzeProjectsPanel({ state }: Readonly<Props>) {
   const { formatMessage } = useIntl();
-  const { analyze, analyzedPct } = state;
+  const { analyze, analyzedPct, isFullyImported } = state;
   const { trackActionSelected } = useOnboardingDashboardTracking();
 
   const segments = getAnalyzeSegments(state, formatMessage);
@@ -79,7 +79,7 @@ export function AnalyzeProjectsPanel({ state }: Readonly<Props>) {
           )}
         </Badge>
       ),
-      cta: (
+      cta: analyze.notScanned > 0 && (
         <PermissionGate
           action={OnboardingDashboardAction.ConfigureScanners}
           trigger={
@@ -116,7 +116,7 @@ export function AnalyzeProjectsPanel({ state }: Readonly<Props>) {
           )}
         </Badge>
       ),
-      cta: (
+      cta: !isFullyImported && (
         <ImportRepositoriesCta>
           {formatMessage({ id: 'onboarding_dashboard.journey.analyze.not_imported.cta' })}
         </ImportRepositoriesCta>

@@ -100,7 +100,9 @@ jest.mock('~adapters/helpers/onboarding-actions', () => ({
 }));
 
 jest.mock('~adapters/components/onboarding/ImportRepositoriesExtraCard', () => ({
-  ImportRepositoriesExtraCard: () => <div data-testid="import-extra-card" />,
+  ImportRepositoriesExtraCard: ({ isFullyImported }: { isFullyImported: boolean }) => (
+    <div data-fully-imported={String(isFullyImported)} data-testid="import-extra-card" />
+  ),
 }));
 
 jest.mock('~adapters/helpers/useCanCreateProjects', () => ({
@@ -138,6 +140,7 @@ const boundState: JourneyState = {
   imported: 48,
   importedPct: 40,
   isBound: true,
+  isFullyImported: false,
   level: JourneyLevel.Imported,
   notYetImported: 72,
   overallPct: 80,
@@ -217,6 +220,8 @@ const ui = {
   notScannedCta: byRole('button', { name: 'onboarding_dashboard.journey.analyze.not_scanned.cta' }),
   importRowCta: byRole('button', { name: 'onboarding_dashboard.journey.analyze.not_imported.cta' }),
   notScannedCount: byText('onboarding_dashboard.journey.analyze.projects_count.7'),
+  notScannedRowTitle: byText('onboarding_dashboard.journey.analyze.not_scanned.title'),
+  notImportedRowTitle: byText('onboarding_dashboard.journey.analyze.not_imported.title'),
   notImportedCount: byText('onboarding_dashboard.journey.analyze.repositories_count.20'),
 
   donutStepCount: byText(/^onboarding_dashboard\.journey\.step\.count/),
@@ -381,7 +386,7 @@ it('hides the view-binding link when the binding settings page cannot be resolve
 it('renders the extra import card inside the import repositories panel', () => {
   renderPanel(JourneyStep.Repositories, boundNoImportState);
 
-  expect(ui.extraCard.get()).toBeInTheDocument();
+  expect(ui.extraCard.get()).toHaveAttribute('data-fully-imported', 'false');
 });
 
 it('renders only the not-imported donut segment before any repository is imported', async () => {
@@ -410,6 +415,26 @@ it('renders both donut segments once repositories are imported', async () => {
   // than the "<imported> / <discovered>" count it used to show.
   expect(ui.importedCenterLabel.get()).toBeInTheDocument();
   expect(ui.donutStepCount.query()).not.toBeInTheDocument();
+});
+
+it('hides the import button once there is nothing left to import', () => {
+  renderPanel(
+    JourneyStep.Repositories,
+    stateWith({ importedPct: 100, isFullyImported: true, notYetImported: 0 }),
+  );
+
+  expect(ui.extraCard.get()).toHaveAttribute('data-fully-imported', 'true');
+  expect(ui.importCta.query()).not.toBeInTheDocument();
+});
+
+it('keeps the import button when discovery is unavailable and the count falls back to zero', async () => {
+  renderPanel(
+    JourneyStep.Repositories,
+    stateWith({ discovered: 0, isFullyImported: false, notYetImported: 0 }),
+  );
+
+  expect(ui.extraCard.get()).toHaveAttribute('data-fully-imported', 'false');
+  expect(await ui.importCta.find()).toBeInTheDocument();
 });
 
 it('shows the permission popover when the user lacks permission and clicks the bind CTA', async () => {
@@ -459,6 +484,32 @@ it('renders the analyze panel with its three legend entries and two action rows'
   // ...and the cohort counts land on the matching row.
   expect(ui.notScannedCount.get()).toBeInTheDocument();
   expect(ui.notImportedCount.get()).toBeInTheDocument();
+});
+
+it('hides the analyze row CTAs once their cohorts are empty', () => {
+  renderPanel(
+    JourneyStep.Projects,
+    stateWith({
+      analyze: { byMode: null, notImported: 0, notScanned: 0 },
+      isFullyImported: true,
+      notYetImported: 0,
+    }),
+  );
+
+  expect(ui.notScannedRowTitle.get()).toBeInTheDocument();
+  expect(ui.notImportedRowTitle.get()).toBeInTheDocument();
+  expect(ui.notScannedCta.query()).not.toBeInTheDocument();
+  expect(ui.importRowCta.query()).not.toBeInTheDocument();
+});
+
+it('keeps the analyze row import CTA while there is still something to import', async () => {
+  renderPanel(
+    JourneyStep.Projects,
+    stateWith({ analyze: { byMode: null, notImported: 20, notScanned: 0 } }),
+  );
+
+  expect(await ui.importRowCta.find()).toBeInTheDocument();
+  expect(ui.notScannedCta.query()).not.toBeInTheDocument();
 });
 
 describe('height animation', () => {

@@ -51,7 +51,7 @@ interface Props {
  */
 export function ImportRepositoriesPanel({ state }: Readonly<Props>) {
   const { formatMessage } = useIntl();
-  const { importedPct, notYetImported } = state;
+  const { importedPct, isFullyImported } = state;
   const { hasListablePlatforms } = usePlatformSelection();
   const importRepositoriesModalProps = useImportRepositoriesModalProps();
   const { trackActionSelected } = useOnboardingDashboardTracking();
@@ -105,15 +105,19 @@ export function ImportRepositoriesPanel({ state }: Readonly<Props>) {
           </Text>
         </div>
 
-        <ImportRepositoriesExtraCard isFullyImported={notYetImported === 0} />
+        <ImportRepositoriesExtraCard isFullyImported={isFullyImported} />
 
-        <Divider />
+        {!isFullyImported && (
+          <>
+            <Divider />
 
-        <div>
-          <ImportRepositoriesCta variety={ButtonVariety.Primary}>
-            {formatMessage({ id: 'onboarding_dashboard.journey.import.cta' })}
-          </ImportRepositoriesCta>
-        </div>
+            <div>
+              <ImportRepositoriesCta variety={ButtonVariety.Primary}>
+                {formatMessage({ id: 'onboarding_dashboard.journey.import.cta' })}
+              </ImportRepositoriesCta>
+            </div>
+          </>
+        )}
       </div>
     </div>
   );

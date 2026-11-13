@@ -114,6 +114,26 @@ it('reports BoundNoImport when bound with nothing imported', () => {
   expect(state.level).toBe(JourneyLevel.BoundNoImport);
 });
 
+it('reports fully imported only when discovery is known and nothing is left to import', () => {
+  const fullyImported = deriveJourneyState(
+    buildOverview({
+      projects: { analyzed: 5, notImported: 0, notScanned: 3, percent: null, total: 40 },
+      repositories: { discovered: 40, imported: 40, percent: null },
+    }),
+  );
+  const discoveryUnavailable = deriveJourneyState(
+    buildOverview({
+      projects: { analyzed: 5, notImported: null, notScanned: 3, percent: null, total: null },
+      repositories: { discovered: null, imported: 10, percent: null },
+    }),
+  );
+
+  expect(fullyImported.isFullyImported).toBe(true);
+  expect(deriveJourneyState(buildOverview()).isFullyImported).toBe(false);
+  expect(discoveryUnavailable.notYetImported).toBe(0);
+  expect(discoveryUnavailable.isFullyImported).toBe(false);
+});
+
 it('computes percentages when the backend sends none', () => {
   const state = deriveJourneyState(
     buildOverview({

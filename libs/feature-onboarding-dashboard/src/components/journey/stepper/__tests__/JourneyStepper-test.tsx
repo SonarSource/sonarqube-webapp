@@ -95,6 +95,7 @@ function mockState(overrides: Partial<JourneyState> = {}): JourneyState {
     imported: 0,
     importedPct: 0,
     isBound: false,
+    isFullyImported: false,
     level: JourneyLevel.Unbound,
     notYetImported: 0,
     overallPct: 0,

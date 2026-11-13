@@ -349,6 +349,8 @@ export interface JourneyState {
   imported: number;
   importedPct: number;
   isBound: boolean;
+  /** No repository left to import. False when discovery is unavailable: the count is unknown. */
+  isFullyImported: boolean;
   level: JourneyLevel;
   notYetImported: number;
   /** Overall onboarding maturity percentage shown in the header ring, 0–100. */

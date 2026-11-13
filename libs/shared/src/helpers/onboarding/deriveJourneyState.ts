@@ -129,6 +129,7 @@ export function deriveJourneyState(overview: OnboardingOverview): JourneyState {
     imported,
     importedPct: toPercent(imported, discovered, steps.repositories.percent),
     isBound,
+    isFullyImported: steps.repositories.discovered !== null && notYetImported === 0,
     level,
     notYetImported,
     overallPct: toDisplayPercent(progressPct),
