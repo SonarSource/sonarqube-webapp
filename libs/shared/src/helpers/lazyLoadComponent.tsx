@@ -21,6 +21,7 @@
 import { MessageCallout, MessageVariety } from '@sonarsource/echoes-react';
 import React, { Component, ComponentType, ErrorInfo, lazy, Suspense, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
+import { reportError } from '~adapters/helpers/report-error';
 import { getWrappedDisplayName } from '../components/hoc/utils';
 import { requestTryAndRepeatUntil } from './request';
 import useEffectOnce from './useEffectOnce';
@@ -64,6 +65,12 @@ class LazyErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState
   }
 
   componentDidCatch(error: Error, info: ErrorInfo) {
+    // The fallback replaces the whole page, so the crash must reach Sentry (a no-op on SQS).
+    reportError(error, {
+      contexts: { react: { componentStack: info.componentStack } },
+      tags: { errorBoundary: 'LazyErrorBoundary' },
+    });
+
     if (process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'test') {
       // eslint-disable-next-line no-console
       console.error(

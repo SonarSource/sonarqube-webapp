@@ -19,12 +19,15 @@
  */
 
 import { screen } from '@testing-library/react';
+import { reportError } from '~adapters/helpers/report-error';
 import { lazyLoadComponent } from '../lazyLoadComponent';
 import { render, renderWithContext } from '../test-utils';
 
 jest.mock('~shared/helpers/request', () => ({
   requestTryAndRepeatUntil: jest.fn((factory) => factory()),
 }));
+
+jest.mock('~adapters/helpers/report-error', () => ({ reportError: jest.fn() }));
 
 function TestComponent() {
   return <div>Test Component</div>;
@@ -62,4 +65,26 @@ it('should display an error message when lazy loading fails', async () => {
 
   expect(await screen.findByText('default_component_error_message')).toBeInTheDocument();
   expect(consoleErrorSpy).toHaveBeenCalled();
+});
+
+it('should report a render crash with its component stack', async () => {
+  jest.spyOn(console, 'error').mockImplementation();
+
+  function CrashingComponent(): React.ReactNode {
+    throw new Error('Render crash');
+  }
+
+  const LazyComponent = lazyLoadComponent<typeof CrashingComponent>(() =>
+    Promise.resolve({ default: CrashingComponent }),
+  );
+
+  renderWithContext(<LazyComponent />);
+
+  expect(await screen.findByText('default_component_error_message')).toBeInTheDocument();
+  // Earlier tests report through the same mock: read this test's (last) call.
+  const { calls } = jest.mocked(reportError).mock;
+  const [reported, context] = calls[calls.length - 1];
+  expect(reported).toEqual(new Error('Render crash'));
+  expect(context).toMatchObject({ tags: { errorBoundary: 'LazyErrorBoundary' } });
+  expect(JSON.stringify(context)).toContain('CrashingComponent');
 });
