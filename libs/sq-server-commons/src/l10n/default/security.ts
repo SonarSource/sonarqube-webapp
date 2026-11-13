@@ -1380,17 +1380,23 @@ export const securityMessages = {
   'sca.container_images.page': 'Container images',
   'sca.container_images.page.description':
     'Scan container images to find vulnerabilities and malicious packages. <link>Learn more about container scanning</link>.',
-  'sca.container_images.count':
-    '{count} {count, plural, one {container image} other {container images}}',
-  'sca.container_images.risk_count': '{count} {count, plural, one {risk} other {risks}}',
-  'sca.container_images.most_severe': 'Most severe:',
   'sca.container_images.last_analysis': '<b>Last analysis:</b> {date}',
   'sca.container_images.digest': '<b>Digest:</b> {digest}',
   'sca.container_images.select_digest': 'Select image tag and digest',
-  'sca.container_images.search': 'Search container images',
-  'sca.container_images.sort': 'Sort container images',
-  'sca.container_images.sort.name': 'Name',
-  'sca.container_images.sort.last_analysis': 'Last Analysis',
+  'sca.container_images.search': 'Search image repositories',
+  'sca.container_images.table': 'Image repositories',
+  'sca.container_images.column.image': 'Image repository',
+  'sca.container_images.column.last_analysis': 'Last analysis',
+  'sca.container_images.column.risks': 'Risks',
+  'sca.container_images.column.most_severe': 'Most severe',
+  'sca.container_images.column.tag': 'Tag',
+  'sca.container_images.column.tag.help':
+    'This is the tag most recently scanned by Sonar. It is not necessarily the newest published tag in the repository.',
+  'sca.container_images.column.scan_digest': 'Scan digest',
+  'sca.container_images.images': 'Images',
+  'sca.container_images.images.count': '<b>{count}</b> {count, plural, one {image} other {images}}',
+  'sca.container_images.image_repositories.count':
+    '<b>{count}</b> {count, plural, one {image repository} other {image repositories}}',
   'sca.container_images.empty.title': 'Scan your first container image',
   'sca.container_images.empty.description':
     'No images have been analyzed yet. Run the scanner on an image you’ve built or pulled, locally or in CI, and the results will appear here.',
@@ -2163,7 +2169,6 @@ export const securityMessages = {
     '{qualifier} overall Malicious Package Risk rating',
   'securityreport.overview_metric.sca_rating_malware.description':
     'Based on severity of malicious package risks',
-  'sca.container_images.tag': 'Tag: {tag}',
   'sca.container_images.tag_label': 'Tag',
   'sca.container_images.empty.start_setup': 'Start Setup',
   'sca.container_images.empty.steps': 'Scan setup instructions',
