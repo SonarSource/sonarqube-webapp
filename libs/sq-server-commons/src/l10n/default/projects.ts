@@ -806,8 +806,6 @@ export const projectsMessages = {
   'update_key.new_key': 'New Key',
   'update_key.are_you_sure_to_change_key': 'Are you sure you want to change key of "{0}"?',
   'project_quality_profiles.page': 'Quality profiles',
-  'project_quality_profiles.agentic_recommendation':
-    'Use the recommended {agenticQpDocLink} quality profile for agent-related projects',
   'ai_generated_code_protected.title': 'Your AI-generated code is protected',
   'ai_generated_code_protected.description':
     'The quality gate used by this project is qualified for AI Code Assurance.',

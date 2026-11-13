@@ -651,9 +651,6 @@ export const qualityMessages = {
   'project_quality_profile.profiles_by_languages': 'Profiles by languages',
   'project_quality_profile.profiles_by_languages.description':
     'For each language, choose the profile associated with this project.',
-  'project_quality_profile.contains_ai_code.title': 'This project contains AI-generated code',
-  'project_quality_profile.contains_ai_code.description':
-    '<b>{agenticQualityProfileName}</b> and <b>Sonar way</b> are the recommended quality profiles for AI generated code. Although it is not a mandatory step, we suggest you review your quality profiles to ensure protection. <p>Learn why in our documentation</p>',
   //------------------------------------------------------------------------------
   //
   // PROJECT QUALITY GATE PAGE

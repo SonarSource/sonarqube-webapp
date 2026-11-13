@@ -34,10 +34,15 @@ import { usePurchasableFeatureQuery } from '../../queries/entitlements';
  * entitled aren't the same thing here yet. SQC currently has no such toggle, but one is coming back
  * soon. Once both platforms share the same on/off behaviour, this should be reassessed in favour
  * of whether the feature is enabled.
+ *
+ * Nothing is requested while `enabled` is false.
  */
-export function useVortexEntitlementQuery(): VortexEntitlement {
+export function useVortexEntitlementQuery({
+  enabled = true,
+}: { enabled?: boolean } = {}): VortexEntitlement {
   const { data, isError, isPending, refetch } = usePurchasableFeatureQuery(
     EntitlementCheckFeatureKey.ContextAugmentation,
+    { enabled },
   );
 
   return {
