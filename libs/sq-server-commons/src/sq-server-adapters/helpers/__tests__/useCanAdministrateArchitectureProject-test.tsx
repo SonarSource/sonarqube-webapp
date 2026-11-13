@@ -44,7 +44,7 @@ describe('useCanAdministrateArchitectureProject', () => {
 
     const { result } = renderHook(() => useCanAdministrateArchitectureProject());
 
-    expect(result.current).toBe(true);
+    expect(result.current).toEqual({ canAdministrate: true, isLoading: false });
   });
 
   it('returns false when the user does not have the architectureadmin permission', () => {
@@ -52,7 +52,7 @@ describe('useCanAdministrateArchitectureProject', () => {
 
     const { result } = renderHook(() => useCanAdministrateArchitectureProject());
 
-    expect(result.current).toBe(false);
+    expect(result.current).toEqual({ canAdministrate: false, isLoading: false });
   });
 
   it('returns false when the flag is absent from the configuration', () => {
@@ -60,7 +60,7 @@ describe('useCanAdministrateArchitectureProject', () => {
 
     const { result } = renderHook(() => useCanAdministrateArchitectureProject());
 
-    expect(result.current).toBe(false);
+    expect(result.current).toEqual({ canAdministrate: false, isLoading: false });
   });
 
   it('returns false when there is no component', () => {
@@ -68,6 +68,6 @@ describe('useCanAdministrateArchitectureProject', () => {
 
     const { result } = renderHook(() => useCanAdministrateArchitectureProject());
 
-    expect(result.current).toBe(false);
+    expect(result.current).toEqual({ canAdministrate: false, isLoading: false });
   });
 });

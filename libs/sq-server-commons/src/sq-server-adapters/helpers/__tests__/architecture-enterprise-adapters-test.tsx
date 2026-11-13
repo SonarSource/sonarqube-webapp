@@ -30,6 +30,11 @@ import { Feature } from '../../../types/features';
 import { Permissions } from '../../../types/permissions';
 import { SettingsKey } from '../../../types/settings';
 import { CurrentUser } from '../../../types/users';
+import { getContextWrapper } from '../test-utils';
+import {
+  useAllowIssueAdminToEditArchitecture,
+  useSetAllowIssueAdminToEditArchitectureMutation,
+} from '../useAllowIssueAdminToEditArchitecture';
 import { useArchitectureEntitlement } from '../useArchitectureEntitlement';
 import {
   useArchitectureFlags,
@@ -83,21 +88,23 @@ describe('useCanAdministrateArchitectureGlobally', () => {
       permissions: { global: [Permissions.ArchitectureAdmin] },
     });
 
-    expect(renderWithUser(user).result.current).toBe(true);
+    expect(renderWithUser(user).result.current.canAdministrate).toBe(true);
   });
 
   it('denies access to an instance admin who lacks the permission', () => {
     const user = mockLoggedInUser({ permissions: { global: [Permissions.Admin] } });
 
-    expect(renderWithUser(user).result.current).toBe(false);
+    expect(renderWithUser(user).result.current.canAdministrate).toBe(false);
   });
 
   it('denies access when the user carries no permissions payload', () => {
-    expect(renderWithUser(mockLoggedInUser()).result.current).toBe(false);
+    expect(renderWithUser(mockLoggedInUser()).result.current.canAdministrate).toBe(false);
   });
 
   it('denies access to anonymous users', () => {
-    expect(renderWithUser(mockCurrentUser({ isLoggedIn: false })).result.current).toBe(false);
+    expect(
+      renderWithUser(mockCurrentUser({ isLoggedIn: false })).result.current.canAdministrate,
+    ).toBe(false);
   });
 });
 
@@ -214,6 +221,77 @@ describe('useSetArchitectureEnterpriseEnabledMutation', () => {
 
     expect(mutateAsync).toHaveBeenCalledWith({
       key: SettingsKey.ArchitectureEnterpriseEnabled,
+      value: 'false',
+    });
+  });
+});
+
+describe('useAllowIssueAdminToEditArchitecture', () => {
+  const setting = (value: string) => ({
+    key: SettingsKey.ArchitectureAllowIssueAdminToEdit,
+    value,
+  });
+
+  it.each([
+    ['false', setting('false'), false],
+    ['true', setting('true'), true],
+    ['no value', undefined, true],
+  ])('maps the setting (%s) to allowIssueAdminToEdit=%s', (_label, data, expected) => {
+    jest.mocked(useGetValueQuery).mockReturnValue({
+      data,
+      isError: false,
+      isLoading: false,
+    } as unknown as ReturnType<typeof useGetValueQuery>);
+
+    const { result } = renderHook(() => useAllowIssueAdminToEditArchitecture());
+
+    expect(result.current).toEqual({
+      allowIssueAdminToEdit: expected,
+      isError: false,
+      isLoading: false,
+    });
+    expect(useGetValueQuery).toHaveBeenCalledWith({
+      key: SettingsKey.ArchitectureAllowIssueAdminToEdit,
+    });
+  });
+
+  it('passes the loading state through', () => {
+    jest.mocked(useGetValueQuery).mockReturnValue({
+      data: undefined,
+      isLoading: true,
+    } as unknown as ReturnType<typeof useGetValueQuery>);
+
+    expect(renderHook(() => useAllowIssueAdminToEditArchitecture()).result.current.isLoading).toBe(
+      true,
+    );
+  });
+
+  it('passes the error state through', () => {
+    jest.mocked(useGetValueQuery).mockReturnValue({
+      data: undefined,
+      isError: true,
+    } as unknown as ReturnType<typeof useGetValueQuery>);
+
+    expect(renderHook(() => useAllowIssueAdminToEditArchitecture()).result.current.isError).toBe(
+      true,
+    );
+  });
+});
+
+describe('useSetAllowIssueAdminToEditArchitectureMutation', () => {
+  it('saves the setting through the shared simple-value mutation', async () => {
+    const mutateAsync = jest.fn().mockResolvedValue(undefined);
+    jest.mocked(useSaveSimpleValueMutation).mockReturnValue({
+      mutateAsync,
+    } as unknown as ReturnType<typeof useSaveSimpleValueMutation>);
+
+    const { result } = renderHook(() => useSetAllowIssueAdminToEditArchitectureMutation(), {
+      wrapper: getContextWrapper(),
+    });
+    await result.current.mutateAsync(false);
+
+    expect(mutateAsync).toHaveBeenCalledWith({
+      key: SettingsKey.ArchitectureAllowIssueAdminToEdit,
       value: 'false',
     });
   });

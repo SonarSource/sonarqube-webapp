@@ -1841,6 +1841,15 @@ export const securityMessages = {
     'Controls whether enterprise architecture features are available, including patterns, SDKs, cross-project relationships, and the project-level Directives and Exit points pages.',
   'architecture.enterprise_settings.enabled': 'Enterprise architecture features enabled.',
   'architecture.enterprise_settings.disabled': 'Enterprise architecture features disabled.',
+  'architecture.issue_admin_settings.checkbox.title':
+    'Allow issue administrators to edit architecture',
+  'architecture.issue_admin_settings.checkbox.help':
+    'Controls whether users with the Administer Issues permission on a project can edit its architecture, in addition to architecture administrators.',
+  'architecture.issue_admin_settings.enabled': 'Issue administrators can now edit architecture.',
+  'architecture.issue_admin_settings.disabled':
+    'Issue administrators can no longer edit architecture.',
+  'architecture.settings.load_error':
+    'The current value of this setting could not be loaded. Reload the page to try again.',
   'architecture.external_interfaces.nav': 'System components',
   'architecture.sdks.nav': 'SDKs',
   'architecture.sdks.list.title': 'SDKs',

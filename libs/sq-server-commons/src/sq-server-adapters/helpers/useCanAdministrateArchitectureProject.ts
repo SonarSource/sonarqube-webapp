@@ -20,7 +20,13 @@
 
 import { useComponent } from '../../context/componentContext/withComponentContext';
 
-export function useCanAdministrateArchitectureProject(): boolean {
+export function useCanAdministrateArchitectureProject(): {
+  canAdministrate: boolean;
+  isLoading: boolean;
+} {
   const { component } = useComponent();
-  return component?.configuration?.canAdminArchitecture ?? false;
+  return {
+    canAdministrate: component?.configuration?.canAdminArchitecture ?? false,
+    isLoading: false,
+  };
 }

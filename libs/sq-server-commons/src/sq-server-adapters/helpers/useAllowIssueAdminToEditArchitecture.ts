@@ -18,6 +18,30 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-export function useHasArchitectureAdminRole(_resourceType: string, _resourceId: string): boolean {
-  return false;
+import { useMutation } from '@tanstack/react-query';
+import { useGetValueQuery, useSaveSimpleValueMutation } from '../../queries/settings';
+import { SettingsKey } from '../../types/settings';
+
+export function useAllowIssueAdminToEditArchitecture() {
+  const {
+    data: setting,
+    isError,
+    isLoading,
+  } = useGetValueQuery({
+    key: SettingsKey.ArchitectureAllowIssueAdminToEdit,
+  });
+
+  return { allowIssueAdminToEdit: setting?.value !== 'false', isError, isLoading };
+}
+
+export function useSetAllowIssueAdminToEditArchitectureMutation() {
+  const mutation = useSaveSimpleValueMutation(false, null);
+
+  return useMutation({
+    mutationFn: (value: boolean) =>
+      mutation.mutateAsync({
+        key: SettingsKey.ArchitectureAllowIssueAdminToEdit,
+        value: value.toString(),
+      }),
+  });
 }

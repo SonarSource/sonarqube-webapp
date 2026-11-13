@@ -22,7 +22,13 @@ import { hasGlobalPermission } from '../../helpers/users';
 import { Permissions } from '../../types/permissions';
 import { useCurrentUser } from './users';
 
-export function useCanAdministrateArchitectureGlobally(): boolean {
+export function useCanAdministrateArchitectureGlobally(): {
+  canAdministrate: boolean;
+  isLoading: boolean;
+} {
   const { currentUser, isLoggedIn } = useCurrentUser();
-  return isLoggedIn && hasGlobalPermission(currentUser, Permissions.ArchitectureAdmin);
+  return {
+    canAdministrate: isLoggedIn && hasGlobalPermission(currentUser, Permissions.ArchitectureAdmin),
+    isLoading: false,
+  };
 }
