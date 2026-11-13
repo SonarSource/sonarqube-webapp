@@ -30,7 +30,7 @@ import type { ProjectDashboardData } from '../../../types/project-dashboards';
 
 export type ProjectDashboardModalProps = Omit<
   DashboardDetailsModalProps<ProjectDashboardData>,
-  'trailingContent'
+  'trailingContent' | 'prefillDuplicateName'
 >;
 
 export function ProjectDashboardModal(props: Readonly<ProjectDashboardModalProps>) {
@@ -44,6 +44,7 @@ export function ProjectDashboardModal(props: Readonly<ProjectDashboardModalProps
   return (
     <DashboardDetailsModal
       {...props}
+      prefillDuplicateName
       trailingContent={
         component?.visibility ? (
           <div className="sw:flex sw:flex-col sw:gap-2">

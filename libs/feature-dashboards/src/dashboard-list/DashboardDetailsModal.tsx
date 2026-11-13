@@ -32,6 +32,7 @@ export interface DashboardDetailsModalProps<T extends { description: string; nam
   onClose: () => void;
   onOpenChange: (open: boolean) => void;
   onSave: (dashboard: T) => Promise<void> | void;
+  prefillDuplicateName?: boolean;
   showDuplicateModeDescription?: boolean;
   trailingContent?: React.ReactNode;
 }
@@ -45,6 +46,7 @@ export function DashboardDetailsModal<T extends { description: string; name: str
   onOpenChange,
   onSave,
   isSaving,
+  prefillDuplicateName,
   showDuplicateModeDescription = true,
   trailingContent,
 }: Readonly<DashboardDetailsModalProps<T>>) {
@@ -67,6 +69,7 @@ export function DashboardDetailsModal<T extends { description: string; name: str
       onClose={onClose}
       onOpenChange={onOpenChange}
       onSave={({ name, description }) => onSave({ ...dashboard, name, description })}
+      prefillDuplicateName={prefillDuplicateName}
       primaryButtonLabel={modalText.primaryButtonLabel}
       secondaryButtonLabel={modalText.secondaryButtonLabel}
       title={modalText.title}

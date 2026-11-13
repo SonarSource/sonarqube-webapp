@@ -27,9 +27,11 @@ import {
   TextInput,
   TextSize,
 } from '@sonarsource/echoes-react';
-import { useEffect, useState } from 'react';
+import { useEffect, useId, useState } from 'react';
+import { useIntl } from 'react-intl';
 import { DashboardMode } from '../types/dashboard-list';
 
+const MAX_DASHBOARD_NAME_LENGTH = 300;
 const MAX_DASHBOARD_DESCRIPTION_LENGTH = 500;
 
 interface DashboardDetails {
@@ -51,6 +53,7 @@ interface DashboardDetailsFormModalProps {
   onClose: () => void;
   onOpenChange: (open: boolean) => void;
   onSave: (dashboard: DashboardDetails) => Promise<void> | void;
+  prefillDuplicateName?: boolean;
   primaryButtonLabel: string;
   secondaryButtonLabel: string;
   title: string;
@@ -71,44 +74,72 @@ export function DashboardDetailsFormModal({
   duplicateModeDescription,
   nameLabel,
   namePlaceholder,
+  prefillDuplicateName = false,
   primaryButtonLabel,
   secondaryButtonLabel,
   title,
   trailingContent,
 }: Readonly<DashboardDetailsFormModalProps>) {
+  const { formatMessage } = useIntl();
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
 
+  const duplicateName = prefillDuplicateName
+    ? formatMessage({ id: 'project_dashboard.duplicate_dashboard_name' }, { name: dashboard.name })
+    : '';
+
+  let initialName = '';
+  if (mode === DashboardMode.Edit) {
+    initialName = dashboard.name;
+  } else if (mode === DashboardMode.Duplicate) {
+    initialName = duplicateName;
+  }
+  const initialDescription = mode === DashboardMode.Edit ? dashboard.description : '';
+  const formId = useId();
+
   useEffect(() => {
-    if (isOpen && mode === DashboardMode.Edit) {
-      setName(dashboard.name);
-      setDescription(dashboard.description);
+    if (isOpen) {
+      setName(initialName);
+      setDescription(initialDescription);
     }
-  }, [isOpen, mode, dashboard.name, dashboard.description]);
+  }, [isOpen, mode, initialName, initialDescription]);
 
-  const handleSave = async () => {
-    await onSave({ name, description });
-  };
+  const isNameTooLong = name.length > MAX_DASHBOARD_NAME_LENGTH;
+  const isSubmitDisabled = !name.trim() || isNameTooLong || isSaving;
 
-  const handleCancel = () => {
-    setName(dashboard.name);
-    setDescription(dashboard.description);
-    onClose();
+  const handleSave = async (event: React.SubmitEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    if (!isSubmitDisabled) {
+      await onSave({ name, description });
+    }
   };
 
   return (
     <Modal
       content={
-        <div className="sw:space-y-6">
+        <form
+          aria-label={title}
+          className="sw:space-y-6"
+          id={formId}
+          noValidate
+          onSubmit={(event) => {
+            void handleSave(event);
+          }}
+        >
           <TextInput
             id="dashboard-name"
             isRequired
             label={nameLabel}
-            maxLength={300}
+            maxLength={MAX_DASHBOARD_NAME_LENGTH}
+            messageInvalid={formatMessage(
+              { id: 'project_dashboard.dashboard_name_too_long' },
+              { max: MAX_DASHBOARD_NAME_LENGTH },
+            )}
             onChange={(e) => {
               setName(e.target.value);
             }}
             placeholder={namePlaceholder}
+            validation={isNameTooLong ? 'invalid' : 'none'}
             value={name}
           />
           <TextArea
@@ -129,7 +160,7 @@ export function DashboardDetailsFormModal({
             value={description}
           />
           {trailingContent}
-        </div>
+        </form>
       }
       description={mode === DashboardMode.Duplicate ? duplicateModeDescription : undefined}
       isOpen={isOpen}
@@ -144,18 +175,22 @@ export function DashboardDetailsFormModal({
       }}
       primaryButton={
         <Button
-          isDisabled={!name.trim() || isSaving}
+          form={formId}
+          isDisabled={isSubmitDisabled}
           isLoading={isSaving}
-          onClick={() => {
-            void handleSave();
-          }}
+          type="submit"
           variety={ButtonVariety.Primary}
         >
           {primaryButtonLabel}
         </Button>
       }
       secondaryButton={
-        <Button isDisabled={isSaving} onClick={handleCancel} variety={ButtonVariety.Default}>
+        <Button
+          isDisabled={isSaving}
+          onClick={onClose}
+          type="button"
+          variety={ButtonVariety.Default}
+        >
           {secondaryButtonLabel}
         </Button>
       }

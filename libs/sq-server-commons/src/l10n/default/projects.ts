@@ -294,6 +294,8 @@ export const projectsMessages = {
   'project_dashboard.modal.dashboard_name_placeholder': 'Dashboard name',
   'project_dashboard.dashboard_description': 'Description',
   'project_dashboard.modal.dashboard_description_placeholder': 'Dashboard description',
+  'project_dashboard.duplicate_dashboard_name': '{name} - copy',
+  'project_dashboard.dashboard_name_too_long': 'Use {max} characters or fewer.',
   'project_dashboard.duplicate_dashboard_title': 'Duplicate dashboard',
   'project_dashboard.duplicate_dashboard_description':
     'Duplicating a dashboard creates a copy with all the same widgets.',
