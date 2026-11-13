@@ -12,6 +12,7 @@ This project is a monorepo that contains many packages to build a SaaS Cloud and
 - `echoes-components` for working with Echoes design system `@sonarsource/echoes-react`.
 - `webapp-code-sharing` for understanding the complex project organization of this NX repo.
 - `webapp-testing` for understanding how to write good tests.
+- `webapp-e2e` for creating, updating or debugging Cloud, Server and shared Playwright E2E scenarios.
 - `webapp-private-feature` for creating or restructuring a `private/libs/feature-*` library.
 
 Load these skills only when the task actually requires them — do not load them at startup.
@@ -26,6 +27,8 @@ feature-dashboards
 sq-server-features
 private-sq-server-addons
 sq-cloud-e2e-tests
+sq-server-e2e-tests
+e2e-shared-fixtures
 feature-jira
 feature-sca
 sq-server-commons
@@ -55,7 +58,7 @@ Other types of validation follow the pattern:
 
 When running tests, pick the most relevent platform (cloud or server) and narrowly scope the test run to the files you've modified as tests take time to run.
 
-For e2e (Playwright) tests, or when touching a workflow that dispatches or calls into them, see `private/sq-cloud-e2e-tests/AGENTS.md` and that directory's README.md — it also covers the cross-repo CI dispatch system.
+For e2e (Playwright) tests, read the owning package's `AGENTS.md` and README.md in `private/sq-cloud-e2e-tests` or `private/sq-server-e2e-tests`. For workflows that dispatch or call into them, also read the Cloud package's cross-repo CI dispatch guidance.
 
 **WARNING**: `yarn nx run sq-cloud:test` can run the entire test suite, spawning dozens of parallel worker processes that can exhaust system memory. To target a single test file safely, invoke jest directly:
 
@@ -65,7 +68,7 @@ node node_modules/.bin/jest -c private/apps/sq-cloud/config/jest/jest.config.js 
 
 This also applies when passing extra jest flags like `--updateSnapshot`. Never use `yarn nx run sq-cloud:test <path> -- --updateSnapshot` — use the direct jest invocation instead.
 
-When you need to write tests (and are NOT running `/browse-and-verify`), use the `webapp-testing` skill.
+When writing Playwright E2E tests, use `webapp-e2e`. For frontend unit/integration tests (outside `/browse-and-verify`), use `webapp-testing`.
 
 ## Lint validation
 
@@ -110,3 +113,9 @@ When you need to use echoes components, always use the `echoes-components` skill
 @.gitar/review/react-query.md
 
 @.gitar/review/conventions.md
+
+@.gitar/review/e2e-tests.md
+
+@.gitar/review/server-e2e-tests.md
+
+@.gitar/review/cloud-e2e-tests.md

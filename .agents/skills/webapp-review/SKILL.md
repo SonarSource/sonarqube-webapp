@@ -22,6 +22,9 @@ Read all files under `.gitar/review/` — they contain the authoritative rules f
 @.gitar/review/design-system.md
 @.gitar/review/react-query.md
 @.gitar/review/conventions.md
+@.gitar/review/e2e-tests.md
+@.gitar/review/server-e2e-tests.md
+@.gitar/review/cloud-e2e-tests.md
 
 ---
 

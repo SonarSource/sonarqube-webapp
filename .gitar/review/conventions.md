@@ -51,6 +51,13 @@
 
 ## Testing
 
+- For new features or changes to user-visible behavior, check whether existing
+  Cloud, Server or shared E2E scenarios need updates. Flag stale journeys or
+  assertions and missing coverage for crucial core happy paths sensitive to
+  UI/backend integration, following the [E2E coverage policy](e2e-tests.md).
+  Do not require a new E2E for every feature; unit or frontend integration tests
+  should cover other paths. The PR should explain the coverage decision and
+  actual validation.
 - Prefer testing-library assertions over snapshot tests when the behavior is easily assertable.
 - Private feature tests in public test files must be wrapped in `// BEGIN-PRIVATE-FEATURE-TESTS` / `// END-PRIVATE-FEATURE-TESTS` markers.
 - ALWAYS use `await selector.find()` instead of `waitFor()` when looking for a possibly not-yet-rendered selector.

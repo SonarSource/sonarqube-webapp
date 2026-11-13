@@ -6,6 +6,11 @@ allowed-tools: Read, Grep, Glob, Bash
 
 # Writing tests in Sonarqube webapp
 
+For Playwright cases in `private/sq-server-e2e-tests`,
+`private/sq-cloud-e2e-tests` or their shared fixtures, use
+[the webapp E2E skill](../webapp-e2e/SKILL.md). The Jest/RTL guidance
+below applies to frontend tests with mocked APIs.
+
 ## Test Configuration
 
 - **SQ-Server:** `apps/sq-server/jest.config.js`

@@ -37,6 +37,12 @@ With that in mind, if you would like to submit a code contribution, please creat
 
 Make sure that you follow our [code style](https://github.com/SonarSource/sonar-developer-toolset#code-style) and all tests are passing.
 
+When adding a feature or changing user-visible behavior, check whether existing
+E2E scenarios need updating. Consider new E2E coverage for crucial core happy
+paths that depend on UI/backend integration; cover other paths with unit or
+frontend integration tests. Explain your coverage decision and what you validated
+in the pull request.
+
 Willing to contribute to SonarSource products? We are looking for smart, passionate, and skilled people to help us build world-class code-quality solutions. Have a look at our current [job offers here](https://www.sonarsource.com/company/jobs/)!
 
 ## Building
