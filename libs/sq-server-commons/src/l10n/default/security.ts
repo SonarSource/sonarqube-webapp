@@ -1181,6 +1181,19 @@ export const securityMessages = {
   'dependencies.risk.how.fix.complete': 'Complete fix',
   'dependencies.risk.how.fix.partial': 'Partial fix',
   'dependencies.risk.how.fix.none': 'Affected version',
+  'dependencies.risk.how.fix.lightwell': 'Lightwell',
+  'dependencies.risk.how.fix_body.lightwell.complete':
+    'This is a Lightwell patched build without any known vulnerabilities.',
+  'dependencies.risk.how.fix_body.lightwell.partial':
+    'This is a Lightwell patched build that fixes this vulnerability, but it has {vulnerabilityIdCount} other {vulnerabilityIdCount, plural, one {vulnerability} other {vulnerabilities}}.',
+  'dependencies.risk.how.fix_body.lightwell.partial_unknown':
+    "This is a Lightwell patched build that fixes this vulnerability. We don't know whether it has other vulnerabilities.",
+  'dependencies.risk.how.fix_body.lightwell.version_in_use.fixed':
+    "This is the Lightwell patched build you're using, and it fixes this vulnerability.",
+  'dependencies.risk.how.fix_body.lightwell.version_in_use.affected':
+    "This is the Lightwell patched build you're using, and it is affected by this vulnerability.",
+  'dependencies.risk.how.lightwell.learn_more':
+    'Lightwell builds are patched versions of upstream releases. <link>Learn more about Lightwell</link>',
   'dependencies.risk.how.wait_for_fix': 'Wait for a fix',
   'dependencies.risk.how.wait_for_fix.body':
     'You are using the latest version of this dependency, and no newer version is available to address the vulnerability. If you trust that the dependency is actively maintained and expect a fix to be released soon, it may be reasonable to wait for the update.',
