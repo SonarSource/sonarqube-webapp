@@ -22,7 +22,9 @@
 
     "js/ts.validate.enabled": true,
     "js/ts.format.enabled": false,
-    "js/ts.tsdk.path": "./node_modules/typescript/lib",
+    "js/ts.tsdk.path": "./node_modules/@typescript/old/lib",
+    "js/ts.experimental.useTsgo": true,
+    "typescript.native-preview.tsdk": "./node_modules/@typescript/native",
     "tailwindCSS.experimental.configFile": "private/apps/sq-cloud/config/theme/tailwind.config.js",
 
     "jestrunner.configPath": {

@@ -183,6 +183,18 @@ Lints the repository using `.oxlintrc.json`. Rules missing from Oxlint, or whose
 
 Runs Oxlint's type-aware rules (the `typescript/no-unsafe-*` family, `no-floating-promises`, …) with the TypeScript-Go backend.
 
+### @typescript/native and typescript
+
+`@typescript/native` is an alias of `typescript@7`. It provides the `tsc` binary that the `ts-check` targets run.
+
+TypeScript 7.0 has no stable compiler API yet, so `typescript` is aliased to `@typescript/typescript6`. It re-exports TypeScript 6 for tools that import `typescript`, such as typescript-eslint, `ts-node`, `@swc-node/register` and `@hey-api/openapi-ts`, and installs its binary as `tsc6`. This is the side-by-side setup recommended in the TypeScript 7.0 release notes. Remove the alias once these tools support the TypeScript 7 API.
+
+Yarn 4.18.0 or later is required. Yarn 4.17.1 tolerates the failure of its built-in TypeScript patch on TypeScript 7, and 4.18.0 links `tsc` from `@typescript/native` rather than from the TypeScript 6 package hoisted as `@typescript/old`. With older Yarn versions `ts-check` can silently run TypeScript 6. Yarn still reports a `YN0066` warning for `@typescript/typescript6` because the patch does not apply to the wrapper. The patch is only needed for Plug'n'Play, and this repository uses the `node-modules` linker.
+
+Until TypeScript 7.1, editors need the TypeScript 7 extension (`TypeScriptTeam.native-preview`) to type-check with TypeScript 7: it is recommended in `.vscode/extensions.json` and enabled with `js/ts.experimental.useTsgo`. `js/ts.tsdk.path` points at `node_modules/@typescript/old/lib`, the TypeScript 6 install, so that VS Code's built-in TypeScript support keeps working without the extension. The wrapper has no `tsserver.js`. The extension ignores `js/ts.tsdk.path` values that contain `tsserver.js`, so `typescript.native-preview.tsdk` points it at `@typescript/native`, even though that setting is deprecated. Without it, the extension's "Use Workspace Version" prompt rewrites `js/ts.tsdk.path` in the tracked settings. Do not commit changes the extension's version picker or its Disable command make to these settings; to opt out, disable the extension for the workspace.
+
+`@typescript/native` is in Knip's `ignoreDependencies` because Knip attributes the `tsc` binary to the `typescript` package.
+
 ## resolutions
 
 ### @typescript-eslint/utils

@@ -205,7 +205,7 @@ export default class ProjectManagementServiceMock {
     this.#projects = cloneDeep(defaultProject);
   };
 
-  reply<T>(): Promise<void>;
+  reply(): Promise<void>;
   reply<T>(response: T): Promise<T>;
   reply<T>(response?: T): Promise<T | void> {
     return Promise.resolve(response ? cloneDeep(response) : undefined);

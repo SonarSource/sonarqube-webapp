@@ -80,7 +80,9 @@
   "js/ts.format.enabled": false,
   "js/ts.updateImportsOnFileMove.enabled": "always",
   "js/ts.validate.enabled": true,
-  "js/ts.tsdk.path": "./node_modules/typescript/lib",
+  "js/ts.tsdk.path": "./node_modules/@typescript/old/lib",
+  "js/ts.experimental.useTsgo": true,
+  "typescript.native-preview.tsdk": "./node_modules/@typescript/native",
   "js/ts.preferences.importModuleSpecifier": "shortest",
   "[css][html][javascript][javascriptreact][json][jsonc][typescript][typescriptreact]": {
     "editor.defaultFormatter": "oxc.oxc-vscode"

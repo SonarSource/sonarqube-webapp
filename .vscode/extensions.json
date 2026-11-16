@@ -12,6 +12,7 @@
     "firsttris.vscode-jest-runner",
     "nrwl.angular-console",
     "deque-systems.vscode-axe-linter",
+    "TypeScriptTeam.native-preview",
   ],
   "unwantedRecommendations": ["esbenp.prettier-vscode"]
 }

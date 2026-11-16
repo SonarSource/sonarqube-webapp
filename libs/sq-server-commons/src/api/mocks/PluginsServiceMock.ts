@@ -243,7 +243,7 @@ export default class PluginsServiceMock {
     this.#pending = cloneDeep(defaultPending);
   };
 
-  reply<T>(): Promise<void>;
+  reply(): Promise<void>;
   reply<T>(response: T): Promise<T>;
   reply<T>(response?: T): Promise<T | void> {
     return Promise.resolve(response ? cloneDeep(response) : undefined);

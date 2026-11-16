@@ -74,7 +74,7 @@ export class ComponentReportServiceMock {
     this.report = cloneDeep(defaultReport);
   };
 
-  reply<T>(): Promise<void>;
+  reply(): Promise<void>;
   reply<T>(response: T): Promise<T>;
   reply<T>(response?: T): Promise<T | void> {
     return Promise.resolve(response && cloneDeep(response));

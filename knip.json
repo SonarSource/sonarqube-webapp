@@ -9,6 +9,7 @@
     "@nx/plugin",
     "@nx/web",
     "@typescript-eslint/types",
+    "@typescript/native",
     "@yarnpkg/core",
     "browserslist",
     "csstype",
