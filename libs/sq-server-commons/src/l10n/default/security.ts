@@ -748,6 +748,9 @@ export const securityMessages = {
   'remediation_agent.error.no_issues_after_filter': 'No fixable issues found',
   'remediation_agent.error.no_issues_after_filter.context':
     'No issues could be processed after filtering. They may already have been resolved or may not be supported for automatic remediation.',
+  'remediation_agent.error.issues_already_fixed': 'Issues already fixed',
+  'remediation_agent.error.issues_already_fixed.context':
+    'The issues were already fixed in the code, so the agent had nothing to change.',
   'remediation_agent.error.no_patches_applied': 'No fixes could be generated',
   'remediation_agent.error.no_patches_applied.context':
     'The agent could not produce a valid fix. The issue may be too complex or use unsupported patterns.',
