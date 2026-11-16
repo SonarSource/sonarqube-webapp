@@ -23,16 +23,26 @@ import { getJSON } from '~adapters/helpers/request';
 import { RequestData } from '../helpers/request';
 import { SoftwareQualityImpact } from '../types/clean-code-taxonomy';
 import { Paging } from '../types/paging';
+import { AgentIssueIdentity, LegacyIssueIdentity, ScannerIssueIdentity } from '../types/issues';
 
 export interface IssueBaseShared {
   component: string;
   componentKey: string;
   creationDate: string;
+  externalRuleEngine?: string;
+  findingCategory?: string;
   impacts: SoftwareQualityImpact[];
   key: string;
   message: string;
-  rule: string;
+  tags?: string[];
+  title?: string;
 }
+
+export type ScannerIssueShared = IssueBaseShared & ScannerIssueIdentity;
+export type AgentIssueShared = IssueBaseShared & AgentIssueIdentity;
+export type LegacyIssueShared = IssueBaseShared & LegacyIssueIdentity;
+
+export type IssueShared = ScannerIssueShared | AgentIssueShared | LegacyIssueShared;
 
 export interface IssueComponentBaseShared {
   key: string;
@@ -42,7 +52,7 @@ export interface IssueComponentBaseShared {
 
 export interface IssueResponseBaseShared {
   components: IssueComponentBaseShared[];
-  issues: IssueBaseShared[];
+  issues: IssueShared[];
   paging: Paging;
 }
 

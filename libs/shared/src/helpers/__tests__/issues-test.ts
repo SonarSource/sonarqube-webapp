@@ -18,14 +18,57 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { IssueTransition } from '../../types/issues';
+import { IssueProducer, IssueTransition } from '../../types/issues';
 import {
   getExternalRuleKey,
   isAgentFindingRuleEngine,
+  isHunterAgentIssue,
   isHunterAgentRuleEngine,
   isHunterAgentRuleKey,
   orderIssueTransitions,
 } from '../issues';
+
+describe('isHunterAgentIssue', () => {
+  it.each([
+    [{ producer: IssueProducer.HunterAgent }, true],
+    [{ producer: IssueProducer.Scanner }, false],
+    [{ producer: IssueProducer.SunsetRadar }, false],
+    [{ producer: IssueProducer.ReliabilityAgent }, false],
+    [
+      {
+        producer: IssueProducer.ReliabilityAgent,
+        externalRuleEngine: 'hunter-agent',
+      },
+      false,
+    ],
+    [
+      {
+        producer: IssueProducer.ReliabilityAgent,
+        rule: 'hunter-agent:business-logic',
+      },
+      false,
+    ],
+    [{}, false],
+    [{ externalRuleEngine: 'hunter-agent' }, true],
+    [{ externalRuleEngine: 'Hunter-Agent' }, true],
+    [{ rule: 'hunter-agent:business-logic' }, true],
+    [{ rule: 'external_hunter-agent:business-logic' }, true],
+    [{ rule: 'javascript:S1067' }, false],
+    [{ externalRuleEngine: 'eslint' }, false],
+    [{ producer: IssueProducer.Scanner, externalRuleEngine: 'hunter-agent' }, false],
+    [{ producer: IssueProducer.Scanner, rule: 'hunter-agent:business-logic' }, false],
+    [
+      {
+        producer: IssueProducer.SunsetRadar,
+        externalRuleEngine: 'hunter-agent',
+      },
+      false,
+    ],
+    [{ producer: IssueProducer.HunterAgent, externalRuleEngine: 'eslint' }, true],
+  ])('classifies %j as %s', (issue, expected) => {
+    expect(isHunterAgentIssue(issue)).toBe(expected);
+  });
+});
 
 describe('isHunterAgentRuleEngine', () => {
   it('detects hunter-agent case-insensitively', () => {

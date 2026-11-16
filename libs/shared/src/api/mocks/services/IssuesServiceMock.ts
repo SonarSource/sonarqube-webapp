@@ -19,6 +19,7 @@
  */
 
 import { HttpResponse, http } from 'msw';
+import { IssueIdentity } from '../../../types/issues';
 import { Paging } from '../../../types/paging';
 import { HttpStatus } from '../../../types/request';
 import { IssueBaseShared, IssueComponentBaseShared } from '../../issues';
@@ -28,7 +29,13 @@ const ISSUES_SEARCH_PATH = '/api/issues/search';
 
 export interface IssuesServiceData {
   components: IssueComponentBaseShared[];
-  issues: Array<Pick<IssueBaseShared, 'component' | 'componentKey' | 'key' | 'message' | 'rule'>>;
+  issues: Array<
+    Pick<
+      IssueBaseShared,
+      'component' | 'componentKey' | 'key' | 'message' | 'title' | 'findingCategory' | 'tags'
+    > &
+      IssueIdentity
+  >;
   paging: Paging;
 }
 

@@ -18,8 +18,34 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-// Keep this enum in the correct order (most severe to least severe).
+export enum IssueProducer {
+  Scanner = 'SCANNER',
+  HunterAgent = 'HUNTER_AGENT',
+  SunsetRadar = 'SUNSET_RADAR',
+  ReliabilityAgent = 'RELIABILITY_AGENT',
+}
 
+/** Scanner responses carry a rule; older responses may omit the producer entirely. */
+export interface ScannerIssueIdentity {
+  producer: IssueProducer.Scanner;
+  rule: string;
+}
+
+/** Agent findings may be self-describing or backed by a legacy rule. */
+export interface AgentIssueIdentity {
+  producer: IssueProducer.HunterAgent | IssueProducer.SunsetRadar | IssueProducer.ReliabilityAgent;
+  rule?: string;
+}
+
+/** Do not infer scanner identity from an absent producer: legacy Hunter issues omit it too. */
+export interface LegacyIssueIdentity {
+  producer?: undefined;
+  rule?: string;
+}
+
+export type IssueIdentity = ScannerIssueIdentity | AgentIssueIdentity | LegacyIssueIdentity;
+
+// Keep this enum in the correct order (most severe to least severe).
 export enum IssueSeverity {
   Blocker = 'BLOCKER',
   Critical = 'CRITICAL',

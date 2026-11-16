@@ -18,10 +18,26 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { IssueTransition } from '../types/issues';
+import { IssueProducer, IssueTransition } from '../types/issues';
 
 const HUNTER_AGENT_EXTERNAL_RULE_ENGINE = 'hunter-agent';
 const EXTERNAL_RULE_REPO_PREFIX = 'external_';
+
+/** Producer is authoritative; legacy identifiers support older core responses. */
+export function isHunterAgentIssue(issue: {
+  externalRuleEngine?: string;
+  producer?: IssueProducer;
+  rule?: string;
+}) {
+  if (issue.producer !== undefined) {
+    return issue.producer === IssueProducer.HunterAgent;
+  }
+
+  return (
+    isHunterAgentRuleEngine(issue.externalRuleEngine) ||
+    (issue.rule !== undefined && isHunterAgentRuleKey(issue.rule))
+  );
+}
 
 export function isTransitionVisible(transition: IssueTransition) {
   return transition !== IssueTransition.WontFix && transition !== IssueTransition.Resolve;
