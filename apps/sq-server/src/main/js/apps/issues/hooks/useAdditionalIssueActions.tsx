@@ -63,5 +63,5 @@ export function useAdditionalIssueActions({
     }
 
     return additionalActions;
-  }, [branch, component, remediationAgentProjectKey]);
+  }, [branch, component, remediationAgentProjectKey, size, variety]);
 }
