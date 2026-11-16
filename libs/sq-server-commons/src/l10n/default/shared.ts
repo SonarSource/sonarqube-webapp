@@ -1708,10 +1708,27 @@ export const sharedMessages = {
   'main_branch_remediation.introducedAndResolvedFindings.title': 'Introduced vs. closed',
   'main_branch_remediation.openFindingsAge.title':
     'Age of open {findingType, select, sca {dependency risks} other {issues}}',
+  'main_branch_remediation.mttr.caption':
+    'Introduced to closed, for {findingType, select, sca {dependency risks} other {issues}} closed in this period.',
   'main_branch_remediation.mttr.title': 'Mean time to resolve',
   'main_branch_remediation.loading': 'Loading main branch remediation',
   'main_branch_remediation.error': 'Could not load this widget. Try again.',
   'main_branch_remediation.unavailable': 'Data is unavailable for this widget.',
+  'main_branch_remediation.mttr.description':
+    'Mean time from original introduction to closure for {findingType, select, sca {dependency risks} other {issues}} closed in the trailing {days, number}-day window.',
+  'main_branch_remediation.mttr.overall': 'Overall',
+  'main_branch_remediation.mttr.newly_introduced':
+    'Newly introduced {findingType, select, sca {dependency risks} other {issues}}',
+  'main_branch_remediation.mttr.days': '{value} days',
+  'main_branch_remediation.mttr.cohort':
+    'Only {findingType, select, sca {dependency risks} other {issues}} originally introduced and closed within the same trailing {days, number}-day window are included.',
+  'main_branch_remediation.mttr.no_samples': 'No qualifying fixes',
+  'main_branch_remediation.mttr.unavailable': 'Unavailable',
+  'main_branch_remediation.mttr.no_comparison': 'No comparison available',
+  'main_branch_remediation.mttr.change_range':
+    'Change from the oldest to the newest returned point over the selected {days, number} days.',
+  'main_branch_remediation.mttr.comparison': '{change} over the selected {days, number} days',
+  'main_branch_remediation.mttr.no_change': 'No change',
   'main_branch_remediation.backlogHistory.description':
     'Last {days, number} days, as of {date} (UTC)',
   'main_branch_remediation.backlogHistory.open':
