@@ -119,6 +119,10 @@ export const ui = {
   notBoundLegend: byText(`${PREFIX}.binding.legend.not_bound`),
 
   overTimeChart: byRole('img', { name: 'onboarding_dashboard.journey.overtime.title' }),
+  overTimeTooltip: byRole('tooltip'),
+  overTimeTooltipPercent: (percent: number) =>
+    byRole('tooltip').byText(`onboarding_dashboard.percent.${percent}`),
+  overTimeTooltipAnyPercent: byRole('tooltip').byText(/^onboarding_dashboard\.percent\./),
   overTimeTitle: byText('onboarding_dashboard.journey.overtime.title'),
   lockedStatsTitle: byText(`${PREFIX}.locked.stats.title`),
   lockedMoreTitle: byText(`${PREFIX}.locked.more.title`),

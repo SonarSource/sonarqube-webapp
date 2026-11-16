@@ -23,6 +23,7 @@ import { scaleLinear, scaleTime } from 'd3-scale';
 import { line as d3Line } from 'd3-shape';
 import { useMemo, useRef, useState } from 'react';
 import { useIntl } from 'react-intl';
+import { toDisplayPercent } from '~shared/helpers/onboarding/percent';
 import { isDefined } from '~shared/helpers/types';
 import { useResizeObserver } from '~shared/helpers/useResizeObserver';
 import { OnboardingTimelinePoint } from '~shared/types/onboarding';
@@ -30,7 +31,7 @@ import { OnboardingTimelinePoint } from '~shared/types/onboarding';
 const MIN_HEIGHT = 200;
 const MARGIN = { top: 16, right: 16, bottom: 28, left: 40 };
 const WEEK_MS = 7 * 24 * 60 * 60 * 1000;
-const TOOLTIP_WIDTH = 200;
+const TOOLTIP_WIDTH = 240;
 const X_TICK_COUNT = 5;
 const Y_TICK_COUNT = 5;
 
@@ -51,14 +52,22 @@ interface Series {
   color: string;
   labelId: string;
   points: Point[];
+  total: number | null;
+}
+
+/** Today's totals the plotted counts are a share of. Null when unknown. */
+export interface TimelineTotals {
+  projects: number | null;
+  repositories: number | null;
 }
 
 interface Props {
   showImportedSeries: boolean;
   timeline: OnboardingTimelinePoint[];
+  totals?: TimelineTotals;
 }
 
-export function OnboardingOverTimeCard({ showImportedSeries, timeline }: Readonly<Props>) {
+export function OnboardingOverTimeCard({ showImportedSeries, timeline, totals }: Readonly<Props>) {
   const { formatMessage } = useIntl();
 
   // The subtitle names the plotted series, so it has to drop the imports half whenever that series
@@ -74,7 +83,11 @@ export function OnboardingOverTimeCard({ showImportedSeries, timeline }: Readonl
         title={formatMessage({ id: 'onboarding_dashboard.journey.overtime.title' })}
       />
       <Card.Body className="sw:flex sw:min-h-0 sw:grow sw:flex-col">
-        <OverTimeChart showImportedSeries={showImportedSeries} timeline={timeline} />
+        <OverTimeChart
+          showImportedSeries={showImportedSeries}
+          timeline={timeline}
+          totals={totals}
+        />
       </Card.Body>
     </Card>
   );
@@ -84,12 +97,17 @@ export function OnboardingOverTimeCard({ showImportedSeries, timeline }: Readonl
  * Builds the plotted series from the monthly timeline. Every series shares the same x values, so
  * the first one doubles as the x-axis reference.
  */
-function buildSeries(points: OnboardingTimelinePoint[], showImportedSeries: boolean): Series[] {
+function buildSeries(
+  points: OnboardingTimelinePoint[],
+  showImportedSeries: boolean,
+  totals: TimelineTotals | undefined,
+): Series[] {
   const series: Series[] = [
     {
       color: COLOR_PROJECTS_SCANNED,
       labelId: 'onboarding_dashboard.journey.overtime.legend.projects_scanned',
       points: points.map((point) => ({ x: new Date(point.date), y: point.projectsScanned })),
+      total: totals?.projects ?? null,
     },
   ];
 
@@ -98,24 +116,22 @@ function buildSeries(points: OnboardingTimelinePoint[], showImportedSeries: bool
       color: COLOR_IMPORTED,
       labelId: 'onboarding_dashboard.journey.overtime.legend.repositories_imported',
       points: points.map((point) => ({ x: new Date(point.date), y: point.repositoriesImported })),
+      total: totals?.repositories ?? null,
     });
   }
 
   return series;
 }
 
-interface ChartProps {
-  showImportedSeries: boolean;
-  timeline: OnboardingTimelinePoint[];
-}
+type ChartProps = Props;
 
-function OverTimeChart({ showImportedSeries, timeline }: Readonly<ChartProps>) {
+function OverTimeChart({ showImportedSeries, timeline, totals }: Readonly<ChartProps>) {
   const containerRef = useRef<HTMLDivElement>(null);
   const [width, height] = useResizeObserver(containerRef);
   const [hoverIndex, setHoverIndex] = useState<number | null>(null);
 
   const points = [...timeline].sort((a, b) => Date.parse(a.date) - Date.parse(b.date));
-  const series = buildSeries(points, showImportedSeries);
+  const series = buildSeries(points, showImportedSeries, totals);
   const chartHeight = Math.max(height ?? 0, MIN_HEIGHT);
   const canRender = width !== undefined && width > 0 && points.length > 0;
 
@@ -345,9 +361,19 @@ function OverTimeTooltip({ cursorX, date, hoverIndex, series, width }: Readonly<
               {formatMessage({ id: s.labelId })}
             </Text>
           </span>
-          <Text isHighlighted size={TextSize.Small}>
-            {s.points[hoverIndex].y}
-          </Text>
+          <span className="sw:flex sw:items-baseline sw:gap-2">
+            <Text isHighlighted size={TextSize.Small}>
+              {s.points[hoverIndex].y}
+            </Text>
+            {isDefined(s.total) && s.total > 0 && (
+              <Text isSubtle size={TextSize.Small}>
+                {formatMessage(
+                  { id: 'onboarding_dashboard.percent' },
+                  { percent: toDisplayPercent((s.points[hoverIndex].y / s.total) * 100) },
+                )}
+              </Text>
+            )}
+          </span>
         </div>
       ))}
     </div>

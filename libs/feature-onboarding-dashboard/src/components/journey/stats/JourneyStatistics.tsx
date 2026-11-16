@@ -23,11 +23,11 @@ import { ReactNode } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { Path } from 'react-router';
 import { useCreateDevopsConfigurationUrl } from '~adapters/helpers/useCreateDevopsConfigurationUrl';
-import { JourneyLevel, OnboardingTimelinePoint } from '~shared/types/onboarding';
+import { JourneyLevel, JourneyState, OnboardingTimelinePoint } from '~shared/types/onboarding';
 import { OnboardingDashboardAction } from '~shared/types/onboarding-dashboard-telemetry';
 import { OverTimeCardSkeleton } from '../../OnboardingDashboardSkeleton';
 import { LockedStatisticsCard } from './LockedStatisticsCard';
-import { OnboardingOverTimeCard } from './OnboardingOverTimeCard';
+import { OnboardingOverTimeCard, TimelineTotals } from './OnboardingOverTimeCard';
 
 /**
  * Copy — and the CTA decoration — of the "locked statistics" placeholder shown at each journey
@@ -67,6 +67,8 @@ interface Props {
   /** Whether the organization is bound to a DevOps platform, `undefined` while it is loading. */
   isBound: boolean | undefined;
   isTimelineError: boolean;
+  /** Overview of the journey, `undefined` while it is loading. Supplies today's totals. */
+  journeyState?: JourneyState;
   /**
    * Copy of the locked placeholders, replacing the organization's. A level absent from it shows no
    * placeholder at all.
@@ -79,11 +81,12 @@ interface Props {
 /**
  * The statistics unlocked at the current level: locked while unbound, then the timeline, with the
  * imported series once it records an import. Derived from the binding and the statistics endpoint
- * only, so it does not wait on the overview.
+ * only, so it does not wait on the overview, which only adds the percentages once it is there.
  */
 export function JourneyStatistics({
   isBound,
   isTimelineError,
+  journeyState,
   lockedContent = LOCKED_STATISTICS_CONTENT,
   timeline,
 }: Readonly<Props>) {
@@ -119,6 +122,7 @@ export function JourneyStatistics({
           isTimelineError={isTimelineError}
           level={level}
           timeline={timeline}
+          totals={journeyState === undefined ? undefined : getTimelineTotals(journeyState)}
         />
       )}
 
@@ -138,6 +142,18 @@ export function JourneyStatistics({
       )}
     </LoadingContainer>
   );
+}
+
+/** The same totals the journey's step donuts count against, so the latest point matches them. */
+function getTimelineTotals({
+  discovered,
+  enterprise,
+  totalProjects,
+}: JourneyState): TimelineTotals {
+  return {
+    projects: enterprise?.projectsTotal ?? totalProjects,
+    repositories: enterprise === undefined ? discovered : enterprise.discovered,
+  };
 }
 
 function hasCoverage(timeline: OnboardingTimelinePoint[]) {
@@ -163,11 +179,18 @@ function getStatisticsLevel({
     : JourneyLevel.BoundNoImport;
 }
 
-interface TimelineSlotProps extends Props {
+interface TimelineSlotProps extends Pick<Props, 'isBound' | 'isTimelineError' | 'timeline'> {
   level: JourneyLevel | undefined;
+  totals: TimelineTotals | undefined;
 }
 
-function TimelineSlot({ isBound, isTimelineError, level, timeline }: Readonly<TimelineSlotProps>) {
+function TimelineSlot({
+  isBound,
+  isTimelineError,
+  level,
+  timeline,
+  totals,
+}: Readonly<TimelineSlotProps>) {
   // Until the binding is known the timeline may not apply at all, so an error would be premature.
   if (isBound === undefined) {
     return <OverTimeCardSkeleton />;
@@ -189,6 +212,7 @@ function TimelineSlot({ isBound, isTimelineError, level, timeline }: Readonly<Ti
     <OnboardingOverTimeCard
       showImportedSeries={level === JourneyLevel.Imported}
       timeline={timeline}
+      totals={totals}
     />
   );
 }

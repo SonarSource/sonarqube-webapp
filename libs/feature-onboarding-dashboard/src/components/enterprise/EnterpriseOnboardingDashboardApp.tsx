@@ -158,6 +158,7 @@ function EnterpriseOnboardingDashboard({
             // An unknown binding shows the timeline rather than hiding the statistics altogether.
             isBound={isBindingError || isBound}
             isTimelineError={isStatisticsError}
+            journeyState={journeyState}
             lockedContent={ENTERPRISE_LOCKED_STATISTICS_CONTENT}
             timeline={statistics?.timeline}
           />

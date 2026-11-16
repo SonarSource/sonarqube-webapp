@@ -194,6 +194,23 @@ describe('journey', () => {
       expect(byText(`${PREFIX}.import.total_unknown`).get()).toBeInTheDocument();
     });
 
+    it('shares the timeline over the projects that exist, and leaves imports without a share', async () => {
+      onboardingMock.setEnterpriseStatistics(
+        mockOnboardingStatistics({
+          timeline: [
+            { date: '2025-05-01T00:00:00Z', projectsScanned: 971, repositoriesImported: 5000 },
+          ],
+        }),
+      );
+      const { user } = renderEnterpriseDashboard();
+
+      await user.hover(await ui.overTimeChart.find());
+
+      expect(await ui.overTimeTooltip.find()).toBeInTheDocument();
+      expect(await ui.overTimeTooltipPercent(10).find()).toBeInTheDocument();
+      expect(ui.overTimeTooltipAnyPercent.getAll()).toHaveLength(1);
+    });
+
     it('counts the analyzed projects against the projects that exist', async () => {
       const { user } = renderEnterpriseDashboard();
 
@@ -208,6 +225,24 @@ describe('journey', () => {
 
     expect(await ui.overTimeChart.find()).toBeInTheDocument();
     expect(ui.lockedStatsTitle.query()).not.toBeInTheDocument();
+  });
+
+  it("shows the hovered month as a share of the enterprise's projects and discovered repositories", async () => {
+    // The default enterprise overview counts 800 projects and 800 discovered repositories.
+    onboardingMock.setEnterpriseStatistics(
+      mockOnboardingStatistics({
+        timeline: [
+          { date: '2025-05-01T00:00:00Z', projectsScanned: 80, repositoriesImported: 400 },
+        ],
+      }),
+    );
+    const { user } = renderEnterpriseDashboard();
+
+    await user.hover(await ui.overTimeChart.find());
+
+    expect(await ui.overTimeTooltip.find()).toBeInTheDocument();
+    expect(await ui.overTimeTooltipPercent(10).find()).toBeInTheDocument();
+    expect(ui.overTimeTooltipPercent(50).get()).toBeInTheDocument();
   });
 
   it('leaves the timeline out and offers to unlock more while nothing was imported or analyzed', async () => {

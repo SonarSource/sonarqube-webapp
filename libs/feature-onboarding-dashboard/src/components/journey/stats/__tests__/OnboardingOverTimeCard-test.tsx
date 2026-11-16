@@ -57,6 +57,9 @@ const ui = {
   tooltip: byRole('tooltip'),
   tooltipProjectsScannedValue: byRole('tooltip').byText('3'),
   tooltipImportedValue: byRole('tooltip').byText('7'),
+  tooltipPercent: (percent: number) =>
+    byRole('tooltip').byText(`onboarding_dashboard.percent.${percent}`),
+  tooltipAnyPercent: byRole('tooltip').byText(/^onboarding_dashboard\.percent\./),
 };
 
 function renderCard(props: Partial<ComponentProps<typeof OnboardingOverTimeCard>> = {}) {
@@ -115,6 +118,33 @@ it('reports only the visible series in the tooltip', async () => {
   expect(ui.tooltipProjectsScannedValue.get()).toBeInTheDocument();
   expect(ui.tooltipImportedValue.query()).not.toBeInTheDocument();
   expect(byRole('tooltip').byText(IMPORTED_LEGEND).query()).not.toBeInTheDocument();
+});
+
+it("shows each hovered count with its share of today's total", async () => {
+  const { user } = renderCard({ totals: { projects: 30, repositories: 35 } });
+
+  await user.hover(ui.chart.get());
+
+  expect(await ui.tooltip.find()).toBeInTheDocument();
+  expect(ui.tooltipProjectsScannedValue.get()).toBeInTheDocument();
+  expect(ui.tooltipImportedValue.get()).toBeInTheDocument();
+  expect(ui.tooltipPercent(10).get()).toBeInTheDocument();
+  expect(ui.tooltipPercent(20).get()).toBeInTheDocument();
+});
+
+it.each([
+  ['no totals are known yet', undefined],
+  ['the totals are unknown', { projects: null, repositories: null }],
+  ['the totals are zero', { projects: 0, repositories: 0 }],
+])('shows the counts without a share when %s', async (_, totals) => {
+  const { user } = renderCard({ totals });
+
+  await user.hover(ui.chart.get());
+
+  expect(await ui.tooltip.find()).toBeInTheDocument();
+  expect(ui.tooltipProjectsScannedValue.get()).toBeInTheDocument();
+  expect(ui.tooltipImportedValue.get()).toBeInTheDocument();
+  expect(ui.tooltipAnyPercent.query()).not.toBeInTheDocument();
 });
 
 it('keeps the legend but draws no graph when there is no history yet', () => {

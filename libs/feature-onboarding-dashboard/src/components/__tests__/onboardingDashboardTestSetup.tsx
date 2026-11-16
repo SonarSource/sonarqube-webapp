@@ -105,6 +105,10 @@ export const ui = {
 
   // Journey statistics — progressively unlocked by JourneyLevel.
   overTimeChart: byRole('img', { name: 'onboarding_dashboard.journey.overtime.title' }),
+  overTimeTooltip: byRole('tooltip'),
+  overTimeTooltipPercent: (percent: number) =>
+    byRole('tooltip').byText(`onboarding_dashboard.percent.${percent}`),
+  overTimeTooltipAnyPercent: byRole('tooltip').byText(/^onboarding_dashboard\.percent\./),
   overTimeProjectsScannedLegend: byText(
     'onboarding_dashboard.journey.overtime.legend.projects_scanned',
   ),

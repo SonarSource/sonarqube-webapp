@@ -124,6 +124,30 @@ it('unlocks both over-time series and no placeholder once repositories are impor
   expect(ui.lockedMoreTitle.query()).not.toBeInTheDocument();
 });
 
+it("shows the hovered month as a share of today's projects and discovered repositories", async () => {
+  onboardingMock.setOverview(
+    mockOnboardingOverview({
+      projects: { analyzed: 1, notImported: 295, notScanned: 11, percent: null, total: 600 },
+      repositories: { discovered: 301, imported: 6, percent: null },
+    }),
+  );
+  onboardingMock.setStatistics(
+    mockOnboardingStatistics({
+      timeline: [
+        { date: '2025-05-01T00:00:00Z', projectsScanned: 30, repositoriesImported: 60 },
+        { date: '2025-06-01T00:00:00Z', projectsScanned: 31, repositoriesImported: 61 },
+      ],
+    }),
+  );
+  const { user } = renderOnboardingDashboard();
+
+  await user.hover(await ui.overTimeChart.find());
+
+  expect(await ui.overTimeTooltip.find()).toBeInTheDocument();
+  expect(await ui.overTimeTooltipPercent(5).find()).toBeInTheDocument();
+  expect(ui.overTimeTooltipPercent(20).get()).toBeInTheDocument();
+});
+
 it('plots only the analysis series and offers to unlock more while the timeline records no import', async () => {
   // The import signal comes from the statistics, not the overview, which still reports imports.
   onboardingMock.setStatistics(
