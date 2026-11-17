@@ -123,7 +123,7 @@ export const securityMessages = {
   'ai_capabilities.remediation_agent.enable_agent.disabled_reason': 'Choose a provider first',
   'ai_capabilities.remediation_agent.manual.title': 'Manual remediation',
   'ai_capabilities.remediation_agent.manual.description':
-    "Reduce technical debt by selecting issues from your project's issues list and letting the agent propose fixes in a pull request.",
+    "Select issues from your project's issues list or a failed pull request and let the agent propose fixes in a pull request.",
   'ai_capabilities.remediation_agent.scheduled.title': 'Automated remediation',
   'ai_capabilities.remediation_agent.scheduled.description':
     'Reduce technical debt by automatically fixing high-priority issues on your main branch on a schedule.',
