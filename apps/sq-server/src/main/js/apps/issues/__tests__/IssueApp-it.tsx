@@ -18,7 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { screen, within } from '@testing-library/react';
+import { screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { byLabelText, byRole, byText } from '~shared/helpers/testSelector';
 import { IssueTransition } from '~shared/types/issues';
@@ -82,6 +82,22 @@ describe('issue app', () => {
       );
       expect(ui.conciseIssueItem4.get()).toBeInTheDocument();
       expect(ui.conciseIssueItem2.get()).toBeInTheDocument();
+    });
+
+    it('should use the opened issue message in the document title', async () => {
+      renderProjectIssuesApp(`project/issues?issues=${ISSUE_5}&open=${ISSUE_5}&id=myproject`);
+
+      expect(
+        await screen.findByRole(
+          'heading',
+          { name: 'Issue with prioritized rule' },
+          { timeout: 10_000 },
+        ),
+      ).toBeInTheDocument();
+
+      await waitFor(() => {
+        expect(document.title).toContain('Issue with prioritized rule');
+      });
     });
 
     it('shows code variants and the prioritized rule badge under Properties in the sidebar', async () => {

@@ -27,6 +27,7 @@ import {
   ToggleTip,
 } from '@sonarsource/echoes-react';
 import { useMemo } from 'react';
+import { Helmet } from 'react-helmet-async';
 import { FormattedMessage, useIntl } from 'react-intl';
 import A11ySkipTarget from '~shared/components/a11y/A11ySkipTarget';
 import { isPortfolioLike } from '~shared/helpers/component';
@@ -164,6 +165,7 @@ export default function IssueDetails(props: Readonly<IssueDetailsProps>) {
       title={intl.formatMessage({ id: 'issues.page' })}
     >
       <div className="sw:contents it__layout-page-main-inner details-open" id="issues-page">
+        <Helmet defer={false} title={openIssue.message} />
         <A11ySkipTarget anchor="issues_main" />
 
         <Spinner className="sw:p-4" isLoading={isLoadingRule}>
