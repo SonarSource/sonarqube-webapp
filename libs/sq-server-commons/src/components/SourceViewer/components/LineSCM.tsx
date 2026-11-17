@@ -73,7 +73,12 @@ function LineSCM({ line, previousLine }: Props) {
           isOpen={isOpen}
           side={PopupPlacement.Right}
         >
-          <LineSCMStyled aria-label={ariaLabel} onClick={handleToggle} role="button">
+          <LineSCMStyled
+            aria-expanded={isOpen}
+            aria-label={ariaLabel}
+            onClick={handleToggle}
+            role="button"
+          >
             {isSCMChanged(line, previousLine) ? (line.scmAuthor ?? '…') : ' '}
           </LineSCMStyled>
         </Tooltip>

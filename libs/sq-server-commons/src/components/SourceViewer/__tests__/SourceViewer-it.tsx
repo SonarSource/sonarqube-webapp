@@ -173,11 +173,13 @@ it('should show SCM information', async () => {
     firstRowScreen.getByRole('cell', { name: 'stas.vilchik@sonarsource.com' }),
   ).toBeInTheDocument();
 
-  await user.click(
-    firstRowScreen.getByRole('button', {
-      name: 'source_viewer.author_X.stas.vilchik@sonarsource.com, source_viewer.click_for_scm_info.1',
-    }),
-  );
+  const scmButton = firstRowScreen.getByRole('button', {
+    name: 'source_viewer.author_X.stas.vilchik@sonarsource.com, source_viewer.click_for_scm_info.1',
+  });
+  expect(scmButton).toHaveAttribute('aria-expanded', 'false');
+
+  await user.click(scmButton);
+  expect(scmButton).toHaveAttribute('aria-expanded', 'true');
 
   // After using miui component the tooltip is appearing outside of the row
   expect(await screen.findAllByText('author')).toHaveLength(4);
