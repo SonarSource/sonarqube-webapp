@@ -24,6 +24,7 @@ import {
   Heading,
   HeadingSize,
   IconLink,
+  MessageCallout,
   Text,
 } from '@sonarsource/echoes-react';
 import { FormattedMessage, useIntl } from 'react-intl';
@@ -67,6 +68,7 @@ export function OrganizationBindingPanel({ onSelectStep, state }: Readonly<Props
   const showBindingReview = state.isBound && byPlatform === undefined;
 
   const showCreateCta = createConfigurationUrl !== undefined || !state.isBound;
+  const hasProjects = state.analyzed + state.analyze.notScanned > 0;
   const bindCtaUrl = createConfigurationUrl ?? bindingSettingsUrl;
 
   return (
@@ -89,6 +91,12 @@ export function OrganizationBindingPanel({ onSelectStep, state }: Readonly<Props
             <FormattedMessage id="onboarding_dashboard.journey.binding.description" />
           </Text>
         </div>
+
+        {!state.isBound && hasProjects && (
+          <MessageCallout variety="info">
+            {formatMessage({ id: 'onboarding_dashboard.journey.binding.unbound_with_projects' })}
+          </MessageCallout>
+        )}
 
         {showBindingReview && (
           <>

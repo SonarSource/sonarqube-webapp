@@ -1148,6 +1148,8 @@ export const onboardingMessages = {
   'onboarding_dashboard.journey.binding.title': 'Configure DevOps platforms',
   'onboarding_dashboard.journey.binding.description':
     'To start analyzing your projects, link GitHub, GitLab, Azure DevOps, or Bitbucket for Sonar to find, import and analyze them.',
+  'onboarding_dashboard.journey.binding.unbound_with_projects':
+    'No DevOps platform is configured, so coverage and onboarding statistics are unavailable. Your existing projects are still listed below.',
   'onboarding_dashboard.journey.binding.bind_cta': 'Create configuration',
   'onboarding_dashboard.journey.binding.configured_label': 'Configured',
   'onboarding_dashboard.journey.binding.view_details': 'View details',

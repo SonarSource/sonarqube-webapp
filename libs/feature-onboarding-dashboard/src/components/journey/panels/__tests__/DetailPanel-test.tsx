@@ -161,6 +161,13 @@ const unboundState = stateWith({
   notYetImported: 120,
 });
 
+const unboundEmptyState = stateWith({
+  ...unboundState,
+  analyze: { byMode: null, notImported: 0, notScanned: 0 },
+  analyzed: 0,
+  analyzedPct: 0,
+});
+
 const boundNoImportState = stateWith({
   activeStep: JourneyStep.Repositories,
   imported: 0,
@@ -176,6 +183,7 @@ const ui = {
   analyzeTitle: byText('onboarding_dashboard.journey.analyze.title'),
 
   // Binding panel
+  unboundWithProjectsMessage: byText('onboarding_dashboard.journey.binding.unbound_with_projects'),
   bindCta: byRole('link', { name: 'onboarding_dashboard.journey.binding.bind_cta' }),
   // Same call-to-action in a product that has no destination for it yet: a plain button.
   inertBindCta: byRole('button', { name: 'onboarding_dashboard.journey.binding.bind_cta' }),
@@ -260,6 +268,33 @@ it('renders the unbound binding panel with only the bind call-to-action', () => 
   // The current-binding row and its controls only exist once the org is bound.
   expect(ui.currentBinding.query()).not.toBeInTheDocument();
   expect(ui.viewCta.query()).not.toBeInTheDocument();
+});
+
+it.each([
+  ['analyzed projects', unboundState],
+  [
+    'only projects never analyzed',
+    stateWith({
+      ...unboundState,
+      analyze: { byMode: null, notImported: 0, notScanned: 4 },
+      analyzed: 0,
+      analyzedPct: 0,
+    }),
+  ],
+])('explains what still works when an unbound organization already has %s', (_, state) => {
+  renderPanel(JourneyStep.Binding, state);
+
+  expect(ui.unboundWithProjectsMessage.get()).toBeInTheDocument();
+  expect(ui.bindCta.get()).toBeInTheDocument();
+});
+
+it.each([
+  ['an unbound organization without projects', unboundEmptyState],
+  ['a bound organization', boundState],
+])('does not explain the unbound state for %s', (_, state) => {
+  renderPanel(JourneyStep.Binding, state);
+
+  expect(ui.unboundWithProjectsMessage.query()).not.toBeInTheDocument();
 });
 
 it('sends the bind call-to-action to the binding settings when there is nothing to create', () => {
