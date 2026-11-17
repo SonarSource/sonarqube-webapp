@@ -45,17 +45,7 @@ function LineFindingFunc(
       ref={ref}
       selected={selected}
     >
-      {onIssueSelect ? (
-        <BareButton
-          onClick={() => {
-            onIssueSelect(issueKey);
-          }}
-        >
-          {message}
-        </BareButton>
-      ) : (
-        message
-      )}
+      {message}
       {getFixButton}
     </LineFindingStyled>
   ) : (

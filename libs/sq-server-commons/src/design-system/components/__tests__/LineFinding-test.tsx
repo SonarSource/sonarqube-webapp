@@ -24,25 +24,38 @@ import { FCProps } from '../../../types/misc';
 import { render } from '../../helpers/testUtils';
 import { LineFinding } from '../code-line/LineFinding';
 
-it('should render correctly as button', async () => {
+it('should render a selected finding as plain text, even when onIssueSelect is provided', async () => {
+  const onIssueSelect = jest.fn();
   const user = userEvent.setup();
-  const { container } = setupWithProps();
-  await user.click(screen.getByRole('button'));
-  expect(container).toMatchSnapshot();
-});
+  setupWithProps({ onIssueSelect, selected: true });
 
-it('should render as non-button', () => {
-  setupWithProps({ as: 'div', onIssueSelect: undefined });
+  expect(screen.getByText('message')).toBeInTheDocument();
   expect(screen.queryByRole('button')).not.toBeInTheDocument();
+
+  await user.tab();
+  expect(document.body).toHaveFocus();
+  expect(onIssueSelect).not.toHaveBeenCalled();
 });
 
-it('should be clickable when onIssueSelect is provided', async () => {
-  const mockClick = jest.fn();
-  const user = userEvent.setup();
+it('should render a selected finding with its fix button as the only interactive element', () => {
+  setupWithProps({ getFixButton: <button type="button">fix</button>, selected: true });
 
-  setupWithProps({ onIssueSelect: mockClick });
-  await user.click(screen.getByRole('button'));
-  expect(mockClick).toHaveBeenCalled();
+  expect(screen.getAllByRole('button')).toHaveLength(1);
+  expect(screen.getByRole('button', { name: 'fix' })).toBeInTheDocument();
+});
+
+it('should render a non-selected finding as an actionable button', async () => {
+  const onIssueSelect = jest.fn();
+  const user = userEvent.setup();
+  setupWithProps({ onIssueSelect, selected: false });
+
+  await user.click(screen.getByRole('button', { name: 'message' }));
+  expect(onIssueSelect).toHaveBeenCalledWith('key');
+});
+
+it('should render as non-button when "as" is a div', () => {
+  setupWithProps({ as: 'div', onIssueSelect: undefined, selected: false });
+  expect(screen.queryByRole('button')).not.toBeInTheDocument();
 });
 
 function setupWithProps(props?: Partial<FCProps<typeof LineFinding>>) {

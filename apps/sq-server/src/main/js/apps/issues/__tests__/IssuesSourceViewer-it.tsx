@@ -275,7 +275,7 @@ describe('issues source viewer', () => {
 
       await user.click(await ui.code.find());
 
-      expect(screen.getAllByRole('button', { name: 'Issue on Jupyter Notebook' })).toHaveLength(2);
+      expect(screen.getAllByRole('button', { name: 'Issue on Jupyter Notebook' })).toHaveLength(1);
       expect(screen.queryByText('Another unrelated issue')).not.toBeInTheDocument();
     });
 

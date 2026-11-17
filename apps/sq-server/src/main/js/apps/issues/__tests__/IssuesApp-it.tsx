@@ -363,7 +363,8 @@ describe('issues app', () => {
       expect(screen.getByRole('link', { name: /^simpleRuleId/ })).toBeInTheDocument();
 
       // The "Where is the issue" tab should be selected by default. Check its content
-      expect(screen.getAllByRole('button', { name: 'Issue on file' })).toHaveLength(2); // there will be 2 buttons one in concise issue and other in code viewer
+      // only the concise issue in the list is a button; the selected finding in the code viewer is plain text
+      expect(screen.getAllByRole('button', { name: 'Issue on file' })).toHaveLength(1);
       expect(
         screen.getByRole('row', {
           name: '2 * SonarQube',
