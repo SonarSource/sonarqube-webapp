@@ -1703,7 +1703,8 @@ export const sharedMessages = {
   'main_branch_remediation.heading': 'Main branch remediation',
   'main_branch_remediation.description':
     'Track {findingType, select, sca {dependency risks} other {issues}} closed in the main branches of projects in your organization.',
-  'main_branch_remediation.closedFindings.title': 'Closed during this period',
+  'main_branch_remediation.closedFindings.title':
+    'Closed {findingType, select, sca {dependency risks} other {issues}}',
   'main_branch_remediation.backlogHistory.title': 'How did the backlog change?',
   'main_branch_remediation.introducedAndResolvedFindings.title': 'Introduced vs. closed',
   'main_branch_remediation.openFindingsAge.title':
@@ -1714,19 +1715,17 @@ export const sharedMessages = {
   'main_branch_remediation.loading': 'Loading main branch remediation',
   'main_branch_remediation.error': 'Could not load this widget. Try again.',
   'main_branch_remediation.unavailable': 'Data is unavailable for this widget.',
-  'main_branch_remediation.mttr.description':
-    'Mean time from original introduction to closure for {findingType, select, sca {dependency risks} other {issues}} closed in the trailing {days, number}-day window.',
   'main_branch_remediation.mttr.overall': 'Overall',
   'main_branch_remediation.mttr.newly_introduced':
     'Newly introduced {findingType, select, sca {dependency risks} other {issues}}',
   'main_branch_remediation.mttr.days': '{value} days',
-  'main_branch_remediation.mttr.cohort':
-    'Only {findingType, select, sca {dependency risks} other {issues}} originally introduced and closed within the same trailing {days, number}-day window are included.',
   'main_branch_remediation.mttr.no_samples': 'No qualifying fixes',
   'main_branch_remediation.mttr.unavailable': 'Unavailable',
   'main_branch_remediation.mttr.no_comparison': 'No comparison available',
   'main_branch_remediation.mttr.change_range':
-    'Change from the oldest to the newest returned point over the selected {days, number} days.',
+    'Compares the average time to resolve {findingType, select, sca {dependency risks} other {issues}} at the start and end of the selected {days, number}-day period.',
+  'main_branch_remediation.mttr.change_example':
+    'If, at the start, {findingType, select, sca {dependency risks} other {issues}} took an average of 10 days to resolve, and at the end, they took 5 days, the badge would show -50% because the average resolution time halved.',
   'main_branch_remediation.mttr.comparison': '{change} over the selected {days, number} days',
   'main_branch_remediation.mttr.no_change': 'No change',
   'main_branch_remediation.backlogHistory.description':
@@ -1735,7 +1734,12 @@ export const sharedMessages = {
     '{findingType, select, sca {Open dependency risks} other {Open issues}}',
   'main_branch_remediation.backlogHistory.chart_label':
     '{findingType, select, sca {Dependency risk} other {Issue}} backlog history',
-  'main_branch_remediation.backlogHistory.change': '{delta} compared with the start of the period',
+  'main_branch_remediation.backlogHistory.change':
+    '{direction, select, fewer {{count, number} fewer than at the start of the period} other {{count, number} more than at the start of the period}}',
+  'main_branch_remediation.backlogHistory.change_tooltip':
+    'Percentage change in open {findingType, select, sca {dependency risks} other {issues}} from the start to the end of the selected {days, number}-day period. A decrease means fewer {findingType, select, sca {dependency risks} other {issues}} remain open.',
+  'main_branch_remediation.backlogHistory.change_example':
+    'For example, if there were 20 open {findingType, select, sca {dependency risks} other {issues}} at the start and 12 at the end, the badge would show −40% because the number of open {findingType, select, sca {dependency risks} other {issues}} fell by 40%.',
   'main_branch_remediation.backlogHistory.no_change': 'No change since the start of the period',
   'main_branch_remediation.backlogHistory.missing_end': 'The report-end count is unavailable.',
   'main_branch_remediation.backlogHistory.missing_baseline': 'The starting count is unavailable.',
@@ -1745,7 +1749,7 @@ export const sharedMessages = {
     'Use Left and Right arrows to explore five-day snapshots, Home and End for the first and last, and Escape to dismiss details.',
   'main_branch_remediation.openFindingsAge.as_of': 'As of {date} (UTC)',
   'main_branch_remediation.openFindingsAge.duration':
-    '{unit, select, months {{value} months} other {{value} {days, plural, one {day} other {days}}}}',
+    '{unit, select, months {{value} <unitLabel>months</unitLabel>} other {{value} <unitLabel>{days, plural, one {day} other {days}}</unitLabel>}}',
   'main_branch_remediation.openFindingsAge.median_exact':
     'Median age: {value} {days, plural, one {day} other {days}}',
   'main_branch_remediation.openFindingsAge.median_caption':
@@ -1753,8 +1757,8 @@ export const sharedMessages = {
   'main_branch_remediation.openFindingsAge.no_open':
     'No open {findingType, select, sca {dependency risks} other {issues}}.',
   'main_branch_remediation.openFindingsAge.no_median': 'Median age is unavailable.',
-  'main_branch_remediation.openFindingsAge.bucket_below': '<{end, number} days',
-  'main_branch_remediation.openFindingsAge.bucket_between': '{start, number}–<{end, number} days',
+  'main_branch_remediation.openFindingsAge.bucket_below': '0–{end, number} days',
+  'main_branch_remediation.openFindingsAge.bucket_between': '{start, number}–{end, number} days',
   'main_branch_remediation.openFindingsAge.bucket_older': '{start, number}+ days',
   'main_branch_remediation.openFindingsAge.open':
     'Open {findingType, select, sca {dependency risks} other {issues}}',
@@ -1765,11 +1769,11 @@ export const sharedMessages = {
   'main_branch_remediation.introducedAndResolvedFindings.description':
     'Are {findingType, select, sca {dependency risks} other {issues}} closed as fast as new ones are introduced?',
   'main_branch_remediation.introducedAndResolvedFindings.more_closed':
-    '{count, number} more closed than introduced in the last {days, number} days',
+    '{count, number} more closed than introduced',
   'main_branch_remediation.introducedAndResolvedFindings.more_introduced':
-    '{count, number} more introduced than closed in the last {days, number} days',
+    '{count, number} more introduced than closed',
   'main_branch_remediation.introducedAndResolvedFindings.balanced':
-    'The same number closed and introduced in the last {days, number} days',
+    'The same number closed and introduced',
   'main_branch_remediation.introducedAndResolvedFindings.totals':
     '{closed, number} closed, {introduced, number} introduced',
   'main_branch_remediation.introducedAndResolvedFindings.show_net': 'Show net change',
