@@ -161,6 +161,14 @@
       ],
       "cache": true
     },
+    "https-check": {
+      "executor": "nx:run-commands",
+      "options": {
+        "cwd": "{workspaceRoot}",
+        "command": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON config/setup-https.mjs --auto"
+      },
+      "cache": false
+    },
     "start": {},
     "start-w-mocks": {
       "executor": "nx:run-commands",

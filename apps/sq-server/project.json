@@ -16,6 +16,7 @@
     "dep-check": {},
     "format-check": {},
     "format-write": {},
+    "https-check": {},
     "start": {},
     "start-w-mocks": {
       "options": {

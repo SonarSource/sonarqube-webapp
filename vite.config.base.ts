@@ -27,6 +27,7 @@ import { UserConfig } from 'vite';
 import { analyzer } from 'vite-bundle-analyzer';
 import requireTransform from 'vite-plugin-require-transform';
 import { ALLOWED_LICENSE_TEXT, ALLOWED_LICENSES, generateLicenseText } from './config/license';
+import { resolveDevHttps } from './config/vite/dev-https';
 import { emotionStyledTargets } from './config/vite/emotion-styled-targets';
 import { productionMockGuard } from './config/vite/production-mock-guard';
 import { qaComponentAttribute } from './config/vite/qa-component-attribute';
@@ -169,6 +170,7 @@ export const baseViteConfig = {
   },
   server: {
     allowedHosts: ['.ngrok-free.app', '.ngrok.io'],
+    https: resolveDevHttps(process.env, proxyTarget),
     port,
   },
   worker: {

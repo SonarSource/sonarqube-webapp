@@ -72,6 +72,33 @@ yarn start-sqs
 PROXY=http://my-sonarqube.org yarn start-sqs
 ```
 
+#### Serve the dev server over HTTPS (optional)
+
+When `PROXY` is an `https://` URL, the dev server can be served over HTTPS too. This needs
+[mkcert](https://github.com/FiloSottile/mkcert) to be installed. The first `yarn start-sqc` or `yarn start-sqs` then creates a
+trusted certificate (it may ask for your password) and uses it. Without mkcert, a warning is shown and the dev server starts
+over HTTP as usual.
+
+```bash
+# macOS
+brew install mkcert
+
+# Linux (see https://github.com/FiloSottile/mkcert#linux for other distributions)
+sudo apt install libnss3-tools && brew install mkcert
+
+# Windows
+choco install mkcert
+
+# Start the dev server over HTTPS
+PROXY=https://sonarcloud.io yarn start-sqc
+
+# Force HTTP
+HTTPS=false PROXY=https://sonarcloud.io yarn start-sqc
+```
+
+The certificate is stored in `~/.sonarqube-webapp/certs` and renewed automatically. Use `HTTPS_KEY` and `HTTPS_CERT` to provide your own.
+If the setup fails (for example when your machine does not allow trusting a certificate), the dev server starts over HTTP and does not ask again, until you run `yarn setup-https` to retry.
+
 ### Validate your changes and test
 
 ```bash
