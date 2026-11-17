@@ -18,7 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { ButtonIcon, IconArrowLeft, IconLink, Layout } from '@sonarsource/echoes-react';
+import { ButtonIcon, cssVar, IconArrowLeft, IconLink, Layout } from '@sonarsource/echoes-react';
 import { useIntl } from 'react-intl';
 import { ClipboardIconButton } from '../clipboard';
 
@@ -36,13 +36,18 @@ export function IssueTitle({ title, issuePermalink, closeIssue }: Readonly<Props
       <ButtonIcon
         Icon={IconArrowLeft}
         ariaLabel={formatMessage({ id: 'issue.back_to_issues_list' })}
-        className="sw:align-middle sw:mr-3 sw:mb-1"
+        className="sw:align-middle sw:mr-3 sw:mb-1 sw:shrink-0"
         onClick={closeIssue}
         size="medium"
         tooltipContent={formatMessage({ id: 'issue.back_to_issues_list' })}
       />
-      <Layout.PageHeader.Title className="sw:flex sw:justify-center" headingLevel="h3">
-        {title}
+      <div
+        className="sw:text-balance"
+        style={{ maxWidth: cssVar('sizes-typography-max-width-default') }}
+      >
+        <Layout.PageHeader.Title className="sw:inline! sw:[&_h3]:inline!" headingLevel="h3">
+          {title}
+        </Layout.PageHeader.Title>
 
         <ClipboardIconButton
           Icon={IconLink}
@@ -51,7 +56,7 @@ export function IssueTitle({ title, issuePermalink, closeIssue }: Readonly<Props
           copyValue={issuePermalink}
           discreet
         />
-      </Layout.PageHeader.Title>
+      </div>
     </div>
   );
 }
