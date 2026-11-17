@@ -55,12 +55,12 @@ export function getAnalysisModeBadge(project: OnboardingProject): BadgeConfig | 
   switch (project.analysisMode) {
     case OnboardingProjectAnalysisMode.Ci:
       return {
-        variety: BadgeVariety.Info,
+        variety: BadgeVariety.Neutral,
         labelKey: 'onboarding_dashboard.projects.analysis.full_ci',
       };
     case OnboardingProjectAnalysisMode.Automatic:
       return {
-        variety: BadgeVariety.Warning,
+        variety: BadgeVariety.Neutral,
         labelKey: 'onboarding_dashboard.projects.analysis.autoscan',
       };
     case OnboardingProjectAnalysisMode.None:
