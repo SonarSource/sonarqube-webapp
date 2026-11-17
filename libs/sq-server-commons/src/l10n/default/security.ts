@@ -1398,6 +1398,7 @@ export const securityMessages = {
     'Scan container images to find vulnerabilities and malicious packages. <link>Learn more about container scanning</link>.',
   'sca.container_images.last_analysis': '<b>Last analysis:</b> {date}',
   'sca.container_images.digest': '<b>Digest:</b> {digest}',
+  'sca.container_images.registry': '<b>Registry:</b> {registry}',
   'sca.container_images.select_digest': 'Select image tag and digest',
   'sca.container_images.search': 'Search image repositories',
   'sca.container_images.table': 'Image repositories',
@@ -1406,9 +1407,11 @@ export const securityMessages = {
   'sca.container_images.column.risks': 'Risks',
   'sca.container_images.column.most_severe': 'Most severe',
   'sca.container_images.column.tag': 'Tag',
+  'sca.container_images.column.last_scanned_tag': 'Last scanned tag',
   'sca.container_images.column.tag.help':
     'This is the tag most recently scanned by Sonar. It is not necessarily the newest published tag in the repository.',
   'sca.container_images.column.scan_digest': 'Scan digest',
+  'sca.pagination.page_size': 'Items per page',
   'sca.container_images.images': 'Images',
   'sca.container_images.images.count': '<b>{count}</b> {count, plural, one {image} other {images}}',
   'sca.container_images.image_repositories.count':
