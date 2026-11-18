@@ -6,7 +6,7 @@ lock_file=${2:-./yarn.lock}
 
 getRepoxPackages() {
 # Find all packages that have the repox registry in their resolution
-  awk '/^"/ { package=$0 } /repox.jfrog.io/ { print package }' "$lock_file" | sort | uniq
+  awk '/^"/ { package=$0 } /repox\.(jfrog\.io|sonar\.build)/ { print package }' "$lock_file" | sort | uniq
 }
 
 check() {
