@@ -21,7 +21,7 @@
 import * as v from 'valibot';
 import { GenericSchema } from 'valibot';
 import { PieChartPastry } from '../../types/visualization';
-import { CodeScope } from '../../types/widget-common';
+import { CodeScope } from '~shared/types/dashboard-history';
 import {
   createDashboardWidgetSpec,
   issueStatusesSchema,

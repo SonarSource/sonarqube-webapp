@@ -21,10 +21,8 @@
 import { useCallback, useState } from 'react';
 import { normalizeSection } from '../../dashboard-layout/logic/positioning';
 import type { DashboardInstance, WidgetInstance } from '../../dashboard-layout/logic/types';
-import type {
-  CompleteWidgetConfig,
-  ProjectDashboardWidgetPropMap,
-} from '../../types/dashboard-widget';
+import type { CompleteWidgetConfig } from '../../data/widgets';
+import type { ProjectDashboardWidgetPropMap } from '../../types/dashboard-widget';
 import { configToWidgetProps, widgetToConfig } from '../utils/editWidgetConfig';
 
 interface UseEditWidgetParams<

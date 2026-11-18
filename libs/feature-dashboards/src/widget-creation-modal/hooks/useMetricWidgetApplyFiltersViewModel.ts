@@ -27,13 +27,9 @@ import {
   DashboardMetricType,
   MeasureFilters,
   type DashboardMetric,
-} from '../../types/dashboard-widget';
-import { IssueResolutionStatistic } from '../../types/organization-issue-resolution-history';
-import {
-  CodeScope,
-  VisualizationType,
-  type WidgetMetricPickerOptions,
-} from '../../types/widget-common';
+} from '../../data/widgets/shared';
+import { IssueResolutionStatistic, CodeScope } from '~shared/types/dashboard-history';
+import { VisualizationType, type WidgetMetricPickerOptions } from '../../types/widget-common';
 import { isIssueCountHistoryDashboardMetric } from '../../utils/issueCountHistoryMetric';
 import {
   buildRichMetricIssueStatusSelectOptions,

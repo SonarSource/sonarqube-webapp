@@ -26,8 +26,8 @@ import {
 } from '../dashboard-layout/logic/positioning';
 import type { DashboardInstance } from '../dashboard-layout/logic/types';
 import { addWidgetToSection, createWidget } from '../dashboard-layout/utils/widgetFactory';
+import type { CompleteWidgetConfig } from '../data/widgets';
 import type {
-  CompleteWidgetConfig,
   PortfolioDashboardWidgetPropMap,
   ProjectDashboardWidgetPropMap,
 } from '../types/dashboard-widget';

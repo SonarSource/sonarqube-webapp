@@ -22,9 +22,9 @@ import type {
   IssueSeverity,
   IssueType,
   OrganizationIssueImpactQueryValue,
-} from './organization-issue-count-history';
-import type { IssueHistoryDay } from './organization-issue-history';
-import type { EntityType } from './types';
+  IssueHistoryDay,
+  DashboardEntityType,
+} from '~shared/types/dashboard-history';
 
 /**
  * Dimension axes supported by the issue-density-history slice API.
@@ -40,7 +40,7 @@ export interface GetIssueDensityHistoryParams {
   /** Inclusive end of range. Omit to default to now (recommended). */
   endDate?: string;
   entityId: string;
-  entityType: EntityType;
+  entityType: DashboardEntityType;
   impacts?: OrganizationIssueImpactQueryValue[];
   issueTypes?: IssueType[];
   ruleKeys?: string[];

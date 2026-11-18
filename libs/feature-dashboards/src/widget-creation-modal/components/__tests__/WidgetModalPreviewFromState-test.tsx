@@ -23,11 +23,10 @@ import { renderWithRouter } from '~shared/helpers/test-utils';
 import { MetricKey } from '~shared/types/metrics';
 import { WidgetNoData } from '../../../components/common/WidgetNoData';
 import type { WidgetBodyMap, WidgetHeaderMap } from '../../../dashboard-layout/logic/types';
-import {
-  DashboardMetricType,
-  type ProjectDashboardWidgetPropMap,
-} from '../../../types/dashboard-widget';
-import { CodeScope, VisualizationType } from '../../../types/widget-common';
+import { DashboardMetricType } from '../../../data/widgets/shared';
+import { type ProjectDashboardWidgetPropMap } from '../../../types/dashboard-widget';
+import { CodeScope } from '~shared/types/dashboard-history';
+import { VisualizationType } from '../../../types/widget-common';
 import { WidgetModalPreviewFromState } from '../WidgetModalPreviewFromState';
 
 describe('WidgetModalPreviewFromState', () => {

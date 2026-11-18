@@ -18,43 +18,15 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { type SoftwareImpactSeverity, SoftwareQuality } from '~shared/types/clean-code-taxonomy';
-import type { EntityType } from './types';
-
-/**
- * Request-side shapes for the organizations issue-count-history endpoint
- * (`GET /organizations/issue-count-history`) and shared enums used by both portfolio and project
- * line charts. Kept here (rather than in `~api/portfolio-dashboard`) so dashboard helpers can
- * consume them without depending on the API module.
- */
-
-export type IssueCountSliceBy = 'RULE_KEY' | 'SEVERITY' | 'SOFTWARE_QUALITY' | 'STATUS' | 'TYPE';
-
-export type IssueType = 'BUG' | 'CODE_SMELL' | 'SECURITY_HOTSPOT' | 'VULNERABILITY';
-
-export type IssueSeverity = `${SoftwareImpactSeverity}`;
-
-/**
- * Organizations issue-count APIs `statuses` query param (`IssueCountStatus` on the backend).
- * For security hotspots, reviewed outcomes are `FIXED` and `SAFE`
- */
-export type IssueCountStatus =
-  | 'ACCEPTED'
-  | 'CONFIRMED'
-  | 'FALSE_POSITIVE'
-  | 'FIXED'
-  | 'OPEN'
-  | 'SAFE'
-  | 'TO_REVIEW';
-
-/**
- * Organizations API `impacts` query param: `{SoftwareQuality}:{Severity}` (see
- * `SoftwareQualityImpact.parse` in sonarcloud-organizations). Used by
- * `/organizations/issue-count-history` and `/organizations/project-issue-counts`.
- *
- * @example "MAINTAINABILITY:LOW", "SECURITY:HIGH"
- */
-export type OrganizationIssueImpactQueryValue = `${SoftwareQuality}:${IssueSeverity}`;
+import type {
+  IssueCountSliceBy,
+  OrganizationsIssueCountHistoryDay,
+  IssueType,
+  IssueSeverity,
+  IssueCountStatus,
+  OrganizationIssueImpactQueryValue,
+  DashboardEntityType,
+} from '~shared/types/dashboard-history';
 
 /** Security hotspots only — same filter as portfolio hotspot pie charts and their drilldowns. */
 export const PORTFOLIO_SECURITY_HOTSPOT_ISSUE_TYPES: readonly IssueType[] = ['SECURITY_HOTSPOT'];
@@ -82,7 +54,7 @@ export interface GetIssueCountHistoryParams {
   /** Inclusive end of range. Omit for full history from startDate; set equal to a narrow window (e.g. same UTC day as startDate) to fetch a single snapshot. */
   endDate?: string;
   entityId: string;
-  entityType: EntityType;
+  entityType: DashboardEntityType;
   impacts?: OrganizationIssueImpactQueryValue[];
   /**
    * Organizations API `issueTypes` query param (Micronaut list). Serialized as a comma-separated
@@ -105,3 +77,7 @@ export interface GetIssueCountHistoryParams {
 
 /** Logical issue-count-history params without date fields; snapshot dates are applied by query hooks. */
 export type IssueCountSnapshotParams = Omit<GetIssueCountHistoryParams, 'startDate' | 'endDate'>;
+
+export interface IssueCountHistoryResponse {
+  issueCountHistory: OrganizationsIssueCountHistoryDay[];
+}

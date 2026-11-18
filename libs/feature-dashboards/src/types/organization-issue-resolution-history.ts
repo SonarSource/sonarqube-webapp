@@ -18,25 +18,14 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import type {
-  IssueSeverity,
-  IssueType,
-  OrganizationIssueImpactQueryValue,
-} from './organization-issue-count-history';
-import type { IssueHistoryDay } from './organization-issue-history';
-import type { EntityType } from './types';
-
-/**
- * Statistics available from the `/organizations/issue-resolution-history` API.
- * - `RESOLVED_ISSUES`: count of issues resolved in the period
- * - `MTTR`: mean time to resolve all issues (calendar minutes)
- * - `RECENT_MTTR`: mean time to resolve newly introduced issues (calendar minutes)
- */
-export enum IssueResolutionStatistic {
-  ResolvedIssues = 'RESOLVED_ISSUES',
-  MTTR = 'MTTR',
-  RecentMTTR = 'RECENT_MTTR',
-}
+import {
+  IssueResolutionStatistic,
+  type IssueSeverity,
+  type IssueType,
+  type OrganizationIssueImpactQueryValue,
+  type IssueHistoryDay,
+  type DashboardEntityType,
+} from '~shared/types/dashboard-history';
 
 /** Dimension axes supported by the issue-resolution-history slice API. */
 type IssueResolutionSliceBy = 'SEVERITY' | 'SOFTWARE_QUALITY' | 'TYPE';
@@ -51,7 +40,7 @@ export interface GetIssueResolutionHistoryParams {
   /** Inclusive end of range. Omit to default to now (recommended — avoids SONARCLOUD-ZJ3). */
   endDate?: string;
   entityId: string;
-  entityType: EntityType;
+  entityType: DashboardEntityType;
   impacts?: OrganizationIssueImpactQueryValue[];
   issueTypes?: IssueType[];
   severities?: IssueSeverity[];

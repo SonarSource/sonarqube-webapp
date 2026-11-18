@@ -18,6 +18,12 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { sortDashboardHistory } from '~shared/helpers/dashboard-history';
+import {
+  type DashboardMeasure,
+  type DashboardMeasureHistory,
+  IssueResolutionStatistic,
+} from '~shared/types/dashboard-history';
 import { useIntl, type IntlShape } from 'react-intl';
 import { getDashboardLocalizedMetricName } from '~adapters/helpers/l10n';
 import { useDashboardMeasureQuery } from '~adapters/queries/dashboard-measure';
@@ -35,19 +41,11 @@ import {
   getSegmentColor,
 } from '../../components/visualizations/pie-chart/pieChartSegmentUtils';
 import { getDashboardMetricTitle } from '../../components/widget-header/widgetHeaderText';
-import {
-  dashboardMeasureHistoryMetricKey,
-  type DashboardMeasure,
-} from '../../data/dashboard-measure';
-import {
-  parseDashboardMeasureValue,
-  sortDashboardHistory,
-  type DashboardMeasureHistory,
-} from '../../data/dashboard-measure-history';
+import { dashboardMeasureHistoryMetricKey } from '../../data/dashboard-measure';
+import { parseDashboardMeasureValue } from '../../data/dashboard-measure-history';
 import { DashboardMetricType, type DashboardMetric } from '../../data/widgets/shared';
 import { useMttrFormatters } from '../../hooks/useMttrFormatters';
 import { PieChartIssueSlice } from '../../types/dashboard-widget';
-import { IssueResolutionStatistic } from '../../types/organization-issue-resolution-history';
 import type { LineChartSeries } from '../../types/visualization';
 import { dashboardHistoryDateRange } from '../../utils/datetime';
 import { lineChartMeasureTransformFlags } from '../../utils/lineChartMeasureTransformFlags';

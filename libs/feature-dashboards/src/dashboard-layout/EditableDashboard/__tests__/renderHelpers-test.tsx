@@ -24,12 +24,8 @@ import { type ReactElement } from 'react';
 import { IntlProvider } from 'react-intl';
 import type { CardHeaderElementProps } from '../../../editable-multigrid/types';
 import { WidgetMode } from '../../../types/widget-common';
-import type {
-  WidgetBodyMap,
-  WidgetEditBehaviorMap,
-  WidgetHeaderMap,
-  WidgetInstance,
-} from '../../logic/types';
+import type { WidgetBodyMap, WidgetHeaderMap, WidgetInstance } from '../../logic/types';
+import type { WidgetEditBehaviorMap } from '../../../data/widgets';
 import { WidgetMapsProvider } from '../../shared/WidgetMapsContext';
 import { renderCardContent, renderCardHeaderContent } from '../renderHelpers';
 

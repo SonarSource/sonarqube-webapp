@@ -24,7 +24,8 @@ import { getProjectDashboardTopListRowUrl } from '~adapters/helpers/dashboard-wi
 import { useProjectTopListData } from '~adapters/queries/project-top-list-widget-data';
 import { renderWithRouter } from '~shared/helpers/test-utils';
 import { TopListProps } from '../../../types/visualization';
-import { CodeScope, TopListLimit, TopListRankBy } from '../../../types/widget-common';
+import { CodeScope } from '~shared/types/dashboard-history';
+import { TopListLimit, TopListRankBy } from '../../../types/widget-common';
 import { buildDashboardMetricForTopList } from '../../../widget-creation-modal/utils/topListCompleteConfig';
 import { ProjectTopListWidgetWrapper } from '../ProjectTopListWidgetWrapper';
 

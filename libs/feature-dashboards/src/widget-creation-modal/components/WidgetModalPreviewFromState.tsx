@@ -19,10 +19,8 @@
  */
 
 import { WidgetBodyMap, WidgetHeaderMap } from '../../dashboard-layout/logic/types';
-import type {
-  CompleteWidgetConfig,
-  ProjectDashboardWidgetPropMap,
-} from '../../types/dashboard-widget';
+import type { CompleteWidgetConfig } from '../../data/widgets';
+import type { ProjectDashboardWidgetPropMap } from '../../types/dashboard-widget';
 import { ConfigureWidgetPreview } from './ConfigureWidgetPreview';
 
 interface WidgetModalPreviewFromStateProps<S> {

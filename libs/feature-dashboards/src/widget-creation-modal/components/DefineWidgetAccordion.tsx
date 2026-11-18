@@ -29,15 +29,14 @@ import { PieChartIcon } from '../../icons/PieChartIcon';
 import { ShowChartIcon } from '../../icons/ShowChartIcon';
 import { TagIcon } from '../../icons/TagIcon';
 import { TopListIcon } from '../../icons/TopListIcon';
+import { DashboardMetricType, RichMetricKey } from '../../data/widgets/shared';
 import {
-  DashboardMetricType,
   PieChartHotspotSlice,
   PieChartIssueSlice,
   PieChartLineSlice,
   PieChartMetric,
   PieChartProjectSlice,
   PieChartSlice,
-  RichMetricKey,
 } from '../../types/dashboard-widget';
 import {
   DEFAULT_TOP_LIST_LIMIT,

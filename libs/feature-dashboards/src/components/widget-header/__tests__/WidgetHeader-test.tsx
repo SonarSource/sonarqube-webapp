@@ -25,10 +25,13 @@ import { renderWithRouter } from '~shared/helpers/test-utils';
 import { SoftwareQuality } from '~shared/types/clean-code-taxonomy';
 import { MetricKey } from '~shared/types/metrics';
 import { HistoryRange, LineChartGroupBy } from '../../../data/widgets/line-chart';
-import { DashboardMetricType, IssueStatus, RichMetricKey } from '../../../types/dashboard-widget';
-import { IssueResolutionStatistic } from '../../../types/organization-issue-resolution-history';
-import { ScaResolutionStatistic } from '../../../types/organization-sca-resolution-history';
-import { CodeScope, TopListLimit, TopListRankBy, WidgetMode } from '../../../types/widget-common';
+import { DashboardMetricType, IssueStatus, RichMetricKey } from '../../../data/widgets/shared';
+import {
+  IssueResolutionStatistic,
+  ScaResolutionStatistic,
+  CodeScope,
+} from '~shared/types/dashboard-history';
+import { TopListLimit, TopListRankBy, WidgetMode } from '../../../types/widget-common';
 import { TopListWidgetHeader, WidgetHeader } from '../WidgetHeader';
 
 const mockSearchParams = { current: new URLSearchParams('id=my-project') };

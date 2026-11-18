@@ -21,7 +21,7 @@
 import * as v from 'valibot';
 import { GenericSchema } from 'valibot';
 import { MetricKey } from '~shared/types/metrics';
-import { CodeScope } from '../../types/widget-common';
+import { CodeScope } from '~shared/types/dashboard-history';
 import {
   createDashboardWidgetSpec,
   type DashboardWidgetSpec,

@@ -19,13 +19,8 @@
  */
 
 import { EditableDashboard } from './EditableDashboard/EditableDashboard';
-import {
-  DashboardInstance,
-  WidgetBodyMap,
-  WidgetEditBehaviorMap,
-  WidgetHeaderMap,
-  WidgetInstance,
-} from './logic/types';
+import { DashboardInstance, WidgetBodyMap, WidgetHeaderMap, WidgetInstance } from './logic/types';
+import { WidgetEditBehaviorMap } from '../data/widgets';
 import { ReadonlyDashboard } from './ReadonlyDashboard/ReadonlyDashboard';
 import { WidgetMapsProvider } from './shared/WidgetMapsContext';
 

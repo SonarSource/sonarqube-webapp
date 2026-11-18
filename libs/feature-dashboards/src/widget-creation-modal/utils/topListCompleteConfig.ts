@@ -23,7 +23,7 @@ import {
   DashboardMetricType,
   MeasureFilters,
   RichMetricKey,
-} from '../../types/dashboard-widget';
+} from '../../data/widgets/shared';
 import {
   DEFAULT_TOP_LIST_LIMIT,
   TopListLimit,

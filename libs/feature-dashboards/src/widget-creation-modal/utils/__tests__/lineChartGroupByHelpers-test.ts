@@ -20,11 +20,8 @@
 
 import { MetricKey } from '~shared/types/metrics';
 import { LineChartGroupBy } from '../../../data/widgets/line-chart';
-import {
-  DashboardMetricType,
-  PieChartIssueSlice,
-  RichMetricKey,
-} from '../../../types/dashboard-widget';
+import { DashboardMetricType, RichMetricKey } from '../../../data/widgets/shared';
+import { PieChartIssueSlice } from '../../../types/dashboard-widget';
 import {
   buildLineChartGroupBySelectOptions,
   getLineChartGroupByLabelMessageId,

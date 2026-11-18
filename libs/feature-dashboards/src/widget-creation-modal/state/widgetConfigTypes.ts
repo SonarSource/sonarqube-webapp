@@ -20,16 +20,10 @@
 
 import { MetricKey } from '~shared/types/metrics';
 import { HistoryRange, type LineChartGroupByValue } from '../../data/widgets/line-chart';
+import { DashboardMetric, IssueStatus, MeasureFilters } from '../../data/widgets/shared';
+import { PieChartFilter, PieChartMetric, PieChartSlice } from '../../types/dashboard-widget';
+import { CodeScope } from '~shared/types/dashboard-history';
 import {
-  DashboardMetric,
-  IssueStatus,
-  MeasureFilters,
-  PieChartFilter,
-  PieChartMetric,
-  PieChartSlice,
-} from '../../types/dashboard-widget';
-import {
-  CodeScope,
   MetricOptionValue,
   VisualizationType,
   type DashboardWidgetType,

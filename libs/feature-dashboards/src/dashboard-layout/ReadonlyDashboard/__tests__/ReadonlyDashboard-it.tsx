@@ -24,14 +24,10 @@ import { MemoryRouter } from 'react-router';
 import { renderWithContext } from '~shared/helpers/test-utils';
 import { MetricKey } from '~shared/types/metrics';
 import { PieChartPastry } from '../../../types/visualization';
-import { CodeScope } from '../../../types/widget-common';
+import { CodeScope } from '~shared/types/dashboard-history';
 import { normalizeSection } from '../../logic/positioning';
-import {
-  DashboardInstance,
-  WidgetBodyMap,
-  WidgetEditBehaviorMap,
-  WidgetHeaderMap,
-} from '../../logic/types';
+import { DashboardInstance, WidgetBodyMap, WidgetHeaderMap } from '../../logic/types';
+import { WidgetEditBehaviorMap } from '../../../data/widgets';
 import { ReadonlyDashboard } from '../../ReadonlyDashboard/ReadonlyDashboard';
 import { WidgetMapsProvider } from '../../shared/WidgetMapsContext';
 import { getImplicitSectionContainerStyle } from '../ImplicitSection';

@@ -20,7 +20,7 @@
 
 import { MetricKey, MetricType } from '~shared/types/metrics';
 import type { RatingBadgeWidgetProps } from '../../types/dashboard-widget';
-import { CodeScope } from '../../types/widget-common';
+import { CodeScope } from '~shared/types/dashboard-history';
 import { getPortfolioDashboardMeasureRequestKey } from '../../utils/portfolioMeasures';
 import { isPortfolioDashboardRatingBadgeBreakdownMetricKey } from '../../utils/portfolioRatingBadgeBreakdown';
 import {

@@ -22,8 +22,7 @@ import type { GenericSchema } from 'valibot';
 import * as v from 'valibot';
 import { SoftwareImpactSeverity, SoftwareQuality } from '~shared/types/clean-code-taxonomy';
 import { MetricKey } from '~shared/types/metrics';
-import { IssueResolutionStatistic } from '../../types/organization-issue-resolution-history';
-import { ScaResolutionStatistic } from '../../types/organization-sca-resolution-history';
+import { IssueResolutionStatistic, ScaResolutionStatistic } from '~shared/types/dashboard-history';
 
 export type Position = {
   x: number;

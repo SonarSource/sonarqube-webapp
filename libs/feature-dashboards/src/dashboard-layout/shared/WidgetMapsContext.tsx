@@ -19,7 +19,8 @@
  */
 
 import { createContext, ReactNode, useContext, useMemo } from 'react';
-import { WidgetBodyMap, WidgetEditBehaviorMap, WidgetHeaderMap } from '../logic/types';
+import { WidgetBodyMap, WidgetHeaderMap } from '../logic/types';
+import { WidgetEditBehaviorMap } from '../../data/widgets';
 
 interface WidgetMapsContextValue<WidgetPropMap extends {}> {
   bodyMap: WidgetBodyMap<WidgetPropMap>;

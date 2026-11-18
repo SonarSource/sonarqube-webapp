@@ -19,7 +19,7 @@
  */
 
 import { IntlShape } from 'react-intl';
-import { IssueResolutionStatistic } from '../../types/organization-issue-resolution-history';
+import { IssueResolutionStatistic } from '~shared/types/dashboard-history';
 import { type MetricGroup, type MetricOption } from '../../types/widget-common';
 
 export function buildIssueResolutionMetricItems(

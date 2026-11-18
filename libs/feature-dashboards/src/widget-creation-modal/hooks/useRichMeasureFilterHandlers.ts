@@ -20,7 +20,7 @@
 
 import { useCallback } from 'react';
 import { SoftwareQuality } from '~shared/types/clean-code-taxonomy';
-import { MeasureFilters } from '../../types/dashboard-widget';
+import { MeasureFilters } from '../../data/widgets/shared';
 import {
   applyIssueStatusMeasureFilters,
   applySeverityMeasureFilters,

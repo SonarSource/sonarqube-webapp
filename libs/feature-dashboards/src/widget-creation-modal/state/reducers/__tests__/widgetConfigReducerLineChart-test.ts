@@ -21,12 +21,9 @@
 import { SoftwareImpactSeverity, SoftwareQuality } from '~shared/types/clean-code-taxonomy';
 import { MetricKey } from '~shared/types/metrics';
 import { HistoryRange, LineChartGroupBy } from '../../../../data/widgets/line-chart';
-import {
-  DashboardMetricType,
-  IssueStatus,
-  RichMetricKey,
-} from '../../../../types/dashboard-widget';
-import { CodeScope, VisualizationType } from '../../../../types/widget-common';
+import { DashboardMetricType, IssueStatus, RichMetricKey } from '../../../../data/widgets/shared';
+import { CodeScope } from '~shared/types/dashboard-history';
+import { VisualizationType } from '../../../../types/widget-common';
 import {
   createInitialCountConfig,
   createInitialLineChartConfig,

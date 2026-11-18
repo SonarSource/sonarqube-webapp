@@ -22,15 +22,14 @@ import { getConfiguredIssueStatuses } from '~shared/helpers/dashboard-issue-stat
 import { SoftwareQuality } from '~shared/types/clean-code-taxonomy';
 import { FILTERABLE_CODE_ISSUE_STATUSES } from '~shared/types/issues';
 import { MetricKey } from '~shared/types/metrics';
-import { MeasureFilters, RichMetricKey } from '../types/dashboard-widget';
+import { MeasureFilters, RichMetricKey } from '../data/widgets/shared';
 import {
   GetIssueCountHistoryParams,
-  IssueCountStatus,
-  IssueSeverity,
   ORGANIZATION_ISSUE_COUNT_SEVERITIES,
   ORGANIZATION_ISSUE_COUNT_STATUSES,
   PORTFOLIO_SECURITY_HOTSPOT_ISSUE_TYPES,
 } from '../types/organization-issue-count-history';
+import { IssueCountStatus, IssueSeverity } from '~shared/types/dashboard-history';
 import { buildMeasureFilterParams } from './measureFilters';
 import {
   organizationIssueImpactQueryValuesForSoftwareQualities,

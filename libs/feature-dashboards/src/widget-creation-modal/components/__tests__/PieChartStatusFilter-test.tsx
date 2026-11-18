@@ -20,15 +20,16 @@
 
 import { screen } from '@testing-library/react';
 import { renderWithRouter } from '~shared/helpers/test-utils';
+import { IssueStatus } from '../../../data/widgets/shared';
 import {
-  IssueStatus,
   PieChartHotspotSlice,
   PieChartIssueSlice,
   PieChartLineSlice,
   PieChartMetric,
   type PieChartWidgetProps,
 } from '../../../types/dashboard-widget';
-import { CodeScope, VisualizationType } from '../../../types/widget-common';
+import { CodeScope } from '~shared/types/dashboard-history';
+import { VisualizationType } from '../../../types/widget-common';
 import { widgetConfigReducer } from '../../state/reducers/widgetConfigReducer';
 import { extractCompleteConfig } from '../../state/selectors/widgetConfigSelectors';
 import type {

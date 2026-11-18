@@ -23,12 +23,9 @@ import { useIntl } from 'react-intl';
 import { getConfiguredIssueStatuses } from '~shared/helpers/dashboard-issue-statuses';
 import { SoftwareQuality } from '~shared/types/clean-code-taxonomy';
 import { MetricKey } from '~shared/types/metrics';
-import { IssueStatus, MeasureFilters } from '../../types/dashboard-widget';
-import {
-  CodeScope,
-  VisualizationType,
-  type WidgetMetricPickerOptions,
-} from '../../types/widget-common';
+import { IssueStatus, MeasureFilters } from '../../data/widgets/shared';
+import { CodeScope } from '~shared/types/dashboard-history';
+import { VisualizationType, type WidgetMetricPickerOptions } from '../../types/widget-common';
 import {
   applyIssueStatusMeasureFilters,
   applySeverityMeasureFilters,

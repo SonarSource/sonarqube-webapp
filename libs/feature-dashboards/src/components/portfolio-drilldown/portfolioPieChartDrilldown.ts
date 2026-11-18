@@ -36,8 +36,10 @@ import {
   type IssueCountStatus,
   type IssueSeverity,
   type IssueType,
-  ORGANIZATION_ISSUE_COUNT_SEVERITIES,
   type OrganizationIssueImpactQueryValue,
+} from '~shared/types/dashboard-history';
+import {
+  ORGANIZATION_ISSUE_COUNT_SEVERITIES,
   PORTFOLIO_SECURITY_HOTSPOT_ISSUE_TYPES,
 } from '../../types/organization-issue-count-history';
 import {

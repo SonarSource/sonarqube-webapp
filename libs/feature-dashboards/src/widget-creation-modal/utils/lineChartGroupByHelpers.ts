@@ -21,13 +21,8 @@
 import { IntlShape } from 'react-intl';
 import { MetricKey } from '~shared/types/metrics';
 import { LineChartGroupBy, type LineChartGroupByValue } from '../../data/widgets/line-chart';
-import {
-  DashboardMetric,
-  DashboardMetricType,
-  PieChartIssueSlice,
-  PieChartSlice,
-  RichMetricKey,
-} from '../../types/dashboard-widget';
+import { DashboardMetric, DashboardMetricType, RichMetricKey } from '../../data/widgets/shared';
+import { PieChartIssueSlice, PieChartSlice } from '../../types/dashboard-widget';
 
 const GROUP_BY_LABEL_MESSAGE_ID: Record<LineChartGroupByValue, string> = {
   [LineChartGroupBy.None]: 'dashboard.line_chart.group_by.none',

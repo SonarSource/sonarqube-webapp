@@ -22,7 +22,7 @@ import { screen } from '@testing-library/react';
 import { useState } from 'react';
 import { createIntl } from 'react-intl';
 import { PieChartIssueSlice, PieChartMetric } from '~feature-dashboards/types/dashboard-widget';
-import { IssueResolutionStatistic } from '~feature-dashboards/types/organization-issue-resolution-history';
+import { IssueResolutionStatistic } from '~shared/types/dashboard-history';
 import {
   ISSUE_DENSITY_METRIC_OPTION_VALUE,
   SCA_MTTR_METRIC_OPTION_VALUE,

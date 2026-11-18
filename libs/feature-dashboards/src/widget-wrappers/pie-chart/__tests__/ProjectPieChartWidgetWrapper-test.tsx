@@ -32,7 +32,7 @@ import {
   PieChartMetric,
   PieChartWidgetProps,
 } from '../../../types/dashboard-widget';
-import { CodeScope } from '../../../types/widget-common';
+import { CodeScope } from '~shared/types/dashboard-history';
 import { ProjectPieChartWidgetWrapper as ProjectPieChartWidget } from '../ProjectPieChartWidgetWrapper';
 
 jest.mock('../../../components/visualizations/pie-chart/InteractivePieChart', () => ({

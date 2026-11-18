@@ -22,8 +22,8 @@ import { renderHook } from '@testing-library/react';
 import { getContextWrapper } from '~adapters/helpers/test-utils';
 import { useWidgetMetricMetadataQuery } from '~adapters/queries/widget-metric-metadata';
 import { MetricKey, MetricType } from '~shared/types/metrics';
-import { DashboardMetricType, IssueStatus, RichMetricKey } from '../../types/dashboard-widget';
-import { IssueResolutionStatistic } from '../../types/organization-issue-resolution-history';
+import { DashboardMetricType, IssueStatus, RichMetricKey } from '../../data/widgets/shared';
+import { IssueResolutionStatistic } from '~shared/types/dashboard-history';
 import { useLineChartMetricCharacteristics } from '../useLineChartMetricCharacteristics';
 
 jest.mock('~adapters/queries/widget-metric-metadata', () => ({

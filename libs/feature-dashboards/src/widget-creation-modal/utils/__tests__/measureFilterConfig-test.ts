@@ -23,9 +23,8 @@ import {
   DashboardMetricType,
   RichMetricKey,
   type DashboardMetric,
-} from '../../../types/dashboard-widget';
-import { IssueResolutionStatistic } from '../../../types/organization-issue-resolution-history';
-import { ScaResolutionStatistic } from '../../../types/organization-sca-resolution-history';
+} from '../../../data/widgets/shared';
+import { IssueResolutionStatistic, ScaResolutionStatistic } from '~shared/types/dashboard-history';
 import {
   getMeasureFilterCapability,
   getMeasureFilterCapabilityForDashboardMetric,

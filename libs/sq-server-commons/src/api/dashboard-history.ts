@@ -19,8 +19,24 @@
  */
 
 import { axiosClient } from '~shared/helpers/axios-clients';
-import type { Paging } from '~shared/types/paging';
 import { serializeStringArray } from '../helpers/query';
+import type {
+  DashboardIssueHistoryDay,
+  DashboardIssueCountHistoryResponse,
+  DashboardIssueDensityHistoryResponse,
+  DashboardIssueResolutionHistoryResponse,
+  DashboardScaResolutionHistoryResponse,
+  DashboardMeasureHistoryDay,
+  DashboardMeasuresHistoryResponse,
+  DashboardIssueHistoryParams,
+  DashboardIssueResolutionHistoryParams,
+  DashboardScaResolutionHistoryParams,
+  DashboardMeasuresHistoryParams,
+  DashboardProjectIssueCountsResponse,
+  DashboardProjectIssueCountsParams,
+  DashboardProjectMeasuresResponse,
+  DashboardProjectMeasuresParams,
+} from '../types/dashboard-history';
 
 const ISSUE_COUNT_HISTORY_ENDPOINT = '/api/v2/history/issue-count-history';
 const ISSUE_DENSITY_HISTORY_ENDPOINT = '/api/v2/history/issue-density-history';
@@ -29,164 +45,6 @@ const SCA_RESOLUTION_HISTORY_ENDPOINT = '/api/v2/history/sca-resolution-history'
 const MEASURES_HISTORY_ENDPOINT = '/api/v2/history/measures-history';
 const PROJECT_ISSUE_COUNTS_ENDPOINT = '/api/v2/history/project-issue-counts';
 const PROJECT_MEASURES_ENDPOINT = '/api/v2/history/project-measures';
-
-type DashboardEntityType = 'APPLICATION' | 'PORTFOLIO' | 'PROJECT_BRANCH';
-
-export type IssueResolutionStatistic = 'MTTR' | 'RECENT_MTTR' | 'RESOLVED_ISSUES';
-type DashboardProjectCollectionEntityType = 'APPLICATION' | 'PORTFOLIO';
-
-interface DashboardProjectCollectionSelector {
-  entityId: string;
-  entityType: DashboardProjectCollectionEntityType;
-}
-
-interface DashboardIssueHistoryDistribution {
-  key?: string | null;
-  value?: number | null;
-}
-
-export interface DashboardIssueHistoryDay {
-  date?: string | null;
-  distribution?: DashboardIssueHistoryDistribution[];
-}
-
-interface DashboardScaResolutionDistribution {
-  key: string;
-  value: number;
-}
-
-interface DashboardScaResolutionHistoryDay {
-  date: string | null;
-  distribution: DashboardScaResolutionDistribution[];
-}
-
-export interface DashboardIssueCountHistoryResponse {
-  issueCountHistory?: DashboardIssueHistoryDay[];
-}
-
-export interface DashboardIssueDensityHistoryResponse {
-  issueDensityHistory?: DashboardIssueHistoryDay[];
-}
-
-export interface DashboardIssueResolutionHistoryResponse {
-  issueResolutionHistory: DashboardIssueHistoryDay[];
-  statistic: 'MTTR' | 'RECENT_MTTR' | 'RESOLVED_ISSUES';
-}
-
-export interface DashboardScaResolutionHistoryResponse {
-  scaResolutionHistory: DashboardScaResolutionHistoryDay[];
-  statistic: 'SCA_MTTR';
-}
-
-interface DashboardMeasureHistoryEntry {
-  metric?: string | null;
-  type?: string | null;
-  value?: string | null;
-}
-
-export interface DashboardMeasureHistoryDay {
-  date?: string | null;
-  measures?: DashboardMeasureHistoryEntry[];
-}
-
-export interface DashboardMeasuresHistoryResponse {
-  measuresHistory?: DashboardMeasureHistoryDay[];
-}
-export interface DashboardIssueHistoryParams {
-  endDate?: string;
-  entityId: string;
-  entityType: DashboardEntityType;
-  impacts?: string[];
-  issueTypes?: string[];
-  ruleKeys?: string[];
-  severities?: string[];
-  sliceBy?: string;
-  startDate: string;
-  statuses?: string[];
-  typeSeverities?: string[];
-}
-
-export interface DashboardIssueResolutionHistoryParams extends DashboardIssueHistoryParams {
-  statistic: IssueResolutionStatistic;
-}
-
-export interface DashboardScaResolutionHistoryParams {
-  endDate?: string | null;
-  entityId: string;
-  entityType: DashboardEntityType;
-  severities?: string[];
-  sliceBy?: 'SEVERITY' | null;
-  startDate: string;
-  statistic: 'SCA_MTTR';
-}
-
-export interface DashboardMeasuresHistoryParams {
-  endDate?: string;
-  entityId: string;
-  entityType: DashboardEntityType;
-  metricKeys: string[];
-  startDate: string;
-}
-
-interface DashboardProjectIssueCount {
-  branchId: string;
-  branchName?: string | null;
-  issueCount: number;
-  projectKey: string;
-  projectName: string;
-  referenceIssueCount?: number | null;
-}
-
-export interface DashboardProjectIssueCountsResponse {
-  hiddenProjectCount: number;
-  page: Paging;
-  projectIssueCounts: DashboardProjectIssueCount[];
-}
-
-export type DashboardProjectIssueCountsParams = DashboardProjectCollectionSelector & {
-  impacts?: string[];
-  issueTypes?: string[];
-  nameContains?: string;
-  pageIndex?: number;
-  pageSize?: number;
-  referenceDate?: string;
-  requireIssues?: boolean;
-  ruleKeys?: string[];
-  severities?: string[];
-  sort?: string[];
-  statuses?: string[];
-  typeSeverities?: string[];
-};
-
-interface DashboardProjectMeasure {
-  branchId: string;
-  branchName?: string | null;
-  measure: {
-    currentValue?: string | null;
-    metric: string;
-    referenceValue?: string | null;
-    type: string;
-  };
-  projectKey: string;
-  projectName: string;
-}
-
-export interface DashboardProjectMeasuresResponse {
-  hiddenProjectCount: number;
-  page: Paging;
-  projectMeasures: DashboardProjectMeasure[];
-}
-
-export type DashboardProjectMeasuresParams = DashboardProjectCollectionSelector & {
-  metricKey: string;
-  metricValue?: string;
-  nameContains?: string;
-  pageIndex?: number;
-  pageSize?: number;
-  referenceDate?: string;
-  requireValue?: boolean;
-  sort?: string[];
-};
 
 function serializeIssueHistoryParams(params: DashboardIssueHistoryParams) {
   return {

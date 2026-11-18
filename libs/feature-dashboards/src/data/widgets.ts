@@ -43,8 +43,6 @@ import {
 } from './widgets/shared';
 import { spec as topListWidgetSpec, type Props as TopListWidgetProps } from './widgets/top-list';
 
-export { type Dimensions, type Position } from './widgets/shared';
-
 export type WidgetEditBehaviorMap<WidgetPropMap extends {}> = {
   [K in keyof WidgetPropMap]: WidgetEditBehavior<WidgetPropMap[K]>;
 };

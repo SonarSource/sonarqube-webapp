@@ -18,14 +18,14 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import type { QGStatusExtended } from '~shared/types/common';
-import { Metric } from '~shared/types/measures';
-import { MetricKey, MetricType } from '~shared/types/metrics';
-import { MeasureFilters } from '../types/dashboard-widget';
 import type {
   OrganizationsIssueCountHistoryDay,
   OrganizationsMeasuresHistoryDay,
-} from '../types/organization-line-chart-history';
+} from '~shared/types/dashboard-history';
+import type { QGStatusExtended } from '~shared/types/common';
+import { Metric } from '~shared/types/measures';
+import { MetricKey, MetricType } from '~shared/types/metrics';
+import { MeasureFilters } from '../data/widgets/shared';
 import { getThirtyDayTrendValues, getThirtyDayTrendWindow } from './datetime';
 import { parseMeasureValue } from './measureValues';
 import { issueCountHistoryToPieCounts } from './organizationIssueCountHistory';

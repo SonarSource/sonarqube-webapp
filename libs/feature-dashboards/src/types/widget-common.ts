@@ -21,8 +21,7 @@
 import type { ReactNode } from 'react';
 import type { MetricKey } from '~shared/types/metrics';
 import type { PieChartMetric, PieChartSlice } from './dashboard-widget';
-import { IssueResolutionStatistic } from './organization-issue-resolution-history';
-import { ScaResolutionStatistic } from './organization-sca-resolution-history';
+import { IssueResolutionStatistic, ScaResolutionStatistic } from '~shared/types/dashboard-history';
 
 // ============================================================================
 // Common Widget Types - Reusable across Project and Portfolio Dashboards
@@ -86,10 +85,6 @@ export enum WidgetMode {
 /**
  * Code scope for metrics (Overall vs New Code)
  */
-export enum CodeScope {
-  Overall = 'overall',
-  New = 'new',
-}
 
 /**
  * Metric direction for issue-resolution statistics.

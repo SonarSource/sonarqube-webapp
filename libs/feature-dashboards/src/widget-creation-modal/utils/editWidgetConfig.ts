@@ -19,10 +19,8 @@
  */
 
 import type { WidgetInstance } from '../../dashboard-layout/logic/types';
-import type {
-  CompleteWidgetConfig,
-  ProjectDashboardWidgetPropMap,
-} from '../../types/dashboard-widget';
+import type { CompleteWidgetConfig } from '../../data/widgets';
+import type { ProjectDashboardWidgetPropMap } from '../../types/dashboard-widget';
 import { PieChartPastry } from '../../types/visualization';
 import { VisualizationType } from '../../types/widget-common';
 

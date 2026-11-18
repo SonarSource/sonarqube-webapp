@@ -22,12 +22,10 @@ import { act, renderHook } from '@testing-library/react';
 import { MetricKey } from '~shared/types/metrics';
 import { createEmptyDashboard } from '../../dashboard-layout/logic/constants';
 import { HistoryRange, LineChartGroupBy } from '../../data/widgets/line-chart';
-import {
-  DashboardMetricType,
-  RichMetricKey,
-  type ProjectDashboardWidgetPropMap,
-} from '../../types/dashboard-widget';
-import { CodeScope, VisualizationType } from '../../types/widget-common';
+import { DashboardMetricType, RichMetricKey } from '../../data/widgets/shared';
+import { type ProjectDashboardWidgetPropMap } from '../../types/dashboard-widget';
+import { CodeScope } from '~shared/types/dashboard-history';
+import { VisualizationType } from '../../types/widget-common';
 import { isOutsideViewport, useAddWidget } from '../useAddWidget';
 
 const widgetConfig = {

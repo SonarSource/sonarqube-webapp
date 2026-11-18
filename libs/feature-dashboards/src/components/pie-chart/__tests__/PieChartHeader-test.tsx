@@ -26,7 +26,7 @@ import {
   PieChartMetric,
   PieChartProjectSlice,
 } from '../../../types/dashboard-widget';
-import { CodeScope } from '../../../types/widget-common';
+import { CodeScope } from '~shared/types/dashboard-history';
 import { PieChartHeader } from '../PieChartHeader';
 
 describe('PieChartHeader', () => {

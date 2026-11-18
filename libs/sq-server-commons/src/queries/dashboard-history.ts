@@ -18,17 +18,26 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { queryOptions, useQueries } from '@tanstack/react-query';
-import { createQueryHook, StaleTime } from '~shared/queries/common';
 import {
-  DashboardIssueHistoryDay,
+  type NormalizedDashboardMeasuresHistoryResponse,
+  type NormalizedDashboardScaResolutionHistoryResponse,
+  type NormalizedDashboardIssueResolutionHistoryResponse,
+  type NormalizedDashboardIssueDensityHistoryResponse,
+  type NormalizedDashboardIssueCountHistoryResponse,
+  type NormalizedDashboardMeasuresHistoryDay,
+  type NormalizedDashboardIssueHistoryDay,
+  type DashboardIssueHistoryDay,
+  type DashboardMeasureHistoryDay,
   DashboardIssueHistoryParams,
   DashboardIssueResolutionHistoryParams,
-  DashboardMeasureHistoryDay,
   DashboardMeasuresHistoryParams,
   DashboardProjectIssueCountsParams,
   DashboardProjectMeasuresParams,
   DashboardScaResolutionHistoryParams,
+} from '../types/dashboard-history';
+import { queryOptions, useQueries } from '@tanstack/react-query';
+import { createQueryHook, StaleTime } from '~shared/queries/common';
+import {
   getDashboardIssueCountHistory,
   getDashboardIssueDensityHistory,
   getDashboardIssueResolutionHistory,
@@ -37,36 +46,6 @@ import {
   getDashboardProjectMeasures,
   getDashboardScaResolutionHistory,
 } from '../api/dashboard-history';
-
-export interface NormalizedDashboardIssueHistoryDay {
-  date: string;
-  distribution: { key: string; value: number }[];
-}
-
-export interface NormalizedDashboardMeasuresHistoryDay {
-  date: string;
-  measures: { metric: string; type: string; value: string }[];
-}
-
-export interface NormalizedDashboardIssueCountHistoryResponse {
-  issueCountHistory: NormalizedDashboardIssueHistoryDay[];
-}
-
-export interface NormalizedDashboardIssueDensityHistoryResponse {
-  issueDensityHistory: NormalizedDashboardIssueHistoryDay[];
-}
-
-export interface NormalizedDashboardIssueResolutionHistoryResponse {
-  issueResolutionHistory: NormalizedDashboardIssueHistoryDay[];
-}
-
-export interface NormalizedDashboardScaResolutionHistoryResponse {
-  scaResolutionHistory: NormalizedDashboardIssueHistoryDay[];
-}
-
-export interface NormalizedDashboardMeasuresHistoryResponse {
-  measuresHistory: NormalizedDashboardMeasuresHistoryDay[];
-}
 
 function normalizeIssueHistoryDay(
   day: DashboardIssueHistoryDay,

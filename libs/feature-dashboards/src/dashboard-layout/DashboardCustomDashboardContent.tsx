@@ -23,10 +23,10 @@ import { EmptyDashboard } from './EmptyDashboard';
 import type {
   DashboardInstance,
   WidgetBodyMap,
-  WidgetEditBehaviorMap,
   WidgetHeaderMap,
   WidgetInstance,
 } from './logic/types';
+import type { WidgetEditBehaviorMap } from '../data/widgets';
 
 interface Props<WidgetPropMap extends Record<string, {}>> {
   bodyMap: WidgetBodyMap<WidgetPropMap>;

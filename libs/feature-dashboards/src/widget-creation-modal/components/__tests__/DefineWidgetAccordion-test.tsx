@@ -23,19 +23,20 @@ import type { IntlShape } from 'react-intl';
 import { renderWithRouter } from '~shared/helpers/test-utils';
 import { MetricKey } from '~shared/types/metrics';
 import { HistoryRange, LineChartGroupBy } from '../../../data/widgets/line-chart';
+import { DashboardMetricType, RichMetricKey } from '../../../data/widgets/shared';
 import {
-  DashboardMetricType,
   PieChartHotspotSlice,
   PieChartIssueSlice,
   PieChartLineSlice,
   PieChartMetric,
   PieChartProjectSlice,
-  RichMetricKey,
 } from '../../../types/dashboard-widget';
-import { IssueResolutionStatistic } from '../../../types/organization-issue-resolution-history';
-import { ScaResolutionStatistic } from '../../../types/organization-sca-resolution-history';
 import {
+  IssueResolutionStatistic,
+  ScaResolutionStatistic,
   CodeScope,
+} from '~shared/types/dashboard-history';
+import {
   SCA_MTTR_METRIC_OPTION_VALUE,
   TopListLimit,
   TopListMetric,

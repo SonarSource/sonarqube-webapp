@@ -23,15 +23,17 @@ import { HistoryRange, LineChartGroupBy } from '../../../../data/widgets/line-ch
 import {
   DashboardMetricType,
   IssueStatus,
+  RichMetricKey,
+  type MeasureFilters,
+} from '../../../../data/widgets/shared';
+import {
   PieChartHotspotFilter,
   PieChartHotspotSlice,
   PieChartIssueSlice,
   PieChartMetric,
-  RichMetricKey,
-  type MeasureFilters,
 } from '../../../../types/dashboard-widget';
+import { CodeScope } from '~shared/types/dashboard-history';
 import {
-  CodeScope,
   TopListLimit,
   VisualizationType,
   type DashboardWidgetType,

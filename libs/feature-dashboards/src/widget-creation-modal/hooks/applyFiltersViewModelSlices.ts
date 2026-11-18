@@ -20,7 +20,7 @@
 
 import { SoftwareQuality } from '~shared/types/clean-code-taxonomy';
 import { HistoryRange } from '../../data/widgets/line-chart';
-import { CodeScope } from '../../types/widget-common';
+import { CodeScope } from '~shared/types/dashboard-history';
 import type { MeasureFilterCapability } from '../utils/measureFilterConfig';
 
 /** Message key shown in the scope select help text when the selected metric does not support new code. */

@@ -23,16 +23,15 @@ import {
   DashboardMetric,
   DashboardMetricType,
   MeasureFilters,
+  RichMetricKey,
+} from '../../../data/widgets/shared';
+import {
   PieChartHotspotSlice,
   PieChartMetric,
-  RichMetricKey,
   type PieChartSlice,
 } from '../../../types/dashboard-widget';
-import {
-  CodeScope,
-  VisualizationType,
-  type DashboardWidgetType,
-} from '../../../types/widget-common';
+import { CodeScope } from '~shared/types/dashboard-history';
+import { VisualizationType, type DashboardWidgetType } from '../../../types/widget-common';
 import { clampCountTrendIndicator } from '../../../utils/countWidgetTrendIndicator';
 import { clampLineChartScope } from '../../../utils/lineChartScope';
 import { getActualMetricKey } from '../../utils/getActualMetricKey';

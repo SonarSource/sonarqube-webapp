@@ -24,7 +24,7 @@ import { useProjectRatingBadgeMeasuresQuery } from '~adapters/queries/project-ra
 import { useWidgetMetricMetadataQuery } from '~adapters/queries/widget-metric-metadata';
 import { renderWithRouter } from '~shared/helpers/test-utils';
 import { MetricKey, MetricType } from '~shared/types/metrics';
-import { CodeScope } from '../../../types/widget-common';
+import { CodeScope } from '~shared/types/dashboard-history';
 import { ProjectRatingBadgeWidgetWrapper } from '../ProjectRatingBadgeWidgetWrapper';
 
 jest.mock('~adapters/components/measure/Measure', () => ({

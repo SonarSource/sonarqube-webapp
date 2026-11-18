@@ -32,7 +32,7 @@ import {
   PieChartWidgetProps,
 } from '../../../types/dashboard-widget';
 import { PieChartSegment } from '../../../types/visualization';
-import { CodeScope } from '../../../types/widget-common';
+import { CodeScope } from '~shared/types/dashboard-history';
 import { PortfolioPieChartWidgetWrapper } from '../PortfolioPieChartWidgetWrapper';
 
 const mockNavigate = jest.fn();

@@ -23,17 +23,14 @@ import { getConfiguredIssueStatuses } from '~shared/helpers/dashboard-issue-stat
 import type { SoftwareImpactSeverity, SoftwareQuality } from '~shared/types/clean-code-taxonomy';
 import { FILTERABLE_CODE_ISSUE_STATUSES } from '~shared/types/issues';
 import { MetricKey, MetricType } from '~shared/types/metrics';
+import { type CountWidgetProps } from '../../types/dashboard-widget';
 import {
-  type CountWidgetProps,
   type DashboardMetric,
   DashboardMetricType,
   RichMetricKey,
-} from '../../types/dashboard-widget';
-import {
-  type OrganizationIssueImpactQueryValue,
-  PORTFOLIO_SECURITY_HOTSPOT_ISSUE_TYPES,
-} from '../../types/organization-issue-count-history';
-import { CodeScope } from '../../types/widget-common';
+} from '../../data/widgets/shared';
+import { type OrganizationIssueImpactQueryValue, CodeScope } from '~shared/types/dashboard-history';
+import { PORTFOLIO_SECURITY_HOTSPOT_ISSUE_TYPES } from '../../types/organization-issue-count-history';
 import { organizationIssueImpactQueryValuesForSoftwareQualities } from '../../utils/organizationIssueCountHistoryUtils';
 import { getPortfolioDashboardMeasureRequestKey } from '../../utils/portfolioMeasures';
 import { getDashboardMetricTitle } from '../widget-header/widgetHeaderText';

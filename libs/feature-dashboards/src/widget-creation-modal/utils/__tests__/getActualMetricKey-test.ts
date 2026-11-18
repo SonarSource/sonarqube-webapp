@@ -20,9 +20,8 @@
 
 import { SoftwareQuality } from '~shared/types/clean-code-taxonomy';
 import { MetricKey } from '~shared/types/metrics';
-import { DashboardMetricType, IssueStatus, RichMetricKey } from '../../../types/dashboard-widget';
-import { IssueResolutionStatistic } from '../../../types/organization-issue-resolution-history';
-import { ScaResolutionStatistic } from '../../../types/organization-sca-resolution-history';
+import { DashboardMetricType, IssueStatus, RichMetricKey } from '../../../data/widgets/shared';
+import { IssueResolutionStatistic, ScaResolutionStatistic } from '~shared/types/dashboard-history';
 import { getActualMetricKey } from '../getActualMetricKey';
 
 describe('getActualMetricKey', () => {

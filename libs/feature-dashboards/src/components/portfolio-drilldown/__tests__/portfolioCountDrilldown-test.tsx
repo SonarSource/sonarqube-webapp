@@ -24,8 +24,8 @@ import { renderWithContext } from '~shared/helpers/test-utils';
 import { SoftwareImpactSeverity, SoftwareQuality } from '~shared/types/clean-code-taxonomy';
 import { FILTERABLE_CODE_ISSUE_STATUSES } from '~shared/types/issues';
 import { MetricKey, MetricType } from '~shared/types/metrics';
-import { DashboardMetricType, IssueStatus, RichMetricKey } from '../../../types/dashboard-widget';
-import { CodeScope } from '../../../types/widget-common';
+import { DashboardMetricType, IssueStatus, RichMetricKey } from '../../../data/widgets/shared';
+import { CodeScope } from '~shared/types/dashboard-history';
 import { PortfolioCountDrilldownPreview } from '../PortfolioCountDrilldownPreview';
 import { getPortfolioCountWidgetDrilldownDescriptor } from '../portfolioCountDrilldown';
 

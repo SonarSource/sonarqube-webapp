@@ -21,9 +21,11 @@
 import { SoftwareImpactSeverity, SoftwareQuality } from '~shared/types/clean-code-taxonomy';
 import { FILTERABLE_CODE_ISSUE_STATUSES } from '~shared/types/issues';
 import { MetricKey } from '~shared/types/metrics';
-import { IssueResolutionStatistic } from '../../types/organization-issue-resolution-history';
-import { ScaResolutionStatistic } from '../../types/organization-sca-resolution-history';
-import { CodeScope } from '../../types/widget-common';
+import {
+  IssueResolutionStatistic,
+  ScaResolutionStatistic,
+  CodeScope,
+} from '~shared/types/dashboard-history';
 import { PORTFOLIO_METRICS_SUPPORTING_NEW_CODE_SCOPE } from '../../utils/portfolioMeasures';
 import { dashboardMeasureHistoryMetricKey, dashboardMetricToMeasure } from '../dashboard-measure';
 import {

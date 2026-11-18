@@ -18,44 +18,19 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import {
+  type DashboardMeasureHistory,
+  type DashboardMeasure,
+  IssueResolutionStatistic,
+} from '~shared/types/dashboard-history';
+import { sortDashboardHistory } from '~shared/helpers/dashboard-history';
 import { MetricKey, MetricType } from '~shared/types/metrics';
-import { IssueResolutionStatistic } from '../types/organization-issue-resolution-history';
-import type { EntityType } from '../types/types';
 import { MS_PER_DAY, startOfUTCDay } from '../utils/datetime';
 import { parseLineChartRatingValue } from '../utils/lineChartHistoryUtils';
 import { lineChartMeasureTransformFlags } from '../utils/lineChartMeasureTransformFlags';
 import { parseMeasureValue } from '../utils/measureValues';
-import { dashboardMeasureHistoryMetricKey, type DashboardMeasure } from './dashboard-measure';
+import { dashboardMeasureHistoryMetricKey } from './dashboard-measure';
 import type { MeasureFilters } from './widgets/shared';
-
-interface DashboardIssueHistoryDay {
-  date: string;
-  distribution: { key: string; value?: number }[];
-}
-
-interface DashboardMeasuresHistoryDay {
-  date: string;
-  measures: { metric: string; type: string; value: string }[];
-}
-
-export type DashboardMeasureHistory =
-  | { api: 'issue-count-history'; history: DashboardIssueHistoryDay[] }
-  | { api: 'issue-density-history'; history: DashboardIssueHistoryDay[] }
-  | { api: 'issue-resolution-history'; history: DashboardIssueHistoryDay[] }
-  | { api: 'measures-history'; history: DashboardMeasuresHistoryDay[] }
-  | { api: 'sca-resolution-history'; history: DashboardIssueHistoryDay[] };
-
-export interface DashboardMeasureQueryInput {
-  entityId: string;
-  entityType: EntityType;
-  measure: DashboardMeasure;
-  months?: number;
-}
-
-export interface DashboardMeasureQueryDefinition {
-  queryFn: () => Promise<DashboardMeasureHistory>;
-  queryKey: readonly ['dashboard-measure', EntityType, string, DashboardMeasure, number];
-}
 
 const RESOLVED_ISSUES_PERIOD_DAYS = 30;
 
@@ -251,10 +226,6 @@ export function parseDashboardMeasureValue(
   const parsedValue = isMetricData ? parseMeasureValue(rawValue, measureFilters) : rawValue;
   const value = Number(parsedValue);
   return Number.isFinite(value) ? value : undefined;
-}
-
-export function sortDashboardHistory<T extends { date: string }>(history: readonly T[]): T[] {
-  return [...history].sort((left, right) => Date.parse(left.date) - Date.parse(right.date));
 }
 
 export function dashboardCountMetricType(

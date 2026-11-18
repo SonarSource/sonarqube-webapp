@@ -19,7 +19,7 @@
  */
 
 import type { IntlShape } from 'react-intl';
-import type { MeasureFilters } from '../../../types/dashboard-widget';
+import type { MeasureFilters } from '../../../data/widgets/shared';
 import {
   TopListMetric,
   TopListRankBy,

@@ -37,24 +37,25 @@ import { getPieChartFilterLineSegments } from '../../components/pie-chart/pieCha
 import { getPortfolioCountWidgetDrilldownDescriptor } from '../../components/portfolio-drilldown/portfolioCountDrilldown';
 import { getPortfolioPieChartDrilldownDescriptor } from '../../components/portfolio-drilldown/portfolioPieChartDrilldown';
 import { dashboardMetricToMeasure } from '../../data/dashboard-measure';
-import { HistoryRange, LineChartGroupBy } from '../../data/widgets/line-chart';
 import { spec as pieChartSpec } from '../../data/widgets/pie-chart';
+import { HistoryRange, LineChartGroupBy } from '../../data/widgets/line-chart';
+import {
+  PieChartIssueFilter,
+  PieChartIssueSlice,
+  PieChartMetric,
+  type PieChartWidgetProps,
+} from '../../types/dashboard-widget';
 import {
   DashboardMetricType,
   IssueStatus,
   RichMetricKey,
   dashboardMetricSchema,
-} from '../../data/widgets/shared';
-import {
-  PieChartIssueFilter,
-  PieChartIssueSlice,
-  PieChartMetric,
   type DashboardMetric,
   type MeasureFilters,
-  type PieChartWidgetProps,
-} from '../../types/dashboard-widget';
+} from '../../data/widgets/shared';
 import { PieChartPastry } from '../../types/visualization';
-import { CodeScope, VisualizationType } from '../../types/widget-common';
+import { CodeScope } from '~shared/types/dashboard-history';
+import { VisualizationType } from '../../types/widget-common';
 import {
   applyIssueStatusMeasureFilters,
   buildRichMetricIssueStatusSelectOptions,

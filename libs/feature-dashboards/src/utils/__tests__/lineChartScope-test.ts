@@ -20,8 +20,8 @@
 
 import { MetricKey } from '~shared/types/metrics';
 import { HistoryRange, LineChartGroupBy } from '../../data/widgets/line-chart';
-import { DashboardMetricType, RichMetricKey } from '../../types/dashboard-widget';
-import { CodeScope } from '../../types/widget-common';
+import { DashboardMetricType, RichMetricKey } from '../../data/widgets/shared';
+import { CodeScope } from '~shared/types/dashboard-history';
 import type { LineChartConfig } from '../../widget-creation-modal/state/widgetConfigTypes';
 import { clampLineChartScope } from '../lineChartScope';
 

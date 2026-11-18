@@ -19,7 +19,7 @@
  */
 
 import { MetricKey } from '~shared/types/metrics';
-import { DashboardMetric, DashboardMetricType, RichMetricKey } from '../../types/dashboard-widget';
+import { DashboardMetric, DashboardMetricType, RichMetricKey } from '../../data/widgets/shared';
 
 /**
  * Configuration for what filters should be displayed for each measure type

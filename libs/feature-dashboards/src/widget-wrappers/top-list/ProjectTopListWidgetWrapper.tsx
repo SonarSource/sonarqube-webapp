@@ -34,7 +34,8 @@ import { TopList } from '../../components/visualizations/top-list/TopList';
 import { getTopListColumnHeaders } from '../../components/visualizations/top-list/topListColumnHeaders';
 import { buildTopListRows } from '../../components/visualizations/top-list/topListRowUtils';
 import { PieChartMetric, type TopListWidgetProps } from '../../types/dashboard-widget';
-import { CodeScope, TopListMetric, TopListRankBy } from '../../types/widget-common';
+import { CodeScope } from '~shared/types/dashboard-history';
+import { TopListMetric, TopListRankBy } from '../../types/widget-common';
 import { topListRankByToIssueFacet } from '../../utils/topList';
 
 /**

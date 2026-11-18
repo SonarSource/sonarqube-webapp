@@ -22,10 +22,8 @@ import { cssVar, Text, TextSize } from '@sonarsource/echoes-react';
 import { FormattedMessage } from 'react-intl';
 import { GRID_CONSTANTS } from '../../dashboard-layout/ReadonlyDashboard/constants';
 import { WidgetBodyMap, WidgetHeaderMap } from '../../dashboard-layout/logic/types';
-import type {
-  CompleteWidgetConfig,
-  ProjectDashboardWidgetPropMap,
-} from '../../types/dashboard-widget';
+import type { CompleteWidgetConfig } from '../../data/widgets';
+import type { ProjectDashboardWidgetPropMap } from '../../types/dashboard-widget';
 import { VisualizationType } from '../../types/widget-common';
 
 interface ConfigureWidgetPreviewProps {

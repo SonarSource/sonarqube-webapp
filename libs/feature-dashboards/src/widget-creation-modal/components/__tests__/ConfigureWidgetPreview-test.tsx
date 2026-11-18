@@ -21,22 +21,16 @@
 import { fireEvent, screen } from '@testing-library/react';
 import { renderWithRouter } from '~shared/helpers/test-utils';
 import type { WidgetBodyMap, WidgetHeaderMap } from '../../../dashboard-layout/logic/types';
+import { DashboardMetricType, IssueStatus, RichMetricKey } from '../../../data/widgets/shared';
 import {
-  DashboardMetricType,
-  IssueStatus,
   PieChartIssueSlice,
   PieChartMetric,
-  RichMetricKey,
   type PieChartWidgetProps,
   type ProjectDashboardWidgetPropMap,
 } from '../../../types/dashboard-widget';
 import { PieChartPastry } from '../../../types/visualization';
-import {
-  CodeScope,
-  TopListLimit,
-  TopListRankBy,
-  VisualizationType,
-} from '../../../types/widget-common';
+import { CodeScope } from '~shared/types/dashboard-history';
+import { TopListLimit, TopListRankBy, VisualizationType } from '../../../types/widget-common';
 import { ConfigureWidgetPreview } from '../ConfigureWidgetPreview';
 
 function StatusHeader({ issueStatuses }: Readonly<PieChartWidgetProps>) {

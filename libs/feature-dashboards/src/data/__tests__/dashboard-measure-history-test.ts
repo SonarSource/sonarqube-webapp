@@ -20,9 +20,11 @@
 
 import { SoftwareImpactSeverity } from '~shared/types/clean-code-taxonomy';
 import { MetricKey, MetricType } from '~shared/types/metrics';
-import { IssueResolutionStatistic } from '../../types/organization-issue-resolution-history';
-import { ScaResolutionStatistic } from '../../types/organization-sca-resolution-history';
-import { CodeScope } from '../../types/widget-common';
+import {
+  IssueResolutionStatistic,
+  ScaResolutionStatistic,
+  CodeScope,
+} from '~shared/types/dashboard-history';
 import {
   dashboardCountMetricType,
   dashboardMeasureHistoryValues,

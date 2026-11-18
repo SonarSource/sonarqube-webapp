@@ -20,13 +20,13 @@
 
 import { MetricKey } from '~shared/types/metrics';
 import type { WidgetInstance } from '../../dashboard-layout/logic/types';
+import { DashboardMetricType } from '../../data/widgets/shared';
 import {
-  DashboardMetricType,
   PieChartMetric,
   PieChartProjectSlice,
   type PortfolioDashboardWidgetPropMap,
 } from '../../types/dashboard-widget';
-import { CodeScope } from '../../types/widget-common';
+import { CodeScope } from '~shared/types/dashboard-history';
 import {
   getPortfolioDashboardDrilldownDefaultSortOrder,
   getPortfolioDashboardDrilldownWidgetDefaultSortOrder,

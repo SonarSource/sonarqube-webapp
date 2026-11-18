@@ -20,11 +20,13 @@
 
 import { MetricKey } from '~shared/types/metrics';
 import { LineChartGroupBy } from '../../../data/widgets/line-chart';
-import { DashboardMetricType, type MeasureFilters } from '../../../types/dashboard-widget';
-import { IssueResolutionStatistic } from '../../../types/organization-issue-resolution-history';
-import { ScaResolutionStatistic } from '../../../types/organization-sca-resolution-history';
+import { DashboardMetricType, type MeasureFilters } from '../../../data/widgets/shared';
 import {
+  IssueResolutionStatistic,
+  ScaResolutionStatistic,
   CodeScope,
+} from '~shared/types/dashboard-history';
+import {
   ISSUE_DENSITY_METRIC_OPTION_VALUE,
   type IssueDensityMetricOptionValue,
   MetricOptionValue,

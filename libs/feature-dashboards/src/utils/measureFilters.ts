@@ -20,7 +20,7 @@
 
 import { getConfiguredIssueStatuses } from '~shared/helpers/dashboard-issue-statuses';
 import { FILTERABLE_CODE_ISSUE_STATUSES } from '~shared/types/issues';
-import { MeasureFilters } from '../types/dashboard-widget';
+import { MeasureFilters } from '../data/widgets/shared';
 
 export const ALL_FILTERABLE_CODE_ISSUE_STATUSES = FILTERABLE_CODE_ISSUE_STATUSES.join(',');
 

@@ -22,11 +22,10 @@ import { act, renderHook } from '@testing-library/react';
 import type { SetStateAction } from 'react';
 import { MetricKey } from '~shared/types/metrics';
 import type { DashboardInstance, WidgetInstance } from '../../../dashboard-layout/logic/types';
-import {
-  DashboardMetricType,
-  type ProjectDashboardWidgetPropMap,
-} from '../../../types/dashboard-widget';
-import { CodeScope, VisualizationType } from '../../../types/widget-common';
+import { DashboardMetricType } from '../../../data/widgets/shared';
+import { type ProjectDashboardWidgetPropMap } from '../../../types/dashboard-widget';
+import { CodeScope } from '~shared/types/dashboard-history';
+import { VisualizationType } from '../../../types/widget-common';
 import { useEditWidget } from '../useEditWidget';
 
 function resolveDashboardSetStateAction(

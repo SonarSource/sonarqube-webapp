@@ -24,8 +24,7 @@ import {
   RichMetricKey,
   type DashboardMetric,
 } from '../../data/widgets/shared';
-import { IssueResolutionStatistic } from '../../types/organization-issue-resolution-history';
-import { ScaResolutionStatistic } from '../../types/organization-sca-resolution-history';
+import { IssueResolutionStatistic, ScaResolutionStatistic } from '~shared/types/dashboard-history';
 import {
   computeDashboardMeasureTrendData,
   computeTrendData,

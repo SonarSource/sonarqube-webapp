@@ -19,9 +19,10 @@
  */
 
 import { SoftwareImpactSeverity, SoftwareQuality } from '~shared/types/clean-code-taxonomy';
-import { IssueStatus, type CompleteWidgetConfig } from '../../../../types/dashboard-widget';
+import { IssueStatus } from '../../../../data/widgets/shared';
+import { type CompleteWidgetConfig } from '../../../../data/widgets';
+import { CodeScope } from '~shared/types/dashboard-history';
 import {
-  CodeScope,
   TopListLimit,
   TopListMetric,
   TopListRankBy,

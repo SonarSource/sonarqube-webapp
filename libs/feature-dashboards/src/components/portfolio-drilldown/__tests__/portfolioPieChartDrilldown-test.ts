@@ -30,7 +30,7 @@ import {
   PieChartMetric,
   PieChartProjectSlice,
 } from '../../../types/dashboard-widget';
-import { CodeScope } from '../../../types/widget-common';
+import { CodeScope } from '~shared/types/dashboard-history';
 import { PORTFOLIO_DEFAULT_CODE_ISSUE_IMPACTS } from '../../../utils/organizationIssueCountHistoryUtils';
 import {
   getPortfolioPieChartDrilldownDescriptor,

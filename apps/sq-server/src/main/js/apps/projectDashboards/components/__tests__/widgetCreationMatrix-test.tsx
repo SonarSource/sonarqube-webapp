@@ -25,10 +25,8 @@ import type {
   WidgetBodyMap,
   WidgetHeaderMap,
 } from '~feature-dashboards/dashboard-layout/logic/types';
-import {
-  projectDashboardWidgetPropsSchemaByType,
-  type ProjectDashboardWidgetPropMap,
-} from '~feature-dashboards/types/dashboard-widget';
+import { projectDashboardWidgetPropsSchemaByType } from '~feature-dashboards/data/widgets';
+import { type ProjectDashboardWidgetPropMap } from '~feature-dashboards/types/dashboard-widget';
 import {
   VisualizationType,
   type DashboardWidgetType,

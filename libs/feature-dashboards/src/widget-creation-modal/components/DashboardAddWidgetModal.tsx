@@ -22,10 +22,8 @@ import { Button, ButtonVariety, Modal, ModalSize } from '@sonarsource/echoes-rea
 import { Dispatch, ReactNode, useEffect, useReducer } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { WidgetBodyMap, WidgetHeaderMap } from '../../dashboard-layout/logic/types';
-import type {
-  CompleteWidgetConfig,
-  ProjectDashboardWidgetPropMap,
-} from '../../types/dashboard-widget';
+import type { CompleteWidgetConfig } from '../../data/widgets';
+import type { ProjectDashboardWidgetPropMap } from '../../types/dashboard-widget';
 import type { WidgetMetricPickerOptions } from '../../types/widget-common';
 import { widgetConfigReducer } from '../state/reducers/widgetConfigReducer';
 import {

@@ -19,7 +19,7 @@
  */
 
 import { useWidgetMetricMetadataQuery } from '~adapters/queries/widget-metric-metadata';
-import { DashboardMetric, DashboardMetricType } from '../types/dashboard-widget';
+import { DashboardMetric, DashboardMetricType } from '../data/widgets/shared';
 import { lineChartMeasureTransformFlags } from '../utils/lineChartMeasureTransformFlags';
 import { getActualMetricKey } from '../widget-creation-modal/utils/getActualMetricKey';
 

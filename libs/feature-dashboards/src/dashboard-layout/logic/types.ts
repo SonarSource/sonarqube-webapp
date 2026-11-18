@@ -21,12 +21,10 @@
 import { createElement } from 'react';
 import type { GenericSchema } from 'valibot';
 import * as v from 'valibot';
+import { createDashboardWidgetInstanceSchema } from '../../data/widgets';
 import {
-  createDashboardWidgetInstanceSchema,
   type Dimensions,
   type Position,
-} from '../../data/widgets';
-import {
   LATEST_DASHBOARD_SPEC_VERSION,
   type DashboardSpecVersion,
 } from '../../data/widgets/shared';
@@ -148,5 +146,3 @@ export function createWidgetElement<WPM extends Record<string, {}>, K extends ke
 ) {
   return createElement(componentMap[type], props);
 }
-
-export type { WidgetEditBehaviorMap } from '../../data/widgets';

@@ -24,6 +24,10 @@ import { HistoryRange, LineChartGroupBy } from '../../../../data/widgets/line-ch
 import {
   DashboardMetricType,
   IssueStatus,
+  RichMetricKey,
+  type DashboardMetric,
+} from '../../../../data/widgets/shared';
+import {
   PieChartHotspotFilter,
   PieChartHotspotSlice,
   PieChartIssueFilter,
@@ -31,15 +35,15 @@ import {
   PieChartLineSlice,
   PieChartMetric,
   PieChartProjectSlice,
-  RichMetricKey,
-  type CompleteWidgetConfig,
-  type DashboardMetric,
 } from '../../../../types/dashboard-widget';
-import { IssueResolutionStatistic } from '../../../../types/organization-issue-resolution-history';
-import { ScaResolutionStatistic } from '../../../../types/organization-sca-resolution-history';
+import { type CompleteWidgetConfig } from '../../../../data/widgets';
+import {
+  IssueResolutionStatistic,
+  ScaResolutionStatistic,
+  CodeScope,
+} from '~shared/types/dashboard-history';
 import { PieChartPastry } from '../../../../types/visualization';
 import {
-  CodeScope,
   ISSUE_DENSITY_METRIC_OPTION_VALUE,
   SCA_MTTR_METRIC_OPTION_VALUE,
   TopListLimit,

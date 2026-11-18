@@ -21,10 +21,13 @@
 import { act, renderHook } from '@testing-library/react';
 import { SoftwareImpactSeverity, SoftwareQuality } from '~shared/types/clean-code-taxonomy';
 import { DEFAULT_LINE_CHART_GROUP_BY, HistoryRange } from '../../../data/widgets/line-chart';
-import { DashboardMetricType, type DashboardMetric } from '../../../types/dashboard-widget';
-import { IssueResolutionStatistic } from '../../../types/organization-issue-resolution-history';
-import { ScaResolutionStatistic } from '../../../types/organization-sca-resolution-history';
-import { CodeScope, VisualizationType } from '../../../types/widget-common';
+import { DashboardMetricType, type DashboardMetric } from '../../../data/widgets/shared';
+import {
+  IssueResolutionStatistic,
+  ScaResolutionStatistic,
+  CodeScope,
+} from '~shared/types/dashboard-history';
+import { VisualizationType } from '../../../types/widget-common';
 import type { CountConfig, LineChartConfig } from '../../state/widgetConfigTypes';
 import { useMetricWidgetApplyFiltersViewModel } from '../useMetricWidgetApplyFiltersViewModel';
 

@@ -21,15 +21,14 @@
 import { getConfiguredIssueStatuses } from '~shared/helpers/dashboard-issue-statuses';
 import { SoftwareImpactSeverity, SoftwareQuality } from '~shared/types/clean-code-taxonomy';
 import { HistoryRange } from '../../data/widgets/line-chart';
+import { IssueStatus, MeasureFilters } from '../../data/widgets/shared';
 import {
-  IssueStatus,
-  MeasureFilters,
   PieChartFilter,
   PieChartHotspotFilter,
   PieChartIssueFilter,
   PieChartMetric,
 } from '../../types/dashboard-widget';
-import { CodeScope } from '../../types/widget-common';
+import { CodeScope } from '~shared/types/dashboard-history';
 import {
   getIssueFilterSeverityValueMessageId,
   getIssueFilterTypeValueMessageId,

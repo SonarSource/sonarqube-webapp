@@ -18,6 +18,12 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import {
+  type OrganizationsIssueCountHistoryDay,
+  IssueCountSliceBy,
+  IssueCountStatus,
+  type DashboardEntityType,
+} from '~shared/types/dashboard-history';
 import { FILTERABLE_CODE_ISSUE_STATUSES } from '~shared/types/issues';
 import {
   isPieChartIssueFilter,
@@ -35,13 +41,9 @@ import {
 } from '../types/dashboard-widget';
 import {
   GetIssueCountHistoryParams,
-  IssueCountSliceBy,
-  IssueCountStatus,
   PORTFOLIO_SECURITY_HOTSPOT_ISSUE_TYPES,
   type IssueCountSnapshotParams,
 } from '../types/organization-issue-count-history';
-import type { OrganizationsIssueCountHistoryDay } from '../types/organization-line-chart-history';
-import type { EntityType } from '../types/types';
 import {
   organizationIssueImpactQueryValuesForSoftwareQualities,
   PORTFOLIO_DEFAULT_CODE_ISSUE_IMPACTS,
@@ -64,7 +66,7 @@ export function issueCountHistoryToPieCounts(
 
 export function mapPieChartToIssueHistoryParams(args: {
   entityId: string;
-  entityType: EntityType;
+  entityType: DashboardEntityType;
   filter: PieChartFilter;
   issueStatuses?: IssueCountStatus[];
   metric: PieChartMetric;

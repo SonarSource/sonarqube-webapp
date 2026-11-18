@@ -23,9 +23,8 @@ import { FormattedMessage } from 'react-intl';
 import { SharedDocLink, useSharedDocUrl } from '~adapters/helpers/docs';
 import { boldFormatter, lineBreakFormatter, linkFormatter } from '~shared/helpers/intl';
 import { MetricKey } from '~shared/types/metrics';
-import { DashboardMetric, DashboardMetricType } from '../../types/dashboard-widget';
-import { IssueResolutionStatistic } from '../../types/organization-issue-resolution-history';
-import { ScaResolutionStatistic } from '../../types/organization-sca-resolution-history';
+import { DashboardMetric, DashboardMetricType } from '../../data/widgets/shared';
+import { IssueResolutionStatistic, ScaResolutionStatistic } from '~shared/types/dashboard-history';
 
 const ISSUE_DENSITY_TOOLTIP_KEY = 'issue_density' as const;
 

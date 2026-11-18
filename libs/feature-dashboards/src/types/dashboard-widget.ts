@@ -18,16 +18,6 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import type { DashboardWidgetPropMap } from '../data/widgets';
-
-export { DashboardMetricType, IssueStatus, RichMetricKey } from '../data/widgets/shared';
-export type { DashboardMetric, MeasureFilters } from '../data/widgets/shared';
-
-export {
-  projectDashboardWidgetPropsSchemaByType,
-  widgetEditBehaviorMap,
-  type CompleteWidgetConfig,
-} from '../data/widgets';
 export type { Props as RatingBadgeWidgetProps } from '../data/widgets/badge';
 export type { Props as CountWidgetProps } from '../data/widgets/count';
 export type { Props as DonutChartWidgetProps } from '../data/widgets/donut-chart';
@@ -47,6 +37,7 @@ export type {
 } from '../data/widgets/pie-chart';
 export type { Props as TopListWidgetProps } from '../data/widgets/top-list';
 
-// NOSONAR - Intentional product-specific aliases; may diverge from DashboardWidgetPropMap later.
-export type ProjectDashboardWidgetPropMap = DashboardWidgetPropMap;
-export type PortfolioDashboardWidgetPropMap = DashboardWidgetPropMap;
+export type {
+  DashboardWidgetPropMap as ProjectDashboardWidgetPropMap,
+  DashboardWidgetPropMap as PortfolioDashboardWidgetPropMap,
+} from '../data/widgets';

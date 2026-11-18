@@ -47,10 +47,8 @@ import { downloadDashboardSchema } from '~feature-dashboards/helpers/downloadDas
 import { useAddWidget } from '~feature-dashboards/hooks/useAddWidget';
 import { useNativeBrowserNavigationBlocker } from '~feature-dashboards/hooks/useNativeBrowserNavigationBlocker';
 import { DashboardMode, DashboardType } from '~feature-dashboards/types/dashboard-list';
-import {
-  type ProjectDashboardWidgetPropMap,
-  widgetEditBehaviorMap,
-} from '~feature-dashboards/types/dashboard-widget';
+import { type ProjectDashboardWidgetPropMap } from '~feature-dashboards/types/dashboard-widget';
+import { widgetEditBehaviorMap } from '~feature-dashboards/data/widgets';
 import { DashboardCustomDashboardWidgetModal } from '~feature-dashboards/widget-creation-modal/components/DashboardCustomDashboardWidgetModal';
 import { useEditWidget } from '~feature-dashboards/widget-creation-modal/hooks/useEditWidget';
 import A11ySkipTarget from '~shared/components/a11y/A11ySkipTarget';

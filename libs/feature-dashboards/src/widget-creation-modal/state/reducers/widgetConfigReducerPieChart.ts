@@ -24,7 +24,8 @@ import {
   PieChartMetric,
   PieChartProjectSlice,
 } from '../../../types/dashboard-widget';
-import { CodeScope, VisualizationType } from '../../../types/widget-common';
+import { CodeScope } from '~shared/types/dashboard-history';
+import { VisualizationType } from '../../../types/widget-common';
 import type {
   PieChartConfig,
   WidgetConfigAction,

@@ -21,11 +21,8 @@
 import { safeParse } from 'valibot';
 import { reportError } from '~adapters/helpers/report-error';
 import { uuidv4 } from '~shared/helpers/crypto';
-import {
-  projectDashboardWidgetPropsSchemaByType,
-  widgetEditBehaviorMap,
-  type ProjectDashboardWidgetPropMap,
-} from '../../types/dashboard-widget';
+import { projectDashboardWidgetPropsSchemaByType, widgetEditBehaviorMap } from '../../data/widgets';
+import { type ProjectDashboardWidgetPropMap } from '../../types/dashboard-widget';
 import { normalizeSection } from '../logic/positioning';
 import { type SectionInstance, type WidgetInstance } from '../logic/types';
 

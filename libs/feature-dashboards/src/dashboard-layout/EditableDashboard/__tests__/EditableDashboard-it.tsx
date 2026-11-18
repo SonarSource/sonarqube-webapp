@@ -29,10 +29,10 @@ import {
   ExplicitSectionInstance,
   ImplicitSectionInstance,
   WidgetBodyMap,
-  WidgetEditBehaviorMap,
   WidgetHeaderMap,
   WidgetInstance,
 } from '../../logic/types';
+import { WidgetEditBehaviorMap } from '../../../data/widgets';
 import { implicitSectionDragMinimizeClipHeightPx } from '../../ReadonlyDashboard/constants';
 import {
   getImplicitSectionContainerStyle,

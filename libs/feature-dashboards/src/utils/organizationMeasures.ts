@@ -21,7 +21,7 @@
 import { parseLanguageDistributionCounts } from '~shared/helpers/languageDistribution';
 import { MetricKey } from '~shared/types/metrics';
 import { PieChartLineSlice } from '../types/dashboard-widget';
-import { CodeScope } from '../types/widget-common';
+import { CodeScope } from '~shared/types/dashboard-history';
 import {
   buildCoverageLineCountCounts,
   buildDuplicationsLineCountCounts,

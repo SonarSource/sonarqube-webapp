@@ -24,7 +24,8 @@ import * as PortfolioRatingQueries from '~adapters/queries/portfolio-rating-badg
 import * as WidgetMetricMetadataQueries from '~adapters/queries/widget-metric-metadata';
 import { renderWithContext } from '~shared/helpers/test-utils';
 import { MetricKey, MetricType } from '~shared/types/metrics';
-import { CodeScope, WidgetMode } from '../../../types/widget-common';
+import { CodeScope } from '~shared/types/dashboard-history';
+import { WidgetMode } from '../../../types/widget-common';
 import * as PortfolioWidgetDataUtils from '../../../utils/portfolioWidgetData';
 import { PortfolioStandardRatingBadgeWidgetWrapper as PortfolioStandardRatingBadgeWidget } from '../PortfolioStandardRatingBadgeWidgetWrapper';
 

@@ -27,7 +27,7 @@ import {
   PieChartMetric,
   PieChartWidgetProps,
 } from '../../types/dashboard-widget';
-import { CodeScope } from '../../types/widget-common';
+import { CodeScope } from '~shared/types/dashboard-history';
 import { buildLabeledSegment } from '../../utils/filterLineSegments';
 import {
   getIssueFilterTypeLabelMessageId,

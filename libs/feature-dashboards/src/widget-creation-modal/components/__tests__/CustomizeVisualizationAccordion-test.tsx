@@ -23,13 +23,10 @@ import userEvent from '@testing-library/user-event';
 import { renderWithRouter } from '~shared/helpers/test-utils';
 import { MetricKey } from '~shared/types/metrics';
 import { HistoryRange, LineChartGroupBy } from '../../../data/widgets/line-chart';
-import {
-  DashboardMetricType,
-  PieChartIssueSlice,
-  PieChartMetric,
-  RichMetricKey,
-} from '../../../types/dashboard-widget';
-import { CodeScope, VisualizationType } from '../../../types/widget-common';
+import { DashboardMetricType, RichMetricKey } from '../../../data/widgets/shared';
+import { PieChartIssueSlice, PieChartMetric } from '../../../types/dashboard-widget';
+import { CodeScope } from '~shared/types/dashboard-history';
+import { VisualizationType } from '../../../types/widget-common';
 import type { WidgetConfigState } from '../../state/widgetConfigTypes';
 import { CustomizeVisualizationAccordion } from '../CustomizeVisualizationAccordion';
 import { createTestAccordion } from './accordionTestUtils';

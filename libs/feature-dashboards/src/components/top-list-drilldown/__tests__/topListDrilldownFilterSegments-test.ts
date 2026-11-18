@@ -20,13 +20,10 @@
 
 import { SoftwareImpactSeverity, SoftwareQuality } from '~shared/types/clean-code-taxonomy';
 import { MetricKey } from '~shared/types/metrics';
-import {
-  DashboardMetricType,
-  IssueStatus,
-  RichMetricKey,
-  type TopListWidgetProps,
-} from '../../../types/dashboard-widget';
-import { CodeScope, TopListLimit, TopListRankBy } from '../../../types/widget-common';
+import { DashboardMetricType, IssueStatus, RichMetricKey } from '../../../data/widgets/shared';
+import { type TopListWidgetProps } from '../../../types/dashboard-widget';
+import { CodeScope } from '~shared/types/dashboard-history';
+import { TopListLimit, TopListRankBy } from '../../../types/widget-common';
 import {
   buildTopListDrilldownSegments,
   buildTopListIssueCountFilterSegments,

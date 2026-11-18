@@ -20,7 +20,7 @@
 
 import type { IntlShape } from 'react-intl';
 import { MetricKey } from '~shared/types/metrics';
-import { IssueResolutionStatistic } from '../../../types/organization-issue-resolution-history';
+import { IssueResolutionStatistic } from '~shared/types/dashboard-history';
 import {
   appendIssueResolutionOptions,
   buildIssueResolutionMetricItems,

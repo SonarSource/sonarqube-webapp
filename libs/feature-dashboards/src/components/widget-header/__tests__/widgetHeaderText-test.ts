@@ -23,8 +23,7 @@ import { SoftwareImpactSeverity, SoftwareQuality } from '~shared/types/clean-cod
 import { MetricKey } from '~shared/types/metrics';
 import { LineChartGroupBy } from '../../../data/widgets/line-chart';
 import { DashboardMetricType, IssueStatus, RichMetricKey } from '../../../data/widgets/shared';
-import { IssueResolutionStatistic } from '../../../types/organization-issue-resolution-history';
-import { CodeScope } from '../../../types/widget-common';
+import { IssueResolutionStatistic, CodeScope } from '~shared/types/dashboard-history';
 import {
   getDashboardMetricTitle,
   getMetricWidgetHeaderText,

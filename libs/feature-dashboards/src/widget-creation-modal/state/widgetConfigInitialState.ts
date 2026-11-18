@@ -19,7 +19,8 @@
  */
 
 import { DEFAULT_LINE_CHART_GROUP_BY, HistoryRange } from '../../data/widgets/line-chart';
-import { CodeScope, DEFAULT_TOP_LIST_LIMIT, VisualizationType } from '../../types/widget-common';
+import { CodeScope } from '~shared/types/dashboard-history';
+import { DEFAULT_TOP_LIST_LIMIT, VisualizationType } from '../../types/widget-common';
 import type {
   CountConfig,
   LineChartConfig,

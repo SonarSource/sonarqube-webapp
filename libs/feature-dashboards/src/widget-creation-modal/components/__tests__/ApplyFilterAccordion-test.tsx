@@ -26,18 +26,19 @@ import { HistoryRange, LineChartGroupBy } from '../../../data/widgets/line-chart
 import {
   DashboardMetricType,
   IssueStatus,
+  RichMetricKey,
+  type DashboardMetric,
+} from '../../../data/widgets/shared';
+import {
   PieChartHotspotFilter,
   PieChartHotspotSlice,
   PieChartIssueFilter,
   PieChartIssueSlice,
   PieChartLineSlice,
   PieChartMetric,
-  RichMetricKey,
-  type DashboardMetric,
 } from '../../../types/dashboard-widget';
-import { IssueResolutionStatistic } from '../../../types/organization-issue-resolution-history';
+import { IssueResolutionStatistic, CodeScope } from '~shared/types/dashboard-history';
 import {
-  CodeScope,
   TopListLimit,
   TopListMetric,
   TopListRankBy,

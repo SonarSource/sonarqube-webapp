@@ -31,12 +31,10 @@ import { MetricKey } from '~shared/types/metrics';
 import { WidgetFilterLine } from '../../dashboard-layout/shared/WidgetFilterLine';
 import { WidgetHeaderTitle } from '../../dashboard-layout/shared/WidgetHeaderTitle';
 import type { LineChartGroupByValue } from '../../data/widgets/line-chart';
-import {
-  DashboardMetricType,
-  type DashboardMetric,
-  type TopListWidgetProps,
-} from '../../types/dashboard-widget';
-import { WidgetMode, type CodeScope } from '../../types/widget-common';
+import { DashboardMetricType, type DashboardMetric } from '../../data/widgets/shared';
+import { type TopListWidgetProps } from '../../types/dashboard-widget';
+import { WidgetMode } from '../../types/widget-common';
+import { type CodeScope } from '~shared/types/dashboard-history';
 import { normalizeRatingValue } from '../../utils/ratingBadge';
 import { RatingBadgeDisplay } from '../visualizations/RatingBadgeDisplay';
 import { getTopListWidgetTitle } from '../visualizations/top-list/topListWidgetTitle';

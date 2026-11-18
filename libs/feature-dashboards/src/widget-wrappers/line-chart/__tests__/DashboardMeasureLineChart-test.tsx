@@ -18,6 +18,11 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import {
+  type DashboardMeasureHistory,
+  IssueResolutionStatistic,
+  CodeScope,
+} from '~shared/types/dashboard-history';
 import { render, screen } from '@testing-library/react';
 import { IntlProvider } from 'react-intl';
 import { useDashboardMeasureQuery } from '~adapters/queries/dashboard-measure';
@@ -26,10 +31,7 @@ import { useWidgetMetricMetadataQuery } from '~adapters/queries/widget-metric-me
 import { useDashboardRuleLabels } from '~adapters/queries/widget-rule-metadata';
 import { MetricKey, MetricType } from '~shared/types/metrics';
 import { MultiLineChart } from '../../../components/visualizations/multi-line-chart/MultiLineChart';
-import type { DashboardMeasureHistory } from '../../../data/dashboard-measure-history';
 import { DashboardMetricType } from '../../../data/widgets/shared';
-import { IssueResolutionStatistic } from '../../../types/organization-issue-resolution-history';
-import { CodeScope } from '../../../types/widget-common';
 
 jest.mock('~adapters/queries/dashboard-measure', () => ({
   useDashboardMeasureQuery: jest.fn(),

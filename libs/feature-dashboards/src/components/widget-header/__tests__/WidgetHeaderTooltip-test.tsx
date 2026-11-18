@@ -22,9 +22,8 @@ import { screen } from '@testing-library/react';
 import { SharedDocLink } from '~adapters/helpers/docs';
 import { renderWithRouter } from '~shared/helpers/test-utils';
 import { MetricKey } from '~shared/types/metrics';
-import { DashboardMetricType } from '../../../types/dashboard-widget';
-import { IssueResolutionStatistic } from '../../../types/organization-issue-resolution-history';
-import { ScaResolutionStatistic } from '../../../types/organization-sca-resolution-history';
+import { DashboardMetricType } from '../../../data/widgets/shared';
+import { IssueResolutionStatistic, ScaResolutionStatistic } from '~shared/types/dashboard-history';
 import { WidgetHeaderTooltip } from '../WidgetHeaderTooltip';
 
 const tooltipCases = [

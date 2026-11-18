@@ -20,13 +20,9 @@
 
 import { SoftwareQuality } from '~shared/types/clean-code-taxonomy';
 import { MetricKey } from '~shared/types/metrics';
-import { DashboardMetricType, RichMetricKey } from '../../../types/dashboard-widget';
-import {
-  CodeScope,
-  TopListLimit,
-  TopListMetric,
-  TopListRankBy,
-} from '../../../types/widget-common';
+import { DashboardMetricType, RichMetricKey } from '../../../data/widgets/shared';
+import { CodeScope } from '~shared/types/dashboard-history';
+import { TopListLimit, TopListMetric, TopListRankBy } from '../../../types/widget-common';
 import {
   buildDashboardMetricForTopList,
   isTopListLimitValue,

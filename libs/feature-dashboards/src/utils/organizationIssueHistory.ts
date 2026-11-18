@@ -18,7 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import type { OrganizationsIssueCountHistoryDay } from '../types/organization-line-chart-history';
+import type { OrganizationsIssueCountHistoryDay } from '~shared/types/dashboard-history';
 
 export function sumIssueCountDistribution(
   day: OrganizationsIssueCountHistoryDay | undefined,

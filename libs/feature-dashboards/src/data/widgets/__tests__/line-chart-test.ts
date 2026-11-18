@@ -20,11 +20,9 @@
 
 import { parse } from 'valibot';
 import { MetricKey } from '~shared/types/metrics';
-import { DashboardMetricType } from '../../../types/dashboard-widget';
-import { ScaResolutionStatistic } from '../../../types/organization-sca-resolution-history';
-import { CodeScope } from '../../../types/widget-common';
+import { DashboardMetricType, LATEST_DASHBOARD_SPEC_VERSION } from '../shared';
+import { ScaResolutionStatistic, CodeScope } from '~shared/types/dashboard-history';
 import { DEFAULT_LINE_CHART_GROUP_BY, HistoryRange, LineChartGroupBy, spec } from '../line-chart';
-import { LATEST_DASHBOARD_SPEC_VERSION } from '../shared';
 
 describe('lineChart schema', () => {
   const baseProps = {

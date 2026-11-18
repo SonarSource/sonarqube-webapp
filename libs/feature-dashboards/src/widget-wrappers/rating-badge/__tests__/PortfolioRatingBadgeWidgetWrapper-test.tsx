@@ -28,7 +28,8 @@ import {
 import { renderWithContext, renderWithRouter } from '~shared/helpers/test-utils';
 import { MetricKey } from '~shared/types/metrics';
 import { WidgetInstanceProvider } from '../../../dashboard-layout/shared/WidgetInstanceContext';
-import { CodeScope, WidgetMode } from '../../../types/widget-common';
+import { CodeScope } from '~shared/types/dashboard-history';
+import { WidgetMode } from '../../../types/widget-common';
 import { PortfolioRatingBadgeWidgetWrapper as PortfolioRatingBadgeWidget } from '../PortfolioRatingBadgeWidgetWrapper';
 
 const mockPortfolioStandardRatingBadgeWidget = jest.fn((_props: unknown) => (

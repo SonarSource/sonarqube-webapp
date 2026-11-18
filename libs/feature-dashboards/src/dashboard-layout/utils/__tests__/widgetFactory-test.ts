@@ -19,8 +19,8 @@
  */
 
 import { MetricKey } from '~shared/types/metrics';
-import { DashboardMetricType } from '../../../types/dashboard-widget';
-import { CodeScope } from '../../../types/widget-common';
+import { DashboardMetricType } from '../../../data/widgets/shared';
+import { CodeScope } from '~shared/types/dashboard-history';
 import { addWidgetToSection, createWidget } from '../widgetFactory';
 
 const metric = { metricKey: MetricKey.ncloc, type: DashboardMetricType.Raw } as const;

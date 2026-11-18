@@ -31,9 +31,10 @@ import { MetricKey, MetricType } from '~shared/types/metrics';
 import { WidgetLoadingSpinner } from '../../components/common/WidgetLoadingSpinner';
 import { WidgetNoData } from '../../components/common/WidgetNoData';
 import { RatingBadgeDisplay } from '../../components/visualizations/RatingBadgeDisplay';
-import { CodeScope, WidgetMode } from '../../types/widget-common';
+import { CodeScope } from '~shared/types/dashboard-history';
+import { WidgetMode } from '../../types/widget-common';
 import { isRatingMetric } from '../../utils/lineChartMeasureTransformFlags';
-import { getMetricKeyForScope } from '../../utils/projectWidgetData';
+import { getMetricKeyForScope } from '~shared/helpers/metrics';
 import { isQualityGateStatus, NON_LINKABLE_RATING_METRICS } from '../../utils/ratingBadge';
 import { ProjectQualityGateStatusBadge } from './ProjectQualityGateStatusBadge';
 

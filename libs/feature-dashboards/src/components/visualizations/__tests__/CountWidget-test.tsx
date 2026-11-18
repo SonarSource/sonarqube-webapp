@@ -23,12 +23,8 @@ import { render } from '~shared/helpers/test-utils';
 import { MetricKey, MetricType } from '~shared/types/metrics';
 import { WidgetHeaderTitle } from '../../../dashboard-layout/shared/WidgetHeaderTitle';
 import { WidgetInstanceProvider } from '../../../dashboard-layout/shared/WidgetInstanceContext';
-import {
-  DashboardMetric,
-  DashboardMetricType,
-  RichMetricKey,
-} from '../../../types/dashboard-widget';
-import { CodeScope } from '../../../types/widget-common';
+import { DashboardMetric, DashboardMetricType, RichMetricKey } from '../../../data/widgets/shared';
+import { CodeScope } from '~shared/types/dashboard-history';
 import { isCountWidgetTrendVisible } from '../../../utils/countWidgetTrendIndicator';
 import { CountWidget } from '../CountWidget';
 

@@ -21,13 +21,13 @@
 import { SoftwareImpactSeverity, SoftwareQuality } from '~shared/types/clean-code-taxonomy';
 import { mapPieChartHotspotFilterToIssueCountStatuses } from '../../../components/pie-chart/pieChartFilterLineSegments';
 import { HistoryRange } from '../../../data/widgets/line-chart';
+import { IssueStatus } from '../../../data/widgets/shared';
 import {
-  IssueStatus,
   PieChartHotspotFilter,
   PieChartIssueFilter,
   PieChartMetric,
 } from '../../../types/dashboard-widget';
-import { CodeScope } from '../../../types/widget-common';
+import { CodeScope } from '~shared/types/dashboard-history';
 import {
   applyIssueStatusMeasureFilters,
   applySeverityMeasureFilters,

@@ -20,15 +20,16 @@
 
 import { MetricKey } from '~shared/types/metrics';
 import type { WidgetInstance } from '../../../dashboard-layout/logic/types';
+import { DashboardMetricType } from '../../../data/widgets/shared';
 import {
-  DashboardMetricType,
   PieChartIssueSlice,
   PieChartLineSlice,
   PieChartMetric,
   type ProjectDashboardWidgetPropMap,
 } from '../../../types/dashboard-widget';
 import { PieChartPastry } from '../../../types/visualization';
-import { CodeScope, VisualizationType } from '../../../types/widget-common';
+import { CodeScope } from '~shared/types/dashboard-history';
+import { VisualizationType } from '../../../types/widget-common';
 import { configToWidgetProps, widgetToConfig } from '../editWidgetConfig';
 
 describe('editWidgetConfig', () => {

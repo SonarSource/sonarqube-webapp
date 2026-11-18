@@ -19,11 +19,11 @@
  */
 
 import { SoftwareQuality } from '~shared/types/clean-code-taxonomy';
+import { ORGANIZATION_ISSUE_COUNT_SEVERITIES } from '../types/organization-issue-count-history';
 import {
-  ORGANIZATION_ISSUE_COUNT_SEVERITIES,
   type IssueSeverity,
   type OrganizationIssueImpactQueryValue,
-} from '../types/organization-issue-count-history';
+} from '~shared/types/dashboard-history';
 
 /**
  * Builds `impacts` values for the organizations API from software qualities (OR semantics: any

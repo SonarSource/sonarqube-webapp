@@ -22,18 +22,16 @@ import { SoftwareImpactSeverity, SoftwareQuality } from '~shared/types/clean-cod
 import { FILTERABLE_CODE_ISSUE_STATUSES } from '~shared/types/issues';
 import { Metric } from '~shared/types/measures';
 import { MetricKey, MetricType } from '~shared/types/metrics';
+import { IssueStatus, type MeasureFilters, RichMetricKey } from '../../data/widgets/shared';
 import {
-  IssueStatus,
-  type MeasureFilters,
   PieChartHotspotFilter,
   PieChartHotspotSlice,
   PieChartIssueFilter,
   PieChartIssueSlice,
   PieChartLineSlice,
   PieChartMetric,
-  RichMetricKey,
 } from '../../types/dashboard-widget';
-import { CodeScope } from '../../types/widget-common';
+import { CodeScope } from '~shared/types/dashboard-history';
 import { getThirtyDayTrendWindow } from '../datetime';
 import {
   mapPieChartToIssueHistoryParams,

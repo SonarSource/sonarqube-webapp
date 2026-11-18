@@ -22,12 +22,8 @@ import { act, screen } from '@testing-library/react';
 import { reportError } from '~adapters/helpers/report-error';
 import { renderWithContext } from '~shared/helpers/test-utils';
 import { WidgetMode } from '../../../types/widget-common';
-import {
-  WidgetBodyMap,
-  WidgetEditBehaviorMap,
-  WidgetHeaderMap,
-  WidgetInstance,
-} from '../../logic/types';
+import { WidgetBodyMap, WidgetHeaderMap, WidgetInstance } from '../../logic/types';
+import { WidgetEditBehaviorMap } from '../../../data/widgets';
 import { WidgetContent } from '../WidgetContent';
 import { WidgetMapsProvider } from '../WidgetMapsContext';
 

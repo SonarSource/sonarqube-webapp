@@ -25,19 +25,21 @@ import { LineChartGroupBy, type LineChartGroupByValue } from '../../../data/widg
 import {
   DashboardMetricType,
   IssueStatus,
+  RichMetricKey,
+  type DashboardMetric,
+  type MeasureFilters,
+} from '../../../data/widgets/shared';
+import {
   PieChartHotspotSlice,
   PieChartIssueSlice,
   PieChartLineSlice,
   PieChartMetric,
   PieChartProjectSlice,
-  RichMetricKey,
-  type CompleteWidgetConfig,
-  type DashboardMetric,
-  type MeasureFilters,
   type PieChartFilter,
 } from '../../../types/dashboard-widget';
+import { type CompleteWidgetConfig } from '../../../data/widgets';
+import { CodeScope } from '~shared/types/dashboard-history';
 import {
-  CodeScope,
   TOP_LIST_UI_LIMIT_OPTIONS,
   TopListMetric,
   TopListRankBy,

@@ -20,7 +20,7 @@
 
 import * as v from 'valibot';
 import { GenericSchema } from 'valibot';
-import { CodeScope } from '../../types/widget-common';
+import { CodeScope } from '~shared/types/dashboard-history';
 import {
   createDashboardWidgetSpec,
   DashboardMetric,

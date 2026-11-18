@@ -25,7 +25,7 @@ import {
   DashboardMetricType,
   IssueStatus,
   RichMetricKey,
-} from '../../types/dashboard-widget';
+} from '../../data/widgets/shared';
 
 /**
  * Determines the actual backend metric key to use based on a DashboardMetric configuration.

@@ -18,7 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { DashboardMetric, DashboardMetricType, RichMetricKey } from '../types/dashboard-widget';
+import { DashboardMetric, DashboardMetricType, RichMetricKey } from '../data/widgets/shared';
 
 /** Rich issue/hotspot widgets load history from issue-count-history instead of measures-history. */
 export function isIssueCountHistoryDashboardMetric(

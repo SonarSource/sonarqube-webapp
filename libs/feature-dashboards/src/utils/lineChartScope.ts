@@ -18,7 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { CodeScope } from '../types/widget-common';
+import { CodeScope } from '~shared/types/dashboard-history';
 import type { LineChartConfig } from '../widget-creation-modal/state/widgetConfigTypes';
 import { isIssueCountHistoryDashboardMetric } from './issueCountHistoryMetric';
 

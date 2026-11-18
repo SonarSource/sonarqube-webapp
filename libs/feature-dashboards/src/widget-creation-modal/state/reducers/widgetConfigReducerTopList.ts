@@ -18,7 +18,8 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { CodeScope, VisualizationType } from '../../../types/widget-common';
+import { CodeScope } from '~shared/types/dashboard-history';
+import { VisualizationType } from '../../../types/widget-common';
 import { withTopListComplete } from '../../utils/topListCompleteConfig';
 import type {
   TopListConfig,

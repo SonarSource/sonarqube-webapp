@@ -26,8 +26,8 @@ import {
   IssueStatus,
   RichMetricKey,
   type DashboardMetric,
-} from '../../types/dashboard-widget';
-import { CodeScope } from '../../types/widget-common';
+} from '../../data/widgets/shared';
+import { CodeScope } from '~shared/types/dashboard-history';
 
 const PROJECT_RATING_BY_SOFTWARE_QUALITY: Record<SoftwareQuality, MetricKey> = {
   [SoftwareQuality.Maintainability]: MetricKey.sqale_rating,

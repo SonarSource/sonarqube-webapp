@@ -23,7 +23,7 @@ import { useDashboardProjectContext } from '~adapters/context/dashboardContext';
 import { MetricKey } from '~shared/types/metrics';
 import { HistoryRange, LineChartGroupBy } from '../../../data/widgets/line-chart';
 import { DashboardMetricType } from '../../../data/widgets/shared';
-import { CodeScope } from '../../../types/widget-common';
+import { CodeScope } from '~shared/types/dashboard-history';
 import { DashboardMeasureLineChart } from '../DashboardMeasureLineChart';
 import { ProjectLineChartWidgetWrapper } from '../ProjectLineChartWidgetWrapper';
 

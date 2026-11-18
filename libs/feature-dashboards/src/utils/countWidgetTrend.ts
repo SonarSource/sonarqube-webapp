@@ -24,8 +24,7 @@ import { isDefined } from '~shared/helpers/types';
 import type { Metric } from '~shared/types/measures';
 import { MetricType } from '~shared/types/metrics';
 import type { TrendData } from '../components/visualizations/TrendIndicator';
-import { DashboardMetricType, type DashboardMetric } from '../data/widgets/shared';
-import { MeasureFilters } from '../types/dashboard-widget';
+import { DashboardMetricType, type DashboardMetric, MeasureFilters } from '../data/widgets/shared';
 import {
   ISSUE_RESOLUTION_METRIC_DIRECTION,
   SCA_RESOLUTION_METRIC_DIRECTION,

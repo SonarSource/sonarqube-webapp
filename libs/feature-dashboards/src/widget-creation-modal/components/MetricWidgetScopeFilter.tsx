@@ -20,7 +20,7 @@
 
 import { Select, Text, TextSize } from '@sonarsource/echoes-react';
 import { useIntl } from 'react-intl';
-import { CodeScope } from '../../types/widget-common';
+import { CodeScope } from '~shared/types/dashboard-history';
 import type { ScopeFilterSlice } from '../hooks/applyFiltersViewModelSlices';
 import { buildPieChartScopeSelectData } from './applyFilterAccordionHelpers';
 

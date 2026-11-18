@@ -21,10 +21,8 @@
 import { cssVar } from '@sonarsource/echoes-react';
 import { ReactNode } from 'react';
 import { WidgetBodyMap, WidgetHeaderMap } from '../../dashboard-layout/logic/types';
-import type {
-  CompleteWidgetConfig,
-  ProjectDashboardWidgetPropMap,
-} from '../../types/dashboard-widget';
+import type { CompleteWidgetConfig } from '../../data/widgets';
+import type { ProjectDashboardWidgetPropMap } from '../../types/dashboard-widget';
 import { WidgetModalPreviewFromState } from './WidgetModalPreviewFromState';
 
 export interface WidgetCreationModalBodyProps<S> {

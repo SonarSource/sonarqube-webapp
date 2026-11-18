@@ -21,8 +21,6 @@
 import { MetricKey } from '~shared/types/metrics';
 import { VisualizationType, type DashboardWidgetType } from '../types/widget-common';
 
-export { getMetricKeyForScope } from '~shared/helpers/metrics';
-
 const METRIC_KEYS = new Set<string>(Object.values(MetricKey));
 
 /** Rule display metadata keyed by rule key, e.g. `{ 'java:S1234': { name } }`. */

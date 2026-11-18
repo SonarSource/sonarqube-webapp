@@ -29,7 +29,8 @@ import { buildTopListRows } from '../../components/visualizations/top-list/topLi
 import { useOptionalWidgetInstanceContext } from '../../dashboard-layout/shared/WidgetInstanceContext';
 import { type TopListWidgetProps } from '../../types/dashboard-widget';
 import { TopListRow } from '../../types/visualization';
-import { CodeScope, TopListMetric } from '../../types/widget-common';
+import { CodeScope } from '~shared/types/dashboard-history';
+import { TopListMetric } from '../../types/widget-common';
 import { formatRuleDisplayLabel } from '../../utils/topListRuleLabels';
 
 export interface PortfolioTopListWidgetOptions {

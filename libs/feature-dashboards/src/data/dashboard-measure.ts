@@ -19,28 +19,22 @@
  */
 
 import {
+  type DashboardIssueFilters,
+  type DashboardMeasure,
+  OrganizationIssueImpactQueryValue,
+  type IssueCountSliceBy,
+  type IssueCountStatus,
+  CodeScope,
+} from '~shared/types/dashboard-history';
+import {
   getConfiguredIssueStatuses,
   getSingleIssueStatus,
 } from '~shared/helpers/dashboard-issue-statuses';
 import { SoftwareImpactSeverity, SoftwareQuality } from '~shared/types/clean-code-taxonomy';
-import {
-  FILTERABLE_CODE_ISSUE_STATUSES,
-  IssueSeverity as StandardIssueSeverity,
-} from '~shared/types/issues';
+import { FILTERABLE_CODE_ISSUE_STATUSES } from '~shared/types/issues';
 import { MetricKey } from '~shared/types/metrics';
-import {
-  OrganizationIssueImpactQueryValue,
-  type IssueCountSliceBy,
-  type IssueCountStatus,
-  type IssueType,
-} from '../types/organization-issue-count-history';
-import { IssueResolutionStatistic } from '../types/organization-issue-resolution-history';
-import { ScaResolutionStatistic } from '../types/organization-sca-resolution-history';
-import { CodeScope } from '../types/widget-common';
-import {
-  getMetricKeyForScope,
-  projectMetricSupportsNewCodeScope,
-} from '../utils/projectWidgetData';
+import { getMetricKeyForScope } from '~shared/helpers/metrics';
+import { projectMetricSupportsNewCodeScope } from '../utils/projectWidgetData';
 import type { LineChartGroupByValue } from './widgets/line-chart';
 import {
   DashboardMetricType,
@@ -49,38 +43,6 @@ import {
   type DashboardMetric,
   type MeasureFilters,
 } from './widgets/shared';
-
-export interface DashboardIssueFilters {
-  impacts?: OrganizationIssueImpactQueryValue[];
-  issueTypes?: IssueType[];
-  ruleKeys?: string[];
-  severities?: StandardIssueSeverity[];
-  statuses?: IssueCountStatus[];
-}
-
-export type DashboardMeasure =
-  | {
-      api: 'measures-history';
-      metricKey: MetricKey;
-      scope: CodeScope;
-    }
-  | (DashboardIssueFilters & {
-      api: 'issue-count-history';
-      metricKey: MetricKey;
-      sliceBy?: IssueCountSliceBy;
-    })
-  | (DashboardIssueFilters & {
-      api: 'issue-resolution-history';
-      statistic: IssueResolutionStatistic;
-    })
-  | (DashboardIssueFilters & {
-      api: 'issue-density-history';
-    })
-  | {
-      api: 'sca-resolution-history';
-      severities?: SoftwareImpactSeverity[];
-      statistic: ScaResolutionStatistic;
-    };
 
 export function dashboardMeasureHistoryMetricKey(
   measure: Extract<DashboardMeasure, { api: 'measures-history' }>,

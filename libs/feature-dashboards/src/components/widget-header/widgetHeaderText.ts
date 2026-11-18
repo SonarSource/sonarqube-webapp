@@ -31,9 +31,8 @@ import {
   DashboardMetricType,
   MeasureFilters,
   RichMetricKey,
-} from '../../types/dashboard-widget';
-import { IssueResolutionStatistic } from '../../types/organization-issue-resolution-history';
-import { CodeScope } from '../../types/widget-common';
+} from '../../data/widgets/shared';
+import { IssueResolutionStatistic, CodeScope } from '~shared/types/dashboard-history';
 import { buildLabeledSegment } from '../../utils/filterLineSegments';
 import {
   getIssueFilterSeverityValueMessageId,

@@ -18,10 +18,9 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { type IssueHistoryDay, type IssueSeverity } from '~shared/types/dashboard-history';
 import { type HistoryRange } from '../data/widgets/line-chart';
-import { type MeasureFilters } from '../types/dashboard-widget';
-import { type IssueSeverity } from '../types/organization-issue-count-history';
-import { type IssueHistoryDay } from '../types/organization-issue-history';
+import { type MeasureFilters } from '../data/widgets/shared';
 import { getThirtyDayTrendValues, getThirtyDayTrendWindow } from './datetime';
 import { issueHistoryToLineData, lineChartDataToSingleSeries } from './lineChartSeriesTransforms';
 import { organizationIssueImpactQueryValuesForSoftwareQualities } from './organizationIssueCountHistoryUtils';

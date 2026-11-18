@@ -46,7 +46,8 @@ import {
 import { PieChart } from '../../components/visualizations/pie-chart/PieChart';
 import { useOptionalWidgetInstanceContext } from '../../dashboard-layout/shared/WidgetInstanceContext';
 import { PieChartPastry, PieChartSegment } from '../../types/visualization';
-import { CodeScope, WidgetMode } from '../../types/widget-common';
+import { CodeScope } from '~shared/types/dashboard-history';
+import { WidgetMode } from '../../types/widget-common';
 import { isPortfolioDashboardRatingBadgeBreakdownMetricKey } from '../../utils/portfolioRatingBadgeBreakdown';
 import { PORTFOLIO_RATING_COLOR_STYLES } from './portfolioRatingBadgeColors';
 import {

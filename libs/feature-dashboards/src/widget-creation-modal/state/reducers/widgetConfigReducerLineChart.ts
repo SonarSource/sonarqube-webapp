@@ -19,7 +19,7 @@
  */
 
 import type { LineChartGroupByValue } from '../../../data/widgets/line-chart';
-import { DashboardMetricType, type MeasureFilters } from '../../../types/dashboard-widget';
+import { DashboardMetricType, type MeasureFilters } from '../../../data/widgets/shared';
 import { VisualizationType } from '../../../types/widget-common';
 import {
   isLineChartGroupByActive,

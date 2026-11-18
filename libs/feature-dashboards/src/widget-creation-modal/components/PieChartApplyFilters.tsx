@@ -21,15 +21,15 @@
 import { Select, Text, TextSize } from '@sonarsource/echoes-react';
 import { Dispatch, type ReactNode } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
+import { IssueStatus } from '../../data/widgets/shared';
 import {
-  IssueStatus,
   PieChartFilter,
   PieChartHotspotSlice,
   PieChartIssueSlice,
   PieChartMetric,
 } from '../../types/dashboard-widget';
+import { CodeScope } from '~shared/types/dashboard-history';
 import {
-  CodeScope,
   type PieChartSliceSupport,
   type WidgetMetricPickerOptions,
 } from '../../types/widget-common';

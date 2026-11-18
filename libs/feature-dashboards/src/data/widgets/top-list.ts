@@ -20,8 +20,8 @@
 
 import * as v from 'valibot';
 import { GenericSchema } from 'valibot';
+import { CodeScope } from '~shared/types/dashboard-history';
 import {
-  CodeScope,
   DEFAULT_TOP_LIST_LIMIT,
   TopListLimit,
   TopListRankBy,

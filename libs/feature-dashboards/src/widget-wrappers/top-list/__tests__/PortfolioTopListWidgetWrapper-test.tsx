@@ -24,7 +24,8 @@ import { usePortfolioTopListData } from '~adapters/queries/portfolio-top-list-wi
 import { renderWithContext } from '~shared/helpers/test-utils';
 import { WidgetInstanceProvider } from '../../../dashboard-layout/shared/WidgetInstanceContext';
 import { TopListProps } from '../../../types/visualization';
-import { CodeScope, TopListLimit, TopListRankBy } from '../../../types/widget-common';
+import { CodeScope } from '~shared/types/dashboard-history';
+import { TopListLimit, TopListRankBy } from '../../../types/widget-common';
 import { buildDashboardMetricForTopList } from '../../../widget-creation-modal/utils/topListCompleteConfig';
 import { PortfolioTopListWidgetWrapper as PortfolioTopListWidget } from '../PortfolioTopListWidgetWrapper';
 

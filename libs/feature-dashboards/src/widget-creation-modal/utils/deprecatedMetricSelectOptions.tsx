@@ -21,7 +21,7 @@
 import { DeprecatedBadge } from '~shared/components/badges/DeprecatedBadge';
 import { MetricKey } from '~shared/types/metrics';
 import { PieChartMetric } from '../../types/dashboard-widget';
-import { IssueResolutionStatistic } from '../../types/organization-issue-resolution-history';
+import { IssueResolutionStatistic } from '~shared/types/dashboard-history';
 import {
   ISSUE_DENSITY_METRIC_OPTION_VALUE,
   type MetricGroup,

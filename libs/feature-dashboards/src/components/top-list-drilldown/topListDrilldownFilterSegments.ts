@@ -21,11 +21,8 @@
 import type { IntlShape } from 'react-intl';
 import { getConfiguredIssueStatuses } from '~shared/helpers/dashboard-issue-statuses';
 import { SoftwareImpactSeverity } from '~shared/types/clean-code-taxonomy';
-import {
-  DashboardMetricType,
-  RichMetricKey,
-  type TopListWidgetProps,
-} from '../../types/dashboard-widget';
+import { DashboardMetricType, RichMetricKey } from '../../data/widgets/shared';
+import { type TopListWidgetProps } from '../../types/dashboard-widget';
 import {
   getIssueFilterSeverityValueMessageId,
   getIssueFilterTypeLabelMessageId,

@@ -32,7 +32,7 @@ import {
   PieChartIssueSlice,
   PieChartMetric,
 } from '../../../types/dashboard-widget';
-import { CodeScope } from '../../../types/widget-common';
+import { CodeScope } from '~shared/types/dashboard-history';
 import { ProjectPieChartWidgetWrapper } from '../ProjectPieChartWidgetWrapper';
 
 jest.mock('~adapters/context/dashboardContext', () => ({

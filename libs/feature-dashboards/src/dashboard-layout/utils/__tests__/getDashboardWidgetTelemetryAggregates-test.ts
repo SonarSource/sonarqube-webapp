@@ -20,15 +20,13 @@
 
 import { MetricKey } from '~shared/types/metrics';
 import { HistoryRange, LineChartGroupBy } from '../../../data/widgets/line-chart';
+import { DashboardMetricType, RichMetricKey } from '../../../data/widgets/shared';
 import {
-  DashboardMetricType,
   PieChartIssueSlice,
   PieChartMetric,
-  RichMetricKey,
   type ProjectDashboardWidgetPropMap,
 } from '../../../types/dashboard-widget';
-import { IssueResolutionStatistic } from '../../../types/organization-issue-resolution-history';
-import { CodeScope } from '../../../types/widget-common';
+import { IssueResolutionStatistic, CodeScope } from '~shared/types/dashboard-history';
 import type { DashboardInstance } from '../../logic/types';
 import { getDashboardWidgetTelemetryAggregates } from '../getDashboardWidgetTelemetryAggregates';
 

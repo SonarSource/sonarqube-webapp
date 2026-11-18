@@ -18,7 +18,6 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-// 'APPLICATION' is only accepted by the SQS /api/v2/history/* endpoints.
-// The SQC adapter must not forward it to /organizations/*-history until
-// sonarcloud-organizations' EntityType enum gains an APPLICATION member.
-export type EntityType = 'APPLICATION' | 'PORTFOLIO' | 'PROJECT_BRANCH';
+export function sortDashboardHistory<T extends { date: string }>(history: readonly T[]): T[] {
+  return [...history].sort((left, right) => Date.parse(left.date) - Date.parse(right.date));
+}

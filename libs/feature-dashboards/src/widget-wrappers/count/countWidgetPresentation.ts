@@ -18,11 +18,15 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import {
+  type DashboardMeasure,
+  type DashboardMeasureHistory,
+  IssueResolutionStatistic,
+} from '~shared/types/dashboard-history';
 import type { Path } from 'history';
 import type { IntlShape } from 'react-intl';
 import type { CountWidgetProps } from '../../components/visualizations/CountWidget';
 import type { TrendIndicatorType } from '../../components/visualizations/TrendIndicator';
-import type { DashboardMeasure } from '../../data/dashboard-measure';
 import {
   dashboardCountMetricType,
   dashboardMeasureHistoryPoints,
@@ -33,7 +37,6 @@ import {
   hasCompleteDashboardHistory,
   resolvedIssuesCountValues,
   type DashboardHistoryPoint,
-  type DashboardMeasureHistory,
   type ResolvedIssuesCountValues,
 } from '../../data/dashboard-measure-history';
 import {
@@ -41,7 +44,6 @@ import {
   type DashboardMetric,
   type MeasureFilters,
 } from '../../data/widgets/shared';
-import { IssueResolutionStatistic } from '../../types/organization-issue-resolution-history';
 import { computeDashboardMeasureTrendData } from '../../utils/countWidgetTrend';
 import { startOfUTCDay } from '../../utils/datetime';
 

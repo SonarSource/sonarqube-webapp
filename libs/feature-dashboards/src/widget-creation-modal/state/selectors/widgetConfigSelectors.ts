@@ -19,11 +19,8 @@
  */
 
 import { HistoryRange } from '../../../data/widgets/line-chart';
-import {
-  CompleteWidgetConfig,
-  PieChartIssueSlice,
-  PieChartMetric,
-} from '../../../types/dashboard-widget';
+import { CompleteWidgetConfig } from '../../../data/widgets';
+import { PieChartIssueSlice, PieChartMetric } from '../../../types/dashboard-widget';
 import { PieChartPastry } from '../../../types/visualization';
 import { VisualizationType } from '../../../types/widget-common';
 import { clampCountTrendIndicator } from '../../../utils/countWidgetTrendIndicator';

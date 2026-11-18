@@ -41,10 +41,8 @@ import { Dashboard } from '~feature-dashboards/dashboard-layout/Dashboard';
 import { DashboardCustomDashboardUnsupportedVersion } from '~feature-dashboards/dashboard-layout/DashboardCustomDashboardViews';
 import { DashboardTypeBadge } from '~feature-dashboards/dashboard-list/DashboardTypeBadge';
 import { UnsupportedDashboardVersionError } from '~feature-dashboards/helpers/dashboard-layout-validation-reporting';
-import {
-  widgetEditBehaviorMap,
-  type ProjectDashboardWidgetPropMap,
-} from '~feature-dashboards/types/dashboard-widget';
+import { widgetEditBehaviorMap } from '~feature-dashboards/data/widgets';
+import { type ProjectDashboardWidgetPropMap } from '~feature-dashboards/types/dashboard-widget';
 import A11ySkipTarget from '~shared/components/a11y/A11ySkipTarget';
 import { DismissableMessageCallout } from '~shared/components/common/DismissableMessageCallout';
 import NotFound from '~shared/components/NotFound';

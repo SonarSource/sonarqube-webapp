@@ -18,28 +18,21 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-/**
- * Structural shapes for **organizations** HTTP responses used by portfolio and project line charts
- * (`GET /organizations/measures-history`, `GET /organizations/issue-count-history`) and by
- * `../utils/lineChartSeriesTransforms` transforms.
- *
- * **Single source of truth for these fields** (keep MSW and `~api/portfolio-dashboard` aliases in
- * sync when the backend contract changes).
- */
-export interface OrganizationsMeasuresHistoryDay {
-  date: string;
-  measures: {
-    metric: string;
-    /** Metric type as returned by the API (e.g. "percent", "rating") */
-    type: string;
-    value: string;
-  }[];
+import type {
+  DashboardEntityType,
+  OrganizationsMeasuresHistoryDay,
+} from '~shared/types/dashboard-history';
+
+export interface GetMeasuresHistoryParams {
+  /** End of range, inclusive. ISO-8601 datetime with offset. */
+  endDate?: string;
+  entityId: string;
+  entityType: DashboardEntityType;
+  metricKeys: string[];
+  /** Start of range, inclusive. ISO-8601 datetime with offset (e.g. `2026-01-01T00:00:00.000Z`). */
+  startDate: string;
 }
 
-export interface OrganizationsIssueCountHistoryDay {
-  date: string;
-  distribution: {
-    key: string;
-    value: number;
-  }[];
+export interface MeasuresHistoryResponse {
+  measuresHistory: OrganizationsMeasuresHistoryDay[];
 }

@@ -20,13 +20,9 @@
 
 import { act, renderHook } from '@testing-library/react';
 import { SoftwareQuality } from '~shared/types/clean-code-taxonomy';
-import { IssueStatus } from '../../../types/dashboard-widget';
-import {
-  CodeScope,
-  TopListLimit,
-  TopListMetric,
-  TopListRankBy,
-} from '../../../types/widget-common';
+import { IssueStatus } from '../../../data/widgets/shared';
+import { CodeScope } from '~shared/types/dashboard-history';
+import { TopListLimit, TopListMetric, TopListRankBy } from '../../../types/widget-common';
 import type { TopListConfig } from '../../state/widgetConfigTypes';
 import { useTopListApplyFiltersViewModel } from '../useTopListApplyFiltersViewModel';
 

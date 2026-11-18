@@ -25,7 +25,7 @@ import type {
 import type {
   DashboardProjectIssueCountsParams,
   DashboardProjectMeasuresParams,
-} from '../../api/dashboard-history';
+} from '../../types/dashboard-history';
 import { resolveIssueHistoryFiltersForMode } from '../../helpers/dashboard-widget-mode';
 import {
   useDashboardProjectIssueCountsQuery,

@@ -23,17 +23,11 @@ import type { ComponentProps } from 'react';
 import { renderWithRouter } from '~shared/helpers/test-utils';
 import { MetricKey } from '~shared/types/metrics';
 import type { WidgetBodyMap, WidgetHeaderMap } from '../../../dashboard-layout/logic/types';
-import {
-  DashboardMetricType,
-  type CompleteWidgetConfig,
-  type DashboardMetric,
-  type ProjectDashboardWidgetPropMap,
-} from '../../../types/dashboard-widget';
-import {
-  CodeScope,
-  VisualizationType,
-  type WidgetMetricPickerOptions,
-} from '../../../types/widget-common';
+import { DashboardMetricType, type DashboardMetric } from '../../../data/widgets/shared';
+import { type CompleteWidgetConfig } from '../../../data/widgets';
+import { type ProjectDashboardWidgetPropMap } from '../../../types/dashboard-widget';
+import { CodeScope } from '~shared/types/dashboard-history';
+import { VisualizationType, type WidgetMetricPickerOptions } from '../../../types/widget-common';
 import { DashboardAddWidgetModal, DashboardAddWidgetModalMode } from '../DashboardAddWidgetModal';
 
 describe('DashboardAddWidgetModal', () => {

@@ -19,8 +19,8 @@
  */
 
 import { MetricKey } from '~shared/types/metrics';
-import { DashboardMetricType, RichMetricKey } from '../../types/dashboard-widget';
-import { CodeScope } from '../../types/widget-common';
+import { DashboardMetricType, RichMetricKey } from '../../data/widgets/shared';
+import { CodeScope } from '~shared/types/dashboard-history';
 import {
   clampCountTrendIndicator,
   isCountWidgetTrendIndicatorSupported,

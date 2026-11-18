@@ -18,6 +18,11 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import type {
+  IssueHistoryDay,
+  OrganizationsIssueCountHistoryDay,
+  OrganizationsMeasuresHistoryDay,
+} from '~shared/types/dashboard-history';
 import { cssVar } from '@sonarsource/echoes-react';
 import type { IntlShape } from 'react-intl';
 import { isDefined } from '~shared/helpers/types';
@@ -28,12 +33,8 @@ import {
   LineChartGroupBy,
   type LineChartGroupByValue,
 } from '../data/widgets/line-chart';
-import { MeasureFilters, PieChartIssueSlice, PieChartMetric } from '../types/dashboard-widget';
-import type { IssueHistoryDay } from '../types/organization-issue-history';
-import type {
-  OrganizationsIssueCountHistoryDay,
-  OrganizationsMeasuresHistoryDay,
-} from '../types/organization-line-chart-history';
+import { MeasureFilters } from '../data/widgets/shared';
+import { PieChartIssueSlice, PieChartMetric } from '../types/dashboard-widget';
 import type { LineChartDataPoint, LineChartSeries } from '../types/visualization';
 import type { RuleMetadataByKey } from '../types/widget-common';
 import { mapLineChartGroupByToPieChartSlice } from '../widget-creation-modal/utils/lineChartGroupByHelpers';

@@ -20,7 +20,7 @@
 
 import type { IntlShape } from 'react-intl';
 import { SoftwareImpactSeverity, SoftwareQuality } from '~shared/types/clean-code-taxonomy';
-import { IssueStatus } from '../../../../types/dashboard-widget';
+import { IssueStatus } from '../../../../data/widgets/shared';
 import { TopListLimit, TopListRankBy } from '../../../../types/widget-common';
 import { getTopListWidgetTitle } from '../topListWidgetTitle';
 

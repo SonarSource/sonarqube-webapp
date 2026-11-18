@@ -18,6 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { type DashboardMeasure, CodeScope } from '~shared/types/dashboard-history';
 import { useIntl } from 'react-intl';
 import { useDashboardProjectContext } from '~adapters/context/dashboardContext';
 import {
@@ -33,12 +34,11 @@ import { MetricKey, MetricType } from '~shared/types/metrics';
 import { WidgetLoadingSpinner } from '../../components/common/WidgetLoadingSpinner';
 import { WidgetNoData } from '../../components/common/WidgetNoData';
 import { CountWidget } from '../../components/visualizations/CountWidget';
-import { dashboardMetricToMeasure, type DashboardMeasure } from '../../data/dashboard-measure';
+import { dashboardMetricToMeasure } from '../../data/dashboard-measure';
 import { dashboardMeasureMetricKey } from '../../data/dashboard-measure-history';
 import type { Props } from '../../data/widgets/count';
 import { DashboardMetricType, type DashboardMetric } from '../../data/widgets/shared';
 import { useMttrFormatters } from '../../hooks/useMttrFormatters';
-import { CodeScope } from '../../types/widget-common';
 import { getDashboardMetricDirectionOverride } from '../../utils/countWidgetTrend';
 import { isCountWidgetTrendVisible } from '../../utils/countWidgetTrendIndicator';
 import { getActualMetricKey } from '../../widget-creation-modal/utils/getActualMetricKey';
