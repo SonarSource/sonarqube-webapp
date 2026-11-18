@@ -29,20 +29,25 @@ import {
 import React from 'react';
 import { useIntl } from 'react-intl';
 import { CommentModal } from '~shared/components/common/CommentModal';
+import { defaultFormatterOptions } from '~shared/components/intl/DateTimeFormatter';
 import { Modal } from '../../design-system';
 import FormattingTipsWithLink from '../common/FormattingTipsWithLink';
 
 interface Props {
+  author?: string;
   commentKey: string;
+  date: string;
   markdown: string;
   onDeleteComment: (key: string) => void;
   onEditComment: (key: string, text: string) => void;
 }
 
 export default function CommentActions(props: Props) {
-  const { commentKey, markdown, onDeleteComment, onEditComment } = props;
+  const { author, commentKey, date, markdown, onDeleteComment, onEditComment } = props;
 
-  const intl = useIntl();
+  const { formatDate, formatMessage } = useIntl();
+
+  const labelValues = { author, date: formatDate(date, defaultFormatterOptions) };
 
   const [editCommentKey, setEditCommentKey] = React.useState('');
   const [deleteCommentKey, setDeleteCommentKey] = React.useState('');
@@ -52,21 +57,29 @@ export default function CommentActions(props: Props) {
       <div className="sw:flex sw:gap-6">
         <ButtonIcon
           Icon={IconEdit}
-          ariaLabel={intl.formatMessage({ id: 'issue.comment.edit' })}
+          ariaLabel={formatMessage(
+            { id: author ? 'issue.comment.edit_by_author_on_date' : 'issue.comment.edit' },
+            labelValues,
+          )}
           onClick={() => {
             setEditCommentKey(commentKey);
           }}
           size={ButtonSize.Medium}
+          tooltipContent={formatMessage({ id: 'issue.comment.edit' })}
           variety={ButtonVariety.DefaultGhost}
         />
 
         <ButtonIcon
           Icon={IconDelete}
-          ariaLabel={intl.formatMessage({ id: 'issue.comment.delete' })}
+          ariaLabel={formatMessage(
+            { id: author ? 'issue.comment.delete_by_author_on_date' : 'issue.comment.delete' },
+            labelValues,
+          )}
           onClick={() => {
             setDeleteCommentKey(commentKey);
           }}
           size={ButtonSize.Medium}
+          tooltipContent={formatMessage({ id: 'issue.comment.delete' })}
           variety={ButtonVariety.DangerGhost}
         />
       </div>
@@ -74,8 +87,8 @@ export default function CommentActions(props: Props) {
       {editCommentKey === commentKey && (
         <CommentModal
           comment={markdown}
-          commentHeader={intl.formatMessage({ id: 'issue.comment.edit' })}
-          fieldLabel={intl.formatMessage({ id: 'issue.comment.enter_comment' })}
+          commentHeader={formatMessage({ id: 'issue.comment.edit' })}
+          fieldLabel={formatMessage({ id: 'issue.comment.enter_comment' })}
           helpText={<FormattingTipsWithLink />}
           onCancel={() => {
             setEditCommentKey('');
@@ -89,8 +102,8 @@ export default function CommentActions(props: Props) {
 
       {deleteCommentKey === commentKey && (
         <Modal
-          body={<p>{intl.formatMessage({ id: 'issue.comment.delete_confirm_message' })}</p>}
-          headerTitle={intl.formatMessage({ id: 'issue.comment.delete' })}
+          body={<p>{formatMessage({ id: 'issue.comment.delete_confirm_message' })}</p>}
+          headerTitle={formatMessage({ id: 'issue.comment.delete' })}
           onClose={() => {
             setDeleteCommentKey('');
           }}
@@ -102,10 +115,10 @@ export default function CommentActions(props: Props) {
               }}
               variety={ButtonVariety.Danger}
             >
-              {intl.formatMessage({ id: 'delete' })}
+              {formatMessage({ id: 'delete' })}
             </Button>
           }
-          secondaryButtonLabel={intl.formatMessage({ id: 'cancel' })}
+          secondaryButtonLabel={formatMessage({ id: 'cancel' })}
         />
       )}
     </>

@@ -214,9 +214,9 @@ export const ui = {
   issueActivityAddComment: byRole('button', {
     name: `issue.activity.add_comment`,
   }),
-  issueAcitivityEditComment: byRole('button', { name: 'issue.comment.edit' }),
+  issueAcitivityEditComment: byRole('button', { name: /^issue\.comment\.edit/ }),
   issueActivityDeleteComment: byRole('button', {
-    name: 'issue.comment.delete',
+    name: /^issue\.comment\.delete/,
   }),
 
   guidePopup: byRole('alertdialog'),

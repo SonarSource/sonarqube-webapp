@@ -468,13 +468,13 @@ function getPageObject() {
       return list;
     },
     commentAddBtn: byRole('button', { name: 'issue.comment.add_comment' }),
-    commentEditBtn: byRole('button', { name: 'issue.comment.edit' }),
+    commentEditBtn: byRole('button', { name: /^issue\.comment\.edit/ }),
     commentTextInput: byRole('textbox', {
       name: 'issue.comment.enter_comment',
     }),
     commentSaveBtn: byRole('button', { name: 'issue.comment.formlink' }),
     commentUpdateBtn: byRole('button', { name: 'save' }),
-    commentDeleteBtn: byRole('button', { name: 'issue.comment.delete' }),
+    commentDeleteBtn: byRole('button', { name: /^issue\.comment\.delete/ }),
     commentConfirmDeleteBtn: byRole('button', { name: 'delete' }),
 
     // Status

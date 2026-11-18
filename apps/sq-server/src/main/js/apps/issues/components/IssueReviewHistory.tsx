@@ -122,7 +122,9 @@ export default function IssueReviewHistory(props: Readonly<HotspotReviewHistoryP
 
                   {updatable && (
                     <CommentActions
+                      author={user.name}
                       commentKey={key}
+                      date={date}
                       markdown={markdown}
                       onDeleteComment={props.onDeleteComment}
                       onEditComment={props.onEditComment}

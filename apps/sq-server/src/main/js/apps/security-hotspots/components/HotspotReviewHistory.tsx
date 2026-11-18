@@ -37,7 +37,7 @@ export interface HotspotReviewHistoryProps {
 }
 
 export default function HotspotReviewHistory(props: Readonly<HotspotReviewHistoryProps>) {
-  const { hotspot } = props;
+  const { hotspot, onDeleteComment, onEditComment } = props;
   const history = getHotspotReviewHistory(hotspot);
 
   return (
@@ -81,10 +81,12 @@ export default function HotspotReviewHistory(props: Readonly<HotspotReviewHistor
 
                 {updatable && (
                   <CommentActions
+                    author={user.name}
                     commentKey={key}
+                    date={date}
                     markdown={markdown}
-                    onDeleteComment={props.onDeleteComment}
-                    onEditComment={props.onEditComment}
+                    onDeleteComment={onDeleteComment}
+                    onEditComment={onEditComment}
                   />
                 )}
               </div>

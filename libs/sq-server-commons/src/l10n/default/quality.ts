@@ -184,6 +184,8 @@ export const qualityMessages = {
   'issue.comment.formlink': 'Comment',
   'issue.comment.edit': 'Edit comment',
   'issue.comment.delete': 'Delete comment',
+  'issue.comment.delete_by_author_on_date': 'Delete comment by {author} on {date}',
+  'issue.comment.edit_by_author_on_date': 'Edit comment by {author} on {date}',
   'issue.comment.delete_confirm_message': 'Do you want to delete this comment?',
   'issue.back_to_issues_list': 'Back to issues list',
   'issue.send_notifications': 'Send Notifications',
