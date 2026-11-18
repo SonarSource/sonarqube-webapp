@@ -45,14 +45,9 @@ export function getLlmProviderDefinitions() {
     .then((response) => response.providerDefinitions);
 }
 
-/**
- * Filtering by `aiCapability` narrows the list to the providers that capability
- * accepts, which is also what excludes the pre-seeded `SONAR` provider from the
- * Remediation Agent and Hunter Agent pages.
- */
-export function getLlmProviders(aiCapability?: `${AiCapability}`) {
+export function getLlmProviders() {
   return axiosClient
-    .get<{ providers: LlmProvider[] }>(LLM_PROVIDERS_PATH, { params: { aiCapability } })
+    .get<{ providers: LlmProvider[] }>(LLM_PROVIDERS_PATH)
     .then((response) => response.providers);
 }
 

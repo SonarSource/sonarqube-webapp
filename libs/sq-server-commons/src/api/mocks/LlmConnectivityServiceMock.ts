@@ -317,13 +317,16 @@ export default class LlmConnectivityServiceMock extends AbstractServiceMock<LlmC
         return this.errorsWithStatus(HttpStatus.BadRequest, this.#providersFailureMessage);
       }
 
-      const aiCapability = this.getQueryParams(request).get('aiCapability');
-      const providers =
-        aiCapability === null || aiCapability === AiCapability.AiCodefix
-          ? this.data.providers
-          : this.data.providers.filter((provider) => provider.provider !== LlmProviderType.Sonar);
+      // Mirrors the V2 unknown-parameter check, which rejects any query string here.
+      const [firstParam] = this.getQueryParams(request).keys();
+      if (firstParam !== undefined) {
+        return this.errorsWithStatus(
+          HttpStatus.BadRequest,
+          `Parameter "${firstParam}" is not a valid parameter`,
+        );
+      }
 
-      return this.ok({ providers });
+      return this.ok({ providers: this.data.providers });
     }),
 
     http.get(LLM_PROVIDER_MAPPINGS_PATH, ({ request }) => {

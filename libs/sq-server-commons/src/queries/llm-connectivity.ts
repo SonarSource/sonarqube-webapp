@@ -49,8 +49,6 @@ import { PURCHASABLE_FEATURES_QUERY_KEY } from './entitlements';
 const llmConnectivityQueryKeys = {
   definitions: () => ['llm-connectivity', 'llm-provider-definitions'] as const,
   providers: () => ['llm-connectivity', 'llm-providers'] as const,
-  providersForCapability: (aiCapability: `${AiCapability}`) =>
-    ['llm-connectivity', 'llm-providers', aiCapability] as const,
   selection: (aiCapability: `${AiCapability}`) =>
     ['llm-connectivity', 'llm-provider-mappings', aiCapability] as const,
   supportedModels: (aiCapability: `${AiCapability}`) =>
@@ -71,15 +69,6 @@ export const useLlmProvidersQuery = createQueryHook(() =>
   queryOptions({
     queryKey: llmConnectivityQueryKeys.providers(),
     queryFn: () => getLlmProviders(),
-    staleTime: StaleTime.NEVER,
-  }),
-);
-
-/** The providers a given AI capability accepts, which excludes the `SONAR` provider. */
-export const useCapabilityLlmProvidersQuery = createQueryHook((aiCapability: AiCapability) =>
-  queryOptions({
-    queryKey: llmConnectivityQueryKeys.providersForCapability(aiCapability),
-    queryFn: () => getLlmProviders(aiCapability),
     staleTime: StaleTime.NEVER,
   }),
 );
