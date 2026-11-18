@@ -1694,8 +1694,15 @@ export const sharedMessages = {
   'pr_remediation.dependency_risks': 'Dependency risks',
   'pr_remediation.loading': 'Loading pull request remediation',
   'pr_remediation.load_error': 'Could not load pull request remediation. Try again.',
+  'pr_remediation.summary.sca.analysis_coverage':
+    'The analyzed PR count does not indicate whether dependency analysis ran.',
+  'pr_remediation.time_chart.issues.no_closed_findings':
+    'No issues were reported closed in pull requests during this period.',
+  'pr_remediation.time_chart.sca.no_closed_findings':
+    'No dependency risks were reported closed in pull requests during this period.',
   'pr_remediation.no_analysis': 'No pull requests were analyzed in this scope during the period',
-  'pr_remediation.no_analysis_description': 'Missing analysis isn’t the same as nothing closed.',
+  'pr_remediation.no_analysis_description':
+    'This count does not indicate which projects or types of analysis are covered.',
   'pr_remediation.history_unavailable': 'No comparable reporting history in this scope',
   'pr_remediation.history_unavailable_description':
     'Missing history isn’t the same as zero remediation. Try a shorter period.',
@@ -1755,7 +1762,7 @@ export const sharedMessages = {
   'main_branch_remediation.openFindingsAge.median_caption':
     'Median age of open {findingType, select, sca {dependency risks} other {issues}}',
   'main_branch_remediation.openFindingsAge.no_open':
-    'No open {findingType, select, sca {dependency risks} other {issues}}.',
+    'No open {findingType, select, sca {dependency risks} other {issues}} reported.',
   'main_branch_remediation.openFindingsAge.no_median': 'Median age is unavailable.',
   'main_branch_remediation.openFindingsAge.bucket_below': '0–{end, number} days',
   'main_branch_remediation.openFindingsAge.bucket_between': '{start, number}–{end, number} days',
@@ -1772,6 +1779,8 @@ export const sharedMessages = {
     '{count, number} more closed than introduced',
   'main_branch_remediation.introducedAndResolvedFindings.more_introduced':
     '{count, number} more introduced than closed',
+  'main_branch_remediation.introducedAndResolvedFindings.no_activity':
+    'No {findingType, select, sca {dependency risks} other {issues}} were reported introduced or closed during this period.',
   'main_branch_remediation.introducedAndResolvedFindings.balanced':
     'The same number closed and introduced',
   'main_branch_remediation.introducedAndResolvedFindings.totals':
