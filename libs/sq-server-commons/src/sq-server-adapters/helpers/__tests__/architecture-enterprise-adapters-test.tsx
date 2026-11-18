@@ -20,7 +20,8 @@
 
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { renderHook } from '@testing-library/react';
-import { useFlags } from '~adapters/helpers/feature-flags';
+import { mockFlags, resetFeatureFlagMocks } from '~adapters/helpers/feature-flags-test-utils';
+import { DEFAULT_PERFORMANCE_LIMITS } from '~shared/helpers/architecture';
 import { ensure } from '~shared/helpers/types';
 import { AvailableFeaturesContext } from '../../../context/available-features/AvailableFeaturesContext';
 import { CurrentUserContext } from '../../../context/current-user/CurrentUserContext';
@@ -49,28 +50,28 @@ jest.mock('../../../queries/settings', () => ({
   useSaveSimpleValueMutation: jest.fn(),
 }));
 
-jest.mock('~adapters/helpers/feature-flags', () => ({
-  useFlags: jest.fn(),
-}));
-
 jest.mock('../useArchitectureEntitlement', () => ({
   useArchitectureEntitlement: jest.fn(),
 }));
 
 beforeEach(() => {
+  resetFeatureFlagMocks();
   jest.clearAllMocks();
   jest
     .mocked(useGetValueQuery)
     .mockReturnValue({ data: undefined } as unknown as ReturnType<typeof useGetValueQuery>);
-  jest
-    .mocked(useFlags)
-    .mockReturnValue({ designArchitectureSquadExtensionPack: true } as unknown as ReturnType<
-      typeof useFlags
-    >);
+
+  mockFlags({
+    designArchitectureSquadExtensionPack: true,
+    designArchitectureSquadPerformanceLimits: DEFAULT_PERFORMANCE_LIMITS,
+  });
+
   jest
     .mocked(useArchitectureEntitlement)
     .mockReturnValue({ isEntitledToArchitecture: true, isLoading: false });
 });
+
+afterEach(resetFeatureFlagMocks);
 
 describe('useCanAdministrateArchitectureGlobally', () => {
   function renderWithUser(currentUser: CurrentUser) {
@@ -164,11 +165,7 @@ describe('useArchitectureFlags', () => {
   });
 
   it('does not fetch the setting when the extension-pack flag is off', () => {
-    jest
-      .mocked(useFlags)
-      .mockReturnValue({ designArchitectureSquadExtensionPack: false } as unknown as ReturnType<
-        typeof useFlags
-      >);
+    mockFlags({ designArchitectureSquadExtensionPack: false });
 
     const { result } = renderArchitectureFlags();
 
@@ -211,10 +208,12 @@ describe('useSetArchitectureEnterpriseEnabledMutation', () => {
       mutateAsync,
     } as unknown as ReturnType<typeof useSaveSimpleValueMutation>);
 
-    const queryClient = new QueryClient();
+    // eslint-disable-next-line local-rules/no-query-client-imports
+    const testClient = new QueryClient();
+
     const { result } = renderHook(() => useSetArchitectureEnterpriseEnabledMutation(), {
       wrapper: ({ children }) => (
-        <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
+        <QueryClientProvider client={testClient}>{children}</QueryClientProvider>
       ),
     });
     await result.current.mutateAsync(false);

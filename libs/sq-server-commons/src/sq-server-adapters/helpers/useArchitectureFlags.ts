@@ -19,7 +19,7 @@
  */
 
 import { useMutation } from '@tanstack/react-query';
-import { useFlags } from '~adapters/helpers/feature-flags';
+import { useFlag } from '~adapters/helpers/feature-flags';
 import { ArchitectureFlags } from '~shared/helpers/architecture';
 import { useGetValueQuery, useSaveSimpleValueMutation } from '../../queries/settings';
 import { SettingsKey } from '../../types/settings';
@@ -27,11 +27,16 @@ import { useArchitectureEntitlement } from './useArchitectureEntitlement';
 import { useIsArchitectureFeatureAdvertised } from './useIsArchitectureFeatureAdvertised';
 
 export function useArchitectureFlags(): ArchitectureFlags {
-  const flags = useFlags();
+  const designArchitectureSquadExtensionPack = useFlag('designArchitectureSquadExtensionPack');
+
+  const designArchitectureSquadPerformanceLimits = useFlag(
+    'designArchitectureSquadPerformanceLimits',
+  );
+
   const { isEntitledToArchitecture } = useArchitectureEntitlement();
   const isAdvertised = useIsArchitectureFeatureAdvertised();
-  const enabled =
-    flags.designArchitectureSquadExtensionPack === true && isEntitledToArchitecture && isAdvertised;
+  const enabled = designArchitectureSquadExtensionPack && isEntitledToArchitecture && isAdvertised;
+
   const { data: architectureEnterpriseEnabledSetting, isLoading } = useGetValueQuery(
     { key: SettingsKey.ArchitectureEnterpriseEnabled },
     { enabled },
@@ -41,7 +46,7 @@ export function useArchitectureFlags(): ArchitectureFlags {
     architectureEnterpriseEnabled:
       enabled && architectureEnterpriseEnabledSetting?.value !== 'false',
     designArchitectureSquadExtensionPack: false,
-    designArchitectureSquadPerformanceLimits: flags.designArchitectureSquadPerformanceLimits,
+    designArchitectureSquadPerformanceLimits,
     isCurrentOrganizationMember: true,
     isLoading: enabled && isLoading,
   };

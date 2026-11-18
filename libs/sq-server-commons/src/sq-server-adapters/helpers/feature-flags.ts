@@ -18,33 +18,41 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { DEFAULT_PERFORMANCE_LIMITS } from '~shared/helpers/architecture';
+import { sharedFeatureFlagDefaults, SharedFlagSet } from '~shared/helpers/feature-flags';
 import { FlagSet } from '~shared/types/feature-flags';
-
-interface SQSFlagSet extends FlagSet {
-  designArchitectureSquadExtensionPack: boolean;
-  designArchitectureSquadPerformanceLimits: {
-    maxEdgesCount: number;
-    maxNodesCount: number;
-  };
-  scaKeyChangesPrView: boolean;
-  scaEnableFixLevelsFilter: boolean;
-  scaEnableProhibitedLicenseExistingApprovalFixGuidance: boolean;
-  scaShowRiskCopyAiPromptButton: boolean;
-}
 
 // SQS doesn't use LaunchDarkly for feature flags, so we just pass a default hardcoded flag set for
 // compatibility with SQC in shared code.
-// Add features flags here as needed in shared code, especially useful if you want a default value other than falsy for SQS.
-const defaultFlags: SQSFlagSet = {
+// Add feature flags here as needed in shared code, especially when SQS needs a truthy default.
+const sharedFlags: SharedFlagSet = {
+  ...sharedFeatureFlagDefaults,
   designArchitectureSquadExtensionPack: true,
-  designArchitectureSquadPerformanceLimits: DEFAULT_PERFORMANCE_LIMITS,
+};
+
+/**
+ * @deprecated Preserve these defaults for existing `useFlags()` callers. Do not add new flags here
+ *   or automatically include all shared flags. Register new shared flags in
+ *   `sharedFeatureFlagDefaults` and access them through `useFlag()`.
+ */
+const defaultFlags = {
+  designArchitectureSquadExtensionPack: sharedFlags.designArchitectureSquadExtensionPack,
+  designArchitectureSquadPerformanceLimits: sharedFlags.designArchitectureSquadPerformanceLimits,
   scaKeyChangesPrView: false,
   scaEnableFixLevelsFilter: false,
   scaEnableProhibitedLicenseExistingApprovalFixGuidance: true,
   scaShowRiskCopyAiPromptButton: false,
 };
 
-export function useFlags(): SQSFlagSet {
+type LegacyFlagSet = typeof defaultFlags & FlagSet; // NOSONAR - Frozen legacy defaults
+
+export function useFlag<Name extends keyof SharedFlagSet>(name: Name): SharedFlagSet[Name] {
+  return sharedFlags[name];
+}
+
+/**
+ * @deprecated Prefer `useFlag('someFlag')` for new code so components subscribe only
+ *   to the flag they read.
+ */
+export function useFlags(): LegacyFlagSet {
   return defaultFlags;
 }

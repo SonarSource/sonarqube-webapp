@@ -26,8 +26,13 @@ type FeatureFlagTestValue = boolean | number | object | string;
 type FeatureFlagOverrides = Record<string, FeatureFlagTestValue>;
 
 const currentOverrides = new Map<string, FeatureFlagTestValue>();
-const useDefaultFlags = featureFlags.useFlags;
-let useFlagsSpy: jest.SpyInstance<ReturnType<typeof featureFlags.useFlags>, []> | undefined;
+const useDefaultFlag = featureFlags.useFlag;
+
+// Existing useFlags() callers still need the deprecated bulk hook's defaults and test overrides.
+// Keep supporting that hook here until those callers migrate to useFlag().
+const useDefaultFlags = featureFlags.useFlags; // NOSONAR
+let useFlagSpy: jest.SpiedFunction<typeof featureFlags.useFlag> | undefined;
+let useFlagsSpy: jest.SpyInstance<ReturnType<typeof featureFlags.useFlags>, []> | undefined; // NOSONAR
 
 function assertSupportedFlagValue(
   key: string,
@@ -61,7 +66,7 @@ export function initializeFeatureFlagTestUtils() {
 
 function useFlagsWithTestOverrides() {
   return {
-    ...useDefaultFlags(),
+    ...useDefaultFlags(), // NOSONAR - Preserve defaults for existing useFlags() callers.
     ...Object.fromEntries(currentOverrides),
   };
 }
@@ -79,6 +84,12 @@ export function mockFlags(flags: FeatureFlagOverrides) {
 
   useFlagsSpy = jest.spyOn(featureFlags, 'useFlags');
   useFlagsSpy.mockImplementation(useFlagsWithTestOverrides);
+  useFlagSpy = jest.spyOn(featureFlags, 'useFlag');
+
+  useFlagSpy.mockImplementation(
+    (name) =>
+      (currentOverrides.get(name) ?? useDefaultFlag(name)) as ReturnType<typeof useDefaultFlag>,
+  );
 }
 
 export function removeFlags(...flagKeys: string[]) {
@@ -91,6 +102,8 @@ export function removeFlags(...flagKeys: string[]) {
 
 export function resetFeatureFlagMocks() {
   currentOverrides.clear();
+  useFlagSpy?.mockRestore();
+  useFlagSpy = undefined;
   useFlagsSpy?.mockRestore();
   useFlagsSpy = undefined;
 }

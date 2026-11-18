@@ -25,7 +25,19 @@ import {
   removeFlags,
   resetFeatureFlagMocks,
 } from '~adapters/helpers/feature-flags-test-utils';
-import { useFlags } from '../feature-flags';
+import { DEFAULT_PERFORMANCE_LIMITS } from '~shared/helpers/architecture';
+import { useFlag, useFlags } from '../feature-flags';
+
+jest.mock('~shared/helpers/feature-flags', () => {
+  const actual = jest.requireActual<typeof import('~shared/helpers/feature-flags')>(
+    '~shared/helpers/feature-flags',
+  );
+
+  return {
+    ...actual,
+    sharedFeatureFlagDefaults: { ...actual.sharedFeatureFlagDefaults, futureSharedFlag: true },
+  };
+});
 
 const useDefaultFlags = useFlags;
 
@@ -38,6 +50,12 @@ afterEach(() => {
 });
 
 describe('useFlags', () => {
+  it('does not expose newly registered shared flags through the legacy hook', () => {
+    const { result } = renderHook(() => useFlags());
+
+    expect(result.current).not.toHaveProperty('futureSharedFlag');
+  });
+
   it('should expose the default SQS flag values', () => {
     const { result } = renderHook(() => useFlags());
 
@@ -46,6 +64,18 @@ describe('useFlags', () => {
       scaKeyChangesPrView: false,
       scaShowRiskCopyAiPromptButton: false,
     });
+  });
+});
+
+describe('useFlag', () => {
+  it('uses static SQS values for shared flag names', () => {
+    const { result } = renderHook(() => ({
+      extensionPack: useFlag('designArchitectureSquadExtensionPack'),
+      performanceLimits: useFlag('designArchitectureSquadPerformanceLimits'),
+    }));
+
+    expect(result.current.extensionPack).toBe(true);
+    expect(result.current.performanceLimits).toBe(DEFAULT_PERFORMANCE_LIMITS);
   });
 });
 
