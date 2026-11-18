@@ -1704,7 +1704,7 @@ export const sharedMessages = {
   'main_branch_remediation.description':
     'Track {findingType, select, sca {dependency risks} other {issues}} closed in the main branches of projects in your organization.',
   'main_branch_remediation.closedFindings.title':
-    'Closed {findingType, select, sca {dependency risks} other {issues}}',
+    '{findingType, select, sca {Dependency risks closed} other {Issues closed}}',
   'main_branch_remediation.backlogHistory.title': 'How did the backlog change?',
   'main_branch_remediation.introducedAndResolvedFindings.title': 'Introduced vs. closed',
   'main_branch_remediation.openFindingsAge.title':
