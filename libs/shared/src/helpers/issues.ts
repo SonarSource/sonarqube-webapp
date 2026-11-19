@@ -64,6 +64,15 @@ export function isAgentFindingRuleEngine(externalRuleEngine?: string) {
   );
 }
 
+/** Agent findings whose file could not be resolved are attached to the branch itself */
+export function isAgentFindingAttachedToBranch(issue: {
+  component: string;
+  externalRuleEngine?: string;
+  projectKey: string;
+}) {
+  return isAgentFindingRuleEngine(issue.externalRuleEngine) && issue.component === issue.projectKey;
+}
+
 export function getExternalRuleKey(ruleKey: string) {
   return ruleKey.startsWith(EXTERNAL_RULE_REPO_PREFIX)
     ? ruleKey.slice(EXTERNAL_RULE_REPO_PREFIX.length)

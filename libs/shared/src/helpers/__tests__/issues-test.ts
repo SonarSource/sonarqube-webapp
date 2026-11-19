@@ -21,6 +21,7 @@
 import { IssueProducer, IssueTransition } from '../../types/issues';
 import {
   getExternalRuleKey,
+  isAgentFindingAttachedToBranch,
   isAgentFindingRuleEngine,
   isHunterAgentIssue,
   isHunterAgentRuleEngine,
@@ -98,6 +99,20 @@ describe('isAgentFindingRuleEngine', () => {
 
   it('rejects an undefined rule engine', () => {
     expect(isAgentFindingRuleEngine()).toBe(false);
+  });
+});
+
+describe('isAgentFindingAttachedToBranch', () => {
+  it.each([
+    ['an agent finding attached to the branch', 'hunter-agent', 'proj', 'proj', true],
+    ['a sunset radar finding attached to the branch', 'sunset-radar', 'proj', 'proj', true],
+    ['an agent finding attached to a file', 'hunter-agent', 'proj:src/main.js', 'proj', false],
+    ['a non-agent issue attached to the branch', 'eslint', 'proj', 'proj', false],
+    ['an issue without rule engine attached to the branch', undefined, 'proj', 'proj', false],
+  ])('classifies %s', (_, externalRuleEngine, component, projectKey, expected) => {
+    expect(isAgentFindingAttachedToBranch({ component, externalRuleEngine, projectKey })).toBe(
+      expected,
+    );
   });
 });
 
