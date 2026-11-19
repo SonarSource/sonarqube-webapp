@@ -86,6 +86,8 @@ export const portfoliosMessages = {
   'portfolio_dashboard.breakdown.not_found.unsupported_widget':
     'This widget does not support breakdown.',
   'portfolio_dashboard.breakdown.viewing_filter.description': 'Viewing:',
+  'portfolio_dashboard.breakdown.top_list.selection_hint':
+    'Choose from the top {count} rules from the source widget',
   'portfolio_dashboard.breakdown.slice_filter.description': 'Viewing slice:',
   'portfolio_dashboard.breakdown.slice_filter.all': 'All',
   'portfolio_dashboard.breakdown.slice_filter.dimension_with_value':

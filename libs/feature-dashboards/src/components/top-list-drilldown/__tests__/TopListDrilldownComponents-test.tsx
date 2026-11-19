@@ -117,6 +117,7 @@ describe('TopListDrilldownSliceFilterCard', () => {
     );
 
     expect(screen.getByRole('button')).toHaveTextContent('Avoid duplicate literals');
+    expect(screen.getByRole('button')).not.toHaveAttribute('aria-describedby');
   });
 });
 
@@ -129,22 +130,46 @@ describe('TopListDrilldownOverview', () => {
     rulesOrganization: 'my-org',
   };
 
-  it('renders the selected rule overview', () => {
-    renderWithRouter(
-      <TopListDrilldownOverview
-        data={data}
-        filterSegments={segments}
-        onRuleChange={jest.fn()}
-        selectedRuleKey="java:S106"
-        widget={widget}
-      />,
-    );
+  it.each([TopListLimit.Five, TopListLimit.Ten, TopListLimit.Fifteen])(
+    'renders the selected rule overview with the top-%s source hint',
+    (limit) => {
+      renderWithRouter(
+        <TopListDrilldownOverview
+          data={data}
+          filterSegments={segments}
+          onRuleChange={jest.fn()}
+          selectedRuleKey="java:S106"
+          showSelectionHint
+          widget={{ ...widget, limit }}
+        />,
+      );
 
-    expect(screen.getByTestId('top-list-drilldown-rule-header-card')).toBeInTheDocument();
-    expect(screen.getByTestId('mock-count-widget')).toHaveTextContent('12');
-    expect(screen.getByTestId('mock-trend-indicator')).toBeInTheDocument();
-    expect(data.getRuleTrendData).toHaveBeenCalledWith('java:S106');
-  });
+      expect(screen.getByTestId('top-list-drilldown-rule-header-card')).toBeInTheDocument();
+      expect(screen.getByTestId('mock-count-widget')).toHaveTextContent('12');
+      expect(screen.getByTestId('mock-trend-indicator')).toBeInTheDocument();
+      expect(data.getRuleTrendData).toHaveBeenCalledWith('java:S106');
+      expect(screen.getByRole('button')).toHaveAccessibleDescription(
+        `portfolio_dashboard.breakdown.top_list.selection_hint.${limit}`,
+      );
+    },
+  );
+
+  it.each([undefined, false])(
+    'omits the source hint when activation is %s',
+    (showSelectionHint) => {
+      renderWithRouter(
+        <TopListDrilldownOverview
+          data={data}
+          filterSegments={segments}
+          onRuleChange={jest.fn()}
+          selectedRuleKey="java:S106"
+          showSelectionHint={showSelectionHint}
+          widget={widget}
+        />,
+      );
+      expect(screen.getByRole('button')).not.toHaveAttribute('aria-describedby');
+    },
+  );
 
   it('renders an empty summary when no rule is selected', () => {
     renderWithRouter(

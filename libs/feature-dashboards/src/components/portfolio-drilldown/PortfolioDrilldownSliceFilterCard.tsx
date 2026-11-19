@@ -28,13 +28,14 @@ import {
   IconChevronDown,
   Text,
 } from '@sonarsource/echoes-react';
-import { useMemo } from 'react';
+import { useId, useMemo } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import type { PieChartSegment } from '../../types/visualization';
 
 interface Props {
   allowAllOption?: boolean;
   descriptionMessageId?: string;
+  helperText?: string;
   onSegmentChange: (segmentValue: string | undefined) => void;
   queryKey?: 'label' | 'value';
   segments: PieChartSegment[];
@@ -46,6 +47,7 @@ export function PortfolioDrilldownSliceFilterCard(props: Readonly<Props>) {
   const {
     allowAllOption = false,
     descriptionMessageId = 'portfolio_dashboard.breakdown.slice_filter.description',
+    helperText,
     onSegmentChange,
     queryKey = 'value',
     segments,
@@ -53,6 +55,7 @@ export function PortfolioDrilldownSliceFilterCard(props: Readonly<Props>) {
     sliceDimensionMessageId,
   } = props;
   const { formatMessage } = useIntl();
+  const helperId = useId();
   const selectableSegments = useMemo(
     () => segments.filter((segment) => !segment.value.startsWith('OTHER_')),
     [segments],
@@ -121,6 +124,7 @@ export function PortfolioDrilldownSliceFilterCard(props: Readonly<Props>) {
             }
           >
             <Button
+              aria-describedby={helperText ? helperId : undefined}
               aria-label={formatMessage(
                 { id: 'portfolio_dashboard.breakdown.slice_filter.trigger_aria' },
                 { dimension: dimensionLabel, value: displayedValue },
@@ -143,6 +147,11 @@ export function PortfolioDrilldownSliceFilterCard(props: Readonly<Props>) {
               />
             </Button>
           </DropdownMenu>
+          {helperText && (
+            <Text id={helperId} isSubtle>
+              {helperText}
+            </Text>
+          )}
         </div>
       </Card.Body>
     </Card>

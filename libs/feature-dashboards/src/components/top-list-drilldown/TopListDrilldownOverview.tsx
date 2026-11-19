@@ -54,6 +54,7 @@ interface Props {
   isStandardMode?: boolean;
   onRuleChange: (ruleKey: string) => void;
   selectedRuleKey?: string;
+  showSelectionHint?: boolean;
   widget: TopListWidgetProps;
 }
 
@@ -104,6 +105,7 @@ export function TopListDrilldownOverview(props: Readonly<Props>) {
     isStandardMode = false,
     onRuleChange,
     selectedRuleKey,
+    showSelectionHint = false,
     widget,
   } = props;
   const { formatMessage } = useIntl();
@@ -126,6 +128,14 @@ export function TopListDrilldownOverview(props: Readonly<Props>) {
   return (
     <div className="sw:flex sw:flex-col sw:gap-4" data-testid="top-list-drilldown-overview">
       <TopListDrilldownSliceFilterCard
+        helperText={
+          showSelectionHint
+            ? formatMessage(
+                { id: 'portfolio_dashboard.breakdown.top_list.selection_hint' },
+                { count: widget.limit },
+              )
+            : undefined
+        }
         onRuleChange={onRuleChange}
         segments={filterSegments}
         selectedRuleKey={selectedRuleKey}

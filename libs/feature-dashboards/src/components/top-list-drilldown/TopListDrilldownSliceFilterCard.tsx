@@ -22,6 +22,7 @@ import type { PieChartSegment } from '../../types/visualization';
 import { PortfolioDrilldownSliceFilterCard } from '../portfolio-drilldown/PortfolioDrilldownSliceFilterCard';
 
 export interface TopListDrilldownSliceFilterCardProps {
+  helperText?: string;
   onRuleChange: (ruleKey: string) => void;
   segments: PieChartSegment[];
   selectedRuleKey?: string;
@@ -30,11 +31,12 @@ export interface TopListDrilldownSliceFilterCardProps {
 export function TopListDrilldownSliceFilterCard(
   props: Readonly<TopListDrilldownSliceFilterCardProps>,
 ) {
-  const { onRuleChange, segments, selectedRuleKey } = props;
+  const { helperText, onRuleChange, segments, selectedRuleKey } = props;
 
   return (
     <PortfolioDrilldownSliceFilterCard
       descriptionMessageId="portfolio_dashboard.breakdown.viewing_filter.description"
+      helperText={helperText}
       onSegmentChange={(ruleKey) => {
         if (ruleKey !== undefined) {
           onRuleChange(ruleKey);
