@@ -25,6 +25,7 @@ export function useCanAdministrateArchitectureProject(): {
   isLoading: boolean;
 } {
   const { component } = useComponent();
+
   return {
     canAdministrate: component?.configuration?.canAdminArchitecture ?? false,
     isLoading: false,

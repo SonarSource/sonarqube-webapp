@@ -18,8 +18,9 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { isValidElement } from 'react';
+import { isValidElement, type ReactElement, type ReactNode } from 'react';
 import { Permissions } from '../../types/permissions';
+import { PermissionDefinition } from '../../types/types';
 import {
   PERMISSIONS_ORDER_FOR_PROJECT_TEMPLATE,
   PERMISSIONS_ORDER_GLOBAL,
@@ -83,5 +84,29 @@ describe('convertToPermissionDefinitions', () => {
     });
     expect(scan).toHaveProperty('description');
     expect(isValidElement((scan as { description: unknown }).description)).toBe(true);
+  });
+
+  it('should append the architecture note to issue admin when architecture admin is listed', () => {
+    const [issueAdmin] = convertToPermissionDefinitions(
+      [Permissions.IssueAdmin, Permissions.ArchitectureAdmin],
+      'projects_role',
+    );
+    const { description } = issueAdmin as PermissionDefinition;
+
+    expect(isValidElement(description)).toBe(true);
+    expect((description as ReactElement<{ children: ReactNode[] }>).props.children).toEqual([
+      expect.objectContaining({ type: 'p', props: { children: 'projects_role.issueadmin.desc' } }),
+      expect.anything(),
+    ]);
+  });
+
+  it('should keep the plain issue admin description when architecture admin is not listed', () => {
+    const [issueAdmin] = convertToPermissionDefinitions([Permissions.IssueAdmin], 'projects_role');
+
+    expect(issueAdmin).toEqual({
+      description: 'projects_role.issueadmin.desc',
+      key: 'issueadmin',
+      name: 'projects_role.issueadmin',
+    });
   });
 });

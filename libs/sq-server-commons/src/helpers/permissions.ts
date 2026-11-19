@@ -18,6 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { createElement, Fragment } from 'react';
 import { executeAnalysisScanTooltipRichFormatValues } from '~shared/helpers/executeAnalysisScanTooltipRichFormatValues';
 import { Permissions } from '../types/permissions';
 import { PermissionDefinition, PermissionDefinitionGroup } from '../types/types';
@@ -63,7 +64,11 @@ export const PERMISSIONS_ORDER_BY_QUALIFIER: Record<string, string[]> = {
   APP: PERMISSIONS_ORDER_FOR_VIEW,
 };
 
-function convertToPermissionDefinition(permission: string, l10nPrefix: string) {
+function convertToPermissionDefinition(
+  permission: string,
+  l10nPrefix: string,
+  hasArchitectureAdmin: boolean,
+) {
   const intl = getIntl();
 
   const name = intl.formatMessage({ id: `${l10nPrefix}.${permission}` });
@@ -82,6 +87,22 @@ function convertToPermissionDefinition(permission: string, l10nPrefix: string) {
   }
 
   const description = intl.formatMessage({ id: `${l10nPrefix}.${permission}.desc` });
+
+  if (permission === Permissions.IssueAdmin && hasArchitectureAdmin) {
+    return {
+      key: permission,
+      name,
+      description: createElement(
+        Fragment,
+        null,
+        createElement('p', null, description),
+        intl.formatMessage(
+          { id: 'projects_role.issueadmin.desc.architecture_note' },
+          executeAnalysisScanTooltipRichFormatValues('p', 'b', 'br'),
+        ),
+      ),
+    };
+  }
 
   return {
     key: permission,
@@ -133,16 +154,23 @@ export function convertToPermissionDefinitions(
   permissions: Array<string | { category: string; permissions: string[] }>,
   l10nPrefix: string,
 ): Array<PermissionDefinition | PermissionDefinitionGroup> {
+  // The architecture note on issue admin only makes sense where Architecture Admin is listed.
+  const hasArchitectureAdmin = permissions.some((permission) =>
+    typeof permission === 'object'
+      ? permission.permissions.includes(Permissions.ArchitectureAdmin)
+      : permission === Permissions.ArchitectureAdmin,
+  );
+
   return permissions.map((permission) => {
     if (typeof permission === 'object') {
       return {
         category: permission.category,
         permissions: permission.permissions.map((permission) =>
-          convertToPermissionDefinition(permission, l10nPrefix),
+          convertToPermissionDefinition(permission, l10nPrefix, hasArchitectureAdmin),
         ),
       };
     }
-    return convertToPermissionDefinition(permission, l10nPrefix);
+    return convertToPermissionDefinition(permission, l10nPrefix, hasArchitectureAdmin);
   });
 }
 

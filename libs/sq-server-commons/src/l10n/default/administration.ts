@@ -1026,6 +1026,8 @@ export const administrationMessages = {
   'projects_role.issueadmin': 'Administer Issues',
   'projects_role.issueadmin.desc':
     'Resolve issues as being "fixed", "accepted" or "false positive", as well as change issue severity. For private projects, users also need the "Browse" permission.',
+  'projects_role.issueadmin.desc.architecture_note':
+    '<br></br><p><b>Note:</b> If the "Allow issue administrators to edit architecture" setting is enabled, this permission also allows administering architecture.</p>',
   'projects_role.securityhotspotadmin': 'Administer Security Hotspots',
   'projects_role.securityhotspotadmin.desc':
     'Resolve a Security Hotspot as reviewed (fixed or safe), reset it as to review (for private projects, users also need the "Browse" permission).',

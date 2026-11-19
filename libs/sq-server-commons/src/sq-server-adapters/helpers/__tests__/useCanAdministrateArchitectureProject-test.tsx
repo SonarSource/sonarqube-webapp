@@ -39,7 +39,7 @@ beforeEach(() => {
 });
 
 describe('useCanAdministrateArchitectureProject', () => {
-  it('returns true when the user has the architectureadmin permission', () => {
+  it('returns true when the configuration permits architecture administration', () => {
     mockCanAdminArchitecture(true);
 
     const { result } = renderHook(() => useCanAdministrateArchitectureProject());
@@ -47,7 +47,7 @@ describe('useCanAdministrateArchitectureProject', () => {
     expect(result.current).toEqual({ canAdministrate: true, isLoading: false });
   });
 
-  it('returns false when the user does not have the architectureadmin permission', () => {
+  it('returns false when the configuration does not permit architecture administration', () => {
     mockCanAdminArchitecture(false);
 
     const { result } = renderHook(() => useCanAdministrateArchitectureProject());

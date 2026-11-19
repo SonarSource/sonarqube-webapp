@@ -214,17 +214,17 @@ function renderComponentRoutes({
 
 function renderAdminRoutes({
   hasPortfolioFeature,
-  hasArchitectureEnterpriseFeature,
+  hasArchitectureFeature,
 }: {
   hasPortfolioFeature: boolean;
-  hasArchitectureEnterpriseFeature: boolean;
+  hasArchitectureFeature: boolean;
 }) {
   return (
     <Route path="admin">
       <Route element={<AdminContainer />}>
         {hasPortfolioFeature && addons.portfolios?.globalAdminRoutes()}
         {addons.remediationAgent?.globalAdminRoutes()}
-        {hasArchitectureEnterpriseFeature && addons.architecture?.globalAdminRoutes?.()}
+        {hasArchitectureFeature && addons.architecture?.globalAdminRoutes?.()}
 
         {/* Migrated internal Sonar admin extensions */}
         {globalAdminExtensionMigratedRoutes()}
@@ -378,8 +378,7 @@ const router = ({
 
               {renderAdminRoutes({
                 hasPortfolioFeature: governanceInstalled,
-                hasArchitectureEnterpriseFeature:
-                  hasArchitectureCoreFeature && hasArchitectureEnterpriseFeature,
+                hasArchitectureFeature: hasArchitectureCoreFeature,
               })}
 
               <Route element={<StateCallbackHandler />} path="callback" />
