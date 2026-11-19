@@ -124,6 +124,7 @@ const projectConfig = {
     '^~feature-vortex-dashboard/(.+)': '<rootDir>/private/libs/feature-vortex-dashboard/src/$1',
     '^~feature-compliance-reports/(.+)': '<rootDir>/private/libs/feature-compliance-reports/src/$1',
     '^~feature-hunter-agent/(.+)': '<rootDir>/private/libs/feature-hunter-agent/src/$1',
+    '^~feature-reliability-agent/(.+)': '<rootDir>/private/libs/feature-reliability-agent/src/$1',
     '^~feature-remediation-agent/(.+)': '<rootDir>/private/libs/feature-remediation-agent/src/$1',
     '^~feature-quality-gate-history/(.+)': '<rootDir>/libs/feature-quality-gate-history/src/$1',
     '^~feature-dashboards/(.+)': '<rootDir>/libs/feature-dashboards/src/$1',
