@@ -154,19 +154,21 @@ jest.mock('~feature-dashboards/hooks/useNativeBrowserNavigationBlocker', () => (
 
 jest.mock('~feature-dashboards/dashboard-layout/DashboardCustomDashboardContent', () => ({
   DashboardCustomDashboardContent: ({
+    autoScrollToNewSection,
     canEdit,
     isEditing,
     onAddWidgetToSection,
     onWidgetEdit,
     setIsEditing,
   }: {
+    autoScrollToNewSection?: boolean;
     canEdit: boolean;
     isEditing: boolean;
     onAddWidgetToSection: (index: number) => void;
     onWidgetEdit: (index: number, widget: never) => void;
     setIsEditing: (editing: boolean) => void;
   }) => (
-    <div data-testid="dashboard-content">
+    <div data-auto-scroll={String(autoScrollToNewSection)} data-testid="dashboard-content">
       editing:{String(isEditing)}
       <EmptyDashboard
         canEdit={canEdit}
@@ -476,6 +478,7 @@ describe('ProjectCustomDashboardPage', () => {
 
     expect(screen.getByText('Custom project dashboard')).toBeInTheDocument();
     expect(screen.getByTestId('dashboard-content')).toHaveTextContent('editing:false');
+    expect(screen.getByTestId('dashboard-content')).toHaveAttribute('data-auto-scroll', 'true');
     const editStatus = screen.getByText(/project_dashboard.last_edited_by/, { selector: 'span' });
     expect(editStatus).toHaveTextContent('project_dashboard.last_edited_by');
     expect(editStatus).toHaveTextContent('Alice');

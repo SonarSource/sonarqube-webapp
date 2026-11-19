@@ -146,6 +146,155 @@ const editBehaviorMap: WidgetEditBehaviorMap<TestWidgetPropMap> = {
   },
 };
 
+describe('scrolling to newly created sections', () => {
+  let scrollIntoView: jest.SpyInstance;
+
+  beforeEach(() => {
+    scrollIntoView = jest
+      .spyOn(HTMLElement.prototype, 'scrollIntoView')
+      .mockImplementation(jest.fn());
+    jest.spyOn(HTMLElement.prototype, 'getBoundingClientRect').mockReturnValue({
+      top: innerHeight + 1,
+      bottom: innerHeight + 100,
+      left: 0,
+      right: 100,
+    } as DOMRect);
+  });
+
+  afterEach(() => {
+    scrollIntoView.mockRestore();
+    jest.restoreAllMocks();
+  });
+
+  function View({
+    dashboard,
+    enabled,
+  }: Readonly<{
+    dashboard: DashboardInstance<TestWidgetPropMap>;
+    enabled?: boolean;
+  }>) {
+    return (
+      <WidgetMapsProvider bodyMap={bodyMap} editBehaviorMap={editBehaviorMap} headerMap={headerMap}>
+        <EditableDashboard
+          autoScrollToNewSection={enabled}
+          dashboard={dashboard}
+          onAddWidgetToSection={jest.fn()}
+          onDashboardChange={jest.fn()}
+          onWidgetEdit={jest.fn()}
+        />
+      </WidgetMapsProvider>
+    );
+  }
+
+  const added = {
+    ...mockExplicitSection1,
+    key: 'new-section',
+    name: 'New release section',
+    children: [],
+  };
+  const expanded = {
+    ...mockDashboard,
+    children: [mockExplicitSection1, mockExplicitSection2, mockImplicitSection, added],
+  };
+
+  it('scrolls the newly appended section after rendering, without scrolling on entry or rerender', () => {
+    const { rerender } = renderWithContext(<View dashboard={mockDashboard} enabled />);
+    expect(scrollIntoView).not.toHaveBeenCalled();
+    rerender(<View dashboard={expanded} enabled />);
+    expect(scrollIntoView).toHaveBeenCalledTimes(1);
+    expect(scrollIntoView).toHaveBeenCalledWith({ behavior: 'smooth', block: 'center' });
+    expect(scrollIntoView.mock.instances[0]).toContainElement(
+      screen.getByText('New release section'),
+    );
+    rerender(<View dashboard={{ ...expanded }} enabled />);
+    expect(scrollIntoView).toHaveBeenCalledTimes(1);
+  });
+
+  it('scrolls the first section in an empty dashboard and a subsequently created section', () => {
+    const { rerender } = renderWithContext(<View dashboard={{ children: [] }} enabled />);
+    rerender(<View dashboard={{ children: [added] }} enabled />);
+    expect(scrollIntoView).toHaveBeenCalledTimes(1);
+    expect(scrollIntoView.mock.instances[0]).toContainElement(
+      screen.getByText('New release section'),
+    );
+    rerender(<View dashboard={{ children: [added, mockExplicitSection2] }} enabled />);
+    expect(scrollIntoView).toHaveBeenCalledTimes(2);
+    expect(scrollIntoView.mock.instances[1]).toContainElement(screen.getByText('Security'));
+  });
+
+  it('does not move a newly created section that is already fully visible', () => {
+    jest.spyOn(HTMLElement.prototype, 'getBoundingClientRect').mockReturnValue({
+      top: 0,
+      bottom: innerHeight,
+      left: 0,
+      right: innerWidth,
+    } as DOMRect);
+    const { rerender } = renderWithContext(<View dashboard={mockDashboard} enabled />);
+    rerender(<View dashboard={expanded} enabled />);
+    expect(scrollIntoView).not.toHaveBeenCalled();
+  });
+
+  it('respects reduced motion when revealing a new section', () => {
+    jest
+      .spyOn(globalThis, 'matchMedia')
+      .mockImplementation(
+        (query) => ({ matches: query === '(prefers-reduced-motion: reduce)' }) as MediaQueryList,
+      );
+    const { rerender } = renderWithContext(<View dashboard={mockDashboard} enabled />);
+    rerender(<View dashboard={expanded} enabled />);
+    expect(scrollIntoView).toHaveBeenCalledWith({ behavior: 'auto', block: 'center' });
+  });
+
+  it('preserves existing behavior when automatic scrolling is disabled', () => {
+    const { rerender } = renderWithContext(<View dashboard={mockDashboard} enabled={false} />);
+    rerender(<View dashboard={expanded} enabled={false} />);
+    expect(scrollIntoView).not.toHaveBeenCalled();
+    rerender(<View dashboard={expanded} enabled />);
+    expect(scrollIntoView).not.toHaveBeenCalled();
+  });
+
+  it('keeps automatic scrolling off when the caller omits activation', () => {
+    const { rerender } = renderWithContext(<View dashboard={mockDashboard} />);
+    rerender(<View dashboard={expanded} />);
+    expect(scrollIntoView).not.toHaveBeenCalled();
+  });
+
+  it('does not scroll when an implicit group is appended', () => {
+    const { rerender } = renderWithContext(<View dashboard={mockDashboard} enabled />);
+    rerender(
+      <View
+        dashboard={{
+          children: [
+            mockExplicitSection1,
+            mockExplicitSection2,
+            mockImplicitSection,
+            { type: 'implicit', children: [] },
+          ],
+        }}
+        enabled
+      />,
+    );
+    expect(scrollIntoView).not.toHaveBeenCalled();
+  });
+
+  it('does not scroll on section rename, reorder or deletion', () => {
+    const { rerender } = renderWithContext(<View dashboard={mockDashboard} enabled />);
+    rerender(
+      <View
+        dashboard={{
+          children: [{ ...mockExplicitSection1, name: 'Renamed' }, mockExplicitSection2],
+        }}
+        enabled
+      />,
+    );
+    rerender(
+      <View dashboard={{ children: [mockExplicitSection2, mockExplicitSection1] }} enabled />,
+    );
+    rerender(<View dashboard={{ children: [mockExplicitSection1] }} enabled />);
+    expect(scrollIntoView).not.toHaveBeenCalled();
+  });
+});
+
 describe('EditableDashboard', () => {
   describe('rendering', () => {
     it('should render all sections from dashboard', () => {

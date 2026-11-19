@@ -31,6 +31,7 @@ import type {
   PortfolioDashboardWidgetPropMap,
   ProjectDashboardWidgetPropMap,
 } from '../types/dashboard-widget';
+import { scrollIntoViewIfNeeded } from '../utils/scrollIntoView';
 import { configToWidgetProps } from '../widget-creation-modal/utils/editWidgetConfig';
 
 /* eslint-disable @typescript-eslint/no-duplicate-type-constituents -- Separate public aliases; structurally identical today. */
@@ -41,39 +42,6 @@ interface UseAddWidgetParams {
   setDashboardWithUnsavedChanges: (
     value: React.SetStateAction<DashboardInstance<CustomDashboardWidgetPropMap>>,
   ) => void;
-}
-
-type ViewportRect = Pick<DOMRect, 'bottom' | 'left' | 'right' | 'top'>;
-
-export function isOutsideViewport(
-  elementRect: ViewportRect,
-  viewport: { height: number; width: number },
-) {
-  return (
-    elementRect.top < 0 ||
-    elementRect.left < 0 ||
-    elementRect.bottom > viewport.height ||
-    elementRect.right > viewport.width
-  );
-}
-
-function scrollIntoViewIfNeeded(widgetKey: string) {
-  const widgetElement = document.querySelector<HTMLElement>(`[data-widget-key="${widgetKey}"]`);
-
-  if (
-    !widgetElement ||
-    !isOutsideViewport(widgetElement.getBoundingClientRect(), {
-      height: globalThis.innerHeight,
-      width: globalThis.innerWidth,
-    })
-  ) {
-    return;
-  }
-
-  const behavior = globalThis.matchMedia('(prefers-reduced-motion: reduce)').matches
-    ? 'auto'
-    : 'smooth';
-  widgetElement.scrollIntoView({ behavior, block: 'center' });
 }
 
 export function useAddWidget({ setDashboardWithUnsavedChanges }: UseAddWidgetParams) {
@@ -112,7 +80,9 @@ export function useAddWidget({ setDashboardWithUnsavedChanges }: UseAddWidgetPar
 
       setTargetSectionIndex(null);
       setTimeout(() => {
-        scrollIntoViewIfNeeded(newWidget.key);
+        scrollIntoViewIfNeeded(
+          document.querySelector<HTMLElement>(`[data-widget-key="${newWidget.key}"]`),
+        );
       }, 150);
     },
     [targetSectionIndex, setDashboardWithUnsavedChanges],

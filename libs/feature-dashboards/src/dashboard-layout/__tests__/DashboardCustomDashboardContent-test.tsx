@@ -26,8 +26,13 @@ import { createEmptyDashboard } from '../logic/constants';
 import type { DashboardInstance } from '../logic/types';
 
 jest.mock('../Dashboard', () => ({
-  Dashboard: (props: { isEditing: boolean; width: number }) => (
-    <div data-editing={String(props.isEditing)} data-testid="dashboard" data-width={props.width} />
+  Dashboard: (props: { autoScrollToNewSection?: boolean; isEditing: boolean; width: number }) => (
+    <div
+      data-auto-scroll={String(props.autoScrollToNewSection)}
+      data-editing={String(props.isEditing)}
+      data-testid="dashboard"
+      data-width={props.width}
+    />
   ),
 }));
 
@@ -105,4 +110,9 @@ describe('DashboardCustomDashboardContent', () => {
 
     expect(screen.getByTestId('dashboard')).toBeInTheDocument();
   });
+});
+
+it('forwards new-section scrolling to the dashboard editor', () => {
+  renderContent({ autoScrollToNewSection: true, isEditing: true });
+  expect(screen.getByTestId('dashboard')).toHaveAttribute('data-auto-scroll', 'true');
 });

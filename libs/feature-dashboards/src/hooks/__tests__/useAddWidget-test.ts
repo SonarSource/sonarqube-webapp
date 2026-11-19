@@ -26,7 +26,8 @@ import { DashboardMetricType, RichMetricKey } from '../../data/widgets/shared';
 import { type ProjectDashboardWidgetPropMap } from '../../types/dashboard-widget';
 import { CodeScope } from '~shared/types/dashboard-history';
 import { VisualizationType } from '../../types/widget-common';
-import { isOutsideViewport, useAddWidget } from '../useAddWidget';
+import { isOutsideViewport } from '../../utils/scrollIntoView';
+import { useAddWidget } from '../useAddWidget';
 
 const widgetConfig = {
   metric: { metricKey: MetricKey.ncloc, type: DashboardMetricType.Raw as const },

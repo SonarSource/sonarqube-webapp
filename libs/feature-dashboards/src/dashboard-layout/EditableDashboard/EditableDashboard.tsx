@@ -18,9 +18,10 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { useCallback, useMemo, useRef, useState } from 'react';
+import { useCallback, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { reportError } from '~adapters/helpers/report-error';
 import { getDashboardErrorReportingPayload } from '~shared/helpers/dashboard-error-reporting';
+import { scrollIntoViewIfNeeded } from '../../utils/scrollIntoView';
 import { GridLayout } from '../../editable-multigrid/components/GridLayout';
 import { GridLayoutErrorBoundary } from '../../editable-multigrid/components/GridLayoutErrorBoundary';
 import { DEFAULT_CONTAINER_PADDING, DEFAULT_GRID_MARGIN } from '../../editable-multigrid/constants';
@@ -46,6 +47,7 @@ import { SectionDragGhost } from './sections/SectionDragGhost';
 import { SectionTargetPreview } from './sections/SectionTargetPreview';
 
 interface Props<WidgetPropMap extends {}> {
+  autoScrollToNewSection?: boolean;
   dashboard: DashboardInstance<WidgetPropMap>;
   onAddWidgetToSection: (sectionIndex: number) => void;
   onDashboardChange: (dashboard: DashboardInstance<WidgetPropMap>) => void;
@@ -144,7 +146,13 @@ function groupsToDashboard<WidgetPropMap extends {}>(
 }
 
 export function EditableDashboard<WidgetPropMap extends {}>(props: Readonly<Props<WidgetPropMap>>) {
-  const { dashboard, onAddWidgetToSection, onDashboardChange, onWidgetEdit } = props;
+  const {
+    autoScrollToNewSection = false,
+    dashboard,
+    onAddWidgetToSection,
+    onDashboardChange,
+    onWidgetEdit,
+  } = props;
   const { editBehaviorMap } = useWidgetMaps<WidgetPropMap>();
 
   // Derive groups from dashboard
@@ -197,6 +205,18 @@ export function EditableDashboard<WidgetPropMap extends {}>(props: Readonly<Prop
     handleSectionDragMove,
     handleSectionDragEnd,
   } = useSectionDrag(groups, handleGroupsChange);
+
+  const previousSectionKeys = useRef(new Set(groups.map((group) => group.key)));
+
+  useLayoutEffect(() => {
+    const newSection = groups.find(
+      (group) => group.sectionType === 'explicit' && !previousSectionKeys.current.has(group.key),
+    );
+    previousSectionKeys.current = new Set(groups.map((group) => group.key));
+    if (autoScrollToNewSection && newSection) {
+      scrollIntoViewIfNeeded(sectionRefsMap.current.get(newSection.key));
+    }
+  }, [autoScrollToNewSection, groups, sectionRefsMap]);
 
   // Widget operation handlers
   const { handleWidgetDelete, handleWidgetEdit } = useWidgetHandlers(

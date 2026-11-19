@@ -25,6 +25,7 @@ import { ReadonlyDashboard } from './ReadonlyDashboard/ReadonlyDashboard';
 import { WidgetMapsProvider } from './shared/WidgetMapsContext';
 
 interface Props<WidgetPropMap extends {}> {
+  autoScrollToNewSection?: boolean;
   bodyMap: WidgetBodyMap<WidgetPropMap>;
   dashboard: DashboardInstance<WidgetPropMap>;
   editBehaviorMap: WidgetEditBehaviorMap<WidgetPropMap>;
@@ -38,6 +39,7 @@ interface Props<WidgetPropMap extends {}> {
 
 export function Dashboard<WidgetPropMap extends {}>(props: Readonly<Props<WidgetPropMap>>) {
   const {
+    autoScrollToNewSection,
     bodyMap,
     dashboard,
     editBehaviorMap,
@@ -60,6 +62,7 @@ export function Dashboard<WidgetPropMap extends {}>(props: Readonly<Props<Widget
     >
       {isEditing ? (
         <EditableDashboard
+          autoScrollToNewSection={autoScrollToNewSection}
           dashboard={dashboard}
           onAddWidgetToSection={onAddWidgetToSection}
           onDashboardChange={onDashboardChange}

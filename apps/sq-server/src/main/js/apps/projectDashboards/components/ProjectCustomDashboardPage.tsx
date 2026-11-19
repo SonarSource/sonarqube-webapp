@@ -381,6 +381,7 @@ export function ProjectCustomDashboardPage() {
           <DashboardDescriptionAccordion description={dashboard.description} />
         )}
         <DashboardCustomDashboardContent
+          autoScrollToNewSection
           bodyMap={widgetBodyMap}
           canEdit={canEdit}
           dashboard={effectiveLayout}

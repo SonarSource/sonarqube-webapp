@@ -29,6 +29,7 @@ import type {
 import type { WidgetEditBehaviorMap } from '../data/widgets';
 
 interface Props<WidgetPropMap extends Record<string, {}>> {
+  autoScrollToNewSection?: boolean;
   bodyMap: WidgetBodyMap<WidgetPropMap>;
   canEdit: boolean;
   dashboard: DashboardInstance<WidgetPropMap>;
@@ -46,6 +47,7 @@ interface Props<WidgetPropMap extends Record<string, {}>> {
 }
 
 export function DashboardCustomDashboardContent<WidgetPropMap extends Record<string, {}>>({
+  autoScrollToNewSection,
   bodyMap,
   canEdit,
   dashboard,
@@ -76,6 +78,7 @@ export function DashboardCustomDashboardContent<WidgetPropMap extends Record<str
 
   return (
     <Dashboard
+      autoScrollToNewSection={autoScrollToNewSection}
       bodyMap={bodyMap}
       dashboard={dashboard}
       editBehaviorMap={editBehaviorMap}
