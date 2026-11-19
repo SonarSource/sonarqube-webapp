@@ -49,6 +49,31 @@ export const securityMessages = {
   'mcp_clients.delete.description':
     '{name} will no longer be allowed to connect to SonarQube Server through MCP. Existing connections will be revoked, and users will need to reconnect if the application is approved again.',
   'mcp_clients.not_available': 'MCP client administration is unavailable on this instance.',
+
+  'mcp_oauth.consent.title': 'Connect an application',
+  'mcp_oauth.consent.heading': '{application} is requesting access to your SonarQube account',
+  'mcp_oauth.consent.signed_in': 'Signed in as {login}',
+  'mcp_oauth.consent.access': 'With your current permissions, {application} can:',
+  'mcp_oauth.consent.read_title': 'Read data',
+  'mcp_oauth.consent.read': 'Read SonarQube data using the available MCP tools.',
+  'mcp_oauth.consent.write_title': 'Make changes',
+  'mcp_oauth.consent.write': 'Make changes in SonarQube using the available MCP tools.',
+  'mcp_oauth.consent.permissions':
+    '{application} is limited to your current SonarQube permissions.',
+  'mcp_oauth.consent.details': 'Connection details',
+  'mcp_oauth.consent.client_url': 'Client URL',
+  'mcp_oauth.consent.callback_url': 'Callback URL',
+  'mcp_oauth.consent.scopes': 'Requested scopes',
+  'mcp_oauth.consent.allow': 'Allow access',
+  'mcp_oauth.consent.deny': 'Deny',
+  'mcp_oauth.consent.loading': 'Loading connection request',
+  'mcp_oauth.consent.error_title': 'Unable to complete this connection',
+  'mcp_oauth.consent.error_invalid':
+    'This connection request is invalid, has expired, or has already been completed. Start a new connection from the application.',
+  'mcp_oauth.consent.error_retry':
+    'We could not complete this request. Retry to check the connection before choosing again.',
+  'mcp_oauth.consent.retry': 'Retry',
+
   //------------------------------------------------------------------------------
   //
   // AI CAPABILITIES

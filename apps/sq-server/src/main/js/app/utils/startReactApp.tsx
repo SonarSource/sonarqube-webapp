@@ -332,6 +332,8 @@ const router = ({
         <Route element={<MigrationContainer />}>
           {sessionsRoutes()}
 
+          {addons.mcpOAuth?.routes}
+
           <Route element={<App />} path="/">
             <Route element={<Landing />} index />
 

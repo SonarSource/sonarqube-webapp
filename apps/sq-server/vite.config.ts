@@ -49,7 +49,9 @@ export default ({ mode }) => {
         } else if (hostType === 'js') {
           // All the files that are lazy loaded from a js chunk are prefixed with the WEB_CONTEXT
           // thanks to the __assetsPath function that's defined in index.html.
-          return { runtime: `window.__assetsPath(${JSON.stringify(filename)})` };
+          return {
+            runtime: `window.__assetsPath(${JSON.stringify(filename)})`,
+          };
         } else {
           // Other files (css, images, etc.) are loaded relatively to the current url,
           // automatically taking into account the WEB_CONTEXT
@@ -93,6 +95,10 @@ export default ({ mode }) => {
       ...baseViteConfig.server,
       proxy: {
         '/api': {
+          target: proxyTarget,
+          changeOrigin: true,
+        },
+        '/oauth2': {
           target: proxyTarget,
           changeOrigin: true,
         },
