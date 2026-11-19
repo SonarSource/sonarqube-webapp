@@ -18,7 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Table } from '@sonarsource/echoes-react';
+import { cssVar, Table, TableVariety } from '@sonarsource/echoes-react';
 
 export interface PermissionPrincipal {
   id: string;
@@ -116,6 +116,8 @@ export function PermissionAssignmentTable({
     <Table
       ariaLabel={ariaLabel}
       gridTemplate={`48px minmax(200px, 2fr) repeat(${permissions.length}, minmax(100px, 1fr))`}
+      style={{ borderColor: cssVar('color-border-weak') }}
+      variety={TableVariety.Surface}
     >
       <Table.Header>
         <Table.Row>
@@ -159,7 +161,10 @@ export function PermissionAssignmentTable({
         {principals.map((principal) => {
           const assignment = getAssignment(principal);
           return (
-            <Table.Row key={`${principal.type}-${principal.id}`}>
+            <Table.Row
+              key={`${principal.type}-${principal.id}`}
+              selected={Boolean(assignment?.permissions.length)}
+            >
               <Table.CellCheckbox
                 ariaLabel={selection.principalLabel(principal)}
                 checked={Boolean(assignment?.permissions.length)}

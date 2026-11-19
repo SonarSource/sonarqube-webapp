@@ -238,7 +238,8 @@ describe('scrolling to newly created sections', () => {
     jest
       .spyOn(globalThis, 'matchMedia')
       .mockImplementation(
-        (query) => ({ matches: query === '(prefers-reduced-motion: reduce)' }) as MediaQueryList,
+        (query: string) =>
+          ({ matches: query === '(prefers-reduced-motion: reduce)' }) as MediaQueryList,
       );
     const { rerender } = renderWithContext(<View dashboard={mockDashboard} enabled />);
     rerender(<View dashboard={expanded} enabled />);
