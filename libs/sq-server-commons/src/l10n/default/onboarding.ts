@@ -36,7 +36,6 @@ export const onboardingMessages = {
   'onboarding.project_analysis.guide_to_integrate_pipelines':
     'follow the guide to integrating with Pipelines',
 
-  'onboarding.create_project.manual.step1': '1 of 2',
   'onboarding.create_project.manual.step2': '2 of 2',
   'onboarding.create_project.manual.title': 'Create a local project',
   'onboarding.create_project.select_method': 'How do you want to create your project?',

@@ -28,7 +28,6 @@ import ManualProjectCreate from '../manual/ManualProjectCreate';
 const ui = {
   nextButton: byRole('button', { name: 'next' }),
   cancelButton: byRole('button', { name: 'cancel' }),
-  closeButton: byRole('button', { name: 'clear' }),
 };
 
 jest.mock('~sq-server-commons/api/components', () => ({

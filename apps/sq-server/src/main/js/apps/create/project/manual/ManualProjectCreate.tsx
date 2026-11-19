@@ -20,12 +20,8 @@
 
 import {
   Button,
-  ButtonIcon,
-  ButtonSize,
-  ButtonVariety,
   Form,
   FormFieldWidth,
-  IconX,
   MessageCallout,
   MessageVariety,
   TextInput,
@@ -37,11 +33,12 @@ import { FormattedMessage, useIntl } from 'react-intl';
 import { useLocation } from '~shared/components/hoc/withRouter';
 import { getValue } from '~sq-server-commons/api/settings';
 import DocumentationLink from '~sq-server-commons/components/common/DocumentationLink';
-import { GlobalPageTemplate } from '~sq-server-commons/components/ui/GlobalPageTemplate';
 import { DocLink } from '~sq-server-commons/helpers/doc-links';
 import { translate } from '~sq-server-commons/helpers/l10n';
 import { CreateProjectModes, ImportProjectParam } from '~sq-server-commons/types/create-project';
 import { GlobalSettingKeys } from '~sq-server-commons/types/settings';
+import { CreateProjectPageLayout } from '../components/CreateProjectPageLayout';
+import { CreateProjectStep } from '../components/CreateProjectStepper';
 import ProjectValidation, { ProjectData } from '../components/ProjectValidation';
 import { isProjectSetupDone } from '../utils';
 
@@ -137,33 +134,19 @@ export default function ManualProjectCreate(props: Readonly<Props>) {
   const mainBranchNameIsInvalid = mainBranchNameTouched && mainBranchNameError !== undefined;
 
   return (
-    <GlobalPageTemplate
-      hidePageHeader
+    <CreateProjectPageLayout
+      description={
+        branchesEnabled && (
+          <MessageCallout variety={MessageVariety.Info}>
+            <FormattedMessage id="onboarding.create_project.pr_decoration.information" />
+          </MessageCallout>
+        )
+      }
       pageClassName={classNames({ 'sw:hidden': isProjectSetupDone(location) })}
+      step={CreateProjectStep.Import}
       title={intl.formatMessage({ id: 'onboarding.create_project.manual.title' })}
     >
-      <div className="sw:flex sw:justify-between">
-        <FormattedMessage id="onboarding.create_project.manual.step1" />
-        <ButtonIcon
-          Icon={IconX}
-          ariaLabel={intl.formatMessage({ id: 'clear' })}
-          onClick={props.onClose}
-          size={ButtonSize.Medium}
-          variety={ButtonVariety.DefaultGhost}
-        />
-      </div>
       <Form className="sw:typo-default" id="create-project-manual" onSubmit={handleFormSubmit}>
-        <Form.Header
-          description={
-            branchesEnabled && (
-              <MessageCallout variety={MessageVariety.Info}>
-                <FormattedMessage id="onboarding.create_project.pr_decoration.information" />
-              </MessageCallout>
-            )
-          }
-          title={translate('onboarding.create_project.manual.title')}
-          titleAs="h1"
-        />
         <Form.Section>
           <ProjectValidation onChange={setProject} />
 
@@ -205,6 +188,6 @@ export default function ManualProjectCreate(props: Readonly<Props>) {
           </Button>
         </Form.Footer>
       </Form>
-    </GlobalPageTemplate>
+    </CreateProjectPageLayout>
   );
 }

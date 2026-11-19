@@ -75,7 +75,6 @@ const ui = {
     name: 'onboarding.create_project.new_code_definition.create_x_projects.1',
   }),
   cancelButton: byRole('button', { name: 'cancel' }),
-  closeButton: byRole('button', { name: 'clear' }),
   createProjectsButton: byRole('button', { name: 'projects.add' }),
   createLocalProject: byRole('menuitem', { name: 'my_account.add_project.manual' }),
   overrideNcdRadio: byRole('radio', { name: 'project_baseline.specific_setting' }),
@@ -219,18 +218,12 @@ it('validate the private key field', async () => {
   });
 });
 
-it('should navigate back to the Projects page when clicking cancel or close', async () => {
+it('should navigate back to the Projects page when clicking cancel', async () => {
   newCodePeriodHandler.setNewCodePeriod({ type: NewCodeDefinitionType.NumberOfDays });
   const user = userEvent.setup();
   renderCreateProject();
 
   await user.click(await ui.cancelButton.find());
-  expect(await ui.projectsPageTitle.find()).toBeInTheDocument();
-
-  await user.click(ui.createProjectsButton.get());
-  await user.click(await ui.createLocalProject.find());
-
-  await user.click(ui.closeButton.get());
   expect(await ui.projectsPageTitle.find()).toBeInTheDocument();
 
   await user.click(ui.createProjectsButton.get());
@@ -248,7 +241,7 @@ it('redirects to the redirect query param instead of /projects when closing manu
   const user = userEvent.setup();
   renderCreateProject('projects/create?mode=manual&redirect=/admin/project-coverage');
 
-  await user.click(await ui.closeButton.find());
+  await user.click(await ui.cancelButton.find());
 
   expect(await byText('/admin/project-coverage').find()).toBeInTheDocument();
 });
@@ -257,7 +250,7 @@ it('ignores an unsafe redirect query param and falls back to /projects', async (
   const user = userEvent.setup();
   renderCreateProject('projects/create?mode=manual&redirect=//evil.example');
 
-  await user.click(await ui.closeButton.find());
+  await user.click(await ui.cancelButton.find());
 
   expect(await ui.projectsPageTitle.find()).toBeInTheDocument();
 });
