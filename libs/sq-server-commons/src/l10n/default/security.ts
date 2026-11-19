@@ -19,6 +19,16 @@
  */
 
 export const securityMessages = {
+  'mcp_clients.add': 'Add application',
+  'mcp_clients.add.title': 'Add MCP application',
+  'mcp_clients.add.description': "Provide the application's details to connect it to SonarQube.",
+  'mcp_clients.added': 'Application added.',
+  'mcp_clients.use_url': 'Use a URL',
+  'mcp_clients.url.help':
+    'Enter a web link to load the details automatically. Requires internet access.',
+  'mcp_clients.refresh': 'Refresh',
+  'mcp_clients.refreshed':
+    'Application metadata refreshed. Security-relevant changes require users to reconnect.',
   'mcp_clients.page': 'MCP Server',
   'mcp_clients.url': 'Application metadata URL',
   'mcp_clients.source': 'Metadata source',
