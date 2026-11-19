@@ -19,12 +19,13 @@
  */
 
 import { screen } from '@testing-library/react';
+import { noop } from 'lodash';
 import { reportError } from '~adapters/helpers/report-error';
 import { lazyLoadComponent } from '../lazyLoadComponent';
 import { render, renderWithContext } from '../test-utils';
 
 jest.mock('~shared/helpers/request', () => ({
-  requestTryAndRepeatUntil: jest.fn((factory) => factory()),
+  requestTryAndRepeatUntil: jest.fn((factory: () => Promise<unknown>) => factory()),
 }));
 
 jest.mock('~adapters/helpers/report-error', () => ({ reportError: jest.fn() }));
@@ -65,6 +66,28 @@ it('should display an error message when lazy loading fails', async () => {
 
   expect(await screen.findByText('default_component_error_message')).toBeInTheDocument();
   expect(consoleErrorSpy).toHaveBeenCalled();
+});
+
+it('keeps a supplied fallback visible until the component code is ready', async () => {
+  let finishLoading = noop;
+  const component = new Promise<{ default: typeof TestComponent }>((resolve) => {
+    finishLoading = () => {
+      resolve({ default: TestComponent });
+    };
+  });
+  const LazyComponent = lazyLoadComponent(
+    () => component,
+    'TestComponent',
+    <div role="status">Loading content</div>,
+  );
+
+  render(<LazyComponent />);
+  expect(screen.getByRole('status')).toHaveTextContent('Loading content');
+  expect(screen.queryByText('Test Component')).not.toBeInTheDocument();
+
+  finishLoading();
+  expect(await screen.findByText('Test Component')).toBeInTheDocument();
+  expect(screen.queryByRole('status')).not.toBeInTheDocument();
 });
 
 it('should report a render crash with its component stack', async () => {

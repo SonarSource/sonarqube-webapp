@@ -19,7 +19,15 @@
  */
 
 import { MessageCallout, MessageVariety } from '@sonarsource/echoes-react';
-import React, { Component, ComponentType, ErrorInfo, lazy, Suspense, useState } from 'react';
+import React, {
+  Component,
+  ComponentType,
+  ErrorInfo,
+  lazy,
+  ReactNode,
+  Suspense,
+  useState,
+} from 'react';
 import { FormattedMessage } from 'react-intl';
 import { reportError } from '~adapters/helpers/report-error';
 import { getWrappedDisplayName } from '../components/hoc/utils';
@@ -29,6 +37,7 @@ import useEffectOnce from './useEffectOnce';
 export function lazyLoadComponent<T extends React.ComponentType<any>>(
   factory: () => Promise<{ default: T }>,
   displayName?: string,
+  fallback: ReactNode = null,
 ) {
   const LazyComponent = lazy(() =>
     requestTryAndRepeatUntil(factory, { max: 2, slowThreshold: 2 }, () => true),
@@ -37,7 +46,7 @@ export function lazyLoadComponent<T extends React.ComponentType<any>>(
   function LazyComponentWrapper(props: React.ComponentProps<T>) {
     return (
       <LazyErrorBoundary>
-        <Suspense fallback={null}>
+        <Suspense fallback={fallback}>
           <LazyComponent {...props} />
         </Suspense>
       </LazyErrorBoundary>
