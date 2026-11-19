@@ -21,10 +21,8 @@
 import { IconGear, Layout } from '@sonarsource/echoes-react';
 import { FormattedMessage } from 'react-intl';
 import { NewBadge } from '~shared/components/badges/NewBadge';
-import { EntitlementCheckFeatureKey } from '~shared/types/billing';
 import { Extension } from '~shared/types/common';
 import { addons } from '~sq-server-addons/index';
-import { FeatureAvailabilityGuard } from '~sq-server-commons/components/shared/FeatureAvailabilityGuard';
 
 interface Props {
   extensions: Extension[];
@@ -44,24 +42,16 @@ export function AdministrationSidebarConfiguration(props: Readonly<Props>) {
       </Layout.SidebarNavigation.AccordionItem.Item>
 
       {addons.remediationAgent && (
-        <FeatureAvailabilityGuard
-          featureKeys={[
-            EntitlementCheckFeatureKey.RemediationAgent,
-            EntitlementCheckFeatureKey.HunterAgent,
-          ]}
-          guardOnly
+        <Layout.SidebarNavigation.AccordionItem.Item
+          suffix={
+            <NewBadge
+              expirationDate={addons.remediationAgent.AI_CAPABILITIES_NEW_BADGE_EXPIRATION_DATE}
+            />
+          }
+          to="/admin/agent"
         >
-          <Layout.SidebarNavigation.AccordionItem.Item
-            suffix={
-              <NewBadge
-                expirationDate={addons.remediationAgent.AI_CAPABILITIES_NEW_BADGE_EXPIRATION_DATE}
-              />
-            }
-            to="/admin/agent"
-          >
-            <FormattedMessage id="sidebar.ai_capabilities" />
-          </Layout.SidebarNavigation.AccordionItem.Item>
-        </FeatureAvailabilityGuard>
+          <FormattedMessage id="sidebar.ai_capabilities" />
+        </Layout.SidebarNavigation.AccordionItem.Item>
       )}
 
       {addons.architecture?.ArchitectureSettingsNavItem && (

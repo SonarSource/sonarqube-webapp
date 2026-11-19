@@ -19,6 +19,26 @@
  */
 
 export const securityMessages = {
+  'mcp_clients.page': 'MCP Server',
+  'mcp_clients.url': 'Application metadata URL',
+  'mcp_clients.source': 'Metadata source',
+  'mcp_clients.source.REMOTE': 'Public URL',
+  'mcp_clients.source.UPLOADED': 'Uploaded file',
+  'mcp_clients.last_import': 'Last imported',
+  'mcp_clients.details': 'Application details',
+  'mcp_clients.view_details': 'View details',
+  'mcp_clients.actions_for': 'Actions for {name}',
+  'mcp_clients.application': 'Application',
+  'mcp_clients.approved': 'Approved applications',
+  'mcp_clients.description':
+    'Manage which applications are allowed to connect to SonarQube Server through MCP. <link>Learn more</link>',
+  'mcp_clients.empty.description': 'Add an application using a public metadata URL or a JSON file.',
+  'mcp_clients.empty': 'No approved applications',
+  'mcp_clients.unavailable': 'Unavailable',
+  'mcp_clients.delete.title': 'Remove application',
+  'mcp_clients.delete.description':
+    '{name} will no longer be allowed to connect to SonarQube Server through MCP. Existing connections will be revoked, and users will need to reconnect if the application is approved again.',
+  'mcp_clients.not_available': 'MCP client administration is unavailable on this instance.',
   //------------------------------------------------------------------------------
   //
   // AI CAPABILITIES
