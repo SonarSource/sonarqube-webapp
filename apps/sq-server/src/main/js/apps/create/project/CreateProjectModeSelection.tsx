@@ -29,12 +29,13 @@ import {
   Text,
   Theme,
 } from '@sonarsource/echoes-react';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { Image } from '~adapters/components/common/Image';
 import { useCurrentTheme } from '~shared/helpers/css';
 import AlmSettingsInstanceSelector from '~sq-server-commons/components/devops-platform/AlmSettingsInstanceSelector';
 import withAppStateContext from '~sq-server-commons/context/app-state/withAppStateContext';
+import { AvailableFeaturesContext } from '~sq-server-commons/context/available-features/AvailableFeaturesContext';
 import {
   almIconUrl,
   almIconUrlUnthemed,
@@ -45,6 +46,7 @@ import { AlmKeys } from '~sq-server-commons/types/alm-settings';
 import { AppState } from '~sq-server-commons/types/appstate';
 import { CreateProjectModes } from '~sq-server-commons/types/create-project';
 import { DopSetting } from '~sq-server-commons/types/dop-translation';
+import { Feature } from '~sq-server-commons/types/features';
 import GithubManifestCreationModal from '../../settings/components/almIntegration/GithubManifestCreationModal';
 import { CreateProjectPageLayout } from './components/CreateProjectPageLayout';
 import { CreateProjectStep } from './components/CreateProjectStepper';
@@ -74,6 +76,17 @@ function getAlmCardLabelId(alm: AlmKeys) {
     : getAlmLabelId(alm);
 }
 
+// Without the "multiple ALM" feature, only one configuration is allowed per type of DevOps platform.
+// Bitbucket Data Center and Bitbucket Cloud count as the same type.
+const BITBUCKET_KEYS = [AlmKeys.BitbucketServer, AlmKeys.BitbucketCloud];
+
+function countConfigurationsOfSameType(dopSettings: Record<AlmKeys, DopSetting[]>, alm: AlmKeys) {
+  return (BITBUCKET_KEYS.includes(alm) ? BITBUCKET_KEYS : [alm]).reduce(
+    (total, key) => total + dopSettings[key].length,
+    0,
+  );
+}
+
 function getAlmLabelId(alm: AlmKeys) {
   return alm === AlmKeys.BitbucketServer || alm === AlmKeys.BitbucketCloud
     ? `alm.${alm}.long`
@@ -91,6 +104,7 @@ export function CreateProjectModeSelection(props: Readonly<CreateProjectModeSele
   } = props;
 
   const { formatMessage } = useIntl();
+  const isMultipleAlmEnabled = useContext(AvailableFeaturesContext).includes(Feature.MultipleAlm);
   const currentTheme = useCurrentTheme() as Theme;
 
   const [selectedAlm, setSelectedAlm] = useState<AlmKeys>();
@@ -103,23 +117,27 @@ export function CreateProjectModeSelection(props: Readonly<CreateProjectModeSele
     selectedAlmSettings.find(({ key }) => key === pickedSettingKey) ??
     (selectedAlmSettings.length === 1 ? selectedAlmSettings[0] : undefined);
 
+  const canCreateConfiguration = (alm: AlmKeys) =>
+    isMultipleAlmEnabled || countConfigurationsOfSameType(dopSettings, alm) === 0;
+
   const hasUnconfiguredAlm = ALM_LIST.some(({ key }) => dopSettings[key].length === 0);
 
   const options = ALM_LIST.map(({ key }) => {
     const count = dopSettings[key].length;
-    const isDisabled = count === 0 && !canAdmin;
+    const isDisabled = count === 0 && (!canAdmin || !canCreateConfiguration(key));
     const iconKey = almKeyToIconKey(key);
     const name = formatMessage({ id: getAlmCardLabelId(key) });
 
-    const helpText = formatMessage(
-      {
-        id:
-          count > 0
-            ? 'onboarding.create_project.configure.configurations_count'
-            : 'onboarding.create_project.configure.not_configured',
-      },
-      { count },
-    );
+    const isBlockedByExistingConfiguration =
+      count === 0 && canAdmin && !canCreateConfiguration(key);
+
+    let helpTextId = 'onboarding.create_project.configure.not_configured';
+    if (count > 0) {
+      helpTextId = 'onboarding.create_project.configure.configurations_count';
+    } else if (isBlockedByExistingConfiguration) {
+      helpTextId = 'onboarding.create_project.configure.one_per_type';
+    }
+    const helpText = formatMessage({ id: helpTextId }, { count });
 
     return {
       ariaLabel: name,
@@ -212,7 +230,7 @@ export function CreateProjectModeSelection(props: Readonly<CreateProjectModeSele
               </Text>
             )}
 
-            {canAdmin && (
+            {canAdmin && canCreateConfiguration(selectedAlm) && (
               <div className="sw:flex sw:gap-2">
                 {selectedAlm === AlmKeys.GitHub && (
                   <Button

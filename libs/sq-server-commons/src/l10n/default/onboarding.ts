@@ -49,6 +49,8 @@ export const onboardingMessages = {
     '{count, plural, one {# configuration} other {# configurations}}',
   'onboarding.create_project.configure.bitbucket_server_card': 'Bitbucket D. Center',
   'onboarding.create_project.configure.not_configured': 'Not configured yet',
+  'onboarding.create_project.configure.one_per_type':
+    'Only one configuration is allowed for this type of DevOps platform.',
   'onboarding.create_project.configure.contact_admin':
     'Contact your administrator to set up the DevOps platforms that are not configured yet.',
   'onboarding.create_project.configure.no_configuration_admin':

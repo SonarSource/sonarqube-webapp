@@ -24,6 +24,7 @@ import { mockAppState } from '~sq-server-commons/helpers/testMocks';
 import { renderComponent } from '~sq-server-commons/helpers/testReactTestingUtils';
 import { AlmKeys } from '~sq-server-commons/types/alm-settings';
 import { DopSetting } from '~sq-server-commons/types/dop-translation';
+import { Feature } from '~sq-server-commons/types/features';
 import { CreateProjectModeSelection } from '../CreateProjectModeSelection';
 
 const onConfigMode = jest.fn();
@@ -101,6 +102,60 @@ it('does not offer to create a GitHub App to a non-admin', async () => {
   ).not.toBeInTheDocument();
 });
 
+it('does not let an admin create a second configuration of the same type without multiple ALM', async () => {
+  const user = userEvent.setup();
+  renderModeSelection({
+    canAdmin: true,
+    dopSettings: { ...NO_SETTINGS, [AlmKeys.GitHub]: [mockDopSetting(AlmKeys.GitHub, 'github-1')] },
+  });
+
+  await user.click(screen.getByRole('radio', { name: 'alm.github' }));
+
+  expect(
+    screen.queryByRole('button', { name: 'onboarding.create_project.configure.create_another' }),
+  ).not.toBeInTheDocument();
+  expect(
+    screen.queryByRole('button', { name: 'settings.almintegration.github.manifest.create' }),
+  ).not.toBeInTheDocument();
+});
+
+it('lets an admin create another configuration of the same type with multiple ALM', async () => {
+  const user = userEvent.setup();
+  renderModeSelection({
+    canAdmin: true,
+    dopSettings: { ...NO_SETTINGS, [AlmKeys.GitHub]: [mockDopSetting(AlmKeys.GitHub, 'github-1')] },
+    featureList: [Feature.MultipleAlm],
+  });
+
+  await user.click(screen.getByRole('radio', { name: 'alm.github' }));
+
+  expect(
+    screen.getByRole('button', { name: 'onboarding.create_project.configure.create_another' }),
+  ).toBeInTheDocument();
+  expect(
+    screen.getByRole('button', { name: 'settings.almintegration.github.manifest.create' }),
+  ).toBeInTheDocument();
+});
+
+it('shares a single configuration between Bitbucket Data Center and Bitbucket Cloud without multiple ALM', () => {
+  const dopSettings = {
+    ...NO_SETTINGS,
+    [AlmKeys.BitbucketServer]: [mockDopSetting(AlmKeys.BitbucketServer, 'bitbucket-1')],
+  };
+
+  const { unmount } = renderModeSelection({ canAdmin: true, dopSettings });
+  expect(screen.getByRole('radio', { name: getAlmLabel(AlmKeys.BitbucketCloud) })).toBeDisabled();
+  expect(screen.getByRole('radio', { name: getAlmLabel(AlmKeys.BitbucketServer) })).toBeEnabled();
+  expect(screen.getByText(/onboarding.create_project.configure.one_per_type/)).toBeInTheDocument();
+  unmount();
+
+  renderModeSelection({ canAdmin: true, dopSettings, featureList: [Feature.MultipleAlm] });
+  expect(screen.getByRole('radio', { name: getAlmLabel(AlmKeys.BitbucketCloud) })).toBeEnabled();
+  expect(
+    screen.queryByText(/onboarding.create_project.configure.one_per_type/),
+  ).not.toBeInTheDocument();
+});
+
 it('enables Continue when the selected platform has a single configuration', async () => {
   const user = userEvent.setup();
   renderModeSelection({
@@ -131,9 +186,11 @@ function getAlmLabel(alm: AlmKeys) {
 function renderModeSelection({
   canAdmin,
   dopSettings = NO_SETTINGS,
+  featureList,
 }: {
   canAdmin: boolean;
   dopSettings?: Record<AlmKeys, DopSetting[]>;
+  featureList?: Feature[];
 }) {
   return renderComponent(
     <CreateProjectModeSelection
@@ -143,5 +200,7 @@ function renderModeSelection({
       onConfigMode={onConfigMode}
       onContinue={jest.fn()}
     />,
+    undefined,
+    { featureList },
   );
 }
