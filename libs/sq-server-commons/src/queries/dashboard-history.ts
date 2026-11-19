@@ -18,16 +18,26 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import type {
+  OrganizationsIssueCountHistoryDay,
+  OrganizationsMeasuresHistoryDay,
+  IssueCountHistoryResponse,
+  MeasuresHistoryResponse,
+} from '~shared/types/dashboard-history';
+import { queryOptions, useQueries } from '@tanstack/react-query';
+import { createQueryHook, createQueryOptions, StaleTime } from '~shared/queries/common';
 import {
-  type NormalizedDashboardMeasuresHistoryResponse,
-  type NormalizedDashboardScaResolutionHistoryResponse,
-  type NormalizedDashboardIssueResolutionHistoryResponse,
-  type NormalizedDashboardIssueDensityHistoryResponse,
-  type NormalizedDashboardIssueCountHistoryResponse,
-  type NormalizedDashboardMeasuresHistoryDay,
-  type NormalizedDashboardIssueHistoryDay,
-  type DashboardIssueHistoryDay,
-  type DashboardMeasureHistoryDay,
+  getIssueCountHistory,
+  getIssueDensityHistory,
+  getIssueResolutionHistory,
+  getMeasuresHistory,
+  getProjectIssueCounts,
+  getProjectMeasures,
+  type IssueCountHistory,
+  type MeasureHistoryItem,
+} from '~sq-server-openapi-community';
+import { getDashboardScaResolutionHistory } from '../api/dashboard-history';
+import type {
   DashboardIssueHistoryParams,
   DashboardIssueResolutionHistoryParams,
   DashboardMeasuresHistoryParams,
@@ -35,21 +45,10 @@ import {
   DashboardProjectMeasuresParams,
   DashboardScaResolutionHistoryParams,
 } from '../types/dashboard-history';
-import { queryOptions, useQueries } from '@tanstack/react-query';
-import { createQueryHook, StaleTime } from '~shared/queries/common';
-import {
-  getDashboardIssueCountHistory,
-  getDashboardIssueDensityHistory,
-  getDashboardIssueResolutionHistory,
-  getDashboardMeasuresHistory,
-  getDashboardProjectIssueCounts,
-  getDashboardProjectMeasures,
-  getDashboardScaResolutionHistory,
-} from '../api/dashboard-history';
 
 function normalizeIssueHistoryDay(
-  day: DashboardIssueHistoryDay,
-): NormalizedDashboardIssueHistoryDay | undefined {
+  day: IssueCountHistory,
+): OrganizationsIssueCountHistoryDay | undefined {
   if (!day.date) {
     return undefined;
   }
@@ -63,8 +62,8 @@ function normalizeIssueHistoryDay(
 }
 
 function normalizeIssueHistory(
-  history: DashboardIssueHistoryDay[] | undefined,
-): NormalizedDashboardIssueHistoryDay[] {
+  history: IssueCountHistory[] | undefined,
+): OrganizationsIssueCountHistoryDay[] {
   return (history ?? []).flatMap((day) => {
     const normalized = normalizeIssueHistoryDay(day);
     return normalized === undefined ? [] : [normalized];
@@ -72,8 +71,8 @@ function normalizeIssueHistory(
 }
 
 function normalizeMeasuresHistoryDay(
-  day: DashboardMeasureHistoryDay,
-): NormalizedDashboardMeasuresHistoryDay | undefined {
+  day: MeasureHistoryItem,
+): OrganizationsMeasuresHistoryDay | undefined {
   if (!day.date) {
     return undefined;
   }
@@ -89,93 +88,124 @@ function normalizeMeasuresHistoryDay(
 }
 
 function normalizeMeasuresHistory(
-  history: DashboardMeasureHistoryDay[] | undefined,
-): NormalizedDashboardMeasuresHistoryDay[] {
+  history: MeasureHistoryItem[] | undefined,
+): OrganizationsMeasuresHistoryDay[] {
   return (history ?? []).flatMap((day) => {
     const normalized = normalizeMeasuresHistoryDay(day);
     return normalized === undefined ? [] : [normalized];
   });
 }
 
-export const useDashboardIssueCountHistoryQuery = createQueryHook(
-  (params: DashboardIssueHistoryParams) =>
-    queryOptions({
+export const getDashboardIssueCountHistoryQueryOptions = createQueryOptions(
+  (params: DashboardIssueHistoryParams) => {
+    return queryOptions({
       queryKey: ['dashboard', 'issue-count-history', params],
-      queryFn: async (): Promise<NormalizedDashboardIssueCountHistoryResponse> => {
-        const response = await getDashboardIssueCountHistory(params);
-        return { issueCountHistory: normalizeIssueHistory(response.issueCountHistory ?? []) };
-      },
+      queryFn: async (): Promise<IssueCountHistoryResponse> => ({
+        issueCountHistory: normalizeIssueHistory(
+          (
+            await getIssueCountHistory({
+              query: params as Parameters<typeof getIssueCountHistory>[0]['query'],
+            })
+          ).data.issueCountHistory,
+        ),
+      }),
       staleTime: StaleTime.SHORT,
-    }),
+    });
+  },
 );
 
-export const useDashboardIssueDensityHistoryQuery = createQueryHook(
-  (params: DashboardIssueHistoryParams) =>
-    queryOptions({
-      queryKey: ['dashboard', 'issue-density-history', params],
-      queryFn: async (): Promise<NormalizedDashboardIssueDensityHistoryResponse> => {
-        const response = await getDashboardIssueDensityHistory(params);
-        return { issueDensityHistory: normalizeIssueHistory(response.issueDensityHistory ?? []) };
-      },
-      staleTime: StaleTime.SHORT,
-    }),
-);
-
-export const useDashboardIssueResolutionHistoryQuery = createQueryHook(
-  (params: DashboardIssueResolutionHistoryParams) =>
-    queryOptions({
-      queryKey: ['dashboard', 'issue-resolution-history', params],
-      queryFn: async (): Promise<NormalizedDashboardIssueResolutionHistoryResponse> => {
-        const response = await getDashboardIssueResolutionHistory(params);
-        return {
-          issueResolutionHistory: normalizeIssueHistory(response.issueResolutionHistory ?? []),
-        };
-      },
-      staleTime: StaleTime.SHORT,
-    }),
-);
-
-export const useDashboardScaResolutionHistoryQuery = createQueryHook(
-  (params: DashboardScaResolutionHistoryParams) =>
-    queryOptions({
-      queryKey: ['dashboard', 'sca-resolution-history', params],
-      queryFn: async (): Promise<NormalizedDashboardScaResolutionHistoryResponse> => {
-        const response = await getDashboardScaResolutionHistory(params);
-        return { scaResolutionHistory: normalizeIssueHistory(response.scaResolutionHistory ?? []) };
-      },
-      staleTime: StaleTime.SHORT,
-    }),
-);
-
-export const useDashboardMeasuresHistoryQuery = createQueryHook(
-  (params: DashboardMeasuresHistoryParams) =>
-    queryOptions({
+export const getDashboardMeasuresHistoryQueryOptions = createQueryOptions(
+  (params: DashboardMeasuresHistoryParams) => {
+    return queryOptions({
       queryKey: ['dashboard', 'measures-history', params],
-      queryFn: async (): Promise<NormalizedDashboardMeasuresHistoryResponse> => {
-        const response = await getDashboardMeasuresHistory(params);
-        return { measuresHistory: normalizeMeasuresHistory(response.measuresHistory ?? []) };
-      },
+      queryFn: async (): Promise<MeasuresHistoryResponse> => ({
+        measuresHistory: normalizeMeasuresHistory(
+          (
+            await getMeasuresHistory({
+              query: params,
+            })
+          ).data.measuresHistory,
+        ),
+      }),
       staleTime: StaleTime.SHORT,
-    }),
+    });
+  },
+);
+
+export const getDashboardIssueDensityHistoryQueryOptions = createQueryOptions(
+  (params: DashboardIssueHistoryParams) => {
+    return queryOptions({
+      queryKey: ['dashboard', 'issue-density-history', params],
+      queryFn: async () => ({
+        issueDensityHistory: normalizeIssueHistory(
+          (
+            await getIssueDensityHistory({
+              query: params as Parameters<typeof getIssueDensityHistory>[0]['query'],
+            })
+          ).data.issueDensityHistory,
+        ),
+      }),
+      staleTime: StaleTime.SHORT,
+    });
+  },
+);
+
+export const getDashboardIssueResolutionHistoryQueryOptions = createQueryOptions(
+  (params: DashboardIssueResolutionHistoryParams) => {
+    return queryOptions({
+      queryKey: ['dashboard', 'issue-resolution-history', params],
+      queryFn: async () => ({
+        issueResolutionHistory: normalizeIssueHistory(
+          (
+            await getIssueResolutionHistory({
+              query: params as Parameters<typeof getIssueResolutionHistory>[0]['query'],
+            })
+          ).data.issueResolutionHistory,
+        ),
+      }),
+      staleTime: StaleTime.SHORT,
+    });
+  },
+);
+
+export const getDashboardScaResolutionHistoryQueryOptions = createQueryOptions(
+  (params: DashboardScaResolutionHistoryParams) => {
+    return queryOptions({
+      queryKey: ['dashboard', 'sca-resolution-history', params],
+      queryFn: async () => ({
+        scaResolutionHistory: normalizeIssueHistory(
+          (await getDashboardScaResolutionHistory(params)).scaResolutionHistory,
+        ),
+      }),
+      staleTime: StaleTime.SHORT,
+    });
+  },
 );
 
 export const useDashboardProjectIssueCountsQuery = createQueryHook(
   (params: DashboardProjectIssueCountsParams) =>
     queryOptions({
       queryKey: ['dashboard', 'project-issue-counts', params],
-      queryFn: () => getDashboardProjectIssueCounts(params),
+      queryFn: () =>
+        getProjectIssueCounts({
+          query: params as NonNullable<Parameters<typeof getProjectIssueCounts>[0]>['query'],
+        }).then(({ data }) => data),
       staleTime: StaleTime.SHORT,
     }),
 );
 
-export const useDashboardProjectMeasureQuery = createQueryHook(
-  (params: DashboardProjectMeasuresParams) =>
-    queryOptions({
-      queryKey: ['dashboard', 'project-measures', params],
-      queryFn: () => getDashboardProjectMeasures(params),
-      staleTime: StaleTime.SHORT,
-    }),
-);
+function dashboardProjectMeasureQueryOptions(params: DashboardProjectMeasuresParams) {
+  return queryOptions({
+    queryKey: ['dashboard', 'project-measures', params],
+    queryFn: () =>
+      getProjectMeasures({
+        query: params,
+      }).then(({ data }) => data),
+    staleTime: StaleTime.SHORT,
+  });
+}
+
+export const useDashboardProjectMeasureQuery = createQueryHook(dashboardProjectMeasureQueryOptions);
 
 export function useDashboardProjectMeasuresQuery(
   params: Omit<DashboardProjectMeasuresParams, 'metricKey'> & { metrics: string[] },
@@ -189,8 +219,7 @@ export function useDashboardProjectMeasuresQuery(
         metricKey,
       };
       return queryOptions({
-        queryKey: ['dashboard', 'project-measures', projectMeasuresParams],
-        queryFn: () => getDashboardProjectMeasures(projectMeasuresParams),
+        ...dashboardProjectMeasureQueryOptions(projectMeasuresParams),
         enabled: options.enabled ?? true,
         staleTime: StaleTime.SHORT,
       });

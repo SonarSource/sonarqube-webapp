@@ -139,7 +139,8 @@ function groupedSeriesLabel(
       return formatMessage({ id: `severity.${key}` });
     case 'SOFTWARE_QUALITY':
       return formatMessage({ id: `software_quality.${key}` });
-    default:
+    case 'RULE_KEY':
+    case 'TYPE':
       return key;
   }
 }
@@ -178,7 +179,7 @@ function historyToSeries(
 
   if (measure.api === 'issue-count-history' && measure.sliceBy !== undefined) {
     const sortedHistory = sortDashboardHistory(data.history);
-    const sliceBy = measure.sliceBy;
+    const { sliceBy } = measure;
     const isGroupedByRule = sliceBy === 'RULE_KEY';
     const keys = isGroupedByRule
       ? rankedRuleSeriesKeys(sortedHistory)

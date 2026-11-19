@@ -31,7 +31,7 @@ export interface PortfolioProjectIssueCountsParams {
   requireIssues: boolean;
   ruleKeys?: string[];
   severities?: string[];
-  sort?: string;
+  sort?: string[];
   statuses?: string[];
 }
 
@@ -44,5 +44,5 @@ export interface PortfolioProjectMeasuresParams {
   pageSize: number;
   portfolioId: string;
   requireValue: boolean;
-  sort?: string;
+  sort?: string[];
 }

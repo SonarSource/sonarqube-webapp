@@ -25,11 +25,13 @@ import {
   UseInfiniteQueryOptions,
   UseInfiniteQueryResult,
   UseQueryOptions,
+  UndefinedInitialDataOptions,
   UseQueryResult,
   UseSuspenseQueryOptions,
   UseSuspenseQueryResult,
   useInfiniteQuery,
   useQuery,
+  queryOptions,
   useQueryClient,
   useSuspenseQuery,
 } from '@tanstack/react-query';
@@ -130,6 +132,20 @@ export type QueryHookOptionsType<
         QueryOptionsType<TQueryData, TError, SelectType, TQueryKey, TOptions>
       >
   >;
+
+export function createQueryOptions<TParams, TQueryData>(
+  definition: (
+    params: TParams,
+  ) => Omit<UndefinedInitialDataOptions<TQueryData>, 'select' | 'initialData'>,
+) {
+  return <TData = TQueryData>(
+    params: TParams,
+    options?: Omit<UndefinedInitialDataOptions<TQueryData, Error, TData>, 'queryKey' | 'queryFn'>,
+  ) => {
+    const merged = { ...definition(params), ...options };
+    return queryOptions<TQueryData, Error, TData>(merged);
+  };
+}
 
 export function createQueryHook<
   T = unknown,

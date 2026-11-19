@@ -18,6 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import type { UseQueryOptions } from '@tanstack/react-query';
 import type { SoftwareImpactSeverity, SoftwareQuality } from './clean-code-taxonomy';
 import type { IssueSeverity as StandardIssueSeverity } from './issues';
 import type { MetricKey } from './metrics';
@@ -106,6 +107,14 @@ export interface OrganizationsIssueCountHistoryDay {
   }[];
 }
 
+export interface MeasuresHistoryResponse {
+  measuresHistory: OrganizationsMeasuresHistoryDay[];
+}
+
+export interface IssueCountHistoryResponse {
+  issueCountHistory: OrganizationsIssueCountHistoryDay[];
+}
+
 export interface DashboardIssueFilters {
   impacts?: OrganizationIssueImpactQueryValue[];
   issueTypes?: IssueType[];
@@ -152,7 +161,4 @@ export interface DashboardMeasureQueryInput {
   months?: number;
 }
 
-export interface DashboardMeasureQueryDefinition {
-  queryFn: () => Promise<DashboardMeasureHistory>;
-  queryKey: readonly ['dashboard-measure', DashboardEntityType, string, DashboardMeasure, number];
-}
+export type DashboardMeasureQueryOptions = UseQueryOptions<unknown, Error, DashboardMeasureHistory>;

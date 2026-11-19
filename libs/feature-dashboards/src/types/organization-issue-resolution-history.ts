@@ -18,35 +18,9 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import {
-  IssueResolutionStatistic,
-  type IssueSeverity,
-  type IssueType,
-  type OrganizationIssueImpactQueryValue,
-  type IssueHistoryDay,
-  type DashboardEntityType,
-} from '~shared/types/dashboard-history';
+import type { IssueHistoryDay, IssueResolutionStatistic } from '~shared/types/dashboard-history';
 
-/** Dimension axes supported by the issue-resolution-history slice API. */
-type IssueResolutionSliceBy = 'SEVERITY' | 'SOFTWARE_QUALITY' | 'TYPE';
-
-/** Response shape for `GET /organizations/issue-resolution-history`. */
 export interface IssueResolutionHistoryResponse {
   issueResolutionHistory: IssueHistoryDay[];
-  statistic: IssueResolutionStatistic;
-}
-
-export interface GetIssueResolutionHistoryParams {
-  /** Inclusive end of range. Omit to default to now (recommended — avoids SONARCLOUD-ZJ3). */
-  endDate?: string;
-  entityId: string;
-  entityType: DashboardEntityType;
-  impacts?: OrganizationIssueImpactQueryValue[];
-  issueTypes?: IssueType[];
-  severities?: IssueSeverity[];
-  /** Dimension to slice results by. Omit for a single aggregated series. */
-  sliceBy?: IssueResolutionSliceBy;
-  /** ISO 8601 datetime. May not be more than 1 year in the past. */
-  startDate: string;
   statistic: IssueResolutionStatistic;
 }

@@ -18,10 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import type {
-  DashboardEntityType,
-  OrganizationsMeasuresHistoryDay,
-} from '~shared/types/dashboard-history';
+import type { DashboardEntityType } from '~shared/types/dashboard-history';
 
 export interface GetMeasuresHistoryParams {
   /** End of range, inclusive. ISO-8601 datetime with offset. */
@@ -31,8 +28,4 @@ export interface GetMeasuresHistoryParams {
   metricKeys: string[];
   /** Start of range, inclusive. ISO-8601 datetime with offset (e.g. `2026-01-01T00:00:00.000Z`). */
   startDate: string;
-}
-
-export interface MeasuresHistoryResponse {
-  measuresHistory: OrganizationsMeasuresHistoryDay[];
 }

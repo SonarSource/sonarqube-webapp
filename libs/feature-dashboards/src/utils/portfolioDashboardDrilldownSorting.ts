@@ -118,18 +118,18 @@ export function getPortfolioDashboardDrilldownWidgetDefaultSortOrder(
 
 export function toPortfolioDashboardProjectIssueCountsSort(
   order: PortfolioDashboardDrilldownSortOrder,
-): string {
+): string[] {
   const byCount =
     order === PortfolioDashboardDrilldownSortOrder.Asc ? '+issueCount' : '-issueCount';
-  return `${byCount},+projectName`;
+  return [byCount, '+projectName'];
 }
 
 export function toPortfolioDashboardProjectMeasuresSort(
   order: PortfolioDashboardDrilldownSortOrder,
-): string {
+): string[] {
   const byMeasure =
     order === PortfolioDashboardDrilldownSortOrder.Asc
       ? '+measure.currentValue'
       : '-measure.currentValue';
-  return `${byMeasure},+projectName`;
+  return [byMeasure, '+projectName'];
 }

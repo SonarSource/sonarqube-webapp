@@ -204,8 +204,9 @@ it('caps rule series and folds the remainder into a trailing Other series', () =
     />,
   );
 
-  const props = jest.mocked(MultiLineChart).mock.calls.at(-1)?.[0];
-  const seriesIds = props?.series.map((entry) => entry.id) ?? [];
+  const { calls } = jest.mocked(MultiLineChart).mock;
+  const [props] = calls[calls.length - 1];
+  const seriesIds = props.series.map((entry) => entry.id);
   expect(seriesIds).toEqual([
     'typescript:S1',
     'typescript:S2',
@@ -220,9 +221,9 @@ it('caps rule series and folds the remainder into a trailing Other series', () =
   const otherSeries = props?.series.at(-1);
   expect(otherSeries?.data[0]?.y).toBe(60);
 
-  expect(useDashboardRuleLabels).toHaveBeenCalledWith(
-    expect.objectContaining({ ruleKeys: expect.not.arrayContaining([otherSeries?.id]) }),
-  );
+  expect(
+    jest.mocked(useDashboardRuleLabels).mock.calls.flatMap(([args]) => args.ruleKeys),
+  ).not.toContain('OTHER_3');
 });
 
 it('uses localized messages for grouped issue status legend labels', () => {

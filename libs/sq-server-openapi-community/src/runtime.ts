@@ -18,21 +18,22 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-// Generated SDK calls require full AxiosResponse objects; shared clients unwrap response.data.
-import axios, { type AxiosResponse } from 'axios';
-import { axiosClientErrorInterceptor, setupAxiosClient } from '~adapters/helpers/axios-setup';
+import { axiosClientWithResponse } from '~shared/helpers/axios-clients';
+import { createQuerySerializer } from './generated/client/utils.gen';
 
-const axiosInstance = axios.create();
-
-export const openApiAxiosClientSetup = setupAxiosClient(axiosInstance, [
-  [(response: AxiosResponse) => response, axiosClientErrorInterceptor],
-]);
+const serializeQuery = createQuerySerializer({ array: { explode: false, style: 'form' } });
 
 export function createClientConfig<T extends object>(override?: T) {
   return {
     ...override,
-    axios: axiosInstance,
-    paramsSerializer: { indexes: null },
+    axios: axiosClientWithResponse,
+    paramsSerializer: undefined,
+    querySerializer: (query: Record<string, unknown>) =>
+      serializeQuery(
+        Object.fromEntries(
+          Object.entries(query).filter(([, value]) => !Array.isArray(value) || value.length > 0),
+        ),
+      ),
     throwOnError: true as const,
   };
 }

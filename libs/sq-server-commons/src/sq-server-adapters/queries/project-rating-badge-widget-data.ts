@@ -18,6 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { useQuery } from '@tanstack/react-query';
 import { getBranchLikeQuery, isBranch, isPullRequest } from '~shared/helpers/branch-like';
 import type { BranchParameters } from '~shared/types/branch-like';
 import type { Measure } from '~shared/types/measures';
@@ -27,7 +28,7 @@ import {
   portfolioMeasuresHistoryLatestValue,
 } from '../../helpers/dashboard-widget-data';
 import { extractStatusConditionsFromProjectStatus } from '../../helpers/quality-gates';
-import { useDashboardMeasuresHistoryQuery } from '../../queries/dashboard-history';
+import { getDashboardMeasuresHistoryQueryOptions } from '../../queries/dashboard-history';
 import { useProjectQualityGateStatus } from '../../queries/quality-gates';
 import type { BranchLike } from '../../types/branch-like';
 import { useCurrentBranchQuery } from './branch';
@@ -58,27 +59,29 @@ export function useProjectRatingBadgeMeasuresQuery(
   } else if (isPullRequest(branchQuery.data)) {
     entityId = branchQuery.data.pullRequestId;
   }
-  const measuresQuery = useDashboardMeasuresHistoryQuery(
-    {
-      entityId: entityId ?? '',
-      entityType: 'PROJECT_BRANCH',
-      metricKeys,
-      startDate: organizationsHistoryStartDateWithRetentionBuffer(),
-    },
-    {
-      enabled: enabled && !branchQuery.isPending && Boolean(entityId) && metricKeys.length > 0,
-      refetchOnWindowFocus: false,
-      select: (response): Measure[] =>
-        metricKeys.flatMap((metric): Measure[] => {
-          const value = portfolioMeasuresHistoryLatestValue(response.measuresHistory, metric);
-          if (value === undefined) {
-            return [];
-          }
-          return metric.startsWith('new_')
-            ? [{ metric, period: { index: 1, value } }]
-            : [{ metric, value }];
-        }),
-    },
+  const measuresQuery = useQuery(
+    getDashboardMeasuresHistoryQueryOptions(
+      {
+        entityId: entityId ?? '',
+        entityType: 'PROJECT_BRANCH',
+        metricKeys,
+        startDate: organizationsHistoryStartDateWithRetentionBuffer(),
+      },
+      {
+        enabled: enabled && !branchQuery.isPending && Boolean(entityId) && metricKeys.length > 0,
+        refetchOnWindowFocus: false,
+        select: (response): Measure[] =>
+          metricKeys.flatMap((metric): Measure[] => {
+            const value = portfolioMeasuresHistoryLatestValue(response.measuresHistory, metric);
+            if (value === undefined) {
+              return [];
+            }
+            return metric.startsWith('new_')
+              ? [{ metric, period: { index: 1, value } }]
+              : [{ metric, value }];
+          }),
+      },
+    ),
   );
 
   return {

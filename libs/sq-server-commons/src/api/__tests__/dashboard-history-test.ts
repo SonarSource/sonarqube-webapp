@@ -18,170 +18,113 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { useQueryClient } from '@tanstack/react-query';
+import { renderHook, waitFor } from '@testing-library/react';
+import { getContextWrapper } from '~adapters/helpers/test-utils';
+import {
+  getIssueCountHistory,
+  getIssueDensityHistory,
+  getIssueResolutionHistory,
+  getProjectMeasures,
+  getMeasuresHistory,
+  getProjectIssueCounts,
+} from '~sq-server-openapi-community';
+import { axiosClient } from '~shared/helpers/axios-clients';
+import { getDashboardScaResolutionHistory } from '../dashboard-history';
 import { MetricKey } from '~shared/types/metrics';
 import {
-  getDashboardIssueCountHistory,
-  getDashboardIssueDensityHistory,
-  getDashboardIssueResolutionHistory,
-  getDashboardMeasuresHistory,
-  getDashboardProjectIssueCounts,
-  getDashboardProjectMeasures,
-  getDashboardScaResolutionHistory,
-} from '../dashboard-history';
+  getDashboardIssueCountHistoryQueryOptions,
+  getDashboardIssueDensityHistoryQueryOptions,
+  getDashboardIssueResolutionHistoryQueryOptions,
+  useDashboardProjectMeasureQuery,
+  getDashboardMeasuresHistoryQueryOptions,
+  useDashboardProjectIssueCountsQuery,
+} from '../../queries/dashboard-history';
 
-const mockGet = jest.fn();
-
-jest.mock('~shared/helpers/axios-clients', () => ({
-  axiosClient: { get: (...args: unknown[]) => mockGet(...args) },
+jest.mock('~sq-server-openapi-community', () => ({
+  getIssueCountHistory: jest.fn().mockResolvedValue({ data: {} }),
+  getIssueDensityHistory: jest.fn().mockResolvedValue({ data: {} }),
+  getIssueResolutionHistory: jest.fn().mockResolvedValue({ data: {} }),
+  getProjectMeasures: jest.fn().mockResolvedValue({ data: {} }),
+  getMeasuresHistory: jest.fn().mockResolvedValue({ data: {} }),
+  getProjectIssueCounts: jest.fn().mockResolvedValue({ data: {} }),
 }));
 
-describe('dashboard history API', () => {
-  beforeEach(() => {
-    jest.clearAllMocks();
-    mockGet.mockResolvedValue({});
-  });
-
-  it('serializes issue history filters', async () => {
-    await getDashboardIssueCountHistory({
-      entityId: 'portfolio-1',
-      entityType: 'PORTFOLIO',
-      impacts: ['SECURITY:HIGH'],
-      issueTypes: ['CODE_SMELL'],
-      ruleKeys: ['java:S100'],
-      severities: ['HIGH'],
-      sliceBy: 'SEVERITY',
-      startDate: '2026-01-01',
-      statuses: ['OPEN'],
-      typeSeverities: ['CRITICAL'],
-    });
-
-    expect(mockGet).toHaveBeenCalledWith('/api/v2/history/issue-count-history', {
-      params: {
-        entityId: 'portfolio-1',
-        entityType: 'PORTFOLIO',
-        impacts: 'SECURITY:HIGH',
-        issueTypes: 'CODE_SMELL',
-        ruleKeys: 'java:S100',
-        severities: 'HIGH',
-        sliceBy: 'SEVERITY',
-        startDate: '2026-01-01',
-        statuses: 'OPEN',
-        typeSeverities: 'CRITICAL',
-      },
-    });
-  });
-
-  it('serializes issue-density history filters', async () => {
-    await getDashboardIssueDensityHistory({
-      entityId: 'portfolio-1',
-      entityType: 'PORTFOLIO',
-      impacts: ['SECURITY:HIGH'],
-      severities: ['HIGH'],
-      startDate: '2026-01-01',
-      typeSeverities: ['CRITICAL'],
-    });
-
-    expect(mockGet).toHaveBeenCalledWith('/api/v2/history/issue-density-history', {
-      params: expect.objectContaining({
-        entityId: 'portfolio-1',
-        impacts: 'SECURITY:HIGH',
-        severities: 'HIGH',
-        typeSeverities: 'CRITICAL',
-      }),
-    });
-  });
-
-  it('serializes issue-resolution history filters and statistic', async () => {
-    await getDashboardIssueResolutionHistory({
-      entityId: 'portfolio-1',
-      entityType: 'PORTFOLIO',
-      severities: ['HIGH'],
-      startDate: '2026-01-01',
-      statistic: 'MTTR',
-      typeSeverities: ['CRITICAL'],
-    });
-
-    expect(mockGet).toHaveBeenCalledWith('/api/v2/history/issue-resolution-history', {
-      params: expect.objectContaining({
-        entityId: 'portfolio-1',
-        severities: 'HIGH',
-        statistic: 'MTTR',
-        typeSeverities: 'CRITICAL',
-      }),
-    });
-  });
-
-  it('serializes sca-resolution history severities and statistic', async () => {
-    await getDashboardScaResolutionHistory({
-      entityId: 'portfolio-1',
-      entityType: 'PORTFOLIO',
-      severities: ['HIGH'],
-      startDate: '2026-01-01',
-      statistic: 'SCA_MTTR',
-    });
-
-    expect(mockGet).toHaveBeenCalledWith('/api/v2/history/sca-resolution-history', {
-      params: expect.objectContaining({
-        entityId: 'portfolio-1',
-        severities: 'HIGH',
-        statistic: 'SCA_MTTR',
-      }),
-    });
-  });
-
-  it('serializes metric and project filters for the Server history endpoints', async () => {
-    await getDashboardMeasuresHistory({
-      entityId: 'portfolio-1',
-      entityType: 'PORTFOLIO',
+it('passes typed arrays directly to generated history and project clients', async () => {
+  const { result: client } = renderHook(() => useQueryClient(), { wrapper: getContextWrapper() });
+  const history = {
+    entityId: 'portfolio-1',
+    entityType: 'PORTFOLIO' as const,
+    startDate: '2026-01-01',
+  };
+  const issueParams = {
+    ...history,
+    impacts: ['SECURITY:HIGH', 'RELIABILITY:LOW'],
+    issueTypes: ['BUG', 'VULNERABILITY'],
+    severities: ['HIGH', 'LOW'],
+    ruleKeys: ['one', 'two'],
+    statuses: ['OPEN', 'CONFIRMED'],
+    typeSeverities: ['MAJOR', 'MINOR'],
+  };
+  await client.current.fetchQuery(getDashboardIssueCountHistoryQueryOptions(issueParams));
+  await client.current.fetchQuery(getDashboardIssueDensityHistoryQueryOptions(issueParams));
+  const resolutionParams = { ...issueParams, statistic: 'MTTR' as const };
+  await client.current.fetchQuery(getDashboardIssueResolutionHistoryQueryOptions(resolutionParams));
+  await client.current.fetchQuery(
+    getDashboardMeasuresHistoryQueryOptions({
+      ...history,
       metricKeys: [MetricKey.coverage, MetricKey.ncloc],
-      startDate: '2026-01-01',
-    });
-    await getDashboardProjectIssueCounts({
-      entityId: 'portfolio-1',
-      entityType: 'PORTFOLIO',
-      impacts: ['SECURITY:HIGH'],
-      issueTypes: ['BUG'],
-      ruleKeys: ['java:S100'],
-      severities: ['HIGH'],
-      sort: ['issueCount'],
-      statuses: ['OPEN'],
-      typeSeverities: ['CRITICAL'],
-    });
-    await getDashboardProjectMeasures({
-      entityId: 'portfolio-1',
-      entityType: 'PORTFOLIO',
-      metricKey: MetricKey.coverage,
-      sort: ['currentValue'],
-    });
-
-    expect(mockGet).toHaveBeenNthCalledWith(1, '/api/v2/history/measures-history', {
-      params: {
-        entityId: 'portfolio-1',
-        entityType: 'PORTFOLIO',
-        metricKeys: 'coverage,ncloc',
-        startDate: '2026-01-01',
-      },
-    });
-    expect(mockGet).toHaveBeenNthCalledWith(2, '/api/v2/history/project-issue-counts', {
-      params: {
-        entityId: 'portfolio-1',
-        entityType: 'PORTFOLIO',
-        impacts: 'SECURITY:HIGH',
-        issueTypes: 'BUG',
-        ruleKeys: 'java:S100',
-        severities: 'HIGH',
-        sort: 'issueCount',
-        statuses: 'OPEN',
-        typeSeverities: 'CRITICAL',
-      },
-    });
-    expect(mockGet).toHaveBeenNthCalledWith(3, '/api/v2/history/project-measures', {
-      params: {
-        entityId: 'portfolio-1',
-        entityType: 'PORTFOLIO',
-        metricKey: MetricKey.coverage,
-        sort: 'currentValue',
-      },
-    });
+    }),
+  );
+  const { result } = renderHook(
+    () =>
+      useDashboardProjectIssueCountsQuery({ ...issueParams, sort: ['-issueCount', 'projectName'] }),
+    { wrapper: getContextWrapper() },
+  );
+  await waitFor(() => {
+    expect(result.current.isSuccess).toBe(true);
   });
+
+  const measureParams = {
+    ...history,
+    metricKey: MetricKey.coverage,
+    sort: ['-measure.currentValue', '+projectName'],
+  };
+  const { result: measures } = renderHook(() => useDashboardProjectMeasureQuery(measureParams), {
+    wrapper: getContextWrapper(),
+  });
+  await waitFor(() => {
+    expect(measures.current.isSuccess).toBe(true);
+  });
+
+  expect(getIssueCountHistory).toHaveBeenCalledWith({ query: issueParams });
+  expect(getIssueDensityHistory).toHaveBeenCalledWith({ query: issueParams });
+  expect(getIssueResolutionHistory).toHaveBeenCalledWith({ query: resolutionParams });
+  expect(getMeasuresHistory).toHaveBeenCalledWith({
+    query: { ...history, metricKeys: [MetricKey.coverage, MetricKey.ncloc] },
+  });
+  expect(getProjectIssueCounts).toHaveBeenCalledWith({
+    query: { ...issueParams, sort: ['-issueCount', 'projectName'] },
+  });
+  expect(getProjectMeasures).toHaveBeenCalledWith({ query: measureParams });
+});
+
+it('keeps the SCA request on Axios with comma-separated severities', async () => {
+  const response = { scaResolutionHistory: [], statistic: 'SCA_MTTR' };
+  const get = jest.spyOn(axiosClient, 'get').mockResolvedValue(response);
+  const params = {
+    entityId: 'portfolio-1',
+    entityType: 'PORTFOLIO' as const,
+    startDate: '2026-01-01',
+    statistic: 'SCA_MTTR' as const,
+    severities: ['HIGH', 'LOW'],
+  };
+  try {
+    await expect(getDashboardScaResolutionHistory(params)).resolves.toEqual(response);
+    expect(get).toHaveBeenCalledWith('/api/v2/history/sca-resolution-history', {
+      params: { ...params, severities: 'HIGH,LOW' },
+    });
+  } finally {
+    get.mockRestore();
+  }
 });

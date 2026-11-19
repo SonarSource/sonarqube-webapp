@@ -135,19 +135,19 @@ describe('portfolioDashboardDrilldownSorting', () => {
   it.each([
     [
       PortfolioDashboardDrilldownSortOrder.Asc,
-      '+issueCount,+projectName',
-      '+measure.currentValue,+projectName',
+      ['+issueCount', '+projectName'],
+      ['+measure.currentValue', '+projectName'],
     ],
     [
       PortfolioDashboardDrilldownSortOrder.Desc,
-      '-issueCount,+projectName',
-      '-measure.currentValue,+projectName',
+      ['-issueCount', '+projectName'],
+      ['-measure.currentValue', '+projectName'],
     ],
   ])(
     'builds shared %s API sorts with an alphabetical tie-break',
     (order, issueSort, measureSort) => {
-      expect(toPortfolioDashboardProjectIssueCountsSort(order)).toBe(issueSort);
-      expect(toPortfolioDashboardProjectMeasuresSort(order)).toBe(measureSort);
+      expect(toPortfolioDashboardProjectIssueCountsSort(order)).toEqual(issueSort);
+      expect(toPortfolioDashboardProjectMeasuresSort(order)).toEqual(measureSort);
     },
   );
 });

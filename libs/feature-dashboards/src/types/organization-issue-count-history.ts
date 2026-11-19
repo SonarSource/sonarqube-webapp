@@ -20,7 +20,6 @@
 
 import type {
   IssueCountSliceBy,
-  OrganizationsIssueCountHistoryDay,
   IssueType,
   IssueSeverity,
   IssueCountStatus,
@@ -77,7 +76,3 @@ export interface GetIssueCountHistoryParams {
 
 /** Logical issue-count-history params without date fields; snapshot dates are applied by query hooks. */
 export type IssueCountSnapshotParams = Omit<GetIssueCountHistoryParams, 'startDate' | 'endDate'>;
-
-export interface IssueCountHistoryResponse {
-  issueCountHistory: OrganizationsIssueCountHistoryDay[];
-}

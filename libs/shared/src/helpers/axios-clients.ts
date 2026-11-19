@@ -18,8 +18,9 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import axios from 'axios';
+import { create } from 'axios';
 import {
+  axiosClientErrorInterceptor,
   axiosClientResponseInterceptors,
   axiosToCatchResponseInterceptors,
   setupAxiosClient,
@@ -28,13 +29,19 @@ import {
 /**
  * This instance will catch error and display a toast with the error message
  */
-export const axiosClient = axios.create();
+export const axiosClient = create();
 
 void setupAxiosClient(axiosClient, axiosClientResponseInterceptors);
 
 /**
  * This instance will not catch error, so you need to handle it yourself
  */
-export const axiosToCatch = axios.create();
+export const axiosToCatch = create();
 
 void setupAxiosClient(axiosToCatch, axiosToCatchResponseInterceptors);
+
+export const axiosClientWithResponse = create();
+
+void setupAxiosClient(axiosClientWithResponse, [
+  [(response) => response, axiosClientErrorInterceptor],
+]);

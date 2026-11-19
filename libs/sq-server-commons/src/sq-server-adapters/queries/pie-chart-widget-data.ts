@@ -18,6 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { useQuery } from '@tanstack/react-query';
 import { useMemo } from 'react';
 import { useIntl, type IntlShape } from 'react-intl';
 import { useSearchParams } from 'react-router';
@@ -60,8 +61,8 @@ import {
 } from '../../helpers/dashboard-widget-mode';
 import { unsupportedDashboardWidgetAdapter } from '../../helpers/unsupported-dashboard-widget-adapter';
 import {
-  useDashboardIssueCountHistoryQuery,
-  useDashboardMeasuresHistoryQuery,
+  getDashboardIssueCountHistoryQueryOptions,
+  getDashboardMeasuresHistoryQueryOptions,
 } from '../../queries/dashboard-history';
 import { useIssuesSearchQuery } from '../../queries/issues';
 import { useStandardExperienceModeQuery } from '../../queries/mode';
@@ -400,48 +401,50 @@ export function useOrganizationPieChartData(
       ),
     [canonicalHistoryParams, isStandardMode, widget.filter, widget.metric],
   );
-  const issueQuery = useDashboardIssueCountHistoryQuery(
-    historyParams === null
-      ? {
-          entityId,
-          entityType,
-          impacts: [...DEFAULT_ISSUE_IMPACTS],
-          sliceBy: 'SEVERITY',
-          startDate: issueHistoryStartDate,
-          statuses: [...FILTERABLE_CODE_ISSUE_STATUSES],
-        }
-      : {
-          ...historyParams,
-          startDate: issueHistoryStartDate,
-        },
-    {
-      enabled: isPieChartIssueQueryEnabled({
-        enabled,
-        hasEntityId: Boolean(entityId),
-        hasHistoryParams: Boolean(historyParams),
-        isModeResolved,
-        isQualityGateStatusChart,
-        isUnsupported,
-        needsExperienceMode,
-        usesIssueSearch,
-      }),
-      refetchOnWindowFocus: false,
-      select: (response) => ({
-        counts: issueCountHistoryToPieCounts(
-          response.issueCountHistory.map((day) => ({
-            ...day,
-            distribution: day.distribution.map((entry) => ({
-              ...entry,
-              key: resolveIssueHistoryDistributionKeyForMode(
-                entry.key,
-                canonicalSliceBy,
-                isStandardMode,
-              ),
+  const issueQuery = useQuery(
+    getDashboardIssueCountHistoryQueryOptions(
+      historyParams === null
+        ? {
+            entityId,
+            entityType,
+            impacts: [...DEFAULT_ISSUE_IMPACTS],
+            sliceBy: 'SEVERITY',
+            startDate: issueHistoryStartDate,
+            statuses: [...FILTERABLE_CODE_ISSUE_STATUSES],
+          }
+        : {
+            ...historyParams,
+            startDate: issueHistoryStartDate,
+          },
+      {
+        enabled: isPieChartIssueQueryEnabled({
+          enabled,
+          hasEntityId: Boolean(entityId),
+          hasHistoryParams: Boolean(historyParams),
+          isModeResolved,
+          isQualityGateStatusChart,
+          isUnsupported,
+          needsExperienceMode,
+          usesIssueSearch,
+        }),
+        refetchOnWindowFocus: false,
+        select: (response) => ({
+          counts: issueCountHistoryToPieCounts(
+            response.issueCountHistory.map((day) => ({
+              ...day,
+              distribution: day.distribution.map((entry) => ({
+                ...entry,
+                key: resolveIssueHistoryDistributionKeyForMode(
+                  entry.key,
+                  canonicalSliceBy,
+                  isStandardMode,
+                ),
+              })),
             })),
-          })),
-        ),
-      }),
-    },
+          ),
+        }),
+      },
+    ),
   );
   const issueSearchQuery = useIssuesSearchQuery(
     {
@@ -471,38 +474,42 @@ export function useOrganizationPieChartData(
   });
   const hasQualityGateDistributionMetric =
     metricMetadataQuery.data?.[MetricKey.releasability_rating_distribution] !== undefined;
-  const lineCountQuery = useDashboardMeasuresHistoryQuery(
-    {
-      entityId,
-      entityType,
-      metricKeys: lineCountKeys,
-      startDate: measuresHistoryStartDate,
-    },
-    {
-      enabled: enabled && isLineCountChart && Boolean(entityId) && !isUnsupported,
-      refetchOnWindowFocus: false,
-      select: (response) => portfolioMeasuresLatestRecord(response.measuresHistory),
-    },
+  const lineCountQuery = useQuery(
+    getDashboardMeasuresHistoryQueryOptions(
+      {
+        entityId,
+        entityType,
+        metricKeys: lineCountKeys,
+        startDate: measuresHistoryStartDate,
+      },
+      {
+        enabled: enabled && isLineCountChart && Boolean(entityId) && !isUnsupported,
+        refetchOnWindowFocus: false,
+        select: (response) => portfolioMeasuresLatestRecord(response.measuresHistory),
+      },
+    ),
   );
-  const qualityGateQuery = useDashboardMeasuresHistoryQuery(
-    {
-      entityId,
-      entityType,
-      metricKeys: [MetricKey.releasability_rating_distribution],
-      startDate: measuresHistoryStartDate,
-    },
-    {
-      enabled:
-        enabled &&
-        isQualityGateStatusChart &&
-        Boolean(entityId) &&
-        !isUnsupported &&
-        hasQualityGateDistributionMetric,
-      refetchOnWindowFocus: false,
-      select: (response) => ({
-        counts: qualityGateCounts(portfolioMeasuresLatestRecord(response.measuresHistory)),
-      }),
-    },
+  const qualityGateQuery = useQuery(
+    getDashboardMeasuresHistoryQueryOptions(
+      {
+        entityId,
+        entityType,
+        metricKeys: [MetricKey.releasability_rating_distribution],
+        startDate: measuresHistoryStartDate,
+      },
+      {
+        enabled:
+          enabled &&
+          isQualityGateStatusChart &&
+          Boolean(entityId) &&
+          !isUnsupported &&
+          hasQualityGateDistributionMetric,
+        refetchOnWindowFocus: false,
+        select: (response) => ({
+          counts: qualityGateCounts(portfolioMeasuresLatestRecord(response.measuresHistory)),
+        }),
+      },
+    ),
   );
   const languagesQuery = useLanguagesQuery({
     enabled: enabled && needsLanguageMetadata && !isUnsupported,

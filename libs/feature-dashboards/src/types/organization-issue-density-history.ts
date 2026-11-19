@@ -18,36 +18,8 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import type {
-  IssueSeverity,
-  IssueType,
-  OrganizationIssueImpactQueryValue,
-  IssueHistoryDay,
-  DashboardEntityType,
-} from '~shared/types/dashboard-history';
+import type { IssueHistoryDay } from '~shared/types/dashboard-history';
 
-/**
- * Dimension axes supported by the issue-density-history slice API.
- */
-type IssueDensitySliceBy = 'RULE_KEY' | 'SEVERITY' | 'SOFTWARE_QUALITY' | 'STATUS' | 'TYPE';
-
-/** Response shape for `GET /organizations/issue-density-history`. */
 export interface IssueDensityHistoryResponse {
   issueDensityHistory: IssueHistoryDay[];
-}
-
-export interface GetIssueDensityHistoryParams {
-  /** Inclusive end of range. Omit to default to now (recommended). */
-  endDate?: string;
-  entityId: string;
-  entityType: DashboardEntityType;
-  impacts?: OrganizationIssueImpactQueryValue[];
-  issueTypes?: IssueType[];
-  ruleKeys?: string[];
-  severities?: IssueSeverity[];
-  /** Dimension to slice results by. Omit for a single aggregated `"all"` series. */
-  sliceBy?: IssueDensitySliceBy;
-  /** ISO 8601 datetime. May not be more than 1 year in the past. */
-  startDate: string;
-  statuses?: string[];
 }

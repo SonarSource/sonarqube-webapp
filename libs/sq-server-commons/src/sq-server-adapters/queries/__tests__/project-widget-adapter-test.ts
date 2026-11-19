@@ -36,6 +36,22 @@ const mockUseStandardExperienceModeQuery = jest.fn();
 const mockUseProjectQualityGateStatus = jest.fn();
 const mockExtractStatusConditionsFromProjectStatus = jest.fn();
 
+jest.mock('@tanstack/react-query', () => {
+  const actual =
+    jest.requireActual<typeof import('@tanstack/react-query')>('@tanstack/react-query');
+  return {
+    ...actual,
+    useQuery: (options: Parameters<typeof actual.useQuery>[0]) => {
+      const { queryKey, ...overrides } = options;
+      if (queryKey[0] === 'mock-server-Measures') {
+        const result: unknown = mockUseDashboardMeasuresHistoryQuery(queryKey[1], overrides);
+        return result;
+      }
+      return actual.useQuery(options);
+    },
+  };
+});
+
 jest.mock('../../../context/componentContext/withComponentContext', () => ({
   useComponent: (...args: unknown[]) => mockUseComponent(...args),
 }));
@@ -54,8 +70,10 @@ jest.mock('../../../queries/mode', () => ({
 }));
 
 jest.mock('../../../queries/dashboard-history', () => ({
-  useDashboardMeasuresHistoryQuery: (...args: unknown[]) =>
-    mockUseDashboardMeasuresHistoryQuery(...args),
+  getDashboardMeasuresHistoryQueryOptions: (params: unknown, options?: object) => ({
+    queryKey: ['mock-server-Measures', params],
+    ...options,
+  }),
 }));
 
 jest.mock('../../../queries/quality-gates', () => ({

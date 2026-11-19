@@ -46,7 +46,7 @@ export function usePortfolioProjectIssueCountsQuery(
     }),
     entityId: portfolioId,
     entityType: params.entityType,
-    sort: sort?.split(','),
+    sort,
   };
 
   const query = useDashboardProjectIssueCountsQuery(serverParams, {
@@ -71,7 +71,7 @@ export function usePortfolioProjectMeasuresQuery(
     ...filters,
     entityId: portfolioId,
     entityType: params.entityType,
-    sort: sort?.split(','),
+    sort,
   };
 
   return useDashboardProjectMeasureQuery(serverParams, options);

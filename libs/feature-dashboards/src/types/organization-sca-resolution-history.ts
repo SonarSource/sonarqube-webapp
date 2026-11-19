@@ -18,18 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { ScaResolutionStatistic, type IssueHistoryDay } from '~shared/types/dashboard-history';
-import type { SoftwareImpactSeverity } from '~shared/types/clean-code-taxonomy';
-
-export interface GetScaResolutionHistoryParams {
-  endDate?: string;
-  entityId: string;
-  entityType: 'portfolio' | 'project_branch';
-  severities?: SoftwareImpactSeverity[];
-  sliceBy?: 'severity';
-  startDate: string;
-  statistic: ScaResolutionStatistic;
-}
+import type { IssueHistoryDay, ScaResolutionStatistic } from '~shared/types/dashboard-history';
 
 export interface ScaResolutionHistoryResponse {
   scaResolutionHistory: IssueHistoryDay[];

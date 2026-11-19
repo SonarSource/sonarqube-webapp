@@ -29,4 +29,4 @@ export async function searchUsers(query: SearchData['query']) {
 
 The generated SDK returns a response containing `data`; it does not return the body directly like the legacy Axios clients. Errors reject by default and show the existing error toast. Keep handwritten TanStack Query hooks and call the generated functions from them.
 
-The runtime reuses the SonarQube Server Axios adapter configuration, including the base URL, CSRF handling, and merge-patch headers. It preserves full Axios responses for Hey API and serializes array query parameters as repeated keys. Runtime setup and generated client internals are not public import paths.
+The runtime reuses the SonarQube Server Axios adapter configuration, including the base URL, CSRF handling, and merge-patch headers. It preserves full Axios responses for Hey API and serializes array query parameters as comma-separated values by default, omitting empty arrays. Calls can override `querySerializer` when another format is required. Runtime setup and generated client internals are not public import paths.

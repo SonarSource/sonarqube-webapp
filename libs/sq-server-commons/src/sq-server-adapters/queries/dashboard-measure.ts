@@ -18,17 +18,26 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { useQuery } from '@tanstack/react-query';
+import { queryOptions, useQuery } from '@tanstack/react-query';
+import { isEqual } from 'lodash';
+import memoizeOne from 'memoize-one';
+import { useMemo } from 'react';
 import { getMetricKeyForScope } from '~shared/helpers/metrics';
+import { sortDashboardHistory } from '~shared/helpers/dashboard-history';
 import { StaleTime } from '~shared/queries/common';
-import { MetricKey } from '~shared/types/metrics';
+import type {
+  DashboardIssueFilters,
+  DashboardMeasureHistory,
+  DashboardMeasureQueryInput,
+  DashboardMeasureQueryOptions,
+} from '~shared/types/dashboard-history';
 import {
-  getDashboardIssueCountHistoryData,
-  getDashboardIssueDensityHistoryData,
-  getDashboardIssueResolutionHistoryData,
-  getDashboardMeasuresHistoryData,
-  getDashboardScaResolutionHistoryData,
-} from '../../api/dashboard-history';
+  getDashboardIssueCountHistoryQueryOptions,
+  getDashboardIssueDensityHistoryQueryOptions,
+  getDashboardIssueResolutionHistoryQueryOptions,
+  getDashboardMeasuresHistoryQueryOptions,
+  getDashboardScaResolutionHistoryQueryOptions,
+} from '../../queries/dashboard-history';
 import { dashboardHistoryDateRange } from '../../helpers/dashboard-widget-data';
 import {
   resolveIssueHistoryDistributionKeyForMode,
@@ -38,93 +47,40 @@ import {
 } from '../../helpers/dashboard-widget-mode';
 import { useStandardExperienceModeQuery } from '../../queries/mode';
 
-interface DashboardIssueFilters {
-  impacts?: string[];
-  issueTypes?: string[];
-  ruleKeys?: string[];
-  severities?: string[];
-  statuses?: string[];
-}
-
-type DashboardMeasure =
-  | {
-      api: 'measures-history';
-      metricKey: MetricKey;
-      scope: 'new' | 'overall';
-    }
-  | (DashboardIssueFilters & {
-      api: 'issue-count-history';
-      metricKey: MetricKey;
-      sliceBy?: string;
-    })
-  | (DashboardIssueFilters & {
-      api: 'issue-resolution-history';
-      statistic: 'MTTR' | 'RECENT_MTTR' | 'RESOLVED_ISSUES';
-    })
-  | (DashboardIssueFilters & { api: 'issue-density-history' })
-  | {
-      api: 'sca-resolution-history';
-      severities?: string[];
-      statistic: 'SCA_MTTR';
-    };
-
-interface DashboardMeasureQueryInput {
-  entityId: string;
-  entityType: 'APPLICATION' | 'PORTFOLIO' | 'PROJECT_BRANCH';
-  measure: DashboardMeasure;
-  months?: number;
-}
-
 function issueFilters(measure: DashboardIssueFilters) {
   const { impacts, issueTypes, ruleKeys, severities, statuses } = measure;
   return { impacts, issueTypes, ruleKeys, severities, statuses };
 }
 
-function sortHistory<T extends { date: string }>(history: T[]): T[] {
-  return [...history].sort((left, right) => Date.parse(left.date) - Date.parse(right.date));
-}
-
-function dashboardMeasureQueryDefinitionForMode(
+function dashboardMeasureQueryOptions(
   input: Readonly<DashboardMeasureQueryInput>,
   isStandardMode: boolean,
-) {
+  enabled: boolean,
+  dateRange: ReturnType<typeof dashboardHistoryDateRange>,
+): DashboardMeasureQueryOptions {
   const { entityId, entityType, measure, months } = input;
-  const normalizedMonths = months ?? 0;
-  const isSnapshot = normalizedMonths === 0;
-  const dateRange = dashboardHistoryDateRange(months);
+  const entity = { entityId, entityType, ...dateRange };
   const historyForDuration = <T extends { date: string }>(history: T[]): T[] => {
-    const sortedHistory = sortHistory(history);
-    return isSnapshot ? sortedHistory.slice(-1) : sortedHistory;
+    const sorted = sortDashboardHistory(history);
+    return (months ?? 0) === 0 ? sorted.slice(-1) : sorted;
   };
   const resolvedIssueFilters = (issueMeasure: DashboardIssueFilters) =>
-    resolveIssueHistoryFiltersForMode(issueFilters(issueMeasure), {
-      isStandardMode,
-    });
-
-  return {
-    queryKey: ['dashboard-measure', entityType, entityId, measure, normalizedMonths],
-    queryFn: async () => {
-      switch (measure.api) {
-        case 'measures-history': {
-          const canonicalMetricKey = getMetricKeyForScope(
-            measure.metricKey,
-            measure.scope === 'new',
-          );
-          const requestedMetricKey = resolvePortfolioDashboardMetricKey(
-            canonicalMetricKey,
-            isStandardMode,
-          );
-          return {
+    resolveIssueHistoryFiltersForMode(issueFilters(issueMeasure), { isStandardMode });
+  switch (measure.api) {
+    case 'measures-history': {
+      const canonicalMetricKey = getMetricKeyForScope(measure.metricKey, measure.scope === 'new');
+      const requestedMetricKey = resolvePortfolioDashboardMetricKey(
+        canonicalMetricKey,
+        isStandardMode,
+      );
+      return getDashboardMeasuresHistoryQueryOptions(
+        { ...entity, metricKeys: [requestedMetricKey] },
+        {
+          enabled,
+          select: (data): DashboardMeasureHistory => ({
             api: measure.api,
             history: historyForDuration(
-              (
-                await getDashboardMeasuresHistoryData({
-                  entityId,
-                  entityType,
-                  ...dateRange,
-                  metricKeys: [requestedMetricKey],
-                })
-              ).map((day) => ({
+              data.measuresHistory.map((day) => ({
                 ...day,
                 measures: day.measures.map((entry) => ({
                   ...entry,
@@ -132,22 +88,24 @@ function dashboardMeasureQueryDefinitionForMode(
                 })),
               })),
             ),
-          };
-        }
-        case 'issue-count-history': {
-          const canonicalSliceBy = measure.sliceBy;
-          return {
+          }),
+        },
+      );
+    }
+    case 'issue-count-history': {
+      const canonicalSliceBy = measure.sliceBy;
+      return getDashboardIssueCountHistoryQueryOptions(
+        {
+          ...entity,
+          ...resolvedIssueFilters(measure),
+          sliceBy: resolveIssueHistorySliceForMode(canonicalSliceBy, isStandardMode),
+        },
+        {
+          enabled,
+          select: (data): DashboardMeasureHistory => ({
             api: measure.api,
             history: historyForDuration(
-              (
-                await getDashboardIssueCountHistoryData({
-                  entityId,
-                  entityType,
-                  ...dateRange,
-                  ...resolvedIssueFilters(measure),
-                  sliceBy: resolveIssueHistorySliceForMode(canonicalSliceBy, isStandardMode),
-                })
-              ).map((day) => ({
+              data.issueCountHistory.map((day) => ({
                 ...day,
                 distribution: day.distribution.map((entry) => ({
                   ...entry,
@@ -159,77 +117,72 @@ function dashboardMeasureQueryDefinitionForMode(
                 })),
               })),
             ),
-          };
-        }
-        case 'issue-resolution-history':
-          return {
+          }),
+        },
+      );
+    }
+    case 'issue-resolution-history':
+      return getDashboardIssueResolutionHistoryQueryOptions(
+        {
+          ...entity,
+          ...resolvedIssueFilters(measure),
+          statistic: measure.statistic,
+        },
+        {
+          enabled,
+          select: (data): DashboardMeasureHistory => ({
             api: measure.api,
-            history: historyForDuration(
-              await getDashboardIssueResolutionHistoryData({
-                entityId,
-                entityType,
-                ...dateRange,
-                statistic: measure.statistic,
-                ...resolvedIssueFilters(measure),
-              }),
-            ),
-          };
-        case 'issue-density-history':
-          return {
+            history: historyForDuration(data.issueResolutionHistory),
+          }),
+        },
+      );
+    case 'issue-density-history':
+      return getDashboardIssueDensityHistoryQueryOptions(
+        {
+          ...entity,
+          ...resolvedIssueFilters(measure),
+        },
+        {
+          enabled,
+          select: (data): DashboardMeasureHistory => ({
             api: measure.api,
-            history: historyForDuration(
-              await getDashboardIssueDensityHistoryData({
-                entityId,
-                entityType,
-                ...dateRange,
-                ...resolvedIssueFilters(measure),
-              }),
-            ),
-          };
-        case 'sca-resolution-history':
-          return {
+            history: historyForDuration(data.issueDensityHistory),
+          }),
+        },
+      );
+    case 'sca-resolution-history':
+      return getDashboardScaResolutionHistoryQueryOptions(
+        {
+          ...entity,
+          severities: measure.severities,
+          statistic: measure.statistic,
+        },
+        {
+          enabled,
+          select: (data): DashboardMeasureHistory => ({
             api: measure.api,
-            history: historyForDuration(
-              await getDashboardScaResolutionHistoryData({
-                entityId,
-                entityType,
-                ...dateRange,
-                severities: measure.severities,
-                statistic: measure.statistic,
-              }),
-            ),
-          };
-      }
-    },
-  };
-}
-
-function dashboardMeasureQueryOptions(
-  input: Readonly<DashboardMeasureQueryInput>,
-  isStandardMode = false,
-) {
-  return {
-    ...dashboardMeasureQueryDefinitionForMode(input, isStandardMode),
-    staleTime: StaleTime.SHORT,
-  };
+            history: historyForDuration(data.scaResolutionHistory),
+          }),
+        },
+      );
+  }
 }
 
 export function useDashboardMeasureQuery(
   input: Readonly<DashboardMeasureQueryInput>,
   enabled = true,
 ) {
+  const getQueryOptions = useMemo(() => memoizeOne(dashboardMeasureQueryOptions, isEqual), []);
+  const dateRange = dashboardHistoryDateRange(input.months);
   const modeQuery = useStandardExperienceModeQuery({ enabled });
-  const isStandardMode = modeQuery.data ?? false;
-  const options = dashboardMeasureQueryOptions(input, isStandardMode);
-  return useQuery({
-    ...options,
-    queryKey: [...options.queryKey, isStandardMode],
-    queryFn: async () => {
-      if (modeQuery.error) {
-        throw modeQuery.error;
-      }
-      return options.queryFn();
-    },
-    enabled: enabled && !modeQuery.isPending,
-  });
+  const queryEnabled = enabled && !modeQuery.isPending;
+  const options: DashboardMeasureQueryOptions = modeQuery.error
+    ? queryOptions({
+        queryKey: ['dashboard-measure', 'mode-error', input],
+        queryFn: () => Promise.reject<DashboardMeasureHistory>(modeQuery.error),
+        staleTime: StaleTime.SHORT,
+        enabled: queryEnabled,
+      })
+    : getQueryOptions(input, modeQuery.data ?? false, queryEnabled, dateRange);
+  return useQuery(options);
 }

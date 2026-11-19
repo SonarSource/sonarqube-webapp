@@ -18,31 +18,69 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { useQuery } from '@tanstack/react-query';
-import { IssueSeverity } from '~shared/types/issues';
-import { MetricKey } from '~shared/types/metrics';
 import {
-  getDashboardIssueCountHistoryData,
-  getDashboardIssueDensityHistoryData,
-  getDashboardIssueResolutionHistoryData,
-  getDashboardMeasuresHistoryData,
-  getDashboardScaResolutionHistoryData,
-} from '../../../api/dashboard-history';
+  type OrganizationsMeasuresHistoryDay,
+  type OrganizationsIssueCountHistoryDay,
+  type DashboardMeasureQueryOptions,
+  CodeScope,
+  IssueResolutionStatistic,
+  ScaResolutionStatistic,
+} from '~shared/types/dashboard-history';
+import { useQuery } from '@tanstack/react-query';
+import { renderHook, waitFor } from '@testing-library/react';
+import { getContextWrapper } from '~adapters/helpers/test-utils';
+import * as dashboardHistory from '~shared/helpers/dashboard-history';
+import { IssueSeverity } from '~shared/types/issues';
+import { MetricKey, MetricType } from '~shared/types/metrics';
 import { useStandardExperienceModeQuery } from '../../../queries/mode';
 import { useDashboardMeasureQuery } from '../dashboard-measure';
 
 jest.mock('@tanstack/react-query', () => ({
+  ...jest.requireActual<typeof import('@tanstack/react-query')>('@tanstack/react-query'),
   useQuery: jest.fn(),
 }));
 
 jest.mock('../../../queries/mode');
 
+const mockGetIssueCountHistoryData = jest.fn<
+  Promise<OrganizationsIssueCountHistoryDay[]>,
+  [unknown]
+>();
+const mockGetIssueDensityHistoryData = jest.fn<
+  Promise<OrganizationsIssueCountHistoryDay[]>,
+  [unknown]
+>();
+const mockGetIssueResolutionHistoryData = jest.fn<
+  Promise<OrganizationsIssueCountHistoryDay[]>,
+  [unknown]
+>();
+const mockGetMeasuresHistoryData = jest.fn<Promise<OrganizationsMeasuresHistoryDay[]>, [unknown]>();
+const mockGetScaResolutionHistoryData = jest.fn<
+  Promise<OrganizationsIssueCountHistoryDay[]>,
+  [unknown]
+>();
+
+jest.mock('~sq-server-openapi-community', () => ({
+  getIssueCountHistory: ({ query }: { query: unknown }) =>
+    mockGetIssueCountHistoryData(query).then((issueCountHistory) => ({
+      data: { issueCountHistory },
+    })),
+  getIssueDensityHistory: ({ query }: { query: unknown }) =>
+    mockGetIssueDensityHistoryData(query).then((issueDensityHistory) => ({
+      data: { issueDensityHistory },
+    })),
+  getIssueResolutionHistory: ({ query }: { query: unknown }) =>
+    mockGetIssueResolutionHistoryData(query).then((issueResolutionHistory) => ({
+      data: { issueResolutionHistory },
+    })),
+  getMeasuresHistory: ({ query }: { query: unknown }) =>
+    mockGetMeasuresHistoryData(query).then((measuresHistory) => ({ data: { measuresHistory } })),
+}));
 jest.mock('../../../api/dashboard-history', () => ({
-  getDashboardIssueCountHistoryData: jest.fn(),
-  getDashboardIssueDensityHistoryData: jest.fn(),
-  getDashboardIssueResolutionHistoryData: jest.fn(),
-  getDashboardMeasuresHistoryData: jest.fn(),
-  getDashboardScaResolutionHistoryData: jest.fn(),
+  getDashboardScaResolutionHistory: (query: unknown) =>
+    mockGetScaResolutionHistoryData(query).then((scaResolutionHistory) => ({
+      scaResolutionHistory,
+    })),
 }));
 
 jest.mock('../../context/dashboardContext', () => ({
@@ -63,9 +101,9 @@ describe('dashboardMeasureQueryOptions', () => {
   });
 
   it('maps coexisting measure filters to the Server API', async () => {
-    jest.mocked(getDashboardIssueCountHistoryData).mockResolvedValue([]);
+    jest.mocked(mockGetIssueCountHistoryData).mockResolvedValue([]);
 
-    const options = useDashboardMeasureQueryOptions({
+    const options = getDashboardMeasureQueryOptions({
       entityId: 'branch-id',
       entityType: 'PROJECT_BRANCH',
       measure: {
@@ -80,7 +118,7 @@ describe('dashboardMeasureQueryOptions', () => {
 
     await options.queryFn();
 
-    expect(getDashboardIssueCountHistoryData).toHaveBeenCalledWith(
+    expect(mockGetIssueCountHistoryData).toHaveBeenCalledWith(
       expect.objectContaining({
         impacts: ['SECURITY:HIGH'],
         issueTypes: ['VULNERABILITY'],
@@ -90,7 +128,7 @@ describe('dashboardMeasureQueryOptions', () => {
   });
 
   it('adapts MQR issue filters and distribution keys in Standard mode', async () => {
-    jest.mocked(getDashboardIssueCountHistoryData).mockResolvedValue([
+    jest.mocked(mockGetIssueCountHistoryData).mockResolvedValue([
       {
         date: '2026-01-01',
         distribution: [{ key: 'VULNERABILITY', value: 3 }],
@@ -102,7 +140,7 @@ describe('dashboardMeasureQueryOptions', () => {
       error: null,
       isPending: false,
     } as ReturnType<typeof useStandardExperienceModeQuery>);
-    const options = useDashboardMeasureQueryOptions({
+    const options = getDashboardMeasureQueryOptions({
       entityId: 'portfolio-id',
       entityType: 'PORTFOLIO',
       measure: {
@@ -115,14 +153,14 @@ describe('dashboardMeasureQueryOptions', () => {
     });
     const result = await options.queryFn();
 
-    expect(getDashboardIssueCountHistoryData).toHaveBeenCalledWith(
+    expect(mockGetIssueCountHistoryData).toHaveBeenCalledWith(
       expect.objectContaining({
         issueTypes: ['VULNERABILITY'],
         sliceBy: 'TYPE',
         typeSeverities: [IssueSeverity.Critical],
       }),
     );
-    expect(jest.mocked(getDashboardIssueCountHistoryData).mock.calls[0]?.[0]).not.toHaveProperty(
+    expect(jest.mocked(mockGetIssueCountHistoryData).mock.calls[0]?.[0]).not.toHaveProperty(
       'impacts',
     );
     expect(result).toEqual({
@@ -142,25 +180,25 @@ describe('dashboardMeasureQueryOptions', () => {
       error: null,
       isPending: false,
     } as ReturnType<typeof useStandardExperienceModeQuery>);
-    jest.mocked(getDashboardMeasuresHistoryData).mockResolvedValue([
+    jest.mocked(mockGetMeasuresHistoryData).mockResolvedValue([
       {
         date: '2026-01-01',
-        measures: [{ metric: MetricKey.reliability_rating, type: 'RATING', value: 'A' }],
+        measures: [{ metric: MetricKey.reliability_rating, type: MetricType.Rating, value: 'A' }],
       },
     ]);
 
-    const result = await useDashboardMeasureQueryOptions({
+    const result = await getDashboardMeasureQueryOptions({
       entityId: 'portfolio-id',
       entityType: 'PORTFOLIO',
       measure: {
         api: 'measures-history',
         metricKey: MetricKey.software_quality_reliability_rating,
-        scope: 'overall',
+        scope: CodeScope.Overall,
       },
       months: 3,
     }).queryFn();
 
-    expect(getDashboardMeasuresHistoryData).toHaveBeenCalledWith(
+    expect(mockGetMeasuresHistoryData).toHaveBeenCalledWith(
       expect.objectContaining({ metricKeys: [MetricKey.reliability_rating] }),
     );
     expect(result).toEqual({
@@ -171,7 +209,7 @@ describe('dashboardMeasureQueryOptions', () => {
           measures: [
             {
               metric: MetricKey.software_quality_reliability_rating,
-              type: 'RATING',
+              type: MetricType.Rating,
               value: 'A',
             },
           ],
@@ -181,18 +219,18 @@ describe('dashboardMeasureQueryOptions', () => {
   });
 
   it('keeps only the latest measures-history day for count widgets', async () => {
-    jest.mocked(getDashboardMeasuresHistoryData).mockResolvedValue([
+    jest.mocked(mockGetMeasuresHistoryData).mockResolvedValue([
       { date: '2026-02-01', measures: [] },
       { date: '2026-01-01', measures: [] },
     ]);
 
-    const result = await useDashboardMeasureQueryOptions({
+    const result = await getDashboardMeasureQueryOptions({
       entityId: 'branch-id',
       entityType: 'PROJECT_BRANCH',
       measure: {
         api: 'measures-history',
         metricKey: MetricKey.coverage,
-        scope: 'overall' as never,
+        scope: CodeScope.Overall,
       },
     }).queryFn();
 
@@ -203,81 +241,154 @@ describe('dashboardMeasureQueryOptions', () => {
   });
 
   it('requests the new-code variant of project metrics outside the portfolio allowlist', async () => {
-    jest.mocked(getDashboardMeasuresHistoryData).mockResolvedValue([]);
+    jest.mocked(mockGetMeasuresHistoryData).mockResolvedValue([]);
 
-    await useDashboardMeasureQueryOptions({
+    await getDashboardMeasureQueryOptions({
       entityId: 'branch-id',
       entityType: 'PROJECT_BRANCH',
       measure: {
         api: 'measures-history',
         metricKey: MetricKey.line_coverage,
-        scope: 'new',
+        scope: CodeScope.New,
       },
       months: 1,
     }).queryFn();
 
-    expect(getDashboardMeasuresHistoryData).toHaveBeenCalledWith(
+    expect(mockGetMeasuresHistoryData).toHaveBeenCalledWith(
       expect.objectContaining({ metricKeys: [MetricKey.new_line_coverage] }),
     );
   });
 
   it('selects the density and issue-resolution APIs', async () => {
-    jest.mocked(getDashboardIssueDensityHistoryData).mockResolvedValue([]);
-    jest.mocked(getDashboardIssueResolutionHistoryData).mockResolvedValue([]);
+    jest.mocked(mockGetIssueDensityHistoryData).mockResolvedValue([]);
+    jest.mocked(mockGetIssueResolutionHistoryData).mockResolvedValue([]);
 
-    const density = await useDashboardMeasureQueryOptions({
+    const density = await getDashboardMeasureQueryOptions({
       entityId: 'portfolio-id',
       entityType: 'PORTFOLIO',
       measure: { api: 'issue-density-history' },
       months: 3,
     }).queryFn();
-    const resolution = await useDashboardMeasureQueryOptions({
+    const resolution = await getDashboardMeasureQueryOptions({
       entityId: 'portfolio-id',
       entityType: 'PORTFOLIO',
       measure: {
         api: 'issue-resolution-history',
-        statistic: 'MTTR' as never,
+        statistic: IssueResolutionStatistic.MTTR,
       },
       months: 3,
     }).queryFn();
 
     expect(density.api).toBe('issue-density-history');
     expect(resolution.api).toBe('issue-resolution-history');
-    expect(getDashboardIssueDensityHistoryData).toHaveBeenCalled();
-    expect(getDashboardIssueResolutionHistoryData).toHaveBeenCalledWith(
+    expect(mockGetIssueDensityHistoryData).toHaveBeenCalled();
+    expect(mockGetIssueResolutionHistoryData).toHaveBeenCalledWith(
       expect.objectContaining({ statistic: 'MTTR' }),
     );
-    expect(
-      jest.mocked(getDashboardIssueResolutionHistoryData).mock.calls[0]?.[0],
-    ).not.toHaveProperty('endDate');
+    expect(jest.mocked(mockGetIssueResolutionHistoryData).mock.calls[0]?.[0]).not.toHaveProperty(
+      'endDate',
+    );
   });
 
   it('selects the SCA resolution API', async () => {
-    jest.mocked(getDashboardScaResolutionHistoryData).mockResolvedValue([]);
+    jest.mocked(mockGetScaResolutionHistoryData).mockResolvedValue([]);
 
-    const result = await useDashboardMeasureQueryOptions({
+    const result = await getDashboardMeasureQueryOptions({
       entityId: 'portfolio-id',
       entityType: 'PORTFOLIO',
       measure: {
         api: 'sca-resolution-history',
-        statistic: 'SCA_MTTR' as never,
+        statistic: ScaResolutionStatistic.ScaMTTR,
       },
       months: 6,
     }).queryFn();
 
     expect(result.api).toBe('sca-resolution-history');
-    expect(getDashboardScaResolutionHistoryData).toHaveBeenCalledWith(
+    expect(mockGetScaResolutionHistoryData).toHaveBeenCalledWith(
       expect.objectContaining({ statistic: 'SCA_MTTR' }),
     );
   });
+
+  it('reuses history selection across equal renders and refreshes changed ranges', async () => {
+    jest.useFakeTimers().setSystemTime(new Date('2026-08-30T12:00:00.000Z'));
+    const actual =
+      jest.requireActual<typeof import('@tanstack/react-query')>('@tanstack/react-query');
+    jest.mocked(useQuery).mockImplementation(actual.useQuery);
+    const sort = jest.spyOn(dashboardHistory, 'sortDashboardHistory');
+    mockGetMeasuresHistoryData.mockResolvedValue([
+      {
+        date: '2026-08-29',
+        measures: [{ metric: MetricKey.coverage, type: MetricType.Percent, value: '80' }],
+      },
+      {
+        date: '2026-08-30',
+        measures: [{ metric: MetricKey.coverage, type: MetricType.Percent, value: '90' }],
+      },
+    ]);
+    const input: Parameters<typeof useDashboardMeasureQuery>[0] = {
+      entityId: 'branch-id',
+      entityType: 'PROJECT_BRANCH',
+      measure: { api: 'measures-history', metricKey: MetricKey.coverage, scope: CodeScope.Overall },
+      months: 0,
+    };
+    try {
+      const { result, rerender } = renderHook((params) => useDashboardMeasureQuery(params), {
+        initialProps: input,
+        wrapper: getContextWrapper(),
+      });
+      await waitFor(() => {
+        expect(result.current.data?.history).toHaveLength(1);
+      });
+      const sorts = sort.mock.calls.length;
+
+      rerender({ ...input, measure: { ...input.measure } });
+      expect(sort).toHaveBeenCalledTimes(sorts);
+
+      rerender({ ...input, months: 1 });
+      await waitFor(() => {
+        expect(result.current.data?.history).toHaveLength(2);
+      });
+      expect(sort.mock.calls.length).toBeGreaterThan(sorts);
+
+      const requests = mockGetMeasuresHistoryData.mock.calls.length;
+      jest.setSystemTime(new Date('2026-08-31T12:00:00.000Z'));
+      rerender({ ...input, months: 1 });
+      await waitFor(() => {
+        expect(mockGetMeasuresHistoryData.mock.calls.length).toBeGreaterThan(requests);
+      });
+
+      const modeSorts = sort.mock.calls.length;
+      jest.mocked(useStandardExperienceModeQuery).mockReturnValue({
+        data: true,
+        error: null,
+        isPending: false,
+      } as ReturnType<typeof useStandardExperienceModeQuery>);
+      rerender({ ...input, months: 1 });
+      expect(sort.mock.calls.length).toBeGreaterThan(modeSorts);
+    } finally {
+      sort.mockRestore();
+      jest.useRealTimers();
+    }
+  });
 });
 
-function useDashboardMeasureQueryOptions(input: Parameters<typeof useDashboardMeasureQuery>[0]): {
+function getDashboardMeasureQueryOptions(input: Parameters<typeof useDashboardMeasureQuery>[0]): {
   queryFn: () => Promise<{ api: string; history: unknown[] }>;
   queryKey: readonly unknown[];
 } {
-  return useDashboardMeasureQuery(input) as unknown as {
-    queryFn: () => Promise<{ api: string; history: unknown[] }>;
-    queryKey: readonly unknown[];
+  const { result } = renderHook(() => useDashboardMeasureQuery(input));
+  const options = result.current as unknown as DashboardMeasureQueryOptions;
+  return {
+    queryKey: options.queryKey,
+    queryFn: async () => {
+      if (typeof options.queryFn !== 'function') throw new Error('Expected query function');
+      const data = await options.queryFn({
+        queryKey: options.queryKey,
+        signal: new AbortController().signal,
+        meta: undefined,
+      });
+      if (!options.select) throw new Error('Expected dashboard selection');
+      return options.select(data);
+    },
   };
 }

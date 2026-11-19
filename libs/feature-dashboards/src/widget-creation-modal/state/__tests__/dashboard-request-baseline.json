@@ -1,0 +1,181 @@
+{
+  "baseline": "77b4bfeae1c4f16745723232badd68b77d10c30f",
+  "candidate": "578eabcd1b4ca83e903129896ce16a20f3fada85",
+  "seed": 402996,
+  "clock": "2026-08-30T12:00:00.000Z",
+  "harnessSha256": {
+    "libs/feature-dashboards/src/widget-creation-modal/state/__tests__/dashboardRequestCases.ts": "9c0c3d87d370218e182b482e894a2c46e87976171ae6b29391eaf61784732d74",
+    "libs/feature-dashboards/src/widget-creation-modal/state/__tests__/dashboardRequestHarness.tsx": "70328b0e2cbea8ccaf7f87e475833a9187a078535ec8bfa2cd43bb4e3a725be8",
+    "apps/sq-server/src/main/js/apps/projectDashboards/components/__tests__/dashboard-request-equivalence-test.tsx": "12ccb4427dca1a860d682c18103ab5ce5c5f66b1440f5b822d3c11cb4414ec6b",
+    "private/libs/sq-server-features/src/feature-dashboards/__tests__/dashboard-request-equivalence-test.tsx": "04ee27b5a0b76995c017444858813da641a14082a558044268ae4caed3b7d621",
+    "private/apps/sq-cloud/src/sq-cloud-adapters/queries/__tests__/dashboard-request-equivalence-test.tsx": "b2b147a33427c2afd94aea213d31eacf7594960c5754ae7935aa171c390f7690"
+  },
+  "originalBaselineSnapshotsSha256": {
+    "apps/sq-server/src/main/js/apps/projectDashboards/components/__tests__/__snapshots__/dashboard-request-equivalence-test.tsx.snap": "1b4c3fc5cb104248c71207749a027b2ea47e42c7e39ca9047438b43bfa4912d9",
+    "private/libs/sq-server-features/src/feature-dashboards/__tests__/__snapshots__/dashboard-request-equivalence-test.tsx.snap": "a9040bb988222edaed30302b8eba08149c40b0b269bf8a467bc12c8ee324c2e3",
+    "private/apps/sq-cloud/src/sq-cloud-adapters/queries/__tests__/__snapshots__/dashboard-request-equivalence-test.tsx.snap": "fee4486da34750c10a7f1bbc93eb2f8b2cd94a2b506649217266378fa9add4a5"
+  },
+  "approvedBaselineAmendment": {
+    "description": "Only Cloud SCA entityType changed to canonical uppercase values from the generated contract (the backend accepts both casings); these 24 reviewed values are amended explicitly in the baseline, never normalized by the test.",
+    "changedSnapshotCases": 24,
+    "caseIds": [
+      {
+        "context": "project",
+        "id": "lineChart-68c547d2"
+      },
+      {
+        "context": "project",
+        "id": "count-659bde25"
+      },
+      {
+        "context": "project",
+        "id": "lineChart-9c8e7731"
+      },
+      {
+        "context": "project",
+        "id": "lineChart-57bf8cb0"
+      },
+      {
+        "context": "project",
+        "id": "lineChart-823f5edc"
+      },
+      {
+        "context": "project",
+        "id": "count-e9eca5a4"
+      },
+      {
+        "context": "project",
+        "id": "count-8a05307d"
+      },
+      {
+        "context": "project",
+        "id": "count-f8240f82"
+      },
+      {
+        "context": "project",
+        "id": "lineChart-5647bd08"
+      },
+      {
+        "context": "project",
+        "id": "count-2d3d68d5"
+      },
+      {
+        "context": "project",
+        "id": "lineChart-a9c66829"
+      },
+      {
+        "context": "project",
+        "id": "count-5867ed9b"
+      },
+      {
+        "context": "portfolio",
+        "id": "lineChart-2cf46d79"
+      },
+      {
+        "context": "portfolio",
+        "id": "count-2d3d68d5"
+      },
+      {
+        "context": "portfolio",
+        "id": "lineChart-d140ee4f"
+      },
+      {
+        "context": "portfolio",
+        "id": "lineChart-b5adb20e"
+      },
+      {
+        "context": "portfolio",
+        "id": "lineChart-2fc34f71"
+      },
+      {
+        "context": "portfolio",
+        "id": "count-1019d35c"
+      },
+      {
+        "context": "portfolio",
+        "id": "count-e6f578e3"
+      },
+      {
+        "context": "portfolio",
+        "id": "lineChart-a344bcbc"
+      },
+      {
+        "context": "portfolio",
+        "id": "lineChart-615de05d"
+      },
+      {
+        "context": "portfolio",
+        "id": "count-f786bf97"
+      },
+      {
+        "context": "portfolio",
+        "id": "count-11147436"
+      },
+      {
+        "context": "portfolio",
+        "id": "count-3407c5fe"
+      }
+    ]
+  },
+  "initialAudit": {
+    "cloud": {
+      "cases": 406,
+      "requests": 455,
+      "identicalBeforeApprovedFix": 382,
+      "unexplainedDifferences": 0,
+      "requestOrderDifferences": 0,
+      "requestCountDifferences": 0
+    },
+    "server": {
+      "cases": 956,
+      "requests": 1908,
+      "identicalBeforeApprovedFix": 956,
+      "unexplainedDifferences": 0,
+      "requestOrderDifferences": 0,
+      "requestCountDifferences": 0
+    }
+  },
+  "snapshotSha256": {
+    "apps/sq-server/src/main/js/apps/projectDashboards/components/__tests__/__snapshots__/dashboard-request-equivalence-test.tsx.snap": "1b4c3fc5cb104248c71207749a027b2ea47e42c7e39ca9047438b43bfa4912d9",
+    "private/libs/sq-server-features/src/feature-dashboards/__tests__/__snapshots__/dashboard-request-equivalence-test.tsx.snap": "a9040bb988222edaed30302b8eba08149c40b0b269bf8a467bc12c8ee324c2e3",
+    "private/apps/sq-cloud/src/sq-cloud-adapters/queries/__tests__/__snapshots__/dashboard-request-equivalence-test.tsx.snap": "be505250451b780fbbf88b8eae2a8d1dd04ccc89ed782525d1b22852d72831e1"
+  },
+  "fixtureRuleCount": 17,
+  "repeatedTraceChecks": [
+    {
+      "trace": "Cloud baseline",
+      "byteIdentical": true,
+      "sha256": "5be92661444a33db41ca42a16239ed21157a9aabc14c323b79b23e643f026b1e"
+    },
+    {
+      "trace": "Cloud candidate",
+      "byteIdentical": true,
+      "sha256": "8183b900e68f716fb545de7f227fcb01b19b9751bfcf3784e486d8ba7e218a8a"
+    },
+    {
+      "trace": "Server baseline project",
+      "byteIdentical": true,
+      "sha256": "6a8bc6c37fb82ab3eab4911f49228b66d159739f694746f1ddbd56a895fa8d3f"
+    },
+    {
+      "trace": "Server candidate project",
+      "byteIdentical": true,
+      "sha256": "9945dbf552326d44644d8104d7b9b58847cdb0244c7451384ab31fb860dd40e9"
+    },
+    {
+      "trace": "Server baseline portfolio",
+      "byteIdentical": true,
+      "sha256": "e0f8ceb0691d86fb090e9d6fb8e31608b9842f61f4d0ec1c099cda09dc2dfdd7"
+    },
+    {
+      "trace": "Server candidate portfolio",
+      "byteIdentical": true,
+      "sha256": "9d217d80f6f40cbe347c2e7194276195641bc3999b492bcecf5a37c141b623cd"
+    }
+  ],
+  "negativeControl": {
+    "mutation": "Override the real legacy issue-count API entityId with another UUID",
+    "expectedSnapshotFailure": true,
+    "referenceFileRestored": true
+  }
+}

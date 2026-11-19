@@ -18,6 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { useQuery } from '@tanstack/react-query';
 import { useCallback, useMemo } from 'react';
 import { MetricKey } from '~shared/types/metrics';
 import {
@@ -39,7 +40,7 @@ import {
   resolveIssueSoftwareQuality,
 } from '../../helpers/dashboard-widget-mode';
 import { unsupportedDashboardWidgetAdapter } from '../../helpers/unsupported-dashboard-widget-adapter';
-import { useDashboardIssueCountHistoryQuery } from '../../queries/dashboard-history';
+import { getDashboardIssueCountHistoryQueryOptions } from '../../queries/dashboard-history';
 import { useStandardExperienceModeQuery } from '../../queries/mode';
 
 export type UseTopListIssueCountDataOptions = {
@@ -103,11 +104,13 @@ export function useTopListIssueCountData(
     [entityId, entityType, measureFilters, modeQuery.data, resolvedIssueMetricKey, richMetricKey],
   );
   const queryEnabled = enabled && Boolean(entityId) && !isUnsupported && isModeResolved;
-  const countsQuery = useDashboardIssueCountHistoryQuery(issueCountParams, {
-    enabled: queryEnabled,
-    refetchOnWindowFocus: false,
-    select: (response) => issueCountHistoryToPieCounts(response.issueCountHistory),
-  });
+  const countsQuery = useQuery(
+    getDashboardIssueCountHistoryQueryOptions(issueCountParams, {
+      enabled: queryEnabled,
+      refetchOnWindowFocus: false,
+      select: (response) => issueCountHistoryToPieCounts(response.issueCountHistory),
+    }),
+  );
   const { data: counts } = countsQuery;
   const topRuleKeys = useMemo(
     () => topRuleKeysByCount(counts, widget.limit),
@@ -121,11 +124,13 @@ export function useTopListIssueCountData(
     }),
     [issueCountParams, topRuleKeys],
   );
-  const trendQuery = useDashboardIssueCountHistoryQuery(trendHistoryParams, {
-    enabled: queryEnabled && fetchTrendHistory && topRuleKeys.length > 0,
-    refetchOnWindowFocus: false,
-    select: (response) => response.issueCountHistory,
-  });
+  const trendQuery = useQuery(
+    getDashboardIssueCountHistoryQueryOptions(trendHistoryParams, {
+      enabled: queryEnabled && fetchTrendHistory && topRuleKeys.length > 0,
+      refetchOnWindowFocus: false,
+      select: (response) => response.issueCountHistory,
+    }),
+  );
   const metricMetadata = useMemo(
     () => resolveRichCountTrendMetricMetadata(resolvedIssueMetricKey),
     [resolvedIssueMetricKey],

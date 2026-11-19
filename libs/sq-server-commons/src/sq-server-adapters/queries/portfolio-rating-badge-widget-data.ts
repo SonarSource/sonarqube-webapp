@@ -18,6 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { useQuery } from '@tanstack/react-query';
 import type { ProjectCollectionEntityType } from '~shared/types/dashboard-context';
 import {
   adaptServerReleasabilityDistribution,
@@ -26,7 +27,7 @@ import {
 } from '../../helpers/dashboard-widget-data';
 import { resolvePortfolioDashboardMetricKeys } from '../../helpers/dashboard-widget-mode';
 import {
-  useDashboardMeasuresHistoryQuery,
+  getDashboardMeasuresHistoryQueryOptions,
   useDashboardProjectMeasuresQuery,
 } from '../../queries/dashboard-history';
 import { useStandardExperienceModeQuery } from '../../queries/mode';
@@ -68,21 +69,23 @@ export function usePortfolioRatingBadgeMeasuresQuery(
   options: { enabled?: boolean; entityType?: ProjectCollectionEntityType; metricKeys: string[] },
 ) {
   const { enabled = true, entityType = 'PORTFOLIO', metricKeys } = options;
-  return useDashboardMeasuresHistoryQuery(
-    {
-      entityId: portfolioId,
-      entityType,
-      metricKeys,
-      startDate: organizationsHistoryStartDateWithRetentionBuffer(),
-    },
-    {
-      enabled: enabled && Boolean(portfolioId) && metricKeys.length > 0,
-      refetchOnWindowFocus: false,
-      select: (response) =>
-        adaptServerReleasabilityDistribution(
-          portfolioMeasuresLatestRecord(response.measuresHistory),
-        ),
-    },
+  return useQuery(
+    getDashboardMeasuresHistoryQueryOptions(
+      {
+        entityId: portfolioId,
+        entityType,
+        metricKeys,
+        startDate: organizationsHistoryStartDateWithRetentionBuffer(),
+      },
+      {
+        enabled: enabled && Boolean(portfolioId) && metricKeys.length > 0,
+        refetchOnWindowFocus: false,
+        select: (response) =>
+          adaptServerReleasabilityDistribution(
+            portfolioMeasuresLatestRecord(response.measuresHistory),
+          ),
+      },
+    ),
   );
 }
 

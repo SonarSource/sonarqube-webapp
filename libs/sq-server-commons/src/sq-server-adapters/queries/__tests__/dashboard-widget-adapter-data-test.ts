@@ -51,9 +51,6 @@ import { useTopListIssueCountData } from '../top-list-issue-count-data';
 import { useWidgetMetricMetadataQuery } from '../widget-metric-metadata';
 
 const mockUseDashboardIssueCountHistoryQuery = jest.fn();
-const mockUseDashboardIssueDensityHistoryQuery = jest.fn();
-const mockUseDashboardIssueResolutionHistoryQuery = jest.fn();
-const mockUseDashboardScaResolutionHistoryQuery = jest.fn();
 const mockUseDashboardMeasuresHistoryQuery = jest.fn();
 const mockUseDashboardProjectIssueCountsQuery = jest.fn();
 const mockUseDashboardProjectMeasuresQuery = jest.fn<unknown[], unknown[]>();
@@ -65,22 +62,40 @@ const mockUseDashboardRuleLabels = jest.fn();
 const mockUseWidgetMetricMetadataQuery = jest.fn();
 const mockUseIssuesSearchQuery = jest.mocked(useIssuesSearchQuery);
 
+jest.mock('@tanstack/react-query', () => {
+  const actual =
+    jest.requireActual<typeof import('@tanstack/react-query')>('@tanstack/react-query');
+  return {
+    ...actual,
+    useQuery: (options: Parameters<typeof actual.useQuery>[0]) => {
+      const { queryKey, ...overrides } = options;
+      if (queryKey[0] === 'mock-server-IssueCount') {
+        const result: unknown = mockUseDashboardIssueCountHistoryQuery(queryKey[1], overrides);
+        return result;
+      }
+      if (queryKey[0] === 'mock-server-Measures') {
+        const result: unknown = mockUseDashboardMeasuresHistoryQuery(queryKey[1], overrides);
+        return result;
+      }
+      return actual.useQuery(options);
+    },
+  };
+});
+
 jest.mock('react-router', () => ({
   ...jest.requireActual<typeof import('react-router')>('react-router'),
   useSearchParams: () => [new URLSearchParams(), jest.fn()],
 }));
 
 jest.mock('../../../queries/dashboard-history', () => ({
-  useDashboardIssueCountHistoryQuery: (...args: unknown[]) =>
-    mockUseDashboardIssueCountHistoryQuery(...args),
-  useDashboardIssueDensityHistoryQuery: (...args: unknown[]) =>
-    mockUseDashboardIssueDensityHistoryQuery(...args),
-  useDashboardIssueResolutionHistoryQuery: (...args: unknown[]) =>
-    mockUseDashboardIssueResolutionHistoryQuery(...args),
-  useDashboardScaResolutionHistoryQuery: (...args: unknown[]) =>
-    mockUseDashboardScaResolutionHistoryQuery(...args),
-  useDashboardMeasuresHistoryQuery: (...args: unknown[]) =>
-    mockUseDashboardMeasuresHistoryQuery(...args),
+  getDashboardIssueCountHistoryQueryOptions: (params: unknown, options?: object) => ({
+    queryKey: ['mock-server-IssueCount', params],
+    ...options,
+  }),
+  getDashboardMeasuresHistoryQueryOptions: (params: unknown, options?: object) => ({
+    queryKey: ['mock-server-Measures', params],
+    ...options,
+  }),
   useDashboardProjectIssueCountsQuery: (...args: unknown[]) =>
     mockUseDashboardProjectIssueCountsQuery(...args),
   useDashboardProjectMeasuresQuery: (...args: unknown[]) =>
@@ -129,9 +144,6 @@ function queryResult(data: unknown, extra: Record<string, unknown> = {}) {
 
 function setupMocks() {
   mockUseDashboardIssueCountHistoryQuery.mockReturnValue(queryResult(undefined));
-  mockUseDashboardIssueDensityHistoryQuery.mockReturnValue(queryResult(undefined));
-  mockUseDashboardIssueResolutionHistoryQuery.mockReturnValue(queryResult(undefined));
-  mockUseDashboardScaResolutionHistoryQuery.mockReturnValue(queryResult(undefined));
   mockUseDashboardMeasuresHistoryQuery.mockReturnValue(queryResult(undefined));
   mockUseDashboardProjectIssueCountsQuery.mockReturnValue(queryResult(undefined));
   mockUseDashboardProjectMeasuresQuery.mockReturnValue([]);
