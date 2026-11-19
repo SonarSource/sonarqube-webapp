@@ -43,8 +43,12 @@ export function isCurrentVersionEOLActive(versionEOL: string) {
 
 export async function initMockApi(extraHandlers: HttpHandler[] = []) {
   if (process.env.NODE_ENV === 'development' && process.env.WITH_MOCK_API === 'true') {
-    const { worker } = await import('../api/mocks-v2/browser');
-    worker.use(...extraHandlers);
+    const { worker, localHandlers, replaceDevHandlers } = await import('../api/mocks-v2/browser');
+    if (!replaceDevHandlers) {
+      worker.use(...extraHandlers);
+    }
+    // use() prepends, so local mocks take precedence over the feature dev mocks
+    worker.use(...localHandlers);
     return worker
       .start({
         onUnhandledRequest: (req, print) => {

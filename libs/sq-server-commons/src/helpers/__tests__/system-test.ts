@@ -18,18 +18,32 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { http, HttpHandler } from 'msw';
 import { worker } from '../../api/mocks-v2/browser';
 import { initMockApi } from '../system';
+
+const mockLocalMocks: { localHandlers: HttpHandler[]; replaceDevHandlers: boolean } = {
+  localHandlers: [],
+  replaceDevHandlers: false,
+};
 
 jest.mock('../../api/mocks-v2/browser', () => ({
   worker: {
     start: jest.fn().mockResolvedValue({}),
     use: jest.fn(),
   },
+  get localHandlers() {
+    return mockLocalMocks.localHandlers;
+  },
+  get replaceDevHandlers() {
+    return mockLocalMocks.replaceDevHandlers;
+  },
 }));
 
 afterEach(() => {
   jest.clearAllMocks();
+  mockLocalMocks.localHandlers = [];
+  mockLocalMocks.replaceDevHandlers = false;
 });
 
 describe('initMockApi', () => {
@@ -67,6 +81,32 @@ describe('initMockApi', () => {
     await initMockApi();
 
     expect(worker.start).not.toHaveBeenCalled();
+  });
+
+  it('should register local mocks after the extra handlers so they take precedence', async () => {
+    process.env.NODE_ENV = 'development';
+    process.env.WITH_MOCK_API = 'true';
+    const extraHandler = http.get('/api/extra', () => undefined);
+    const localHandler = http.get('/api/local', () => undefined);
+    mockLocalMocks.localHandlers = [localHandler];
+
+    await initMockApi([extraHandler]);
+
+    expect(worker.use).toHaveBeenNthCalledWith(1, extraHandler);
+    expect(worker.use).toHaveBeenNthCalledWith(2, localHandler);
+  });
+
+  it('should skip the extra handlers when local mocks replace the dev handlers', async () => {
+    process.env.NODE_ENV = 'development';
+    process.env.WITH_MOCK_API = 'true';
+    const localHandler = http.get('/api/local', () => undefined);
+    mockLocalMocks.localHandlers = [localHandler];
+    mockLocalMocks.replaceDevHandlers = true;
+
+    await initMockApi([http.get('/api/extra', () => undefined)]);
+
+    expect(worker.use).toHaveBeenCalledTimes(1);
+    expect(worker.use).toHaveBeenCalledWith(localHandler);
   });
 
   it('should throw error if unhandled request is made', async () => {

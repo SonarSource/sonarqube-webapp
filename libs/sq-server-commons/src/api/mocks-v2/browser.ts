@@ -18,7 +18,21 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { RequestHandler } from 'msw';
 import { setupWorker } from 'msw/browser';
 import handlersDev from './handlersDev';
 
-export const worker = setupWorker(...handlersDev);
+interface LocalMocks {
+  default: RequestHandler[];
+  replaceDevHandlers?: boolean;
+}
+
+// Optional, git-ignored short-lived mocks for demos and manual checks: create handlers.local.ts here.
+const [localMocks] = Object.values(
+  import.meta.glob<LocalMocks>('./handlers.local.ts', { eager: true }),
+);
+
+export const localHandlers = localMocks?.default ?? [];
+export const replaceDevHandlers = localMocks?.replaceDevHandlers ?? false;
+
+export const worker = setupWorker(...(replaceDevHandlers ? [] : handlersDev));
