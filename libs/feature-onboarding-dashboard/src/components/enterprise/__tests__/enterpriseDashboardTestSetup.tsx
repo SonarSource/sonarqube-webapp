@@ -123,6 +123,7 @@ export const ui = {
   overTimeTooltipPercent: (percent: number) =>
     byRole('tooltip').byText(`onboarding_dashboard.percent.${percent}`),
   overTimeTooltipAnyPercent: byRole('tooltip').byText(/^onboarding_dashboard\.percent\./),
+  overTimeTooltipCount: (count: number) => byRole('tooltip').byText(String(count)),
   overTimeTitle: byText('onboarding_dashboard.journey.overtime.title'),
   lockedStatsTitle: byText(`${PREFIX}.locked.stats.title`),
   lockedMoreTitle: byText(`${PREFIX}.locked.more.title`),

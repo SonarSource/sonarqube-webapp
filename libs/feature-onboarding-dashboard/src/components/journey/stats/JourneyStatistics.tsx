@@ -19,6 +19,7 @@
  */
 
 import { IconLink, LoadingContainer, MessageCallout } from '@sonarsource/echoes-react';
+import { maxBy } from 'lodash';
 import { ReactNode } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { Path } from 'react-router';
@@ -67,7 +68,7 @@ interface Props {
   /** Whether the organization is bound to a DevOps platform, `undefined` while it is loading. */
   isBound: boolean | undefined;
   isTimelineError: boolean;
-  /** Overview of the journey, `undefined` while it is loading. Supplies today's totals. */
+  /** Overview of the journey, `undefined` while it is loading. Supplies today's totals and counts. */
   journeyState?: JourneyState;
   /**
    * Copy of the locked placeholders, replacing the organization's. A level absent from it shows no
@@ -81,7 +82,8 @@ interface Props {
 /**
  * The statistics unlocked at the current level: locked while unbound, then the timeline, with the
  * imported series once it records an import. Derived from the binding and the statistics endpoint
- * only, so it does not wait on the overview, which only adds the percentages once it is there.
+ * only, so it does not wait on the overview, which adds the percentages and today's counts once it
+ * is there.
  */
 export function JourneyStatistics({
   isBound,
@@ -121,7 +123,11 @@ export function JourneyStatistics({
           isBound={isBound}
           isTimelineError={isTimelineError}
           level={level}
-          timeline={timeline}
+          timeline={
+            journeyState === undefined || timeline === undefined
+              ? timeline
+              : withLatestPointFromOverview(timeline, journeyState)
+          }
           totals={journeyState === undefined ? undefined : getTimelineTotals(journeyState)}
         />
       )}
@@ -154,6 +160,20 @@ function getTimelineTotals({
     projects: enterprise?.projectsTotal ?? totalProjects,
     repositories: enterprise === undefined ? discovered : enterprise.discovered,
   };
+}
+
+/** The latest point is today: it counts what the step cards count, so the two agree. */
+function withLatestPointFromOverview(
+  timeline: OnboardingTimelinePoint[],
+  { analyzed, imported }: JourneyState,
+): OnboardingTimelinePoint[] {
+  const latest = maxBy(timeline, ({ date }) => Date.parse(date));
+
+  return timeline.map((point) =>
+    point === latest
+      ? { ...point, projectsScanned: analyzed, repositoriesImported: imported }
+      : point,
+  );
 }
 
 function hasCoverage(timeline: OnboardingTimelinePoint[]) {

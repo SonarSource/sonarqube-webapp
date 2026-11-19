@@ -109,6 +109,7 @@ export const ui = {
   overTimeTooltipPercent: (percent: number) =>
     byRole('tooltip').byText(`onboarding_dashboard.percent.${percent}`),
   overTimeTooltipAnyPercent: byRole('tooltip').byText(/^onboarding_dashboard\.percent\./),
+  overTimeTooltipCount: (count: number) => byRole('tooltip').byText(String(count)),
   overTimeProjectsScannedLegend: byText(
     'onboarding_dashboard.journey.overtime.legend.projects_scanned',
   ),

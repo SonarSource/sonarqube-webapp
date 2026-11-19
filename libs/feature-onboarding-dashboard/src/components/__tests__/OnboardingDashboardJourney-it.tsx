@@ -148,6 +148,29 @@ it("shows the hovered month as a share of today's projects and discovered reposi
   expect(ui.overTimeTooltipPercent(20).get()).toBeInTheDocument();
 });
 
+it('counts the latest month as the step cards do', async () => {
+  onboardingMock.setOverview(
+    mockOnboardingOverview({
+      projects: { analyzed: 20, notImported: 0, notScanned: 13, percent: null, total: 33 },
+      repositories: { discovered: 26, imported: 26, percent: null },
+    }),
+  );
+  onboardingMock.setStatistics(
+    mockOnboardingStatistics({
+      timeline: [{ date: '2026-11-01T00:00:00Z', projectsScanned: 18, repositoriesImported: 33 }],
+    }),
+  );
+  const { user } = renderOnboardingDashboard();
+
+  await user.hover(await ui.overTimeChart.find());
+
+  expect(await ui.overTimeTooltipCount(26).find()).toBeInTheDocument();
+  expect(ui.overTimeTooltipCount(20).get()).toBeInTheDocument();
+  expect(ui.overTimeTooltipPercent(100).get()).toBeInTheDocument();
+  expect(ui.overTimeTooltipPercent(61).get()).toBeInTheDocument();
+  expect(ui.overTimeTooltipCount(33).query()).not.toBeInTheDocument();
+});
+
 it('plots only the analysis series and offers to unlock more while the timeline records no import', async () => {
   // The import signal comes from the statistics, not the overview, which still reports imports.
   onboardingMock.setStatistics(

@@ -199,6 +199,7 @@ describe('journey', () => {
         mockOnboardingStatistics({
           timeline: [
             { date: '2025-05-01T00:00:00Z', projectsScanned: 971, repositoriesImported: 5000 },
+            { date: '2025-06-01T00:00:00Z', projectsScanned: 1000, repositoriesImported: 6000 },
           ],
         }),
       );
@@ -233,6 +234,7 @@ describe('journey', () => {
       mockOnboardingStatistics({
         timeline: [
           { date: '2025-05-01T00:00:00Z', projectsScanned: 80, repositoriesImported: 400 },
+          { date: '2025-06-01T00:00:00Z', projectsScanned: 90, repositoriesImported: 450 },
         ],
       }),
     );
@@ -243,6 +245,27 @@ describe('journey', () => {
     expect(await ui.overTimeTooltip.find()).toBeInTheDocument();
     expect(await ui.overTimeTooltipPercent(10).find()).toBeInTheDocument();
     expect(ui.overTimeTooltipPercent(50).get()).toBeInTheDocument();
+  });
+
+  it('counts the latest month as the step cards do', async () => {
+    // The default enterprise overview analyzes 80 of 800 projects and imports 700 of 800 repositories.
+    onboardingMock.setEnterpriseStatistics(
+      mockOnboardingStatistics({
+        timeline: [
+          { date: '2026-11-01T00:00:00Z', projectsScanned: 75, repositoriesImported: 930 },
+        ],
+      }),
+    );
+    const { user } = renderEnterpriseDashboard();
+
+    await user.hover(await ui.overTimeChart.find());
+
+    expect(await ui.overTimeTooltipCount(700).find()).toBeInTheDocument();
+    expect(ui.overTimeTooltipPercent(88).get()).toBeInTheDocument();
+    expect(ui.overTimeTooltipCount(80).get()).toBeInTheDocument();
+    expect(ui.overTimeTooltipPercent(10).get()).toBeInTheDocument();
+    expect(ui.overTimeTooltipCount(930).query()).not.toBeInTheDocument();
+    expect(ui.overTimeTooltipCount(75).query()).not.toBeInTheDocument();
   });
 
   it('leaves the timeline out and offers to unlock more while nothing was imported or analyzed', async () => {
