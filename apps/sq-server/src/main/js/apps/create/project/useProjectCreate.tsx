@@ -29,7 +29,7 @@ import {
   GithubRepository,
   GitlabProject,
 } from '~sq-server-commons/types/alm-integration';
-import { AlmInstanceBase, AlmKeys } from '~sq-server-commons/types/alm-settings';
+import { AlmInstanceBase } from '~sq-server-commons/types/alm-settings';
 import { DopSetting } from '~sq-server-commons/types/dop-translation';
 import { REPOSITORY_PAGE_SIZE } from './constants';
 
@@ -45,7 +45,7 @@ export function useProjectCreate<
   RepoType extends RepoTypes,
   RepoCollectionType extends RepoCollectionTypes,
   GroupType,
->(almKey: AlmKeys, dopSettings: DopSetting[], getKey: (repo: RepoType) => string) {
+>(dopSettings: DopSetting[], getKey: (repo: RepoType) => string) {
   const [isInitialized, setIsInitialized] = useState(false);
   const [selectedDopSetting, setSelectedDopSetting] = useState<DopSetting>();
   const [isLoadingOrganizations, setIsLoadingOrganizations] = useState(true);
@@ -148,17 +148,15 @@ export function useProjectCreate<
       return;
     }
 
-    if (almKey === AlmKeys.GitHub) {
-      const selectedDopSettingId = location.query?.dopSetting;
-      if (selectedDopSettingId !== undefined) {
-        const selectedDopSetting = dopSettings.find(({ id }) => id === selectedDopSettingId);
+    const selectedDopSettingId = location.query?.dopSetting;
+    if (selectedDopSettingId !== undefined) {
+      const selectedDopSetting = dopSettings.find(({ id }) => id === selectedDopSettingId);
 
-        if (selectedDopSetting) {
-          setSelectedDopSetting(selectedDopSetting);
-        }
-
-        return;
+      if (selectedDopSetting) {
+        setSelectedDopSetting(selectedDopSetting);
       }
+
+      return;
     }
 
     if (dopSettings.length > 1) {
@@ -166,7 +164,7 @@ export function useProjectCreate<
     } else {
       setSelectedDopSetting(dopSettings[0]);
     }
-  }, [almKey, dopSettings, hasDopSettings, location, selectedDopSetting, setSelectedDopSetting]);
+  }, [dopSettings, hasDopSettings, location, selectedDopSetting, setSelectedDopSetting]);
 
   return {
     almInstances,

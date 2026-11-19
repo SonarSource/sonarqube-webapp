@@ -28,7 +28,7 @@ import withAvailableFeatures, {
   WithAvailableFeaturesProps,
 } from '~sq-server-commons/context/available-features/withAvailableFeatures';
 import { getSafeRelativeRedirect } from '~sq-server-commons/helpers/urls';
-import { AlmKeys } from '~sq-server-commons/types/alm-settings';
+import { AlmBindingDefinitionBase, AlmKeys } from '~sq-server-commons/types/alm-settings';
 import {
   CreateProjectModes,
   DEFAULT_CREATE_PROJECT_REDIRECT,
@@ -145,7 +145,7 @@ export class CreateProjectPage extends React.PureComponent<CreateProjectPageProp
     }
   }
 
-  fetchAlmBindings = () => {
+  fetchAlmBindings = (): Promise<DopSetting[]> => {
     this.setState({ loading: true });
 
     return getDopSettings()
@@ -158,9 +158,13 @@ export class CreateProjectPage extends React.PureComponent<CreateProjectPageProp
           gitlabSettings: dopSettings.filter(({ type }) => type === AlmKeys.GitLab),
           loading: false,
         });
+
+        return dopSettings;
       })
       .catch(() => {
         this.setState({ loading: false });
+
+        return [];
       });
   };
 
@@ -169,6 +173,14 @@ export class CreateProjectPage extends React.PureComponent<CreateProjectPageProp
     router.push({
       pathname: location.pathname,
       query: { ...location.query, mode },
+    });
+  };
+
+  handleConfigurationSelected = (mode: CreateProjectModes, dopSetting: string) => {
+    const { router, location } = this.props;
+    router.push({
+      pathname: location.pathname,
+      query: { ...location.query, redirect: getRedirectSource(location), dopSetting, mode },
     });
   };
 
@@ -189,15 +201,25 @@ export class CreateProjectPage extends React.PureComponent<CreateProjectPageProp
     this.setState({ creatingAlmDefinition: undefined });
   };
 
-  handleAfterSubmit = async () => {
+  handleAfterSubmit = async ({ key }: AlmBindingDefinitionBase) => {
     const { creatingAlmDefinition: createdAlmDefinition } = this.state;
 
     this.setState({ creatingAlmDefinition: undefined });
 
-    await this.fetchAlmBindings();
+    const dopSettings = await this.fetchAlmBindings();
 
     if (this.mounted && createdAlmDefinition) {
-      this.handleModeSelect(PROJECT_MODE_FOR_ALM_KEY[createdAlmDefinition]);
+      const mode = PROJECT_MODE_FOR_ALM_KEY[createdAlmDefinition];
+      const createdSetting = dopSettings.find(
+        (setting) => setting.type === createdAlmDefinition && setting.key === key,
+      );
+
+      // Go straight to the import step with the new configuration selected.
+      if (createdSetting) {
+        this.handleConfigurationSelected(mode, createdSetting.id);
+      } else {
+        this.handleModeSelect(mode);
+      }
     }
   };
 
@@ -272,18 +294,19 @@ export class CreateProjectPage extends React.PureComponent<CreateProjectPageProp
         );
       }
       default: {
-        const almCounts = {
-          [AlmKeys.Azure]: azureSettings.length,
-          [AlmKeys.BitbucketServer]: bitbucketSettings.length,
-          [AlmKeys.BitbucketCloud]: bitbucketCloudSettings.length,
-          [AlmKeys.GitHub]: githubSettings.length,
-          [AlmKeys.GitLab]: gitlabSettings.length,
+        const dopSettings = {
+          [AlmKeys.Azure]: azureSettings,
+          [AlmKeys.BitbucketServer]: bitbucketSettings,
+          [AlmKeys.BitbucketCloud]: bitbucketCloudSettings,
+          [AlmKeys.GitHub]: githubSettings,
+          [AlmKeys.GitLab]: gitlabSettings,
         };
         return (
           <CreateProjectModeSelection
-            almCounts={almCounts}
+            dopSettings={dopSettings}
             loadingBindings={loading}
             onConfigMode={this.handleModeConfig}
+            onContinue={this.handleConfigurationSelected}
             redirect={redirect}
           />
         );

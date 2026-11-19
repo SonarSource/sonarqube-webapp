@@ -40,23 +40,25 @@ export const onboardingMessages = {
   'onboarding.create_project.manual.step2': '2 of 2',
   'onboarding.create_project.manual.title': 'Create a local project',
   'onboarding.create_project.select_method': 'How do you want to create your project?',
-  'onboarding.create_project.select_method.manually':
-    'Are you just testing or have an advanced use-case?',
   'onboarding.create_project.select_method.devops_platform':
     "Do you want to benefit from all of {productName}'s features (like repository import and Pull Request decoration)?",
-  'onboarding.create_project.select_method.devops_platform_second':
-    'Create your project from your favorite DevOps platform.',
 
-  'onboarding.create_project.select_method.no_alm_yet.admin':
-    'First, you need to set up a DevOps platform configuration.',
+  'onboarding.create_project.step.configure': 'Configure',
+  'onboarding.create_project.step.import': 'Import',
+  'onboarding.create_project.configure.platform_aria_label': 'DevOps platform',
+  'onboarding.create_project.configure.configurations_count':
+    '{count, plural, one {# configuration} other {# configurations}}',
+  'onboarding.create_project.configure.bitbucket_server_card': 'Bitbucket D. Center',
+  'onboarding.create_project.configure.not_configured': 'Not configured yet',
+  'onboarding.create_project.configure.contact_admin':
+    'Contact your administrator to set up the DevOps platforms that are not configured yet.',
+  'onboarding.create_project.configure.no_configuration_admin':
+    'There is no {platform} configuration yet. Create one to import your repositories.',
+  'onboarding.create_project.configure.create': 'Create a configuration',
+  'onboarding.create_project.configure.create_another': 'Create a new configuration',
+  'onboarding.create_project.configure.continue': 'Continue',
+
   'onboarding.create_project.import_select_method.manual': 'Create a local project',
-  'onboarding.create_project.import_select_method.azure': 'Import from Azure DevOps',
-  'onboarding.create_project.import_select_method.bitbucket': 'Import from Bitbucket Data Center',
-  'onboarding.create_project.import_select_method.bitbucketcloud': 'Import from Bitbucket Cloud',
-  'onboarding.create_project.import_select_method.github': 'Import from GitHub',
-  'onboarding.create_project.import_select_method.gitlab': 'Import from GitLab',
-  'onboarding.create_project.alm_not_configured':
-    'Contact your admin to set up the global configuration allowing you to import project from this DevOps Platform',
   'onboarding.create_project.project_key': 'Project key',
   'onboarding.create_project.project_key.duplicate_key': 'The project key name is already taken.',
   'onboarding.create_project.project_key.wrong_format':
@@ -220,8 +222,6 @@ export const onboardingMessages = {
     'Import projects from one of your Bitbucket Data Center workspaces or {monorepoSetupLink}.',
   'onboarding.create_project.x_repositories_selected':
     '{count} {count, plural, one {repository} other {repositories}} selected',
-  'onboarding.create_project.x_repository_created':
-    '{count} {count, plural, one {repository} other {repositories}} will be created as {count, plural, one {a project} other {projects}} in {productName}',
   'onboarding.create_project.please_dont_leave':
     'If you leave the page the import could fail. Are you sure you want to leave?',
   'onboarding.create_project.import_in_progress':

@@ -18,18 +18,19 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Layout, Link, Spinner } from '@sonarsource/echoes-react';
+import { Link, Spinner } from '@sonarsource/echoes-react';
 import classNames from 'classnames';
 import { useContext } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { useLocation } from '~shared/components/hoc/withRouter';
-import { GlobalPageTemplate } from '~sq-server-commons/components/ui/GlobalPageTemplate';
 import { AvailableFeaturesContext } from '~sq-server-commons/context/available-features/AvailableFeaturesContext';
 import { queryToSearchString } from '~sq-server-commons/sonar-aligned/helpers/urls';
 import { BitbucketCloudRepository } from '~sq-server-commons/types/alm-integration';
 import { AlmKeys, AlmSettingsInstance } from '~sq-server-commons/types/alm-settings';
 import { CreateProjectModes } from '~sq-server-commons/types/create-project';
 import { Feature } from '~sq-server-commons/types/features';
+import { CreateProjectPageLayout } from '../components/CreateProjectPageLayout';
+import { CreateProjectStep } from '../components/CreateProjectStepper';
 import AlmSettingsInstanceDropdown from '../components/AlmSettingsInstanceDropdown';
 import { PersonalAccessTokenResetLink } from '../components/PersonalAccessTokenResetLink';
 import WrongBindingCountAlert from '../components/WrongBindingCountAlert';
@@ -79,9 +80,9 @@ export default function BitbucketCloudProjectCreateRenderer(
   const location = useLocation();
 
   return (
-    <GlobalPageTemplate
+    <CreateProjectPageLayout
       description={
-        <Layout.PageHeader.Description>
+        <>
           {isMonorepoSupported ? (
             <FormattedMessage
               id="onboarding.create_project.bitbucketcloud.subtitle.with_monorepo"
@@ -110,9 +111,10 @@ export default function BitbucketCloudProjectCreateRenderer(
               createProjectMode={CreateProjectModes.BitbucketCloud}
             />
           )}
-        </Layout.PageHeader.Description>
+        </>
       }
       pageClassName={classNames({ 'sw:hidden': isProjectSetupDone(location) })}
+      step={CreateProjectStep.Import}
       title={formatMessage({ id: 'onboarding.create_project.bitbucketcloud.title' })}
     >
       <AlmSettingsInstanceDropdown
@@ -148,6 +150,6 @@ export default function BitbucketCloudProjectCreateRenderer(
             searching={searching}
           />
         ))}
-    </GlobalPageTemplate>
+    </CreateProjectPageLayout>
   );
 }

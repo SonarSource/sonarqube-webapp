@@ -23,6 +23,7 @@ import userEvent from '@testing-library/user-event';
 import { mockAppState } from '~sq-server-commons/helpers/testMocks';
 import { renderComponent } from '~sq-server-commons/helpers/testReactTestingUtils';
 import { AlmKeys } from '~sq-server-commons/types/alm-settings';
+import { DopSetting } from '~sq-server-commons/types/dop-translation';
 import { CreateProjectModeSelection } from '../CreateProjectModeSelection';
 
 const onConfigMode = jest.fn();
@@ -31,39 +32,86 @@ beforeEach(() => {
   onConfigMode.mockClear();
 });
 
-it.each([AlmKeys.BitbucketServer, AlmKeys.BitbucketCloud, AlmKeys.Azure, AlmKeys.GitLab])(
-  'sets up %s from its own tile',
-  async (alm) => {
-    const user = userEvent.setup();
-    renderModeSelection(alm);
+function mockDopSetting(type: AlmKeys, key: string): DopSetting {
+  return { id: `id-${key}`, key, type, url: 'https://example.com' };
+}
 
-    await user.click(screen.getByRole('button', { name: 'setup' }));
+const NO_SETTINGS: Record<AlmKeys, DopSetting[]> = {
+  [AlmKeys.Azure]: [],
+  [AlmKeys.BitbucketCloud]: [],
+  [AlmKeys.BitbucketServer]: [],
+  [AlmKeys.GitHub]: [],
+  [AlmKeys.GitLab]: [],
+};
 
-    expect(onConfigMode).toHaveBeenCalledWith(alm);
-  },
-);
+it('shows the two steps and keeps Continue disabled until a configuration is chosen', () => {
+  renderModeSelection({ canAdmin: true });
 
-/**
- * A tile only offers a Setup button while its platform has no binding yet. Giving every platform a
- * binding except `unboundAlm` therefore leaves a single Setup button on the page, so the test can
- * click "the" Setup button and know which tile it belongs to.
- */
-function renderModeSelection(unboundAlm: AlmKeys) {
-  const almCounts = {
-    [AlmKeys.Azure]: 1,
-    [AlmKeys.BitbucketCloud]: 1,
-    [AlmKeys.BitbucketServer]: 1,
-    [AlmKeys.GitHub]: 1,
-    [AlmKeys.GitLab]: 1,
-    [unboundAlm]: 0,
-  };
+  expect(screen.getByRole('navigation', { name: 'Progress stepper' })).toBeInTheDocument();
+  expect(
+    screen.getByRole('button', { name: 'onboarding.create_project.configure.continue' }),
+  ).toBeDisabled();
+});
 
+it.each([
+  AlmKeys.BitbucketServer,
+  AlmKeys.BitbucketCloud,
+  AlmKeys.Azure,
+  AlmKeys.GitLab,
+  AlmKeys.GitHub,
+])('lets an admin create a configuration for %s', async (alm) => {
+  const user = userEvent.setup();
+  renderModeSelection({ canAdmin: true });
+
+  await user.click(screen.getByRole('radio', { name: getAlmLabel(alm) }));
+  await user.click(
+    screen.getByRole('button', { name: 'onboarding.create_project.configure.create' }),
+  );
+
+  expect(onConfigMode).toHaveBeenCalledWith(alm);
+});
+
+it('enables Continue when the selected platform has a single configuration', async () => {
+  const user = userEvent.setup();
+  renderModeSelection({
+    canAdmin: true,
+    dopSettings: { ...NO_SETTINGS, [AlmKeys.GitLab]: [mockDopSetting(AlmKeys.GitLab, 'gitlab-1')] },
+  });
+
+  await user.click(screen.getByRole('radio', { name: 'alm.gitlab' }));
+
+  expect(
+    screen.getByRole('button', { name: 'onboarding.create_project.configure.continue' }),
+  ).toBeEnabled();
+});
+
+it('does not let a non-admin pick a platform without a configuration', () => {
+  renderModeSelection({ canAdmin: false });
+
+  expect(screen.getByRole('radio', { name: 'alm.github' })).toBeDisabled();
+});
+
+function getAlmLabel(alm: AlmKeys) {
+  if (alm === AlmKeys.BitbucketServer) {
+    return 'onboarding.create_project.configure.bitbucket_server_card';
+  }
+  return alm === AlmKeys.BitbucketCloud ? `alm.${alm}.long` : `alm.${alm}`;
+}
+
+function renderModeSelection({
+  canAdmin,
+  dopSettings = NO_SETTINGS,
+}: {
+  canAdmin: boolean;
+  dopSettings?: Record<AlmKeys, DopSetting[]>;
+}) {
   return renderComponent(
     <CreateProjectModeSelection
-      almCounts={almCounts}
-      appState={mockAppState({ canAdmin: true })}
+      appState={mockAppState({ canAdmin })}
+      dopSettings={dopSettings}
       loadingBindings={false}
       onConfigMode={onConfigMode}
+      onContinue={jest.fn()}
     />,
   );
 }

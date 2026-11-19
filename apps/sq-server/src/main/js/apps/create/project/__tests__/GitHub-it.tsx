@@ -172,7 +172,7 @@ it('should show import project feature when the authentication is successful', a
   expect(ui.project2Checkbox.get()).not.toBeChecked();
   expect(ui.project2Checkbox.get()).toBeEnabled();
 
-  expect(ui.importButton.query()).not.toBeInTheDocument();
+  expect(ui.importButton.get()).toBeDisabled();
   await user.click(ui.project2Checkbox.get());
   await waitFor(() => {
     expect(ui.checkAll.get()).toBeChecked();
@@ -213,7 +213,7 @@ it('should import several projects', async () => {
   expect(ui.project2Checkbox.get()).not.toBeChecked();
   expect(ui.project3Checkbox.get()).not.toBeChecked();
   expect(ui.checkAll.get()).not.toBeChecked();
-  expect(ui.importButton.query()).not.toBeInTheDocument();
+  expect(ui.importButton.get()).toBeDisabled();
 
   await user.click(ui.project1Checkbox.get());
 
@@ -237,7 +237,7 @@ it('should import several projects', async () => {
   expect(ui.project2Checkbox.get()).not.toBeChecked();
   expect(ui.project3Checkbox.get()).not.toBeChecked();
   expect(ui.checkAll.get()).not.toBeChecked();
-  expect(ui.importButton.query()).not.toBeInTheDocument();
+  expect(ui.importButton.get()).toBeDisabled();
 
   await user.click(ui.project1Checkbox.get());
   await user.click(ui.project2Checkbox.get());

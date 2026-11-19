@@ -200,7 +200,7 @@ it('should import several projects', async () => {
   expect(ui.project2Checkbox.get()).not.toBeChecked();
   expect(ui.project3Checkbox.get()).not.toBeChecked();
   expect(ui.checkAll.get()).not.toBeChecked();
-  expect(ui.importButton.query()).not.toBeInTheDocument();
+  expect(ui.importButton.get()).toBeDisabled();
 
   await user.click(ui.project1Checkbox.get());
 
@@ -224,7 +224,7 @@ it('should import several projects', async () => {
   expect(ui.project2Checkbox.get()).not.toBeChecked();
   expect(ui.project3Checkbox.get()).not.toBeChecked();
   expect(ui.checkAll.get()).not.toBeChecked();
-  expect(ui.importButton.query()).not.toBeInTheDocument();
+  expect(ui.importButton.get()).toBeDisabled();
 
   await user.click(ui.project1Checkbox.get());
   await user.click(ui.project2Checkbox.get());

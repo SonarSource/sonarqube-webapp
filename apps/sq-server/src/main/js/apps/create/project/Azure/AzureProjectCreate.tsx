@@ -28,7 +28,6 @@ import {
   searchAzureRepositories,
 } from '~sq-server-commons/api/alm-integrations';
 import { AzureProject, AzureRepository } from '~sq-server-commons/types/alm-integration';
-import { AlmKeys } from '~sq-server-commons/types/alm-settings';
 import { CreateProjectModes, ImportProjectParam } from '~sq-server-commons/types/create-project';
 import { DopSetting } from '~sq-server-commons/types/dop-translation';
 import MonorepoProjectCreate from '../monorepo/MonorepoProjectCreate';
@@ -70,7 +69,6 @@ export default function AzureProjectCreate({
     setShowPersonalAccessTokenForm,
     showPersonalAccessTokenForm,
   } = useProjectCreate<AzureRepository, Record<string, AzureRepository[]>, AzureProject>(
-    AlmKeys.Azure,
     dopSettings,
     ({ name }) => name,
   );

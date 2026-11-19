@@ -26,7 +26,6 @@ import {
   getBitbucketServerRepositories,
 } from '~sq-server-commons/api/alm-integrations';
 import { BitbucketProject, BitbucketRepository } from '~sq-server-commons/types/alm-integration';
-import { AlmKeys } from '~sq-server-commons/types/alm-settings';
 import { CreateProjectModes, ImportProjectParam } from '~sq-server-commons/types/create-project';
 import { DopSetting } from '~sq-server-commons/types/dop-translation';
 import { BBSSearchMode } from '../constants';
@@ -67,7 +66,6 @@ export default function BitbucketProjectCreate({
     setSelectedDopSetting,
     showPersonalAccessTokenForm,
   } = useProjectCreate<BitbucketRepository, BitbucketRepository[], BitbucketProject>(
-    AlmKeys.BitbucketServer,
     dopSettings,
     ({ slug }) => slug,
   );

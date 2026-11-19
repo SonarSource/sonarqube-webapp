@@ -18,8 +18,14 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import styled from '@emotion/styled';
-import { Button, ButtonVariety, Checkbox, cssVar, Text } from '@sonarsource/echoes-react';
+import {
+  Button,
+  ButtonSize,
+  ButtonVariety,
+  Checkbox,
+  Divider,
+  Text,
+} from '@sonarsource/echoes-react';
 import { useCallback, useMemo } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { useAlmIconSrc } from '~adapters/helpers/almIcons';
@@ -83,108 +89,85 @@ export default function RepositoryList(props: Readonly<RepositoryListProps>) {
   }
 
   return (
-    <div className="sw:flex sw:gap-12">
-      <div className="sw:flex-[6]">
-        <div className="sw:mb-2 sw:py-2 sw:flex sw:items-center sw:justify-between sw:w-full">
-          <div>
-            <Checkbox
-              checked={areAllRepositoriesChecked}
-              className="sw:ml-5"
-              isDisabled={repositories.length === 0}
-              label={formatMessage({ id: 'onboarding.create_project.select_all_repositories' })}
-              onCheck={onCheckAllRepositories}
-            />
-          </div>
-          <InputSearch
-            loading={loadingRepositories}
-            onChange={onSearch}
-            placeholder={formatMessage({ id: 'onboarding.create_project.search_repositories' })}
-            size="medium"
-            value={searchQuery}
-          />
-        </div>
-
-        {repositories.length === 0 ? (
-          <div className="sw:py-6 sw:px-2">
-            <Text isHighlighted>{formatMessage({ id: 'no_results' })}</Text>
-          </div>
-        ) : (
-          <ul className="sw:flex sw:flex-col sw:gap-3">
-            {repositories.map(({ id, name, sqProjectKey, url, ...repo }) => (
-              <AlmRepoItem
-                almIconSrc={iconUrl}
-                almKey={almKey === AlmKeys.GitHub ? (repo as GithubRepository).key : id}
-                almUrl={url}
-                almUrlText={formatMessage(
-                  { id: 'onboarding.create_project.see_on' },
-                  { almName: formatMessage({ id: `alm.${almKey}` }) },
-                )}
-                key={id}
-                multiple
-                onCheck={(key: string) => {
-                  onCheck(key);
-                }}
-                primaryTextNode={<span title={name}>{name}</span>}
-                selected={selected.has(
-                  almKey === AlmKeys.GitHub ? (repo as GithubRepository).key : id,
-                )}
-                sqProjectKey={sqProjectKey}
-              />
-            ))}
-          </ul>
-        )}
-
-        <ListFooter
-          className="sw:mb-10"
-          count={repositories.length}
-          loadMore={onLoadMore}
+    <div className="sw:mt-6">
+      <div className="sw:mb-4 sw:flex sw:items-center sw:justify-between sw:gap-4 sw:w-full">
+        <Checkbox
+          checked={areAllRepositoriesChecked}
+          isDisabled={repositories.length === 0}
+          label={formatMessage({ id: 'onboarding.create_project.select_all_repositories' })}
+          onCheck={onCheckAllRepositories}
+        />
+        <InputSearch
           loading={loadingRepositories}
-          total={repositoryPaging.total}
+          onChange={onSearch}
+          placeholder={formatMessage({ id: 'onboarding.create_project.search_repositories' })}
+          size="medium"
+          value={searchQuery}
         />
       </div>
-      <div className="sw:flex-[4]">
+
+      {repositories.length === 0 ? (
+        <div className="sw:py-6">
+          <Text isHighlighted>{formatMessage({ id: 'no_results' })}</Text>
+        </div>
+      ) : (
+        <ul className="sw:flex sw:flex-col sw:gap-3">
+          {repositories.map(({ id, name, sqProjectKey, url, ...repo }) => (
+            <AlmRepoItem
+              almIconSrc={iconUrl}
+              almKey={almKey === AlmKeys.GitHub ? (repo as GithubRepository).key : id}
+              almUrl={url}
+              almUrlText={formatMessage(
+                { id: 'onboarding.create_project.see_on' },
+                { almName: formatMessage({ id: `alm.${almKey}` }) },
+              )}
+              key={id}
+              multiple
+              onCheck={(key: string) => {
+                onCheck(key);
+              }}
+              primaryTextNode={<span title={name}>{name}</span>}
+              selected={selected.has(
+                almKey === AlmKeys.GitHub ? (repo as GithubRepository).key : id,
+              )}
+              sqProjectKey={sqProjectKey}
+            />
+          ))}
+        </ul>
+      )}
+
+      <ListFooter
+        className="sw:mb-4"
+        count={repositories.length}
+        loadMore={onLoadMore}
+        loading={loadingRepositories}
+        total={repositoryPaging.total}
+      />
+
+      <div className="sw:mx-[-1.5rem]">
+        <Divider />
+      </div>
+
+      <div className="sw:mt-4 sw:flex sw:items-center sw:gap-4">
+        <Button
+          className="js-set-up-projects"
+          isDisabled={selected.size === 0}
+          onClick={onImport}
+          size={ButtonSize.Large}
+          variety={ButtonVariety.Primary}
+        >
+          {formatMessage({ id: 'onboarding.create_project.import' })}
+        </Button>
+
         {selected.size > 0 && (
-          <SetupBox className="sw:rounded-2 sw:p-8 sw:mb-0">
-            <SetupBoxTitle className="sw:mb-2 sw:heading-lg">
-              <FormattedMessage
-                id="onboarding.create_project.x_repositories_selected"
-                values={{ count: selected.size }}
-              />
-            </SetupBoxTitle>
-            <div>
-              <SetupBoxContent className="sw:pb-4">
-                <FormattedMessage
-                  id="onboarding.create_project.x_repository_created"
-                  values={{ count: selected.size }}
-                />
-              </SetupBoxContent>
-              <div className="sw:mt-4">
-                <Button
-                  className="js-set-up-projects"
-                  onClick={onImport}
-                  variety={ButtonVariety.Primary}
-                >
-                  {formatMessage({ id: 'onboarding.create_project.import' })}
-                </Button>
-              </div>
-            </div>
-          </SetupBox>
+          <Text isSubtle>
+            <FormattedMessage
+              id="onboarding.create_project.x_repositories_selected"
+              values={{ count: selected.size }}
+            />
+          </Text>
         )}
       </div>
     </div>
   );
 }
-
-const SetupBox = styled.form`
-  max-height: 280px;
-  background: ${cssVar('color-background-neutral-subtle-default')};
-  border: ${cssVar('border-width-default')} solid ${cssVar('color-border-weak')};
-`;
-
-const SetupBoxTitle = styled.h2`
-  color: ${cssVar('color-text-strong')};
-`;
-
-const SetupBoxContent = styled.div`
-  border-bottom: ${cssVar('border-width-default')} solid ${cssVar('color-border-weak')};
-`;

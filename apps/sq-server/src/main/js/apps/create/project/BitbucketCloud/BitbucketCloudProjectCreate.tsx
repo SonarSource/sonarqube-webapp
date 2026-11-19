@@ -72,7 +72,6 @@ export default function BitbucketCloudProjectCreate(props: Readonly<Props>) {
     setShowPersonalAccessTokenForm,
     showPersonalAccessTokenForm,
   } = useProjectCreate<BitbucketCloudRepository, BitbucketCloudRepository[], undefined>(
-    AlmKeys.BitbucketCloud,
     dopSettings,
     ({ slug }) => slug,
   );

@@ -43,7 +43,7 @@ export default function AlmSettingsInstanceDropdown(props: Readonly<Props>) {
     : `alm.${almKey}`;
 
   return (
-    <div className="sw:flex sw:flex-col sw:mb-9">
+    <div className="sw:flex sw:flex-col sw:mb-6">
       <Label className="sw:mb-2" htmlFor="alm-config-selector">
         {translateWithParameters('alm.configuration.selector.label', translate(almKeyTranslation))}
       </Label>

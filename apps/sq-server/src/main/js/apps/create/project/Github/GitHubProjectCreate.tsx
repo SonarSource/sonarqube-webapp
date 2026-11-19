@@ -72,7 +72,6 @@ export default function GitHubProjectCreate(props: Readonly<Props>) {
     selectedOrganization,
     setIsLoadingOrganizations,
   } = useProjectCreate<GithubRepository, GithubRepository[], GithubOrganization>(
-    AlmKeys.GitHub,
     dopSettings,
     ({ key }) => key,
   );

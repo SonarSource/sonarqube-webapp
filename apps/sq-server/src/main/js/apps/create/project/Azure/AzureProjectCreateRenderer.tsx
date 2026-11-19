@@ -18,13 +18,12 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Layout, Link, MessageCallout, MessageVariety, Spinner } from '@sonarsource/echoes-react';
+import { Link, MessageCallout, MessageVariety, Spinner } from '@sonarsource/echoes-react';
 import classNames from 'classnames';
 import * as React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { InputSearch } from '~design-system';
 import { useLocation } from '~shared/components/hoc/withRouter';
-import { GlobalPageTemplate } from '~sq-server-commons/components/ui/GlobalPageTemplate';
 import { useAppState } from '~sq-server-commons/context/app-state/withAppStateContext';
 import { AvailableFeaturesContext } from '~sq-server-commons/context/available-features/AvailableFeaturesContext';
 import { getGlobalSettingsUrl } from '~sq-server-commons/helpers/urls';
@@ -33,6 +32,8 @@ import { AzureProject, AzureRepository } from '~sq-server-commons/types/alm-inte
 import { AlmKeys, AlmSettingsInstance } from '~sq-server-commons/types/alm-settings';
 import { CreateProjectModes } from '~sq-server-commons/types/create-project';
 import { Feature } from '~sq-server-commons/types/features';
+import { CreateProjectPageLayout } from '../components/CreateProjectPageLayout';
+import { CreateProjectStep } from '../components/CreateProjectStepper';
 import { ALM_INTEGRATION_CATEGORY } from '../../../settings/constants';
 import AlmSettingsInstanceDropdown from '../components/AlmSettingsInstanceDropdown';
 import { PersonalAccessTokenResetLink } from '../components/PersonalAccessTokenResetLink';
@@ -91,9 +92,9 @@ export default function AzureProjectCreateRenderer(
   const { formatMessage } = useIntl();
 
   return (
-    <GlobalPageTemplate
+    <CreateProjectPageLayout
       description={
-        <Layout.PageHeader.Description>
+        <>
           {isMonorepoSupported ? (
             <FormattedMessage
               id="onboarding.create_project.azure.subtitle.with_monorepo"
@@ -122,9 +123,10 @@ export default function AzureProjectCreateRenderer(
               createProjectMode={CreateProjectModes.AzureDevOps}
             />
           )}
-        </Layout.PageHeader.Description>
+        </>
       }
       pageClassName={classNames({ 'sw:hidden': isProjectSetupDone(location) })}
+      step={CreateProjectStep.Import}
       title={formatMessage({ id: 'onboarding.create_project.azure.title' })}
     >
       <AlmSettingsInstanceDropdown
@@ -192,6 +194,6 @@ export default function AzureProjectCreateRenderer(
             </Spinner>
           </>
         ))}
-    </GlobalPageTemplate>
+    </CreateProjectPageLayout>
   );
 }

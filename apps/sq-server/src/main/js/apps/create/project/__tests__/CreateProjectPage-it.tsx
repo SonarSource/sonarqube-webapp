@@ -18,21 +18,41 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { screen } from '@testing-library/react';
+import { screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { mockLocation } from '~shared/helpers/mocks/router';
 import AlmIntegrationsServiceMock from '~sq-server-commons/api/mocks/AlmIntegrationsServiceMock';
 import DopTranslationServiceMock from '~sq-server-commons/api/mocks/DopTranslationServiceMock';
+import { mockDopSetting } from '~sq-server-commons/api/mocks/data/dop-translation';
 import NewCodeDefinitionServiceMock from '~sq-server-commons/api/mocks/NewCodeDefinitionServiceMock';
 import { mockAppState, mockRouter } from '~sq-server-commons/helpers/testMocks';
 import { renderApp, renderComponent } from '~sq-server-commons/helpers/testReactTestingUtils';
-import { AlmKeys } from '~sq-server-commons/types/alm-settings';
+import { AlmBindingDefinitionBase, AlmKeys } from '~sq-server-commons/types/alm-settings';
+import { CreateProjectModes } from '~sq-server-commons/types/create-project';
+import { Feature } from '~sq-server-commons/types/features';
 import CreateProjectPage, {
   CreateProjectPage as UnwrappedCreateProjectPage,
 } from '../CreateProjectPage';
 
 jest.mock('~sq-server-commons/api/alm-integrations');
 jest.mock('~sq-server-commons/api/alm-settings');
+jest.mock('../../../settings/components/almIntegration/AlmBindingDefinitionForm', () => ({
+  AlmBindingDefinitionForm: ({
+    afterSubmit,
+  }: {
+    afterSubmit: (data: AlmBindingDefinitionBase) => void;
+  }) =>
+    jest.requireActual<typeof import('react')>('react').createElement(
+      'button',
+      {
+        onClick: () => {
+          afterSubmit({ key: 'conf-final-3' });
+        },
+        type: 'button',
+      },
+      'submit-definition',
+    ),
+}));
 
 let almIntegrationHandler: AlmIntegrationsServiceMock;
 let dopTranslationHandler: DopTranslationServiceMock;
@@ -61,53 +81,112 @@ afterAll(() => {
 });
 
 it('should be able to setup if no config and admin', async () => {
+  const user = userEvent.setup();
   dopTranslationHandler.removeDopTypeFromSettings(AlmKeys.Azure);
   renderCreateProject(true);
   expect(await screen.findByText('onboarding.create_project.select_method')).toBeInTheDocument();
-  expect(await screen.findByRole('button', { name: 'setup' })).toBeInTheDocument();
+
+  await user.click(await screen.findByRole('radio', { name: 'alm.azure' }));
+
+  expect(
+    await screen.findByRole('button', { name: 'onboarding.create_project.configure.create' }),
+  ).toBeInTheDocument();
 });
 
 it('should not be able to setup if no config and no admin rights', async () => {
-  const user = userEvent.setup();
   dopTranslationHandler.removeDopTypeFromSettings(AlmKeys.Azure);
   renderCreateProject();
   expect(await screen.findByText('onboarding.create_project.select_method')).toBeInTheDocument();
-  expect(screen.queryByRole('button', { name: 'setup' })).not.toBeInTheDocument();
 
-  const helpTooltipButton = await screen.findByLabelText(
-    'toggle_tip.aria_label.alm_not_configured',
-  );
-  await user.click(helpTooltipButton);
-
-  expect(
-    await screen.findByText('onboarding.create_project.alm_not_configured'),
-  ).toBeInTheDocument();
+  expect(await screen.findByRole('radio', { name: 'alm.azure' })).toBeDisabled();
+  expect(screen.getByText('onboarding.create_project.configure.contact_admin')).toBeInTheDocument();
 });
 
-it('should be able to setup if config is present', async () => {
+it('should be able to continue to the import step if config is present', async () => {
+  const user = userEvent.setup();
   renderCreateProject();
   expect(await screen.findByText('onboarding.create_project.select_method')).toBeInTheDocument();
-  expect(
-    await screen.findByRole('link', {
-      name: 'onboarding.create_project.import_select_method.bitbucket',
+
+  await user.click(
+    await screen.findByRole('radio', {
+      name: 'onboarding.create_project.configure.bitbucket_server_card',
     }),
-  ).toBeInTheDocument();
+  );
+  const selectedConfiguration = screen.getByRole('combobox', {
+    name: /alm.configuration.selector.label/,
+  });
+  await user.click(selectedConfiguration);
+  await user.click((await screen.findAllByRole('option'))[0]);
+
+  expect(
+    screen.getByRole('button', { name: 'onboarding.create_project.configure.continue' }),
+  ).toBeEnabled();
 });
 
-it('carries location.state.from into the mode-selection redirect links when no redirect query param is present', async () => {
+it('carries location.state.from into the import step when no redirect query param is present', async () => {
+  const user = userEvent.setup();
+  const router = mockRouter();
   renderComponent(
     <UnwrappedCreateProjectPage
       hasFeature={() => false}
       location={mockLocation({ pathname: '/project/create', state: { from: '/some/page' } })}
-      router={mockRouter()}
+      router={router}
     />,
   );
 
-  expect(
-    await screen.findByRole('link', {
-      name: 'onboarding.create_project.import_select_method.bitbucket',
+  await user.click(
+    await screen.findByRole('radio', {
+      name: 'onboarding.create_project.configure.bitbucket_server_card',
     }),
-  ).toHaveAttribute('href', expect.stringContaining('redirect=%2Fsome%2Fpage'));
+  );
+  await user.click(await screen.findByRole('combobox'));
+  await user.click((await screen.findAllByRole('option'))[0]);
+  await user.click(
+    screen.getByRole('button', { name: 'onboarding.create_project.configure.continue' }),
+  );
+
+  expect(router.push).toHaveBeenCalledWith({
+    pathname: '/project/create',
+    query: {
+      dopSetting: 'conf-bitbucketserver-1',
+      mode: CreateProjectModes.BitbucketServer,
+      redirect: '/some/page',
+    },
+  });
+});
+
+it('continues to the import step with the newly created configuration selected', async () => {
+  const user = userEvent.setup();
+  const router = mockRouter();
+  dopTranslationHandler.dopSettings = [
+    ...dopTranslationHandler.dopSettings,
+    mockDopSetting({ id: 'new-gitlab-id', key: 'conf-final-3', type: AlmKeys.GitLab }),
+  ];
+  renderComponent(
+    <UnwrappedCreateProjectPage
+      hasFeature={() => true}
+      location={mockLocation({ pathname: '/project/create' })}
+      router={router}
+    />,
+    undefined,
+    { appState: mockAppState({ canAdmin: true }), featureList: [Feature.MultipleAlm] },
+  );
+
+  await user.click(await screen.findByRole('radio', { name: 'alm.gitlab' }));
+  await user.click(
+    screen.getByRole('button', { name: 'onboarding.create_project.configure.create_another' }),
+  );
+  await user.click(await screen.findByRole('button', { name: 'submit-definition' }));
+
+  await waitFor(() => {
+    expect(router.push).toHaveBeenCalledWith({
+      pathname: '/project/create',
+      query: {
+        dopSetting: 'new-gitlab-id',
+        mode: CreateProjectModes.GitLab,
+      },
+    });
+  });
 });
 
 function renderCreateProject(canAdmin = false) {

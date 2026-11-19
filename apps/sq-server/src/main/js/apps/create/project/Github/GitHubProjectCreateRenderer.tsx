@@ -21,7 +21,6 @@
 /* eslint-disable react-js/no-unused-prop-types */
 import {
   FormFieldWidth,
-  Layout,
   Link,
   MessageCallout,
   MessageVariety,
@@ -33,7 +32,6 @@ import { useContext, useEffect, useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { useLocation } from '~shared/components/hoc/withRouter';
 import { Paging } from '~shared/types/paging';
-import { GlobalPageTemplate } from '~sq-server-commons/components/ui/GlobalPageTemplate';
 import { useAppState } from '~sq-server-commons/context/app-state/withAppStateContext';
 import { AvailableFeaturesContext } from '~sq-server-commons/context/available-features/AvailableFeaturesContext';
 import { translate } from '~sq-server-commons/helpers/l10n';
@@ -42,6 +40,8 @@ import { GithubOrganization, GithubRepository } from '~sq-server-commons/types/a
 import { AlmKeys, AlmSettingsInstance } from '~sq-server-commons/types/alm-settings';
 import { CreateProjectModes } from '~sq-server-commons/types/create-project';
 import { Feature } from '~sq-server-commons/types/features';
+import { CreateProjectPageLayout } from '../components/CreateProjectPageLayout';
+import { CreateProjectStep } from '../components/CreateProjectStepper';
 import AlmSettingsInstanceDropdown from '../components/AlmSettingsInstanceDropdown';
 import RepositoryList from '../components/RepositoryList';
 import { isProjectSetupDone } from '../utils';
@@ -124,9 +124,9 @@ export default function GitHubProjectCreateRenderer(
   };
 
   return (
-    <GlobalPageTemplate
+    <CreateProjectPageLayout
       description={
-        <Layout.PageHeader.Description>
+        <>
           {isMonorepoSupported ? (
             <FormattedMessage
               id="onboarding.create_project.github.subtitle.with_monorepo"
@@ -149,9 +149,10 @@ export default function GitHubProjectCreateRenderer(
           ) : (
             <FormattedMessage id="onboarding.create_project.github.subtitle" />
           )}
-        </Layout.PageHeader.Description>
+        </>
       }
       pageClassName={classNames({ 'sw:hidden': isProjectSetupDone(location) })}
+      step={CreateProjectStep.Import}
       title={formatMessage({ id: 'onboarding.create_project.github.title' })}
     >
       <AlmSettingsInstanceDropdown
@@ -231,6 +232,6 @@ export default function GitHubProjectCreateRenderer(
           />
         )}
       </Spinner>
-    </GlobalPageTemplate>
+    </CreateProjectPageLayout>
   );
 }

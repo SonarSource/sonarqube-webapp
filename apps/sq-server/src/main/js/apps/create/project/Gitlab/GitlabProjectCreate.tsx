@@ -66,11 +66,7 @@ export default function GitlabProjectCreate(props: Readonly<Props>) {
     setSearchQuery,
     setShowPersonalAccessTokenForm,
     showPersonalAccessTokenForm,
-  } = useProjectCreate<GitlabProject, GitlabProject[], undefined>(
-    AlmKeys.GitLab,
-    dopSettings,
-    ({ id }) => id,
-  );
+  } = useProjectCreate<GitlabProject, GitlabProject[], undefined>(dopSettings, ({ id }) => id);
 
   const location = useLocation();
 
