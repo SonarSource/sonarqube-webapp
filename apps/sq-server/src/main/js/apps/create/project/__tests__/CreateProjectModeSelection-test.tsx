@@ -71,6 +71,36 @@ it.each([
   expect(onConfigMode).toHaveBeenCalledWith(alm);
 });
 
+it('lets an admin create a GitHub App automatically from the GitHub platform only', async () => {
+  const user = userEvent.setup();
+  renderModeSelection({ canAdmin: true });
+  const manifestButton = { name: 'settings.almintegration.github.manifest.create' };
+
+  await user.click(screen.getByRole('radio', { name: 'alm.gitlab' }));
+  expect(screen.queryByRole('button', manifestButton)).not.toBeInTheDocument();
+
+  await user.click(screen.getByRole('radio', { name: 'alm.github' }));
+  await user.click(screen.getByRole('button', manifestButton));
+
+  expect(
+    await screen.findByRole('dialog', { name: 'settings.almintegration.github.manifest.title' }),
+  ).toBeInTheDocument();
+});
+
+it('does not offer to create a GitHub App to a non-admin', async () => {
+  const user = userEvent.setup();
+  renderModeSelection({
+    canAdmin: false,
+    dopSettings: { ...NO_SETTINGS, [AlmKeys.GitHub]: [mockDopSetting(AlmKeys.GitHub, 'github-1')] },
+  });
+
+  await user.click(screen.getByRole('radio', { name: 'alm.github' }));
+
+  expect(
+    screen.queryByRole('button', { name: 'settings.almintegration.github.manifest.create' }),
+  ).not.toBeInTheDocument();
+});
+
 it('enables Continue when the selected platform has a single configuration', async () => {
   const user = userEvent.setup();
   renderModeSelection({

@@ -45,6 +45,7 @@ import { AlmKeys } from '~sq-server-commons/types/alm-settings';
 import { AppState } from '~sq-server-commons/types/appstate';
 import { CreateProjectModes } from '~sq-server-commons/types/create-project';
 import { DopSetting } from '~sq-server-commons/types/dop-translation';
+import GithubManifestCreationModal from '../../settings/components/almIntegration/GithubManifestCreationModal';
 import { CreateProjectPageLayout } from './components/CreateProjectPageLayout';
 import { CreateProjectStep } from './components/CreateProjectStepper';
 
@@ -95,6 +96,7 @@ export function CreateProjectModeSelection(props: Readonly<CreateProjectModeSele
   const [selectedAlm, setSelectedAlm] = useState<AlmKeys>();
   // Only set when the user explicitly picks one, otherwise a lone configuration is used.
   const [pickedSettingKey, setPickedSettingKey] = useState<string>();
+  const [isManifestModalOpen, setIsManifestModalOpen] = useState(false);
 
   const selectedAlmSettings = selectedAlm ? dopSettings[selectedAlm] : [];
   const selectedSetting =
@@ -211,13 +213,27 @@ export function CreateProjectModeSelection(props: Readonly<CreateProjectModeSele
             )}
 
             {canAdmin && (
-              <div>
+              <div className="sw:flex sw:gap-2">
+                {selectedAlm === AlmKeys.GitHub && (
+                  <Button
+                    onClick={() => {
+                      setIsManifestModalOpen(true);
+                    }}
+                    variety={
+                      selectedAlmSettings.length > 0
+                        ? ButtonVariety.DefaultGhost
+                        : ButtonVariety.Default
+                    }
+                  >
+                    <FormattedMessage id="settings.almintegration.github.manifest.create" />
+                  </Button>
+                )}
                 <Button
                   onClick={() => {
                     onConfigMode(selectedAlm);
                   }}
                   variety={
-                    selectedAlmSettings.length > 0
+                    selectedAlmSettings.length > 0 || selectedAlm === AlmKeys.GitHub
                       ? ButtonVariety.DefaultGhost
                       : ButtonVariety.Default
                   }
@@ -251,6 +267,15 @@ export function CreateProjectModeSelection(props: Readonly<CreateProjectModeSele
           <FormattedMessage id="onboarding.create_project.import_select_method.manual" />
         </LinkStandalone>
       </div>
+
+      {isManifestModalOpen && (
+        <GithubManifestCreationModal
+          onClose={() => {
+            setIsManifestModalOpen(false);
+          }}
+          primaryScope="devops"
+        />
+      )}
     </CreateProjectPageLayout>
   );
 }
