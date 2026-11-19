@@ -176,6 +176,49 @@ it('should use unknown product configuration when no product or ideName is provi
   ).toBeInTheDocument();
 });
 
+it('should use Tirion configuration when product=tirion', async () => {
+  jest.mocked(sendUserToken).mockResolvedValueOnce(undefined);
+
+  const user = userEvent.setup();
+  renderExternalProductConnection({ product: 'tirion' });
+
+  expect(
+    await screen.findByRole('heading', {
+      name: 'external-product-connection.request.title.Tirion',
+    }),
+  ).toBeInTheDocument();
+
+  await user.click(
+    screen.getByRole('button', { name: 'external-product-connection.request.action' }),
+  );
+
+  expect(
+    await screen.findByText('external-product-connection.success.description.Tirion app'),
+  ).toBeInTheDocument();
+  expect(tokenMock.getLastToken()?.name).toBe('Tirion');
+});
+
+it('should use unknown product configuration for a product it does not recognize', async () => {
+  jest.mocked(sendUserToken).mockResolvedValueOnce(undefined);
+
+  const user = userEvent.setup();
+  renderExternalProductConnection({ product: 'other' });
+
+  expect(
+    await screen.findByRole('heading', {
+      name: 'external-product-connection.request.title.Unknown origin',
+    }),
+  ).toBeInTheDocument();
+
+  await user.click(
+    await screen.findByRole('button', { name: 'external-product-connection.request.action' }),
+  );
+
+  expect(
+    await screen.findByText('external-product-connection.success.description.external product'),
+  ).toBeInTheDocument();
+});
+
 function renderExternalProductConnection(
   overrides: {
     currentUser?: CurrentUser;

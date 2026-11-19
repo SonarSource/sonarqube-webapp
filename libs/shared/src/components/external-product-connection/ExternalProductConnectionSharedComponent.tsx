@@ -40,6 +40,7 @@ import { ClipboardButton } from '../clipboard';
 export enum ExternalProductKind {
   SQ_CLI = 'cli',
   SQ_IDE = 'ide',
+  TIRION = 'tirion',
   UNKNOWN = 'unknown',
 }
 
@@ -70,6 +71,10 @@ const DEFAULT_EXTERNAL_PRODUCT_CONFIGS: Record<ExternalProductKind, ExternalProd
   [ExternalProductKind.SQ_CLI]: {
     displayName: 'SonarQube CLI',
     productHost: 'terminal',
+  },
+  [ExternalProductKind.TIRION]: {
+    displayName: 'Tirion',
+    productHost: 'Tirion app',
   },
   [ExternalProductKind.UNKNOWN]: {
     displayName: 'Unknown origin',
@@ -308,6 +313,10 @@ export function getProductKind(
 ): ExternalProductKind {
   if (productName === 'cli') {
     return ExternalProductKind.SQ_CLI;
+  }
+
+  if (productName === 'tirion') {
+    return ExternalProductKind.TIRION;
   }
 
   if (ideName !== null) {
