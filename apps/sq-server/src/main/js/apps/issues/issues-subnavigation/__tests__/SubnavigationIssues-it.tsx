@@ -71,6 +71,22 @@ describe('rendering', () => {
     expect(screen.getByTitle('Long Bar')).toBeInTheDocument();
   });
 
+  it('should nest the issues of each consecutive component group under their file', () => {
+    renderConciseIssues(issues);
+
+    // the first list is the outer one, followed by one nested list per group
+    const [, ...fileLists] = byRole('list').getAll();
+
+    // foo reappears after bar: it must stay a separate group and never be merged or reordered
+    expect(fileLists).toHaveLength(3);
+    expect(fileLists[0]).toHaveTextContent('Issue 1');
+    expect(fileLists[0]).toHaveTextContent('Issue 2');
+    expect(fileLists[0]).not.toHaveTextContent('Issue 3');
+    expect(fileLists[1]).toHaveTextContent('Issue 3');
+    expect(fileLists[1]).not.toHaveTextContent('Issue 4');
+    expect(fileLists[2]).toHaveTextContent('Issue 4');
+  });
+
   it('should scroll issue into view when one of the issue is selected', () => {
     renderConciseIssues(issues, {
       selected: 'issue2',

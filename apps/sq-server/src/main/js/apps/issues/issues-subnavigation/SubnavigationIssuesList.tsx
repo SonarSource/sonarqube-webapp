@@ -20,7 +20,7 @@
 
 import styled from '@emotion/styled';
 import { cssVar } from '@sonarsource/echoes-react';
-import * as React from 'react';
+import { groupConsecutiveBy } from '~shared/helpers/arrays';
 import ListFooter from '~shared/components/controls/ListFooter';
 import { Paging } from '~shared/types/paging';
 import { Issue } from '~sq-server-commons/types/types';
@@ -57,30 +57,26 @@ export default function SubnavigationIssuesList(props: Props) {
     <StyledWrapper>
       <SubnavigationIssuesListHeader loading={loading} paging={paging} />
       <StyledList>
-        {issues.map((issue, index) => {
-          const previousIssue = index > 0 ? issues[index - 1] : undefined;
-          const displayComponentName = previousIssue?.component !== issue.component;
+        {groupConsecutiveBy(issues, (issue) => issue.component).map((group) => (
+          <li key={group[0].key}>
+            <SubnavigationIssueComponentName path={group[0].componentLongName} />
 
-          return (
-            <React.Fragment key={index}>
-              {displayComponentName && (
-                <li>
-                  <SubnavigationIssueComponentName path={issue.componentLongName} />
-                </li>
-              )}
-
-              <SubnavigationIssue
-                issue={issue}
-                onClick={props.onIssueSelect}
-                onFlowSelect={props.onFlowSelect}
-                onLocationSelect={props.onLocationSelect}
-                selected={issue.key === selected}
-                selectedFlowIndex={selectedFlowIndex}
-                selectedLocationIndex={selectedLocationIndex}
-              />
-            </React.Fragment>
-          );
-        })}
+            <ul>
+              {group.map((issue) => (
+                <SubnavigationIssue
+                  issue={issue}
+                  key={issue.key}
+                  onClick={props.onIssueSelect}
+                  onFlowSelect={props.onFlowSelect}
+                  onLocationSelect={props.onLocationSelect}
+                  selected={issue.key === selected}
+                  selectedFlowIndex={selectedFlowIndex}
+                  selectedLocationIndex={selectedLocationIndex}
+                />
+              ))}
+            </ul>
+          </li>
+        ))}
       </StyledList>
       {paging && paging.total > 0 && (
         <ListFooter
