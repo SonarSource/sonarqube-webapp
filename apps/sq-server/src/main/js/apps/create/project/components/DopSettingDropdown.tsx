@@ -18,12 +18,10 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Label, Text } from '@sonarsource/echoes-react';
+import { Label } from '@sonarsource/echoes-react';
 import classNames from 'classnames';
 import { FormattedMessage, useIntl } from 'react-intl';
-import { OptionProps, SingleValueProps, components } from 'react-select';
-import { InputSelect, LabelValueSelectOption } from '~design-system';
-import { translate } from '~sq-server-commons/helpers/l10n';
+import AlmSettingsInstanceSelector from '~sq-server-commons/components/devops-platform/AlmSettingsInstanceSelector';
 import { AlmKeys } from '~sq-server-commons/types/alm-settings';
 import { DopSetting } from '~sq-server-commons/types/dop-translation';
 
@@ -36,35 +34,6 @@ export interface DopSettingDropdownProps {
 }
 
 const MIN_SIZE_INSTANCES = 2;
-
-function optionRenderer(props: OptionProps<LabelValueSelectOption<DopSetting>, false>) {
-  // For tests and a11y
-  props.innerProps.role = 'option';
-  props.innerProps['aria-selected'] = props.isSelected;
-
-  return <components.Option {...props}>{customOptions(props.data.value)}</components.Option>;
-}
-
-function singleValueRenderer(props: SingleValueProps<LabelValueSelectOption<DopSetting>, false>) {
-  return (
-    <components.SingleValue {...props}>{customOptions(props.data.value)}</components.SingleValue>
-  );
-}
-
-function customOptions(setting: DopSetting) {
-  return setting.url ? (
-    <>
-      <span>{setting.key} — </span>
-      <Text isSubtle>{setting.url}</Text>
-    </>
-  ) : (
-    <span>{setting.key}</span>
-  );
-}
-
-function orgToOption(alm: DopSetting) {
-  return { value: alm, label: alm.key };
-}
 
 export default function DopSettingDropdown(props: Readonly<DopSettingDropdownProps>) {
   const { formatMessage } = useIntl();
@@ -83,26 +52,17 @@ export default function DopSettingDropdown(props: Readonly<DopSettingDropdownPro
         />
       </Label>
 
-      <InputSelect
-        className={className}
-        components={{
-          Option: optionRenderer,
-          SingleValue: singleValueRenderer,
-        }}
-        getOptionValue={(opt: LabelValueSelectOption<DopSetting>) => opt.value.key}
+      <AlmSettingsInstanceSelector
+        className="sw:w-abs-400"
+        initialValue={selectedDopSetting?.key ?? null}
         inputId="dop-setting-dropdown"
-        isClearable={false}
-        isSearchable={false}
-        onChange={(data: LabelValueSelectOption<DopSetting>) => {
-          onChangeSetting(data.value);
+        instances={dopSettings}
+        onChange={(instance) => {
+          const setting = dopSettings.find(({ key }) => key === instance.key);
+          if (setting) {
+            onChangeSetting(setting);
+          }
         }}
-        options={dopSettings.map(orgToOption)}
-        placeholder={translate('alm.configuration.selector.placeholder')}
-        size="full"
-        value={
-          dopSettings.map(orgToOption).find((opt) => opt.value.key === selectedDopSetting?.key) ??
-          null
-        }
       />
     </div>
   );

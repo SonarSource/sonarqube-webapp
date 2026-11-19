@@ -18,7 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Button, ButtonVariety, Layout, LinkStandalone, Spinner } from '@sonarsource/echoes-react';
+import { Button, ButtonVariety, LinkStandalone, Spinner } from '@sonarsource/echoes-react';
 import classNames from 'classnames';
 import React, { useEffect, useRef } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
@@ -27,13 +27,14 @@ import { throwGlobalError } from '~adapters/helpers/error';
 import { BlueGreySeparator } from '~design-system';
 import { useLocation, useRouter } from '~shared/components/hoc/withRouter';
 import { getComponents } from '~sq-server-commons/api/project-management';
-import { GlobalPageTemplate } from '~sq-server-commons/components/ui/GlobalPageTemplate';
 import { DocLink } from '~sq-server-commons/helpers/doc-links';
 import { useDocUrl } from '~sq-server-commons/helpers/docs';
 import { LabelValueSelectOption } from '~sq-server-commons/helpers/search';
 import { useProjectBindingsQuery } from '~sq-server-commons/queries/dop-translation';
 import { CreateProjectModes, ImportProjectParam } from '~sq-server-commons/types/create-project';
 import { DopSetting } from '~sq-server-commons/types/dop-translation';
+import { CreateProjectPageLayout } from '../components/CreateProjectPageLayout';
+import { CreateProjectStep } from '../components/CreateProjectStepper';
 import { ProjectData } from '../components/ProjectValidation';
 import { getAlmKey, getSanitizedProjectKey, isProjectSetupDone } from '../utils';
 import { MonorepoConnectionSelector } from './MonorepoConnectionSelector';
@@ -226,18 +227,19 @@ export default function MonorepoProjectCreate(props: Readonly<MonorepoProjectCre
   }
 
   return (
-    <GlobalPageTemplate
+    <CreateProjectPageLayout
       description={
-        <Layout.PageHeader.Description>
+        <>
           <FormattedMessage id="onboarding.create_project.monorepo.subtitle" />
           <p className="sw:mt-3">
             <LinkStandalone enableOpenInNewTab to={docUrl(DocLink.Monorepos)}>
               <FormattedMessage id="onboarding.create_project.monorepo.doc_link" />
             </LinkStandalone>
           </p>
-        </Layout.PageHeader.Description>
+        </>
       }
       pageClassName={classNames({ 'sw:hidden': isProjectSetupDone(location) })}
+      step={CreateProjectStep.Import}
       title={formatMessage(
         {
           id: 'onboarding.create_project.monorepo.title',
@@ -282,6 +284,6 @@ export default function MonorepoProjectCreate(props: Readonly<MonorepoProjectCre
           <FormattedMessage id="next" />
         </Button>
       </div>
-    </GlobalPageTemplate>
+    </CreateProjectPageLayout>
   );
 }

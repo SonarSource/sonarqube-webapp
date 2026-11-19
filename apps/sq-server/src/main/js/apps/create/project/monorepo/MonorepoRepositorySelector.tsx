@@ -18,13 +18,22 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Label, LinkHighlight, LinkStandalone } from '@sonarsource/echoes-react';
+import {
+  Label,
+  LinkHighlight,
+  LinkStandalone,
+  MessageCallout,
+  MessageVariety,
+  SelectAsync,
+} from '@sonarsource/echoes-react';
+import { ComponentProps } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { GroupBase } from 'react-select';
-import { FlagMessage, InputSelect } from '~design-system';
 import { getProjectOverviewUrl } from '~shared/helpers/urls';
 import { LabelValueSelectOption } from '~sq-server-commons/helpers/search';
 import { AlmKeys } from '~sq-server-commons/types/alm-settings';
+
+type SelectData = ComponentProps<typeof SelectAsync>['data'];
 
 interface Props {
   almKey: AlmKeys;
@@ -66,13 +75,18 @@ export function MonorepoRepositorySelector({
     !error &&
     !loadingRepositories &&
     ((showOrganizations && !!selectedOrganization) || !showOrganizations);
+  const repositoryData = toSelectData(repositoryOptions, selectedRepository);
   const showWarningMessage =
     error ||
     (repositorySelectorEnabled && repositoryOptions?.length === 0 && repositorySearchQuery === '');
 
   return (
     <>
-      <Label className="sw:mb-2" htmlFor={`${almKey}-monorepo-choose-repository`}>
+      <Label
+        className="sw:mb-2"
+        htmlFor={`${almKey}-monorepo-choose-repository`}
+        id={`${almKey}-monorepo-choose-repository-label`}
+      >
         <FormattedMessage id="onboarding.create_project.monorepo.choose_repository" />
       </Label>
       {showWarningMessage ? (
@@ -84,27 +98,30 @@ export function MonorepoRepositorySelector({
         />
       ) : (
         <>
-          <InputSelect
-            inputId={`${almKey}-monorepo-choose-repository`}
-            inputValue={repositorySearchQuery}
+          <SelectAsync
+            ariaLabelledBy={`${almKey}-monorepo-choose-repository-label`}
+            className="sw:w-abs-400"
+            data={repositoryData}
+            id={`${almKey}-monorepo-choose-repository`}
             isLoading={loadingRepositories}
-            isSearchable
-            noOptionsMessage={() => formatMessage({ id: 'no_results' })}
-            onChange={({ value }: LabelValueSelectOption) => {
-              onSelectRepository(value);
+            isNotClearable
+            labelNotFound={formatMessage({ id: 'no_results' })}
+            onChange={(value: string | null) => {
+              if (value !== null) {
+                onSelectRepository(value);
+              }
             }}
-            onInputChange={onSearchRepositories}
-            options={repositoryOptions}
+            onSearch={onSearchRepositories}
             placeholder={formatMessage({
               id: `onboarding.create_project.monorepo.choose_repository.placeholder`,
             })}
-            size="full"
-            value={selectedRepository}
+            value={selectedRepository?.value ?? null}
+            width="full"
           />
           {selectedRepository &&
             !isLoadingAlreadyBoundProjects &&
             !isFetchingAlreadyBoundProjects && (
-              <FlagMessage className="sw:mt-2" variant="info">
+              <MessageCallout className="sw:mt-4 sw:w-abs-400" variety={MessageVariety.Info}>
                 {alreadyBoundProjects.length === 0 ? (
                   <FormattedMessage id="onboarding.create_project.monorepo.choose_repository.no_already_bound_projects" />
                 ) : (
@@ -124,10 +141,44 @@ export function MonorepoRepositorySelector({
                     </ul>
                   </div>
                 )}
-              </FlagMessage>
+              </MessageCallout>
             )}
         </>
       )}
     </>
   );
+}
+
+function isGroup(
+  option: LabelValueSelectOption | GroupBase<LabelValueSelectOption>,
+): option is GroupBase<LabelValueSelectOption> {
+  return 'options' in option;
+}
+
+// Echoes selects expect `{ group, items }` groups. The selected repository is always kept in the
+// data, otherwise it would not be displayed once a search filters it out of the options.
+function toSelectData(
+  options: Props['repositoryOptions'],
+  selectedRepository?: LabelValueSelectOption,
+): SelectData {
+  const data: SelectData = (options ?? []).map((option) =>
+    isGroup(option)
+      ? {
+          group: option.label ?? '',
+          items: option.options.map(({ label, value }) => ({ label, value })),
+        }
+      : { label: option.label, value: option.value },
+  );
+
+  const isSelectedAvailable =
+    selectedRepository === undefined ||
+    data.some((entry) =>
+      'group' in entry && entry.group !== undefined
+        ? entry.items.some(({ value }) => value === selectedRepository.value)
+        : 'value' in entry && entry.value === selectedRepository.value,
+    );
+
+  return isSelectedAvailable
+    ? data
+    : [...data, { label: selectedRepository.label, value: selectedRepository.value }];
 }

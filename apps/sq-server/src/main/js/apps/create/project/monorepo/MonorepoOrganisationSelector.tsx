@@ -18,9 +18,9 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Label, Link, Spinner } from '@sonarsource/echoes-react';
+import { Label, Link, Select, Spinner } from '@sonarsource/echoes-react';
 import { FormattedMessage, useIntl } from 'react-intl';
-import { FlagMessage, InputSelect } from '~design-system';
+import { FlagMessage } from '~design-system';
 import { useAppState } from '~sq-server-commons/context/app-state/withAppStateContext';
 import { LabelValueSelectOption } from '~sq-server-commons/helpers/search';
 import { AlmKeys } from '~sq-server-commons/types/alm-settings';
@@ -48,26 +48,33 @@ export function MonorepoOrganisationSelector({
   return (
     !error && (
       <>
-        <Label className="sw:mb-2" htmlFor={`${almKey}-monorepo-choose-organization`}>
+        <Label
+          className="sw:mb-2"
+          htmlFor={`${almKey}-monorepo-choose-organization`}
+          id={`${almKey}-monorepo-choose-organization-label`}
+        >
           <FormattedMessage id="onboarding.create_project.monorepo.choose_organization" />
         </Label>
 
         <Spinner isLoading={loadingOrganizations && !error}>
           {organizationOptions.length > 0 ? (
-            <InputSelect
-              inputId={`${almKey}-monorepo-choose-organization`}
+            <Select
+              ariaLabelledBy={`${almKey}-monorepo-choose-organization-label`}
+              className="sw:w-abs-400"
+              data={organizationOptions}
+              id={`${almKey}-monorepo-choose-organization`}
+              isNotClearable
               isSearchable
-              onChange={({ value }: LabelValueSelectOption) => {
-                if (onSelectOrganization) {
+              onChange={(value: string | null) => {
+                if (value !== null && onSelectOrganization) {
                   onSelectOrganization(value);
                 }
               }}
-              options={organizationOptions}
               placeholder={formatMessage({
                 id: 'onboarding.create_project.monorepo.choose_organization.placeholder',
               })}
-              size="full"
-              value={selectedOrganization}
+              value={selectedOrganization?.value ?? null}
+              width="full"
             />
           ) : (
             !loadingOrganizations && (
