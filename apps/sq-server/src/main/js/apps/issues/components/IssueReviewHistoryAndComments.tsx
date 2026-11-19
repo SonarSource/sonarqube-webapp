@@ -85,7 +85,7 @@ export default class IssueReviewHistoryAndComments extends React.PureComponent<P
 
     return (
       <div>
-        <Heading as="h2" size="medium">
+        <Heading as="h4" size="medium">
           <FormattedMessage id="hotspot.section.activity" />
         </Heading>
         {issue.actions.includes(IssueActions.Comment) && (

@@ -19,11 +19,13 @@
  */
 
 import styled from '@emotion/styled';
-import { Button, cssVar } from '@sonarsource/echoes-react';
+import { Button, cssVar, Heading } from '@sonarsource/echoes-react';
 import * as React from 'react';
+import { enforceMinHeadingLevel } from '~shared/helpers/headings';
 import { RuleDescriptionSection } from '~shared/types/rules';
-import { FlagMessage, SubTitle } from '../../design-system';
+import { FlagMessage } from '../../design-system';
 import { translate } from '../../helpers/l10n';
+import { getIntl } from '../../helpers/l10nBundle';
 import RuleDescription from './RuleDescription';
 import DefenseInDepth from './educationPrinciples/DefenseInDepth';
 import NeverTrustUserInput from './educationPrinciples/NeverTrustUserInput';
@@ -34,6 +36,8 @@ interface Props {
   educationPrinciplesRef?: React.RefObject<HTMLDivElement | null>;
   isHunterAgent?: boolean;
   language?: string;
+  /** When set, titles and descriptions are exposed at this heading level or deeper. */
+  minHeadingLevel?: number;
   sections?: RuleDescriptionSection[];
 }
 
@@ -60,10 +64,12 @@ export default class MoreInfoRuleDescription extends React.PureComponent<Props> 
       displayEducationalPrinciplesNotification,
       isHunterAgent,
       language,
+      minHeadingLevel,
       sections = [],
       educationPrinciples = [],
       educationPrinciplesRef,
     } = this.props;
+    const intl = getIntl();
 
     return (
       <div className="sw:my-6 rule-desc">
@@ -84,10 +90,13 @@ export default class MoreInfoRuleDescription extends React.PureComponent<Props> 
 
         {sections.length > 0 && (
           <>
-            <SubTitle>{translate('coding_rules.more_info.resources.title')}</SubTitle>
+            <Heading aria-level={minHeadingLevel} as="h2" hasMarginBottom>
+              {intl.formatMessage({ id: 'coding_rules.more_info.resources.title' })}
+            </Heading>
             <RuleDescription
               isHunterAgent={isHunterAgent}
               language={language}
+              minHeadingLevel={minHeadingLevel && minHeadingLevel + 1}
               sections={sections}
             />
           </>
@@ -95,9 +104,14 @@ export default class MoreInfoRuleDescription extends React.PureComponent<Props> 
 
         {educationPrinciples.length > 0 && (
           <>
-            <SubTitle ref={educationPrinciplesRef}>
-              {translate('coding_rules.more_info.education_principles.title')}
-            </SubTitle>
+            <Heading
+              aria-level={minHeadingLevel}
+              as="h2"
+              hasMarginBottom
+              ref={educationPrinciplesRef}
+            >
+              {intl.formatMessage({ id: 'coding_rules.more_info.education_principles.title' })}
+            </Heading>
 
             {educationPrinciples.map((key) => {
               const Concept = EDUCATION_PRINCIPLES_MAP[key];
@@ -107,7 +121,14 @@ export default class MoreInfoRuleDescription extends React.PureComponent<Props> 
               }
 
               return (
-                <StyledEducationPrinciples className="sw:mt-4 sw:p-4 sw:rounded-1" key={key}>
+                <StyledEducationPrinciples
+                  className="sw:mt-4 sw:p-4 sw:rounded-1"
+                  key={key}
+                  ref={(node) => {
+                    // The headings come from the principle's HTML content, so aria-level is set after render
+                    enforceMinHeadingLevel(node, minHeadingLevel && minHeadingLevel + 1);
+                  }}
+                >
                   <Concept />
                 </StyledEducationPrinciples>
               );

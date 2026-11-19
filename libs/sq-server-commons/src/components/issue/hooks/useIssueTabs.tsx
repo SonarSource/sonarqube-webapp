@@ -22,6 +22,7 @@ import { cloneDeep, groupBy } from 'lodash';
 import { ReactNode, useMemo, useRef, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { Location } from 'react-router';
+import { ISSUE_TAB_MIN_HEADING_LEVEL } from '~shared/helpers/headings';
 import { isHunterAgentRuleEngine } from '~shared/helpers/issues';
 import { RuleDescriptionSections, RuleDetails } from '~shared/types/rules';
 import { type Issue } from '../../../types/types';
@@ -123,6 +124,7 @@ export function useIssueTabs({
             defaultContextKey={ruleDescriptionContextKey}
             isHunterAgent={isHunterAgent}
             language={ruleLanguage}
+            minHeadingLevel={ISSUE_TAB_MIN_HEADING_LEVEL}
             sections={(
               descriptionSectionsByKey[RuleDescriptionSections.Default] ??
               descriptionSectionsByKey[RuleDescriptionSections.RootCause]
@@ -140,6 +142,7 @@ export function useIssueTabs({
           <RuleDescription
             isHunterAgent={isHunterAgent}
             language={ruleLanguage}
+            minHeadingLevel={ISSUE_TAB_MIN_HEADING_LEVEL}
             sections={descriptionSectionsByKey[RuleDescriptionSections.AssessTheProblem]}
           />
         ),
@@ -155,6 +158,7 @@ export function useIssueTabs({
             defaultContextKey={ruleDescriptionContextKey}
             isHunterAgent={isHunterAgent}
             language={ruleLanguage}
+            minHeadingLevel={ISSUE_TAB_MIN_HEADING_LEVEL}
             sections={descriptionSectionsByKey[RuleDescriptionSections.HowToFix]}
           />
         ),
@@ -194,6 +198,7 @@ export function useIssueTabs({
             educationPrinciplesRef={educationPrinciplesRef}
             isHunterAgent={isHunterAgent}
             language={ruleLanguage}
+            minHeadingLevel={ISSUE_TAB_MIN_HEADING_LEVEL}
             sections={descriptionSectionsByKey[RuleDescriptionSections.Resources]}
           />
         ),

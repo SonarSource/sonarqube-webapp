@@ -93,7 +93,7 @@ it('should show education principles', async () => {
       { timeout: 10_000 },
     ),
   );
-  expect(screen.getByRole('heading', { name: 'Defense-in-depth', level: 3 })).toBeInTheDocument();
+  expect(screen.getByRole('heading', { name: 'Defense-in-depth', level: 5 })).toBeInTheDocument();
 });
 
 it('should hide the rule description context selector for Hunter agent issues', async () => {

@@ -22,6 +22,7 @@ import styled from '@emotion/styled';
 import { cssVar } from '@sonarsource/echoes-react';
 import * as React from 'react';
 import { HtmlFormatter } from '~shared/components/typography/HtmlFormatter';
+import { enforceMinHeadingLevel } from '~shared/helpers/headings';
 import { SanitizeLevel } from '~shared/helpers/sanitize';
 import { isDefined } from '~shared/helpers/types';
 import { RuleDescriptionSection, RuleDescriptionSections } from '~shared/types/rules';
@@ -37,6 +38,8 @@ interface Props {
   defaultContextKey?: string;
   isHunterAgent?: boolean;
   language?: string;
+  /** When set, all headings are exposed at this level or deeper, see `enforceMinHeadingLevel`. */
+  minHeadingLevel?: number;
   sections: RuleDescriptionSection[];
 }
 
@@ -51,6 +54,7 @@ export default function RuleDescription({
   defaultContextKey,
   isHunterAgent,
   language,
+  minHeadingLevel,
   sections,
 }: Readonly<Props>) {
   const [contexts, setContexts] = React.useState<RuleDescriptionContextDisplay[]>([]);
@@ -117,6 +121,8 @@ export default function RuleDescription({
         className={className}
         ref={(node: HTMLDivElement) => {
           applyCodeDifferences(node);
+          // Rule sections are HTML from the backend, so aria-level is set after render
+          enforceMinHeadingLevel(node, minHeadingLevel);
         }}
       >
         {!isHunterAgent && (
@@ -179,6 +185,7 @@ export default function RuleDescription({
       className={className}
       ref={(node: HTMLDivElement) => {
         applyCodeDifferences(node);
+        enforceMinHeadingLevel(node, minHeadingLevel);
       }}
     >
       {isDefined(introductionSection) && (
