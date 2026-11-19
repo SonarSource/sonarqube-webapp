@@ -207,6 +207,8 @@ export const securityMessages = {
     'The branch could not be found in the source code provider. Check that it still exists.',
   'hunter_agent.activity.failure.scm_credentials_rejected':
     'The source code provider rejected the credentials. Update the connection credentials and try again.',
+  'hunter_agent.activity.failure.scm_integration_unavailable':
+    'The source code integration could not provide credentials for this scan. Check the integration connection and contact your SonarQube administrator if the problem persists.',
   'hunter_agent.activity.failure.unsupported_scm_provider':
     "This project's source code provider is not supported by the Hunter Agent.",
   'hunter_agent.activity.failure.repository_too_large':
