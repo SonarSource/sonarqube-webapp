@@ -982,15 +982,18 @@ export const securityMessages = {
   'dependencies.details.other_versions': '{count} other releases in use',
   'dependencies.details.other_versions.description':
     "{count} other releases of this package are used in ''{branchName}''",
+  'dependencies.package_managers.APK': 'Alpine',
   'dependencies.package_managers.CARGO': 'Cargo',
   'dependencies.package_managers.COCOAPODS': 'CocoaPods',
   'dependencies.package_managers.COMPOSER': 'Packagist', // Composer is the tool, packagist is the package manager
   'dependencies.package_managers.CONAN': 'Conan',
+  'dependencies.package_managers.DEB': 'DEB',
   'dependencies.package_managers.GOLANG': 'Go',
   'dependencies.package_managers.MAVEN': 'Maven',
   'dependencies.package_managers.NPM': 'npm',
   'dependencies.package_managers.NUGET': 'NuGet',
   'dependencies.package_managers.PYPI': 'PyPI',
+  'dependencies.package_managers.RPM': 'RPM',
   'dependencies.package_managers.GEM': 'Gem',
   'dependencies.package_managers.UNKNOWN': 'Unknown',
   'dependencies.package_managers.VCPKG': 'vcpkg',

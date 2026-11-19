@@ -19,15 +19,18 @@
  */
 
 export enum PackageManagers {
+  Alpine = 'APK',
   Cargo = 'CARGO',
   Cocoapods = 'COCOAPODS',
   Composer = 'COMPOSER',
   Conan = 'CONAN',
+  Debian = 'DEB',
   Gopkg = 'GOLANG',
   Maven = 'MAVEN',
   Npm = 'NPM',
   Nuget = 'NUGET',
   Pypi = 'PYPI',
+  Rpm = 'RPM',
   Rubygems = 'GEM',
   Swift = 'SWIFT',
   Vcpkg = 'VCPKG',
@@ -35,15 +38,18 @@ export enum PackageManagers {
 }
 
 export const PACKAGE_MANAGER_LABELS: Record<PackageManagers, string> = {
+  [PackageManagers.Alpine]: 'dependencies.package_managers.APK',
   [PackageManagers.Cargo]: 'dependencies.package_managers.CARGO',
   [PackageManagers.Cocoapods]: 'dependencies.package_managers.COCOAPODS',
   [PackageManagers.Composer]: 'dependencies.package_managers.COMPOSER',
   [PackageManagers.Conan]: 'dependencies.package_managers.CONAN',
+  [PackageManagers.Debian]: 'dependencies.package_managers.DEB',
   [PackageManagers.Gopkg]: 'dependencies.package_managers.GOLANG',
   [PackageManagers.Maven]: 'dependencies.package_managers.MAVEN',
   [PackageManagers.Npm]: 'dependencies.package_managers.NPM',
   [PackageManagers.Nuget]: 'dependencies.package_managers.NUGET',
   [PackageManagers.Pypi]: 'dependencies.package_managers.PYPI',
+  [PackageManagers.Rpm]: 'dependencies.package_managers.RPM',
   [PackageManagers.Rubygems]: 'dependencies.package_managers.GEM',
   [PackageManagers.Swift]: 'dependencies.package_managers.SWIFT',
   [PackageManagers.Vcpkg]: 'dependencies.package_managers.VCPKG',

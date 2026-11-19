@@ -20,15 +20,18 @@
 
 import { IconPackage } from '@sonarsource/echoes-react';
 import { PackageManagers } from '../../helpers/package-managers';
+import { AlpineLogo } from './logos/AlpineLogo';
 import { CargoLogo } from './logos/CargoLogo';
 import { CocoapodsLogo } from './logos/CocoapodsLogo';
 import { ComposerLogo } from './logos/ComposerLogo';
 import { ConanLogo } from './logos/ConanLogo';
+import { DebianLogo } from './logos/DebianLogo';
 import { GopkgLogo } from './logos/GopkgLogo';
 import { MavenLogo } from './logos/MavenLogo';
 import { NpmLogo } from './logos/NpmLogo';
 import { NugetLogo } from './logos/NugetLogo';
 import { PypiLogo } from './logos/PypiLogo';
+import { RpmLogo } from './logos/RpmLogo';
 import { RubygemsLogo } from './logos/RubygemsLogo';
 import { SwiftLogo } from './logos/SwiftLogo';
 import { VcpkgLogo } from './logos/VcpkgLogo';
@@ -41,6 +44,8 @@ interface PackageManagerIconProps {
 
 function renderPackageManagerIcon(packageManager: PackageManagers | string, className?: string) {
   switch (packageManager.toUpperCase()) {
+    case PackageManagers.Alpine:
+      return <AlpineLogo className={className} />;
     case PackageManagers.Cargo:
       return <CargoLogo className={className} />;
     case PackageManagers.Cocoapods:
@@ -49,6 +54,8 @@ function renderPackageManagerIcon(packageManager: PackageManagers | string, clas
       return <ComposerLogo className={className} />;
     case PackageManagers.Conan:
       return <ConanLogo className={className} />;
+    case PackageManagers.Debian:
+      return <DebianLogo className={className} />;
     case PackageManagers.Gopkg:
       return <GopkgLogo className={className} />;
     case PackageManagers.Maven:
@@ -59,6 +66,8 @@ function renderPackageManagerIcon(packageManager: PackageManagers | string, clas
       return <NugetLogo className={className} />;
     case PackageManagers.Pypi:
       return <PypiLogo className={className} />;
+    case PackageManagers.Rpm:
+      return <RpmLogo className={className} />;
     case PackageManagers.Rubygems:
       return <RubygemsLogo className={className} />;
     case PackageManagers.Swift:
