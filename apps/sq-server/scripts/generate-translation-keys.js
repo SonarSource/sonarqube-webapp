@@ -74,7 +74,12 @@ function writeToFile(messages, outFile) {
     stream = fs.createWriteStream(outFile, { flags: 'a' });
 
     Object.keys(messages).forEach((key) => {
-      stream.write(`${key}=${messages[key]}\n`);
+      const value = messages[key]
+        .replace(/\\/g, String.raw`\\`)
+        .replace(/\r/g, String.raw`\r`)
+        .replace(/\n/g, String.raw`\n`)
+        .replace(/\t/g, String.raw`\t`);
+      stream.write(`${key}=${value}\n`);
     });
 
     stream.close();

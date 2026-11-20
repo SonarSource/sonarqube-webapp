@@ -252,7 +252,7 @@ export const measuresMessages = {
   'dashboard.edit_section_title': 'Edit section',
   'dashboard.delete_section_title': 'Delete Section',
   'dashboard.delete_section_confirm':
-    'Are you sure you want to delete this section? This will permanently remove the section and all its widgets.',
+    'Are you sure you want to delete the section, “{name}”?\n\nThis will permanently remove the section and all its widgets.',
   'dashboard.modal.permission_access.title': 'Permissions and access',
   'dashboard.view_all_dashboards': 'View all dashboards',
   'dashboard.download_schema': 'Save dashboard schema',

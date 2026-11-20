@@ -23,13 +23,14 @@ import { useIntl } from 'react-intl';
 
 interface Props {
   isOpen: boolean;
+  sectionName: string;
   onClose: () => void;
   onConfirm: () => void;
 }
 
 export function DeleteSectionModal(props: Readonly<Props>) {
-  const { isOpen, onClose, onConfirm } = props;
-  const intl = useIntl();
+  const { isOpen, onClose, onConfirm, sectionName } = props;
+  const { formatMessage } = useIntl();
 
   const handleConfirm = () => {
     onConfirm();
@@ -40,7 +41,9 @@ export function DeleteSectionModal(props: Readonly<Props>) {
     <Modal
       content={
         <div className="sw:space-y-4">
-          <Text>{intl.formatMessage({ id: 'dashboard.delete_section_confirm' })}</Text>
+          <Text className="sw:whitespace-pre-line">
+            {formatMessage({ id: 'dashboard.delete_section_confirm' }, { name: sectionName })}
+          </Text>
         </div>
       }
       isOpen={isOpen}
@@ -51,15 +54,15 @@ export function DeleteSectionModal(props: Readonly<Props>) {
       }}
       primaryButton={
         <Button onClick={handleConfirm} variety={ButtonVariety.Danger}>
-          {intl.formatMessage({ id: 'delete' })}
+          {formatMessage({ id: 'delete' })}
         </Button>
       }
       secondaryButton={
         <Button onClick={onClose} variety={ButtonVariety.Default}>
-          {intl.formatMessage({ id: 'cancel' })}
+          {formatMessage({ id: 'cancel' })}
         </Button>
       }
-      title={intl.formatMessage({ id: 'dashboard.delete_section_title' })}
+      title={formatMessage({ id: 'dashboard.delete_section_title' })}
     />
   );
 }

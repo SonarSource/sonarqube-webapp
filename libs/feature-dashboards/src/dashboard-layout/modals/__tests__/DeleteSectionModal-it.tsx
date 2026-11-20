@@ -34,7 +34,12 @@ beforeEach(() => {
 describe('DeleteSectionModal', () => {
   it('should not render when closed', () => {
     renderWithContext(
-      <DeleteSectionModal isOpen={false} onClose={mockOnClose} onConfirm={mockOnConfirm} />,
+      <DeleteSectionModal
+        isOpen={false}
+        onClose={mockOnClose}
+        onConfirm={mockOnConfirm}
+        sectionName="Quality Metrics"
+      />,
     );
 
     expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
@@ -42,17 +47,66 @@ describe('DeleteSectionModal', () => {
 
   it('should render when open', () => {
     renderWithContext(
-      <DeleteSectionModal isOpen onClose={mockOnClose} onConfirm={mockOnConfirm} />,
+      <DeleteSectionModal
+        isOpen
+        onClose={mockOnClose}
+        onConfirm={mockOnConfirm}
+        sectionName="Quality Metrics"
+      />,
     );
 
     expect(screen.getByRole('dialog')).toBeInTheDocument();
     expect(screen.getByText('dashboard.delete_section_title')).toBeInTheDocument();
-    expect(screen.getByText('dashboard.delete_section_confirm')).toBeInTheDocument();
+    expect(screen.getByText('dashboard.delete_section_confirm.Quality Metrics')).toHaveClass(
+      'sw:whitespace-pre-line',
+    );
+    expect(
+      screen.getByText('dashboard.delete_section_confirm.Quality Metrics'),
+    ).toBeInTheDocument();
+  });
+
+  it('uses the current section name when reopened for another section', () => {
+    const { rerender } = renderWithContext(
+      <DeleteSectionModal
+        isOpen
+        onClose={mockOnClose}
+        onConfirm={mockOnConfirm}
+        sectionName="Quality Metrics"
+      />,
+    );
+    rerender(
+      <DeleteSectionModal
+        isOpen={false}
+        onClose={mockOnClose}
+        onConfirm={mockOnConfirm}
+        sectionName="Quality Metrics"
+      />,
+    );
+    rerender(
+      <DeleteSectionModal
+        isOpen
+        onClose={mockOnClose}
+        onConfirm={mockOnConfirm}
+        sectionName='Security <checks> & "releases"'
+      />,
+    );
+
+    expect(
+      screen.getByText('dashboard.delete_section_confirm.Security <checks> & "releases"'),
+    ).toBeInTheDocument();
+    expect(
+      screen.queryByText('dashboard.delete_section_confirm.Quality Metrics'),
+    ).not.toBeInTheDocument();
   });
 
   it('should display delete and cancel buttons', () => {
     renderWithContext(
-      <DeleteSectionModal isOpen onClose={mockOnClose} onConfirm={mockOnConfirm} />,
+      <DeleteSectionModal
+        isOpen
+        onClose={mockOnClose}
+        onConfirm={mockOnConfirm}
+        sectionName="Quality Metrics"
+      />,
     );
 
     expect(screen.getByRole('button', { name: /delete/i })).toBeInTheDocument();
@@ -62,7 +116,12 @@ describe('DeleteSectionModal', () => {
   it('should call onClose when cancel button is clicked', async () => {
     const user = userEvent.setup();
     renderWithContext(
-      <DeleteSectionModal isOpen onClose={mockOnClose} onConfirm={mockOnConfirm} />,
+      <DeleteSectionModal
+        isOpen
+        onClose={mockOnClose}
+        onConfirm={mockOnConfirm}
+        sectionName="Quality Metrics"
+      />,
     );
 
     const cancelButton = screen.getByRole('button', { name: /cancel/i });
@@ -75,7 +134,12 @@ describe('DeleteSectionModal', () => {
   it('should call both onConfirm and onClose when delete button is clicked', async () => {
     const user = userEvent.setup();
     renderWithContext(
-      <DeleteSectionModal isOpen onClose={mockOnClose} onConfirm={mockOnConfirm} />,
+      <DeleteSectionModal
+        isOpen
+        onClose={mockOnClose}
+        onConfirm={mockOnConfirm}
+        sectionName="Quality Metrics"
+      />,
     );
 
     const deleteButton = screen.getByRole('button', { name: /delete/i });
@@ -92,7 +156,12 @@ describe('DeleteSectionModal', () => {
     const trackingOnClose = jest.fn(() => callOrder.push('close'));
 
     renderWithContext(
-      <DeleteSectionModal isOpen onClose={trackingOnClose} onConfirm={trackingOnConfirm} />,
+      <DeleteSectionModal
+        isOpen
+        onClose={trackingOnClose}
+        onConfirm={trackingOnConfirm}
+        sectionName="Quality Metrics"
+      />,
     );
 
     const deleteButton = screen.getByRole('button', { name: /delete/i });
@@ -104,7 +173,12 @@ describe('DeleteSectionModal', () => {
   it('should call onClose when modal is dismissed via onOpenChange', async () => {
     const user = userEvent.setup();
     renderWithContext(
-      <DeleteSectionModal isOpen onClose={mockOnClose} onConfirm={mockOnConfirm} />,
+      <DeleteSectionModal
+        isOpen
+        onClose={mockOnClose}
+        onConfirm={mockOnConfirm}
+        sectionName="Quality Metrics"
+      />,
     );
 
     // Simulate dismissing the modal by pressing Escape key
@@ -118,7 +192,12 @@ describe('DeleteSectionModal', () => {
 
   it('should have delete button with danger variety', () => {
     renderWithContext(
-      <DeleteSectionModal isOpen onClose={mockOnClose} onConfirm={mockOnConfirm} />,
+      <DeleteSectionModal
+        isOpen
+        onClose={mockOnClose}
+        onConfirm={mockOnConfirm}
+        sectionName="Quality Metrics"
+      />,
     );
 
     const deleteButton = screen.getByRole('button', { name: /delete/i });
@@ -128,7 +207,12 @@ describe('DeleteSectionModal', () => {
 
   it('should render modal with proper dialog role for accessibility', () => {
     renderWithContext(
-      <DeleteSectionModal isOpen onClose={mockOnClose} onConfirm={mockOnConfirm} />,
+      <DeleteSectionModal
+        isOpen
+        onClose={mockOnClose}
+        onConfirm={mockOnConfirm}
+        sectionName="Quality Metrics"
+      />,
     );
 
     const dialog = screen.getByRole('dialog');
@@ -138,7 +222,12 @@ describe('DeleteSectionModal', () => {
   it('should handle multiple interactions correctly', async () => {
     const user = userEvent.setup();
     const { rerender } = renderWithContext(
-      <DeleteSectionModal isOpen onClose={mockOnClose} onConfirm={mockOnConfirm} />,
+      <DeleteSectionModal
+        isOpen
+        onClose={mockOnClose}
+        onConfirm={mockOnConfirm}
+        sectionName="Quality Metrics"
+      />,
     );
 
     // First, verify modal is open
@@ -154,7 +243,14 @@ describe('DeleteSectionModal', () => {
     mockOnConfirm.mockClear();
 
     // Reopen the modal
-    rerender(<DeleteSectionModal isOpen onClose={mockOnClose} onConfirm={mockOnConfirm} />);
+    rerender(
+      <DeleteSectionModal
+        isOpen
+        onClose={mockOnClose}
+        onConfirm={mockOnConfirm}
+        sectionName="Quality Metrics"
+      />,
+    );
 
     // Now click delete button
     const deleteButton = screen.getByRole('button', { name: /delete/i });
@@ -166,7 +262,12 @@ describe('DeleteSectionModal', () => {
 
   it('should not call callbacks when modal is closed', () => {
     renderWithContext(
-      <DeleteSectionModal isOpen={false} onClose={mockOnClose} onConfirm={mockOnConfirm} />,
+      <DeleteSectionModal
+        isOpen={false}
+        onClose={mockOnClose}
+        onConfirm={mockOnConfirm}
+        sectionName="Quality Metrics"
+      />,
     );
 
     // Modal is closed, so no callbacks should be triggered

@@ -389,6 +389,7 @@ export function MultigridSectionEditable(props: Readonly<Props>) {
           setIsDeleteModalOpen(false);
         }}
         onConfirm={handleDeleteSection}
+        sectionName={sectionName}
       />
     </div>
   );

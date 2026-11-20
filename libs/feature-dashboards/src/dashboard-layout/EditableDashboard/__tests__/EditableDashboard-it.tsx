@@ -557,13 +557,36 @@ describe('EditableDashboard', () => {
 
       await user.click(screen.getByText('dashboard.delete_section'));
 
-      const confirmButton = await screen.findByRole('button', { name: 'delete' });
+      expect(
+        await screen.findByText('dashboard.delete_section_confirm.Quality Metrics'),
+      ).toBeInTheDocument();
+
+      const confirmButton = screen.getByRole('button', { name: 'delete' });
       await user.click(confirmButton);
 
       await waitFor(() => {
         expect(mockOnDashboardChange).toHaveBeenCalled();
       });
-      expect(mockOnDashboardChange).toHaveBeenCalledWith(expect.objectContaining({ version: 0 }));
+      expect(mockOnDashboardChange).toHaveBeenCalledWith({
+        ...mockDashboard,
+        children: [mockExplicitSection2, mockImplicitSection],
+      });
+    });
+
+    it('closes section deletion on Cancel without changing the layout', async () => {
+      const { mockOnDashboardChange } = renderEditableDashboard();
+      const user = userEvent.setup();
+      await user.click(screen.getAllByRole('button', { name: 'dashboard.section_actions' })[0]);
+      await user.click(screen.getByText('dashboard.delete_section'));
+      expect(await screen.findByRole('dialog')).toBeInTheDocument();
+      expect(screen.getByText('Widget 1')).toBeInTheDocument();
+
+      await user.click(screen.getByRole('button', { name: 'cancel' }));
+
+      expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
+      expect(screen.getByText('Widget 1')).toBeInTheDocument();
+      expect(screen.getByText('Widget 2')).toBeInTheDocument();
+      expect(mockOnDashboardChange).not.toHaveBeenCalled();
     });
 
     it('should handle section edit', async () => {
