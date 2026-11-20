@@ -70,6 +70,7 @@ const esModules = [
   'zwitch',
   'html-void-elements',
   'parse5',
+  'entities',
   '@ungap/structured-clone',
   '@xyflow/react',
   '@xyflow/system',

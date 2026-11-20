@@ -91,6 +91,10 @@ Library used to generate CycloneDX SBOM.
 
 Provides the Oxc parser (`rolldown/parseAst`) and native `RolldownMagicString` used by the Vite plugins in `config/vite/` that replace the former Babel transforms: `emotion-styled-targets` (Emotion component selector targets and dev labels) and `qa-component-attribute` (`data-component` attributes). Aligned with the Rolldown version used by Vite.
 
+### @sonar/scan
+
+SonarQube scanner used by CI and the Cloud e2e helpers.
+
 ### @sprig-technologies/sprig-browser
 
 Used by sq-cloud to show feedback forms created on the Sprig platform to our users.
@@ -175,6 +179,10 @@ Used to mock API requests in tests and dev mode.
 
 Used by sq-cloud-e2e-tests to generate TOTP codes when logging in github or bitbucket.
 
+### postcss-calc
+
+Simplifies CSS `calc()` expressions in the shared Vite configuration.
+
 ### oxlint
 
 Lints the repository using `.oxlintrc.json`. Rules missing from Oxlint, or whose native implementation behaves differently, run through the ESLint plugins loaded as Oxlint JS plugins from `config/oxlint/`.
@@ -253,6 +261,10 @@ Its versioning is closely tied to jsdom, to update it we should instead update j
 
 This is necessary, because more recent patch versions are broken.
 (For instance: [2.2.14](https://github.com/dperini/nwsapi/issues/135))
+
+### parse5
+
+We pin all transitive `parse5` dependencies to 8.1.1 to fix CVE-2026-133245. The latest `cheerio@1.2.0` (also used by `@cyclonedx/cdxgen`) and `jest-environment-jsdom@30.5.2` still require parse5 7 through Cheerio and jsdom 26, so updating their transitive dependencies within the supported ranges cannot fix these paths. The `rehype-raw` path uses the updated `hast-util-raw@9.2.1`, which accepts parse5 8. Remove the resolution when all dependency paths accept and resolve to 8.1.1 or later without it.
 
 ### protobuf & protobufjs-cli
 
