@@ -21,7 +21,7 @@
 import { NumericalCell } from '~design-system';
 import { MeasureEnhanced, Metric } from '~shared/types/measures';
 import { isDiffMetric } from '~sq-server-commons/helpers/measures';
-import Measure from '~sq-server-commons/sonar-aligned/components/measure/Measure';
+import Measure from '~adapters/components/measure/Measure';
 import { BranchLike } from '~sq-server-commons/types/branch-like';
 import { ComponentMeasureEnhanced } from '~sq-server-commons/types/types';
 

@@ -18,17 +18,15 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { RatingBadgeRating } from '@sonarsource/echoes-react';
 import { IntlShape } from 'react-intl';
 import { getCurrentLocale } from '~adapters/helpers/l10n';
-import { Measure } from '../types/measures';
+import type { Measure, RatingLabel } from '../types/measures';
 import {
   ISSUE_SEVERITY_CONDITION_MAPPING,
   normalizeSeverityConditionThreshold,
 } from './quality-gates';
 import { RISK_SEVERITY_LABELS, SCA_RISK_SEVERITY_METRIC_THRESHOLDS } from './sca';
 
-type RatingLabel = Exclude<keyof typeof RatingBadgeRating, 'Null'>;
 type FormatMessageFunction = IntlShape['formatMessage'];
 
 const HOURS_IN_DAY = 8;

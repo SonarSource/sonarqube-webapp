@@ -45,7 +45,7 @@ import { ContainsAICodeBadge } from '~sq-server-commons/components/shared/Contai
 import AICodeAssuranceStatus from '~sq-server-commons/components/typography/AICodeAssuranceStatus';
 import { useCurrentUser } from '~sq-server-commons/context/current-user/CurrentUserContext';
 import { getProjectQueryUrl } from '~sq-server-commons/helpers/urls';
-import Measure from '~sq-server-commons/sonar-aligned/components/measure/Measure';
+import Measure from '~adapters/components/measure/Measure';
 import { formatMeasure } from '~adapters/helpers/measures';
 import { isLoggedIn } from '~sq-server-commons/types/users';
 import { Project } from '../../types';

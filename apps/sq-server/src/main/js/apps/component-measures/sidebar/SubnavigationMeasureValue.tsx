@@ -23,7 +23,7 @@ import { useCurrentBranchQuery } from '~adapters/queries/branch';
 import { MeasureEnhanced } from '~shared/types/measures';
 import { useComponent } from '~sq-server-commons/context/componentContext/withComponentContext';
 import { isDiffMetric } from '~sq-server-commons/helpers/measures';
-import Measure from '~sq-server-commons/sonar-aligned/components/measure/Measure';
+import Measure from '~adapters/components/measure/Measure';
 
 interface Props {
   componentKey: string;

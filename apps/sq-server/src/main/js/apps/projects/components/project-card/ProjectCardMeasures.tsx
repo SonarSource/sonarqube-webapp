@@ -28,7 +28,7 @@ import { duplicationRatingConverter } from '~sq-server-commons/components/measur
 import { useAvailableFeatures } from '~sq-server-commons/context/available-features/withAvailableFeatures';
 import RatingComponent from '~sq-server-commons/context/metrics/RatingComponent';
 import { useStandardExperienceModeQuery } from '~sq-server-commons/queries/mode';
-import Measure from '~sq-server-commons/sonar-aligned/components/measure/Measure';
+import Measure from '~adapters/components/measure/Measure';
 import { Feature } from '~sq-server-commons/types/features';
 import ProjectCardMeasure from './ProjectCardMeasure';
 

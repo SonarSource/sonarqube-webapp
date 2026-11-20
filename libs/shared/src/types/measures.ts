@@ -18,6 +18,10 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import type { RatingBadgeRating } from '@sonarsource/echoes-react';
+
+export type RatingLabel = Exclude<keyof typeof RatingBadgeRating, 'Null'>;
+
 export interface Measure extends MeasureIntern {
   metric: string;
 }

@@ -28,7 +28,7 @@ import Tooltip from '~sq-server-commons/components/controls/Tooltip';
 import { getLocalizedMetricName, translate } from '~sq-server-commons/helpers/l10n';
 import { isDiffMetric } from '~sq-server-commons/helpers/measures';
 import { getMeasureHistoryUrl } from '~sq-server-commons/helpers/urls';
-import Measure from '~sq-server-commons/sonar-aligned/components/measure/Measure';
+import Measure from '~adapters/components/measure/Measure';
 import { BranchLike } from '~sq-server-commons/types/branch-like';
 import { ComponentMeasure, Period } from '~sq-server-commons/types/types';
 import { getMetricSubnavigationName, hasFullMeasures } from '../utils';

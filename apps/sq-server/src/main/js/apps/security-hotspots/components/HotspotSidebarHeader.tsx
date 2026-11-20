@@ -35,7 +35,7 @@ import { isBranch } from '~shared/helpers/branch-like';
 import { MetricKey, MetricType } from '~shared/types/metrics';
 import withComponentContext from '~sq-server-commons/context/componentContext/withComponentContext';
 import withCurrentUserContext from '~sq-server-commons/context/current-user/withCurrentUserContext';
-import Measure from '~sq-server-commons/sonar-aligned/components/measure/Measure';
+import Measure from '~adapters/components/measure/Measure';
 import { BranchLike } from '~sq-server-commons/types/branch-like';
 import { ComponentContextShape } from '~sq-server-commons/types/component';
 import { HotspotFilters } from '~sq-server-commons/types/security-hotspots';
