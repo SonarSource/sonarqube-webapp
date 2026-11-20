@@ -65,9 +65,10 @@ export const securityMessages = {
   'mcp_oauth.consent.signed_in': 'Signed in as {login}',
   'mcp_oauth.consent.access': 'With your current permissions, {application} can:',
   'mcp_oauth.consent.read_title': 'Read data',
-  'mcp_oauth.consent.read': 'Read SonarQube data using the available MCP tools.',
+  'mcp_oauth.consent.read': 'Read all the SonarQube data your account can access.',
   'mcp_oauth.consent.write_title': 'Make changes',
-  'mcp_oauth.consent.write': 'Make changes in SonarQube using the available MCP tools.',
+  'mcp_oauth.consent.write':
+    'Make changes to everything in SonarQube that your account is allowed to modify.',
   'mcp_oauth.consent.permissions':
     '{application} is limited to your current SonarQube permissions.',
   'mcp_oauth.consent.details': 'Connection details',
