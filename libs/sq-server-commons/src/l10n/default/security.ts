@@ -1252,6 +1252,9 @@ export const securityMessages = {
   'dependencies.risk.how.find_alternative.license_body':
     'Because this dependency’s license is prohibited by the {profile} license profile, you will need to find a different dependency to meet your needs.',
   'dependencies.risk.how.license.view_allowed': 'View licenses allowed for this project',
+  'dependencies.risk.how.accepted_versions.title': 'Potentially mark as safe/accepted',
+  'dependencies.risk.how.accepted_versions.body':
+    'Other versions of {packageName} with this license have been marked Safe or Accepted. Review their status before deciding how to handle {package}.',
   'dependencies.risk.how.fix.complete': 'Complete fix',
   'dependencies.risk.how.fix.partial': 'Partial fix',
   'dependencies.risk.how.fix.none': 'Affected version',
