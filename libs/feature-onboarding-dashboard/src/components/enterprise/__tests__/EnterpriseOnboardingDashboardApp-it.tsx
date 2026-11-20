@@ -310,13 +310,11 @@ describe('journey', () => {
 
   it('keeps the organizations reachable while nothing is bound, to bind them', async () => {
     onboardingMock.setEnterpriseOverview(mockOnboardingUnboundEnterpriseOverview());
-    renderEnterpriseDashboard();
+    const { user } = renderEnterpriseDashboard();
 
-    expect(await ui.table.byText('Legacy tools').find()).toBeInTheDocument();
-    expect(ui.bind('Legacy tools').get()).toHaveAttribute(
-      'href',
-      '/organizations/legacy-tools/edit',
-    );
+    await user.click(await ui.organizationActions('Legacy tools').find());
+
+    expect(await ui.bind.find()).toHaveAttribute('href', '/organizations/legacy-tools/edit');
   });
 });
 
@@ -353,15 +351,20 @@ describe('what the viewer is to each organization', () => {
     key === 'web-core' ? OrganizationAccess.Admin : OrganizationAccess.None;
 
   it('says it on the table and offers to ask for what takes administration rights', async () => {
-    renderEnterpriseDashboard({ getOrganizationAccess });
+    const { user } = renderEnterpriseDashboard({ getOrganizationAccess });
 
     expect(await ui.table.byText('Web core').find()).toBeInTheDocument();
     expect(ui.table.byText(`${PREFIX}.organizations.access.admin`).get()).toBeInTheDocument();
     expect(ui.table.byText(`${PREFIX}.organizations.access.none`).getAll()).toHaveLength(3);
+
     // Only the administered one is a link.
-    expect(ui.viewDashboard('Web core').get()).toBeInTheDocument();
-    expect(ui.viewDashboard('Data platform').query()).not.toBeInTheDocument();
-    expect(ui.requestAccess('Data platform').get()).toBeEnabled();
+    await user.click(ui.organizationActions('Web core').get());
+    expect(await ui.viewDashboard.find()).toBeInTheDocument();
+    await user.keyboard('{Escape}');
+
+    await user.click(ui.organizationActions('Data platform').get());
+    expect(await ui.requestAccess.find()).toBeEnabled();
+    expect(ui.viewDashboard.query()).not.toBeInTheDocument();
   });
 
   it('tells a member who the administrators of the organization are', async () => {
@@ -377,7 +380,8 @@ describe('what the viewer is to each organization', () => {
       getOrganizationAccess: (key) => MEMBER_OF_DATA_PLATFORM[key],
     });
 
-    await user.click(await ui.requestAccess('Data platform').find());
+    await user.click(await ui.organizationActions('Data platform').find());
+    await user.click(await ui.requestAccess.find());
 
     expect(await ui.requestAccessTitle.find()).toBeInTheDocument();
     expect(byText('Ada Lovelace').get()).toBeInTheDocument();
@@ -387,7 +391,8 @@ describe('what the viewer is to each organization', () => {
   it('only asks someone who is not a member to ask the administrators', async () => {
     const { user } = renderEnterpriseDashboard({ getOrganizationAccess });
 
-    await user.click(await ui.requestAccess('Data platform').find());
+    await user.click(await ui.organizationActions('Data platform').find());
+    await user.click(await ui.requestAccess.find());
 
     expect(await ui.requestAccessTitle.find()).toBeInTheDocument();
     expect(byText(`${PREFIX}.request_access.not_member`).get()).toBeInTheDocument();
@@ -396,11 +401,13 @@ describe('what the viewer is to each organization', () => {
 
 describe('organizations table', () => {
   it('lists the least progressed organization first, with the way to open each', async () => {
-    renderEnterpriseDashboard();
+    const { user } = renderEnterpriseDashboard();
 
     expect(await ui.table.byText('Web core').find()).toBeInTheDocument();
     expect(rowNames()).toEqual(['Legacy tools', 'Data platform', 'Web core', 'Payments']);
-    expect(ui.viewDashboard('Web core').get()).toHaveAttribute(
+
+    await user.click(ui.organizationActions('Web core').get());
+    expect(await ui.viewDashboard.find()).toHaveAttribute(
       'href',
       '/organizations/web-core/project-coverage',
     );

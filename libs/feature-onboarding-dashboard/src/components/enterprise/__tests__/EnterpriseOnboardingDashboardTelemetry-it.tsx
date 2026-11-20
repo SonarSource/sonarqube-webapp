@@ -139,7 +139,8 @@ it('reports that the order of the organizations was reversed', async () => {
 it('reports that the dashboard of an organization was opened, from the organizations table', async () => {
   const { user } = renderDashboard();
 
-  await user.click(await ui.viewDashboard('Web core').find());
+  await user.click(await ui.organizationActions('Web core').find());
+  await user.click(await ui.viewDashboard.find());
 
   expect(mockTelemetry.trackActionSelected).toHaveBeenCalledWith(
     expect.objectContaining({
@@ -153,7 +154,8 @@ it('reports that the dashboard of an organization was opened, from the organizat
 it('reports that admin access to an organization was asked for, from the organizations table', async () => {
   const { user } = renderDashboard({ getOrganizationAccess: () => OrganizationAccess.None });
 
-  await user.click(await ui.requestAccess('Web core').find());
+  await user.click(await ui.organizationActions('Web core').find());
+  await user.click(await ui.requestAccess.find());
 
   expect(mockTelemetry.trackActionSelected).toHaveBeenCalledWith(
     expect.objectContaining({

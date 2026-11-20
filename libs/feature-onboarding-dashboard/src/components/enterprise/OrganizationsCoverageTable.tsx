@@ -270,15 +270,13 @@ function OrganizationRow({
         </>
       )}
 
-      <Table.Cell className="sw:justify-end">
-        <OrganizationRowActions
-          access={access}
-          getBindingUrl={getBindingUrl}
-          getDashboardUrl={getDashboardUrl}
-          onAction={onAction}
-          organization={organization}
-        />
-      </Table.Cell>
+      <OrganizationRowActions
+        access={access}
+        getBindingUrl={getBindingUrl}
+        getDashboardUrl={getDashboardUrl}
+        onAction={onAction}
+        organization={organization}
+      />
     </Table.Row>
   );
 }

@@ -18,8 +18,13 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Button, ButtonGroup, ButtonVariety, Tooltip } from '@sonarsource/echoes-react';
-import { ReactElement, useState } from 'react';
+import {
+  DropdownMenu,
+  DropdownMenuAlign,
+  IconMoreVertical,
+  Table,
+} from '@sonarsource/echoes-react';
+import { useState } from 'react';
 import { useIntl } from 'react-intl';
 import { Path } from 'react-router';
 import { OnboardingOrganizationRow } from '~shared/types/onboarding';
@@ -47,100 +52,70 @@ export function OrganizationRowActions({
   organization,
 }: Readonly<Props>) {
   const { formatMessage } = useIntl();
+  const [isRequestAccessModalOpen, setIsRequestAccessModalOpen] = useState(false);
   const { key, name } = organization;
 
-  if (access === OrganizationAccess.Member || access === OrganizationAccess.None) {
-    return (
-      <RequestAdminAccessButton access={access} onAction={onAction} organization={organization} />
-    );
-  }
-
-  const viewButton = (
-    <Button
-      ariaLabel={formatMessage(
-        { id: 'onboarding_dashboard.enterprise.organizations.action.view.label' },
-        { name },
-      )}
-      onClick={() => {
-        onAction?.(OnboardingDashboardAction.ViewOrganizationDashboard);
-      }}
-      to={getDashboardUrl(key)}
-      variety={ButtonVariety.Default}
-    >
-      {formatMessage({ id: 'onboarding_dashboard.enterprise.organizations.action.view' })}
-    </Button>
-  );
+  const canRequestAdminAccess =
+    access === OrganizationAccess.Member || access === OrganizationAccess.None;
 
   // The figures of an organization that could not be read do not say whether it is bound.
-  if (organization.availability === 'UNAVAILABLE' || organization.bound) {
-    return viewButton;
-  }
+  const canBind = organization.availability !== 'UNAVAILABLE' && !organization.bound;
 
-  // Default variety: the table has no primary action, so unbound rows should not draw the eye.
-  return (
-    <ButtonGroup isCombined>
-      <Button
-        ariaLabel={formatMessage(
-          { id: 'onboarding_dashboard.enterprise.organizations.action.bind.label' },
-          { name },
-        )}
+  const items = canRequestAdminAccess ? (
+    <DropdownMenu.ItemButton
+      helpText={formatMessage({
+        id: 'onboarding_dashboard.enterprise.organizations.action.request_access.hint',
+      })}
+      onClick={() => {
+        setIsRequestAccessModalOpen(true);
+        onAction?.(OnboardingDashboardAction.RequestAdminAccess);
+      }}
+    >
+      {formatMessage({ id: 'onboarding_dashboard.enterprise.organizations.action.request_access' })}
+    </DropdownMenu.ItemButton>
+  ) : (
+    <>
+      <DropdownMenu.ItemLink
         onClick={() => {
-          onAction?.(OnboardingDashboardAction.BindOrganization);
+          onAction?.(OnboardingDashboardAction.ViewOrganizationDashboard);
         }}
-        to={getBindingUrl(key)}
-        variety={ButtonVariety.Default}
+        to={getDashboardUrl(key)}
       >
-        {formatMessage({ id: 'onboarding_dashboard.enterprise.organizations.action.bind' })}
-      </Button>
-      {viewButton}
-    </ButtonGroup>
+        {formatMessage({ id: 'onboarding_dashboard.enterprise.organizations.action.view' })}
+      </DropdownMenu.ItemLink>
+
+      {canBind && (
+        <DropdownMenu.ItemLink
+          onClick={() => {
+            onAction?.(OnboardingDashboardAction.BindOrganization);
+          }}
+          to={getBindingUrl(key)}
+        >
+          {formatMessage({ id: 'onboarding_dashboard.enterprise.organizations.action.bind' })}
+        </DropdownMenu.ItemLink>
+      )}
+    </>
   );
-}
-
-type RequestAdminAccessButtonProps = Pick<Props, 'onAction' | 'organization'> & {
-  access: OrganizationAccess.Member | OrganizationAccess.None;
-};
-
-/** Not disabled, so it stays focusable and the tooltip can explain why. */
-function RequestAdminAccessButton({
-  access,
-  onAction,
-  organization,
-}: Readonly<RequestAdminAccessButtonProps>): ReactElement {
-  const { formatMessage } = useIntl();
-  const [isModalOpen, setIsModalOpen] = useState(false);
 
   return (
     <>
-      <Tooltip
-        content={formatMessage({
-          id: 'onboarding_dashboard.enterprise.organizations.action.request_access.hint',
-        })}
-      >
-        <Button
+      <DropdownMenu align={DropdownMenuAlign.End} items={items}>
+        <Table.CellButtonIcon
+          Icon={IconMoreVertical}
           ariaLabel={formatMessage(
-            { id: 'onboarding_dashboard.enterprise.organizations.action.request_access.label' },
-            { name: organization.name },
+            { id: 'onboarding_dashboard.enterprise.organizations.actions.label' },
+            { name },
           )}
-          onClick={() => {
-            setIsModalOpen(true);
-            onAction?.(OnboardingDashboardAction.RequestAdminAccess);
-          }}
-          variety={ButtonVariety.Default}
-        >
-          {formatMessage({
-            id: 'onboarding_dashboard.enterprise.organizations.action.request_access',
-          })}
-        </Button>
-      </Tooltip>
+        />
+      </DropdownMenu>
 
-      {isModalOpen && (
+      {canRequestAdminAccess && isRequestAccessModalOpen && (
         <RequestAdminAccessModal
           access={access}
           onClose={() => {
-            setIsModalOpen(false);
+            setIsRequestAccessModalOpen(false);
           }}
-          organizationKey={organization.key}
+          organizationKey={key}
         />
       )}
     </>

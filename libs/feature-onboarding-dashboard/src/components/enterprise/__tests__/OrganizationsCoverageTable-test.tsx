@@ -63,13 +63,14 @@ const ui = {
   platformColumn: byRole('columnheader', { name: `${PREFIX}.col.platform` }),
   unavailable: byText(`${PREFIX}.unavailable`),
   access: (access: string) => byText(`${PREFIX}.access.${access}`),
-  requestAccess: (name: string) =>
-    byRole('button', { name: `${PREFIX}.action.request_access.label.${name}` }),
+  actions: (name: string) => byRole('button', { name: `${PREFIX}.actions.label.${name}` }),
+  requestAccess: byRole('menuitem', { name: new RegExp(`^${PREFIX}\\.action\\.request_access`) }),
   modalTitle: byText(`${ENTERPRISE_PREFIX}.request_access.title`),
   results: (size: number, total: number) =>
     byText(`onboarding_dashboard.table.results_size.${size}.${total}`),
-  viewDashboard: (name: string) => byRole('link', { name: `${PREFIX}.action.view.label.${name}` }),
-  bind: (name: string) => byRole('link', { name: `${PREFIX}.action.bind.label.${name}` }),
+  viewDashboard: byRole('menuitem', { name: `${PREFIX}.action.view` }),
+  bind: byRole('menuitem', { name: `${PREFIX}.action.bind` }),
+  menuItems: byRole('menuitem'),
   progress: (name: string) => byRole('progressbar', { name: `${PREFIX}.progress.label.${name}` }),
 };
 
@@ -147,7 +148,7 @@ it('shows the organization, the projects imported and analyzed, the progress and
     `${PREFIX}.col.progress`,
     `${PREFIX}.col.actions`,
   ]);
-  expect(ui.viewDashboard('Web core').get()).toHaveTextContent(`${PREFIX}.action.view`);
+  expect(ui.actions('Web core').get()).toBeInTheDocument();
 });
 
 it('shows the repositories and projects as done over total, and the progress as a bar', () => {
@@ -189,33 +190,47 @@ it('shows no icon for an organization that is not bound', () => {
   expect(ui.table.byRole('img').query()).not.toBeInTheDocument();
 });
 
-it('drills down to the dashboard of an organization', () => {
-  renderTable();
+it('drills down to the dashboard of an organization from its actions menu', async () => {
+  const { user } = renderTable();
 
-  expect(ui.viewDashboard('Web core').get()).toHaveAttribute(
+  await user.click(ui.actions('Web core').get());
+
+  expect(await ui.viewDashboard.find()).toHaveAttribute(
     'href',
     '/organizations/web-core/project-coverage',
   );
-  expect(ui.viewDashboard('Data platform').get()).toHaveAttribute(
-    'href',
-    '/organizations/data-platform/project-coverage',
-  );
 });
 
-it('offers the binding setup only for an unbound organization', () => {
-  renderTable();
+it('offers the binding setup after View & manage, for an unbound organization', async () => {
+  const { user } = renderTable();
 
-  expect(ui.bind('Legacy tools').get()).toHaveAttribute('href', '/organizations/legacy-tools/edit');
-  expect(ui.bind('Web core').query()).not.toBeInTheDocument();
-  expect(ui.bind('Data platform').query()).not.toBeInTheDocument();
-  // Whether it is bound is unknown for an organization that could not be read.
-  expect(ui.bind('Payments').query()).not.toBeInTheDocument();
+  await user.click(ui.actions('Legacy tools').get());
+
+  expect(await ui.bind.find()).toBeInTheDocument();
+  expect(ui.menuItems.getAll().map((item) => item.textContent)).toEqual([
+    `${PREFIX}.action.view`,
+    `${PREFIX}.action.bind`,
+  ]);
+  expect(ui.bind.get()).toHaveAttribute('href', '/organizations/legacy-tools/edit');
 });
+
+it.each(['Web core', 'Data platform', 'Payments'])(
+  'does not offer the binding setup for %s, which is bound or could not be read',
+  async (name) => {
+    const { user } = renderTable();
+
+    await user.click(ui.actions(name).get());
+
+    expect(await ui.viewDashboard.find()).toBeInTheDocument();
+    expect(ui.bind.query()).not.toBeInTheDocument();
+  },
+);
 
 it('reports the binding of an organization being started', async () => {
   const { onAction, user } = renderTable();
 
-  await user.click(ui.bind('Legacy tools').get());
+  await user.click(ui.actions('Legacy tools').get());
+  await user.click(await ui.bind.find());
 
   expect(onAction).toHaveBeenCalledWith(OnboardingDashboardAction.BindOrganization);
 });
@@ -223,7 +238,8 @@ it('reports the binding of an organization being started', async () => {
 it('reports the dashboard of an organization being opened', async () => {
   const { onAction, user } = renderTable();
 
-  await user.click(ui.viewDashboard('Web core').get());
+  await user.click(ui.actions('Web core').get());
+  await user.click(await ui.viewDashboard.find());
 
   expect(onAction).toHaveBeenCalledWith(OnboardingDashboardAction.ViewOrganizationDashboard);
 });
@@ -242,11 +258,13 @@ describe('an organization that could not be loaded', () => {
     expect(ui.table.byRole('img').query()).not.toBeInTheDocument();
   });
 
-  it('can still be opened, to see what is wrong from its own dashboard', () => {
+  it('can still be opened, to see what is wrong from its own dashboard', async () => {
     const payments = mockOnboardingOrganizations().filter(({ key }) => key === 'payments');
-    renderTable({ organizations: payments, total: 1 });
+    const { user } = renderTable({ organizations: payments, total: 1 });
 
-    expect(ui.viewDashboard('Payments').get()).toHaveAttribute(
+    await user.click(ui.actions('Payments').get());
+
+    expect(await ui.viewDashboard.find()).toHaveAttribute(
       'href',
       '/organizations/payments/project-coverage',
     );
@@ -373,58 +391,71 @@ describe('what the viewer is to each organization', () => {
     expect(ui.access('none').get()).toBeInTheDocument();
   });
 
-  it('opens the organizations the viewer administers, as it always did', () => {
-    renderTable({}, getAccess);
+  it('opens the organizations the viewer administers, as it always did', async () => {
+    const { user } = renderTable({}, getAccess);
 
-    expect(ui.viewDashboard('Web core').get()).toHaveAttribute(
+    await user.click(ui.actions('Web core').get());
+
+    expect(await ui.viewDashboard.find()).toHaveAttribute(
       'href',
       '/organizations/web-core/project-coverage',
     );
   });
 
   it('offers a member who is not an administrator to ask for admin access, in place of View & manage', async () => {
-    renderTable({}, getAccess);
+    const { user } = renderTable({}, getAccess);
 
-    expect(ui.requestAccess('Data platform').get()).toBeEnabled();
-    await expect(ui.requestAccess('Data platform').get()).toHaveATooltipWithContent(
-      `${PREFIX}.action.request_access.hint`,
-    );
+    await user.click(ui.actions('Data platform').get());
+
+    expect(await ui.requestAccess.find()).toBeEnabled();
+    expect(ui.requestAccess.get()).toHaveTextContent(`${PREFIX}.action.request_access.hint`);
     // No link to a page the viewer cannot open.
-    expect(ui.viewDashboard('Data platform').query()).not.toBeInTheDocument();
+    expect(ui.viewDashboard.query()).not.toBeInTheDocument();
   });
 
-  it('offers someone who is not a member the same, in place of Bind and View & manage', () => {
-    renderTable({}, getAccess);
+  it('offers someone who is not a member the same, in place of Bind and View & manage', async () => {
+    const { user } = renderTable({}, getAccess);
+
+    await user.click(ui.actions('Legacy tools').get());
 
     // Legacy tools is the only unbound organization: Bind needs admin rights too.
-    expect(ui.requestAccess('Legacy tools').get()).toBeEnabled();
-    expect(ui.bind('Legacy tools').query()).not.toBeInTheDocument();
-    expect(ui.viewDashboard('Legacy tools').query()).not.toBeInTheDocument();
+    expect(await ui.requestAccess.find()).toBeEnabled();
+    expect(ui.bind.query()).not.toBeInTheDocument();
+    expect(ui.viewDashboard.query()).not.toBeInTheDocument();
   });
 
-  it('does not offer it for an organization the viewer administers', () => {
-    renderTable({}, getAccess);
+  it.each(['Web core', 'Payments'])(
+    'does not offer it for %s, which the viewer administers',
+    async (name) => {
+      const { user } = renderTable({}, getAccess);
 
-    expect(ui.requestAccess('Web core').query()).not.toBeInTheDocument();
-    expect(ui.requestAccess('Payments').query()).not.toBeInTheDocument();
-  });
+      await user.click(ui.actions(name).get());
+
+      expect(await ui.viewDashboard.find()).toBeInTheDocument();
+      expect(ui.requestAccess.query()).not.toBeInTheDocument();
+    },
+  );
 
   it('reports the request and opens the modal', async () => {
     const { onAction, user } = renderTable({}, getAccess);
 
-    await user.click(ui.requestAccess('Data platform').get());
+    await user.click(ui.actions('Data platform').get());
+    await user.click(await ui.requestAccess.find());
 
     expect(onAction).toHaveBeenCalledWith(OnboardingDashboardAction.RequestAdminAccess);
     expect(await ui.modalTitle.find()).toBeInTheDocument();
   });
 
-  it('holds nothing back, and says nothing, while it is not known what the viewer is', () => {
-    renderTable();
+  it('holds nothing back, and says nothing, while it is not known what the viewer is', async () => {
+    const { user } = renderTable();
 
     expect(ui.access('admin').query()).not.toBeInTheDocument();
     expect(ui.access('member').query()).not.toBeInTheDocument();
     expect(ui.access('none').query()).not.toBeInTheDocument();
-    expect(ui.viewDashboard('Data platform').get()).toBeInTheDocument();
-    expect(ui.bind('Legacy tools').get()).toBeInTheDocument();
+
+    await user.click(ui.actions('Legacy tools').get());
+
+    expect(await ui.viewDashboard.find()).toBeInTheDocument();
+    expect(ui.bind.get()).toBeInTheDocument();
   });
 });

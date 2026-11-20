@@ -132,8 +132,11 @@ export const ui = {
   organizationLockedMoreCta: byText('onboarding_dashboard.journey.locked.more.cta'),
 
   viewAll: byRole('button', { name: `${PREFIX}.organizations.view_all` }),
-  requestAccess: (name: string) =>
-    byRole('button', { name: `${PREFIX}.organizations.action.request_access.label.${name}` }),
+  organizationActions: (name: string) =>
+    byRole('button', { name: `${PREFIX}.organizations.actions.label.${name}` }),
+  requestAccess: byRole('menuitem', {
+    name: new RegExp(`^${PREFIX}\\.organizations\\.action\\.request_access`),
+  }),
   requestAccessTitle: byText(`${PREFIX}.request_access.title`),
   createOrganization: byRole('link', { name: `${PREFIX}.binding.create_organization` }),
 
@@ -147,10 +150,8 @@ export const ui = {
   sortDescending: byRole('button', { name: `${PREFIX}.organizations.sort.descending` }),
   unavailable: byText(`${PREFIX}.organizations.unavailable`),
   pageTwo: byRole('button', { name: 'pagination.page_x.2' }),
-  viewDashboard: (name: string) =>
-    byRole('link', { name: `${PREFIX}.organizations.action.view.label.${name}` }),
-  bind: (name: string) =>
-    byRole('link', { name: `${PREFIX}.organizations.action.bind.label.${name}` }),
+  viewDashboard: byRole('menuitem', { name: `${PREFIX}.organizations.action.view` }),
+  bind: byRole('menuitem', { name: `${PREFIX}.organizations.action.bind` }),
 
   emptyTitle: byText(`${PREFIX}.empty.title`),
   addOrganization: byRole('link', { name: `${PREFIX}.empty.cta` }),

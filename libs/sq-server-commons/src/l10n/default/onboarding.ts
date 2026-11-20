@@ -1330,14 +1330,10 @@ export const onboardingMessages = {
   'onboarding_dashboard.enterprise.organizations.unavailable': "Couldn't load",
   'onboarding_dashboard.enterprise.organizations.progress.label': 'Progress of {name}',
   'onboarding_dashboard.enterprise.organizations.view_all': 'View all',
+  'onboarding_dashboard.enterprise.organizations.actions.label': 'Actions for {name}',
   'onboarding_dashboard.enterprise.organizations.action.view': 'View & manage',
-  'onboarding_dashboard.enterprise.organizations.action.view.label': 'View & manage {name}',
   'onboarding_dashboard.enterprise.organizations.action.bind': 'Bind',
-  'onboarding_dashboard.enterprise.organizations.action.bind.label':
-    'Bind {name} to a DevOps platform',
   'onboarding_dashboard.enterprise.organizations.action.request_access': 'Get admin access',
-  'onboarding_dashboard.enterprise.organizations.action.request_access.label':
-    'Get admin access to {name}',
   'onboarding_dashboard.enterprise.organizations.action.request_access.hint':
     'You need admin access to continue',
   'onboarding_dashboard.enterprise.organizations.access.admin': 'Admin',
