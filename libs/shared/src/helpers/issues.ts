@@ -60,6 +60,7 @@ export function isHunterAgentRuleEngine(externalRuleEngine?: string) {
 export function isAgentFindingRuleEngine(externalRuleEngine?: string) {
   return (
     isHunterAgentRuleEngine(externalRuleEngine) ||
+    externalRuleEngine?.toLowerCase() === 'reliability-agent' ||
     externalRuleEngine?.toLowerCase() === 'sunset-radar'
   );
 }

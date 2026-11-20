@@ -86,12 +86,16 @@ describe('isHunterAgentRuleEngine', () => {
 });
 
 describe('isAgentFindingRuleEngine', () => {
-  it.each(['hunter-agent', 'HUNTER-AGENT', 'sunset-radar', 'Sunset-Radar'])(
-    'detects the agent rule engine %s',
-    (engine) => {
-      expect(isAgentFindingRuleEngine(engine)).toBe(true);
-    },
-  );
+  it.each([
+    'hunter-agent',
+    'HUNTER-AGENT',
+    'reliability-agent',
+    'Reliability-Agent',
+    'sunset-radar',
+    'Sunset-Radar',
+  ])('detects the agent rule engine %s', (engine) => {
+    expect(isAgentFindingRuleEngine(engine)).toBe(true);
+  });
 
   it.each(['eslint', 'sunset', 'sunset-radar-2', ''])('rejects the rule engine "%s"', (engine) => {
     expect(isAgentFindingRuleEngine(engine)).toBe(false);
