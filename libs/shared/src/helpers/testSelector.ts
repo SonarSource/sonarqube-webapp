@@ -24,6 +24,7 @@ import {
   GetByRole,
   GetByText,
   screen,
+  waitFor,
   waitForOptions,
   within,
 } from '@testing-library/react';
@@ -174,28 +175,12 @@ class ChainDispatch extends QuerySelector {
     this.innerQuery = insideQuery;
   }
 
-  async find<T extends HTMLElement = HTMLElement>(
+  find<T extends HTMLElement = HTMLElement>(
     container?: HTMLElement,
     waitForOptions?: waitForOptions,
   ) {
-    let inside: HTMLElement;
-    try {
-      inside = await this.innerQuery.find(container, waitForOptions);
-    } catch (e) {
-      const elements = this.innerQuery.getAll(container);
-      const all = (
-        await Promise.all(
-          elements.map((e) => this.dispatchQuery.findAll<T>(e, waitForOptions).catch(() => null)),
-        )
-      )
-        .flat()
-        .filter((e) => e !== null);
-      if (all.length !== 1) {
-        throw e;
-      }
-      return all[0];
-    }
-    return this.dispatchQuery.find<T>(inside, waitForOptions);
+    // Retry the sync get: chaining async finds waits out a full timeout when the parent matches several elements.
+    return waitFor(() => this.get<T>(container), waitForOptions);
   }
 
   async findAll<T extends HTMLElement = HTMLElement>(
@@ -232,10 +217,10 @@ class ChainDispatch extends QuerySelector {
     } catch (e) {
       const elements = this.innerQuery.queryAll(container);
       const all = elements.map((e) => this.dispatchQuery.query<T>(e)).filter((e) => e !== null);
-      if (all.length !== 1) {
+      if (all.length > 1) {
         throw e;
       }
-      return all[0];
+      return all[0] ?? null;
     }
     if (inside) {
       return this.dispatchQuery.query<T>(inside);

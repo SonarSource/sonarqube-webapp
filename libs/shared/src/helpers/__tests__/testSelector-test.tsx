@@ -324,9 +324,9 @@ describe('error handling', () => {
     await expect(() => byRole('paragraph').byTestId('container').find()).rejects.toThrow();
   });
 
-  it('should handle ChainDispatch query when inner query has multiple matches', () => {
+  it('should return null from ChainDispatch query when inner query has multiple matches and none contain the target', () => {
     renderByRTL();
-    expect(() => byRole('paragraph').byTestId('container').query()).toThrow();
+    expect(byRole('paragraph').byTestId('container').query()).toBeNull();
   });
 
   it('should handle ChainDispatch get when inner query has 1 match', () => {
