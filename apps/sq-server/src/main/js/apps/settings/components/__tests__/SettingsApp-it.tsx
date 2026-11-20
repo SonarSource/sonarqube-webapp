@@ -18,7 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { within } from '@testing-library/react';
+import { waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { Route } from 'react-router';
 import { registerServiceMocks } from '~shared/api/mocks/server';
@@ -90,6 +90,7 @@ beforeEach(() => {
 const ui = {
   announcementHeading: byRole('heading', { name: 'property.category.general.Announcement' }),
   categoryLink: (category: string) => byRole('link', { name: category }),
+  definitionHeading: (key: string) => byRole('heading', { name: `property.${key}.name` }),
   externalAnalyzersAndroidHeading: byRole('heading', {
     name: 'property.category.External Analyzers.Android',
   }),
@@ -193,6 +194,10 @@ describe('Global Settings', () => {
     await user.keyboard(`{${KeyboardKeys.Enter}}`);
 
     expect(await ui.externalAnalyzersAndroidHeading.find()).toBeInTheDocument();
+    // Focus moves to the heading of the selected definition
+    await waitFor(() => {
+      expect(ui.definitionHeading(searchResultsKeys[2]).get()).toHaveFocus();
+    });
 
     // Navigating through link
     await user.click(ui.searchClear.get());
@@ -200,6 +205,9 @@ describe('Global Settings', () => {
     await user.click(ui.searchItem(searchResultsKeys[1]).get());
 
     expect(await ui.generalComputeEngineHeading.find()).toBeInTheDocument();
+    await waitFor(() => {
+      expect(ui.definitionHeading(searchResultsKeys[1]).get()).toHaveFocus();
+    });
   });
 
   it('can open mode and see custom implementation', async () => {

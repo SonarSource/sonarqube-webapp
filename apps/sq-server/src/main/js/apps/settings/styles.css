@@ -62,3 +62,8 @@
   max-width: 400px;
   min-width: 200px;
 }
+
+/* Headings focused programmatically after "Find in settings" navigation are not interactive */
+[data-scroll-key] :is(h3, h4)[tabindex='-1']:focus {
+  outline: none;
+}

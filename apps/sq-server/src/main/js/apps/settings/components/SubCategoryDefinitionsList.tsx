@@ -88,6 +88,12 @@ class SubCategoryDefinitionsList extends React.PureComponent<SubCategoryDefiniti
           element.getAttribute('data-scroll-key')?.toLocaleLowerCase()
       ) {
         element.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'nearest' });
+        // Move focus to the section heading so keyboard and screen reader users land on the target
+        const heading = element.querySelector<HTMLHeadingElement>('h3, h4');
+        if (heading) {
+          heading.tabIndex = -1;
+          heading.focus({ preventScroll: true });
+        }
       }
     }
   };
