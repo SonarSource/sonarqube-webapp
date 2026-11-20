@@ -28,7 +28,7 @@ import {
   PERCENT_MULTIPLIER,
   getMaintainabilityGrid,
 } from '../../helpers/ratings';
-import { formatMeasure } from '../../sonar-aligned/helpers/measures';
+import { formatMeasure } from '~adapters/helpers/measures';
 import { AppState } from '../../types/appstate';
 import { GlobalSettingKeys } from '../../types/settings';
 import { KNOWN_RATINGS } from './utils';

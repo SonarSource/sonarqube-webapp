@@ -23,7 +23,7 @@ import { cssVar } from '@sonarsource/echoes-react';
 import { FormattedMessage } from 'react-intl';
 import { TrendDirection, TrendIcon, TrendType } from '~design-system';
 import { MetricType } from '~shared/types/metrics';
-import { formatMeasure } from '~sq-server-commons/sonar-aligned/helpers/measures';
+import { formatMeasure } from '~adapters/helpers/measures';
 import { AnalysisMeasuresVariations } from '~sq-server-commons/types/project-activity';
 
 interface AnalysisVariationsProps {

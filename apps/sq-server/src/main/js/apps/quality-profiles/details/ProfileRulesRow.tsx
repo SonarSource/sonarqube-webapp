@@ -25,7 +25,7 @@ import { MetricType } from '~shared/types/metrics';
 import { RuleType } from '~shared/types/rules';
 import { translateWithParameters } from '~sq-server-commons/helpers/l10n';
 import { getRulesUrl } from '~sq-server-commons/helpers/urls';
-import { formatMeasure } from '~sq-server-commons/sonar-aligned/helpers/measures';
+import { formatMeasure } from '~adapters/helpers/measures';
 import { RulesFacetName } from '~sq-server-commons/types/rules';
 
 interface Props {

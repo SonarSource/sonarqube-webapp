@@ -24,7 +24,7 @@ import classNames from 'classnames';
 import { isDefined } from '~shared/helpers/types';
 import { MetricType } from '~shared/types/metrics';
 import { translate } from '../../helpers/l10n';
-import { formatMeasure } from '../../sonar-aligned/helpers/measures';
+import { formatMeasure } from '~adapters/helpers/measures';
 
 interface Props {
   className?: string;

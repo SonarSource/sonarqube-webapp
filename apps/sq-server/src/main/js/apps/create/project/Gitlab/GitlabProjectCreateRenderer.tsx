@@ -25,7 +25,7 @@ import { FormattedMessage, useIntl } from 'react-intl';
 import { useLocation } from '~shared/components/hoc/withRouter';
 import { Paging } from '~shared/types/paging';
 import { AvailableFeaturesContext } from '~sq-server-commons/context/available-features/AvailableFeaturesContext';
-import { queryToSearchString } from '~sq-server-commons/sonar-aligned/helpers/urls';
+import { queryToSearchString } from '~shared/helpers/query';
 import { GitlabProject } from '~sq-server-commons/types/alm-integration';
 import {
   AlmInstanceBase,

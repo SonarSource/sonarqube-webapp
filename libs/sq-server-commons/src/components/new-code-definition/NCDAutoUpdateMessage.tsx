@@ -26,7 +26,7 @@ import { NEW_CODE_PERIOD_CATEGORY } from '../../constants/settings';
 import { CurrentUserContextInterface } from '../../context/current-user/CurrentUserContext';
 import withCurrentUserContext from '../../context/current-user/withCurrentUserContext';
 import { useNewCodeDefinitionQuery } from '../../queries/newCodeDefinition';
-import { queryToSearchString } from '../../sonar-aligned/helpers/urls';
+import { queryToSearchString } from '~shared/helpers/query';
 import { Component } from '../../types/types';
 import {
   PreviouslyNonCompliantNCD,

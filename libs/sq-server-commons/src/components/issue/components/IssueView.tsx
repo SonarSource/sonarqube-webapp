@@ -34,7 +34,7 @@ import { useComponent } from '../../../context/componentContext/withComponentCon
 import { addGlobalSuccessMessage, BasicSeparator } from '../../../design-system';
 import { translate, translateWithParameters } from '../../../helpers/l10n';
 import { getIssuesUrl } from '../../../helpers/urls';
-import { getComponentIssuesUrl } from '../../../sonar-aligned/helpers/urls';
+import { getComponentIssuesUrl } from '~shared/helpers/urls';
 import { BranchLike } from '../../../types/branch-like';
 import { IssueActions } from '../../../types/issues';
 import { Issue } from '../../../types/types';

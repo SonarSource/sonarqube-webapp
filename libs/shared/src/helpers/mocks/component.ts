@@ -18,7 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { ComponentQualifier, LightComponent } from '../../types/component';
+import { ComponentBase, ComponentQualifier, LightComponent } from '../../types/component';
 
 export function mockComponent(overrides: Partial<LightComponent> = {}): LightComponent {
   return {
@@ -28,3 +28,19 @@ export function mockComponent(overrides: Partial<LightComponent> = {}): LightCom
     ...overrides,
   };
 }
+
+export const mockComponentBase = (overrides: Partial<ComponentBase> = {}): ComponentBase => ({
+  breadcrumbs: [],
+  ...mockComponent(),
+  qualityGate: { isDefault: true, key: '30', name: 'Sonar way' },
+  qualityProfiles: [
+    {
+      deleted: false,
+      key: 'my-qp',
+      language: 'ts',
+      name: 'Sonar way',
+    },
+  ],
+  tags: [],
+  ...overrides,
+});

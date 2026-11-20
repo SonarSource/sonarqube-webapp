@@ -20,7 +20,7 @@
 
 import { FormattedMessage } from 'react-intl';
 import { CodeSnippet, ContentCell, Link } from '~design-system';
-import { queryToSearchString } from '~sq-server-commons/sonar-aligned/helpers/urls';
+import { queryToSearchString } from '~shared/helpers/query';
 import { PermissionTemplate } from '~sq-server-commons/types/types';
 import { PERMISSION_TEMPLATES_PATH } from '../utils';
 import Defaults from './Defaults';

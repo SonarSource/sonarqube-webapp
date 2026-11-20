@@ -24,7 +24,7 @@ import { MetricType } from '~shared/types/metrics';
 import withLanguages from '../../context/languages/withLanguages';
 import { Histogram } from '../../design-system';
 import { translate } from '../../helpers/l10n';
-import { formatMeasure } from '../../sonar-aligned/helpers/measures';
+import { formatMeasure } from '~adapters/helpers/measures';
 
 export interface LanguageDistributionProps {
   distribution: string;

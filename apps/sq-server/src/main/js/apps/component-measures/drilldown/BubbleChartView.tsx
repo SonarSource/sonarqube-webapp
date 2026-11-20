@@ -41,7 +41,7 @@ import {
 } from '~sq-server-commons/helpers/l10n';
 import { isDiffMetric } from '~sq-server-commons/helpers/measures';
 import { getComponentDrilldownUrl } from '~sq-server-commons/helpers/urls';
-import { formatMeasure } from '~sq-server-commons/sonar-aligned/helpers/measures';
+import { formatMeasure } from '~adapters/helpers/measures';
 import { BranchLike } from '~sq-server-commons/types/branch-like';
 import {
   ComponentMeasureEnhanced,

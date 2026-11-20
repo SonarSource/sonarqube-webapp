@@ -28,7 +28,7 @@ import {
   getCaycConditionMetadata,
   getLocalizedMetricNameNoDiffMetric,
 } from '~sq-server-commons/helpers/quality-gates';
-import { formatMeasure } from '~sq-server-commons/sonar-aligned/helpers/measures';
+import { formatMeasure } from '~adapters/helpers/measures';
 import { DecoratedCondition } from '../hooks/useConditions';
 import { BuiltInStyledContentCell, BuiltInStyledItem } from './BuiltInConditionWrappers';
 

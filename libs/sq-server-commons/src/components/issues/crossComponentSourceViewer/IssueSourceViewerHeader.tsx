@@ -39,7 +39,7 @@ import { ChevronRightIcon, HoverLink, Link } from '../../../design-system';
 import { translate } from '../../../helpers/l10n';
 import { collapsedDirFromPath, fileFromPath } from '../../../helpers/path';
 import { getBranchLikeUrl } from '../../../helpers/urls';
-import { getComponentIssuesUrl } from '../../../sonar-aligned/helpers/urls';
+import { getComponentIssuesUrl } from '~shared/helpers/urls';
 import { SourceViewerFile } from '../../../types/types';
 import { isLoggedIn } from '../../../types/users';
 import { DEFAULT_ISSUES_QUERY } from '../../shared/utils';

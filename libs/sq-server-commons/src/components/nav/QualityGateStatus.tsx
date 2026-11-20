@@ -21,7 +21,7 @@
 import classNames from 'classnames';
 import { MetricType } from '~shared/types/metrics';
 import { QualityGateIndicator } from '../../design-system';
-import { formatMeasure } from '../../sonar-aligned/helpers/measures';
+import { formatMeasure } from '~adapters/helpers/measures';
 import { BranchLike } from '../../types/branch-like';
 
 interface Props {

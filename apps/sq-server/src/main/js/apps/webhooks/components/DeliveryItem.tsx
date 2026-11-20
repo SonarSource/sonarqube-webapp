@@ -21,7 +21,7 @@
 import { Spinner } from '@sonarsource/echoes-react';
 import { CodeSnippet } from '~design-system';
 import { translate, translateWithParameters } from '~sq-server-commons/helpers/l10n';
-import { formatMeasure } from '~sq-server-commons/sonar-aligned/helpers/measures';
+import { formatMeasure } from '~adapters/helpers/measures';
 import { WebhookDelivery } from '~sq-server-commons/types/webhook';
 import { formatPayload } from '../utils';
 

@@ -41,7 +41,7 @@ import {
   JupyterMarkdownCell,
 } from '../../sonar-aligned/components/SourceViewer/JupyterNotebookViewer';
 import { getOffsetsForIssue } from '../../sonar-aligned/helpers/json-issue-mapper';
-import { getComponentIssuesUrl } from '../../sonar-aligned/helpers/urls';
+import { getComponentIssuesUrl } from '~shared/helpers/urls';
 import { BranchLike } from '../../types/branch-like';
 import { Component, Issue } from '../../types/types';
 import { parseQuery, serializeQuery } from '../../utils/issues-utils';

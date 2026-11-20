@@ -34,7 +34,7 @@ import withAvailableFeatures, {
 } from '~sq-server-commons/context/available-features/withAvailableFeatures';
 import { translate } from '~sq-server-commons/helpers/l10n';
 import { getIssuesUrl } from '~sq-server-commons/helpers/urls';
-import { formatMeasure } from '~sq-server-commons/sonar-aligned/helpers/measures';
+import { formatMeasure } from '~adapters/helpers/measures';
 import { Feature } from '~sq-server-commons/types/features';
 import { FacetName } from '~sq-server-commons/types/issues';
 

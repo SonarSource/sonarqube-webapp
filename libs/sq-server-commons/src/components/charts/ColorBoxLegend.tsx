@@ -20,7 +20,7 @@
 
 import styled from '@emotion/styled';
 import { ScaleLinear, ScaleOrdinal } from 'd3-scale';
-import { formatMeasure } from '../../sonar-aligned/helpers/measures';
+import { formatMeasure } from '~adapters/helpers/measures';
 
 interface Props {
   colorNA?: string;

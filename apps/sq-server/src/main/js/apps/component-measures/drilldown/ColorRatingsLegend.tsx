@@ -27,7 +27,7 @@ import {
 } from '~design-system';
 import { MetricType } from '~shared/types/metrics';
 import { translateWithParameters } from '~sq-server-commons/helpers/l10n';
-import { formatMeasure } from '~sq-server-commons/sonar-aligned/helpers/measures';
+import { formatMeasure } from '~adapters/helpers/measures';
 
 export interface ColorRatingsLegendProps {
   className?: string;

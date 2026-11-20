@@ -21,7 +21,7 @@
 import { RatingBadgeSize } from '@sonarsource/echoes-react';
 import { render, screen } from '@testing-library/react';
 import { MetricKey, MetricType } from '~shared/types/metrics';
-import { formatMeasure } from '../../../../sonar-aligned/helpers/measures';
+import { formatMeasure } from '~adapters/helpers/measures';
 import Measure from '../Measure';
 
 const mockRatingComponent = jest.fn();
@@ -32,7 +32,7 @@ jest.mock('react-intl', () => ({
   }),
 }));
 
-jest.mock('~sq-server-commons/sonar-aligned/helpers/measures', () => ({
+jest.mock('~adapters/helpers/measures', () => ({
   formatMeasure: jest.fn((value: unknown, type: string) => `fmt:${type}:${String(value)}`),
 }));
 
@@ -69,9 +69,8 @@ describe('SQS adapter Measure', () => {
   it('renders float measures with three significant figures', () => {
     jest
       .mocked(formatMeasure)
-      .mockImplementationOnce(
-        jest.requireActual('~sq-server-commons/sonar-aligned/helpers/measures').formatMeasure,
-      );
+      .mockImplementationOnce(jest.requireActual('~adapters/helpers/measures').formatMeasure);
+
     render(<Measure metricKey="issue_density" metricType={MetricType.Float} value="12.34567" />);
     expect(screen.getByText('12.3')).toBeInTheDocument();
   });
@@ -86,9 +85,8 @@ describe('SQS adapter Measure', () => {
   it('renders placeholder when a float value is not numeric', () => {
     jest
       .mocked(formatMeasure)
-      .mockImplementationOnce(
-        jest.requireActual('~sq-server-commons/sonar-aligned/helpers/measures').formatMeasure,
-      );
+      .mockImplementationOnce(jest.requireActual('~adapters/helpers/measures').formatMeasure);
+
     render(<Measure metricKey="issue_density" metricType={MetricType.Float} value="invalid" />);
     expect(screen.getByText('—')).toBeInTheDocument();
   });

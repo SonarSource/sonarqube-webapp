@@ -24,7 +24,7 @@ import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
 import ListFooter from '~shared/components/controls/ListFooter';
 import { translateWithParameters } from '~sq-server-commons/helpers/l10n';
-import { queryToSearchString } from '~sq-server-commons/sonar-aligned/helpers/urls';
+import { queryToSearchString } from '~shared/helpers/query';
 import { AzureProject, AzureRepository } from '~sq-server-commons/types/alm-integration';
 import { CreateProjectModes } from '~sq-server-commons/types/create-project';
 import AzureProjectAccordion from './AzureProjectAccordion';

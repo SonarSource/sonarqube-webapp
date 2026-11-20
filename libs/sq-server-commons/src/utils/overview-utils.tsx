@@ -28,7 +28,7 @@ import { RawQuery } from '~shared/types/router';
 import { ISSUETYPE_METRIC_KEYS_MAP } from '../helpers/issues';
 import { translate } from '../helpers/l10n';
 import { parseAsString } from '../helpers/query';
-import { formatMeasure } from '../sonar-aligned/helpers/measures';
+import { formatMeasure } from '~adapters/helpers/measures';
 import { IssueType } from '../types/issues';
 import { AnalysisMeasuresVariations, MeasureHistory } from '../types/project-activity';
 import { QualityGateStatusConditionEnhanced } from '../types/quality-gates';

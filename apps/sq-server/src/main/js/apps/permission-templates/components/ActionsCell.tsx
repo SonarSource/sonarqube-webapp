@@ -29,7 +29,7 @@ import {
   updatePermissionTemplate,
 } from '~sq-server-commons/api/permissions';
 import { translate, translateWithParameters } from '~sq-server-commons/helpers/l10n';
-import { queryToSearchString } from '~sq-server-commons/sonar-aligned/helpers/urls';
+import { queryToSearchString } from '~shared/helpers/query';
 import { PermissionTemplate } from '~sq-server-commons/types/types';
 import { PERMISSION_TEMPLATES_PATH } from '../utils';
 import DeleteForm from './DeleteForm';

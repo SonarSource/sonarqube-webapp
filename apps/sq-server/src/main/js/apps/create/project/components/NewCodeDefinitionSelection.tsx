@@ -50,7 +50,7 @@ import {
   useImportProjectMutation,
   useImportProjectProgress,
 } from '~sq-server-commons/queries/import-projects';
-import { queryToSearchString } from '~sq-server-commons/sonar-aligned/helpers/urls';
+import { queryToSearchString } from '~shared/helpers/query';
 import {
   DEFAULT_CREATE_PROJECT_REDIRECT,
   ImportProjectParam,

@@ -29,7 +29,7 @@ import {
 import { useMemo } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { InputSearch } from '~design-system';
-import { queryToSearchString } from '~sq-server-commons/sonar-aligned/helpers/urls';
+import { queryToSearchString } from '~shared/helpers/query';
 import { BitbucketRepository } from '~sq-server-commons/types/alm-integration';
 import { CreateProjectModes } from '~sq-server-commons/types/create-project';
 import { BBSSearchMode } from '../constants';

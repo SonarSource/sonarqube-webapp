@@ -30,7 +30,7 @@ import { MetricType } from '~shared/types/metrics';
 import { parseDate } from '~sq-server-commons/helpers/dates';
 import { translate, translateWithParameters } from '~sq-server-commons/helpers/l10n';
 import { getIntl } from '~sq-server-commons/helpers/l10nBundle';
-import { formatMeasure } from '~sq-server-commons/sonar-aligned/helpers/measures';
+import { formatMeasure } from '~adapters/helpers/measures';
 import { IssuesQuery } from '~sq-server-commons/types/issues';
 
 interface Props {

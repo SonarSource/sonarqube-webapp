@@ -24,7 +24,7 @@ import React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { useLocation } from '~shared/components/hoc/withRouter';
 import { AvailableFeaturesContext } from '~sq-server-commons/context/available-features/AvailableFeaturesContext';
-import { queryToSearchString } from '~sq-server-commons/sonar-aligned/helpers/urls';
+import { queryToSearchString } from '~shared/helpers/query';
 import { BitbucketRepository } from '~sq-server-commons/types/alm-integration';
 import { AlmKeys, AlmSettingsInstance } from '~sq-server-commons/types/alm-settings';
 import { CreateProjectModes } from '~sq-server-commons/types/create-project';

@@ -25,7 +25,7 @@ import { createApplication } from '~sq-server-commons/api/application';
 import { getComponentNavigation } from '~sq-server-commons/api/navigation';
 import { mockAppState, mockLoggedInUser, mockRouter } from '~sq-server-commons/helpers/testMocks';
 import { renderComponent } from '~sq-server-commons/helpers/testReactTestingUtils';
-import { queryToSearchString } from '~sq-server-commons/sonar-aligned/helpers/urls';
+import { queryToSearchString } from '~shared/helpers/query';
 import { FCProps } from '~sq-server-commons/types/misc';
 import { LoggedInUser } from '~sq-server-commons/types/users';
 import { ApplicationCreation } from '../ApplicationCreation';

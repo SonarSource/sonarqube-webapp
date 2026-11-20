@@ -28,7 +28,7 @@ import LastAnalysisLabel from '~sq-server-commons/components/overview/LastAnalys
 import { useAvailableFeatures } from '~sq-server-commons/context/available-features/withAvailableFeatures';
 import { findMeasure } from '~sq-server-commons/helpers/measures';
 import { useProjectContainsAiCodeQuery } from '~sq-server-commons/queries/ai-code-assurance';
-import { formatMeasure } from '~sq-server-commons/sonar-aligned/helpers/measures';
+import { formatMeasure } from '~adapters/helpers/measures';
 import { Branch } from '~sq-server-commons/types/branch-like';
 import { Feature } from '~sq-server-commons/types/features';
 import { Component } from '~sq-server-commons/types/types';

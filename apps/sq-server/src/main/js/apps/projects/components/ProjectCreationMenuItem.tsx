@@ -23,7 +23,7 @@ import { ItemLink } from '~design-system';
 import { useCurrentTheme } from '~shared/helpers/css';
 import { almIconUrl, almKeyToIconKey } from '~sq-server-commons/helpers/almIcons';
 import { translate } from '~sq-server-commons/helpers/l10n';
-import { queryToSearchString } from '~sq-server-commons/sonar-aligned/helpers/urls';
+import { queryToSearchString } from '~shared/helpers/query';
 import { ProjectCreationMode } from '../types';
 
 export interface ProjectCreationMenuItemProps {

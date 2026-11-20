@@ -25,7 +25,7 @@ import MultipleSelectionHint from '~shared/components/MultipleSelectionHint';
 import { MetricType } from '~shared/types/metrics';
 import { FacetBox, FacetItem } from '../../design-system';
 import { translate } from '../../helpers/l10n';
-import { formatMeasure } from '../../sonar-aligned/helpers/measures';
+import { formatMeasure } from '~adapters/helpers/measures';
 import { FacetKey } from '../../utils/coding-rules-query';
 import Tooltip from '../controls/Tooltip';
 import { FacetItemsList } from './FacetItemsList';

@@ -21,7 +21,7 @@
 import { Metric } from '~shared/types/measures';
 import { MetricKey } from '~shared/types/metrics';
 import { translate } from '~sq-server-commons/helpers/l10n';
-import { formatMeasure } from '~sq-server-commons/sonar-aligned/helpers/measures';
+import { formatMeasure } from '~adapters/helpers/measures';
 import { Condition } from '~sq-server-commons/types/types';
 import { GreenColorText } from './ConditionValue';
 

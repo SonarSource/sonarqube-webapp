@@ -42,7 +42,7 @@ import {
   serializeString,
   serializeStringArray,
 } from '../helpers/query';
-import { formatMeasure } from '../sonar-aligned/helpers/measures';
+import { formatMeasure } from '~adapters/helpers/measures';
 import {
   Facet,
   IssueDeprecatedStatus,

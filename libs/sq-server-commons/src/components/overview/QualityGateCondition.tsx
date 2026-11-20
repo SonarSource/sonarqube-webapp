@@ -39,11 +39,9 @@ import withMetricsContext from '../../context/metrics/withMetricsContext';
 import { LinkBox } from '../../design-system';
 import { getLocalizedMetricNameNoDiffMetric, getOperatorLabel } from '../../helpers/quality-gates';
 import { getComponentDrilldownUrl } from '../../helpers/urls';
-import { formatMeasure } from '../../sonar-aligned/helpers/measures';
-import {
-  getComponentIssuesUrl,
-  getComponentSecurityHotspotsUrl,
-} from '../../sonar-aligned/helpers/urls';
+import { formatMeasure } from '~adapters/helpers/measures';
+import { getComponentIssuesUrl } from '~shared/helpers/urls';
+import { getComponentSecurityHotspotsUrl } from '../../helpers/hotspots';
 import { BranchLike } from '../../types/branch-like';
 import { IssueType } from '../../types/issues';
 import { QualityGateStatusConditionEnhanced } from '../../types/quality-gates';

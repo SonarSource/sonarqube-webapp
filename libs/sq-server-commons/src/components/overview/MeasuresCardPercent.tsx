@@ -32,7 +32,7 @@ import { MetricKey, MetricType } from '~shared/types/metrics';
 import { CoverageIndicator, DuplicationsIndicator } from '../../design-system';
 import { findMeasure, localizeMetric } from '../../helpers/measures';
 import { getComponentDrilldownUrl } from '../../helpers/urls';
-import { formatMeasure } from '../../sonar-aligned/helpers/measures';
+import { formatMeasure } from '~adapters/helpers/measures';
 import { BranchLike } from '../../types/branch-like';
 import { QualityGateStatusConditionEnhanced } from '../../types/quality-gates';
 import { QGStatusEnum, getConditionRequiredLabel } from '../../utils/overview-utils';

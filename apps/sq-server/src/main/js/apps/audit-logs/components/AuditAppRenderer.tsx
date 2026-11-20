@@ -25,7 +25,7 @@ import { DateRangePicker } from '~design-system';
 import { AdminPageTemplate } from '~sq-server-commons/components/ui/AdminPageTemplate';
 import { now } from '~sq-server-commons/helpers/dates';
 import { translate } from '~sq-server-commons/helpers/l10n';
-import { queryToSearchString } from '~sq-server-commons/sonar-aligned/helpers/urls';
+import { queryToSearchString } from '~shared/helpers/query';
 import { HousekeepingPolicy, RangeOption } from '~sq-server-commons/types/audit-logs';
 import '../style.css';
 import DownloadButton from './DownloadButton';

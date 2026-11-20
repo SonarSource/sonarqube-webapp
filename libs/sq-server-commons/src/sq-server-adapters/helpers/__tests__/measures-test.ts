@@ -54,7 +54,7 @@ jest.mock('../../../helpers/l10nBundle', () => {
   };
 });
 
-describe('#formatMeasure()', () => {
+describe('formatMeasure()', () => {
   it('should format INT', () => {
     expect(formatMeasure(0, MetricType.Integer)).toBe('0');
     expect(formatMeasure(1, MetricType.Integer)).toBe('1');
@@ -220,7 +220,7 @@ describe('#formatMeasure()', () => {
   });
 });
 
-describe('#getIssueSeverityFormatter()', () => {
+describe('getIssueSeverityFormatter()', () => {
   describe('MQR mode', () => {
     it('should format all MQR severity impact thresholds correctly', () => {
       const formatter = getIssueSeverityFormatter(MetricKey.new_reliability_issue_severity);

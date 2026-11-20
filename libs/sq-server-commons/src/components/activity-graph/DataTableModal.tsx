@@ -27,7 +27,7 @@ import DateFormatter from '~shared/components/intl/DateFormatter';
 import TimeFormatter from '~shared/components/intl/TimeFormatter';
 import { FlagMessage, Modal } from '../../design-system';
 import { translate, translateWithParameters } from '../../helpers/l10n';
-import { formatMeasure } from '../../sonar-aligned/helpers/measures';
+import { formatMeasure } from '~adapters/helpers/measures';
 import { ParsedAnalysis, Serie } from '../../types/project-activity';
 import EventInner from './EventInner';
 import { getAnalysisEventsForDate } from './utils';

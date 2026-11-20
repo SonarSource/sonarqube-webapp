@@ -28,7 +28,7 @@ import { ComponentContext } from '../../../context/componentContext/ComponentCon
 import { StandoutLink } from '../../../design-system/components/Link';
 import { translate } from '../../../helpers/l10n';
 import { getIssuesUrl } from '../../../helpers/urls';
-import { getComponentIssuesUrl } from '../../../sonar-aligned/helpers/urls';
+import { getComponentIssuesUrl } from '~shared/helpers/urls';
 import { BranchLike } from '../../../types/branch-like';
 import { Issue } from '../../../types/types';
 import { areMyIssuesSelected, parseQuery, serializeQuery } from '../../../utils/issues-utils';

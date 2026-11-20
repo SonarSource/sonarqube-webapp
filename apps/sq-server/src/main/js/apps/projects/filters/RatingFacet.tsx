@@ -30,7 +30,7 @@ import { MetricType } from '~shared/types/metrics';
 import { RawQuery } from '~shared/types/router';
 import { translate, translateWithParameters } from '~sq-server-commons/helpers/l10n';
 import { useStandardExperienceModeQuery } from '~sq-server-commons/queries/mode';
-import { formatMeasure } from '~sq-server-commons/sonar-aligned/helpers/measures';
+import { formatMeasure } from '~adapters/helpers/measures';
 import { Facet } from '../types';
 import RangeFacetBase from './RangeFacetBase';
 

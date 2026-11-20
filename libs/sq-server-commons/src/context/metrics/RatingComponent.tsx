@@ -32,7 +32,7 @@ import { SOFTWARE_QUALITY_RATING_METRICS_MAP } from '../../helpers/constants';
 import { isDiffMetric } from '../../helpers/measures';
 import { useMeasureQuery } from '../../queries/measures';
 import { useStandardExperienceModeQuery } from '../../queries/mode';
-import { formatMeasure } from '../../sonar-aligned/helpers/measures';
+import { formatMeasure } from '~adapters/helpers/measures';
 import { BranchLike } from '../../types/branch-like';
 
 interface Props {

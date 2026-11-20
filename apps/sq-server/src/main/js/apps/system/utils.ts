@@ -27,7 +27,7 @@ import {
   parseAsString,
   serializeStringArray,
 } from '~sq-server-commons/helpers/query';
-import { formatMeasure } from '~sq-server-commons/sonar-aligned/helpers/measures';
+import { formatMeasure } from '~adapters/helpers/measures';
 import { LogsLevels } from '~sq-server-commons/types/system';
 import {
   SysInfoAppNode,

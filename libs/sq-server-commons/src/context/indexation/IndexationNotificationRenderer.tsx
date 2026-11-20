@@ -25,7 +25,7 @@ import { FormattedMessage, useIntl } from 'react-intl';
 import DocumentationLink from '../../components/common/DocumentationLink';
 import { DocLink } from '../../helpers/doc-links';
 import { useLinesOfCodeQuery } from '../../queries/identity-provider/common';
-import { queryToSearchString } from '../../sonar-aligned/helpers/urls';
+import { queryToSearchString } from '~shared/helpers/query';
 import { IndexationNotificationType } from '../../types/indexation';
 import { TaskStatuses, TaskTypes } from '../../types/tasks';
 import { useAppState } from '../app-state/withAppStateContext';

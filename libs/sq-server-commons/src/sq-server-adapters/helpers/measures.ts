@@ -18,4 +18,115 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-export { formatMeasure } from '../../sonar-aligned/helpers/measures';
+import {
+  durationFormatter,
+  intFormatter,
+  issueSeverityFormatter,
+  levelFormatter,
+  measureFloatFormatter,
+  millisecondsFormatter,
+  noFormatter,
+  percentFormatter,
+  ratingFormatter,
+  shortDurationFormatter,
+  shortIntFormatter,
+} from '~shared/helpers/measures';
+import {
+  MQR_SEVERITY_CONDITION_MAPPING,
+  normalizeSeverityConditionThreshold,
+} from '~shared/helpers/quality-gates';
+import {
+  RISK_SEVERITY_LABELS,
+  SCA_RISK_SEVERITY_METRIC_THRESHOLDS,
+  SCA_RISK_SEVERITY_METRIC_VALUES,
+} from '~shared/helpers/sca';
+import { MetricKey, MetricType } from '~shared/types/metrics';
+import { ReleaseRiskSeverity } from '~shared/types/sca';
+import { getIntl } from '../../helpers/l10nBundle';
+import { getModeForMetric } from '../../helpers/quality-gates';
+import { Mode } from '../../types/mode';
+
+type FormatterOption =
+  | { roundingFunc?: (x: number) => number }
+  | { decimals?: number; omitExtraDecimalZeros?: boolean };
+
+type Formatter = (value: string | number, options?: FormatterOption) => string;
+/**
+ * Format a measure value for a given type
+ * ! For Ratings, use formatRating instead
+ */
+
+export function formatMeasure(
+  value: string | number | undefined,
+  type: string,
+  options?: FormatterOption,
+  metricKey?: MetricKey,
+): string {
+  const formatter = getFormatter(type, metricKey);
+
+  return applyFormatter(value, formatter, options);
+}
+
+function applyFormatter(
+  value: string | number | undefined,
+  formatter: Formatter,
+  options?: FormatterOption,
+): string {
+  return value !== undefined && value !== '' ? formatter(value, options) : '';
+}
+
+function getFormatter(type: string, metricKey?: MetricKey): Formatter {
+  const { formatMessage } = getIntl();
+  const FORMATTERS: Record<string, Formatter> = {
+    INT: intFormatter,
+    SHORT_INT: shortIntFormatter.bind(null, formatMessage),
+    FLOAT: measureFloatFormatter,
+    PERCENT: percentFormatter,
+    WORK_DUR: durationFormatter.bind(null, formatMessage),
+    SHORT_WORK_DUR: shortDurationFormatter.bind(null, formatMessage),
+    RATING: ratingFormatter,
+    LEVEL: levelFormatter.bind(null, formatMessage),
+    MILLISEC: millisecondsFormatter,
+    [MetricType.ScaRisk]: makeRiskMetricOptionsFormatter(),
+    [MetricType.IssueSeverity]: getIssueSeverityFormatter(metricKey),
+  };
+  return FORMATTERS[type] || noFormatter;
+}
+
+function makeRiskMetricOptionsFormatter() {
+  const { formatMessage } = getIntl();
+  const scaRiskMetrics: Record<string, ReleaseRiskSeverity> = {
+    ...SCA_RISK_SEVERITY_METRIC_THRESHOLDS,
+    ...SCA_RISK_SEVERITY_METRIC_VALUES,
+  };
+
+  return (value: string | number): string => {
+    const valueStr = value.toString();
+    if (scaRiskMetrics[valueStr]) {
+      return formatMessage({ id: RISK_SEVERITY_LABELS[scaRiskMetrics[valueStr]] });
+    }
+    return formatMessage({ id: 'unknown' });
+  };
+}
+
+export const getIssueSeverityFormatter = (metricKey?: MetricKey): Formatter => {
+  const { formatMessage } = getIntl();
+  const mode = getModeForMetric(metricKey);
+
+  if (mode === Mode.MQR) {
+    return (value: string | number): string => {
+      const normalizedKey = normalizeSeverityConditionThreshold(
+        MQR_SEVERITY_CONDITION_MAPPING,
+        value,
+      );
+      if (normalizedKey === undefined) {
+        return value.toString();
+      }
+
+      return formatMessage({
+        id: `severity_impact.${MQR_SEVERITY_CONDITION_MAPPING[normalizedKey]}`,
+      });
+    };
+  }
+  return issueSeverityFormatter.bind(null, formatMessage);
+};

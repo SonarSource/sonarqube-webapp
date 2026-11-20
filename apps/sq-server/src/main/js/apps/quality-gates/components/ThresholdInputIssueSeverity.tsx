@@ -29,7 +29,7 @@ import { isStringDefined } from '~shared/helpers/types';
 import { Metric } from '~shared/types/measures';
 import { MetricKey } from '~shared/types/metrics';
 import { getModeForMetric } from '~sq-server-commons/helpers/quality-gates';
-import { getIssueSeverityFormatter } from '~sq-server-commons/sonar-aligned/helpers/measures';
+import { getIssueSeverityFormatter } from '~adapters/helpers/measures';
 import { Mode } from '~sq-server-commons/types/mode';
 
 interface Props {

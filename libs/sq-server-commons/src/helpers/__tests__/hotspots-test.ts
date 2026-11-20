@@ -19,11 +19,11 @@
  */
 
 import { queryToSearchString } from '~shared/helpers/query';
-import { getComponentSecurityHotspotsUrl } from '../urls';
+import { getComponentSecurityHotspotsUrl } from '../hotspots';
 
 const SIMPLE_COMPONENT_KEY = 'sonarqube';
 
-describe('#getComponentSecurityHotspotsUrl', () => {
+describe('getComponentSecurityHotspotsUrl', () => {
   it('should work with no extra parameters', () => {
     expect(getComponentSecurityHotspotsUrl(SIMPLE_COMPONENT_KEY)).toEqual(
       expect.objectContaining({

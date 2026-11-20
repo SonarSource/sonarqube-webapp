@@ -65,6 +65,12 @@ export function isPullRequest<T extends PullRequestBase>(
   return branchLike !== undefined && (branchLike as T).key !== undefined;
 }
 
+const isPullRequestTargetingMainBranch = (branchLike?: BranchLikeBase): boolean =>
+  isPullRequest(branchLike) && branchLike.target === branchLike.base;
+
+export const isMainOrTargetingMainBranch = (branchLike: BranchLikeBase | undefined) =>
+  isBranch(branchLike) ? isMainBranch(branchLike) : isPullRequestTargetingMainBranch(branchLike);
+
 /**
  * Get display name for branch-like objects using shared types.
  *

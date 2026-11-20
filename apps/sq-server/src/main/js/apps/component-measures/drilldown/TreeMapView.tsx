@@ -32,7 +32,7 @@ import ColorGradientLegend from '~sq-server-commons/components/charts/ColorGradi
 import { getComponentMeasureUniqueKey } from '~sq-server-commons/helpers/component';
 import { getLocalizedMetricName, translate } from '~sq-server-commons/helpers/l10n';
 import { isDiffMetric } from '~sq-server-commons/helpers/measures';
-import { formatMeasure } from '~sq-server-commons/sonar-aligned/helpers/measures';
+import { formatMeasure } from '~adapters/helpers/measures';
 import { ComponentMeasureEnhanced, ComponentMeasureIntern } from '~sq-server-commons/types/types';
 import EmptyResult from './EmptyResult';
 

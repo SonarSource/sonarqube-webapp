@@ -21,7 +21,7 @@
 import * as React from 'react';
 import { SubnavigationGroup, SubnavigationItem } from '~design-system';
 import { useRouter } from '~shared/components/hoc/withRouter';
-import { queryToSearchString } from '~sq-server-commons/sonar-aligned/helpers/urls';
+import { queryToSearchString } from '~shared/helpers/query';
 import { WebApi } from '~sq-server-commons/types/types';
 import { Query, actionsFilter, isDomainPathActive, serializeQuery } from '../utils';
 import DeprecatedBadge from './DeprecatedBadge';

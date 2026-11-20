@@ -26,7 +26,7 @@ import { ComponentQualifier } from '~shared/types/component';
 import { useAvailableFeatures } from '~sq-server-commons/context/available-features/withAvailableFeatures';
 import withCurrentUserContext from '~sq-server-commons/context/current-user/withCurrentUserContext';
 import { useProjectBindingQuery } from '~sq-server-commons/queries/devops-integration';
-import { queryToSearchString } from '~sq-server-commons/sonar-aligned/helpers/urls';
+import { queryToSearchString } from '~shared/helpers/query';
 import { Feature } from '~sq-server-commons/types/features';
 import { Component } from '~sq-server-commons/types/types';
 import { CurrentUser } from '~sq-server-commons/types/users';

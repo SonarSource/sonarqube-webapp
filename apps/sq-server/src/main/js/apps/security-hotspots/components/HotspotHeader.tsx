@@ -25,7 +25,7 @@ import { IssueMessageHighlighting } from '~shared/components/issues/IssueMessage
 import { StandardsInformation, StandardsInformationKey } from '~shared/types/security';
 import { getPathUrlAsString, getRuleUrl } from '~sq-server-commons/helpers/urls';
 import { useRefreshBranchStatus } from '~sq-server-commons/queries/branch';
-import { getComponentSecurityHotspotsUrl } from '~sq-server-commons/sonar-aligned/helpers/urls';
+import { getComponentSecurityHotspotsUrl } from '~sq-server-commons/helpers/hotspots';
 import { BranchLike } from '~sq-server-commons/types/branch-like';
 import { Hotspot, HotspotStatusOption } from '~sq-server-commons/types/security-hotspots';
 import { Component } from '~sq-server-commons/types/types';

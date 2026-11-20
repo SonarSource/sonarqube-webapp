@@ -30,7 +30,7 @@ import { toShortISO8601String } from '~sq-server-commons/helpers/dates';
 import { translateWithParameters } from '~sq-server-commons/helpers/l10n';
 import { getRulesUrl } from '~sq-server-commons/helpers/urls';
 import { useListRulesQuery } from '~sq-server-commons/queries/rules';
-import { formatMeasure } from '~sq-server-commons/sonar-aligned/helpers/measures';
+import { formatMeasure } from '~adapters/helpers/measures';
 
 const RULES_LIMIT = 10;
 

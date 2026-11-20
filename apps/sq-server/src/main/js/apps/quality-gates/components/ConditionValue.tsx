@@ -27,7 +27,7 @@ import { ISSUE_SEVERITY_CONDITION_MAPPING } from '~shared/helpers/quality-gates'
 import { Metric } from '~shared/types/measures';
 import { MetricKey } from '~shared/types/metrics';
 import { getCorrectCaycCondition } from '~sq-server-commons/helpers/quality-gates';
-import { formatMeasure } from '~sq-server-commons/sonar-aligned/helpers/measures';
+import { formatMeasure } from '~adapters/helpers/measures';
 import { Condition } from '~sq-server-commons/types/types';
 import ConditionValueDescription from './ConditionValueDescription';
 

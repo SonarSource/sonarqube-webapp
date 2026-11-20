@@ -20,6 +20,14 @@
 
 import { BranchBase, PullRequest } from '../../types/branch-like';
 
+export const mockBranchBase = (overrides: Partial<BranchBase> = {}): BranchBase => ({
+  analysisDate: '2018-01-01',
+  isMain: false,
+  name: 'branch-6.7',
+  status: { qualityGateStatus: 'OK' },
+  ...overrides,
+});
+
 export function mockMainBranch(overrides: Partial<BranchBase> = {}): BranchBase {
   return {
     analysisDate: '2018-01-01',

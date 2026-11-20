@@ -29,7 +29,7 @@ import MetaLink from '~sq-server-commons/components/common/MetaLink';
 import Tooltip from '~sq-server-commons/components/controls/Tooltip';
 import { translateWithParameters } from '~sq-server-commons/helpers/l10n';
 import { orderLinks } from '~sq-server-commons/helpers/projectLinks';
-import { formatMeasure } from '~sq-server-commons/sonar-aligned/helpers/measures';
+import { formatMeasure } from '~adapters/helpers/measures';
 import { MyProject, ProjectLink } from '~sq-server-commons/types/types';
 
 interface Props {

@@ -24,7 +24,7 @@ import { useIntl } from 'react-intl';
 import { useResizeObserver } from '~shared/helpers/useResizeObserver';
 import { KeyboardKeys } from '../../helpers/keycodes';
 import { getShortType } from '../../helpers/measures';
-import { formatMeasure } from '../../sonar-aligned/helpers/measures';
+import { formatMeasure } from '~adapters/helpers/measures';
 import { MeasureHistory, ParsedAnalysis, Serie } from '../../types/project-activity';
 import { AdvancedTimeline } from '../charts/AdvancedTimeline';
 import EscKeydownHandler from '../controls/EscKeydownHandler';

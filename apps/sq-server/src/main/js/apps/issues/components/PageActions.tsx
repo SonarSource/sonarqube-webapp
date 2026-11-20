@@ -22,7 +22,7 @@ import { ReactNode } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { Paging } from '~shared/types/paging';
 import HomePageSelect from '~sq-server-commons/components/controls/HomePageSelect';
-import { formatMeasure } from '~sq-server-commons/sonar-aligned/helpers/measures';
+import { formatMeasure } from '~adapters/helpers/measures';
 import IssuesCounter from './IssuesCounter';
 
 export interface PageActionsProps {

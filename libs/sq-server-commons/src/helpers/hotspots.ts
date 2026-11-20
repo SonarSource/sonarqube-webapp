@@ -18,15 +18,12 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Path } from 'react-router';
+import type { Path } from 'react-router';
 import { getBranchLikeQuery } from '~shared/helpers/branch-like';
+import { buildComplianceStandards } from '~shared/helpers/compliance-standards-registry';
 import { queryToSearchString } from '~shared/helpers/query';
-import { BranchLikeBase } from '~shared/types/branch-like';
-import { Query } from '../../helpers/urls';
-import { buildComplianceStandards } from '../../utils/compliance-standards';
-
-export { queryToSearchString } from '~shared/helpers/query';
-export { getComponentIssuesUrl } from '~shared/helpers/urls';
+import type { BranchLikeBase } from '~shared/types/branch-like';
+import type { Query } from './urls';
 
 /**
  * Generate URL for a component's security hotspot page

@@ -29,7 +29,7 @@ import { MetricKey, MetricType } from '~shared/types/metrics';
 import RatingTooltipContent from '../../../components/measure/RatingTooltipContent';
 import RatingComponent from '../../../context/metrics/RatingComponent';
 import { QualityGateIndicator, TrendUpCircleIcon } from '../../../design-system';
-import { formatMeasure } from '../../../sonar-aligned/helpers/measures';
+import { formatMeasure } from '~adapters/helpers/measures';
 import { BranchLike } from '../../../types/branch-like';
 
 type FontClass =

@@ -37,7 +37,7 @@ import { MetricKey } from '~shared/types/metrics';
 import { ContainsAICodeBadge } from '~sq-server-commons/components/shared/ContainsAICodeBadge';
 import { translate } from '~sq-server-commons/helpers/l10n';
 import { CodeScope, getComponentOverviewUrl } from '~sq-server-commons/helpers/urls';
-import { queryToSearchString } from '~sq-server-commons/sonar-aligned/helpers/urls';
+import { queryToSearchString } from '~shared/helpers/query';
 import { BranchLike } from '~sq-server-commons/types/branch-like';
 import { ComponentMeasure } from '~sq-server-commons/types/types';
 import { mostCommonPrefix } from '../utils';

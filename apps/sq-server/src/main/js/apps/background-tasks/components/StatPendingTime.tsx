@@ -20,7 +20,7 @@
 
 import { ToggleTip } from '@sonarsource/echoes-react';
 import { FormattedMessage } from 'react-intl';
-import { formatMeasure } from '~sq-server-commons/sonar-aligned/helpers/measures';
+import { formatMeasure } from '~adapters/helpers/measures';
 
 // Do not display the pending time for values smaller than this threshold (in ms)
 const MIN_PENDING_TIME_THRESHOLD = 1000;

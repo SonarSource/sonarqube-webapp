@@ -40,8 +40,8 @@ import {
   getIssueTypeBySoftwareQuality,
 } from '~sq-server-commons/helpers/issues';
 import { useStandardExperienceModeQuery } from '~sq-server-commons/queries/mode';
-import { formatMeasure } from '~sq-server-commons/sonar-aligned/helpers/measures';
-import { getComponentIssuesUrl } from '~sq-server-commons/sonar-aligned/helpers/urls';
+import { formatMeasure } from '~adapters/helpers/measures';
+import { getComponentIssuesUrl } from '~shared/helpers/urls';
 import { Branch } from '~sq-server-commons/types/branch-like';
 import { QualityGateStatusConditionEnhanced } from '~sq-server-commons/types/quality-gates';
 import { Component } from '~sq-server-commons/types/types';

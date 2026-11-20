@@ -56,11 +56,9 @@ import { omitNil } from '../../helpers/request';
 import { getBaseUrl } from '../../helpers/system';
 import { getBranchLikeUrl, getCodeUrl } from '../../helpers/urls';
 import { useStandardExperienceModeQuery } from '../../queries/mode';
-import { formatMeasure } from '../../sonar-aligned/helpers/measures';
-import {
-  getComponentIssuesUrl,
-  getComponentSecurityHotspotsUrl,
-} from '../../sonar-aligned/helpers/urls';
+import { formatMeasure } from '~adapters/helpers/measures';
+import { getComponentIssuesUrl } from '~shared/helpers/urls';
+import { getComponentSecurityHotspotsUrl } from '../../helpers/hotspots';
 import type { BranchLike } from '../../types/branch-like';
 import { IssueType } from '../../types/issues';
 import type { SourceViewerFile } from '../../types/types';

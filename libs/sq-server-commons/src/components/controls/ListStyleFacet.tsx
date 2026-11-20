@@ -31,7 +31,7 @@ import { RawQuery } from '~shared/types/router';
 import { FacetBox, FacetItem, FlagMessage, InputSearch } from '../../design-system';
 import { translate, translateWithParameters } from '../../helpers/l10n';
 import { queriesEqual } from '../../helpers/query';
-import { formatMeasure } from '../../sonar-aligned/helpers/measures';
+import { formatMeasure } from '~adapters/helpers/measures';
 import { FacetItemsList } from '../facets/FacetItemsList';
 import Tooltip from './Tooltip';
 

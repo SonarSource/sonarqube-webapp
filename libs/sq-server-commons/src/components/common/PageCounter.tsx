@@ -19,7 +19,7 @@
  */
 
 import { MetricType } from '~shared/types/metrics';
-import { formatMeasure } from '../../sonar-aligned/helpers/measures';
+import { formatMeasure } from '~adapters/helpers/measures';
 
 export interface PageCounterProps {
   className?: string;

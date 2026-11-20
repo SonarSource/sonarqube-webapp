@@ -30,7 +30,7 @@ import { isInput, isShortcut } from '~sq-server-commons/helpers/keyboardEventHel
 import { KeyboardKeys } from '~sq-server-commons/helpers/keycodes';
 import { translate, translateWithParameters } from '~sq-server-commons/helpers/l10n';
 import { isDiffMetric, isPeriodBestValue } from '~sq-server-commons/helpers/measures';
-import { formatMeasure } from '~sq-server-commons/sonar-aligned/helpers/measures';
+import { formatMeasure } from '~adapters/helpers/measures';
 import { BranchLike } from '~sq-server-commons/types/branch-like';
 import { MeasurePageView } from '~sq-server-commons/types/measures';
 import { Component, ComponentMeasureEnhanced } from '~sq-server-commons/types/types';

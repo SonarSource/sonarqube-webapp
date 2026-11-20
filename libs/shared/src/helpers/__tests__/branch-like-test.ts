@@ -19,7 +19,18 @@
  */
 
 import { BranchBase, PullRequestBase } from '../../types/branch-like';
-import { getBranchLikeDisplayName } from '../branch-like';
+import { getBranchLikeDisplayName, getBranchLikeWithKeyQuery } from '../branch-like';
+
+it('getBranchLikeWithKeyQuery should work properly', () => {
+  const branchLike: BranchBase = {
+    isMain: true,
+    name: 'main',
+  };
+
+  expect(getBranchLikeWithKeyQuery(branchLike, true)).toEqual({ branchKey: 'main' });
+
+  expect(getBranchLikeWithKeyQuery(branchLike)).toEqual({});
+});
 
 describe('branch-like helpers', () => {
   describe('getBranchLikeDisplayName', () => {

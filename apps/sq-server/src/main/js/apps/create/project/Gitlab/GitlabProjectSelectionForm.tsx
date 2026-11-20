@@ -26,7 +26,7 @@ import ListFooter from '~shared/components/controls/ListFooter';
 import { Paging } from '~shared/types/paging';
 import Tooltip from '~sq-server-commons/components/controls/Tooltip';
 import { translate } from '~sq-server-commons/helpers/l10n';
-import { queryToSearchString } from '~sq-server-commons/sonar-aligned/helpers/urls';
+import { queryToSearchString } from '~shared/helpers/query';
 import { GitlabProject } from '~sq-server-commons/types/alm-integration';
 import { AlmKeys } from '~sq-server-commons/types/alm-settings';
 import { CreateProjectModes } from '~sq-server-commons/types/create-project';

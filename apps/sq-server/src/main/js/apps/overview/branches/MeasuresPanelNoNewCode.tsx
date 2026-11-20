@@ -26,7 +26,7 @@ import { getBranchLikeQuery } from '~shared/helpers/branch-like';
 import { ComponentQualifier } from '~shared/types/component';
 import { translate } from '~sq-server-commons/helpers/l10n';
 import { CodeScope } from '~sq-server-commons/helpers/urls';
-import { queryToSearchString } from '~sq-server-commons/sonar-aligned/helpers/urls';
+import { queryToSearchString } from '~shared/helpers/query';
 import { Branch } from '~sq-server-commons/types/branch-like';
 import { NewCodeDefinitionType } from '~sq-server-commons/types/new-code-definition';
 import { Component, Period } from '~sq-server-commons/types/types';

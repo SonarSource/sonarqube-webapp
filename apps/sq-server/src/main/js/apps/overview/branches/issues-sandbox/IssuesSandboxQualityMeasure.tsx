@@ -29,7 +29,7 @@ import { MetricType } from '~shared/types/metrics';
 import { useComponent } from '~sq-server-commons/context/componentContext/withComponentContext';
 import { getIssueTypeBySoftwareQuality } from '~sq-server-commons/helpers/issues';
 import { useStandardExperienceModeQuery } from '~sq-server-commons/queries/mode';
-import { formatMeasure } from '~sq-server-commons/sonar-aligned/helpers/measures';
+import { formatMeasure } from '~adapters/helpers/measures';
 import { IssueStatus } from '~sq-server-commons/types/issues';
 import useSandboxFacetsNamesBasedOnMode from './useFacetsNamesBasedOnMode';
 

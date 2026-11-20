@@ -32,7 +32,7 @@ import {
 } from '~sq-server-commons/helpers/measures';
 import { useStandardExperienceModeQuery } from '~sq-server-commons/queries/mode';
 import Measure from '~sq-server-commons/sonar-aligned/components/measure/Measure';
-import { formatMeasure } from '~sq-server-commons/sonar-aligned/helpers/measures';
+import { formatMeasure } from '~adapters/helpers/measures';
 import { BranchLike } from '~sq-server-commons/types/branch-like';
 import { ComponentMeasure as TypeComponentMeasure } from '~sq-server-commons/types/types';
 

@@ -35,7 +35,7 @@ import { Paging } from '~shared/types/paging';
 import { useAppState } from '~sq-server-commons/context/app-state/withAppStateContext';
 import { AvailableFeaturesContext } from '~sq-server-commons/context/available-features/AvailableFeaturesContext';
 import { translate } from '~sq-server-commons/helpers/l10n';
-import { queryToSearchString } from '~sq-server-commons/sonar-aligned/helpers/urls';
+import { queryToSearchString } from '~shared/helpers/query';
 import { GithubOrganization, GithubRepository } from '~sq-server-commons/types/alm-integration';
 import { AlmKeys, AlmSettingsInstance } from '~sq-server-commons/types/alm-settings';
 import { CreateProjectModes } from '~sq-server-commons/types/create-project';

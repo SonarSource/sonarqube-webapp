@@ -26,7 +26,7 @@ import { MetricKey, MetricType } from '~shared/types/metrics';
 import { translateWithParameters } from '~sq-server-commons/helpers/l10n';
 import { localizeMetric } from '~sq-server-commons/helpers/measures';
 import { getComponentDrilldownUrl } from '~sq-server-commons/helpers/urls';
-import { formatMeasure } from '~sq-server-commons/sonar-aligned/helpers/measures';
+import { formatMeasure } from '~adapters/helpers/measures';
 import { Component } from '~sq-server-commons/types/types';
 
 import { FormattedMessage } from 'react-intl';

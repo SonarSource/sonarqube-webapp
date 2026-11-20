@@ -21,7 +21,7 @@
 import { MetricKey, MetricType } from '~shared/types/metrics';
 import { TableSeparator } from '../../design-system';
 import { translate } from '../../helpers/l10n';
-import { formatMeasure } from '../../sonar-aligned/helpers/measures';
+import { formatMeasure } from '~adapters/helpers/measures';
 import { MeasureHistory } from '../../types/project-activity';
 
 export interface GraphsTooltipsContentCoverageProps {

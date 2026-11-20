@@ -27,7 +27,7 @@ import { useLocation } from '~shared/components/hoc/withRouter';
 import { useAppState } from '~sq-server-commons/context/app-state/withAppStateContext';
 import { AvailableFeaturesContext } from '~sq-server-commons/context/available-features/AvailableFeaturesContext';
 import { getGlobalSettingsUrl } from '~sq-server-commons/helpers/urls';
-import { queryToSearchString } from '~sq-server-commons/sonar-aligned/helpers/urls';
+import { queryToSearchString } from '~shared/helpers/query';
 import { AzureProject, AzureRepository } from '~sq-server-commons/types/alm-integration';
 import { AlmKeys, AlmSettingsInstance } from '~sq-server-commons/types/alm-settings';
 import { CreateProjectModes } from '~sq-server-commons/types/create-project';

@@ -25,7 +25,7 @@ import { MetricKey } from '~shared/types/metrics';
 import withMetricsContext from '~sq-server-commons/context/metrics/withMetricsContext';
 import { translate } from '~sq-server-commons/helpers/l10n';
 import { getLocalizedMetricNameNoDiffMetric } from '~sq-server-commons/helpers/quality-gates';
-import { formatMeasure } from '~sq-server-commons/sonar-aligned/helpers/measures';
+import { formatMeasure } from '~adapters/helpers/measures';
 import { Condition } from '~sq-server-commons/types/types';
 import { BuiltInStyledContentCell, BuiltInStyledItem } from './BuiltInConditionWrappers';
 

@@ -36,7 +36,7 @@ import withLanguages, {
   WithLanguagesProps,
 } from '~sq-server-commons/context/languages/withLanguages';
 import { translate, translateWithParameters } from '~sq-server-commons/helpers/l10n';
-import { formatMeasure } from '~sq-server-commons/sonar-aligned/helpers/measures';
+import { formatMeasure } from '~adapters/helpers/measures';
 import { CodingRulesQuery } from '~sq-server-commons/types/coding-rules';
 import { BaseProfile, Profile } from '~sq-server-commons/types/quality-profiles';
 import { serializeQuery } from '~sq-server-commons/utils/coding-rules-query';

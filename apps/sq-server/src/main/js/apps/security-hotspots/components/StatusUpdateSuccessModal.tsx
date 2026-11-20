@@ -24,7 +24,7 @@ import { FormattedMessage } from 'react-intl';
 import { Checkbox, Modal } from '~design-system';
 import { save } from '~shared/helpers/storage';
 import { translate, translateWithParameters } from '~sq-server-commons/helpers/l10n';
-import { formatMeasure } from '~sq-server-commons/sonar-aligned/helpers/measures';
+import { formatMeasure } from '~adapters/helpers/measures';
 import { HotspotStatusOption } from '~sq-server-commons/types/security-hotspots';
 import { SHOW_STATUS_DIALOG_STORAGE_KEY } from '../constants';
 

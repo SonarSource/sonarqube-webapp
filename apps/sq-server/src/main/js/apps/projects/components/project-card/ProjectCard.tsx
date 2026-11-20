@@ -46,7 +46,7 @@ import AICodeAssuranceStatus from '~sq-server-commons/components/typography/AICo
 import { useCurrentUser } from '~sq-server-commons/context/current-user/CurrentUserContext';
 import { getProjectQueryUrl } from '~sq-server-commons/helpers/urls';
 import Measure from '~sq-server-commons/sonar-aligned/components/measure/Measure';
-import { formatMeasure } from '~sq-server-commons/sonar-aligned/helpers/measures';
+import { formatMeasure } from '~adapters/helpers/measures';
 import { isLoggedIn } from '~sq-server-commons/types/users';
 import { Project } from '../../types';
 import ProjectCardLanguages from './ProjectCardLanguages';

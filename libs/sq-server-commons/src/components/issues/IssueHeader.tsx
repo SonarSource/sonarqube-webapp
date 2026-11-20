@@ -27,7 +27,7 @@ import { getBranchLikeQuery } from '~shared/helpers/branch-like';
 import { getExternalRuleKey } from '~shared/helpers/issues';
 import { RuleDetails, RuleStatus } from '~shared/types/rules';
 import { getPathUrlAsString, getRuleUrl } from '../../helpers/urls';
-import { getComponentIssuesUrl } from '../../sonar-aligned/helpers/urls';
+import { getComponentIssuesUrl } from '~shared/helpers/urls';
 import { BranchLike } from '../../types/branch-like';
 import { IssueType } from '../../types/issues';
 import { Issue } from '../../types/types';

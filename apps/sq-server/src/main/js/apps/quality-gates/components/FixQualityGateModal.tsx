@@ -33,7 +33,7 @@ import {
   getWeakMissingAndNonCaycConditions,
 } from '~sq-server-commons/helpers/quality-gates';
 import { useFixQualityGateMutation } from '~sq-server-commons/queries/quality-gates';
-import { formatMeasure } from '~sq-server-commons/sonar-aligned/helpers/measures';
+import { formatMeasure } from '~adapters/helpers/measures';
 import { Condition, QualityGate } from '~sq-server-commons/types/types';
 
 const DUPLICATION_VALUES = [

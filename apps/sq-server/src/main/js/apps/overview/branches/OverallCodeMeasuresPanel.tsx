@@ -41,11 +41,9 @@ import MeasuresCardPercent from '~sq-server-commons/components/overview/Measures
 import RatingComponent from '~sq-server-commons/context/metrics/RatingComponent';
 import { findMeasure, isDiffMetric } from '~sq-server-commons/helpers/measures';
 import { CodeScope, getComponentDrilldownUrl } from '~sq-server-commons/helpers/urls';
-import { formatMeasure } from '~sq-server-commons/sonar-aligned/helpers/measures';
-import {
-  getComponentIssuesUrl,
-  getComponentSecurityHotspotsUrl,
-} from '~sq-server-commons/sonar-aligned/helpers/urls';
+import { formatMeasure } from '~adapters/helpers/measures';
+import { getComponentIssuesUrl } from '~shared/helpers/urls';
+import { getComponentSecurityHotspotsUrl } from '~sq-server-commons/helpers/hotspots';
 import { Branch } from '~sq-server-commons/types/branch-like';
 import { IssueStatus } from '~sq-server-commons/types/issues';
 import { QualityGateStatus } from '~sq-server-commons/types/quality-gates';

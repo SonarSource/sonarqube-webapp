@@ -23,7 +23,7 @@ import { isEqual, sortBy } from 'lodash';
 import { RuleCompare } from '../api/quality-profiles';
 import { PROFILE_COMPARE_PATH, PROFILE_PATH } from '../constants/paths';
 import { isValidDate, parseDate } from '../helpers/dates';
-import { queryToSearchString } from '../sonar-aligned/helpers/urls';
+import { queryToSearchString } from '~shared/helpers/query';
 import { BaseProfile, Profile } from '../types/quality-profiles';
 
 /**
