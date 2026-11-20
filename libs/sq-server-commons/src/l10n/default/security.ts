@@ -19,36 +19,46 @@
  */
 
 export const securityMessages = {
-  'mcp_clients.add': 'Add application',
-  'mcp_clients.add.title': 'Add MCP application',
-  'mcp_clients.add.description': "Provide the application's details to connect it to SonarQube.",
-  'mcp_clients.added': 'Application added.',
+  'mcp_clients.upload': 'Upload a configuration file',
+  'mcp_clients.upload.help':
+    "Upload the client's JSON metadata file (CIMD). No internet access required.",
+  'mcp_clients.upload.choose': 'Choose JSON file',
+  'mcp_clients.upload.remove': 'Remove file',
+  'mcp_clients.upload.size': '{size} KB',
+  'mcp_clients.upload.invalid':
+    'Choose a valid JSON metadata object containing a nonblank client_id URL.',
+  'mcp_clients.upload.too_large': 'The metadata file must not exceed 32 KB.',
+  'mcp_clients.add': 'Add client',
+  'mcp_clients.add.title': 'Add MCP client',
+  'mcp_clients.add.description': "Provide the client's details to connect it to SonarQube.",
+  'mcp_clients.added': 'Client added.',
   'mcp_clients.use_url': 'Use a URL',
   'mcp_clients.url.help':
     'Enter a web link to load the details automatically. Requires internet access.',
   'mcp_clients.refresh': 'Refresh',
-  'mcp_clients.refreshed':
-    'Application metadata refreshed. Security-relevant changes require users to reconnect.',
+  'mcp_clients.refreshed': 'Client metadata refreshed.',
   'mcp_clients.page': 'MCP Server',
-  'mcp_clients.url': 'Application metadata URL',
+  'mcp_clients.url': 'Client metadata URL',
   'mcp_clients.source': 'Metadata source',
   'mcp_clients.source.REMOTE': 'Public URL',
-  'mcp_clients.source.UPLOADED': 'Uploaded file',
+  'mcp_clients.source.UPLOADED': 'JSON file',
   'mcp_clients.last_import': 'Last imported',
-  'mcp_clients.details': 'Application details',
+  'mcp_clients.details': 'Client details',
   'mcp_clients.view_details': 'View details',
   'mcp_clients.actions_for': 'Actions for {name}',
-  'mcp_clients.application': 'Application',
-  'mcp_clients.approved': 'Approved applications',
+  'mcp_clients.client': 'Client',
+  'mcp_clients.approved': 'Approved clients',
   'mcp_clients.description':
-    'Manage which applications are allowed to connect to SonarQube Server through MCP. <link>Learn more</link>',
-  'mcp_clients.empty.description': 'Add an application using a public metadata URL or a JSON file.',
-  'mcp_clients.empty': 'No approved applications',
+    'Manage which clients are allowed to connect to SonarQube Server through MCP. <link>Learn more</link>',
+  'mcp_clients.empty.description': 'Add a client using a public metadata URL or a JSON file.',
+  'mcp_clients.empty': 'No approved clients',
   'mcp_clients.unavailable': 'Unavailable',
-  'mcp_clients.delete.title': 'Remove application',
+  'mcp_clients.delete.title': 'Remove client',
   'mcp_clients.delete.description':
-    '{name} will no longer be allowed to connect to SonarQube Server through MCP. Existing connections will be revoked, and users will need to reconnect if the application is approved again.',
+    '{name} will no longer be allowed to connect to SonarQube Server through MCP.',
   'mcp_clients.not_available': 'MCP client administration is unavailable on this instance.',
+  'mcp_clients.upload.update_help':
+    "To update this client's configuration, remove it and add it again with a new JSON file.",
 
   'mcp_oauth.consent.title': 'Connect an application',
   'mcp_oauth.consent.heading': '{application} is requesting access to your SonarQube account',

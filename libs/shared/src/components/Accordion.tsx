@@ -29,11 +29,14 @@ interface AccordionProps {
   ariaLabel?: string;
   children: React.ReactNode;
   className?: string;
+  hasDivider?: boolean;
   header: React.ReactNode;
   /**
    * isOpen and onOpenChange can be used for bi-directional control of the accordion.
    */
   isOpen?: boolean;
+  /** Accordions sharing a name use the browser's mutually exclusive behavior. */
+  name?: string;
   onOpenChange?: (isOpen: boolean) => void;
 }
 
@@ -42,7 +45,16 @@ interface AccordionProps {
  * https://github.com/SonarSource/echoes-react/pull/549
  */
 const Accordion = forwardRef<HTMLDetailsElement, AccordionProps>((props, ref) => {
-  const { ariaLabel, children, className, header, isOpen, onOpenChange } = props;
+  const {
+    ariaLabel,
+    children,
+    className,
+    hasDivider = true,
+    header,
+    isOpen,
+    name,
+    onOpenChange,
+  } = props;
 
   const [internalOpen, setInternalOpen] = useState(isOpen ?? false);
 
@@ -64,6 +76,8 @@ const Accordion = forwardRef<HTMLDetailsElement, AccordionProps>((props, ref) =>
     <AccordionWrapper
       aria-label={ariaLabel}
       className={className}
+      hasDivider={hasDivider}
+      name={name}
       onToggle={(event) => {
         handleOpenChange(event.currentTarget.open);
       }}
@@ -84,7 +98,7 @@ function OpenCloseIndicator({ open }: { open: boolean }) {
   return open ? <IconChevronDown /> : <IconChevronRight />;
 }
 
-const AccordionWrapper = styled.details`
+const AccordionWrapper = styled.details<{ hasDivider: boolean }>`
   border: ${cssVar('border-width-default')} solid ${cssVar('color-border-weak')};
   border-radius: ${cssVar('border-radius-400')};
   width: 100%;
@@ -98,7 +112,10 @@ const AccordionWrapper = styled.details`
   }
 
   &[open] summary {
-    border-bottom: ${cssVar('border-width-default')} solid ${cssVar('color-border-weak')};
+    border-bottom: ${({ hasDivider }) =>
+      hasDivider
+        ? `${cssVar('border-width-default')} solid ${cssVar('color-border-weak')}`
+        : 'none'};
   }
 
   & .accordion-content {
