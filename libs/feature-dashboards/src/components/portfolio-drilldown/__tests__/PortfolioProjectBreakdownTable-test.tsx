@@ -20,6 +20,7 @@
 
 import { Table } from '@sonarsource/echoes-react';
 import { act, fireEvent, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import { useState } from 'react';
 import { renderWithRouter } from '~shared/helpers/test-utils';
 import {
@@ -30,6 +31,8 @@ import {
 // Use the real lodash `debounce` (with timers) instead of the global immediate
 // pass-through mock, so we can exercise the actual debounce/cancel timing.
 // (`jest.mock` is hoisted above the imports by babel-jest.)
+jest.unmock('react-intl');
+
 jest.mock('lodash', () => jest.requireActual<typeof import('lodash')>('lodash'));
 
 // Mirrors SEARCH_DEBOUNCE_DELAY in the component (not exported); advance past it.
@@ -58,12 +61,16 @@ afterEach(() => {
 function ControlledBreakdownTable({
   onQuerySettled,
   onSortClicked,
+  withSortTooltip,
+  initialSortDirection = 'desc',
 }: Readonly<{
   onQuerySettled: (query: string | undefined) => void;
   onSortClicked: () => void;
+  withSortTooltip?: boolean;
+  initialSortDirection?: 'asc' | 'desc';
 }>) {
   const [projectQuery, setProjectQuery] = useState<string | undefined>('Sonar');
-  const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('desc');
+  const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>(initialSortDirection);
 
   return (
     <PortfolioProjectBreakdownTable
@@ -88,6 +95,7 @@ function ControlledBreakdownTable({
       renderValueCell={(_row, url) => <Table.CellLink to={url}>42</Table.CellLink>}
       rows={ROWS}
       searchPlaceholder="Search"
+      showSortTooltip={withSortTooltip}
       sortDirection={sortDirection}
       tableLabel="Breakdown"
       totalPages={1}
@@ -100,6 +108,7 @@ it('keeps the pending search when sorting before the debounce settles', () => {
   const onSortClicked = jest.fn();
   renderWithRouter(
     <ControlledBreakdownTable onQuerySettled={onQuerySettled} onSortClicked={onSortClicked} />,
+    { messages: 'real' },
   );
 
   const searchbox = screen.getByRole('searchbox');
@@ -128,6 +137,7 @@ it('settles the debounced search when typing without sorting', () => {
   const onSortClicked = jest.fn();
   renderWithRouter(
     <ControlledBreakdownTable onQuerySettled={onQuerySettled} onSortClicked={onSortClicked} />,
+    { messages: 'real' },
   );
 
   const searchbox = screen.getByRole('searchbox');
@@ -143,4 +153,110 @@ it('settles the debounced search when typing without sorting', () => {
   expect(onQuerySettled).toHaveBeenCalledTimes(1);
   expect(onQuerySettled).toHaveBeenCalledWith('Server');
   expect(searchbox).toHaveValue('Server');
+});
+
+it.each([
+  {
+    direction: 'asc' as const,
+    label: 'Result sorted in ascending order',
+    nextLabel: 'Result sorted in descending order',
+    aria: 'ascending',
+    nextAria: 'descending',
+    glyph: '\uE5D8',
+    nextGlyph: '\uE5DB',
+  },
+  {
+    direction: 'desc' as const,
+    label: 'Result sorted in descending order',
+    nextLabel: 'Result sorted in ascending order',
+    aria: 'descending',
+    nextAria: 'ascending',
+    glyph: '\uE5DB',
+    nextGlyph: '\uE5D8',
+  },
+])(
+  'shows $label on hover and updates it after sorting',
+  async ({ direction, label, nextLabel, aria, nextAria, glyph, nextGlyph }) => {
+    const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
+    const onSortClicked = jest.fn();
+    renderWithRouter(
+      <ControlledBreakdownTable
+        initialSortDirection={direction}
+        onQuerySettled={jest.fn()}
+        onSortClicked={onSortClicked}
+        withSortTooltip
+      />,
+      { messages: 'real' },
+    );
+
+    const sort = screen.getByRole('button', { name: 'Issues' });
+    await user.hover(sort);
+    await act(async () => {
+      await jest.advanceTimersByTimeAsync(800);
+    });
+    expect(screen.getByRole('tooltip')).toHaveTextContent(label);
+    // Verify the visible Material Symbols arrow, separately from ARIA metadata.
+    expect(sort).toHaveTextContent(glyph);
+    expect(screen.getByRole('columnheader', { name: 'Issues' })).toHaveAttribute('aria-sort', aria);
+
+    await user.click(sort);
+    expect(onSortClicked).toHaveBeenCalledTimes(1);
+    await user.unhover(sort);
+    await user.hover(sort);
+    await act(async () => {
+      await jest.advanceTimersByTimeAsync(800);
+    });
+    expect(screen.getByRole('tooltip')).toHaveTextContent(nextLabel);
+    expect(sort).toHaveTextContent(nextGlyph);
+    expect(screen.getByRole('columnheader', { name: 'Issues' })).toHaveAttribute(
+      'aria-sort',
+      nextAria,
+    );
+  },
+);
+
+it.each(['{Enter}', ' '])('shows the sort tooltip on focus and supports %s', async (key) => {
+  const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
+  const onSortClicked = jest.fn();
+  renderWithRouter(
+    <ControlledBreakdownTable
+      onQuerySettled={jest.fn()}
+      onSortClicked={onSortClicked}
+      withSortTooltip
+    />,
+    { messages: 'real' },
+  );
+
+  const sort = screen.getByRole('button', { name: 'Issues' });
+  await user.tab();
+  await user.tab();
+  await user.tab();
+  expect(sort).toHaveFocus();
+  expect(screen.getByRole('tooltip')).toHaveTextContent('Result sorted in descending order');
+  await user.keyboard(key);
+  expect(onSortClicked).toHaveBeenCalledTimes(1);
+  expect(screen.getByRole('columnheader', { name: 'Issues' })).toHaveAttribute(
+    'aria-sort',
+    'ascending',
+  );
+});
+
+it('keeps working native sorting without a tooltip when disabled', async () => {
+  const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
+  const onSortClicked = jest.fn();
+  renderWithRouter(
+    <ControlledBreakdownTable onQuerySettled={jest.fn()} onSortClicked={onSortClicked} />,
+    { messages: 'real' },
+  );
+  await user.hover(screen.getByRole('button', { name: 'Issues' }));
+  await act(async () => {
+    await jest.advanceTimersByTimeAsync(800);
+  });
+  expect(screen.queryByRole('tooltip')).not.toBeInTheDocument();
+  await user.click(screen.getByRole('button', { name: 'Issues' }));
+  expect(onSortClicked).toHaveBeenCalledTimes(1);
+  expect(screen.getByRole('columnheader', { name: 'Issues' })).toHaveAttribute(
+    'aria-sort',
+    'ascending',
+  );
 });

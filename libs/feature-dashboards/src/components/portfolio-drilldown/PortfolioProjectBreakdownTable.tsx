@@ -20,15 +20,21 @@
 
 import {
   Badge,
+  Button,
+  ButtonVariety,
   Card,
+  IconArrowDown,
+  IconArrowUp,
   Pagination,
   SearchInput,
   SearchInputWidth,
   Spinner,
   Table,
   Text,
+  Tooltip,
 } from '@sonarsource/echoes-react';
 import { type ReactNode, useCallback } from 'react';
+import { useIntl } from 'react-intl';
 import type { To } from 'react-router';
 import { useDebouncedSearchInput } from '~shared/helpers/useDebouncedSearchInput';
 
@@ -63,6 +69,7 @@ interface Props<Row extends PortfolioProjectBreakdownRow> {
   rows: Row[];
   searchPlaceholder: string;
   sortDirection: PortfolioProjectBreakdownSortDirection;
+  showSortTooltip?: boolean;
   tableBodyMessage?: ReactNode;
   tableLabel: string;
   totalPages: number;
@@ -90,6 +97,7 @@ export function PortfolioProjectBreakdownTable<Row extends PortfolioProjectBreak
     rows,
     searchPlaceholder,
     sortDirection,
+    showSortTooltip = false,
     tableBodyMessage,
     tableLabel,
     totalPages,
@@ -149,10 +157,10 @@ export function PortfolioProjectBreakdownTable<Row extends PortfolioProjectBreak
               <Table.Header>
                 <Table.Row>
                   <Table.ColumnHeaderCell label={projectNameLabel} />
-                  <Table.ColumnHeaderCell
-                    justify="end"
+                  <MetricColumnHeader
                     label={metricLabel}
                     onSort={onSort}
+                    showTooltip={showSortTooltip}
                     sortDirection={sortDirection}
                   />
                 </Table.Row>
@@ -224,5 +232,55 @@ export function PortfolioProjectBreakdownTable<Row extends PortfolioProjectBreak
         )}
       </Card.Body>
     </Card>
+  );
+}
+
+function MetricColumnHeader({
+  label,
+  onSort,
+  sortDirection,
+  showTooltip,
+}: Readonly<{
+  label: string;
+  onSort: () => void;
+  sortDirection: PortfolioProjectBreakdownSortDirection;
+  showTooltip: boolean;
+}>) {
+  const { formatMessage } = useIntl();
+  if (!showTooltip) {
+    return (
+      <Table.ColumnHeaderCell
+        justify="end"
+        label={label}
+        onSort={onSort}
+        sortDirection={sortDirection}
+      />
+    );
+  }
+
+  const isAscending = sortDirection === 'asc';
+  const tooltip = isAscending
+    ? formatMessage({ id: 'projects.sort_ascending' })
+    : formatMessage({ id: 'projects.sort_descending' });
+  // Echoes has no tooltip slot on its sortable header. Keep the tooltip attached to the
+  // focusable button, matching Echoes' ghost button, spacing, arrow and aria-sort state.
+  return (
+    <Table.ColumnHeaderCell
+      aria-sort={isAscending ? 'ascending' : 'descending'}
+      className="sw:p-2"
+      justify="end"
+      label={
+        <Tooltip content={tooltip}>
+          <Button
+            onClick={onSort}
+            size="medium"
+            suffix={isAscending ? <IconArrowUp /> : <IconArrowDown />}
+            variety={ButtonVariety.DefaultGhost}
+          >
+            {label}
+          </Button>
+        </Tooltip>
+      }
+    />
   );
 }
