@@ -207,7 +207,7 @@ describe('issues source viewer', () => {
       expect(ui.code.get()).toBeInTheDocument();
 
       expect(
-        await screen.findByRole('button', { name: 'Issue on Jupyter Notebook' }),
+        await screen.findByRole('link', { name: 'Issue on Jupyter Notebook' }),
       ).toBeInTheDocument();
 
       expect(screen.getByText('issue.preview.jupyter_notebook.error')).toBeInTheDocument();
@@ -235,7 +235,7 @@ describe('issues source viewer', () => {
       expect(ui.code.get()).toBeInTheDocument();
 
       expect(
-        await screen.findByRole('button', { name: 'Issue on Jupyter Notebook' }),
+        await screen.findByRole('link', { name: 'Issue on Jupyter Notebook' }),
       ).toBeInTheDocument();
 
       expect(screen.getByText('issue.preview.jupyter_notebook.error')).toBeInTheDocument();
@@ -250,7 +250,7 @@ describe('issues source viewer', () => {
       expect(ui.code.get()).toBeInTheDocument();
 
       expect(
-        await screen.findByRole('button', { name: 'Issue on Jupyter Notebook' }),
+        await screen.findByRole('link', { name: 'Issue on Jupyter Notebook' }),
       ).toBeInTheDocument();
 
       expect(screen.queryByText('issue.preview.jupyter_notebook.error')).not.toBeInTheDocument();
@@ -275,7 +275,7 @@ describe('issues source viewer', () => {
 
       await user.click(await ui.code.find());
 
-      expect(screen.getAllByRole('button', { name: 'Issue on Jupyter Notebook' })).toHaveLength(1);
+      expect(screen.getAllByRole('link', { name: 'Issue on Jupyter Notebook' })).toHaveLength(1);
       expect(screen.queryByText('Another unrelated issue')).not.toBeInTheDocument();
     });
 
@@ -301,7 +301,7 @@ describe('issues source viewer', () => {
       expect(ui.code.get()).toBeInTheDocument();
 
       expect(
-        await screen.findByRole('button', { name: 'Issue on Jupyter Notebook' }),
+        await screen.findByRole('link', { name: 'Issue on Jupyter Notebook' }),
       ).toBeInTheDocument();
 
       expect(screen.queryByText('issue.preview.jupyter_notebook.error')).not.toBeInTheDocument();

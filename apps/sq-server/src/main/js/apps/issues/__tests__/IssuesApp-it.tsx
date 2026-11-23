@@ -363,8 +363,8 @@ describe('issues app', () => {
       expect(screen.getByRole('link', { name: /^simpleRuleId/ })).toBeInTheDocument();
 
       // The "Where is the issue" tab should be selected by default. Check its content
-      // only the concise issue in the list is a button; the selected finding in the code viewer is plain text
-      expect(screen.getAllByRole('button', { name: 'Issue on file' })).toHaveLength(1);
+      // only the concise issue in the list is interactive (a single link); the selected finding in the code viewer is plain text
+      expect(screen.getAllByRole('link', { name: 'Issue on file' })).toHaveLength(1);
       expect(
         screen.getByRole('row', {
           name: '2 * SonarQube',
@@ -377,9 +377,10 @@ describe('issues app', () => {
       renderIssueApp();
 
       await user.click(await ui.issueItemAction5.find());
-      expect(ui.projectIssueItem6.getAll()).toHaveLength(2); // there will be 2 buttons one in concise issue and other in code viewer
+      // the concise issue in the sidebar is a link; the only button is the finding in the code viewer
+      expect(ui.projectIssueItem6.getAll()).toHaveLength(1);
 
-      await user.click(ui.projectIssueItem6.getAll()[1]);
+      await user.click(ui.projectIssueItem6.get());
       expect(screen.getByRole('heading', { name: 'Second issue' })).toBeInTheDocument();
     });
 

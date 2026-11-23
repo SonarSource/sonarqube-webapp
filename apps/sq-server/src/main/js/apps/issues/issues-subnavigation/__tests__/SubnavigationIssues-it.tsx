@@ -195,9 +195,18 @@ describe('interacting', () => {
 
     expect(onIssueSelect).not.toHaveBeenCalled();
 
-    await user.click(screen.getByRole('button', { name: 'Issue 4' }));
+    // each issue is a single interactive element: a link without a nested button
+    expect(screen.queryByRole('button', { name: 'Issue 4' })).not.toBeInTheDocument();
+    expect(screen.getByRole('link', { name: 'Issue 2' })).toHaveAttribute('aria-current', 'true');
+
+    await user.click(screen.getByRole('link', { name: /^Issue 4/ }));
     expect(onIssueSelect).toHaveBeenCalledTimes(1);
     expect(onIssueSelect).toHaveBeenLastCalledWith('issue4');
+
+    screen.getByRole('link', { name: /^Issue 3/ }).focus();
+    await user.keyboard('{Enter}');
+    expect(onIssueSelect).toHaveBeenLastCalledWith('issue3');
+    expect(onIssueSelect).toHaveBeenCalledTimes(2);
   });
 
   it('flow selection should correctly be handled', async () => {

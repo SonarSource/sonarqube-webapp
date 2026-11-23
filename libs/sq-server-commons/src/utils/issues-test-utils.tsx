@@ -85,10 +85,10 @@ export const ui = {
   projectIssueItem6: byRole('button', { name: 'Second issue' }),
 
   conciseIssueTotal: byTestId('page-counter-total'),
-  conciseIssueItem2: byTestId('issues-nav-bar').byRole('button', {
+  conciseIssueItem2: byTestId('issues-nav-bar').byRole('link', {
     name: 'Fix that',
   }),
-  conciseIssueItem4: byTestId('issues-nav-bar').byRole('button', {
+  conciseIssueItem4: byTestId('issues-nav-bar').byRole('link', {
     name: 'Issue with tags',
   }),
 
