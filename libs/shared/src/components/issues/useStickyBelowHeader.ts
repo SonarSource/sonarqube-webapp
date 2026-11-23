@@ -21,6 +21,7 @@
 import { cssVar } from '@sonarsource/echoes-react';
 import { type RefObject, useLayoutEffect, useRef, useState } from 'react';
 import { useResizeObserver } from '../../helpers/useResizeObserver';
+import { STICKY_PAGE_HEADER_HEIGHT_VAR, useStickyScrollPadding } from './useStickyScrollPadding';
 
 interface StickyPosition {
   /** Whether the element's natural position plus its own height still fits in the viewport. */
@@ -105,4 +106,11 @@ export function useStickyBelowHeader(
   }, [headerRef, stickyRef, stickyHeight, headerHeight, topPadding]);
 
   return { isSticky: fitsViewport, top };
+}
+
+/** Keeps focused elements from scrolling behind the sticky issue page header (WCAG 2.4.11). */
+export function useIssueHeaderScrollPadding(headerRef: RefObject<HTMLElement | null>) {
+  const { top } = useStickyBelowHeader(headerRef);
+
+  useStickyScrollPadding(STICKY_PAGE_HEADER_HEIGHT_VAR, top);
 }

@@ -18,10 +18,14 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import { matchers } from '@emotion/jest';
 import { cssVar } from '@sonarsource/echoes-react';
 import { createRef } from 'react';
 import { renderWithRouter } from '../../../helpers/test-utils';
+import { STICKY_PAGE_HEADER_HEIGHT_VAR } from '../../issues/useStickyScrollPadding';
 import { ProjectPageTemplate } from '../ProjectPageTemplate';
+
+expect.extend(matchers);
 
 jest.mock('~adapters/components/layout/GlobalFooter', () => ({
   GlobalFooter: () => null,
@@ -41,7 +45,13 @@ it('applies the page class name to the page grid', () => {
   );
 
   expect(pageGridRef.current).toHaveClass('it__overview');
-  expect(pageGridRef.current).toHaveStyle({
-    scrollPaddingTop: cssVar('layout-global-navigation-sizes-height-default'),
-  });
+  expect(pageGridRef.current).toHaveStyleRule(
+    'scroll-padding-top',
+    expect.stringContaining(cssVar('layout-global-navigation-sizes-height-default')),
+  );
+  // keeps focused elements below the sticky headers declared through `useStickyScrollPadding`
+  expect(pageGridRef.current).toHaveStyleRule(
+    'scroll-padding-top',
+    expect.stringContaining(STICKY_PAGE_HEADER_HEIGHT_VAR),
+  );
 });

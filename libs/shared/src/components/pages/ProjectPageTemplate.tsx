@@ -32,6 +32,10 @@ import { GlobalFooter } from '~adapters/components/layout/GlobalFooter';
 import { ProjectContentHeader } from '~adapters/components/layout/ProjectContentHeader';
 import { useFullWindow } from '../../context/fullWindowContext';
 import { ProjectBranchSelectorProps } from '../../types/branch-like';
+import {
+  STICKY_FILE_HEADER_HEIGHT_VAR,
+  STICKY_PAGE_HEADER_HEIGHT_VAR,
+} from '../issues/useStickyScrollPadding';
 
 interface ProjectContentHeaderProps {
   /** Content header actions that should be wrapped in a Layout.ContentHeader.Actions */
@@ -116,6 +120,11 @@ export const ProjectPageTemplate = forwardRef<HTMLDivElement, Props>((props, ref
 
 ProjectPageTemplate.displayName = 'ProjectPageTemplate';
 
+// The sticky headers declared through `useStickyScrollPadding` (e.g. the issue page header) cover
+// the top of this scroll container: keep focused elements from scrolling behind them.
 const ProjectPageGrid = styled(Layout.PageGrid)`
-  scroll-padding-top: ${cssVar('layout-global-navigation-sizes-height-default')};
+  scroll-padding-top: max(
+    ${cssVar('layout-global-navigation-sizes-height-default')},
+    calc(var(${STICKY_PAGE_HEADER_HEIGHT_VAR}, 0px) + var(${STICKY_FILE_HEADER_HEIGHT_VAR}, 0px))
+  );
 `;

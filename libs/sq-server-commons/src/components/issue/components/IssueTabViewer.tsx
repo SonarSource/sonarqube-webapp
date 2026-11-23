@@ -29,6 +29,7 @@ import { useCurrentUser } from '~adapters/helpers/users';
 import { AssigneeUser } from '~shared/components/issues/IssueAssign';
 import { IssueHeaderRefContext } from '~shared/components/issues/IssueHeaderRefContext';
 import { IssueMetadata } from '~shared/components/issues/IssueMetadata';
+import { useIssueHeaderScrollPadding } from '~shared/components/issues/useStickyBelowHeader';
 import {
   IssuePopupContext,
   IssuePopupName,
@@ -105,6 +106,7 @@ function IssueTabViewer(props: Readonly<IssueTabViewerProps>) {
 
   const { formatMessage } = useIntl();
   const headerRef = useRef<HTMLDivElement>(null);
+  useIssueHeaderScrollPadding(headerRef);
   const { isLoggedIn } = useCurrentUser();
   const isEducationPrinciplesDismissed = useIsNoticeDismissed(NoticeType.EDUCATION_PRINCIPLES);
   const { data: isStandardMode } = useStandardExperienceModeQuery();

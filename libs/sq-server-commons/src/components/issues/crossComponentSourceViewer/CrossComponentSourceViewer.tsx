@@ -25,6 +25,10 @@ import { throwGlobalError } from '~adapters/helpers/error';
 import { getSources } from '~shared/api/sources';
 import { useIssueHeaderRef } from '~shared/components/issues/IssueHeaderRefContext';
 import { useStickyBelowHeader } from '~shared/components/issues/useStickyBelowHeader';
+import {
+  STICKY_FILE_HEADER_HEIGHT_VAR,
+  useStickyElementScrollPadding,
+} from '~shared/components/issues/useStickyScrollPadding';
 import { getBranchLikeQuery } from '~shared/helpers/branch-like';
 import { isFile } from '~shared/helpers/component';
 import { HttpStatus } from '~shared/types/request';
@@ -72,6 +76,8 @@ interface Props {
 interface ClassProps extends Props {
   /** Offset (in px) at which the source viewer headers stick below the issue page header. */
   stickyHeaderTop: number;
+  /** Receives the first source viewer header, to keep focused elements from scrolling behind it. */
+  fileHeaderRef: (header: HTMLDivElement | null) => void;
 }
 
 interface State {
@@ -248,6 +254,7 @@ class CrossComponentSourceViewerClass extends React.PureComponent<ClassProps, St
                 <div
                   className="sw:sticky sw:z-top-navbar"
                   data-testid="sticky-source-viewer-header"
+                  ref={i === 0 ? this.props.fileHeaderRef : undefined}
                   style={{
                     background: cssVar('color-surface-canvas-default'),
                     top: this.props.stickyHeaderTop,
@@ -285,8 +292,18 @@ class CrossComponentSourceViewerClass extends React.PureComponent<ClassProps, St
 /** Computes the sticky offset once for all headers, since hooks can't be used in the class. */
 function CrossComponentSourceViewer(props: Readonly<Props>) {
   const { top } = useStickyBelowHeader(useIssueHeaderRef());
+  // The headers of the snippet groups stick one at a time and are the same height, unless a long
+  // file path wraps: the first one is measured.
+  const [fileHeader, setFileHeader] = React.useState<HTMLDivElement | null>(null);
+  useStickyElementScrollPadding(STICKY_FILE_HEADER_HEIGHT_VAR, fileHeader);
 
-  return <CrossComponentSourceViewerClass {...props} stickyHeaderTop={top} />;
+  return (
+    <CrossComponentSourceViewerClass
+      {...props}
+      fileHeaderRef={setFileHeader}
+      stickyHeaderTop={top}
+    />
+  );
 }
 
 export default CrossComponentSourceViewer;
