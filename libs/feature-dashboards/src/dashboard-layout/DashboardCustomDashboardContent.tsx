@@ -32,6 +32,7 @@ interface Props<WidgetPropMap extends Record<string, {}>> {
   autoScrollToNewSection?: boolean;
   bodyMap: WidgetBodyMap<WidgetPropMap>;
   canEdit: boolean;
+  restoreDrilldownScroll?: boolean;
   dashboard: DashboardInstance<WidgetPropMap>;
   emptyDashboardButtonLabelKey: string;
   emptyDashboardEditDocumentationUrl: string;
@@ -50,6 +51,7 @@ export function DashboardCustomDashboardContent<WidgetPropMap extends Record<str
   autoScrollToNewSection,
   bodyMap,
   canEdit,
+  restoreDrilldownScroll,
   dashboard,
   emptyDashboardButtonLabelKey,
   emptyDashboardEditDocumentationUrl,
@@ -87,6 +89,7 @@ export function DashboardCustomDashboardContent<WidgetPropMap extends Record<str
       onAddWidgetToSection={onAddWidgetToSection}
       onDashboardChange={onDashboardChange}
       onWidgetEdit={onWidgetEdit}
+      restoreDrilldownScroll={restoreDrilldownScroll}
       width={12}
     />
   );

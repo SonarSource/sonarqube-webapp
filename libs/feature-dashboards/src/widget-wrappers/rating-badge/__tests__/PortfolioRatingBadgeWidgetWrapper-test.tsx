@@ -19,6 +19,7 @@
  */
 
 import { screen } from '@testing-library/react';
+import type { To } from 'react-router';
 import { useIntl } from 'react-intl';
 import { useDashboardPortfolioContext } from '~adapters/context/dashboardContext';
 import {
@@ -27,7 +28,10 @@ import {
 } from '~adapters/queries/portfolio-rating-badge-widget-data';
 import { renderWithContext, renderWithRouter } from '~shared/helpers/test-utils';
 import { MetricKey } from '~shared/types/metrics';
-import { WidgetInstanceProvider } from '../../../dashboard-layout/shared/WidgetInstanceContext';
+import {
+  WidgetDrilldownNavigationContext,
+  WidgetInstanceProvider,
+} from '../../../dashboard-layout/shared/WidgetInstanceContext';
 import { CodeScope } from '~shared/types/dashboard-history';
 import { WidgetMode } from '../../../types/widget-common';
 import { PortfolioRatingBadgeWidgetWrapper as PortfolioRatingBadgeWidget } from '../PortfolioRatingBadgeWidgetWrapper';
@@ -62,7 +66,7 @@ jest.mock('~adapters/helpers/dashboard-widget-urls', () => ({
 }));
 
 beforeEach(() => {
-  mockPortfolioStandardRatingBadgeWidget.mockClear();
+  jest.clearAllMocks();
 
   jest.mocked(useDashboardPortfolioContext).mockReturnValue({
     entityType: 'PORTFOLIO',
@@ -87,6 +91,63 @@ beforeEach(() => {
 });
 
 describe('PortfolioRatingBadgeWidget', () => {
+  it('coordinates rating segment activation with dashboard restoration', async () => {
+    const navigate = jest.fn<Promise<void>, [To, string]>().mockResolvedValue(undefined);
+    const { user } = renderWithRouter(
+      <WidgetDrilldownNavigationContext.Provider value={navigate}>
+        <WidgetInstanceProvider dimensions={{ height: 4, width: 4 }} widgetKey="rating-widget">
+          <PortfolioRatingBadgeWidget
+            metricKey={MetricKey.security_rating}
+            scope={CodeScope.Overall}
+          />
+        </WidgetInstanceProvider>
+      </WidgetDrilldownNavigationContext.Provider>,
+    );
+    await user.click(screen.getByTestId('pie-chart-segment-0'));
+    expect(navigate).toHaveBeenCalledWith('breakdown/rating-widget?segment=A', 'rating-widget');
+  });
+
+  it('uses updated rating navigation after context changes', async () => {
+    const first = jest.fn<Promise<void>, [To, string]>().mockResolvedValue(undefined);
+    const second = jest.fn<Promise<void>, [To, string]>().mockResolvedValue(undefined);
+
+    function view(navigate: typeof first) {
+      return (
+        <WidgetDrilldownNavigationContext.Provider value={navigate}>
+          <WidgetInstanceProvider dimensions={{ height: 4, width: 4 }} widgetKey="rating-widget">
+            <PortfolioRatingBadgeWidget
+              metricKey={MetricKey.security_rating}
+              scope={CodeScope.Overall}
+            />
+          </WidgetInstanceProvider>
+        </WidgetDrilldownNavigationContext.Provider>
+      );
+    }
+
+    const { user, rerender } = renderWithRouter(view(first));
+    rerender(view(second));
+    await user.click(screen.getByTestId('pie-chart-segment-0'));
+    expect(second).toHaveBeenCalledWith('breakdown/rating-widget?segment=A', 'rating-widget');
+    expect(first).not.toHaveBeenCalled();
+  });
+
+  it('does not navigate from a rating segment in edit mode', async () => {
+    const navigate = jest.fn<Promise<void>, [To, string]>().mockResolvedValue(undefined);
+    const { user } = renderWithRouter(
+      <WidgetDrilldownNavigationContext.Provider value={navigate}>
+        <WidgetInstanceProvider dimensions={{ height: 4, width: 4 }} widgetKey="rating-widget">
+          <PortfolioRatingBadgeWidget
+            metricKey={MetricKey.security_rating}
+            mode={WidgetMode.Edit}
+            scope={CodeScope.Overall}
+          />
+        </WidgetInstanceProvider>
+      </WidgetDrilldownNavigationContext.Provider>,
+    );
+    await user.click(screen.getByTestId('pie-chart-segment-0'));
+    expect(navigate).not.toHaveBeenCalled();
+  });
+
   it('only mounts breakdown data hooks for supported breakdown metrics', () => {
     const { rerender } = renderWithRouter(
       <PortfolioRatingBadgeWidget metricKey={MetricKey.coverage} scope={CodeScope.Overall} />,

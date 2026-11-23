@@ -22,14 +22,16 @@ import { useCallback } from 'react';
 import { useIntl } from 'react-intl';
 import { useDashboardPortfolioContext } from '~adapters/context/dashboardContext';
 import { getPortfolioDashboardWidgetDrilldownUrl } from '~adapters/helpers/dashboard-widget-urls';
-import { useRouter } from '~shared/components/hoc/withRouter';
 import { WidgetLoadingSpinner } from '../../components/common/WidgetLoadingSpinner';
 import { WidgetNoData } from '../../components/common/WidgetNoData';
 import { buildPieChartAriaLabel } from '../../components/pie-chart/pieChartAriaLabel';
 import { getPieChartTitle } from '../../components/pie-chart/pieChartHeaderText';
 import { isPortfolioPieChartSegmentDrilldownSupported } from '../../components/portfolio-drilldown/portfolioPieChartDrilldown';
 import { InteractivePieChart } from '../../components/visualizations/pie-chart/InteractivePieChart';
-import { useOptionalWidgetInstanceContext } from '../../dashboard-layout/shared/WidgetInstanceContext';
+import {
+  useOptionalWidgetInstanceContext,
+  useWidgetDrilldownNavigation,
+} from '../../dashboard-layout/shared/WidgetInstanceContext';
 import { PieChartWidgetProps } from '../../types/dashboard-widget';
 import { PieChartSegment } from '../../types/visualization';
 import { usePortfolioPieChartData } from './usePortfolioPieChartData';
@@ -38,7 +40,7 @@ export function PortfolioPieChartWidgetWrapper(
   props: Readonly<PieChartWidgetProps & { isStandardMode?: boolean }>,
 ) {
   const { isStandardMode = false, ...widget } = props;
-  const { push } = useRouter();
+  const navigateToDrilldown = useWidgetDrilldownNavigation();
   const { formatMessage } = useIntl();
   const widgetInstance = useOptionalWidgetInstanceContext();
   const { entityType, isEntityTypePending, portfolioId } = useDashboardPortfolioContext();
@@ -63,10 +65,10 @@ export function PortfolioPieChartWidgetWrapper(
     (segment: PieChartSegment) => {
       const url = getSegmentUrl(segment);
       if (url) {
-        push(url);
+        navigateToDrilldown(url);
       }
     },
-    [getSegmentUrl, push],
+    [getSegmentUrl, navigateToDrilldown],
   );
 
   if (isEntityTypePending || isPending) {

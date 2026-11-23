@@ -20,11 +20,15 @@
 
 import { screen } from '@testing-library/react';
 import type { ComponentProps } from 'react';
+import type { To } from 'react-router';
 import { useDashboardPortfolioContext } from '~adapters/context/dashboardContext';
 import { useOrganizationPieChartData } from '~adapters/queries/pie-chart-widget-data';
 import { renderWithRouter } from '~shared/helpers/test-utils';
 import { InteractivePieChart } from '../../../components/visualizations/pie-chart/InteractivePieChart';
-import { WidgetInstanceProvider } from '../../../dashboard-layout/shared/WidgetInstanceContext';
+import {
+  WidgetDrilldownNavigationContext,
+  WidgetInstanceProvider,
+} from '../../../dashboard-layout/shared/WidgetInstanceContext';
 import {
   PieChartIssueSlice,
   PieChartLineSlice,
@@ -121,6 +125,41 @@ beforeEach(() => {
 });
 
 describe('PortfolioPieChartWidgetWrapper', () => {
+  it('coordinates non-anchor chart activation with dashboard restoration', async () => {
+    const navigate = jest.fn<Promise<void>, [To, string]>().mockResolvedValue(undefined);
+    const { user } = renderWithRouter(
+      <WidgetDrilldownNavigationContext.Provider value={navigate}>
+        <WidgetInstanceProvider dimensions={{ height: 6, width: 6 }} widgetKey="chart-widget">
+          <PortfolioPieChartWidgetWrapper {...widget} />
+        </WidgetInstanceProvider>
+      </WidgetDrilldownNavigationContext.Provider>,
+    );
+    await user.click(screen.getByRole('button', { name: 'select segment' }));
+    expect(navigate).toHaveBeenCalledWith('/breakdown/chart-widget?segment=HIGH', 'chart-widget');
+    expect(mockNavigate).not.toHaveBeenCalled();
+  });
+
+  it('uses the updated dashboard navigation after context changes', async () => {
+    const first = jest.fn<Promise<void>, [To, string]>().mockResolvedValue(undefined);
+    const second = jest.fn<Promise<void>, [To, string]>().mockResolvedValue(undefined);
+
+    function view(navigate: typeof first) {
+      return (
+        <WidgetDrilldownNavigationContext.Provider value={navigate}>
+          <WidgetInstanceProvider dimensions={{ height: 6, width: 6 }} widgetKey="chart-widget">
+            <PortfolioPieChartWidgetWrapper {...widget} />
+          </WidgetInstanceProvider>
+        </WidgetDrilldownNavigationContext.Provider>
+      );
+    }
+
+    const { user, rerender } = renderWithRouter(view(first));
+    rerender(view(second));
+    await user.click(screen.getByRole('button', { name: 'select segment' }));
+    expect(second).toHaveBeenCalledWith('/breakdown/chart-widget?segment=HIGH', 'chart-widget');
+    expect(first).not.toHaveBeenCalled();
+  });
+
   it('binds the portfolio adapter and navigates to a segment drilldown', async () => {
     const { user } = setup();
 

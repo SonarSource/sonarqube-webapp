@@ -35,6 +35,7 @@ interface Props<WidgetPropMap extends {}> {
   onDashboardChange: (dashboard: DashboardInstance<WidgetPropMap>) => void;
   onWidgetEdit: (sectionIndex: number, widget: WidgetInstance<WidgetPropMap>) => void;
   width: number;
+  restoreDrilldownScroll?: boolean;
 }
 
 export function Dashboard<WidgetPropMap extends {}>(props: Readonly<Props<WidgetPropMap>>) {
@@ -69,7 +70,11 @@ export function Dashboard<WidgetPropMap extends {}>(props: Readonly<Props<Widget
           onWidgetEdit={onWidgetEdit}
         />
       ) : (
-        <ReadonlyDashboard dashboard={dashboard} width={width} />
+        <ReadonlyDashboard
+          dashboard={dashboard}
+          restoreDrilldownScroll={props.restoreDrilldownScroll}
+          width={width}
+        />
       )}
     </WidgetMapsProvider>
   );

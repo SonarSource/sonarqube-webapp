@@ -30,6 +30,7 @@ import {
 import { type ReactNode, type RefObject, useLayoutEffect, useRef, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { Link } from 'react-router';
+import { useOptionalWidgetInstanceContext } from '../../dashboard-layout/shared/WidgetInstanceContext';
 import type { PieChartSegment } from '../../types/visualization';
 
 const ITEM_GAP_PX = 12;
@@ -127,6 +128,7 @@ function LegendItemDisplay({
   onMouseEnter,
   testId,
 }: Readonly<LegendItemDisplayProps>) {
+  const widgetKey = useOptionalWidgetInstanceContext()?.widgetKey;
   const innerContent = (
     <>
       <SquareFillIcon fill={item.color} size={16} />
@@ -152,6 +154,7 @@ function LegendItemDisplay({
         className="sw:flex sw:flex-shrink-0 sw:items-center sw:gap-1 sw:no-underline sw:hover:underline"
         data-legend-item
         data-testid={testId}
+        data-widget-drilldown-key={widgetKey}
         onMouseEnter={onMouseEnter}
         to={item.url}
       >

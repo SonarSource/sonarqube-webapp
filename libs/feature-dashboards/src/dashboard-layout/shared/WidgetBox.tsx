@@ -35,6 +35,7 @@ const WidgetBoxWrapper = styled.div`
 interface WidgetBoxProps {
   children: ReactNode;
   className?: string;
+  id?: string;
   'data-widget-key'?: string;
   style?: React.CSSProperties;
 }

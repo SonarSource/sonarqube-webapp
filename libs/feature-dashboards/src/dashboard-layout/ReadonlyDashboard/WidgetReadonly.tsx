@@ -24,7 +24,7 @@ import { WidgetInstance } from '../logic/types';
 import { WidgetBox } from '../shared/WidgetBox';
 import { WidgetContent } from '../shared/WidgetContent';
 import { WidgetHeader } from '../shared/WidgetHeader';
-import { WidgetInstanceProvider } from '../shared/WidgetInstanceContext';
+import { getWidgetAnchor, WidgetInstanceProvider } from '../shared/WidgetInstanceContext';
 
 interface Props<WidgetPropMap extends {}> {
   widget: WidgetInstance<WidgetPropMap>;
@@ -38,6 +38,8 @@ export function WidgetReadonly<WidgetPropMap extends {}>(props: Readonly<Props<W
 
   return (
     <WidgetBox
+      data-widget-key={widget.key}
+      id={getWidgetAnchor(widget.key)}
       style={{
         border: `1px solid ${cssVar('color-border-weak')}`,
         boxShadow: '0 1px 3px 0 rgba(0, 0, 0, 0.1)',

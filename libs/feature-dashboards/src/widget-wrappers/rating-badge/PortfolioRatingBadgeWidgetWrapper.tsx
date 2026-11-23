@@ -33,7 +33,6 @@ import {
   usePortfolioRatingBadgeMeasuresQuery,
   usePortfolioRatingBadgeMetricKeysQuery,
 } from '~adapters/queries/portfolio-rating-badge-widget-data';
-import { useRouter } from '~shared/components/hoc/withRouter';
 import { isTransientDashboardWidgetFetchError } from '~shared/helpers/dashboard-error-reporting';
 import { useResizeObserver } from '~shared/helpers/useResizeObserver';
 import { MetricKey } from '~shared/types/metrics';
@@ -44,7 +43,10 @@ import {
   segmentsToLegendItems,
 } from '../../components/visualizations/ChartHorizontalLegend';
 import { PieChart } from '../../components/visualizations/pie-chart/PieChart';
-import { useOptionalWidgetInstanceContext } from '../../dashboard-layout/shared/WidgetInstanceContext';
+import {
+  useOptionalWidgetInstanceContext,
+  useWidgetDrilldownNavigation,
+} from '../../dashboard-layout/shared/WidgetInstanceContext';
 import { PieChartPastry, PieChartSegment } from '../../types/visualization';
 import { CodeScope } from '~shared/types/dashboard-history';
 import { WidgetMode } from '../../types/widget-common';
@@ -218,7 +220,7 @@ function PortfolioDashboardRatingDonut(
 ) {
   const { distribution, drilldownEnabled, rating, ratingDrilldownTo, showBreakdown, widgetKey } =
     props;
-  const { push } = useRouter();
+  const navigateToDrilldown = useWidgetDrilldownNavigation();
   const { formatMessage } = useIntl();
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -236,10 +238,10 @@ function PortfolioDashboardRatingDonut(
     (segment: PieChartSegment) => {
       const url = getSegmentUrl(segment);
       if (url) {
-        push(url);
+        navigateToDrilldown(url);
       }
     },
-    [getSegmentUrl, push],
+    [getSegmentUrl, navigateToDrilldown],
   );
 
   const segments = useMemo<PieChartSegment[]>(

@@ -18,7 +18,9 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { createContext, ReactNode, useContext, useMemo } from 'react';
+import { createContext, ReactNode, useCallback, useContext, useMemo } from 'react';
+import type { To } from 'react-router';
+import { useRouter } from '~shared/components/hoc/withRouter';
 import type { Dimensions } from '../logic/types';
 
 interface WidgetInstanceContextValue {
@@ -27,6 +29,10 @@ interface WidgetInstanceContextValue {
 }
 
 const WidgetInstanceContext = createContext<WidgetInstanceContextValue | null>(null);
+
+export function getWidgetAnchor(widgetKey: string) {
+  return `dashboard-widget-${encodeURIComponent(widgetKey)}`;
+}
 
 export function getWidgetTitleId(widgetKey: string) {
   return `widget-title-${widgetKey}`;
@@ -46,4 +52,25 @@ export function WidgetInstanceProvider({ children, dimensions, widgetKey }: Read
 
 export function useOptionalWidgetInstanceContext() {
   return useContext(WidgetInstanceContext);
+}
+
+export const WidgetDrilldownNavigationContext = createContext<
+  ((destination: To, widgetKey: string) => Promise<void>) | null
+>(null);
+
+export function useWidgetDrilldownNavigation() {
+  const navigateFromWidget = useContext(WidgetDrilldownNavigationContext);
+  const widget = useOptionalWidgetInstanceContext();
+  const { push } = useRouter();
+
+  return useCallback(
+    (destination: To) => {
+      if (navigateFromWidget && widget) {
+        void navigateFromWidget(destination, widget.widgetKey);
+      } else {
+        push(destination);
+      }
+    },
+    [navigateFromWidget, push, widget],
+  );
 }
