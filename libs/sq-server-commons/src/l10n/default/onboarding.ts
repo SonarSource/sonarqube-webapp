@@ -1207,7 +1207,6 @@ export const onboardingMessages = {
   'onboarding_dashboard.journey.analyze.modal.title': 'Projects',
   'onboarding_dashboard.journey.analyze.modal.description':
     'Projects with the status "not analyzed" need CI configuration to get analysis results.',
-  'onboarding_dashboard.journey.analyze.modal.configure': 'Configure',
   'onboarding_dashboard.journey.analyze.modal.how_to_configure': 'How to configure projects',
   'onboarding_dashboard.journey.permission_required.description':
     '"Create projects" permission is required to take this action.',
@@ -1264,7 +1263,6 @@ export const onboardingMessages = {
   'onboarding_dashboard.projects.action.restore_access.success':
     'Your permissions on this project have been restored.',
   'onboarding_dashboard.projects.action.how_to_run_new_scan': 'How to run a new analysis',
-  'onboarding_dashboard.projects.action.view_project': 'View project',
   'onboarding_dashboard.projects.filter.scan_status.label': 'Analysis status',
   'onboarding_dashboard.projects.filter.analysis_mode.label': 'Analysis mode',
   'onboarding_dashboard.projects.filter.all': 'All',

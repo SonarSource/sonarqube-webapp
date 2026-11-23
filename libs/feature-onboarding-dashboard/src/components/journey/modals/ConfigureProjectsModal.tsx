@@ -22,9 +22,7 @@ import styled from '@emotion/styled';
 import {
   BadgeVariety,
   Button,
-  ButtonVariety,
   cssVar,
-  IconLinkExternal,
   LinkStandalone,
   Modal,
   ModalSize,
@@ -37,34 +35,28 @@ import { PropsWithChildren, useCallback, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { SharedDocLink, useSharedDocUrl } from '~adapters/helpers/docs';
 import { ANALYSIS_MODE_FILTER_OPTIONS } from '~adapters/helpers/onboarding-actions';
-import { getConfigureProjectUrl } from '~adapters/helpers/urls';
-import { useCanCreateProjects } from '~adapters/helpers/useCanCreateProjects';
 import DateFormatter from '~shared/components/intl/DateFormatter';
 import { isDefined } from '~shared/helpers/types';
-import { useComponentConfigurationQuery } from '~shared/queries/navigation';
 import {
   AnalysisModeFilterValue,
   ANY_PROJECTS_FILTER,
   OnboardingProject,
-  OnboardingProjectAnalysisMode,
 } from '~shared/types/onboarding';
 import {
-  OnboardingDashboardAction,
   OnboardingDashboardFilter,
   OnboardingDashboardSurface,
 } from '~shared/types/onboarding-dashboard-telemetry';
 import { SCAN_STATUS_FILTER_OPTIONS, ScanStatusFilterValue } from '../../../types/types';
 import { NO_DATA } from '../../dashboardConstants';
 import { getAnalysisModeBadge, getOnboardingBadge } from '../../projects/projectBadges';
+import {
+  PROJECT_ROW_ACTIONS_COLUMN,
+  ProjectRowActionsCell,
+} from '../../projects/ProjectRowActionsCell';
 import { ProjectsFilterSelect } from '../../projects/ProjectsFilterSelect';
 import { ProjectsTable, ProjectsTableColumn } from '../../projects/ProjectsTable';
 import { RepositoryCell } from '../../projects/RepositoryCell';
-import { RestoreProjectAccessModal } from '../../projects/RestoreProjectAccessModal';
-import {
-  OnboardingDashboardSurfaceProvider,
-  useOnboardingDashboardTracking,
-} from '../../telemetry/OnboardingDashboardTelemetry';
-import { PermissionGate } from '../PermissionGate';
+import { OnboardingDashboardSurfaceProvider } from '../../telemetry/OnboardingDashboardTelemetry';
 
 const PAGE_SIZE = 10;
 
@@ -73,12 +65,7 @@ const COLUMNS: ProjectsTableColumn[] = [
   { justify: TableCellJustify.Center, labelKey: 'onboarding_dashboard.projects.col.onboarding' },
   { justify: TableCellJustify.Center, labelKey: 'onboarding_dashboard.projects.col.analysis_mode' },
   { justify: TableCellJustify.Start, labelKey: 'onboarding_dashboard.stale.col.last_scan' },
-  {
-    isLabelHidden: true,
-    justify: TableCellJustify.End,
-    labelKey: 'onboarding_dashboard.projects.col.actions',
-    width: 'auto',
-  },
+  PROJECT_ROW_ACTIONS_COLUMN,
 ];
 
 interface Props {
@@ -172,18 +159,6 @@ const TopAnchoredModal = styled(Modal)`
 
 function ConfigureProjectRow({ project }: Readonly<{ project: OnboardingProject }>) {
   const { formatMessage } = useIntl();
-  const canCreateProjects = useCanCreateProjects();
-  const { trackActionSelected } = useOnboardingDashboardTracking();
-  const [isRestoreAccessModalOpen, setIsRestoreAccessModalOpen] = useState(false);
-  const {
-    data: hasProjectAccess,
-    isFetching,
-    refetch,
-  } = useComponentConfigurationQuery(project.key, {
-    enabled: project.analysisMode !== OnboardingProjectAnalysisMode.Ci && canCreateProjects,
-    select: (configuration) =>
-      Boolean(configuration.showPermissions && configuration.canBrowseProject),
-  });
 
   const onboardingBadge = getOnboardingBadge(project);
   const analysisBadge = getAnalysisModeBadge(project);
@@ -191,7 +166,12 @@ function ConfigureProjectRow({ project }: Readonly<{ project: OnboardingProject 
   return (
     <Table.Row>
       <Table.Cell className="sw:justify-start">
-        <RepositoryCell alm={project.alm} name={project.name} subtitle={project.path} />
+        <RepositoryCell
+          alm={project.alm}
+          name={project.name}
+          projectKey={project.key}
+          subtitle={project.path}
+        />
       </Table.Cell>
 
       <Table.CellBadge variety={onboardingBadge.variety}>
@@ -212,56 +192,7 @@ function ConfigureProjectRow({ project }: Readonly<{ project: OnboardingProject 
         )}
       </Table.Cell>
 
-      <Table.Cell>
-        {project.analysisMode !== OnboardingProjectAnalysisMode.Ci && (
-          <>
-            <PermissionGate
-              action={OnboardingDashboardAction.ConfigureProject}
-              trigger={
-                hasProjectAccess === true ? (
-                  <Button
-                    enableOpenInNewTab
-                    onClick={() => {
-                      trackActionSelected(OnboardingDashboardAction.ConfigureProject, project);
-                    }}
-                    suffix={<IconLinkExternal />}
-                    to={getConfigureProjectUrl(project.key)}
-                    variety={ButtonVariety.Default}
-                  >
-                    {formatMessage({ id: 'onboarding_dashboard.journey.analyze.modal.configure' })}
-                  </Button>
-                ) : (
-                  <Button
-                    isDisabled={isFetching}
-                    onClick={() => {
-                      if (hasProjectAccess === false) {
-                        trackActionSelected(
-                          OnboardingDashboardAction.RestoreProjectAccess,
-                          project,
-                        );
-                        setIsRestoreAccessModalOpen(true);
-                      } else {
-                        void refetch();
-                      }
-                    }}
-                    variety={ButtonVariety.Default}
-                  >
-                    {formatMessage({ id: 'onboarding_dashboard.journey.analyze.modal.configure' })}
-                  </Button>
-                )
-              }
-            />
-            {isRestoreAccessModalOpen && (
-              <RestoreProjectAccessModal
-                onClose={() => {
-                  setIsRestoreAccessModalOpen(false);
-                }}
-                projectKey={project.key}
-              />
-            )}
-          </>
-        )}
-      </Table.Cell>
+      <ProjectRowActionsCell project={project} />
     </Table.Row>
   );
 }

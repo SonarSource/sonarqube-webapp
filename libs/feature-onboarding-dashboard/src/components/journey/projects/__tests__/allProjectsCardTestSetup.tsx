@@ -158,16 +158,14 @@ export const ui = {
     }),
   rowActionItems: byRole('menuitem'),
   configureCiAction: byRole('menuitem', {
-    name: 'onboarding_dashboard.projects.action.configure_ci',
+    // Opens in a new tab, so its accessible name also carries the new-tab hint.
+    name: /^onboarding_dashboard\.projects\.action\.configure_ci/,
   }),
   rerunAutomaticAnalysisAction: byRole('menuitem', {
     name: 'onboarding_dashboard.projects.action.rerun_automatic_analysis',
   }),
   restoreAccessAction: byRole('menuitem', {
     name: 'onboarding_dashboard.projects.action.restore_access',
-  }),
-  viewProjectAction: byRole('menuitem', {
-    name: 'onboarding_dashboard.projects.action.view_project',
   }),
 
   paginationPage: (page: number) => byRole('button', { name: `pagination.page_x.${page}` }),

@@ -23,14 +23,15 @@ import { waitFor } from '@testing-library/react';
 import { http, HttpResponse } from 'msw';
 import {
   ANALYSIS_MODE_FILTER_OPTIONS,
+  getProjectCiConfigurationUrl,
   IS_AUTOMATIC_ANALYSIS_SUPPORTED,
 } from '~adapters/helpers/onboarding-actions';
-import { getConfigureProjectUrl } from '~adapters/helpers/urls';
 import { useCanCreateProjects } from '~adapters/helpers/useCanCreateProjects';
 import { useEditPermissionsUrl } from '~adapters/helpers/useEditPermissionsUrl';
 import { OnboardingServiceMock } from '~shared/api/mocks/OnboardingServiceMock';
 import { registerServiceMocks, server } from '~shared/api/mocks/server';
 import { mockLoggedInUser } from '~shared/helpers/mocks/users';
+import { getProjectOverviewUrl } from '~shared/helpers/urls';
 import { renderWithRouter } from '~shared/helpers/test-utils';
 import { byRole, byText } from '~shared/helpers/testSelector';
 import { OnboardingProjectScanStatus } from '~shared/types/onboarding';
@@ -97,9 +98,19 @@ const ui = {
     name: 'onboarding_dashboard.projects.filter.analysis_mode.label',
   }),
   option: (labelKey: string) => byRole('option', { name: labelKey }),
-  configureButton: byRole('link', {
-    name: /^onboarding_dashboard\.journey\.analyze\.modal\.configure/,
+  actionsButton: (name: string) =>
+    byRole('button', { name: `onboarding_dashboard.projects.actions.label.${name}` }),
+  configureCiAction: byRole('menuitem', {
+    // Opens in a new tab, so its accessible name also carries the new-tab hint.
+    name: /^onboarding_dashboard\.projects\.action\.configure_ci/,
   }),
+  howToRunNewScanAction: byRole('menuitem', {
+    name: /^onboarding_dashboard\.projects\.action\.how_to_run_new_scan/,
+  }),
+  restoreAccessAction: byRole('menuitem', {
+    name: 'onboarding_dashboard.projects.action.restore_access',
+  }),
+  permissionPopover: byText('onboarding_dashboard.journey.permission_required.description'),
   restoreAccessModal: byRole('dialog', { name: 'global_permissions.restore_access' }),
   footerDocLink: byRole('link', {
     name: /^onboarding_dashboard\.journey\.analyze\.modal\.how_to_configure/,
@@ -159,90 +170,87 @@ it('renders a link to the doc in the footer', async () => {
   );
 });
 
-it('opens configuration in a new tab for every project not already on a CI pipeline', async () => {
+it('offers the project row actions menu on every row with something to act on', async () => {
   await renderModal();
 
   await ui.table.byText('mobile-worker').find();
-  await waitFor(() => {
-    expect(ui.configureButton.getAll()).toHaveLength(4);
-  });
 
-  // Only payments-gateway is CI-configured; the other four all get a configure button.
-  expect(ui.configureButton.getAll()).toHaveLength(4);
-  for (const configureLink of ui.configureButton.getAll()) {
-    expect(configureLink).toHaveAttribute('target', '_blank');
+  for (const name of ['payments-gateway', 'identity-lib', 'platform-jobs', 'mobile-worker']) {
+    expect(ui.actionsButton(name).get()).toBeInTheDocument();
   }
-  const { pathname, search } = getConfigureProjectUrl('web-core');
-  expect(
-    byRole('row', { name: /web-core/ })
-      .byRole('link', {
-        name: /^onboarding_dashboard\.journey\.analyze\.modal\.configure/,
-      })
-      .get(),
-  ).toHaveAttribute('href', expect.stringContaining(`${pathname}${search}`));
+  // Scanned with no CI/automatic analysis mode: no action applies, and the name links to it.
+  expect(ui.actionsButton('web-core').query()).not.toBeInTheDocument();
 });
 
-it('offers to restore project access before opening configuration', async () => {
-  hasProjectAccess = false;
+it('links each project name to its project', async () => {
+  await renderModal();
+
+  const { pathname, search } = getProjectOverviewUrl('platform-jobs');
+  expect(await ui.table.byRole('link', { name: 'platform-jobs' }).find()).toHaveAttribute(
+    'href',
+    expect.stringContaining(`${pathname}${search}`),
+  );
+});
+
+it('offers to configure the CI analysis of a project that is not analysed yet, in a new tab', async () => {
+  const componentNavigation = jest.fn(() =>
+    HttpResponse.json({ configuration: { canBrowseProject: true, showPermissions: true } }),
+  );
+  server.use(http.get('*/api/navigation/component', componentNavigation));
   const { user } = await renderModal();
 
-  const configureButton = byRole('row', { name: /web-core/ }).byRole('button', {
-    name: 'onboarding_dashboard.journey.analyze.modal.configure',
-  });
-  const button = await configureButton.find();
-  await waitFor(() => {
-    expect(button).toBeEnabled();
-  });
-  await user.click(button);
+  await user.click(await ui.actionsButton('platform-jobs').find());
 
-  expect(await ui.restoreAccessModal.find()).toBeInTheDocument();
-  expect(
-    byRole('row', { name: /web-core/ })
-      .byRole('link', {
-        name: /^onboarding_dashboard\.journey\.analyze\.modal\.configure/,
-      })
-      .query(),
-  ).not.toBeInTheDocument();
+  const { pathname, search } = getProjectCiConfigurationUrl('platform-jobs');
+  expect(await ui.configureCiAction.find()).toHaveAttribute(
+    'href',
+    expect.stringContaining(`${pathname}${search}`),
+  );
+  expect(ui.configureCiAction.get()).toHaveAttribute('target', '_blank');
+
+  await waitFor(() => {
+    expect(componentNavigation).toHaveBeenCalled();
+  });
+
+  expect(ui.restoreAccessAction.query()).not.toBeInTheDocument();
 });
 
-it('offers the same new-tab link after access is restored', async () => {
+it('offers guidance on scanning again for a project analysed by a CI pipeline', async () => {
+  const { user } = await renderModal();
+
+  await user.click(await ui.actionsButton('payments-gateway').find());
+
+  expect(await ui.howToRunNewScanAction.find()).toBeInTheDocument();
+  expect(ui.configureCiAction.query()).not.toBeInTheDocument();
+});
+
+it('restores project access from the row actions menu', async () => {
   hasProjectAccess = false;
   const grantedPermissions: Array<string | null> = [];
   server.use(
-    // The access lookup is only refetched once both permissions are granted, so granting any of
-    // them is enough to flip what the lookup reports.
     http.post('*/api/permissions/add_user', async ({ request }) => {
       const body = new URLSearchParams(await request.text());
       grantedPermissions.push(body.get('permission'));
-      hasProjectAccess = true;
       return new HttpResponse(null, { status: 204 });
     }),
   );
   const { user } = await renderModal();
 
-  const configureButton = byRole('row', { name: /web-core/ }).byRole('button', {
-    name: 'onboarding_dashboard.journey.analyze.modal.configure',
-  });
-  const button = await configureButton.find();
-  await waitFor(() => {
-    expect(button).toBeEnabled();
-  });
-  await user.click(button);
+  await user.click(await ui.actionsButton('platform-jobs').find());
+  const restoreAccessAction = await ui.restoreAccessAction.find();
+  // Without access the CI setup page would refuse the reader, so it is not offered.
+  expect(ui.configureCiAction.query()).not.toBeInTheDocument();
+  await user.click(restoreAccessAction);
+
   await user.click(
-    ui.restoreAccessModal
-      .byRole('button', {
-        name: 'onboarding_dashboard.projects.action.restore_access',
-      })
-      .get(),
+    await ui.restoreAccessModal
+      .byRole('button', { name: 'onboarding_dashboard.projects.action.restore_access' })
+      .find(),
   );
 
-  const restoredLink = await byRole('row', { name: /web-core/ })
-    .byRole('link', {
-      name: /^onboarding_dashboard\.journey\.analyze\.modal\.configure/,
-    })
-    .find();
-  expect(restoredLink).toHaveAttribute('target', '_blank');
-  expect(grantedPermissions.sort()).toEqual(['admin', 'user']);
+  await waitFor(() => {
+    expect(grantedPermissions.sort()).toEqual(['admin', 'user']);
+  });
 });
 
 it('renders the scan-status and analysis-mode filters', async () => {
@@ -352,21 +360,15 @@ it('ANDs the scan-status and analysis-mode filters', async () => {
   expect(ui.table.byText('mobile-worker').query()).not.toBeInTheDocument();
 });
 
-it('shows the permission popover when the user lacks permission and clicks a configure button', async () => {
+it('explains the missing permission when the user lacks it', async () => {
   jest.mocked(useCanCreateProjects).mockReturnValue(false);
   const { user } = await renderModal();
 
-  await ui.table.byText('web-core').find();
+  await user.click(await ui.actionsButton('platform-jobs').find());
 
-  // With permission denied the 'to' prop is stripped, configure renders as a <button> not an <a>.
-  const configureBtn = byRole('row', { name: /web-core/ }).byRole('button', {
-    name: /^onboarding_dashboard\.journey\.analyze\.modal\.configure/,
-  });
-  await user.click(configureBtn.get());
-
-  expect(
-    await byText('onboarding_dashboard.journey.permission_required.description').find(),
-  ).toBeInTheDocument();
+  expect(await ui.permissionPopover.find()).toBeInTheDocument();
+  expect(ui.configureCiAction.query()).not.toBeInTheDocument();
+  expect(ui.restoreAccessAction.query()).not.toBeInTheDocument();
 });
 
 it('applies the defaultScanStatus prop as the initial filter when the modal opens', async () => {

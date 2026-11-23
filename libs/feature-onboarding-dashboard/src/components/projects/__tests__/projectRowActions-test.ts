@@ -44,11 +44,7 @@ function mockProject(overrides: Partial<OnboardingProject> = {}): OnboardingProj
 it('offers the first-scan actions for a project that has not been scanned yet', () => {
   expect(
     getProjectRowActions(mockProject({ scanStatus: OnboardingProjectScanStatus.NotScanned })),
-  ).toEqual([
-    ProjectRowAction.ConfigureCi,
-    ProjectRowAction.RestoreAccess,
-    ProjectRowAction.ViewProject,
-  ]);
+  ).toEqual([ProjectRowAction.ConfigureCi, ProjectRowAction.RestoreAccess]);
 });
 
 it('also offers to bind an unscanned project that no repository is bound to', () => {
@@ -59,7 +55,6 @@ it('also offers to bind an unscanned project that no repository is bound to', ()
   ).toEqual([
     ProjectRowAction.ConfigureCi,
     ProjectRowAction.RestoreAccess,
-    ProjectRowAction.ViewProject,
     ProjectRowAction.BindProject,
   ]);
 });
@@ -81,26 +76,25 @@ it('offers the re-run and upgrade actions for a project scanned by automatic ana
     ProjectRowAction.ConfigureCi,
     ProjectRowAction.RerunAutomaticAnalysis,
     ProjectRowAction.RestoreAccess,
-    ProjectRowAction.ViewProject,
   ]);
 });
 
-it('offers only guidance and the project link for a project scanned by CI', () => {
+it('offers only guidance for a project scanned by CI', () => {
   expect(
     getProjectRowActions(mockProject({ analysisMode: OnboardingProjectAnalysisMode.Ci })),
-  ).toEqual([ProjectRowAction.HowToRunNewScan, ProjectRowAction.ViewProject]);
+  ).toEqual([ProjectRowAction.HowToRunNewScan]);
 });
 
-it('falls back to the project link only for a scanned project with no CI/automatic analysis mode', () => {
+it('offers nothing for a scanned project with no CI/automatic analysis mode', () => {
   expect(
     getProjectRowActions(mockProject({ analysisMode: OnboardingProjectAnalysisMode.None })),
-  ).toEqual([ProjectRowAction.ViewProject]);
+  ).toEqual([]);
 });
 
 it('ignores scan health while PROJECT_HEALTH_FEATURE_ENABLED is off — the backend does not send it yet', () => {
-  // Once the flag flips on, a failed scan is meant to override with the view-only fallback; today
-  // it must not change the outcome at all.
+  // Once the flag flips on, a failed scan is meant to override with the empty fallback; today it
+  // must not change the outcome at all.
   expect(
     getProjectRowActions(mockProject({ scanHealth: OnboardingProjectScanHealth.Failed })),
-  ).toEqual([ProjectRowAction.HowToRunNewScan, ProjectRowAction.ViewProject]);
+  ).toEqual([ProjectRowAction.HowToRunNewScan]);
 });

@@ -39,13 +39,13 @@ setupOnboardingServiceMock();
  */
 
 /**
- * Entries the row menu of a project scanned by automatic analysis offers: configure CI, restore
- * access and view project, plus the re-run entry on the products that run automatic analysis —
+ * Entries the row menu of a project scanned by automatic analysis offers a reader who lost access:
+ * restore access, plus the re-run entry on the products that run automatic analysis —
  * elsewhere it is dropped rather than shown as a dead end. Resolved here so the tests below stay
  * free of product branching.
  */
 const RERUN_AUTOMATIC_ANALYSIS_ENTRIES = IS_AUTOMATIC_ANALYSIS_SUPPORTED ? 1 : 0;
-const AUTOSCANNED_ROW_ENTRIES = 3 + RERUN_AUTOMATIC_ANALYSIS_ENTRIES;
+const AUTOSCANNED_ROW_ENTRIES = 1 + RERUN_AUTOMATIC_ANALYSIS_ENTRIES;
 
 const COLUMN_COUNT = 5;
 
@@ -168,11 +168,11 @@ it('offers the first-scan actions on a row that has not been scanned yet', async
 
   await user.click(ui.rowActionsButton('platform-jobs').get());
 
-  expect(await ui.configureCiAction.find()).toBeInTheDocument();
   // Offered only once the access lookup answers, so it is awaited rather than read straight away.
+  // The reader lost access, so it replaces "Configure CI analysis".
   expect(await ui.restoreAccessAction.find()).toBeInTheDocument();
-  expect(ui.viewProjectAction.get()).toBeInTheDocument();
-  expect(ui.rowActionItems.getAll()).toHaveLength(3);
+  expect(ui.configureCiAction.query()).not.toBeInTheDocument();
+  expect(ui.rowActionItems.getAll()).toHaveLength(1);
 });
 
 it('offers the automatic-analysis actions on a row scanned by autoscan', async () => {
@@ -190,9 +190,8 @@ it('offers the automatic-analysis actions on a row scanned by autoscan', async (
 
   await user.click(ui.rowActionsButton('identity-lib').get());
 
-  expect(await ui.configureCiAction.find()).toBeInTheDocument();
   expect(await ui.restoreAccessAction.find()).toBeInTheDocument();
-  expect(ui.viewProjectAction.get()).toBeInTheDocument();
+  expect(ui.configureCiAction.query()).not.toBeInTheDocument();
 
   // Automatic analysis is a SQ-Cloud feature: rather than offer a dead entry, SQ-Server drops it.
   // What each entry then does is covered by ProjectRowActionsCell-it.

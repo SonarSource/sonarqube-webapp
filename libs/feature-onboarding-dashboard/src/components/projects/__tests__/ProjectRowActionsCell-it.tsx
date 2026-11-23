@@ -27,7 +27,7 @@ import {
   getProjectCiConfigurationUrl,
   IS_AUTOMATIC_ANALYSIS_SUPPORTED,
 } from '~adapters/helpers/onboarding-actions';
-import { PROJECT_ALM_BINDING_SETTINGS_CATEGORY, PROJECT_BASE_URL } from '~adapters/helpers/urls';
+import { PROJECT_ALM_BINDING_SETTINGS_CATEGORY } from '~adapters/helpers/urls';
 import { server } from '~shared/api/mocks/server';
 import { mockLoggedInUser } from '~shared/helpers/mocks/users';
 import { renderWithRouter } from '~shared/helpers/test-utils';
@@ -101,7 +101,8 @@ const ui = {
   }),
   permissionPopover: byText('onboarding_dashboard.journey.permission_required.description'),
   configureCiAction: byRole('menuitem', {
-    name: 'onboarding_dashboard.projects.action.configure_ci',
+    // Opens in a new tab, so its accessible name also carries the new-tab hint.
+    name: /^onboarding_dashboard\.projects\.action\.configure_ci/,
   }),
   // The only entry that leaves the app, so its accessible name also carries the new-tab hint.
   howToRunNewScanAction: byRole('menuitem', {
@@ -112,9 +113,6 @@ const ui = {
   }),
   restoreAccessAction: byRole('menuitem', {
     name: 'onboarding_dashboard.projects.action.restore_access',
-  }),
-  viewProjectAction: byRole('menuitem', {
-    name: 'onboarding_dashboard.projects.action.view_project',
   }),
   bindProjectAction: byRole('menuitem', {
     name: 'onboarding_dashboard.projects.action.bind_project',
@@ -175,7 +173,8 @@ function renderProjectRowActionsCell(project = AUTOSCANNED_PROJECT) {
   );
 }
 
-it('links an autoscanned project to its CI setup page and its project home', async () => {
+it('links an autoscanned project to its CI setup page, in a new tab', async () => {
+  mockProjectAccess(true);
   const { user } = renderProjectRowActionsCell();
 
   await user.click(ui.actionsButton.get());
@@ -185,11 +184,48 @@ it('links an autoscanned project to its CI setup page and its project home', asy
     'href',
     `${getProjectCiConfigurationUrl(PROJECT_KEY).pathname}?id=${PROJECT_KEY}`,
   );
+  expect(ui.configureCiAction.get()).toHaveAttribute('target', '_blank');
+});
 
-  expect(ui.viewProjectAction.get()).toHaveAttribute(
-    'href',
-    `${PROJECT_BASE_URL}?id=${PROJECT_KEY}`,
+it('keeps the CI setup entry disabled until the access lookup answers', async () => {
+  let answerLookup: VoidFunction = () => undefined;
+  const lookupAnswered = new Promise<void>((resolve) => {
+    answerLookup = resolve;
+  });
+  server.use(
+    http.get('*/api/navigation/component', async () => {
+      await lookupAnswered;
+      return HttpResponse.json({
+        configuration: { canBrowseProject: true, showPermissions: true },
+      });
+    }),
   );
+  const { user } = renderProjectRowActionsCell();
+
+  await user.click(ui.actionsButton.get());
+
+  // Until the answer is known, the entry cannot lead a reader who lost access to a refusal.
+  expect(await ui.configureCiAction.find()).toHaveAttribute('aria-disabled', 'true');
+  expect(ui.configureCiAction.get()).not.toHaveAttribute('href');
+
+  answerLookup();
+
+  await waitFor(() => {
+    expect(ui.configureCiAction.get()).toHaveAttribute(
+      'href',
+      `${getProjectCiConfigurationUrl(PROJECT_KEY).pathname}?id=${PROJECT_KEY}`,
+    );
+  });
+});
+
+it('offers to restore access instead of configuring CI when the reader lost access', async () => {
+  const { user } = renderProjectRowActionsCell();
+
+  await user.click(ui.actionsButton.get());
+
+  // The CI setup page would refuse a reader without access, so only the way back in is offered.
+  expect(await ui.restoreAccessAction.find()).toBeInTheDocument();
+  expect(ui.configureCiAction.query()).not.toBeInTheDocument();
 });
 
 it('sends an unbound project that was never scanned to its binding settings', async () => {
@@ -205,6 +241,7 @@ it('sends an unbound project that was never scanned to its binding settings', as
 });
 
 it('offers no binding shortcut for a project that is already bound to a repository', async () => {
+  mockProjectAccess(true);
   const { user } = renderProjectRowActionsCell({
     ...UNBOUND_PROJECT,
     alm: OnboardingDevopsPlatform.Github,
@@ -305,7 +342,7 @@ it('offers no way to restore access to a project the reader can still browse', a
   const { user } = renderProjectRowActionsCell();
 
   await user.click(ui.actionsButton.get());
-  expect(await ui.viewProjectAction.find()).toBeInTheDocument();
+  expect(await ui.configureCiAction.find()).toBeInTheDocument();
 
   await waitFor(() => {
     expect(componentNavigation).toHaveBeenCalled();
@@ -322,13 +359,17 @@ it('offers no way to restore access when the access lookup fails', async () => {
   const { user } = renderProjectRowActionsCell();
 
   await user.click(ui.actionsButton.get());
-  expect(await ui.viewProjectAction.find()).toBeInTheDocument();
+  expect(await ui.configureCiAction.find()).toBeInTheDocument();
 
   await waitFor(() => {
     expect(componentNavigation).toHaveBeenCalled();
   });
 
   expect(ui.restoreAccessAction.query()).not.toBeInTheDocument();
+  // Nor is the CI setup held back: only lost access hides it.
+  await waitFor(() => {
+    expect(ui.configureCiAction.get()).toHaveAttribute('href');
+  });
 });
 
 it('checks the access of the reader only once the menu is opened', async () => {
@@ -351,7 +392,7 @@ it('triggers a new automatic analysis, on the products that run one', async () =
   const { user } = renderProjectRowActionsCell();
 
   await user.click(ui.actionsButton.get());
-  expect(await ui.viewProjectAction.find()).toBeInTheDocument();
+  expect(await ui.restoreAccessAction.find()).toBeInTheDocument();
 
   // Automatic analysis is a SQ-Cloud feature: rather than offer a dead entry, SQ-Server drops it.
   expect(ui.rerunAutomaticAnalysisAction.queryAll()).toHaveLength(EXPECTED_AUTOMATIC_ANALYSIS_RUNS);
@@ -376,7 +417,7 @@ it('does not claim an analysis started when the project is not eligible', async 
   const { user } = renderProjectRowActionsCell();
 
   await user.click(ui.actionsButton.get());
-  expect(await ui.viewProjectAction.find()).toBeInTheDocument();
+  expect(await ui.restoreAccessAction.find()).toBeInTheDocument();
 
   await clickRerunAutomaticAnalysis(user);
 
@@ -388,18 +429,16 @@ it('does not claim an analysis started when the project is not eligible', async 
   expect(ui.rerunSuccess.query()).not.toBeInTheDocument();
 });
 
-it('drops only the gated actions when the user cannot create projects', async () => {
+it('explains the missing permission when every action of the row needs it', async () => {
   mockCanCreateProjects = false;
   const componentNavigation = mockProjectAccess(false);
   const { user } = renderProjectRowActionsCell();
 
   await user.click(ui.actionsButton.get());
 
-  // "View project" needs no permission, so the menu still opens and still offers it...
-  expect(await ui.viewProjectAction.find()).toBeInTheDocument();
-  expect(ui.permissionPopover.query()).not.toBeInTheDocument();
-
-  // ...while the entries that do need the permission are gone rather than dead.
+  // Every entry of an autoscanned project needs the permission, so the menu would be empty: the
+  // trigger explains why instead of opening nothing.
+  expect(await ui.permissionPopover.find()).toBeInTheDocument();
   expect(ui.configureCiAction.query()).not.toBeInTheDocument();
   expect(ui.rerunAutomaticAnalysisAction.query()).not.toBeInTheDocument();
   expect(ui.restoreAccessAction.query()).not.toBeInTheDocument();
@@ -410,20 +449,29 @@ it('drops only the gated actions when the user cannot create projects', async ()
 
 it('drops the binding shortcut when the user cannot create projects', async () => {
   mockCanCreateProjects = false;
-  // Its own case rather than an assertion on the test above: only a never-scanned unbound project
-  // is offered the entry at all, and that state has no "Re-run automatic analysis" to drop.
   const { user } = renderProjectRowActionsCell(UNBOUND_PROJECT);
 
   await user.click(ui.actionsButton.get());
 
   // Project settings are administered, not merely read, so the entry would land on a refusal.
-  expect(await ui.viewProjectAction.find()).toBeInTheDocument();
+  expect(await ui.permissionPopover.find()).toBeInTheDocument();
   expect(ui.bindProjectAction.query()).not.toBeInTheDocument();
+});
+
+it('offers no actions menu for a project with nothing to act on', () => {
+  // A scanned project with no CI/automatic analysis mode has no remediation action, and its name
+  // already links to the project.
+  renderProjectRowActionsCell({
+    ...AUTOSCANNED_PROJECT,
+    analysisMode: OnboardingProjectAnalysisMode.None,
+  });
+
+  expect(ui.actionsButton.query()).not.toBeInTheDocument();
 });
 
 it('opens the dropdown normally when the user lacks permission but the project has no permission-gated actions', async () => {
   mockCanCreateProjects = false;
-  // A CI-scanned project only offers "How to run a new scan" and "View project", neither needs permission.
+  // A CI-scanned project only offers "How to run a new scan", which needs no permission.
   const { user } = renderProjectRowActionsCell({
     ...AUTOSCANNED_PROJECT,
     analysisMode: OnboardingProjectAnalysisMode.Ci,
@@ -432,6 +480,5 @@ it('opens the dropdown normally when the user lacks permission but the project h
   await user.click(ui.actionsButton.get());
 
   expect(await ui.howToRunNewScanAction.find()).toBeInTheDocument();
-  expect(ui.viewProjectAction.get()).toBeInTheDocument();
   expect(ui.permissionPopover.query()).not.toBeInTheDocument();
 });

@@ -86,17 +86,22 @@ export function ProjectRowActionsCell({ project }: Readonly<Props>) {
 
   const items = useProjectRowActionItems(project, {
     onRestoreAccess: openRestoreAccessModal,
-    // Access only gates "Restore access", which the permission filter below drops anyway.
+    // Access only gates "Restore access" and "Configure CI analysis", which the permission filter
+    // below drops anyway.
     shouldCheckAccess: isMenuOpened && canCreateProjects,
   });
 
-  // Without the permission, only the entries that need it are dropped — the rest of the menu ("View
-  // project" and friends) has nothing to do with it and must stay reachable.
+  // Without the permission, only the entries that need it are dropped — the rest of the menu ("How
+  // to run a new scan" and friends) has nothing to do with it and must stay reachable.
   const visibleItems = canCreateProjects
     ? items
     : items.filter((item) => !PERMISSION_REQUIRED_ACTIONS.has(item.action));
 
-  // Nothing left to show is the only case where the menu itself becomes the explanation.
+  if (items.length === 0) {
+    return <Table.Cell />;
+  }
+
+  // Actions exist but the permission hides them all: the menu itself becomes the explanation.
   const isMenuEmpty = visibleItems.length === 0;
 
   const dropdownItems = visibleItems.map((item) => {
@@ -109,6 +114,7 @@ export function ProjectRowActionsCell({ project }: Readonly<Props>) {
       <DropdownMenu.ItemLink
         enableOpenInNewTab={item.isExternal}
         hasExternalIcon={item.isExternal}
+        isDisabled={item.isDisabled}
         key={item.action}
         onClick={trackItemSelected}
         to={item.to}

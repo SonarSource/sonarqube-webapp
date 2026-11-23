@@ -38,7 +38,7 @@ export enum RowActionKind {
  * action list of the dashboard, so their cells can all discriminate on the same {@link RowActionKind}.
  */
 export type RowActionTarget =
-  | { isExternal?: boolean; kind: RowActionKind.Link; to: To }
+  | { isDisabled?: boolean; isExternal?: boolean; kind: RowActionKind.Link; to: To }
   | { kind: RowActionKind.Button; onClick: VoidFunction };
 
 /** How the left slot of the card is rendered, depending on the step and binding state. */

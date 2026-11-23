@@ -36,7 +36,6 @@ export enum OnboardingDashboardAction {
   BindOrganization = 'bind_organization',
   BindProject = 'bind_project',
   ConfigureCi = 'configure_ci',
-  ConfigureProject = 'configure_project',
   ConfigureScanners = 'configure_scanners',
   CreateOrganization = 'create_organization',
   DisableAutoImport = 'disable_auto_import',
@@ -52,7 +51,6 @@ export enum OnboardingDashboardAction {
   ViewAllRepositories = 'view_all_repositories',
   ViewBindingSettings = 'view_binding_settings',
   ViewOrganizationDashboard = 'view_organization_dashboard',
-  ViewProject = 'view_project',
 }
 
 export enum OnboardingDashboardFilter {

@@ -75,11 +75,13 @@ const UNBOUND_PROJECT: OnboardingProject = {
 const rerunAutomaticAnalysis = jest.fn();
 const onRestoreAccess = jest.fn();
 
-/** `undefined` while the answer is still on its way, as the query reports it. */
-function mockProjectAccess(hasAccess: boolean | undefined) {
+/** `undefined` while the answer is still on its way, or when the lookup failed, as the query reports it. */
+function mockProjectAccess(hasAccess: boolean | undefined, isError = false) {
   jest
     .mocked(useComponentConfigurationQuery)
-    .mockReturnValue({ data: hasAccess } as ReturnType<typeof useComponentConfigurationQuery>);
+    .mockReturnValue({ data: hasAccess, isError } as ReturnType<
+      typeof useComponentConfigurationQuery
+    >);
 }
 
 /** Offers the re-run mutation the way SQ-Cloud does, or drops it the way SQ-Server does. */
@@ -160,7 +162,39 @@ it('drops the re-run entry on the products without automatic analysis', () => {
 
   // Dropped rather than shown disabled, so the menu never offers a dead end.
   expect(actions).not.toContain(ProjectRowAction.RerunAutomaticAnalysis);
-  expect(actions).toContain(ProjectRowAction.ViewProject);
+  expect(actions).toContain(ProjectRowAction.RestoreAccess);
+});
+
+it('offers to restore access instead of configuring CI when the reader lost access', () => {
+  const actions = renderProjectRowActionItems().map(({ action }) => action);
+
+  expect(actions).toContain(ProjectRowAction.RestoreAccess);
+  expect(actions).not.toContain(ProjectRowAction.ConfigureCi);
+});
+
+it('opens the CI setup in a new tab', () => {
+  mockProjectAccess(true);
+
+  const item = renderProjectRowActionItems().find(
+    ({ action }) => action === ProjectRowAction.ConfigureCi,
+  );
+
+  expect(item).toMatchObject({ isExternal: true, kind: RowActionKind.Link });
+});
+
+it.each([
+  ['while the access lookup has not answered yet', undefined, false, true],
+  ['once the reader is known to have access', true, false, false],
+  ['when the access lookup failed', undefined, true, false],
+])('sets whether the CI setup entry is disabled %s', (_, hasAccess, isError, isDisabled) => {
+  mockProjectAccess(hasAccess, isError);
+
+  const item = renderProjectRowActionItems().find(
+    ({ action }) => action === ProjectRowAction.ConfigureCi,
+  );
+
+  // Disabled rather than hidden, so the lookup answering never swaps the entry under the cursor.
+  expect(item).toMatchObject({ isDisabled });
 });
 
 it('opens the confirmation modal instead of restoring access straight away', () => {
@@ -180,7 +214,7 @@ it.each([
   const actions = renderProjectRowActionItems().map(({ action }) => action);
 
   expect(actions).not.toContain(ProjectRowAction.RestoreAccess);
-  expect(actions).toContain(ProjectRowAction.ViewProject);
+  expect(actions).toContain(ProjectRowAction.ConfigureCi);
 });
 
 it('sends an unbound project to the binding section of its settings', () => {

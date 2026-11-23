@@ -34,7 +34,6 @@ export enum ProjectRowAction {
   HowToRunNewScan = 'HOW_TO_RUN_NEW_SCAN',
   RerunAutomaticAnalysis = 'RERUN_AUTOMATIC_ANALYSIS',
   RestoreAccess = 'RESTORE_ACCESS',
-  ViewProject = 'VIEW_PROJECT',
 }
 
 export const PROJECT_ROW_ACTION_LABEL_KEYS: Record<ProjectRowAction, string> = {
@@ -44,7 +43,6 @@ export const PROJECT_ROW_ACTION_LABEL_KEYS: Record<ProjectRowAction, string> = {
   [ProjectRowAction.RerunAutomaticAnalysis]:
     'onboarding_dashboard.projects.action.rerun_automatic_analysis',
   [ProjectRowAction.RestoreAccess]: 'onboarding_dashboard.projects.action.restore_access',
-  [ProjectRowAction.ViewProject]: 'onboarding_dashboard.projects.action.view_project',
 };
 
 export const PROJECT_ROW_ACTION_TELEMETRY: Record<ProjectRowAction, OnboardingDashboardAction> = {
@@ -53,15 +51,10 @@ export const PROJECT_ROW_ACTION_TELEMETRY: Record<ProjectRowAction, OnboardingDa
   [ProjectRowAction.HowToRunNewScan]: OnboardingDashboardAction.HowToRunNewScan,
   [ProjectRowAction.RerunAutomaticAnalysis]: OnboardingDashboardAction.RerunAutomaticAnalysis,
   [ProjectRowAction.RestoreAccess]: OnboardingDashboardAction.RestoreProjectAccess,
-  [ProjectRowAction.ViewProject]: OnboardingDashboardAction.ViewProject,
 };
 
 /** Imported but never analysed: the user needs to get a first scan running. */
-const NOT_SCANNED_ACTIONS = [
-  ProjectRowAction.ConfigureCi,
-  ProjectRowAction.RestoreAccess,
-  ProjectRowAction.ViewProject,
-];
+const NOT_SCANNED_ACTIONS = [ProjectRowAction.ConfigureCi, ProjectRowAction.RestoreAccess];
 
 /**
  * Same, for a project no DevOps platform repository is bound to. Binding is what unlocks pull
@@ -74,18 +67,17 @@ const AUTOSCAN_ACTIONS = [
   ProjectRowAction.ConfigureCi,
   ProjectRowAction.RerunAutomaticAnalysis,
   ProjectRowAction.RestoreAccess,
-  ProjectRowAction.ViewProject,
 ];
 
 /** Analysed by a CI pipeline: nothing to configure, only guidance on scanning again. */
-const CI_SCAN_ACTIONS = [ProjectRowAction.HowToRunNewScan, ProjectRowAction.ViewProject];
+const CI_SCAN_ACTIONS = [ProjectRowAction.HowToRunNewScan];
 
 /**
  * Fallback for the states the design doesn't cover — a failed scan, or an analysed project with no
  * CI/automatic analysis mode (a local scan). None of the remediation actions is known to apply, so
- * only the always-safe one is offered.
+ * nothing is offered: the project name already links to the project.
  */
-const VIEW_ONLY_ACTIONS = [ProjectRowAction.ViewProject];
+const NO_ACTIONS: readonly ProjectRowAction[] = [];
 
 /**
  * Menus of the analysed projects, keyed by analysis mode. Adding an analysis mode to the design
@@ -121,11 +113,11 @@ export const PERMISSION_REQUIRED_ACTIONS = new Set([
  */
 export function getProjectRowActions(project: OnboardingProject): readonly ProjectRowAction[] {
   if (PROJECT_HEALTH_FEATURE_ENABLED && project.scanHealth === OnboardingProjectScanHealth.Failed) {
-    return VIEW_ONLY_ACTIONS;
+    return NO_ACTIONS;
   }
 
   if (project.scanStatus === OnboardingProjectScanStatus.Scanned) {
-    return ANALYSED_ACTIONS_BY_ANALYSIS_MODE[project.analysisMode] ?? VIEW_ONLY_ACTIONS;
+    return ANALYSED_ACTIONS_BY_ANALYSIS_MODE[project.analysisMode] ?? NO_ACTIONS;
   }
 
   return project.alm === null ? NOT_SCANNED_UNBOUND_ACTIONS : NOT_SCANNED_ACTIONS;

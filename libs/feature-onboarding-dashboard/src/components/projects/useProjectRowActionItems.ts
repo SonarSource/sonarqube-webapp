@@ -22,7 +22,7 @@ import { SharedDocLink, useSharedDocUrl } from '~adapters/helpers/docs';
 import { getProjectCiConfigurationUrl } from '~adapters/helpers/onboarding-actions';
 import { PROJECT_ALM_BINDING_SETTINGS_CATEGORY } from '~adapters/helpers/urls';
 import { isDefined } from '~shared/helpers/types';
-import { getProjectOverviewUrl, getProjectSettingsUrl } from '~shared/helpers/urls';
+import { getProjectSettingsUrl } from '~shared/helpers/urls';
 import { useComponentConfigurationQuery } from '~shared/queries/navigation';
 import { OnboardingProject } from '~shared/types/onboarding';
 import { RowActionKind, RowActionTarget } from '../../types/types';
@@ -50,7 +50,7 @@ interface Options {
  *
  * Whether the reader still has access is the one thing that has to be asked of the server, so the
  * caller decides when it is worth asking: never before the row menu is opened, and never when the
- * only action it gates is dropped anyway.
+ * actions it gates are dropped anyway.
  */
 export function useProjectRowActionItems(
   project: OnboardingProject,
@@ -61,11 +61,14 @@ export function useProjectRowActionItems(
 
   const { key: projectKey } = project;
 
-  const { data: hasProjectAccess } = useComponentConfigurationQuery(projectKey, {
-    enabled: shouldCheckAccess,
-    select: (configuration) =>
-      Boolean(configuration.showPermissions && configuration.canBrowseProject),
-  });
+  const { data: hasProjectAccess, isError: isAccessUnknown } = useComponentConfigurationQuery(
+    projectKey,
+    {
+      enabled: shouldCheckAccess,
+      select: (configuration) =>
+        Boolean(configuration.showPermissions && configuration.canBrowseProject),
+    },
+  );
 
   const itemTargets: Record<ProjectRowAction, () => RowActionTarget | undefined> = {
     [ProjectRowAction.BindProject]: () => ({
@@ -73,10 +76,17 @@ export function useProjectRowActionItems(
       to: getProjectSettingsUrl(projectKey, PROJECT_ALM_BINDING_SETTINGS_CATEGORY),
     }),
 
-    [ProjectRowAction.ConfigureCi]: () => ({
-      kind: RowActionKind.Link,
-      to: getProjectCiConfigurationUrl(projectKey),
-    }),
+    // A reader who lost access would land on a refusal: "Restore access" replaces it. Until the
+    // lookup answers it stays disabled, so the entry under the cursor is never swapped for another.
+    [ProjectRowAction.ConfigureCi]: () =>
+      hasProjectAccess === false
+        ? undefined
+        : {
+            isDisabled: hasProjectAccess === undefined && !isAccessUnknown,
+            isExternal: true,
+            kind: RowActionKind.Link,
+            to: getProjectCiConfigurationUrl(projectKey),
+          },
 
     [ProjectRowAction.HowToRunNewScan]: () => ({
       isExternal: true,
@@ -103,11 +113,6 @@ export function useProjectRowActionItems(
             onClick: onRestoreAccess,
           }
         : undefined,
-
-    [ProjectRowAction.ViewProject]: () => ({
-      kind: RowActionKind.Link,
-      to: getProjectOverviewUrl(projectKey),
-    }),
   };
 
   return getProjectRowActions(project)
