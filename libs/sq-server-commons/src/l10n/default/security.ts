@@ -1429,6 +1429,32 @@ export const securityMessages = {
     'Fixability breakdown for {project}: {total} total open risks',
   'dependencies.lightwell_fixability.table.exposure_sub':
     '{direct} direct · {transitive} transitive',
+  'dependencies.lightwell_fixability.header.risk_count_link_aria':
+    '{count, plural, one {View # open dependency risk in the risks list} other {View # open dependency risks in the risks list}}',
+  'dependencies.lightwell_fixability.hero.segment_link_aria':
+    '{count, plural, one {View # risk: {fixLevel}} other {View # risks: {fixLevel}}}',
+  'dependencies.lightwell_fixability.hero.summary.link_aria': 'View in the risks list: {text}',
+  'dependencies.lightwell_fixability.hero.zero_count.link_aria':
+    '{count, plural, one {Show # project in the table} other {Show # projects in the table}}',
+  'dependencies.lightwell_fixability.table.project_link_aria': 'View open risks for {project}',
+  'dependencies.lightwell_fixability.table.sub_line_link_aria':
+    '{count, plural, one {View # {importType} risk ({fixLevel}) for {project}} other {View # {importType} risks ({fixLevel}) for {project}}}',
+  'dependencies.lightwell_fixability.table.easier_link_aria':
+    '{count, plural, one {View # risk made easier by Lightwell for {project}} other {View # risks made easier by Lightwell for {project}}}',
+  'dependencies.lightwell_fixability.tiles.link_aria':
+    '{count, plural, one {View # risk: {fixLevel}} other {View # risks: {fixLevel}}}',
+  'dependencies.lightwell_fixability.tiles.clause_link_aria': 'View in the risks list: {text}',
+  'dependencies.lightwell_fixability.reaches_zero.tier.same_patch': 'drop-in replacements',
+  'dependencies.lightwell_fixability.reaches_zero.tier.patch': 'patch or easier upgrades',
+  'dependencies.lightwell_fixability.reaches_zero.tier.minor': 'minor or easier upgrades',
+  'dependencies.lightwell_fixability.reaches_zero.tier.major': 'major or easier upgrades',
+  'dependencies.lightwell_fixability.reaches_zero.notice.with_lightwell':
+    'Showing projects that can reach zero open risks with {tier}, with Lightwell.',
+  'dependencies.lightwell_fixability.reaches_zero.notice.lightwell_added':
+    'Showing projects that reach zero open risks with {tier} only because of Lightwell.',
+  'dependencies.lightwell_fixability.reaches_zero.clear': 'Show all projects',
+  'dependencies.risks.fix_level.include_lightwell': 'Include Lightwell fixes',
+  'dependencies.risks.fix_level.improved_by_lightwell': 'Only risks Lightwell makes easier',
   'dependencies.lightwell_backport_candidates.nav': 'Lightwell Clearinghouse',
   'dependencies.lightwell_backport_candidates.page': 'Lightwell Clearinghouse candidates',
   'dependencies.lightwell_backport_candidates.header.package_count':

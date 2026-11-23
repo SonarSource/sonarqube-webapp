@@ -128,7 +128,18 @@ const RISKS_OPTIONAL_PARAMS = [
   'standardVersion',
 ] as const;
 
-type RisksUrlNewParams = NewParams<(typeof RISKS_OPTIONAL_PARAMS)[number]>;
+// Only ever set explicitly (by the Lightwell fixability report's links), so deliberately not in
+// RISKS_OPTIONAL_PARAMS: they must not be carried over from the current URL by other links.
+const RISKS_EXPLICIT_ONLY_PARAMS = [
+  'importType',
+  'improvedByLightwell',
+  'includeLightwell',
+  'projects',
+] as const;
+
+type RisksUrlNewParams = NewParams<
+  (typeof RISKS_OPTIONAL_PARAMS)[number] | (typeof RISKS_EXPLICIT_ONLY_PARAMS)[number]
+>;
 
 export function getRisksUrl(params: {
   baseUrl?: string;
