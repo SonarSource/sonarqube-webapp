@@ -49,7 +49,6 @@ export interface PendingPlugin extends Plugin {
 }
 
 export interface InstalledPlugin extends PendingPlugin {
-  documentationPath?: string;
   filename: string;
   hash: string;
   issueTrackerUrl?: string;

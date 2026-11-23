@@ -195,15 +195,7 @@ export default class PluginsServiceMock {
       return Promise.reject(new Error('Plugin not found'));
     }
     this.#pending.removing.push({
-      ...omit(
-        plugin,
-        'updates',
-        'updatedAt',
-        'sonarLintSupported',
-        'hash',
-        'filename',
-        'documentationPath',
-      ),
+      ...omit(plugin, 'updates', 'updatedAt', 'sonarLintSupported', 'hash', 'filename'),
       implementationBuild: '20210101-000000',
     });
     return this.reply();
@@ -217,15 +209,7 @@ export default class PluginsServiceMock {
       return Promise.reject(new Error('Plugin not found'));
     }
     this.#pending.updating.push({
-      ...omit(
-        plugin,
-        'updates',
-        'updatedAt',
-        'sonarLintSupported',
-        'hash',
-        'filename',
-        'documentationPath',
-      ),
+      ...omit(plugin, 'updates', 'updatedAt', 'sonarLintSupported', 'hash', 'filename'),
       version: plugin.updates[plugin.updates.length - 1].release?.version ?? '',
       implementationBuild: '20210101-000000',
     });
