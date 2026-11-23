@@ -161,6 +161,8 @@ export default function BranchOverview(props: Readonly<Props>) {
 
   const loadMeasuresAndMeta = React.useCallback(
     (componentKey: string, branchLike?: BranchLike, metricKeys: string[] = []) => {
+      // Per-project imperative fetch in app's Promise.all loop; a query hook isn't usable here.
+      // eslint-disable-next-line local-rules/no-api-imports
       return getMeasuresWithPeriodAndMetrics(
         componentKey,
         metricKeys.length > 0 ? metricKeys : branchOverviewMetrics,
