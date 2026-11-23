@@ -44,6 +44,7 @@ export default function EmailIput(props: Readonly<Props>) {
     if (!isMandotory) {
       onChange({ value, isValid: true });
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

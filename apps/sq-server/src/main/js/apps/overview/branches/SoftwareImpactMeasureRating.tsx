@@ -92,7 +92,7 @@ function SoftwareImpactMeasureRating(props: Readonly<SoftwareImpactMeasureRating
         },
       );
     },
-    [intl, softwareQuality],
+    [intl, isStandardMode, ratingMetricKey, softwareQuality],
   );
 
   const getLabel = useCallback(

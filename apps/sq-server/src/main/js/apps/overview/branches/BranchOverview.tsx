@@ -121,11 +121,15 @@ export default function BranchOverview(props: Readonly<Props>) {
   const { hasFeature } = useAvailableFeatures();
   const hasSca = hasFeature(Feature.Sca);
   const scaOverviewMetrics = useScaOverviewMetrics(hasSca);
-  const branchOverviewMetrics = [
-    ...BRANCH_OVERVIEW_METRICS,
-    ...scaOverviewMetrics,
-    ...(hasFeature(Feature.FromSonarQubeUpdate) ? [MetricKey.from_sonarqube_update_issues] : []),
-  ];
+  const hasFromSonarQubeUpdate = hasFeature(Feature.FromSonarQubeUpdate);
+  const branchOverviewMetrics = React.useMemo(
+    () => [
+      ...BRANCH_OVERVIEW_METRICS,
+      ...scaOverviewMetrics,
+      ...(hasFromSonarQubeUpdate ? [MetricKey.from_sonarqube_update_issues] : []),
+    ],
+    [scaOverviewMetrics, hasFromSonarQubeUpdate],
+  );
 
   const { data: measuresAndLeak } = useMeasuresAndLeakQuery({
     componentKey: component.key,
@@ -154,6 +158,23 @@ export default function BranchOverview(props: Readonly<Props>) {
         .filter(isDefined)
     );
   };
+
+  const loadMeasuresAndMeta = React.useCallback(
+    (componentKey: string, branchLike?: BranchLike, metricKeys: string[] = []) => {
+      return getMeasuresWithPeriodAndMetrics(
+        componentKey,
+        metricKeys.length > 0 ? metricKeys : branchOverviewMetrics,
+        getBranchLikeQuery(branchLike),
+      ).then(({ component: { measures }, metrics, period }) => {
+        return {
+          measures: enhanceMeasuresWithMetrics(measures || [], metrics || []),
+          metrics,
+          period,
+        };
+      });
+    },
+    [branchOverviewMetrics],
+  );
 
   const loadApplicationStatus = React.useCallback(async () => {
     if (!measuresAndLeak || !applicationQualityGateStatus) {
@@ -240,7 +261,7 @@ export default function BranchOverview(props: Readonly<Props>) {
         setLoadingStatus(false);
       },
     );
-  }, [applicationQualityGateStatus, branch, component.key, measuresAndLeak]);
+  }, [applicationQualityGateStatus, branch, component.key, loadMeasuresAndMeta, measuresAndLeak]);
 
   const loadProjectStatus = React.useCallback(() => {
     const { key, name } = component;
@@ -287,24 +308,6 @@ export default function BranchOverview(props: Readonly<Props>) {
     setQualityGate(qgDetails);
   }, [component.key]);
 
-  const loadMeasuresAndMeta = (
-    componentKey: string,
-    branchLike?: BranchLike,
-    metricKeys: string[] = [],
-  ) => {
-    return getMeasuresWithPeriodAndMetrics(
-      componentKey,
-      metricKeys.length > 0 ? metricKeys : branchOverviewMetrics,
-      getBranchLikeQuery(branchLike),
-    ).then(({ component: { measures }, metrics, period }) => {
-      return {
-        measures: enhanceMeasuresWithMetrics(measures || [], metrics || []),
-        metrics,
-        period,
-      };
-    });
-  };
-
   const loadHistoryMeasures = React.useCallback(() => {
     const graphMetrics = getHistoryMetrics(graph, [], isStandardMode);
     const metrics = uniq([...HISTORY_METRICS_LIST, ...graphMetrics]);
@@ -328,7 +331,7 @@ export default function BranchOverview(props: Readonly<Props>) {
       },
       () => {},
     );
-  }, [branch, component.key, graph]);
+  }, [branch, component.key, graph, isStandardMode]);
 
   const getTopLevelComponent = React.useCallback(() => {
     let current = component.breadcrumbs.length - 1;

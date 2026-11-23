@@ -187,7 +187,14 @@ export default function UserForm(props: Readonly<Props>) {
 
       setInvalidMessage(invalidMessage);
     }
-  }, [login, usersList]);
+  }, [
+    doesLoginHaveValidCharacter,
+    doesLoginStartWithLetterOrNumber,
+    isCreateUserForm,
+    isLoginTooShort,
+    login,
+    usersList,
+  ]);
 
   const validationName = () => {
     if (name !== undefined) {
