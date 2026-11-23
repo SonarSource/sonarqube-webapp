@@ -81,6 +81,7 @@ function isMainApp() {
 
   return (
     getSystemStatus() === 'UP' &&
+    pathname !== `${getBaseUrl()}/oauth2/authorize` &&
     !pathname.startsWith(`${getBaseUrl()}/sessions`) &&
     !pathname.startsWith(`${getBaseUrl()}/maintenance`) &&
     !pathname.startsWith(`${getBaseUrl()}/setup`) &&

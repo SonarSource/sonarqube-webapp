@@ -60,6 +60,9 @@ export const securityMessages = {
   'mcp_clients.upload.update_help':
     "To update this client's configuration, remove it and add it again with a new JSON file.",
 
+  'mcp_oauth.unapproved_client.title': 'This MCP client hasn’t been approved.',
+  'mcp_oauth.unapproved_client.description':
+    'Contact your SonarQube administrator to register this client, then retry the connection from your MCP client. <link>Learn more in the documentation</link>',
   'mcp_oauth.consent.title': 'Connect an application',
   'mcp_oauth.consent.heading': '{application} is requesting access to your SonarQube account',
   'mcp_oauth.consent.signed_in': 'Signed in as {login}',
