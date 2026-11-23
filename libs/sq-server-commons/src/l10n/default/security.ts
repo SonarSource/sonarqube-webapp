@@ -1167,7 +1167,12 @@ export const securityMessages = {
     'Sonar did not find a direct call from your code into vulnerable code. A dependency may still call this transitively',
   'dependencies.risks.reachable_not_analyzed': 'Not analyzed',
   'dependencies.risks.reachable_not_analyzed.tooltip':
-    'Sonar did not analyze this vulnerability for reachability.',
+    'Sonar has not yet performed reachability analysis of this vulnerability',
+  'dependencies.risks.reachable_not_supported': 'Not supported',
+  'dependencies.risks.reachable_not_supported_ecosystem.tooltip':
+    'Reachability analysis is not currently supported for {ecosystem} vulnerabilities.',
+  'dependencies.risks.reachable_not_supported_transitive.tooltip':
+    'Reachability analysis is not currently supported for transitive dependencies.',
   'dependencies.risks.empty_state.title':
     'No {branchType, select, pullRequest {new } other {}}open dependency risks were found',
   'dependencies.risks.empty_state.body':
