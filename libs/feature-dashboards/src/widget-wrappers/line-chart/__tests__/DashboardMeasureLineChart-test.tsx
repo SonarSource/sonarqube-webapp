@@ -25,13 +25,25 @@ import {
 } from '~shared/types/dashboard-history';
 import { render, screen } from '@testing-library/react';
 import { IntlProvider } from 'react-intl';
+import {
+  useDashboardPortfolioContext,
+  useDashboardProjectContext,
+} from '~adapters/context/dashboardContext';
 import { useDashboardMeasureQuery } from '~adapters/queries/dashboard-measure';
 import { usePortfolioRulesMetadataOrganization } from '~adapters/queries/portfolio-widget-organization-data';
 import { useWidgetMetricMetadataQuery } from '~adapters/queries/widget-metric-metadata';
 import { useDashboardRuleLabels } from '~adapters/queries/widget-rule-metadata';
 import { MetricKey, MetricType } from '~shared/types/metrics';
 import { MultiLineChart } from '../../../components/visualizations/multi-line-chart/MultiLineChart';
-import { DashboardMetricType } from '../../../data/widgets/shared';
+import { HistoryRange, LineChartGroupBy } from '../../../data/widgets/line-chart';
+import {
+  PortfolioLineChartWidgetWrapper,
+  SeverityOrderedPortfolioLineChartWidgetWrapper,
+} from '../PortfolioLineChartWidgetWrapper';
+import { ProjectLineChartWidgetWrapper } from '../ProjectLineChartWidgetWrapper';
+import { DashboardMetricType, RichMetricKey } from '../../../data/widgets/shared';
+
+jest.mock('~adapters/context/dashboardContext');
 
 jest.mock('~adapters/queries/dashboard-measure', () => ({
   useDashboardMeasureQuery: jest.fn(),
@@ -201,6 +213,7 @@ it('caps rule series and folds the remainder into a trailing Other series', () =
       }}
       metric={{ metricKey: MetricKey.violations, type: DashboardMetricType.Raw }}
       months={3}
+      sortSeveritySeries
     />,
   );
 
@@ -252,6 +265,7 @@ it('uses localized messages for grouped issue status legend labels', () => {
       metric={{ metricKey: MetricKey.violations, type: DashboardMetricType.Raw }}
       months={3}
       showLegend
+      sortSeveritySeries
     />,
   );
 
@@ -414,4 +428,119 @@ it('renders density history with missing values', () => {
   const path = svg.querySelector('path[stroke-linecap="round"]');
   expect(path).toBeInTheDocument();
   expect(path?.getAttribute('d')).toMatch(/^M[\d.,]+L[\d.,]+L[\d.,]+$/);
+});
+
+describe('severity legend order', () => {
+  const keys = ['BLOCKER', 'HIGH', 'INFO', 'LOW', 'MEDIUM'];
+  const widget = {
+    groupBy: LineChartGroupBy.Severity,
+    historyRange: HistoryRange.LastMonth,
+    metric: { metricKey: RichMetricKey.Issues, type: DashboardMetricType.Rich, measureFilters: {} },
+    scope: CodeScope.Overall,
+    showLegend: true,
+  } as const;
+
+  beforeEach(() => {
+    jest.mocked(useDashboardPortfolioContext).mockReturnValue({
+      portfolioId: 'portfolio-1',
+      entityType: 'PORTFOLIO',
+      isEntityTypePending: false,
+      getPortfolioMetric: jest.fn(),
+    });
+    jest.mocked(useDashboardMeasureQuery).mockReturnValue({
+      data: {
+        api: 'issue-count-history',
+        history: [
+          { date: '2026-01-02', distribution: keys.map((key, i) => ({ key, value: i + 10 })) },
+          { date: '2026-01-01', distribution: keys.map((key, i) => ({ key, value: i + 1 })) },
+        ],
+      },
+      isError: false,
+      isPending: false,
+    } as unknown as ReturnType<typeof useDashboardMeasureQuery>);
+  });
+
+  it.each([false, true])(
+    'orders severity series while preserving labels, colors and data (Standard=%s)',
+    (isStandardMode) => {
+      renderChart(<PortfolioLineChartWidgetWrapper {...widget} isStandardMode={isStandardMode} />);
+      const original = jest.mocked(MultiLineChart).mock.calls.at(-1)?.[0].series;
+      expect(original?.map(({ id }) => id)).toEqual(keys);
+      renderChart(
+        <SeverityOrderedPortfolioLineChartWidgetWrapper
+          {...widget}
+          isStandardMode={isStandardMode}
+        />,
+      );
+      expect(jest.mocked(MultiLineChart).mock.calls.at(-1)?.[0].series).toEqual([
+        original?.[0],
+        original?.[1],
+        original?.[4],
+        original?.[3],
+        original?.[2],
+      ]);
+    },
+  );
+
+  it('orders severities first appearing on later dates and retains unknown series last', () => {
+    jest.mocked(useDashboardMeasureQuery).mockReturnValue({
+      data: {
+        api: 'issue-count-history',
+        history: [
+          {
+            date: '2026-01-01',
+            distribution: [
+              { key: 'LOW', value: 1 },
+              { key: 'FUTURE', value: 7 },
+            ],
+          },
+          {
+            date: '2026-01-02',
+            distribution: [
+              { key: 'HIGH', value: 2 },
+              { key: 'BLOCKER', value: 3 },
+              { key: 'NEW', value: 8 },
+            ],
+          },
+        ],
+      },
+      isError: false,
+      isPending: false,
+    } as unknown as ReturnType<typeof useDashboardMeasureQuery>);
+    renderChart(<SeverityOrderedPortfolioLineChartWidgetWrapper {...widget} />);
+    const series = jest.mocked(MultiLineChart).mock.calls.at(-1)?.[0].series;
+    expect(series?.map(({ id }) => id)).toEqual(['BLOCKER', 'HIGH', 'LOW', 'FUTURE', 'NEW']);
+    expect(series?.[0].data.map(({ y }) => y)).toEqual([0, 3]);
+    expect(series?.[3].data.map(({ y }) => y)).toEqual([7, 0]);
+  });
+
+  it('keeps project dashboard ordering unchanged', () => {
+    jest.mocked(useDashboardProjectContext).mockReturnValue({
+      isLoading: false,
+      organization: 'project-org',
+      projectEntityId: 'project-branch-1',
+    } as ReturnType<typeof useDashboardProjectContext>);
+    renderChart(<ProjectLineChartWidgetWrapper {...widget} />);
+    expect(
+      jest
+        .mocked(MultiLineChart)
+        .mock.calls.at(-1)?.[0]
+        .series.map(({ id }) => id),
+    ).toEqual(keys);
+  });
+
+  it.each([undefined, false])(
+    'preserves original severity ordering with activation %s',
+    (sortSeveritySeries) => {
+      renderChart(
+        <PortfolioLineChartWidgetWrapper {...widget} sortSeveritySeries={sortSeveritySeries} />,
+      );
+      expect(
+        jest
+          .mocked(MultiLineChart)
+          .mock.calls.at(-1)?.[0]
+          .series.map(({ id }) => id),
+      ).toEqual(keys);
+    },
+  );
 });

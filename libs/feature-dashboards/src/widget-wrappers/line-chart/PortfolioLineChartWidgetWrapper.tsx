@@ -26,9 +26,9 @@ import { PORTFOLIO_METRICS_SUPPORTING_NEW_CODE_SCOPE } from '../../utils/portfol
 import { DashboardMeasureLineChart } from './DashboardMeasureLineChart';
 
 export function PortfolioLineChartWidgetWrapper(
-  props: Readonly<Props & { isStandardMode?: boolean }>,
+  props: Readonly<Props & { isStandardMode?: boolean; sortSeveritySeries?: boolean }>,
 ) {
-  const { isStandardMode, ...widget } = props;
+  const { isStandardMode, sortSeveritySeries, ...widget } = props;
   const { portfolioId } = useDashboardPortfolioContext();
   return (
     <DashboardMeasureLineChart
@@ -42,6 +42,13 @@ export function PortfolioLineChartWidgetWrapper(
       metric={widget.metric}
       months={historyRangeToMonths(widget.historyRange)}
       showLegend={widget.showLegend}
+      sortSeveritySeries={sortSeveritySeries}
     />
   );
+}
+
+export function SeverityOrderedPortfolioLineChartWidgetWrapper(
+  props: Readonly<Props & { isStandardMode?: boolean }>,
+) {
+  return <PortfolioLineChartWidgetWrapper {...props} sortSeveritySeries />;
 }

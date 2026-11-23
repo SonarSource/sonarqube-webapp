@@ -46,6 +46,7 @@ import { parseDashboardMeasureValue } from '../../data/dashboard-measure-history
 import { DashboardMetricType, type DashboardMetric } from '../../data/widgets/shared';
 import { useMttrFormatters } from '../../hooks/useMttrFormatters';
 import { PieChartIssueSlice } from '../../types/dashboard-widget';
+import { ORGANIZATION_ISSUE_COUNT_SEVERITIES } from '../../types/organization-issue-count-history';
 import type { LineChartSeries } from '../../types/visualization';
 import { dashboardHistoryDateRange } from '../../utils/datetime';
 import { lineChartMeasureTransformFlags } from '../../utils/lineChartMeasureTransformFlags';
@@ -68,6 +69,7 @@ interface Props {
   months: number;
   organization?: string;
   showLegend?: boolean;
+  sortSeveritySeries?: boolean;
 }
 
 function dashboardRuleEntity(
@@ -214,6 +216,22 @@ function historyToSeries(
     : [];
 }
 
+function orderSeveritySeries(
+  series: LineChartSeries[],
+  enabled: boolean,
+  measure: DashboardMeasure,
+): LineChartSeries[] {
+  if (!enabled || measure.api !== 'issue-count-history' || measure.sliceBy !== 'SEVERITY') {
+    return series;
+  }
+  const severityOrder: readonly string[] = ORGANIZATION_ISSUE_COUNT_SEVERITIES;
+  const rank = (id: string) => {
+    const index = severityOrder.indexOf(id);
+    return index === -1 ? severityOrder.length : index;
+  };
+  return [...series].sort((a, b) => rank(a.id) - rank(b.id));
+}
+
 export function DashboardMeasureLineChart({
   entityId,
   entityType,
@@ -223,6 +241,7 @@ export function DashboardMeasureLineChart({
   months,
   organization,
   showLegend,
+  sortSeveritySeries = false,
 }: Readonly<Props>) {
   const { formatMessage } = useIntl();
   const { formatMttrDotValue, formatMttrTick } = useMttrFormatters();
@@ -307,7 +326,7 @@ export function DashboardMeasureLineChart({
     <LineChartWidgetShell
       {...chartProps}
       requestedStartDate={requestedStartDate}
-      series={displaySeries}
+      series={orderSeveritySeries(displaySeries, sortSeveritySeries, measure)}
       showLegend={showLegend && displaySeries.length > 1 && !isMetricRating}
     />
   );
