@@ -402,6 +402,7 @@ export const securityMessages = {
   'ai_capabilities.remediation_agent.scheduled.frequency': 'Frequency',
   'ai_capabilities.remediation_agent.scheduled.frequency.at': 'at',
   'ai_capabilities.remediation_agent.scheduled.frequency.on': 'on',
+  'ai_capabilities.remediation_agent.scheduled.frequency.hourly': 'Hourly',
   'ai_capabilities.remediation_agent.scheduled.frequency.daily': 'Daily',
   'ai_capabilities.remediation_agent.scheduled.frequency.weekly': 'Weekly',
   'ai_capabilities.remediation_agent.scheduled.next_run_hint': '{date} at {time} {timeZone}',
@@ -519,6 +520,7 @@ export const securityMessages = {
     'Something went wrong. Failed to update the project configuration.',
   'ai_capabilities.project.default_schedule_summary':
     'Default schedule: {frequency} at {hour} {timezone}',
+  'ai_capabilities.project.default_schedule_summary.hourly': 'Default schedule: {frequency}',
   'ai_capabilities.project.default_schedule_summary.weekly':
     'Default schedule: {frequency} on {dayOfWeek} at {hour} {timezone}',
   'ai_capabilities.project.max_open_prs_summary': 'Max open PRs: {count}',
