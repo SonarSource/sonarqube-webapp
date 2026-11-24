@@ -37,7 +37,7 @@ module.exports = {
     const currentFilePath = context.filename;
 
     if (
-      ['testUtils.tsx', 'ProviderPyramid.tsx', 'query-client.ts'].some((path) =>
+      ['testUtils.tsx', 'test-utils.tsx', 'ProviderPyramid.tsx', 'query-client.ts'].some((path) =>
         currentFilePath.split('/').includes(path),
       )
     ) {
@@ -58,7 +58,10 @@ module.exports = {
         if (importPath.split('/').includes('react-query')) {
           fnNames.push(
             ...node.specifiers
-              .filter((specifier) => specifier.imported.name === 'QueryClient')
+              .filter(
+                (specifier) =>
+                  specifier.type === 'ImportSpecifier' && specifier.imported.name === 'QueryClient',
+              )
               .map((specifier) => specifier.local.name),
           );
         }

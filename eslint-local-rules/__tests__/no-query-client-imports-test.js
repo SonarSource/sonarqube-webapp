@@ -64,6 +64,13 @@ ruleTester.run('no-query-client-imports', noQueryClientDirectUsage, {
       useQuery();
       `,
     },
+    {
+      code: `
+      import { QueryClient } from '@tanstack/react-query';
+      new QueryClient();
+      `,
+      filename: '/repo/private/apps/sq-cloud/src/sq-cloud-adapters/helpers/test-utils.tsx',
+    },
   ],
   invalid: [
     {

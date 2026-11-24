@@ -18,7 +18,6 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import type { LDClient } from '@launchdarkly/react-sdk';
 import { TooltipProvider } from '@sonarsource/echoes-react';
 import {
   createEvent,
@@ -30,7 +29,6 @@ import {
 } from '@testing-library/react';
 import userEvent, { UserEvent, Options as UserEventsOptions } from '@testing-library/user-event';
 import { InitialEntry } from 'history';
-import { ldClientMock } from 'jest-launchdarkly-mock';
 import { identity, kebabCase } from 'lodash';
 import {
   AriaRole,
@@ -44,6 +42,7 @@ import {
   ReactNode,
   RefObject,
 } from 'react';
+import { FormattedMessage } from 'react-intl';
 import {
   BrowserRouter,
   createMemoryRouter,
@@ -62,11 +61,11 @@ import { ContextWrapperInitProps, getContextWrapper } from '~adapters/helpers/te
 type RenderResultWithUser = RenderResult & { user: UserEvent };
 
 export function render(
-  ui: ReactElement<any>,
+  ui: ReactElement,
   options?: RenderOptions,
   userEventOptions?: UserEventsOptions,
 ): RenderResultWithUser {
-  const Wrapper = options?.wrapper;
+  const { wrapper: Wrapper, ...renderOptions } = options ?? {};
 
   function TooltipWrapper({ children }: Readonly<PropsWithChildren<object>>) {
     return (
@@ -77,7 +76,7 @@ export function render(
   }
 
   return {
-    ...rtlRender(ui, { ...options, wrapper: TooltipWrapper }),
+    ...rtlRender(ui, { ...renderOptions, wrapper: TooltipWrapper }),
     user: userEvent.setup(userEventOptions),
   };
 }
@@ -93,16 +92,23 @@ export type RenderContextOptions = Omit<RenderOptions, 'wrapper'> &
   };
 
 export function renderWithContext(
-  ui: ReactElement<any>,
+  ui: ReactElement,
   { userEventOptions, ...options }: RenderContextOptions = {},
 ) {
-  return render(ui, { ...options, wrapper: getContextWrapper(options) }, userEventOptions);
+  return render(
+    ui,
+    {
+      ...options,
+      wrapper: getContextWrapper(options),
+    },
+    userEventOptions,
+  );
 }
 
 type RenderRouterOptions = { additionalRoutes?: ReactNode };
 
 export function renderWithRouter(
-  ui: ReactElement<any>,
+  ui: ReactElement,
   {
     additionalRoutes,
     initialEntries = ['/'],
@@ -147,11 +153,18 @@ export function renderWithRouter(
     return <RouterProvider router={router} useTransitions={false} />;
   }
 
-  return render(ui, { ...options, wrapper: Wrapper }, userEventOptions);
+  return render(
+    ui,
+    {
+      ...options,
+      wrapper: Wrapper,
+    },
+    userEventOptions,
+  );
 }
 
 export function renderWithRoutes(
-  ui: ReactElement<any>,
+  ui: ReactElement,
   { initialEntries, userEventOptions, routerMode, ...options }: RenderContextOptions,
 ) {
   const ContextWrapper = getContextWrapper(options);
@@ -174,7 +187,14 @@ export function renderWithRoutes(
       typeof initialEntry === 'string' ? initialEntry : createPath(initialEntry),
     );
 
-    return render(ui, { ...options, wrapper: BrowserWrapper }, userEventOptions);
+    return render(
+      ui,
+      {
+        ...options,
+        wrapper: BrowserWrapper,
+      },
+      userEventOptions,
+    );
   }
 
   function Wrapper({ children }: Readonly<PropsWithChildren<{}>>) {
@@ -196,7 +216,14 @@ export function renderWithRoutes(
     return <RouterProvider router={router} useTransitions={false} />;
   }
 
-  return render(ui, { ...options, wrapper: Wrapper }, userEventOptions);
+  return render(
+    ui,
+    {
+      ...options,
+      wrapper: Wrapper,
+    },
+    userEventOptions,
+  );
 }
 
 export function CatchAll({ backPath }: Readonly<{ backPath: string | Partial<Path> }>) {
@@ -208,7 +235,7 @@ export function CatchAll({ backPath }: Readonly<{ backPath: string | Partial<Pat
 
       <div>
         <Link discover="none" to={backPath}>
-          back
+          <FormattedMessage id="back" />
         </Link>
       </div>
     </>
@@ -222,11 +249,15 @@ export function CatchAll({ backPath }: Readonly<{ backPath: string | Partial<Pat
 export function mockReactComponent<T extends {}>(
   name: string,
   role?: AriaRole,
-  transformProps: (props: PropsWithChildren<T>) => any = identity,
+  transformProps: (props: PropsWithChildren<T>) => unknown = identity,
 ) {
   function MockedComponent({ ...props }: PropsWithChildren<T>) {
     const mockName = 'mocked-' + kebabCase(name);
-    return createElement(mockName, transformProps({ role, 'data-testid': mockName, ...props }));
+
+    return createElement(
+      mockName,
+      transformProps({ role, 'data-testid': mockName, ...props }) as Attributes,
+    );
   }
 
   MockedComponent.displayName = `mocked(${name})`;
@@ -252,15 +283,6 @@ export function mockForwardRefComponent<T>(
 
   return forwardRef<HTMLDivElement, T>(MockedComponent);
 }
-
-/**
- * @description A temporary fix for the jest-launchdarkly-mock library to avoid TS Errors
- * @see https://github.com/launchdarkly/jest-launchdarkly-mock/issues/84
- */
-export const LdClientMock = {
-  ...ldClientMock,
-  addHook: jest.fn(),
-} as unknown as jest.Mocked<LDClient>;
 
 /**
  * Fire a custom keyboard event on window

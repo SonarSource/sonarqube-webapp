@@ -4067,12 +4067,38 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@launchdarkly/client-testing-plugin@npm:1.0.30":
+  version: 1.0.30
+  resolution: "@launchdarkly/client-testing-plugin@npm:1.0.30"
+  dependencies:
+    "@launchdarkly/js-client-sdk-common": "npm:1.35.1"
+  peerDependencies:
+    "@launchdarkly/js-client-sdk": ^4.9.1
+    "@launchdarkly/react-sdk": ^4.1.4
+  peerDependenciesMeta:
+    "@launchdarkly/js-client-sdk":
+      optional: true
+    "@launchdarkly/react-sdk":
+      optional: true
+  checksum: 10/34ab61f85e0fd8e179dbae838b4fea161d26e961c59fc023941b2580df94fafe4c71b8636e340ef6916ef5f7355cef051a5ad389d0c065f215fa5b1aceb7aaa1
+  languageName: node
+  linkType: hard
+
 "@launchdarkly/js-client-sdk-common@npm:1.34.1":
   version: 1.34.1
   resolution: "@launchdarkly/js-client-sdk-common@npm:1.34.1"
   dependencies:
     "@launchdarkly/js-sdk-common": "npm:2.32.0"
   checksum: 10/d54c72d2056bfb268701dbcdea8cec5ea63e5bd19c56582111ace5c6cc13253a02f321bcacd14e63b2ee5c48eba96008851b3ed0ecab4598249a813b037b61eb
+  languageName: node
+  linkType: hard
+
+"@launchdarkly/js-client-sdk-common@npm:1.35.1":
+  version: 1.35.1
+  resolution: "@launchdarkly/js-client-sdk-common@npm:1.35.1"
+  dependencies:
+    "@launchdarkly/js-sdk-common": "npm:2.32.1"
+  checksum: 10/064ff8a49e686ac6b3cffcd903c7a43bf628959d6229d9c3acec8fa7a6ed5ee915a62bba15cdffb69d14ff5c32e3e3acf7798f9c7bcdd3a1a8aabeb2d73b9fd0
   languageName: node
   linkType: hard
 
@@ -4089,6 +4115,13 @@ __metadata:
   version: 2.32.0
   resolution: "@launchdarkly/js-sdk-common@npm:2.32.0"
   checksum: 10/4f4d9173d4129fec38d3641a99069c27d3c8b8046e47ca81d234258be2bde46b1ddea3ccac67059a48e4c486be4b1b20781d2b21ae9961170ae8a4848da52d41
+  languageName: node
+  linkType: hard
+
+"@launchdarkly/js-sdk-common@npm:2.32.1":
+  version: 2.32.1
+  resolution: "@launchdarkly/js-sdk-common@npm:2.32.1"
+  checksum: 10/761d774764106464c2d45ea37d1a8e816506d3aecf035d5b619133317ae3d623966ffd619fdf01fb7ef06595fb4aca7b1c5d88411327b0b3b923f95b97a12ad3
   languageName: node
   linkType: hard
 
@@ -14792,20 +14825,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"jest-launchdarkly-mock@npm:2.2.1":
-  version: 2.2.1
-  resolution: "jest-launchdarkly-mock@npm:2.2.1"
-  dependencies:
-    lodash.camelcase: "npm:^4.3.0"
-    lodash.kebabcase: "npm:^4.1.1"
-    lodash.snakecase: "npm:^4.1.1"
-  peerDependencies:
-    launchdarkly-react-client-sdk: ^3.0.0
-    react: ">=17.0.2"
-  checksum: 10/88a12ce3c337539c8ff88a62e1bc4066292d34b9381a11ff16206c43734e077e31f5e8ec9c34d45a99cc537d8a056c952572da739933dfda503a4a70639cf102
-  languageName: node
-  linkType: hard
-
 "jest-leak-detector@npm:30.0.5":
   version: 30.0.5
   resolution: "jest-leak-detector@npm:30.0.5"
@@ -15920,13 +15939,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"lodash.camelcase@npm:^4.3.0":
-  version: 4.3.0
-  resolution: "lodash.camelcase@npm:4.3.0"
-  checksum: 10/c301cc379310441dc73cd6cebeb91fb254bea74e6ad3027f9346fc43b4174385153df420ffa521654e502fd34c40ef69ca4e7d40ee7129a99e06f306032bfc65
-  languageName: node
-  linkType: hard
-
 "lodash.debounce@npm:^4.0.8":
   version: 4.0.8
   resolution: "lodash.debounce@npm:4.0.8"
@@ -15941,24 +15953,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"lodash.kebabcase@npm:^4.1.1":
-  version: 4.1.1
-  resolution: "lodash.kebabcase@npm:4.1.1"
-  checksum: 10/d84ec5441ef8e5c718c50315f35b0a045a77c7e8ee3e54472c06dc31f6f3602e95551a16c0923d689198b51deb8902c4bbc54fc9b965b26c1f86e21df3a05f34
-  languageName: node
-  linkType: hard
-
 "lodash.merge@npm:4.6.2":
   version: 4.6.2
   resolution: "lodash.merge@npm:4.6.2"
   checksum: 10/d0ea2dd0097e6201be083865d50c3fb54fbfbdb247d9cc5950e086c991f448b7ab0cdab0d57eacccb43473d3f2acd21e134db39f22dac2d6c9ba6bf26978e3d6
-  languageName: node
-  linkType: hard
-
-"lodash.snakecase@npm:^4.1.1":
-  version: 4.1.1
-  resolution: "lodash.snakecase@npm:4.1.1"
-  checksum: 10/82ed40935d840477ef8fee64f9f263f75989c6cde36b84aae817246d95826228e1b5a7f6093c51de324084f86433634c7af244cb89496633cacfe443071450d0
   languageName: node
   linkType: hard
 
@@ -19959,6 +19957,7 @@ __metadata:
     "@gitbook/embed": "patch:@gitbook/embed@npm%3A0.5.1#./.yarn/patches/@gitbook-embed-npm-0.5.1-23299eafd8.patch"
     "@hey-api/openapi-ts": "npm:0.99.0"
     "@jupyterlab/nbformat": "npm:4.6.1"
+    "@launchdarkly/client-testing-plugin": "npm:1.0.30"
     "@launchdarkly/react-sdk": "npm:4.1.29"
     "@launchdarkly/toolbar": "npm:2.3.1"
     "@nx/devkit": "npm:23.3.2"
@@ -20057,7 +20056,6 @@ __metadata:
     jest-environment-jsdom: "npm:30.5.2"
     jest-environment-node: "npm:30.5.2"
     jest-fail-on-console: "npm:3.3.4"
-    jest-launchdarkly-mock: "npm:2.2.1"
     jest-slow-test-reporter: "npm:1.0.0"
     jest-watch-typeahead: "npm:3.0.1"
     knip: "npm:6.44.1"

@@ -76,10 +76,19 @@ ruleTester.run('no-direct-analytics-sdk-calls', noDirectAnalyticsSdkCalls, {
     },
     {
       code: `
-      declare module 'jest-launchdarkly-mock' {
+      declare module '~shared/helpers/launchdarkly-test-utils' {
         export const ldClientMock: {
           identify: () => void;
         };
+      }
+      `,
+    },
+    {
+      code: `
+      import * as LaunchDarklyReactSdk from '@launchdarkly/react-sdk';
+
+      export function readClient() {
+        return LaunchDarklyReactSdk.useLDClient();
       }
       `,
     },

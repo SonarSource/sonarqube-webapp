@@ -20,7 +20,7 @@
 
 import { screen } from '@testing-library/react';
 import { Link, Route, useLocation } from 'react-router';
-import { renderWithRouter, renderWithRoutes } from '../test-utils';
+import { renderWithContext, renderWithRouter, renderWithRoutes } from '../test-utils';
 
 function LocationProbe() {
   const { pathname, search } = useLocation();
@@ -58,4 +58,37 @@ it('supports browser navigation in the single-element harness', async () => {
   await user.click(screen.getByRole('link', { name: 'next' }));
   expect(await screen.findByRole('status')).toHaveTextContent('/next');
   expect(window.location.pathname).toBe('/next');
+});
+
+it('renders with the context harness defaults', () => {
+  renderWithContext(<span>context child</span>);
+
+  expect(screen.getByText('context child')).toBeInTheDocument();
+});
+
+it('supports memory navigation in the single-element harness', async () => {
+  const { user } = renderWithRouter(<Link to="/next?tab=memory">next</Link>, {
+    additionalRoutes: <Route element={<LocationProbe />} path="/next" />,
+  });
+
+  await user.click(screen.getByRole('link', { name: 'next' }));
+
+  expect(await screen.findByRole('status')).toHaveTextContent('/next?tab=memory');
+});
+
+it('supports memory navigation in the routes harness', async () => {
+  const { user } = renderWithRoutes(
+    <>
+      <Route element={<Link to="/next?tab=memory">next</Link>} path="/start" />
+
+      <Route element={<LocationProbe />} path="/next" />
+    </>,
+    {
+      initialEntries: ['/start'],
+    },
+  );
+
+  await user.click(screen.getByRole('link', { name: 'next' }));
+
+  expect(await screen.findByRole('status')).toHaveTextContent('/next?tab=memory');
 });

@@ -22,6 +22,10 @@ React-based interactive graph visualization library used by `feature-architectur
 
 Parses scheduled Remediation Agent recurrence rules to calculate the next run with timezone and daylight-saving support.
 
+### @launchdarkly/client-testing-plugin
+
+Provides SQC tests with the official LaunchDarkly client, React provider, and flag overrides.
+
 ### @launchdarkly/react-sdk
 
 LaunchDarkly SDK for React used by sq-cloud to manage feature flags.
@@ -148,14 +152,6 @@ Finds files matching patterns in validation scripts, Jest configuration, and Clo
 ### http-proxy-middleware
 
 Used by sq-cloud to proxy websockets correctly.
-
-### jest-launchdarkly-mock
-
-Used by tests as the stable import surface for LaunchDarkly mocks.
-
-The upstream package still mocks `launchdarkly-react-client-sdk` directly, so the workspace Jest
-config remaps the `jest-launchdarkly-mock` module name to a shared setup shim that targets
-`@launchdarkly/react-sdk` instead.
 
 ### jest-watch-typeahead
 

@@ -49,7 +49,10 @@ module.exports = {
         ) {
           fnNames.push(
             ...node.specifiers
-              .filter((specifier) => specifier.imported.name === 'useFlags')
+              .filter(
+                (specifier) =>
+                  specifier.type === 'ImportSpecifier' && specifier.imported.name === 'useFlags',
+              )
               .map((specifier) => specifier.local.name),
           );
         }

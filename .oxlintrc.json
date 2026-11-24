@@ -914,7 +914,7 @@
           "error",
           {
             "selector": "CallExpression[callee.object.name='jest'][callee.property.name='mock'][arguments.0.value='launchdarkly-react-client-sdk']",
-            "message": "Mock @launchdarkly/react-sdk instead of launchdarkly-react-client-sdk."
+            "message": "Mock @launchdarkly/react-sdk or use ~adapters/helpers/feature-flags-test-utils instead of launchdarkly-react-client-sdk."
           },
           {
             "selector": "CallExpression[callee.object.name='jest'][callee.property.name='requireActual'][arguments.0.value='launchdarkly-react-client-sdk']",
