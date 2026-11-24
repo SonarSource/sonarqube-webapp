@@ -112,6 +112,7 @@ export function Sca({
       d.subCategory === 'SCA' &&
       d.key !== 'sonar.sca.featureEnabled' &&
       d.key !== 'sonar.sca.analysisMode' &&
+      d.key !== 'sonar.sca.lightwell.enabled' &&
       !d.key.startsWith('sonar.sca.rescan'),
   );
 
