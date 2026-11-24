@@ -34,7 +34,6 @@ import {
 import { useEffect, useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { SharedDocLink, useSharedDocUrl } from '~adapters/helpers/docs';
-import { BetaBadge } from '~shared/components/badges/BetaBadge';
 import { RescanSettings } from '~shared/components/sca/RescanSettings';
 import useLocalStorage from '~shared/helpers/useLocalStorage';
 import { EntitlementCheckFeatureKey } from '~shared/types/billing';
@@ -245,12 +244,7 @@ export function Sca({
             {scaOtherDefinitions.map((definition) => (
               <Definition definition={definition} key={definition.key} />
             ))}
-            {scaAnalysisModeDefinition && (
-              <div>
-                <BetaBadge className="sw:mb-2" />
-                <Definition definition={scaAnalysisModeDefinition} />
-              </div>
-            )}
+            {scaAnalysisModeDefinition && <Definition definition={scaAnalysisModeDefinition} />}
           </div>
         </div>
       )}
