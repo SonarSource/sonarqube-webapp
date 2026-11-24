@@ -22,7 +22,16 @@ import { Route } from 'react-router';
 import { lazyLoadComponent } from '~shared/helpers/lazyLoadComponent';
 
 const GroupsApp = lazyLoadComponent(() => import('./GroupsApp'));
+const GroupNotificationsApp = lazyLoadComponent(() => import('./GroupNotificationsApp'));
 
-const routes = () => <Route element={<GroupsApp />} path="groups" />;
+const routes = () => (
+  <>
+    <Route element={<GroupsApp />} path="groups" />
+    <Route path="group-notifications">
+      <Route element={<GroupNotificationsApp />} index />
+      <Route element={<GroupNotificationsApp />} path=":notificationType" />
+    </Route>
+  </>
+);
 
 export default routes;

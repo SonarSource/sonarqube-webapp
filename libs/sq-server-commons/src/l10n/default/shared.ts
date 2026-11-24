@@ -875,6 +875,7 @@ export const sharedMessages = {
   'notification.for': 'Notify me for',
   'notification.by': 'by {channel}',
   'notification.channel.EmailNotificationChannel': 'Email',
+  'notification.channel.BannerChannel': 'Banner',
   'notification.dispatcher.information': 'A notification is never sent to the author of the event.',
   'notification.dispatcher.ChangesOnMyIssue': 'Changes in issues/hotspots assigned to me',
   'notification.dispatcher.NewIssues': 'New issues',
@@ -1669,11 +1670,11 @@ export const sharedMessages = {
   'group_notifications.add': 'Add subscription',
   'group_notifications.empty': 'No group subscriptions configured.',
   'group_notifications.notification_type': 'Notification type',
-  'group_notifications.subscriptions': 'Notification subscriptions',
+  'group_notifications.subscriptions': 'Subscriptions',
   'group_notifications.manage_subscriptions': 'Manage subscriptions',
-  'group_notifications.subscriptions_count':
-    '{count, plural, one {# subscription} other {# subscriptions}}',
-  'group_notifications.remove_subscription': 'Remove {type}',
+  'group_notifications.subscribed_groups_count':
+    '{count, plural, one {# subscribed group} other {# subscribed groups}}',
+  'group_notifications.remove_subscription': 'Unsubscribe this group from {type}?',
 
   'security_alerts.page.intro':
     'Security alerts are shown when critical findings are detected in your projects that could need immediate remediation. Review them to understand the risk and take action when needed.',

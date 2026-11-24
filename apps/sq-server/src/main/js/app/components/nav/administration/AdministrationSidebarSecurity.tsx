@@ -20,8 +20,14 @@
 
 import { IconSecurityFinding, Layout } from '@sonarsource/echoes-react';
 import { FormattedMessage } from 'react-intl';
+import { useFlag } from '~sq-server-commons/sq-server-adapters/helpers/feature-flags';
+import { GROUP_NOTIFICATIONS_BASE_PATH } from '../../../../apps/groups/constants';
 
 export function AdministrationSidebarSecurity() {
+  const scaEnableGroupNotificationSubscriptions = useFlag(
+    'scaEnableGroupNotificationSubscriptions',
+  );
+
   return (
     <Layout.SidebarNavigation.AccordionItem
       Icon={IconSecurityFinding}
@@ -34,6 +40,15 @@ export function AdministrationSidebarSecurity() {
       <Layout.SidebarNavigation.AccordionItem.Item isMatchingFullPath to="/admin/groups">
         <FormattedMessage id="user_groups.page" />
       </Layout.SidebarNavigation.AccordionItem.Item>
+
+      {scaEnableGroupNotificationSubscriptions && (
+        <Layout.SidebarNavigation.AccordionItem.Item
+          isMatchingFullPath
+          to={GROUP_NOTIFICATIONS_BASE_PATH}
+        >
+          <FormattedMessage id="group_notifications.page" />
+        </Layout.SidebarNavigation.AccordionItem.Item>
+      )}
 
       <Layout.SidebarNavigation.AccordionItem.Item isMatchingFullPath to="/admin/permissions">
         <FormattedMessage id="global_permissions.page" />

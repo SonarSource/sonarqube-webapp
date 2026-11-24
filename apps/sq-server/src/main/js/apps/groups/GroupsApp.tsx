@@ -26,7 +26,6 @@ import ListFooter from '~shared/components/controls/ListFooter';
 import { ManagedFilter } from '~sq-server-commons/components/controls/ManagedFilter';
 import { AdminPageTemplate } from '~sq-server-commons/components/ui/AdminPageTemplate';
 import { translate } from '~sq-server-commons/helpers/l10n';
-import { useGroupNotificationSubscriptionsQuery } from '~sq-server-commons/queries/group-notifications';
 import { useGroupsQueries } from '~sq-server-commons/queries/groups';
 import { useIdentityProviderQuery } from '~sq-server-commons/queries/identity-provider/common';
 import { Provider } from '~sq-server-commons/types/types';
@@ -48,9 +47,6 @@ export default function GroupsApp() {
   });
 
   const groups = data?.pages.flatMap((page) => page.groups) ?? [];
-
-  const { data: subscriptionsData } = useGroupNotificationSubscriptionsQuery();
-  const subscriptions = subscriptionsData?.subscriptions ?? [];
 
   return (
     <AdminPageTemplate
@@ -83,11 +79,7 @@ export default function GroupsApp() {
               />
             </div>
 
-            <List
-              groups={groups}
-              manageProvider={manageProvider?.provider}
-              subscriptions={subscriptions}
-            />
+            <List groups={groups} manageProvider={manageProvider?.provider} />
 
             <ListFooter
               count={groups.length}

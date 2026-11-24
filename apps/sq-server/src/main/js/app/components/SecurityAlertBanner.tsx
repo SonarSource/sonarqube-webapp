@@ -21,6 +21,7 @@
 import { Layout, Link } from '@sonarsource/echoes-react';
 import { useContext } from 'react';
 import { FormattedMessage } from 'react-intl';
+import { GROUP_NOTIFICATION_CHANNEL } from '~shared/components/group-notifications/constants';
 import { getSecurityAlertsUrl } from '~shared/helpers/security-alerts-urls';
 import { useNewestSecurityAlertQuery } from '~shared/queries/security-alerts';
 import { SecurityAlertSortField, SortDirection } from '~shared/types/security-alert';
@@ -38,7 +39,9 @@ export function SecurityAlertBanner() {
   const receivesAlerts =
     currentUser.isLoggedIn &&
     (subscriptions?.groupSubscriptions ?? []).some(
-      (s) => s.notificationType === NotificationGroupType.SecurityAlertRaised,
+      (s) =>
+        s.notificationType === NotificationGroupType.SecurityAlertRaised &&
+        s.channelKey === GROUP_NOTIFICATION_CHANNEL.Banner,
     );
 
   const { data } = useNewestSecurityAlertQuery(undefined, { enabled: receivesAlerts });

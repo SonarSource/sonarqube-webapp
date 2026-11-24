@@ -30,6 +30,7 @@ import { mockUserToken } from '~sq-server-commons/helpers/mocks/token';
 import { setKeyboardShortcutEnabled } from '~sq-server-commons/helpers/preferences';
 import { mockCurrentUser, mockLoggedInUser } from '~sq-server-commons/helpers/testMocks';
 import { renderAppRoutes } from '~sq-server-commons/helpers/testReactTestingUtils';
+import * as sqsFeatureFlags from '~sq-server-commons/sq-server-adapters/helpers/feature-flags';
 import {
   NotificationGlobalType,
   NotificationProjectType,
@@ -44,17 +45,43 @@ jest.mock('~sq-server-commons/helpers/preferences', () => ({
   setKeyboardShortcutEnabled: jest.fn(),
 }));
 
+jest.mock('~sq-server-commons/queries/group-notifications', () => ({
+  useMyGroupSubscriptionsQuery: () => ({
+    data: {
+      groupSubscriptions: [
+        {
+          channelKey: 'BannerChannel',
+          groupName: 'security-team',
+          groupUuid: 'group-1',
+          notificationType: 'security-alert-raised',
+        },
+      ],
+    },
+    isLoading: false,
+  }),
+}));
+
 jest.mock('~sq-server-commons/helpers/dates', () => {
+  const actual = jest.requireActual<typeof import('~sq-server-commons/helpers/dates')>(
+    '~sq-server-commons/helpers/dates',
+  );
+
   return {
-    ...jest.requireActual('~sq-server-commons/helpers/dates'),
+    ...actual,
     now: jest.fn(() => new Date('2022-06-01T12:00:00Z')),
   };
 });
 
 jest.mock('~sq-server-commons/api/settings', () => {
-  const { SettingsKey } = jest.requireActual('~sq-server-commons/types/settings');
+  const settings = jest.requireActual<typeof import('~sq-server-commons/api/settings')>(
+    '~sq-server-commons/api/settings',
+  );
+  const { SettingsKey } = jest.requireActual<typeof import('~sq-server-commons/types/settings')>(
+    '~sq-server-commons/types/settings',
+  );
+
   return {
-    ...jest.requireActual('~sq-server-commons/api/settings'),
+    ...settings,
     getAllValues: jest.fn().mockResolvedValue([
       {
         key: SettingsKey.TokenMaxAllowedLifetime,
@@ -64,84 +91,89 @@ jest.mock('~sq-server-commons/api/settings', () => {
   };
 });
 
-jest.mock('~sq-server-commons/api/components', () => ({
-  getMyProjects: jest.fn().mockResolvedValue({
-    paging: { total: 2, pageIndex: 1, pageSize: 10 },
-    projects: [
-      {
-        key: 'proj1',
-        name: 'Project 1',
-        links: [
-          {
-            type: 'homepage',
-            href: 'http://www.sonarsource.com/proj1',
-          },
-          {
-            type: 'issue',
-            href: 'http://jira.sonarsource.com/',
-          },
-          {
-            type: 'scm',
-            href: 'https://github.com/SonarSource/project1',
-          },
-          {
-            type: 'ci',
-            href: 'https://travis.com/project1',
-          },
-          {
-            type: 'other',
-            href: 'https://apidocs.project1.net',
-          },
-        ],
-        description: 'project description',
-        lastAnalysisDate: '2019-01-04T09:51:48+0000',
-        qualityGate: 'OK',
-      },
-      {
-        key: 'proj2',
-        name: 'Project 2',
-        links: [],
-      },
-    ],
-  }),
-  getSuggestions: jest.fn().mockResolvedValue({
-    results: [
-      {
-        q: 'TRK',
-        items: [
-          {
-            isFavorite: true,
-            isRecentlyBrowsed: true,
-            key: 'sonarqube',
-            match: 'SonarQube',
-            name: 'SonarQube',
-            project: '',
-          },
-          {
-            isFavorite: false,
-            isRecentlyBrowsed: false,
-            key: 'sonarcloud',
-            match: 'Sonarcloud',
-            name: 'Sonarcloud',
-            project: '',
-          },
-        ],
-      },
-    ],
-  }),
-  getScannableProjects: jest.fn().mockResolvedValue({
-    projects: [
-      {
-        key: 'project-key-1',
-        name: 'Project Name 1',
-      },
-      {
-        key: 'project-key-2',
-        name: 'Project Name 2',
-      },
-    ],
-  }),
-}));
+jest.mock('~sq-server-commons/api/components', () => {
+  const { ComponentQualifier } =
+    jest.requireActual<typeof import('~shared/types/component')>('~shared/types/component');
+
+  return {
+    getMyProjects: jest.fn().mockResolvedValue({
+      paging: { total: 2, pageIndex: 1, pageSize: 10 },
+      projects: [
+        {
+          key: 'proj1',
+          name: 'Project 1',
+          links: [
+            {
+              type: 'homepage',
+              href: 'http://www.sonarsource.com/proj1',
+            },
+            {
+              type: 'issue',
+              href: 'http://jira.sonarsource.com/',
+            },
+            {
+              type: 'scm',
+              href: 'https://github.com/SonarSource/project1',
+            },
+            {
+              type: 'ci',
+              href: 'https://travis.com/project1',
+            },
+            {
+              type: 'other',
+              href: 'https://apidocs.project1.net',
+            },
+          ],
+          description: 'project description',
+          lastAnalysisDate: '2019-01-04T09:51:48+0000',
+          qualityGate: 'OK',
+        },
+        {
+          key: 'proj2',
+          name: 'Project 2',
+          links: [],
+        },
+      ],
+    }),
+    getSuggestions: jest.fn().mockResolvedValue({
+      results: [
+        {
+          q: ComponentQualifier.Project,
+          items: [
+            {
+              isFavorite: true,
+              isRecentlyBrowsed: true,
+              key: 'sonarqube',
+              match: 'SonarQube',
+              name: 'SonarQube',
+              project: '',
+            },
+            {
+              isFavorite: false,
+              isRecentlyBrowsed: false,
+              key: 'sonarcloud',
+              match: 'Sonarcloud',
+              name: 'Sonarcloud',
+              project: '',
+            },
+          ],
+        },
+      ],
+    }),
+    getScannableProjects: jest.fn().mockResolvedValue({
+      projects: [
+        {
+          key: 'project-key-1',
+          name: 'Project Name 1',
+        },
+        {
+          key: 'project-key-2',
+          name: 'Project Name 2',
+        },
+      ],
+    }),
+  };
+});
 
 jest.mock('~sq-server-commons/api/users', () => ({
   getIdentityProviders: jest.fn().mockResolvedValue({
@@ -339,34 +371,21 @@ describe('security page', () => {
       expect(screen.getByRole('button', { name: 'copy_to_clipboard' })).toBeInTheDocument();
 
       const lastTokenCreated = tokenMock.getLastToken();
-      // eslint-disable-next-line jest/no-conditional-in-test
-      if (lastTokenCreated === undefined) {
-        throw new Error("Couldn't find the latest generated token.");
-      }
-      // eslint-disable-next-line jest/no-conditional-in-test
-      expect(screen.getByLabelText('users.new_token')).toHaveTextContent(
-        // eslint-disable-next-line jest/no-conditional-in-test
-        lastTokenCreated.token ?? '',
-      );
+      expect(lastTokenCreated).toHaveProperty('token');
+      expect(screen.getByLabelText('users.new_token')).toHaveTextContent(lastTokenCreated!.token!);
 
       expect(screen.getAllByRole('row')).toHaveLength(4); // 3 tokens + header
 
-      const row = screen.getByRole('row', {
+      const row = byRole('row', {
         name: new RegExp(`^${newTokenName}`),
       });
 
-      expect(await within(row).findByText(tokenTypeShortLabel)).toBeInTheDocument();
-      // eslint-disable-next-line jest/no-conditional-in-test
-      if (tokenTypeOption === TokenType.Project) {
-        // eslint-disable-next-line jest-js/no-conditional-expect
-        expect(await within(row).findByText('Project Name 1')).toBeInTheDocument();
-      }
+      expect(await row.byText(tokenTypeShortLabel).find()).toBeInTheDocument();
 
       // Revoke the token
-      const revokeButtons = within(row).getByRole('button', {
-        name: 'users.tokens.revoke_label.importantToken',
-      });
-      await user.click(revokeButtons);
+      await user.click(
+        row.byRole('button', { name: 'users.tokens.revoke_label.importantToken' }).get(),
+      );
 
       expect(
         screen.getByRole('heading', { name: 'users.tokens.revoke_label.importantToken' }),
@@ -397,14 +416,12 @@ describe('security page', () => {
     expect(await screen.findByText('users.tokens.generate')).toBeInTheDocument();
 
     // expired token is flagged as such
-    const expiredTokenRow = await screen.findByRole('row', { name: /expired token/ });
-    expect(within(expiredTokenRow).getByText('my_account.tokens.expired')).toBeInTheDocument();
-
-    // unexpired token is not flagged
-    const unexpiredTokenRow = screen.getAllByRole('row')[0];
     expect(
-      within(unexpiredTokenRow).queryByText('my_account.tokens.expired'),
-    ).not.toBeInTheDocument();
+      await byRole('row', { name: /expired token/ })
+        .byText('my_account.tokens.expired')
+        .find(),
+    ).toBeInTheDocument();
+    expect(byRole('row').byText('my_account.tokens.expired').getAll()).toHaveLength(1);
   });
 
   it("should not suggest creating a Project token if the user doesn't have at least one scannable Projects", async () => {
@@ -510,22 +527,53 @@ describe('notifications page', () => {
   };
 
   let notificationsMock: NotificationsMock;
+  const getDefaultSqsFlag = sqsFeatureFlags.useFlag;
+
+  const mockGroupNotificationFlag = (enabled: boolean) => {
+    jest
+      .spyOn(sqsFeatureFlags, 'useFlag')
+      .mockImplementation((name) =>
+        name === 'scaEnableGroupNotificationSubscriptions' ? enabled : getDefaultSqsFlag(name),
+      );
+  };
+
   beforeAll(() => {
     notificationsMock = new NotificationsMock();
   });
 
   afterEach(() => {
+    jest.restoreAllMocks();
     notificationsMock.reset();
   });
 
   const notificationsPagePath = 'account/notifications';
 
+  it('hides group notifications when the feature is disabled', async () => {
+    mockGroupNotificationFlag(false);
+    renderAccountApp(mockLoggedInUser(), notificationsPagePath);
+
+    expect(await globalUI.title.find()).toBeInTheDocument();
+    expect(
+      screen.queryByRole('heading', { name: 'group_notifications.title' }),
+    ).not.toBeInTheDocument();
+  });
+
   it('should display global notifications status and allow edits', async () => {
     const user = userEvent.setup({ delay: null });
+    mockGroupNotificationFlag(true);
 
     renderAccountApp(mockLoggedInUser(), notificationsPagePath);
 
     expect(await globalUI.title.find()).toBeInTheDocument();
+    expect(
+      await screen.findByRole('heading', { name: 'group_notifications.title' }),
+    ).toBeInTheDocument();
+    expect(screen.getByText('group_notifications.account_description.server')).toBeInTheDocument();
+    expect(screen.getByText('notification.dispatcher.security-alert-raised')).toBeInTheDocument();
+    expect(screen.queryByText('security-team')).not.toBeInTheDocument();
+    expect(
+      screen.queryByRole('button', { name: 'group_notifications.edit_delivery_methods' }),
+    ).not.toBeInTheDocument();
 
     /*
      * Verify Checkbox statuses
@@ -611,18 +659,14 @@ describe('projects page', () => {
 
     expect(await screen.findByText('my_account.projects.description')).toBeInTheDocument();
 
-    const project1 = getProjectBlock('Project 1');
-    expect(within(project1).getAllByRole('link')).toHaveLength(6);
-
-    const project2 = getProjectBlock('Project 2');
-
-    // FP
-    // eslint-disable-next-line jest-dom/prefer-in-document
-    expect(within(project2).getAllByRole('link')).toHaveLength(1);
+    // eslint-disable-next-line local-rules/no-within -- links need scoping to their project card
+    expect(within(getProjectBlock('Project 1')).getAllByRole('link')).toHaveLength(6);
+    // eslint-disable-next-line local-rules/no-within -- links need scoping to their project card
+    expect(within(getProjectBlock('Project 2')).getAllByRole('link')).toHaveLength(1);
   });
 
   it('should handle no projects', async () => {
-    (getMyProjects as jest.Mock).mockResolvedValueOnce({
+    jest.mocked(getMyProjects).mockResolvedValueOnce({
       paging: { total: 0, pageIndex: 1, pageSize: 10 },
       projects: [],
     });
@@ -634,7 +678,8 @@ describe('projects page', () => {
   it('should handle pagination', async () => {
     const user = userEvent.setup();
 
-    (getMyProjects as jest.Mock)
+    jest
+      .mocked(getMyProjects)
       .mockResolvedValueOnce({
         paging: { total: 2, pageIndex: 1, pageSize: 1 },
         projects: [
@@ -658,8 +703,6 @@ describe('projects page', () => {
 
     renderAccountApp(mockLoggedInUser(), projectsPagePath);
 
-    // FP
-    // eslint-disable-next-line jest-dom/prefer-in-document
     expect(await screen.findAllByRole('heading', { name: /Project \d/ })).toHaveLength(1);
 
     const showMoreButton = await screen.findByRole('button', { name: 'show_more' });
@@ -676,17 +719,16 @@ async function fillTextField(user: UserEvent, field: HTMLElement, value: string)
 }
 
 function getProjectBlock(projectName: string) {
-  const result = screen
+  const project = screen
     .getAllByRole('listitem')
-    .find((element) => within(element).queryByRole('heading', { name: projectName }) !== null);
+    // eslint-disable-next-line local-rules/no-within -- list items do not expose a project name
+    .find((item) => within(item).queryByRole('heading', { name: projectName }));
 
-  if (!result) {
-    // eslint-disable-next-line testing-library/no-debugging-utils
-    screen.debug(screen.getAllByRole('listitem'));
+  if (!project) {
     throw new Error(`Could not find project ${projectName}`);
   }
 
-  return result;
+  return project;
 }
 
 function renderAccountApp(currentUser: CurrentUser, navigateTo?: string) {

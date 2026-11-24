@@ -19,19 +19,14 @@
  */
 
 import { axiosClient } from '~shared/helpers/axios-clients';
+import { GROUP_NOTIFICATION_CHANNEL } from '~shared/components/group-notifications/constants';
+import type { GroupNotificationSubscriptionsResponse } from '~shared/types/group-notifications';
 import { MyGroupNotificationSubscription } from '../types/notifications';
 
 const NOTIFICATIONS_ENDPOINT = '/api/notifications';
 
-export interface GroupNotificationSubscription {
-  channelKey: string;
-  groupName: string;
-  groupUuid: string;
-  notificationType: string;
-}
-
 export function listGroupNotificationSubscriptions() {
-  return axiosClient.get<{ subscriptions: GroupNotificationSubscription[] }>(
+  return axiosClient.get<GroupNotificationSubscriptionsResponse>(
     `${NOTIFICATIONS_ENDPOINT}/list_groups`,
   );
 }
@@ -42,10 +37,32 @@ export function listMyGroupNotificationSubscriptions() {
   );
 }
 
-export function addGroupNotificationSubscription(params: { groupUuid: string; type: string }) {
-  return axiosClient.post(`${NOTIFICATIONS_ENDPOINT}/add_group`, new URLSearchParams(params));
+export function addGroupNotificationSubscription(params: {
+  channel?: string;
+  groupUuid: string;
+  type: string;
+}) {
+  const { channel, ...subscription } = params;
+  return axiosClient.post(
+    `${NOTIFICATIONS_ENDPOINT}/add_group`,
+    new URLSearchParams({
+      ...subscription,
+      ...(channel && channel !== GROUP_NOTIFICATION_CHANNEL.Email ? { channel } : {}),
+    }),
+  );
 }
 
-export function removeGroupNotificationSubscription(params: { groupUuid: string; type: string }) {
-  return axiosClient.post(`${NOTIFICATIONS_ENDPOINT}/remove_group`, new URLSearchParams(params));
+export function removeGroupNotificationSubscription(params: {
+  channel?: string;
+  groupUuid: string;
+  type: string;
+}) {
+  const { channel, ...subscription } = params;
+  return axiosClient.post(
+    `${NOTIFICATIONS_ENDPOINT}/remove_group`,
+    new URLSearchParams({
+      ...subscription,
+      ...(channel && channel !== GROUP_NOTIFICATION_CHANNEL.Email ? { channel } : {}),
+    }),
+  );
 }

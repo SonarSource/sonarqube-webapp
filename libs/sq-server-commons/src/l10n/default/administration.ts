@@ -1508,4 +1508,58 @@ export const administrationMessages = {
     'Your AutoImport choice could not be saved. Your Bitbucket workspace is still connected. Check the saved setting and try again in organization settings.',
   'organization.settings.binding.auto_import.bitbucket.error.unconfirmed':
     'We could not confirm your AutoImport setting. Your Bitbucket workspace is still connected. Reload organization settings to check the saved value before trying again.',
+  'group_notifications.page': 'Group notifications',
+  'group_notifications.page.description':
+    'Manage subscribed groups and delivery methods for each notification type.',
+  'group_notifications.title': 'Group notifications',
+  'group_notifications.group_subscriptions': 'Group subscriptions',
+  'group_notifications.overview_description':
+    'Manage subscribed groups and delivery methods for each notification type.',
+  'group_notifications.overview_aria': 'Group subscriptions by notification type',
+  'group_notifications.subscribed_groups': 'Subscribed groups',
+  'group_notifications.delivery_methods': 'Delivery methods',
+  'group_notifications.actions': 'Actions',
+  'group_notifications.manage': 'Manage',
+  'group_notifications.none_subscribed': 'No groups subscribed',
+  'group_notifications.detail_description':
+    'Choose Email, Banner, or both for each subscribed group.',
+  'group_notifications.detail_description.server':
+    'Manage email notifications for subscribed groups.',
+  'group_notifications.detail_aria': 'Subscribed groups for this notification type',
+  'group_notifications.subscription_count': '{count, plural, one {# group} other {# groups}}',
+  'group_notifications.subscribe_groups': 'Subscribe group',
+  'group_notifications.group_description': 'Choose a group to receive new security alerts.',
+  'group_notifications.edit_delivery_methods': 'Edit delivery methods',
+  'group_notifications.delivery_description': "Choose how the group's members will be notified",
+  'group_notifications.delivery_description.server':
+    "Choose how the group's members will be notified",
+  'group_notifications.delivery_method.email_description': 'Send an email to group members',
+  'group_notifications.delivery_method.banner_description':
+    'Notify group members with an in-app banner',
+  'group_notifications.validation.group_required': 'Select a group to continue.',
+  'group_notifications.validation.delivery_method_required': 'Select at least one delivery method.',
+  'group_notifications.unsubscribe_info':
+    'Saving with no delivery methods will unsubscribe this group.',
+  'group_notifications.select_group': 'Select a group',
+  'group_notifications.load_more_groups': 'Load more groups',
+  'group_notifications.load_more_error': 'Could not load more groups. Try again.',
+  'group_notifications.load_error': 'Could not load group notifications. Try again.',
+  'group_notifications.save_error': 'Could not save delivery methods. Try again.',
+  'group_notifications.remove_error': 'Could not remove the group subscription. Try again.',
+  'group_notifications.all_groups_subscribed':
+    'All available groups are already subscribed to this notification.',
+  'group_notifications.remove_subscription.confirmation':
+    'Members of this group will no longer receive notifications when new security alerts are raised.',
+  'group_notifications.no_groups_available': 'No available groups to subscribe.',
+  'group_notifications.account_aria': 'Group notifications I receive',
+  'group_notifications.account_description':
+    'You receive these notifications because you belong to the groups listed below. When email is selected for a group, notifications are sent to your account email address. Group notifications are managed by your organization admin. To change what you receive or how you’re notified, contact your organization admin.',
+  'group_notifications.account_description.server':
+    'You receive these notifications because you belong to the groups listed below. When email is selected for a group, notifications are sent to your account email address. Group notifications are managed by your system administrator. To change what you receive or how you’re notified, contact your system administrator.',
+  'group_notifications.no_memberships': 'You do not receive any group notifications.',
+  'group_notifications.group': 'Group',
+  'group_notifications.remove': 'Remove',
+  'group_notifications.modal.title': 'Add group subscription',
+  'group_notifications.modal.select_group': 'Select a group',
+  'group_notifications.modal.select_type': 'Select a notification type',
 };

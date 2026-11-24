@@ -47,12 +47,32 @@ const OLD_ALERT_RESPONSE = {
 
 const SUBSCRIBED_RESPONSE = {
   groupSubscriptions: [
-    { groupName: 'security-team', notificationType: NotificationGroupType.SecurityAlertRaised },
+    {
+      channelKey: 'BannerChannel',
+      groupName: 'security-team',
+      notificationType: NotificationGroupType.SecurityAlertRaised,
+    },
   ],
 };
 
 const UNSUBSCRIBED_RESPONSE = {
-  groupSubscriptions: [{ groupName: 'other-group', notificationType: 'some-other-type' }],
+  groupSubscriptions: [
+    {
+      channelKey: 'BannerChannel',
+      groupName: 'other-group',
+      notificationType: 'some-other-type',
+    },
+  ],
+};
+
+const EMAIL_ONLY_RESPONSE = {
+  groupSubscriptions: [
+    {
+      channelKey: 'EmailNotificationChannel',
+      groupName: 'security-team',
+      notificationType: NotificationGroupType.SecurityAlertRaised,
+    },
+  ],
 };
 
 const EMPTY_SUBSCRIPTIONS_RESPONSE = {
@@ -88,7 +108,9 @@ it('renders nothing when there are no open alerts', async () => {
   renderComponent(<SecurityAlertBanner />, '/', {
     currentUser: mockLoggedInUser(),
   });
-  await waitFor(() => expect(ui.banner.query()).not.toBeInTheDocument());
+  await waitFor(() => {
+    expect(ui.banner.query()).not.toBeInTheDocument();
+  });
 });
 
 it('renders banner with list link when an open alert exists', async () => {
@@ -118,6 +140,23 @@ it('renders nothing when subscriptions contain no security-alert-raised entry', 
   });
 
   await expect(ui.banner.find()).rejects.toThrow();
+});
+
+it('does not render the banner for an Email-only subscription', async () => {
+  server.use(
+    http.get('/api/v2/security-alerts/alerts', () => HttpResponse.json(ALERT_RESPONSE)),
+    http.get('/api/notifications/list_group_subscriptions', () =>
+      HttpResponse.json(EMAIL_ONLY_RESPONSE),
+    ),
+  );
+
+  renderComponent(<SecurityAlertBanner />, '/', {
+    currentUser: mockLoggedInUser(),
+  });
+
+  await waitFor(() => {
+    expect(ui.banner.query()).not.toBeInTheDocument();
+  });
 });
 
 it('renders nothing when the most recent alert is older than one week', async () => {

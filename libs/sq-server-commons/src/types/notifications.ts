@@ -31,7 +31,9 @@ export enum NotificationGroupType {
 }
 
 export interface MyGroupNotificationSubscription {
+  channelKey: string;
   groupName: string;
+  groupUuid: string;
   notificationType: string;
 }
 

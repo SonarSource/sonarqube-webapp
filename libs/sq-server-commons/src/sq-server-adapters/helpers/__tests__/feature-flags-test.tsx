@@ -64,6 +64,7 @@ describe('useFlags', () => {
       scaKeyChangesPrView: false,
       scaShowRiskCopyAiPromptButton: false,
     });
+    expect(result.current).not.toHaveProperty('scaEnableGroupNotificationSubscriptions');
   });
 });
 
@@ -71,10 +72,12 @@ describe('useFlag', () => {
   it('uses static SQS values for shared flag names', () => {
     const { result } = renderHook(() => ({
       extensionPack: useFlag('designArchitectureSquadExtensionPack'),
+      groupNotifications: useFlag('scaEnableGroupNotificationSubscriptions'),
       performanceLimits: useFlag('designArchitectureSquadPerformanceLimits'),
     }));
 
     expect(result.current.extensionPack).toBe(true);
+    expect(result.current.groupNotifications).toBe(true);
     expect(result.current.performanceLimits).toBe(DEFAULT_PERFORMANCE_LIMITS);
   });
 });

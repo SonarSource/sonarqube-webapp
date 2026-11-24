@@ -27,6 +27,7 @@ import { FlagSet } from '~shared/types/feature-flags';
 const sharedFlags: SharedFlagSet = {
   ...sharedFeatureFlagDefaults,
   designArchitectureSquadExtensionPack: true,
+  scaEnableGroupNotificationSubscriptions: true,
 };
 
 /**

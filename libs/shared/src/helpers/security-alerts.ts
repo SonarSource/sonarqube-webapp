@@ -25,6 +25,8 @@ import {
   SecurityAlertBranchScaRisk,
 } from '../types/security-alert';
 
+export const SECURITY_ALERT_BANNER_RECENCY_MS = 7 * 24 * 60 * 60 * 1000;
+
 export function getSecurityAlertTitle(
   alert: SecurityAlert | undefined,
   fallbackLabel: string,

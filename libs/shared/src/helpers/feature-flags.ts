@@ -24,6 +24,7 @@ import { DEFAULT_PERFORMANCE_LIMITS } from './architecture';
 export const sharedFeatureFlagDefaults = {
   designArchitectureSquadExtensionPack: false,
   designArchitectureSquadPerformanceLimits: DEFAULT_PERFORMANCE_LIMITS,
+  scaEnableGroupNotificationSubscriptions: false,
 };
 
 export type SharedFlagSet = typeof sharedFeatureFlagDefaults;

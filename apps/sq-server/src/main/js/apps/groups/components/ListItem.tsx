@@ -29,12 +29,10 @@ import {
 import { useState } from 'react';
 import { Image } from '~adapters/components/common/Image';
 import { ContentCell, NumericalCell, TableRow } from '~design-system';
-import { GroupNotificationSubscription } from '~sq-server-commons/api/group-notifications';
 import { useGroupMembersCountQuery } from '~sq-server-commons/queries/group-memberships';
 import { Group, Provider } from '~sq-server-commons/types/types';
 import DeleteGroupForm from './DeleteGroupForm';
 import GroupForm from './GroupForm';
-import { GroupNotificationSubscriptionsModal } from './GroupNotificationSubscriptionsModal';
 import Members from './Members';
 
 import { FormattedMessage, useIntl } from 'react-intl';
@@ -44,27 +42,19 @@ import { almIconUrl } from '~sq-server-commons/helpers/almIcons';
 export interface ListItemProps {
   group: Group;
   manageProvider: Provider | undefined;
-  subscriptions: GroupNotificationSubscription[];
 }
 
 export default function ListItem(props: Readonly<ListItemProps>) {
-  const { manageProvider, group, subscriptions } = props;
+  const { manageProvider, group } = props;
   const { name, managed, description } = group;
 
   const { formatMessage } = useIntl();
   const [groupToDelete, setGroupToDelete] = useState<Group | undefined>();
   const [groupToEdit, setGroupToEdit] = useState<Group | undefined>();
-  const [groupToSubscribe, setGroupToSubscribe] = useState<Group | undefined>();
 
   const { data: membersCount, isLoading, refetch } = useGroupMembersCountQuery(group.id);
 
   const currentTheme = useCurrentTheme();
-
-  const groupSubscriptionTypes = [
-    ...new Set(
-      subscriptions.filter((s) => s.groupUuid === group.id).map((s) => s.notificationType),
-    ),
-  ];
 
   const isManaged = () => {
     return manageProvider !== undefined;
@@ -107,59 +97,51 @@ export default function ListItem(props: Readonly<ListItemProps>) {
       </ContentCell>
       <NumericalCell>
         <Spinner isLoading={isLoading}>{membersCount}</Spinner>
-        <Members group={group} isManaged={isManaged()} onEdit={refetch} />
+        <Members
+          group={group}
+          isManaged={isManaged()}
+          onEdit={() => {
+            refetch().catch(() => undefined);
+          }}
+        />
       </NumericalCell>
       <ContentCell>{description}</ContentCell>
-      <ContentCell>
-        <div className="sw:flex sw:gap-2">
-          {groupSubscriptionTypes.map((notificationType) => (
-            <Badge key={notificationType} variety={BadgeVariety.Neutral}>
-              <FormattedMessage id={`notification.dispatcher.${notificationType}`} />
-            </Badge>
-          ))}
-        </div>
-      </ContentCell>
       <NumericalCell>
-        <DropdownMenu
-          id={`group-actions-${group.name}`}
-          items={
-            <>
-              {!group.default && !isManaged() && (
-                <DropdownMenu.ItemButton
-                  onClick={() => {
-                    setGroupToEdit(group);
-                  }}
-                >
-                  <FormattedMessage id="update_details" />
-                </DropdownMenu.ItemButton>
-              )}
-              <DropdownMenu.ItemButton
-                onClick={() => {
-                  setGroupToSubscribe(group);
-                }}
-              >
-                <FormattedMessage id="group_notifications.manage_subscriptions" />
-              </DropdownMenu.ItemButton>
-              {!group.default && (!isManaged() || isGroupLocal()) && (
-                <>
-                  <DropdownMenu.Separator />
-                  <DropdownMenu.ItemButtonDestructive
+        {!group.default && (!isManaged() || isGroupLocal()) && (
+          <DropdownMenu
+            id={`group-actions-${group.name}`}
+            items={
+              <>
+                {!group.default && !isManaged() && (
+                  <DropdownMenu.ItemButton
                     onClick={() => {
-                      setGroupToDelete(group);
+                      setGroupToEdit(group);
                     }}
                   >
-                    <FormattedMessage id="delete" />
-                  </DropdownMenu.ItemButtonDestructive>
-                </>
-              )}
-            </>
-          }
-        >
-          <ButtonIcon
-            Icon={IconMoreVertical}
-            ariaLabel={formatMessage({ id: 'groups.actions' }, { 0: group.name })}
-          />
-        </DropdownMenu>
+                    <FormattedMessage id="update_details" />
+                  </DropdownMenu.ItemButton>
+                )}
+                {!group.default && (!isManaged() || isGroupLocal()) && (
+                  <>
+                    <DropdownMenu.Separator />
+                    <DropdownMenu.ItemButtonDestructive
+                      onClick={() => {
+                        setGroupToDelete(group);
+                      }}
+                    >
+                      <FormattedMessage id="delete" />
+                    </DropdownMenu.ItemButtonDestructive>
+                  </>
+                )}
+              </>
+            }
+          >
+            <ButtonIcon
+              Icon={IconMoreVertical}
+              ariaLabel={formatMessage({ id: 'groups.actions' }, { 0: group.name })}
+            />
+          </DropdownMenu>
+        )}
         {groupToDelete && (
           <DeleteGroupForm
             group={groupToDelete}
@@ -174,14 +156,6 @@ export default function ListItem(props: Readonly<ListItemProps>) {
             group={groupToEdit}
             onClose={() => {
               setGroupToEdit(undefined);
-            }}
-          />
-        )}
-        {groupToSubscribe && (
-          <GroupNotificationSubscriptionsModal
-            group={groupToSubscribe}
-            onClose={() => {
-              setGroupToSubscribe(undefined);
             }}
           />
         )}

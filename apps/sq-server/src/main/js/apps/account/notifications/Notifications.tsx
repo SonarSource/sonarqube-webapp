@@ -21,9 +21,13 @@
 import { Divider, Heading, Label, Spinner, Text } from '@sonarsource/echoes-react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { Switch } from '~adapters/components/common/Switch';
+import { GroupNotificationSubscriptionsSection } from '~shared/components/group-notifications/GroupNotificationSubscriptionsSection';
 import { BEAMER_NOTIFICATIONS_SETTING } from '~shared/helpers/beamer';
 import useLocalStorage from '~shared/helpers/useLocalStorage';
+import { useMyGroupSubscriptionsQuery } from '~sq-server-commons/queries/group-notifications';
 import { useNotificationsQuery } from '~sq-server-commons/queries/notifications';
+import { useFlag } from '~sq-server-commons/sq-server-adapters/helpers/feature-flags';
+import type { MyGroupNotificationSubscription } from '~sq-server-commons/types/notifications';
 import { AccountPageTemplate } from '../components/AccountPageTemplate';
 import GlobalNotifications from './GlobalNotifications';
 import Projects from './Projects';
@@ -32,7 +36,26 @@ const NEWS_NOTIFICATION_FIELD_ID = 'news-notification-field';
 
 export default function Notifications() {
   const { formatMessage } = useIntl();
+  const scaEnableGroupNotificationSubscriptions = useFlag(
+    'scaEnableGroupNotificationSubscriptions',
+  );
   const { data: notificationResponse, isLoading } = useNotificationsQuery('user');
+  const {
+    data: groupSubscriptionsResponse,
+    isError: isGroupSubscriptionsError,
+    isLoading: isLoadingGroupSubscriptions,
+  } = useMyGroupSubscriptionsQuery({ enabled: scaEnableGroupNotificationSubscriptions });
+  const groupSubscriptions = Array.isArray(groupSubscriptionsResponse?.groupSubscriptions)
+    ? groupSubscriptionsResponse.groupSubscriptions.filter(isMyGroupNotificationSubscription)
+    : [];
+  const hasInvalidGroupSubscriptions =
+    groupSubscriptionsResponse !== undefined &&
+    (!Array.isArray(groupSubscriptionsResponse?.groupSubscriptions) ||
+      groupSubscriptions.length !== groupSubscriptionsResponse.groupSubscriptions.length);
+  const hasGroupSubscriptionsError =
+    isGroupSubscriptionsError ||
+    hasInvalidGroupSubscriptions ||
+    (!isLoadingGroupSubscriptions && groupSubscriptionsResponse === undefined);
   const { notifications } = notificationResponse || {
     channels: [],
     globalTypes: [],
@@ -61,7 +84,25 @@ export default function Notifications() {
 
             <GlobalNotifications />
 
-            <Divider className="sw:my-4" />
+            {scaEnableGroupNotificationSubscriptions && (
+              <>
+                <Divider className="sw:my-4" />
+
+                {hasGroupSubscriptionsError ? (
+                  <p role="alert">
+                    <FormattedMessage id="group_notifications.load_error" />
+                  </p>
+                ) : (
+                  <GroupNotificationSubscriptionsSection
+                    descriptionId="group_notifications.account_description.server"
+                    isLoading={isLoadingGroupSubscriptions}
+                    subscriptions={groupSubscriptions}
+                  />
+                )}
+
+                <Divider className="sw:my-4" />
+              </>
+            )}
 
             <Heading as="h2" hasMarginBottom>
               <FormattedMessage id="my_profile.news_notifications.title" />
@@ -86,5 +127,22 @@ export default function Notifications() {
         )}
       </Spinner>
     </AccountPageTemplate>
+  );
+}
+
+function isMyGroupNotificationSubscription(
+  value: unknown,
+): value is MyGroupNotificationSubscription {
+  return (
+    typeof value === 'object' &&
+    value !== null &&
+    'channelKey' in value &&
+    typeof value.channelKey === 'string' &&
+    'groupName' in value &&
+    typeof value.groupName === 'string' &&
+    'groupUuid' in value &&
+    typeof value.groupUuid === 'string' &&
+    'notificationType' in value &&
+    typeof value.notificationType === 'string'
   );
 }

@@ -20,18 +20,29 @@
 
 import { http } from 'msw';
 import { AbstractServiceMock } from '~shared/api/mocks/AbstractServiceMock';
-import { GroupNotificationSubscription } from '../group-notifications';
+import type {
+  GroupNotificationSubscription,
+  GroupNotificationType,
+} from '~shared/types/group-notifications';
 
 const NOTIFICATIONS_ENDPOINT = '/api/notifications';
 
 interface GroupNotificationsServiceMockData {
+  availableTypes: GroupNotificationType[];
   subscriptions: GroupNotificationSubscription[];
 }
 
 export default class GroupNotificationsServiceMock extends AbstractServiceMock<GroupNotificationsServiceMockData> {
   handlers = [
     http.get(`${NOTIFICATIONS_ENDPOINT}/list_groups`, () => {
-      return this.ok({ subscriptions: this.data.subscriptions });
+      return this.ok({
+        availableTypes: this.data.availableTypes,
+        subscriptions: this.data.subscriptions,
+      });
+    }),
+
+    http.get(`${NOTIFICATIONS_ENDPOINT}/list_group_subscriptions`, () => {
+      return this.ok({ groupSubscriptions: this.data.subscriptions });
     }),
 
     http.post(`${NOTIFICATIONS_ENDPOINT}/add_group`, async ({ request }) => {
@@ -40,7 +51,7 @@ export default class GroupNotificationsServiceMock extends AbstractServiceMock<G
         groupUuid: params.get('groupUuid') ?? '',
         notificationType: params.get('type') ?? '',
         groupName: '',
-        channelKey: 'EmailNotificationChannel',
+        channelKey: params.get('channel') ?? 'EmailNotificationChannel',
       });
       return this.ok({});
     }),
@@ -49,14 +60,22 @@ export default class GroupNotificationsServiceMock extends AbstractServiceMock<G
       const params = new URLSearchParams(await request.text());
       const groupUuid = params.get('groupUuid') ?? '';
       const type = params.get('type') ?? '';
+      const channel = params.get('channel') ?? 'EmailNotificationChannel';
       this.data.subscriptions = this.data.subscriptions.filter(
-        (s) => !(s.groupUuid === groupUuid && s.notificationType === type),
+        (s) =>
+          !(s.groupUuid === groupUuid && s.notificationType === type && s.channelKey === channel),
       );
       return this.ok({});
     }),
   ];
 
-  constructor(initialSubscriptions: GroupNotificationSubscription[] = []) {
-    super({ subscriptions: initialSubscriptions });
+  constructor(
+    initialSubscriptions: GroupNotificationSubscription[] = [],
+    availableTypes: GroupNotificationType[] = [
+      { notificationType: 'security-alert-raised', channelKey: 'EmailNotificationChannel' },
+      { notificationType: 'security-alert-raised', channelKey: 'BannerChannel' },
+    ],
+  ) {
+    super({ availableTypes, subscriptions: initialSubscriptions });
   }
 }
