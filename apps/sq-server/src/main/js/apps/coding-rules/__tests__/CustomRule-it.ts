@@ -318,7 +318,7 @@ describe('custom rule', () => {
     renderCodingRulesApp(mockLoggedInUser(), 'coding_rules?open=rule8');
     await ui.detailsloaded();
 
-    await user.click(ui.deleteCustomRuleButton('Custom Rule based on rule8').get());
+    await user.click(await ui.deleteCustomRuleButton('Custom Rule based on rule8').find());
     await user.click(ui.deleteButton.get(ui.deleteCustomRuleDialog.get()));
     expect(ui.customRuleItemLink('Custom Rule based on rule8').query()).not.toBeInTheDocument();
   });
@@ -326,7 +326,7 @@ describe('custom rule', () => {
   it('anonymous user cannot modify custom rule', async () => {
     const { ui } = getPageObjects();
     renderCodingRulesApp(undefined, 'coding_rules?open=rule9');
-    await ui.facetsLoaded();
+    await ui.detailsloaded();
 
     expect(ui.editCustomRuleButton.query()).not.toBeInTheDocument();
     expect(ui.deleteButton.query()).not.toBeInTheDocument();
@@ -355,6 +355,7 @@ describe('custom rule', () => {
     expect(ui.customRuleSectionTitle.get()).toBeInTheDocument();
 
     // Shows the list of rules, custom rule should not be included
+    expect(await ui.customRuleItemLink('Custom Rule 10').find()).toBeInTheDocument();
     expect(ui.customRuleItemLink(/Custom Rule/).getAll()).toHaveLength(10);
     await user.click(ui.loadMoreCusomRulesButton.get());
 

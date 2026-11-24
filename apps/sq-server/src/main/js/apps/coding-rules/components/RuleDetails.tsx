@@ -29,16 +29,11 @@ import {
 import { useIntl } from 'react-intl';
 import DateFormatter from '~shared/components/intl/DateFormatter';
 import { RuleActivationAdvanced } from '~shared/types/rules';
-import {
-  useDeleteRuleMutation,
-  useRuleDetailsQuery,
-  useUpdateRuleMutation,
-} from '~sq-server-commons/queries/rules';
+import { useDeleteRuleMutation, useRuleDetailsQuery } from '~sq-server-commons/queries/rules';
 import { BaseProfile } from '~sq-server-commons/types/quality-profiles';
 import CustomRuleButton from './CustomRuleButton';
 import RuleDetailsCustomRules from './RuleDetailsCustomRules';
 import RuleDetailsDescription from './RuleDetailsDescription';
-import RuleDetailsHeader from './RuleDetailsHeader';
 import RuleDetailsIssues from './RuleDetailsIssues';
 import { RuleDetailsParameters } from './RuleDetailsParameters';
 import RuleDetailsProfiles from './RuleDetailsProfiles';
@@ -51,7 +46,6 @@ interface Props {
   onDeactivate: (profile: string, rule: string) => void;
   onDelete: (rule: string) => void;
   referencedProfiles: Record<string, BaseProfile>;
-  referencedRepositories: Record<string, { key: string; language: string; name: string }>;
   ruleKey: string;
   selectedProfile?: BaseProfile;
 }
@@ -62,7 +56,6 @@ export function RuleDetails(props: Readonly<Props>) {
     canDeactivateInherited,
     canWrite,
     referencedProfiles,
-    referencedRepositories,
     ruleKey,
     selectedProfile,
   } = props;
@@ -74,7 +67,6 @@ export function RuleDetails(props: Readonly<Props>) {
     key: ruleKey,
   });
 
-  const { mutate: updateRule } = useUpdateRuleMutation();
   const { mutate: deleteRule } = useDeleteRuleMutation({}, props.onDelete);
 
   const { rule: ruleDetails, actives = [] } = data ?? {};
@@ -82,10 +74,6 @@ export function RuleDetails(props: Readonly<Props>) {
   const params = ruleDetails?.params ?? [];
   const isCustom = ruleDetails?.templateKey !== undefined;
   const isEditable = canWrite && !!allowCustomRules && isCustom;
-
-  const handleTagsChange = (tags: string[]) => {
-    updateRule({ key: ruleKey, tags: tags.join() });
-  };
 
   const handleActivate = () => {
     if (selectedProfile) {
@@ -108,13 +96,6 @@ export function RuleDetails(props: Readonly<Props>) {
       <Spinner isLoading={isLoadingRule}>
         {ruleDetails && (
           <>
-            <RuleDetailsHeader
-              canWrite={canWrite}
-              onTagsChange={handleTagsChange}
-              referencedRepositories={referencedRepositories}
-              ruleDetails={ruleDetails}
-            />
-
             <RuleDetailsDescription canWrite={canWrite} ruleDetails={ruleDetails} />
 
             {params.length > 0 && <RuleDetailsParameters params={params} />}

@@ -19,6 +19,7 @@
  */
 
 import { act, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import { registerServiceMocks, resetServiceMocks } from '~shared/api/mocks/server';
 import {
   BillingServiceDefaultDataset,
@@ -54,17 +55,23 @@ afterEach(() => {
   resetServiceMocks();
 });
 
-it('render global navigation correctly for anonymous user', () => {
+it('render global navigation correctly for anonymous user', async () => {
+  const user = userEvent.setup();
   renderGlobalNav({ appState: mockAppState() });
   expect(screen.getByText('projects.page')).toBeInTheDocument();
   expect(screen.getByText('issues.page')).toBeInTheDocument();
-  expect(screen.getByRole('link', { name: 'layout.policies' })).toHaveAttribute(
-    'href',
-    '/coding_rules',
+  expect(screen.getByRole('button', { name: 'layout.policies' })).toHaveAttribute(
+    'aria-haspopup',
+    'menu',
   );
   expect(screen.queryByText('coding_rules.page')).not.toBeInTheDocument();
   expect(screen.queryByText('quality_profiles.page')).not.toBeInTheDocument();
   expect(screen.queryByText('quality_gates.page')).not.toBeInTheDocument();
+  await user.click(screen.getByRole('button', { name: 'layout.policies' }));
+  expect(screen.getByRole('menuitem', { name: 'coding_rules.page' })).toHaveAttribute(
+    'href',
+    '/coding_rules',
+  );
   expect(screen.getByText('layout.login')).toBeInTheDocument();
 });
 

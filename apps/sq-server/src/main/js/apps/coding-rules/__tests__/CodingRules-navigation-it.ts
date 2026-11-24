@@ -18,7 +18,9 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { screen } from '@testing-library/react';
+import { act, screen } from '@testing-library/react';
+import { noop } from 'lodash';
+import { getRuleDetails } from '~sq-server-commons/api/rules';
 import CodingRulesServiceMock from '~sq-server-commons/api/mocks/CodingRulesServiceMock';
 import { QP_2 } from '~sq-server-commons/api/mocks/data/ids';
 import { LanguagesServiceMock } from '~sq-server-commons/api/mocks/LanguagesServiceMock';
@@ -34,6 +36,8 @@ const modeHandler = new ModeServiceMock();
 const settingsHandler = new SettingsServiceMock();
 const languagesHandler = new LanguagesServiceMock();
 
+jest.mock('~sq-server-commons/api/rules');
+
 afterEach(() => {
   rulesHandler.reset();
   modeHandler.reset();
@@ -41,7 +45,151 @@ afterEach(() => {
   languagesHandler.reset();
 });
 
+function stallFirstAppRuleDetailsCall(pendingRequest: Promise<never>) {
+  const originalImpl = jest.mocked(getRuleDetails).getMockImplementation();
+  let stalled = false;
+  jest.mocked(getRuleDetails).mockImplementation((params) => {
+    if (!stalled && !params.actives) {
+      stalled = true;
+      return pendingRequest;
+    }
+    return originalImpl!(params);
+  });
+  return () => {
+    jest.mocked(getRuleDetails).mockImplementation(originalImpl);
+  };
+}
+
 describe('Rules app list', () => {
+  it('ignores a late load failure for a rule the user already left', async () => {
+    const { ui, user } = getPageObjects();
+    let rejectMissing: (reason: unknown) => void = noop;
+    const missingRule = new Promise<never>((_resolve, reject) => {
+      rejectMissing = reject;
+    });
+    // Both the app and the header request the missing rule; later calls use the service mock.
+    jest
+      .mocked(getRuleDetails)
+      .mockImplementationOnce(() => missingRule)
+      .mockImplementationOnce(() => missingRule);
+    renderCodingRulesApp(undefined, 'coding_rules?open=missing');
+
+    await user.click(await screen.findByRole('button', { name: 'back' }));
+    await user.click(await ui.ruleListItemLink('Awsome java rule').find());
+    expect(await ui.ruleTitle('Awsome java rule').find()).toBeInTheDocument();
+
+    rejectMissing({ errors: [] });
+    await act(() => missingRule.catch(noop));
+
+    expect(ui.ruleTitle('Awsome java rule').get()).toBeInTheDocument();
+    expect(ui.rulesList.query()).not.toBeInTheDocument();
+  });
+
+  it('ignores a late load failure after leaving and reopening the same rule', async () => {
+    const { ui, user } = getPageObjects();
+    let rejectFirstVisit: (reason: unknown) => void = noop;
+    const firstVisit = new Promise<never>((_resolve, reject) => {
+      rejectFirstVisit = reject;
+    });
+    const restoreGetRuleDetails = stallFirstAppRuleDetailsCall(firstVisit);
+
+    try {
+      renderCodingRulesApp(undefined, 'coding_rules?open=rule1');
+
+      await user.click(await screen.findByRole('button', { name: 'back' }));
+      await user.click(await ui.ruleListItemLink('Awsome java rule').find());
+      expect(await ui.ruleTitle('Awsome java rule').find()).toBeInTheDocument();
+
+      rejectFirstVisit({ errors: [] });
+      await act(() => firstVisit.catch(noop));
+
+      expect(ui.ruleTitle('Awsome java rule').get()).toBeInTheDocument();
+      expect(ui.rulesList.query()).not.toBeInTheDocument();
+    } finally {
+      restoreGetRuleDetails();
+    }
+  });
+
+  it('keeps header, body, and Back destination in sync while switching to another rule', async () => {
+    const { ui, user } = getPageObjects();
+    renderCodingRulesApp(undefined, 'coding_rules?open=rule1');
+
+    expect(await ui.ruleTitle('Awsome java rule').find()).toBeInTheDocument();
+    expect(await screen.findByText('Why')).toBeInTheDocument();
+
+    const originalImpl = jest.mocked(getRuleDetails).getMockImplementation();
+    const pendingNextRule = new Promise<never>(noop);
+    jest.mocked(getRuleDetails).mockImplementation(() => pendingNextRule);
+
+    try {
+      await user.keyboard('{ArrowDown}');
+
+      expect(screen.getByRole('link', { name: 'coding_rules.page' })).toHaveAttribute(
+        'href',
+        '/coding_rules?selected=rule2',
+      );
+      expect(screen.queryByText('Why')).not.toBeInTheDocument();
+    } finally {
+      jest.mocked(getRuleDetails).mockImplementation(originalImpl);
+    }
+  });
+
+  it('returns to the rules list from a directly opened rule', async () => {
+    const { ui, user } = getPageObjects();
+    renderCodingRulesApp(undefined, 'coding_rules?open=rule1');
+
+    expect(await ui.ruleTitle('Awsome java rule').find()).toBeInTheDocument();
+    expect(ui.filtersHeading.query()).not.toBeInTheDocument();
+    await user.click(screen.getByRole('button', { name: 'back' }));
+
+    expect(await ui.rulesList.find()).toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: 'coding_rules.page' })).toBeInTheDocument();
+  });
+
+  it.each([
+    ['coding_rules?open=rule1&q=Awsome%20java', 'button', 'back'],
+    ['coding_rules?open=rule1&rule_key=rule1&q=Awsome%20java', 'button', 'back'],
+    ['coding_rules?open=rule1&q=Awsome%20java', 'link', 'coding_rules.page'],
+  ] as const)(
+    'preserves filters when returning from %s via %s %s',
+    async (navigateTo, role, name) => {
+      const { ui, user } = getPageObjects();
+      renderCodingRulesApp(undefined, navigateTo);
+
+      expect(await ui.ruleTitle('Awsome java rule').find()).toBeInTheDocument();
+      await user.click(screen.getByRole(role, { name }));
+
+      expect(await ui.rulesList.find()).toBeInTheDocument();
+      expect(ui.searchInput.get()).toHaveValue('Awsome java');
+      expect(ui.getAllRuleListItems()).toHaveLength(1);
+    },
+  );
+
+  it('keeps list filters after opening and closing a rule', async () => {
+    const { ui, user } = getPageObjects();
+    renderCodingRulesApp(undefined, 'coding_rules?q=Awsome%20java');
+
+    await user.click(await ui.ruleListItemLink('Awsome java rule').find());
+    expect(await ui.ruleTitle('Awsome java rule').find()).toBeInTheDocument();
+    await user.click(screen.getByRole('button', { name: 'back' }));
+
+    expect(await ui.rulesList.find()).toBeInTheDocument();
+    expect(ui.searchInput.get()).toHaveValue('Awsome java');
+    expect(ui.getAllRuleListItems()).toHaveLength(1);
+  });
+
+  it('returns to the full list from a rule permalink', async () => {
+    const { ui, user } = getPageObjects();
+    renderCodingRulesApp(undefined, 'coding_rules?open=rule1&rule_key=rule1');
+
+    expect(screen.getByRole('button', { name: 'back' })).toBeInTheDocument();
+    expect(await ui.ruleTitle('Awsome java rule').find()).toBeInTheDocument();
+    await user.click(screen.getByRole('button', { name: 'back' }));
+
+    expect(await ui.rulesList.find()).toBeInTheDocument();
+    expect(ui.ruleListItemLink('Hot hotspot').get()).toBeInTheDocument();
+  });
+
   it('should not show prioritized rule switcher if feature is not enabled', async () => {
     const { ui, user } = getPageObjects();
     rulesHandler.setIsAdmin();

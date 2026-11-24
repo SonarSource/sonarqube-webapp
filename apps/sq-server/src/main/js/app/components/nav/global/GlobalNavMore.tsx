@@ -20,15 +20,9 @@
 
 import { DropdownMenu, Layout } from '@sonarsource/echoes-react';
 import { FormattedMessage } from 'react-intl';
-import { NewBadge } from '~shared/components/badges/NewBadge';
-import { getSecurityAlertsUrl } from '~shared/helpers/security-alerts-urls';
-import { isDefined } from '~shared/helpers/types';
 import { Extension } from '~shared/types/common';
-import { addons } from '~sq-server-addons/index';
 import withAppStateContext from '~sq-server-commons/context/app-state/withAppStateContext';
-import { useAvailableFeatures } from '~sq-server-commons/context/available-features/withAvailableFeatures';
 import { AppState } from '~sq-server-commons/types/appstate';
-import { Feature } from '~sq-server-commons/types/features';
 
 const renderGlobalPageLink = ({ key, name }: Extension) => {
   return (
@@ -40,30 +34,8 @@ const renderGlobalPageLink = ({ key, name }: Extension) => {
 
 function GlobalNavMore({ appState: { globalPages = [] } }: Readonly<{ appState: AppState }>) {
   const withoutPortfolios = globalPages.filter((page) => page.key !== 'governance/portfolios');
-  const isScaEnabled = useAvailableFeatures().hasFeature(Feature.Sca);
-  const securityAlertsAddon = addons.securityAlerts;
-  const showSecurityAlerts = isScaEnabled && isDefined(securityAlertsAddon);
-  const securityAlertsUrl = getSecurityAlertsUrl();
 
-  const { vortexDashboard } = addons;
-
-  // The dashboard itself handles not-purchased / not-enabled states. Hide the item only when
-  // the Vortex addon is not packaged on this instance.
-  const vortexBadge = vortexDashboard && (
-    <NewBadge expirationDate={vortexDashboard.VORTEX_NEW_BADGE_EXPIRATION_DATE} />
-  );
-
-  const vortexItem = vortexDashboard && (
-    <DropdownMenu.ItemLink suffix={vortexBadge} to={vortexDashboard.VORTEX_DASHBOARD_PATH}>
-      <FormattedMessage id="vortex_dashboard.nav_item" />
-    </DropdownMenu.ItemLink>
-  );
-
-  const securityAlertsBadge = showSecurityAlerts && (
-    <NewBadge expirationDate={securityAlertsAddon.SECURITY_ALERTS_NEW_BADGE_EXPIRATION_DATE} />
-  );
-
-  if (withoutPortfolios.length === 0 && !showSecurityAlerts && !vortexItem) {
+  if (withoutPortfolios.length === 0) {
     return null;
   }
 
@@ -71,24 +43,9 @@ function GlobalNavMore({ appState: { globalPages = [] } }: Readonly<{ appState: 
     <Layout.GlobalNavigation.DropdownItem
       disableActiveHighlight
       id="moreMenuDropdown"
-      items={
-        <>
-          {showSecurityAlerts && (
-            <DropdownMenu.ItemLink suffix={securityAlertsBadge} to={securityAlertsUrl}>
-              <FormattedMessage id="security_alerts.page" />
-            </DropdownMenu.ItemLink>
-          )}
-          {vortexItem}
-          {withoutPortfolios.map(renderGlobalPageLink)}
-        </>
-      }
+      items={withoutPortfolios.map(renderGlobalPageLink)}
     >
-      {/* DropdownItem's children render inside a plain, non-flex span, so the badge needs its
-          own gap here — DropdownItem hardcodes the chevron as its suffix, leaving no other slot. */}
-      <span className="sw:inline-flex sw:items-center sw:gap-2">
-        <FormattedMessage id="more" />
-        {vortexBadge}
-      </span>
+      <FormattedMessage id="more" />
     </Layout.GlobalNavigation.DropdownItem>
   );
 }

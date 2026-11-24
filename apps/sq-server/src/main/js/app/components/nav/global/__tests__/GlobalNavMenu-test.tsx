@@ -27,9 +27,13 @@ import { Feature } from '~sq-server-commons/types/features';
 import { GlobalNavMenu } from '../GlobalNavMenu';
 
 const originalSecurityAlertsAddon = addons.securityAlerts;
+const originalScaAddon = addons.sca;
+const originalVortexDashboardAddon = addons.vortexDashboard;
 
 afterEach(() => {
   addons.securityAlerts = originalSecurityAlertsAddon;
+  addons.sca = originalScaAddon;
+  addons.vortexDashboard = originalVortexDashboardAddon;
 });
 
 it('should work with extensions', () => {
@@ -93,51 +97,112 @@ it('should not keep administration menu active outside admin routes', () => {
 
 it.each([
   '/coding_rules',
+  '/coding_rules/show',
   '/profiles',
   '/profiles/show',
   '/quality_gates',
   '/quality_gates/show',
-  '/license_profiles',
   '/license_profiles/show',
-])('should keep policies active on %s', (navigateTo) => {
-  renderGlobalNavMenu({ navigateTo });
+])('highlights policies menu on %s', (navigateTo) => {
+  addons.sca = { LICENSE_ROUTE_NAME: 'license_profiles' } as NonNullable<typeof addons.sca>;
+  renderGlobalNavMenu({ featureList: [Feature.Sca], navigateTo });
 
-  expect(screen.getByRole('link', { name: 'layout.policies' })).toHaveAttribute(
-    'aria-current',
-    'page',
+  const policiesItem = screen
+    .getAllByRole('listitem')
+    .find((item) => item.textContent?.includes('layout.policies'));
+  expect(policiesItem).toHaveAttribute('data-selected', 'true');
+});
+
+it('does not highlight policies outside policy routes', () => {
+  renderGlobalNavMenu({ navigateTo: '/projects' });
+
+  const policiesItem = screen
+    .getAllByRole('listitem')
+    .find((item) => item.textContent?.includes('layout.policies'));
+  expect(policiesItem).toHaveAttribute('data-selected', 'false');
+});
+
+it('shows policy destinations in dropdown', async () => {
+  const user = userEvent.setup();
+  renderGlobalNavMenu({});
+
+  await user.click(screen.getByRole('button', { name: 'layout.policies' }));
+
+  expect(screen.getByRole('menuitem', { name: 'coding_rules.page' })).toHaveAttribute(
+    'href',
+    '/coding_rules',
+  );
+  expect(screen.getByRole('menuitem', { name: 'quality_profiles.page' })).toHaveAttribute(
+    'href',
+    '/profiles',
+  );
+  expect(screen.getByRole('menuitem', { name: 'quality_gates.page' })).toHaveAttribute(
+    'href',
+    '/quality_gates',
+  );
+  expect(screen.queryByRole('menuitem', { name: 'sca.licenses.page' })).not.toBeInTheDocument();
+});
+
+it('shows license profiles in policies when SCA is available', async () => {
+  const user = userEvent.setup();
+  addons.sca = { LICENSE_ROUTE_NAME: 'license_profiles' } as NonNullable<typeof addons.sca>;
+  renderGlobalNavMenu({ featureList: [Feature.Sca] });
+
+  await user.click(screen.getByRole('button', { name: 'layout.policies' }));
+
+  expect(screen.getByRole('menuitem', { name: 'sca.licenses.page' })).toHaveAttribute(
+    'href',
+    '/license_profiles',
   );
 });
 
-it('should not keep policies active outside policy routes', () => {
-  renderGlobalNavMenu({ navigateTo: '/projects' });
-
-  expect(screen.getByRole('link', { name: 'layout.policies' })).not.toHaveAttribute('aria-current');
-});
-
-it('should show the Security Alerts menu when SCA is enabled', async () => {
-  const user = userEvent.setup();
+it('should show Security Alerts in global nav when SCA is enabled', () => {
   const appState = mockAppState({ globalPages: [] });
-  addons.securityAlerts = {} as NonNullable<typeof addons.securityAlerts>;
+  addons.securityAlerts = {
+    SECURITY_ALERTS_NEW_BADGE_EXPIRATION_DATE: '2099-01-01T00:00:00.000Z',
+  } as unknown as NonNullable<typeof addons.securityAlerts>;
 
   renderGlobalNavMenu({ appState, featureList: [Feature.Sca] });
 
-  await user.click(screen.getByText('more'));
-
-  expect(screen.getByRole('menuitem', { name: 'security_alerts.page' })).toHaveAttribute(
+  expect(screen.getByRole('link', { name: /security_alerts\.page/ })).toHaveAttribute(
     'href',
     '/security_alerts?statuses=OPEN',
   );
+  expect(screen.queryByText('more')).not.toBeInTheDocument();
 });
 
-it('should hide the Security Alerts menu when SCA is disabled', async () => {
-  const user = userEvent.setup();
-  const appState = mockAppState({ globalPages: [{ key: 'foo', name: 'Foo' }] });
+it('should hide Security Alerts when SCA is disabled', () => {
+  const appState = mockAppState({ globalPages: [] });
 
   renderGlobalNavMenu({ appState });
 
-  await user.click(screen.getByText('more'));
+  expect(screen.queryByRole('link', { name: /security_alerts\.page/ })).not.toBeInTheDocument();
+});
 
-  expect(screen.queryByText('security_alerts.page')).not.toBeInTheDocument();
+it('should show Vortex in global nav when the addon is available', () => {
+  const appState = mockAppState({ globalPages: [] });
+  addons.vortexDashboard = {
+    VORTEX_DASHBOARD_PATH: '/vortex_dashboard',
+    VORTEX_NEW_BADGE_EXPIRATION_DATE: '2099-01-01T00:00:00.000Z',
+  } as unknown as NonNullable<typeof addons.vortexDashboard>;
+
+  renderGlobalNavMenu({ appState });
+
+  expect(screen.getByRole('link', { name: /vortex_dashboard\.nav_item/ })).toHaveAttribute(
+    'href',
+    '/vortex_dashboard',
+  );
+  expect(screen.queryByText('more')).not.toBeInTheDocument();
+});
+
+it('should hide Vortex when the addon is unavailable', () => {
+  addons.vortexDashboard = undefined;
+
+  renderGlobalNavMenu({ appState: mockAppState({ globalPages: [] }) });
+
+  expect(
+    screen.queryByRole('link', { name: /vortex_dashboard\.nav_item/ }),
+  ).not.toBeInTheDocument();
 });
 
 function renderGlobalNavMenu({

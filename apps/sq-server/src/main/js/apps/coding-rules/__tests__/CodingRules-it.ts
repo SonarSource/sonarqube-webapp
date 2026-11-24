@@ -75,6 +75,8 @@ describe('Rules app list', () => {
 
     await ui.listLoaded();
 
+    expect(screen.getByRole('heading', { name: 'coding_rules.page' })).toBeInTheDocument();
+
     // Renders list
     rulesHandler.allRulesName().forEach((name) => {
       expect(ui.ruleListItemLink(name).get()).toBeInTheDocument();

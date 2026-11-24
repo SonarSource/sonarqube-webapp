@@ -31,19 +31,20 @@ import { getRuleUrl } from '~sq-server-commons/helpers/urls';
 const EXTERNAL_RULE_REPO_PREFIX = 'external_';
 
 interface Props {
+  children: React.ReactNode;
   referencedRepositories: Record<string, { key: string; language: string; name: string }>;
   ruleDetails: RuleDetails;
 }
 
 export default function RuleDetailsHeaderMeta(props: Readonly<Props>) {
-  const { referencedRepositories, ruleDetails } = props;
+  const { referencedRepositories, ruleDetails, children } = props;
   const repository = referencedRepositories[ruleDetails.repo];
   const externalEngine = ruleDetails.repo.replace(new RegExp(`^${EXTERNAL_RULE_REPO_PREFIX}`), '');
 
   return (
     <Text
       as="ul"
-      className="sw:list-none sw:flex sw:flex-row sw:flex-wrap sw:items-center sw:gap-2 sw:p-0 sw:m-0"
+      className="sw:list-none sw:flex sw:flex-row sw:flex-wrap sw:items-center sw:gap-2 sw:p-0 sw:m-0 sw:max-w-full"
       isSubtle
       size="small"
     >
@@ -172,6 +173,9 @@ export default function RuleDetailsHeaderMeta(props: Readonly<Props>) {
           </li>
         </>
       )}
+
+      <SeparatorCircleIcon aria-hidden as="li" />
+      <li>{children}</li>
     </Text>
   );
 }

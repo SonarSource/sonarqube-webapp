@@ -65,8 +65,7 @@ describe('rendering', () => {
       ui.ruleCleanCodeAttributeCategory(CodeAttributeCategory.Intentional).get(),
     ).toBeInTheDocument();
     expect(ui.ruleCleanCodeAttribute(CodeAttribute.Clear).get()).toBeInTheDocument();
-    // 1 In Rule details + 1 in facet
-    expect(ui.ruleSoftwareQuality(SoftwareQuality.Maintainability).getAll()).toHaveLength(2);
+    expect(ui.ruleSoftwareQuality(SoftwareQuality.Maintainability).getAll()).toHaveLength(1);
     expect(document.title).toEqual('page_title.template.with_category.coding_rules.page');
     expect(screen.getByText('Why')).toBeInTheDocument();
     expect(screen.getByText('Because')).toBeInTheDocument();

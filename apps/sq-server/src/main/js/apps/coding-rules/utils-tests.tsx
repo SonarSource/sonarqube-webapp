@@ -252,8 +252,11 @@ export function getPageObjects() {
     },
 
     async detailsloaded() {
-      expect(await byRole('heading', { level: 1 }).find()).toBeInTheDocument();
-      await ui.facetsLoaded();
+      expect(
+        await byRole('heading', { name: 'coding_rules.available_since' }).find(),
+      ).toBeInTheDocument();
+      expect(byRole('heading', { level: 1 }).get()).toBeInTheDocument();
+      expect(selectors.filtersHeading.query()).not.toBeInTheDocument();
     },
 
     async bulkActivate(rulesCount: number, profile: BaseProfile) {

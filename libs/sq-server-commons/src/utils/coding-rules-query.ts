@@ -150,12 +150,12 @@ export function shouldRequestFacet(facet: string): facet is FacetKey {
   return facetsToRequest.includes(facet);
 }
 
-export function getOpen(query: RawQuery) {
-  return query.open;
+export function getOpen(query: RawQuery): string | undefined {
+  return typeof query.open === 'string' ? query.open : undefined;
 }
 
-export function getSelected(query: RawQuery) {
-  return query.selected;
+export function getSelected(query: RawQuery): string | undefined {
+  return typeof query.selected === 'string' ? query.selected : undefined;
 }
 
 export function hasRuleKey(query: RawQuery) {
