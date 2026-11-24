@@ -29,6 +29,8 @@ import {
 import { Visibility } from '../../types/component';
 
 interface Props {
+  schemeColumnLabel: string;
+  getSchemeName: (projectId: string) => string | undefined;
   ariaLabel: string;
   projectColumnLabel: string;
   keyColumnLabel: string;
@@ -43,6 +45,8 @@ interface Props {
 
 /** The caller owns fetching, pagination, and selection across all pages. */
 export function ProjectSelectionTable({
+  schemeColumnLabel,
+  getSchemeName,
   ariaLabel,
   projectColumnLabel,
   keyColumnLabel,
@@ -74,7 +78,7 @@ export function ProjectSelectionTable({
   return (
     <Table
       ariaLabel={ariaLabel}
-      gridTemplate="48px repeat(3, minmax(200px, 1fr))"
+      gridTemplate="48px repeat(4, minmax(200px, 1fr))"
       style={{ borderColor: cssVar('color-border-weak') }}
       variety={TableVariety.Surface}
     >
@@ -94,47 +98,54 @@ export function ProjectSelectionTable({
           <Table.ColumnHeaderCell label={projectColumnLabel} />
           <Table.ColumnHeaderCell label={keyColumnLabel} />
           <Table.ColumnHeaderCell label={tagsColumnLabel} />
+          <Table.ColumnHeaderCell label={schemeColumnLabel} />
         </Table.Row>
       </Table.Header>
       <Table.Body>
-        {projects.map((project) => (
-          <Table.Row key={project.id} selected={selectedIds.has(project.id)}>
-            <Table.CellCheckbox
-              ariaLabel={selectProjectLabel(project.name)}
-              checked={selectedIds.has(project.id)}
-              onCheck={(checked) => {
-                changeSelection([project.id], checked === true);
-              }}
-            />
-            <Table.RowHeaderCell
-              content={
-                <span className="sw:inline-flex sw:flex-wrap sw:items-center sw:gap-2">
-                  {project.name}
-                  <Badge variety={BadgeVariety.Neutral}>
-                    {visibilityLabel(project.visibility)}
-                  </Badge>
-                </span>
-              }
-              icon={<IconProject />}
-            />
-            <Table.CellText content={project.key} />
-            <Table.CellText
-              content={
-                project.tags.length > 0 ? (
-                  <span className="sw:inline-flex sw:flex-wrap sw:gap-2">
-                    {project.tags.map((tag) => (
-                      <Badge key={tag} variety={BadgeVariety.Neutral}>
-                        {tag}
-                      </Badge>
-                    ))}
+        {projects.map((project) => {
+          const schemeName = getSchemeName(project.id);
+          return (
+            <Table.Row key={project.id} selected={selectedIds.has(project.id)}>
+              <Table.CellCheckbox
+                ariaLabel={selectProjectLabel(project.name)}
+                checked={selectedIds.has(project.id)}
+                onCheck={(checked) => {
+                  changeSelection([project.id], checked === true);
+                }}
+              />
+              <Table.RowHeaderCell
+                content={
+                  <span className="sw:inline-flex sw:flex-wrap sw:items-center sw:gap-2">
+                    {project.name}
+                    <Badge variety={BadgeVariety.Neutral}>
+                      {visibilityLabel(project.visibility)}
+                    </Badge>
                   </span>
-                ) : (
-                  '—'
-                )
-              }
-            />
-          </Table.Row>
-        ))}
+                }
+                icon={<IconProject />}
+              />
+              <Table.CellText content={project.key} />
+              <Table.CellText
+                content={
+                  project.tags.length > 0 ? (
+                    <span className="sw:inline-flex sw:flex-wrap sw:gap-2">
+                      {project.tags.map((tag) => (
+                        <Badge key={tag} variety={BadgeVariety.Neutral}>
+                          {tag}
+                        </Badge>
+                      ))}
+                    </span>
+                  ) : (
+                    '—'
+                  )
+                }
+              />
+              <Table.CellText
+                content={schemeName ? <Badge variety={BadgeVariety.Info}>{schemeName}</Badge> : '—'}
+              />
+            </Table.Row>
+          );
+        })}
       </Table.Body>
     </Table>
   );
