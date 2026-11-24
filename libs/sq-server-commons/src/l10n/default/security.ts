@@ -502,6 +502,8 @@ export const securityMessages = {
   'ai_capabilities.project.remediation_agent.description':
     'This setting allows project administrators to customize the automated schedule for their project. The default can be adjusted in the {link}.',
   'ai_capabilities.project.remediation_agent.settings_link': 'AI capabilities settings',
+  'ai_capabilities.project.remediation_agent.description.non_admin':
+    'This setting allows project administrators to customize the automated schedule for their project. Your administrator can adjust the default.',
   'ai_capabilities.project.remediation_agent.use_default': 'Use default schedule',
   'ai_capabilities.project.remediation_agent.customize': 'Customize for this project',
   'ai_capabilities.project.remediation_agent.customize.description':
