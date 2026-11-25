@@ -51,6 +51,7 @@ interface Props extends SelectedContentHeaderProps {
   disableBranchSelector?: boolean;
   disableQualityGateStatus?: boolean;
   extraTitleSuffix?: ReactNode;
+  hasDivider?: boolean;
   overrideBranchSelectorPath?: NonNullable<ProjectBranchSelectorProps['overridePath']>;
   titlePrefix?: ContentHeaderProps['title'];
 }
@@ -64,6 +65,7 @@ export function ProjectContentHeader(props: Readonly<Props>) {
     disableBranchSelector = false,
     disableQualityGateStatus = false,
     extraTitleSuffix,
+    hasDivider = true,
     metadata,
     navigation,
     overrideBranchSelectorPath,
@@ -117,7 +119,7 @@ export function ProjectContentHeader(props: Readonly<Props>) {
         </>
       }
       description={description}
-      hasDivider
+      hasDivider={hasDivider}
       metadata={metadata && <StyledMetadata>{metadata}</StyledMetadata>}
       navigation={navigation}
       title={

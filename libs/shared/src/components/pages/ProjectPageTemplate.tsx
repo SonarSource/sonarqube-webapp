@@ -52,6 +52,8 @@ interface ProjectContentHeaderProps {
   disableQualityGateStatus?: boolean;
   /** Extra content rendered after BranchStatus/QualityGateStatus in the title suffix */
   extraTitleSuffix?: ReactNode;
+  /** Whether to draw a divider below the content header. */
+  hasDivider?: boolean;
   /** Content header metadata, displayed under the title and description, no need to wrap it in Layout.ContentHeader.Metadata, it's already done for you */
   metadata?: ContentHeaderProps['metadata'];
   /** Override the path used by the branch selector to navigate when changing branch. Can be a static path or a function that returns a path based on the branch-like. */
