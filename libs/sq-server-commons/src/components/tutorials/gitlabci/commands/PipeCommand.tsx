@@ -44,7 +44,7 @@ type ScriptFunction = (projectKey?: string, autoConfig?: AutoConfig) => string;
 
 const DEFAULT_OTHER_BUILD = {
   image: `
-  name: sonarsource/sonar-scanner-cli:11
+  name: sonarsource/sonar-scanner-cli:12
   entrypoint: [""]`,
   script: () => `
   - sonar-scanner -Dsonar.host.url="\${SONAR_HOST_URL}"`,
