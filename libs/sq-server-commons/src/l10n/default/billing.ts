@@ -435,4 +435,6 @@ export const billingMessages = {
     'In order to determine how much each project contributes, the license takes into account the number of lines of code on the largest branch of that project. Lines of test code do not count towards your license usage.',
   'license.valid': 'Valid',
   'license.warning_threshold.success': 'Warning threshold saved successfully.',
+  'billing.repo_auto_import_enabled.description.azure':
+    'New repositories in your connected Azure DevOps organization are imported automatically during hourly checks.',
 };

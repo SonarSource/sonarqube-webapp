@@ -1361,4 +1361,12 @@ export const onboardingMessages = {
     'New repositories in your Bitbucket workspace are imported automatically.',
   'onboarding.create_organization.repo_auto_import.locs_warning.bitbucket':
     'Analyzing imported private projects consumes your lines of code allowance. Ensure your plan has enough allowance for uninterrupted analysis.',
+  'onboarding.create_organization.repo_auto_import.helper.azure':
+    'Checks hourly for repositories created in your Azure DevOps organization after you enable AutoImport. Existing repositories are not imported.',
+  'onboarding.create_organization.repo_auto_import.label.azure':
+    'Automatically import new Azure DevOps repositories',
+  'onboarding.create_organization.repo_auto_import.azure.error.description':
+    'Your organization is connected. You can import repositories manually.',
+  'onboarding_dashboard.journey.import.auto_help.azure':
+    'Checks hourly for new repositories in your connected Azure DevOps organization.',
 };

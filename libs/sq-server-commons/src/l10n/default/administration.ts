@@ -1508,6 +1508,26 @@ export const administrationMessages = {
     'Your AutoImport choice could not be saved. Your Bitbucket workspace is still connected. Check the saved setting and try again in organization settings.',
   'organization.settings.binding.auto_import.bitbucket.error.unconfirmed':
     'We could not confirm your AutoImport setting. Your Bitbucket workspace is still connected. Reload organization settings to check the saved value before trying again.',
+  'organization.settings.binding.auto_import.helper.azure':
+    'Checks hourly for repositories created in your Azure DevOps organization after you enable AutoImport. Existing repositories are not imported.',
+  'organization.settings.binding.auto_import.title.azure': 'Azure DevOps repository AutoImport',
+  'organization.repository_auto_import.toggletip.new_repos_description.azure':
+    'New repositories are those created in your Azure DevOps organization after you enable AutoImport. SonarQube Cloud checks for them every hour.',
+  'organization.settings.binding.auto_import.azure.pending':
+    'Saving Azure DevOps AutoImport settings…',
+  'organization.settings.binding.auto_import.azure.open_settings': 'Open organization settings',
+  'organization.settings.binding.auto_import.azure.error.rejected.title':
+    'Azure DevOps AutoImport setting could not be changed',
+  'organization.settings.binding.auto_import.azure.error.rejected.description':
+    'Your organization remains connected. Review the saved setting and your access permissions, then try again.',
+  'organization.settings.binding.auto_import.azure.error.not_saved.title':
+    'Azure DevOps AutoImport was not saved as requested',
+  'organization.settings.binding.auto_import.azure.error.not_saved.description':
+    'Your organization remains connected. Review the saved setting and try again in organization settings.',
+  'organization.settings.binding.auto_import.azure.error.unconfirmed.title':
+    'Azure DevOps AutoImport could not be confirmed',
+  'organization.settings.binding.auto_import.azure.error.unconfirmed.description':
+    'The request may still complete. Refresh organization settings to check the saved value before trying again.',
   'group_notifications.page': 'Group notifications',
   'group_notifications.page.description':
     'Manage subscribed groups and delivery methods for each notification type.',
