@@ -30,7 +30,7 @@ import {
   SoftwareQuality,
   SoftwareQualityImpact,
 } from '../../types/clean-code-taxonomy';
-import { IssueSeverity } from '../../types/issues';
+import { IssueProducer, IssueSeverity } from '../../types/issues';
 import { RuleStatus } from '../../types/rules';
 import { CleanCodeAttributePill } from '../badges/CleanCodeAttributePill';
 import DateFromNow from '../intl/DateFromNow';
@@ -53,6 +53,8 @@ interface IssueMetadataIssue {
   impacts?: SoftwareQualityImpact[];
   internalTags?: string[];
   key: string;
+  producer?: IssueProducer;
+  rule?: string;
   tags?: string[];
 }
 

@@ -21,6 +21,7 @@
 import { IssueProducer, IssueTransition } from '../../types/issues';
 import {
   getExternalRuleKey,
+  getIssueEngineBadgeName,
   isAgentFindingAttachedToBranch,
   isAgentFindingRuleEngine,
   isHunterAgentIssue,
@@ -86,20 +87,19 @@ describe('isHunterAgentRuleEngine', () => {
 });
 
 describe('isAgentFindingRuleEngine', () => {
-  it.each([
-    'hunter-agent',
-    'HUNTER-AGENT',
-    'reliability-agent',
-    'Reliability-Agent',
-    'sunset-radar',
-    'Sunset-Radar',
-  ])('detects the agent rule engine %s', (engine) => {
-    expect(isAgentFindingRuleEngine(engine)).toBe(true);
-  });
+  it.each(['reliability-agent', 'Reliability-Agent', 'sunset-radar', 'Sunset-Radar'])(
+    'detects the agent rule engine %s',
+    (engine) => {
+      expect(isAgentFindingRuleEngine(engine)).toBe(true);
+    },
+  );
 
-  it.each(['eslint', 'sunset', 'sunset-radar-2', ''])('rejects the rule engine "%s"', (engine) => {
-    expect(isAgentFindingRuleEngine(engine)).toBe(false);
-  });
+  it.each(['hunter-agent', 'eslint', 'sunset', 'sunset-radar-2', ''])(
+    'rejects the rule engine "%s"',
+    (engine) => {
+      expect(isAgentFindingRuleEngine(engine)).toBe(false);
+    },
+  );
 
   it('rejects an undefined rule engine', () => {
     expect(isAgentFindingRuleEngine()).toBe(false);
@@ -117,6 +117,33 @@ describe('isAgentFindingAttachedToBranch', () => {
     expect(isAgentFindingAttachedToBranch({ component, externalRuleEngine, projectKey })).toBe(
       expected,
     );
+  });
+
+  it.each([
+    ['a Hunter Agent producer without rule engine attached to the branch', 'proj', true],
+    ['a Hunter Agent producer without rule engine attached to a file', 'proj:src/main.js', false],
+  ])('classifies %s', (_, component, expected) => {
+    expect(
+      isAgentFindingAttachedToBranch({
+        component,
+        producer: IssueProducer.HunterAgent,
+        projectKey: 'proj',
+      }),
+    ).toBe(expected);
+  });
+});
+
+describe('getIssueEngineBadgeName', () => {
+  it.each([
+    [{ externalRuleEngine: 'eslint' }, 'eslint'],
+    [{ externalRuleEngine: 'eslint', producer: IssueProducer.HunterAgent }, 'eslint'],
+    [{ producer: IssueProducer.HunterAgent }, 'hunter-agent'],
+    [{ producer: IssueProducer.Scanner }, undefined],
+    [{ producer: IssueProducer.SunsetRadar }, undefined],
+    [{ rule: 'hunter-agent:business-logic' }, 'hunter-agent'],
+    [{}, undefined],
+  ])('returns the badge name for %j', (issue, expected) => {
+    expect(getIssueEngineBadgeName(issue)).toBe(expected);
   });
 });
 

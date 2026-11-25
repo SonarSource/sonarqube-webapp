@@ -21,6 +21,7 @@
 import { ComponentProps } from 'react';
 import { renderWithContext } from '../../../helpers/test-utils';
 import { byText } from '../../../helpers/testSelector';
+import { IssueProducer } from '../../../types/issues';
 import { RuleStatus } from '../../../types/rules';
 import { IssueProperties } from '../IssueProperties';
 
@@ -52,6 +53,21 @@ describe('external rule engine', () => {
     setupWithProps({ issue: { externalRuleEngine: 'hunter-agent' } });
 
     expect(byText('hunter-agent').get()).toBeInTheDocument();
+  });
+});
+
+describe('producer', () => {
+  it('renders the Hunter Agent badge for a Hunter Agent issue without an external rule engine', () => {
+    setupWithProps({ issue: { producer: IssueProducer.HunterAgent } });
+
+    expect(byText('issue.details.properties').get()).toBeInTheDocument();
+    expect(byText('hunter-agent').get()).toBeInTheDocument();
+  });
+
+  it('does not render for a scanner issue', () => {
+    setupWithProps({ issue: { producer: IssueProducer.Scanner } });
+
+    expect(byText('issue.details.properties').query()).not.toBeInTheDocument();
   });
 });
 

@@ -39,6 +39,22 @@ export function isHunterAgentIssue(issue: {
   );
 }
 
+/**
+ * Name of the engine to display as a badge for an issue: its external rule engine, or Hunter Agent
+ * for issues recognised through their producer (they have no external rule engine).
+ */
+export function getIssueEngineBadgeName(issue: {
+  externalRuleEngine?: string;
+  producer?: IssueProducer;
+  rule?: string;
+}) {
+  if (issue.externalRuleEngine) {
+    return issue.externalRuleEngine;
+  }
+
+  return isHunterAgentIssue(issue) ? HUNTER_AGENT_EXTERNAL_RULE_ENGINE : undefined;
+}
+
 export function isTransitionVisible(transition: IssueTransition) {
   return transition !== IssueTransition.WontFix && transition !== IssueTransition.Resolve;
 }
@@ -56,10 +72,12 @@ export function isHunterAgentRuleEngine(externalRuleEngine?: string) {
   return externalRuleEngine?.toLowerCase() === HUNTER_AGENT_EXTERNAL_RULE_ENGINE;
 }
 
-/** Issues that an agent creates with their own issue-specific rule description */
+/**
+ * Issues that an agent other than Hunter creates with their own issue-specific rule description.
+ * Hunter Agent issues are detected by `isHunterAgentIssue`.
+ */
 export function isAgentFindingRuleEngine(externalRuleEngine?: string) {
   return (
-    isHunterAgentRuleEngine(externalRuleEngine) ||
     externalRuleEngine?.toLowerCase() === 'reliability-agent' ||
     externalRuleEngine?.toLowerCase() === 'sunset-radar'
   );
@@ -69,9 +87,14 @@ export function isAgentFindingRuleEngine(externalRuleEngine?: string) {
 export function isAgentFindingAttachedToBranch(issue: {
   component: string;
   externalRuleEngine?: string;
+  producer?: IssueProducer;
   projectKey: string;
+  rule?: string;
 }) {
-  return isAgentFindingRuleEngine(issue.externalRuleEngine) && issue.component === issue.projectKey;
+  return (
+    (isHunterAgentIssue(issue) || isAgentFindingRuleEngine(issue.externalRuleEngine)) &&
+    issue.component === issue.projectKey
+  );
 }
 
 export function getExternalRuleKey(ruleKey: string) {

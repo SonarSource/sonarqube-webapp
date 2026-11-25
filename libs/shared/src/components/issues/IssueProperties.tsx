@@ -21,6 +21,8 @@
 import { Divider, Text } from '@sonarsource/echoes-react';
 import { ReactNode } from 'react';
 import { FormattedMessage } from 'react-intl';
+import { getIssueEngineBadgeName } from '../../helpers/issues';
+import { IssueProducer } from '../../types/issues';
 import { RuleStatus } from '../../types/rules';
 import { RuleStatusBadge } from '../coding-rules/RuleStatusBadge';
 import { AdvancedSastBadge, hasAdvancedSastTags } from './AdvancedSastBadge';
@@ -29,6 +31,8 @@ import { ExternalRuleEngineBadge } from './ExternalRuleEngineBadge';
 interface IssuePropertiesIssue {
   externalRuleEngine?: string;
   internalTags?: string[];
+  producer?: IssueProducer;
+  rule?: string;
 }
 
 interface Props {
@@ -45,7 +49,8 @@ export function IssueProperties({
   externalRulesRepoNames = {},
 }: Readonly<Props>) {
   const hasAdvancedSast = hasAdvancedSastTags(issue.internalTags);
-  const hasExternalRuleEngine = Boolean(issue.externalRuleEngine);
+  const engineBadgeName = getIssueEngineBadgeName(issue);
+  const hasExternalRuleEngine = Boolean(engineBadgeName);
   const hasProperties = Boolean(properties);
   const isBeta = !rule?.isExternal && rule?.status === RuleStatus.Beta;
 
@@ -53,9 +58,9 @@ export function IssueProperties({
     return null;
   }
 
-  const externalRuleEngineLabel = issue.externalRuleEngine
-    ? externalRulesRepoNames[issue.externalRuleEngine] || issue.externalRuleEngine
-    : issue.externalRuleEngine;
+  const externalRuleEngineLabel = engineBadgeName
+    ? externalRulesRepoNames[engineBadgeName] || engineBadgeName
+    : engineBadgeName;
 
   return (
     <>
@@ -66,9 +71,9 @@ export function IssueProperties({
       </dt>
       <dd>
         {hasAdvancedSast && <AdvancedSastBadge />}
-        {issue.externalRuleEngine && (
+        {engineBadgeName && (
           <ExternalRuleEngineBadge
-            externalRuleEngine={issue.externalRuleEngine}
+            externalRuleEngine={engineBadgeName}
             label={externalRuleEngineLabel}
           />
         )}
