@@ -36,6 +36,8 @@ export const securityMessages = {
   'mcp_clients.url.help':
     'Enter a web link to load the details automatically. Requires internet access.',
   'mcp_clients.refresh': 'Refresh',
+  'mcp_clients.refresh.fetch_error':
+    'SonarQube Server could not load the metadata. Check that the URL is reachable from the server, then try Refresh again.',
   'mcp_clients.refreshed': 'Client metadata refreshed.',
   'mcp_clients.page': 'MCP Server',
   'mcp_clients.url': 'Client metadata URL',
