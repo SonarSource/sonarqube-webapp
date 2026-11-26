@@ -22,7 +22,7 @@ import styled from '@emotion/styled';
 import { RatingBadgeSize, Text, TextSize, cssVar } from '@sonarsource/echoes-react';
 import { isEmpty } from 'lodash';
 import { FormattedMessage, useIntl } from 'react-intl';
-import { NoDataIcon, SnoozeCircleIcon, TrendUpCircleIcon, getTabPanelId } from '~design-system';
+import { NoDataIcon, SnoozeCircleIcon, TrendUpCircleIcon } from '~design-system';
 import {
   GridContainer,
   StyleMeasuresCard,
@@ -31,6 +31,7 @@ import {
 import { getBranchLikeQuery } from '~shared/helpers/branch-like';
 import { isApplication } from '~shared/helpers/component';
 import { MeasurementType, getMeasurementMetricKey } from '~shared/helpers/overview';
+import { getTabPanelId } from '~shared/helpers/tabs';
 import { MeasureEnhanced } from '~shared/types/measures';
 import { MetricKey, MetricType } from '~shared/types/metrics';
 import { getLeakValue } from '~sq-server-commons/components/measure/utils';

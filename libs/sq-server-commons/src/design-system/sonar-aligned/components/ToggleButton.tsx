@@ -20,8 +20,8 @@
 
 import styled from '@emotion/styled';
 import { cssVar } from '@sonarsource/echoes-react';
+import { getTabId, getTabPanelId } from '~shared/helpers/tabs';
 import { Badge } from '../../components/Badge';
-import { getTabId, getTabPanelId } from '../helpers/tabs';
 import { ButtonSecondary } from './buttons';
 
 type ToggleButtonValueType = string | number | boolean;

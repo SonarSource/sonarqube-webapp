@@ -21,7 +21,8 @@
 import { Button, ButtonVariety, Spinner } from '@sonarsource/echoes-react';
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
-import { FlagMessage, Link, getTabId, getTabPanelId } from '~design-system';
+import { FlagMessage, Link } from '~design-system';
+import { getTabId, getTabPanelId } from '~shared/helpers/tabs';
 import { translate } from '~sq-server-commons/helpers/l10n';
 import {
   AlmBindingDefinition,

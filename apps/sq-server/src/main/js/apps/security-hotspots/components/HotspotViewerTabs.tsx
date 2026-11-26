@@ -21,7 +21,8 @@
 import { groupBy, omit } from 'lodash';
 import * as React from 'react';
 import { useIntl } from 'react-intl';
-import { ToggleButton, getTabId, getTabPanelId } from '~design-system';
+import { ToggleButton } from '~design-system';
+import { getTabId, getTabPanelId } from '~shared/helpers/tabs';
 import { RuleDescriptionSection, RuleDescriptionSections } from '~shared/types/rules';
 import RuleDescription from '~sq-server-commons/components/rules/RuleDescription';
 import {

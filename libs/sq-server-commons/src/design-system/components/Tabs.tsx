@@ -22,8 +22,8 @@ import styled from '@emotion/styled';
 import { Badge, cssVar, EchoesCSSVarString } from '@sonarsource/echoes-react';
 import { PropsWithChildren } from 'react';
 import { FormattedMessage } from 'react-intl';
+import { getTabId, getTabPanelId } from '~shared/helpers/tabs';
 import { BareButton } from '../sonar-aligned/components/buttons';
-import { getTabId, getTabPanelId } from '../sonar-aligned/helpers/tabs';
 
 type TabValueType = string | number | boolean;
 

@@ -21,7 +21,7 @@
 import { RatingBadgeSize, Text } from '@sonarsource/echoes-react';
 import classNames from 'classnames';
 import { useIntl } from 'react-intl';
-import { NoDataIcon, SnoozeCircleIcon, getTabPanelId } from '~design-system';
+import { NoDataIcon, SnoozeCircleIcon } from '~design-system';
 import {
   GridContainer,
   StyleMeasuresCard,
@@ -30,6 +30,7 @@ import {
 import { getBranchLikeQuery } from '~shared/helpers/branch-like';
 import { isApplication } from '~shared/helpers/component';
 import { MeasurementType, getMeasurementMetricKey } from '~shared/helpers/overview';
+import { getTabPanelId } from '~shared/helpers/tabs';
 import { SoftwareQuality } from '~shared/types/clean-code-taxonomy';
 import { MeasureEnhanced } from '~shared/types/measures';
 import { MetricKey, MetricType } from '~shared/types/metrics';

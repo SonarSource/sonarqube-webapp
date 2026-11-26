@@ -24,9 +24,10 @@ import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { useSearchParams } from 'react-router';
 import { Image } from '~adapters/components/common/Image';
-import { getTabId, getTabPanelId, SubTitle, ToggleButton } from '~design-system';
+import { SubTitle, ToggleButton } from '~design-system';
 import { useCurrentTheme } from '~shared/helpers/css';
 import { searchParamsToQuery } from '~shared/helpers/router';
+import { getTabId, getTabPanelId } from '~shared/helpers/tabs';
 import { ExtendedSettingDefinition } from '~shared/types/settings';
 import withAvailableFeatures, {
   WithAvailableFeaturesProps,

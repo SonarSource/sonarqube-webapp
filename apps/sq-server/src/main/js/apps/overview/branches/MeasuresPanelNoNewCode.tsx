@@ -21,8 +21,8 @@
 import { Link, Text } from '@sonarsource/echoes-react';
 import { FormattedMessage } from 'react-intl';
 import { Image } from '~adapters/components/common/Image';
-import { getTabPanelId } from '~design-system';
 import { getBranchLikeQuery } from '~shared/helpers/branch-like';
+import { getTabPanelId } from '~shared/helpers/tabs';
 import { ComponentQualifier } from '~shared/types/component';
 import { translate } from '~sq-server-commons/helpers/l10n';
 import { CodeScope } from '~sq-server-commons/helpers/urls';
