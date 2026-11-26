@@ -16,4 +16,7 @@
 ## Tailwind and CSS
 
 - `sw:*` is the custom tailwind prefix — use it consistently.
-- Prefer Tailwind helper classes over custom CSS (using emotion) when possible.
+- Prefer Tailwind utility classes for small, local styling adjustments.
+- Prefer named Emotion styled components for substantial styling, such as responsive layouts with container queries or descendant selectors, when they make the rules more cohesive and easier to read than long utility class lists.
+- Choose based on readability and maintainability. The fact that Tailwind can express the same CSS is not, by itself, a reason to replace styled components with utility classes or named className string constants.
+- Small utility classes may coexist with styled components for simple, independent adjustments; mixing the two is not, by itself, a reason to rewrite the styling.
