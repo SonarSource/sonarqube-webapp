@@ -103,8 +103,8 @@ const selectors = {
         activate ? 'ac' : 'deac'
       }tivate_in_quality_profile (${count} coding_rules._rules)`,
     }),
-  activateInSelect: byRole('combobox', { name: 'coding_rules.activate_in' }),
-  deactivateInSelect: byRole('combobox', { name: 'coding_rules.deactivate_in' }),
+  bulkProfileCheckbox: (profile: BaseProfile) =>
+    byRole('checkbox', { name: `${profile.name} - ${profile.languageName}` }),
   noQualityProfiles: byText('coding_rules.bulk_change.no_quality_profile'),
   bulkApply: byRole('button', { name: 'apply' }),
   bulkSuccessMessage: (qpName: string, langName: string, count: number) =>
@@ -266,8 +266,7 @@ export function getPageObjects() {
       const dialog = ui.bulkChangeDialog(rulesCount).get();
       expect(dialog).toBeInTheDocument();
 
-      await user.click(ui.activateInSelect.get());
-      await user.click(byText(`${profile.name} - ${profile.languageName}`).get(dialog));
+      await user.click(ui.bulkProfileCheckbox(profile).get(dialog));
 
       await user.click(ui.bulkApply.get());
     },
@@ -279,8 +278,7 @@ export function getPageObjects() {
       const dialog = ui.bulkChangeDialog(rulesCount, false).get();
       expect(dialog).toBeInTheDocument();
 
-      await user.click(ui.deactivateInSelect.get());
-      await user.click(byText(`${profile.name} - ${profile.languageName}`).get(dialog));
+      await user.click(ui.bulkProfileCheckbox(profile).get(dialog));
 
       await user.click(ui.bulkApply.get());
     },

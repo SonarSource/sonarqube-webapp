@@ -18,10 +18,15 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Button, ButtonVariety, IconChevronDown } from '@sonarsource/echoes-react';
+import {
+  Button,
+  ButtonVariety,
+  DropdownMenu,
+  DropdownMenuAlign,
+  IconChevronDown,
+} from '@sonarsource/echoes-react';
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
-import { Dropdown, ItemButton, PopupPlacement, PopupZLevel } from '~design-system';
 import Tooltip from '~sq-server-commons/components/controls/Tooltip';
 import { translate } from '~sq-server-commons/helpers/l10n';
 import { CodingRulesQuery } from '~sq-server-commons/types/coding-rules';
@@ -44,13 +49,19 @@ interface State {
 export default class BulkChange extends React.PureComponent<Props, State> {
   state: State = { modal: false };
 
+  triggerRef = React.createRef<HTMLButtonElement>();
+
   getSelectedProfile = () => {
     const { profile } = this.props.query;
     return (profile && this.props.referencedProfiles[profile]) || undefined;
   };
 
   closeModal = () => {
-    this.setState({ action: undefined, modal: false, profile: undefined });
+    // The menu item that opened the modal is unmounted once the menu closes, so the modal cannot
+    // return focus to it: hand focus back to the "Bulk Change" button explicitly.
+    this.setState({ action: undefined, modal: false, profile: undefined }, () => {
+      this.triggerRef.current?.focus();
+    });
   };
 
   handleActivateClick = () => {
@@ -92,42 +103,39 @@ export default class BulkChange extends React.PureComponent<Props, State> {
 
     return (
       <>
-        <Dropdown
-          allowResizing
+        <DropdownMenu
+          align={DropdownMenuAlign.End}
           id="issue-bulkaction-menu"
-          overlay={
+          items={
             <>
-              <ItemButton onClick={this.handleActivateClick}>
+              <DropdownMenu.ItemButton onClick={this.handleActivateClick}>
                 <FormattedMessage id="coding_rules.activate_in" />
-              </ItemButton>
+              </DropdownMenu.ItemButton>
 
               {allowActivateOnProfile && profile && (
-                <ItemButton onClick={this.handleActivateInProfileClick}>
+                <DropdownMenu.ItemButton onClick={this.handleActivateInProfileClick}>
                   <FormattedMessage id="coding_rules.activate_in" />{' '}
                   <strong className="sw:ml-1">{profile.name}</strong>
-                </ItemButton>
+                </DropdownMenu.ItemButton>
               )}
 
-              <ItemButton onClick={this.handleDeactivateClick}>
+              <DropdownMenu.ItemButton onClick={this.handleDeactivateClick}>
                 <FormattedMessage id="coding_rules.deactivate_in" />
-              </ItemButton>
+              </DropdownMenu.ItemButton>
 
               {allowDeactivateOnProfile && profile && (
-                <ItemButton onClick={this.handleDeactivateInProfileClick}>
+                <DropdownMenu.ItemButton onClick={this.handleDeactivateInProfileClick}>
                   <FormattedMessage id="coding_rules.deactivate_in" />{' '}
                   <strong className="sw:ml-1">{profile.name}</strong>
-                </ItemButton>
+                </DropdownMenu.ItemButton>
               )}
             </>
           }
-          placement={PopupPlacement.BottomRight}
-          size="auto"
-          zLevel={PopupZLevel.Global}
         >
-          <Button suffix={<IconChevronDown className="sw:ml-1" />}>
+          <Button ref={this.triggerRef} suffix={<IconChevronDown className="sw:ml-1" />}>
             <FormattedMessage id="bulk_change" />
           </Button>
-        </Dropdown>
+        </DropdownMenu>
         {this.state.modal && this.state.action && (
           <BulkChangeModal
             action={this.state.action}

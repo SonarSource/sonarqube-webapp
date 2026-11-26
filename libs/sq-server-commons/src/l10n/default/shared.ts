@@ -668,7 +668,6 @@ export const sharedMessages = {
   'search.search_for_directories': 'Search for directories...',
   'search.search_for_files': 'Search for files...',
   'search.search_for_metrics': 'Search for metrics...',
-  'search.search_for_profiles': 'Search for quality profiles...',
 
   'global_search.shortcut_hint': "Hint: Press 'S' from anywhere to open this search bar.",
 

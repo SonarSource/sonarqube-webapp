@@ -19,6 +19,7 @@
  */
 
 import { waitFor } from '@testing-library/react';
+import { UserEvent } from '@testing-library/user-event';
 import { byRole } from '~shared/helpers/testSelector';
 import { SoftwareQuality } from '~shared/types/clean-code-taxonomy';
 import CodingRulesServiceMock from '~sq-server-commons/api/mocks/CodingRulesServiceMock';
@@ -58,8 +59,8 @@ describe('Rules app list', () => {
       await user.click(ui.activateIn.get());
       const dialog = ui.bulkChangeDialog(1);
       expect(dialog.get()).toBeInTheDocument();
-      await user.click(ui.activateInSelect.get());
       expect(ui.noQualityProfiles.get(dialog.get())).toBeInTheDocument();
+      expect(ui.bulkApply.get()).toBeDisabled();
       await user.keyboard('{Escape}');
       await user.click(ui.clearAllFiltersButton.get());
 
@@ -92,6 +93,107 @@ describe('Rules app list', () => {
       expect(
         ui.bulkSuccessMessage(selectQP.name, selectQP.languageName, rulesCount).get(),
       ).toBeInTheDocument();
+    });
+  });
+
+  describe('bulk change focus', () => {
+    it.each([
+      ['Escape', async (user: UserEvent) => user.keyboard('{Escape}')],
+      [
+        'Cancel button',
+        async (user: UserEvent) => user.click(byRole('button', { name: 'cancel' }).get()),
+      ],
+    ])('returns focus to the Bulk Change button when closed with %s', async (_, close) => {
+      const { ui, user } = getPageObjects();
+      rulesHandler.setIsAdmin();
+      renderCodingRulesApp(mockLoggedInUser());
+      await ui.listLoaded();
+
+      await user.click(ui.bulkChangeButton.get());
+      await user.click(ui.activateIn.get());
+      expect(ui.bulkChangeDialog(rulesHandler.allRulesCount()).get()).toBeInTheDocument();
+
+      await close(user);
+
+      expect(ui.bulkChangeButton.get()).toHaveFocus();
+    });
+
+    it('closes with the X button and returns focus to the Bulk Change button', async () => {
+      const { ui, user } = getPageObjects();
+      rulesHandler.setIsAdmin();
+      renderCodingRulesApp(mockLoggedInUser());
+      await ui.listLoaded();
+
+      await user.click(ui.bulkChangeButton.get());
+      await user.click(ui.activateIn.get());
+      await user.click(byRole('button', { name: 'modal.close' }).get());
+
+      expect(ui.bulkChangeButton.get()).toHaveFocus();
+    });
+
+    it('selects several profiles with the mouse and the keyboard, Apply needs a selection', async () => {
+      const { ui, user } = getPageObjects();
+      rulesHandler.setIsAdmin();
+      renderCodingRulesApp(mockLoggedInUser());
+      await ui.listLoaded();
+
+      const profiles = rulesHandler.allQualityProfile('java');
+      expect(profiles.length).toBeGreaterThanOrEqual(2);
+
+      await user.click(ui.bulkChangeButton.get());
+      await user.click(ui.activateIn.get());
+      const dialog = ui.bulkChangeDialog(rulesHandler.allRulesCount()).get();
+      expect(ui.bulkApply.get()).toBeDisabled();
+
+      await user.click(ui.bulkProfileCheckbox(profiles[0]).get(dialog));
+      expect(ui.bulkApply.get()).toBeEnabled();
+
+      ui.bulkProfileCheckbox(profiles[1]).get(dialog).focus();
+      await user.keyboard(' ');
+      expect(byRole('checkbox', { checked: true }).getAll(dialog)).toHaveLength(2);
+
+      await user.keyboard(' ');
+      await user.click(ui.bulkProfileCheckbox(profiles[0]).get(dialog));
+      expect(byRole('checkbox', { checked: true }).queryAll(dialog)).toHaveLength(0);
+      expect(ui.bulkApply.get()).toBeDisabled();
+    });
+
+    it('applies the change to every selected profile and shows one result per profile', async () => {
+      const { ui, user } = getPageObjects();
+      rulesHandler.setIsAdmin();
+      renderCodingRulesApp(mockLoggedInUser());
+      await ui.listLoaded();
+
+      const [first, second] = rulesHandler.allQualityProfile('java');
+      const rulesCount = rulesHandler.allRulesCount();
+
+      await user.click(ui.bulkChangeButton.get());
+      await user.click(ui.activateIn.get());
+      const dialog = ui.bulkChangeDialog(rulesCount).get();
+      await user.click(ui.bulkProfileCheckbox(first).get(dialog));
+      await user.click(ui.bulkProfileCheckbox(second).get(dialog));
+      await user.click(ui.bulkApply.get());
+
+      expect(
+        await ui.bulkSuccessMessage(first.name, first.languageName, rulesCount).find(),
+      ).toBeInTheDocument();
+      expect(
+        ui.bulkSuccessMessage(second.name, second.languageName, rulesCount).get(),
+      ).toBeInTheDocument();
+      expect(ui.bulkApply.query()).not.toBeInTheDocument();
+    });
+
+    it('returns focus to the Bulk Change button after completing the action', async () => {
+      const { ui, user } = getPageObjects();
+      rulesHandler.setIsAdmin();
+      renderCodingRulesApp(mockLoggedInUser());
+      await ui.listLoaded();
+
+      const [selectQP] = rulesHandler.allQualityProfile('java');
+      await ui.bulkActivate(rulesHandler.allRulesCount(), selectQP);
+      await user.click(ui.bulkClose.get());
+
+      expect(ui.bulkChangeButton.get()).toHaveFocus();
     });
   });
 

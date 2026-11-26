@@ -21,28 +21,26 @@
 import {
   Button,
   ButtonVariety,
+  CheckboxGroup,
   Form,
   Heading,
-  Label,
   MessageInline,
   MessageVariety,
+  Modal,
   Spinner,
+  Text,
 } from '@sonarsource/echoes-react';
-import * as React from 'react';
-import { Modal } from '~design-system';
+import { useEffect, useRef, useState } from 'react';
+import { FormattedMessage, useIntl } from 'react-intl';
 import { MetricType } from '~shared/types/metrics';
+import { formatMeasure } from '~adapters/helpers/measures';
 import { bulkActivateRules, bulkDeactivateRules } from '~sq-server-commons/api/quality-profiles';
 import withLanguages, {
   WithLanguagesProps,
 } from '~sq-server-commons/context/languages/withLanguages';
-import { translate, translateWithParameters } from '~sq-server-commons/helpers/l10n';
-import { formatMeasure } from '~adapters/helpers/measures';
 import { CodingRulesQuery } from '~sq-server-commons/types/coding-rules';
-import { BaseProfile, Profile } from '~sq-server-commons/types/quality-profiles';
+import { BaseProfile } from '~sq-server-commons/types/quality-profiles';
 import { serializeQuery } from '~sq-server-commons/utils/coding-rules-query';
-import { QualityProfileSelector } from './QualityProfileSelector';
-
-import { FormattedMessage } from 'react-intl';
 
 interface Props extends WithLanguagesProps {
   action: string;
@@ -60,135 +58,114 @@ interface ActivationResult {
   succeeded: number;
 }
 
-interface State {
-  finished: boolean;
-  results: ActivationResult[];
-  selectedProfiles: BaseProfile[];
-  submitting: boolean;
+function getAvailableQualityProfiles({
+  query,
+  referencedProfiles,
+}: Pick<Props, 'query' | 'referencedProfiles'>) {
+  let profiles = Object.values(referencedProfiles);
+  if (query.languages.length > 0) {
+    profiles = profiles.filter((profile) => query.languages.includes(profile.language));
+  }
+  return profiles
+    .filter((profile) => profile.actions?.edit)
+    .filter((profile) => !profile.isBuiltIn);
 }
 
-export class BulkChangeModal extends React.PureComponent<Props, State> {
-  mounted = false;
+export function BulkChangeModal(props: Readonly<Props>) {
+  const { action, languages, onClose, onSubmit, profile, query, referencedProfiles, total } = props;
+  const { formatMessage } = useIntl();
 
-  constructor(props: Props) {
-    super(props);
+  const availableProfiles = getAvailableQualityProfiles({ query, referencedProfiles });
 
-    // if there is only one possible option for profile, select it immediately
-    const selectedProfiles = [];
-    const availableProfiles = this.getAvailableQualityProfiles(props);
-    if (availableProfiles.length === 1) {
-      selectedProfiles.push(availableProfiles[0]);
-    }
+  // if there is only one possible option for profile, select it immediately
+  const [selectedKeys, setSelectedKeys] = useState<string[]>(() =>
+    availableProfiles.length === 1 ? [availableProfiles[0].key] : [],
+  );
+  const [results, setResults] = useState<ActivationResult[]>([]);
+  const [finished, setFinished] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
 
-    this.state = {
-      finished: false,
-      results: [],
-      selectedProfiles,
-      submitting: false,
+  const mounted = useRef(true);
+  useEffect(() => {
+    mounted.current = true;
+    return () => {
+      mounted.current = false;
     };
-  }
+  }, []);
 
-  componentDidMount() {
-    this.mounted = true;
-  }
+  const formId = `coding-rules-bulk-change-form-${action}`;
+  const label = formatMessage({
+    id: action === 'activate' ? 'coding_rules.activate_in' : 'coding_rules.deactivate_in',
+  });
 
-  componentWillUnmount() {
-    this.mounted = false;
-  }
-
-  handleProfileSelect = (selectedProfiles: Profile[]) => {
-    this.setState({ selectedProfiles });
+  const handleProfilesChange = (nextKeys: string[]) => {
+    // newly selected profiles go first, as in the former multi-selector
+    const added = nextKeys.filter((key) => !selectedKeys.includes(key));
+    setSelectedKeys([...added, ...selectedKeys.filter((key) => nextKeys.includes(key))]);
   };
 
-  getProfiles = () => {
-    // if a profile is selected in the facet, pick it
-    // otherwise take all profiles selected in the dropdown
-
-    return this.props.profile
-      ? [this.props.profile.key]
-      : this.state.selectedProfiles.map((p) => p.key);
-  };
-
-  getAvailableQualityProfiles = ({ query, referencedProfiles } = this.props) => {
-    let profiles = Object.values(referencedProfiles);
-    if (query.languages.length > 0) {
-      profiles = profiles.filter((profile) => query.languages.includes(profile.language));
-    }
-    return profiles
-      .filter((profile) => profile.actions?.edit)
-      .filter((profile) => !profile.isBuiltIn);
-  };
-
-  processResponse = (profile: string, response: any) => {
-    if (this.mounted) {
-      const result: ActivationResult = {
-        failed: response.failed || 0,
-        profile,
-        succeeded: response.succeeded || 0,
-      };
-      this.setState((state) => ({ results: [...state.results, result] }));
-    }
-  };
-
-  sendRequests = () => {
+  const sendRequests = () => {
     let looper = Promise.resolve();
 
     // serialize the query, but delete the `profile`
-    const data = serializeQuery(this.props.query);
+    const data = serializeQuery(query);
     delete data.profile;
 
-    const method = this.props.action === 'activate' ? bulkActivateRules : bulkDeactivateRules;
+    const method = action === 'activate' ? bulkActivateRules : bulkDeactivateRules;
 
-    const profiles = this.getProfiles();
+    // if a profile is selected in the facet, pick it
+    // otherwise take all profiles selected in the form
+    const profileKeys = profile ? [profile.key] : selectedKeys;
 
-    for (const profile of profiles) {
+    for (const profileKey of profileKeys) {
       looper = looper
-        .then(() =>
-          method({
-            ...data,
-            targetKey: profile,
-          }),
-        )
-        .then((response) => {
-          this.processResponse(profile, response);
+        .then(() => method({ ...data, targetKey: profileKey }))
+        .then((response: { failed?: number; succeeded?: number }) => {
+          if (mounted.current) {
+            setResults((previous) => [
+              ...previous,
+              {
+                failed: response.failed || 0,
+                profile: profileKey,
+                succeeded: response.succeeded || 0,
+              },
+            ]);
+          }
         });
     }
     return looper;
   };
 
-  handleFormSubmit = (event: React.SyntheticEvent<HTMLFormElement>) => {
+  const handleFormSubmit = (event: React.SyntheticEvent<HTMLFormElement>) => {
     event.preventDefault();
-    this.setState({ submitting: true });
-    this.sendRequests().then(
+    setSubmitting(true);
+    sendRequests().then(
       () => {
-        if (this.mounted) {
-          this.setState({ finished: true, submitting: false });
+        if (mounted.current) {
+          setFinished(true);
+          setSubmitting(false);
         }
       },
       () => {
-        if (this.mounted) {
-          this.setState({ submitting: false });
+        if (mounted.current) {
+          setSubmitting(false);
         }
       },
     );
   };
 
-  handleClose = () => {
-    if (this.props.onSubmit && this.state.finished) {
-      this.props.onSubmit();
+  const handleClose = () => {
+    if (onSubmit && finished) {
+      onSubmit();
     }
-
-    this.props.onClose();
+    onClose();
   };
 
-  renderResult = (result: ActivationResult) => {
-    const { profile: profileKey } = result;
-    const profile = this.props.referencedProfiles[profileKey];
-
-    const { languages } = this.props;
-    const language = languages[profile.language]
-      ? languages[profile.language].name
-      : profile.language;
+  const renderResult = (result: ActivationResult) => {
+    const resultProfile = referencedProfiles[result.profile];
+    const language = languages[resultProfile.language]
+      ? languages[resultProfile.language].name
+      : resultProfile.language;
     return (
       <MessageInline
         className="sw:mb-4"
@@ -196,123 +173,112 @@ export class BulkChangeModal extends React.PureComponent<Props, State> {
         variety={result.failed === 0 ? MessageVariety.Success : MessageVariety.Warning}
       >
         {result.failed
-          ? translateWithParameters(
-              'coding_rules.bulk_change.warning',
-              profile.name,
-              language,
-              result.succeeded,
-              result.failed,
+          ? formatMessage(
+              { id: 'coding_rules.bulk_change.warning' },
+              {
+                0: resultProfile.name,
+                1: language,
+                2: result.succeeded,
+                3: result.failed,
+              },
             )
-          : translateWithParameters(
-              'coding_rules.bulk_change.success',
-              profile.name,
-              language,
-              result.succeeded,
+          : formatMessage(
+              { id: 'coding_rules.bulk_change.success' },
+              { 0: resultProfile.name, 1: language, 2: result.succeeded },
             )}
       </MessageInline>
     );
   };
 
-  renderProfileSelect = () => {
-    const profiles = this.getAvailableQualityProfiles();
+  const renderProfileSelect = () => {
+    if (availableProfiles.length === 0) {
+      return (
+        <Text isSubtle>
+          <FormattedMessage id="coding_rules.bulk_change.no_quality_profile" />
+        </Text>
+      );
+    }
 
-    const { selectedProfiles } = this.state;
-    const { action } = this.props;
-    const label =
-      action === 'activate'
-        ? translate('coding_rules.activate_in')
-        : translate('coding_rules.deactivate_in');
     return (
-      <>
-        <Label className="sw:block sw:mb-2" htmlFor="coding-rules-bulk-change-profile-select">
-          {label}
-        </Label>
-        <QualityProfileSelector
-          inputId="coding-rules-bulk-change-profile-select"
-          onChange={this.handleProfileSelect}
-          profiles={profiles}
-          selectedProfiles={selectedProfiles}
-        />
-      </>
+      <CheckboxGroup
+        id="coding-rules-bulk-change-profile-select"
+        label={label}
+        onChange={handleProfilesChange}
+        options={
+          availableProfiles.map((availableProfile) => ({
+            label: `${availableProfile.name} - ${availableProfile.languageName}`,
+            value: availableProfile.key,
+          })) as [{ label: string; value: string }, ...{ label: string; value: string }[]]
+        }
+        value={selectedKeys}
+      />
     );
   };
 
-  render() {
-    const { action, profile, total } = this.props;
-    const header =
+  const title = `${formatMessage({
+    id:
       action === 'activate'
-        ? `${translate('coding_rules.activate_in_quality_profile')} (${formatMeasure(
-            total,
-            MetricType.Integer,
-          )} ${translate('coding_rules._rules')})`
-        : `${translate('coding_rules.deactivate_in_quality_profile')} (${formatMeasure(
-            total,
-            MetricType.Integer,
-          )} ${translate('coding_rules._rules')})`;
+        ? 'coding_rules.activate_in_quality_profile'
+        : 'coding_rules.deactivate_in_quality_profile',
+  })} (${formatMeasure(total, MetricType.Integer)} ${formatMessage({ id: 'coding_rules._rules' })})`;
 
-    const FORM_ID = `coding-rules-bulk-change-form-${action}`;
-
-    const label =
-      action === 'activate'
-        ? translate('coding_rules.activate_in')
-        : translate('coding_rules.deactivate_in');
-
-    const formBody = (
-      <Form id={FORM_ID} onSubmit={this.handleFormSubmit}>
-        {!this.state.finished && !this.state.submitting && (
-          <div>
-            {profile ? (
-              <>
-                <Heading as="h4" className="sw:mb-0">
-                  {label}
-                </Heading>
-                <span>
-                  {profile.name}
-                  {' — '}
-                  <FormattedMessage id="are_you_sure" />
-                </span>
-              </>
-            ) : (
-              this.renderProfileSelect()
-            )}
+  return (
+    <Modal
+      content={
+        <>
+          <div aria-live="polite" aria-relevant="additions">
+            {results.map(renderResult)}
           </div>
-        )}
-      </Form>
-    );
-
-    return (
-      <Modal
-        body={
-          <>
-            <div aria-live="polite" aria-relevant="additions">
-              {this.state.results.map(this.renderResult)}
-            </div>
-            <Spinner isLoading={this.state.submitting}>{formBody}</Spinner>
-          </>
+          <Spinner isLoading={submitting}>
+            <Form id={formId} onSubmit={handleFormSubmit}>
+              {!finished && !submitting && (
+                <Form.Section>
+                  {profile ? (
+                    <>
+                      <Heading as="h4" className="sw:mb-0">
+                        {label}
+                      </Heading>
+                      <span>
+                        {profile.name}
+                        {' — '}
+                        <FormattedMessage id="are_you_sure" />
+                      </span>
+                    </>
+                  ) : (
+                    renderProfileSelect()
+                  )}
+                </Form.Section>
+              )}
+            </Form>
+          </Spinner>
+        </>
+      }
+      isOpen
+      onOpenChange={(isOpen) => {
+        if (!isOpen) {
+          handleClose();
         }
-        headerTitle={header}
-        isScrollable
-        onClose={this.handleClose}
-        primaryButton={
-          !this.state.finished && (
-            <Button
-              form={FORM_ID}
-              hasAutoFocus
-              isDisabled={
-                this.state.submitting ||
-                (this.state.selectedProfiles.length === 0 && profile === undefined)
-              }
-              type="submit"
-              variety={ButtonVariety.Primary}
-            >
-              <FormattedMessage id="apply" />
-            </Button>
-          )
-        }
-        secondaryButtonLabel={this.state.finished ? translate('close') : translate('cancel')}
-      />
-    );
-  }
+      }}
+      primaryButton={
+        !finished && (
+          <Button
+            form={formId}
+            isDisabled={submitting || (selectedKeys.length === 0 && profile === undefined)}
+            type="submit"
+            variety={ButtonVariety.Primary}
+          >
+            <FormattedMessage id="apply" />
+          </Button>
+        )
+      }
+      secondaryButton={
+        <Button onClick={handleClose}>
+          <FormattedMessage id={finished ? 'close' : 'cancel'} />
+        </Button>
+      }
+      title={title}
+    />
+  );
 }
 
 export default withLanguages(BulkChangeModal);

@@ -1301,9 +1301,6 @@ export const qualityMessages = {
   'coding_rules.detail.extend_description.form': "Extend this rule's description",
   'coding_rules.create_tag': 'Create Tag',
 
-  'coding_rules.select_profile': 'Select Profile',
-  'coding_rules.selected_profiles': 'Selected Profiles',
-
   'coding_rules.custom.type.label': 'Type',
   'coding_rules.custom.type.option.ISSUE': 'Issue',
   'coding_rules.custom.type.option.SECURITY_HOTSPOT': 'Security Hotspot',
