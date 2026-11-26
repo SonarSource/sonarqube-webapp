@@ -44,6 +44,8 @@ interface Props<T extends string> {
   onCommentChange: (comment: string) => void;
   onConfirm: (comment: string, isFeedback: boolean) => void;
   onIsFeedbackChange: (isFeedback: boolean) => void;
+  /** Hide comment entry when the user lacks permission; extra content remains available. */
+  showCommentField?: boolean;
   showFeedbackCheckbox?: boolean;
   /** Overrides the dialog's title. Defaults to the generic status_transition.comment.title. */
   title?: ModalProps['title'];
@@ -60,6 +62,7 @@ export function IssueTransitionCommentDialog<T extends string>({
   onCommentChange,
   onConfirm,
   onIsFeedbackChange,
+  showCommentField = true,
   showFeedbackCheckbox,
   title,
   transition,
@@ -71,29 +74,31 @@ export function IssueTransitionCommentDialog<T extends string>({
       content={
         <div className="sw:flex sw:flex-col sw:gap-4">
           {extraContent}
-          <TextArea
-            isResizable
-            label={
-              <Label>
-                {label ?? (
-                  <FormattedMessage
-                    id="status_transition.comment.label"
-                    values={{
-                      status: formatMessage({
-                        id: `status_transition.${transition}.to_status`,
-                      }),
-                    }}
-                  />
-                )}
-              </Label>
-            }
-            onChange={(event) => {
-              onCommentChange(event.target.value);
-            }}
-            placeholder={formatMessage({ id: 'status_transition.comment.placeholder' })}
-            rows={5}
-            value={comment}
-          />
+          {showCommentField && (
+            <TextArea
+              isResizable
+              label={
+                <Label>
+                  {label ?? (
+                    <FormattedMessage
+                      id="status_transition.comment.label"
+                      values={{
+                        status: formatMessage({
+                          id: `status_transition.${transition}.to_status`,
+                        }),
+                      }}
+                    />
+                  )}
+                </Label>
+              }
+              onChange={(event) => {
+                onCommentChange(event.target.value);
+              }}
+              placeholder={formatMessage({ id: 'status_transition.comment.placeholder' })}
+              rows={5}
+              value={comment}
+            />
+          )}
           {showFeedbackCheckbox && (
             <div className="sw:flex sw:gap-1">
               <Checkbox

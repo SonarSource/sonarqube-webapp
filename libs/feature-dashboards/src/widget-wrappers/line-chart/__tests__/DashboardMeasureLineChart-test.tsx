@@ -23,7 +23,9 @@ import {
   IssueResolutionStatistic,
   CodeScope,
 } from '~shared/types/dashboard-history';
-import { render, screen } from '@testing-library/react';
+import { screen } from '@testing-library/react';
+import { render } from '~shared/helpers/test-utils';
+import { CHART_CATEGORICAL_COLORS } from '~shared/helpers/charts';
 import { IntlProvider } from 'react-intl';
 import {
   useDashboardPortfolioContext,
@@ -247,6 +249,8 @@ it('uses localized messages for grouped issue status legend labels', () => {
         {
           date: '2026-01-01',
           distribution: [
+            { key: 'DEFERRED', value: 5 },
+            { key: 'ACCEPTED', value: 1 },
             { key: 'OPEN', value: 3 },
             { key: 'FALSE_POSITIVE', value: 2 },
           ],
@@ -271,6 +275,16 @@ it('uses localized messages for grouped issue status legend labels', () => {
 
   expect(jest.mocked(MultiLineChart).mock.calls.at(-1)?.[0].series).toEqual([
     expect.objectContaining({ id: 'OPEN', label: 'issue.status.OPEN' }),
+    expect.objectContaining({
+      id: 'ACCEPTED',
+      label: 'issue.status.ACCEPTED',
+      color: CHART_CATEGORICAL_COLORS[3],
+    }),
+    expect.objectContaining({
+      id: 'DEFERRED',
+      label: 'issue.status.DEFERRED',
+      color: CHART_CATEGORICAL_COLORS[4],
+    }),
     expect.objectContaining({
       id: 'FALSE_POSITIVE',
       label: 'issue.status.FALSE_POSITIVE',

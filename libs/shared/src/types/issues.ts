@@ -64,6 +64,7 @@ export enum IssueStatus {
   Fixed = 'FIXED',
   Confirmed = 'CONFIRMED',
   Accepted = 'ACCEPTED',
+  Deferred = 'DEFERRED',
   FalsePositive = 'FALSE_POSITIVE',
 }
 

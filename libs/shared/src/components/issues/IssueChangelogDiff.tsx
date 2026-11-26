@@ -28,7 +28,7 @@ interface Props {
 }
 
 export default function IssueChangelogDiff({ diff }: Readonly<Props>) {
-  const { formatDate, formatMessage } = useIntl();
+  const { formatDate, formatMessage, locale } = useIntl();
   const diffComputedValues = {
     newValue: diff.newValue ?? '',
     oldValue: diff.oldValue ?? '',
@@ -115,6 +115,18 @@ export default function IssueChangelogDiff({ diff }: Readonly<Props>) {
   if (diff.key === 'deferralDate') {
     diffComputedValues.newValue = formatChangelogDate(diffComputedValues.newValue, formatDate);
     diffComputedValues.oldValue = formatChangelogDate(diffComputedValues.oldValue, formatDate);
+  }
+
+  if (diff.key === 'issueStatus' || diff.key === 'resolution') {
+    // The API keeps DEFERRED; display SNOOZED for both current and previous values,
+    // preserving the uppercase style used for other status and resolution values.
+    const deferredLabel = formatMessage({ id: 'issue.status.DEFERRED' }).toLocaleUpperCase(locale);
+    if (diffComputedValues.newValue === 'DEFERRED') {
+      diffComputedValues.newValue = deferredLabel;
+    }
+    if (diffComputedValues.oldValue === 'DEFERRED') {
+      diffComputedValues.oldValue = deferredLabel;
+    }
   }
 
   let message =

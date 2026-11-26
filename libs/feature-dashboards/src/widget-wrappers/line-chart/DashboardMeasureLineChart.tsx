@@ -39,13 +39,15 @@ import {
 import {
   aggregateSmallSegments,
   getSegmentColor,
+  sortSegments,
+  STATUS_ORDER,
 } from '../../components/visualizations/pie-chart/pieChartSegmentUtils';
 import { getDashboardMetricTitle } from '../../components/widget-header/widgetHeaderText';
 import { dashboardMeasureHistoryMetricKey } from '../../data/dashboard-measure';
 import { parseDashboardMeasureValue } from '../../data/dashboard-measure-history';
 import { DashboardMetricType, type DashboardMetric } from '../../data/widgets/shared';
 import { useMttrFormatters } from '../../hooks/useMttrFormatters';
-import { PieChartIssueSlice } from '../../types/dashboard-widget';
+import { PieChartIssueSlice, PieChartMetric } from '../../types/dashboard-widget';
 import { ORGANIZATION_ISSUE_COUNT_SEVERITIES } from '../../types/organization-issue-count-history';
 import type { LineChartSeries } from '../../types/visualization';
 import { dashboardHistoryDateRange } from '../../utils/datetime';
@@ -147,6 +149,41 @@ function groupedSeriesLabel(
   }
 }
 
+function orderStatusSeriesKeys(keys: string[], isStatus: boolean): string[] {
+  if (!isStatus) {
+    return keys;
+  }
+  // Use the shared status order so API response order and the selected date range do not
+  // change the relative positions of statuses in the legend.
+  return sortSegments(
+    keys.map((key) => [key, 0]),
+    PieChartIssueSlice.IssueStatuses,
+    PieChartMetric.IssueCount,
+  ).map(([key]) => key);
+}
+
+function groupedSeriesColor(
+  key: string,
+  index: number,
+  sliceBy: string,
+  isStatus: boolean,
+): string {
+  if (sliceBy === 'RULE_KEY') {
+    return getSegmentColor(key, index, PieChartIssueSlice.Rules);
+  }
+  if (isStatus) {
+    // Status lines need distinct colors: the pie chart's sentiment mapping can assign
+    // the same color to different statuses, making overlapping lines indistinguishable.
+    // Index into the full status list so a status keeps its color even when other
+    // statuses have no data in the selected range. Unknown statuses use the series index.
+    const statusIndex = STATUS_ORDER.indexOf(key);
+    return CHART_CATEGORICAL_COLORS[
+      (statusIndex < 0 ? index : statusIndex) % CHART_CATEGORICAL_COLORS.length
+    ];
+  }
+  return CHART_CATEGORICAL_COLORS[index % CHART_CATEGORICAL_COLORS.length];
+}
+
 function historyToSeries(
   data: DashboardMeasureHistory | undefined,
   measure: DashboardMeasure,
@@ -183,15 +220,15 @@ function historyToSeries(
     const sortedHistory = sortDashboardHistory(data.history);
     const { sliceBy } = measure;
     const isGroupedByRule = sliceBy === 'RULE_KEY';
-    const keys = isGroupedByRule
+    const groupedKeys = isGroupedByRule
       ? rankedRuleSeriesKeys(sortedHistory)
       : [...new Set(sortedHistory.flatMap((day) => day.distribution.map(({ key }) => key)))];
+    const isStatus = sliceBy === 'STATUS';
+    const keys = orderStatusSeriesKeys(groupedKeys, isStatus);
     const explicitKeys = new Set(keys.filter((key) => !key.startsWith('OTHER_')));
 
     return keys.map((key, index) => ({
-      color: isGroupedByRule
-        ? getSegmentColor(key, index, PieChartIssueSlice.Rules)
-        : CHART_CATEGORICAL_COLORS[index % CHART_CATEGORICAL_COLORS.length],
+      color: groupedSeriesColor(key, index, sliceBy, isStatus),
       data: sortedHistory.map((day) => ({
         x: new Date(day.date),
         y: key.startsWith('OTHER_')

@@ -78,7 +78,6 @@ interface Props {
   rule?: { status: RuleStatus; isExternal?: boolean };
   /** Ref to the issue header element, used to keep the sidebar's sticky offset in sync with its dynamic height. */
   headerRef: RefObject<HTMLElement | null>;
-  deferralDate?: ReactNode;
   onSetSeverity?: (
     severity: IssueSeverity | SoftwareImpactSeverity,
     quality: SoftwareQuality,
@@ -101,7 +100,6 @@ export function IssueMetadata({
   tags,
   rule,
   headerRef,
-  deferralDate,
   onSetSeverity,
   issueType,
   line,
@@ -142,8 +140,6 @@ export function IssueMetadata({
         </dt>
         <dd>{status}</dd>
         <Divider className="sw:my-1" />
-
-        {deferralDate}
 
         {issueType}
 

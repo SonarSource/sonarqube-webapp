@@ -28,6 +28,7 @@ import {
 import {
   aggregateSmallSegments,
   DEFAULT_PIE_CHART_COLORS,
+  DEFERRED_SEGMENT_COLOR,
   formatPercentage,
   formatPieChartSegmentLabel,
   formatSegmentLabel,
@@ -46,6 +47,36 @@ function mockFormatMessage(
 }
 
 describe('pieChartSegmentUtils', () => {
+  it('labels deferred issues and orders them after accepted with a distinct colour', () => {
+    const entries: Array<[string, number]> = [
+      ['DEFERRED', 5],
+      ['FALSE_POSITIVE', 2],
+      ['ACCEPTED', 1],
+    ];
+    expect(
+      sortSegments(entries, PieChartIssueSlice.IssueStatuses, PieChartMetric.IssueCount),
+    ).toEqual([
+      ['ACCEPTED', 1],
+      ['DEFERRED', 5],
+      ['FALSE_POSITIVE', 2],
+    ]);
+    expect(
+      formatSegmentLabel(
+        'DEFERRED',
+        PieChartMetric.IssueCount,
+        PieChartIssueSlice.IssueStatuses,
+        undefined,
+        mockFormatMessage(() => 'Snoozed'),
+      ),
+    ).toBe('Snoozed');
+    expect(getSegmentColor('DEFERRED', 0, PieChartIssueSlice.IssueStatuses)).toBe(
+      DEFERRED_SEGMENT_COLOR,
+    );
+    expect(getSegmentColor('DEFERRED', 0, PieChartIssueSlice.IssueStatuses)).not.toBe(
+      getSegmentColor('ACCEPTED', 0, PieChartIssueSlice.IssueStatuses),
+    );
+  });
+
   describe('aggregateSmallSegments', () => {
     it('does not aggregate when there are 5 or fewer segments', () => {
       const entries: Array<[string, number]> = [

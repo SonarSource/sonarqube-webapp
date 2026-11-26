@@ -44,6 +44,7 @@ interface PieChartSegmentLabelMetadata {
 }
 
 export const DEFAULT_PIE_CHART_COLORS = CHART_CATEGORICAL_COLORS;
+export const DEFERRED_SEGMENT_COLOR = CHART_CATEGORICAL_COLORS[4];
 
 export const SEVERITY_COLORS: Record<string, string> = {
   BLOCKER: cssVar('color-charts-severity-blocker'),
@@ -66,11 +67,12 @@ export const SENTIMENT_COLORS = {
 };
 
 const SEVERITY_ORDER = ['BLOCKER', 'HIGH', 'MEDIUM', 'LOW', 'INFO'];
-const STATUS_ORDER = [
+export const STATUS_ORDER = [
   'OPEN',
   'CONFIRMED',
   'FIXED',
   'ACCEPTED',
+  'DEFERRED',
   'FALSE_POSITIVE',
   'ERROR',
   'NOT_COMPUTED',
@@ -317,6 +319,21 @@ function formatOtherSegmentLabel(
     : `Other (${count})`;
 }
 
+function formatSpecialSegmentLabel(
+  value: string,
+  slice: PieChartSlice,
+  formatMessage?: IntlShape['formatMessage'],
+): string | undefined {
+  if (value.startsWith('OTHER_')) {
+    return formatOtherSegmentLabel(value, formatMessage);
+  }
+  // The API value stays DEFERRED, but its UI label is "Snoozed", not the generic "Deferred".
+  if (slice === PieChartIssueSlice.IssueStatuses && value === 'DEFERRED' && formatMessage) {
+    return formatMessage({ id: 'issue.status.DEFERRED' });
+  }
+  return undefined;
+}
+
 export function formatSegmentLabel(
   value: string,
   metric: PieChartMetric,
@@ -324,8 +341,9 @@ export function formatSegmentLabel(
   metadata?: PieChartSegmentLabelMetadata,
   formatMessage?: IntlShape['formatMessage'],
 ): string {
-  if (value.startsWith('OTHER_')) {
-    return formatOtherSegmentLabel(value, formatMessage);
+  const specialLabel = formatSpecialSegmentLabel(value, slice, formatMessage);
+  if (specialLabel !== undefined) {
+    return specialLabel;
   }
 
   if (
@@ -395,6 +413,8 @@ export function getSegmentColor(value: string, index: number, slice: PieChartSli
       case 'ACCEPTED':
       case 'NOT_COMPUTED':
         return SENTIMENT_COLORS.ACKNOWLEDGED;
+      case 'DEFERRED':
+        return DEFERRED_SEGMENT_COLOR;
       case 'FALSE_POSITIVE':
       case 'NONE':
         return SENTIMENT_COLORS.NEUTRAL;

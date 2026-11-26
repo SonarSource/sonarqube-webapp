@@ -51,6 +51,21 @@ it.each([
     undefined,
   ],
   [
+    'issueStatus',
+    'issue.changelog.changed_to.issue.changelog.field.issueStatus.ISSUE.STATUS.DEFERRED (issue.changelog.was.OPEN)',
+    { newValue: 'DEFERRED', oldValue: 'OPEN' },
+  ],
+  [
+    'issueStatus',
+    'issue.changelog.changed_to.issue.changelog.field.issueStatus.OPEN (issue.changelog.was.ISSUE.STATUS.DEFERRED)',
+    { newValue: 'OPEN', oldValue: 'DEFERRED' },
+  ],
+  [
+    'resolution',
+    'issue.changelog.changed_to.issue.changelog.field.resolution.FIXED (issue.changelog.was.ISSUE.STATUS.DEFERRED)',
+    { newValue: 'FIXED', oldValue: 'DEFERRED' },
+  ],
+  [
     'deferralDate',
     'issue.changelog.changed_to.issue.changelog.field.deferralDate.Aug 28, 2026',
     { newValue: '2026-08-28T00:00:00.000Z', oldValue: undefined },

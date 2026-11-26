@@ -80,14 +80,6 @@ describe('status', () => {
   });
 });
 
-describe('deferral date', () => {
-  it('renders the deferral date content when provided', () => {
-    setupWithProps({ deferralDate: <span>Deferred until Jan 1 2024</span> });
-
-    expect(byText('Deferred until Jan 1 2024').get()).toBeInTheDocument();
-  });
-});
-
 describe('code attribute', () => {
   it('renders only the category when no attribute is given', () => {
     setupWithProps();

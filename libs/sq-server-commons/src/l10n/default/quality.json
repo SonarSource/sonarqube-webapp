@@ -258,6 +258,7 @@
   "issue.issue_status.FALSE_POSITIVE": "False positive",
   "issue.issue_status.IN_SANDBOX": "In sandbox",
   "issue.status.ACCEPTED": "Accepted",
+  "issue.status.DEFERRED": "Snoozed",
   "issue.status.REOPENED": "Reopened",
   "issue.status.RESOLVED": "Resolved",
   "issue.status.OPEN": "Open",
