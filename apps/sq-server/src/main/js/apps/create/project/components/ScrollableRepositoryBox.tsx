@@ -39,7 +39,7 @@ export function ScrollableRepositoryBox({
     <div
       aria-busy={isBusy}
       className={classNames(
-        'sw:max-h-[400px] sw:min-h-[100px] sw:overflow-y-auto sw:border sw:rounded',
+        'sw:relative sw:max-h-[400px] sw:min-h-[100px] sw:overflow-y-auto sw:border sw:rounded',
         { 'sw:opacity-50 sw:pointer-events-none': isBusy },
       )}
       style={{ borderColor: cssVar('color-border-weak') }}
