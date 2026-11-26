@@ -39,6 +39,7 @@ type AlmRepoItemProps = {
   almKey: string;
   almUrl?: string;
   almUrlText?: string;
+  hasBorder?: boolean;
   primaryTextNode: React.ReactNode;
   secondaryTextNode?: React.ReactNode;
   sqProjectKey?: string;
@@ -62,6 +63,7 @@ export default function AlmRepoItem({
   almKey,
   almUrl,
   almUrlText,
+  hasBorder = true,
   multiple,
   onCheck,
   onImport,
@@ -74,10 +76,12 @@ export default function AlmRepoItem({
   return (
     <RepositoryItem
       aria-labelledby={labelId}
-      className={classNames('sw:flex sw:items-center sw:w-full sw:p-4 sw:rounded-1', {
+      className={classNames('sw:flex sw:items-center sw:w-full sw:p-4', {
+        'sw:rounded-1': hasBorder,
         'sw:py-4': multiple || sqProjectKey !== undefined,
         'sw:py-2': !multiple && sqProjectKey === undefined,
       })}
+      hasBorder={hasBorder}
       imported={sqProjectKey !== undefined}
       onClick={() => multiple && sqProjectKey === undefined && onCheck(almKey)}
       selected={selected}
@@ -162,11 +166,27 @@ export default function AlmRepoItem({
   );
 }
 
-const RepositoryItem = styled.li<{ imported?: boolean; selected?: boolean }>`
+function getBorderStyle({ hasBorder, selected }: { hasBorder: boolean; selected?: boolean }) {
+  if (!hasBorder) {
+    return `
+      border-bottom: ${cssVar('border-width-default')} solid ${cssVar('color-border-weak')};
+
+      &:last-child {
+        border-bottom: none;
+      }
+    `;
+  }
+
+  const borderColor = selected
+    ? cssVar('color-border-accent-default')
+    : cssVar('color-border-weak');
+
+  return `border: ${cssVar('border-width-default')} solid ${borderColor};`;
+}
+
+const RepositoryItem = styled.li<{ hasBorder: boolean; imported?: boolean; selected?: boolean }>`
   box-sizing: border-box;
-  border: ${({ selected }) =>
-    selected
-      ? `${cssVar('border-width-default')} solid ${cssVar('color-border-accent-default')}`
-      : `${cssVar('border-width-default')} solid ${cssVar('color-border-weak')}`};
   cursor: ${({ imported }) => imported && 'default'};
+
+  ${getBorderStyle}
 `;

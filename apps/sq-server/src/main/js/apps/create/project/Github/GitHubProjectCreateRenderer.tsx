@@ -53,7 +53,7 @@ interface GitHubProjectCreateRendererProps {
   loadingOrganizations: boolean;
   loadingRepositories: boolean;
   onImportRepository: (key: string[]) => void;
-  onLoadMore: () => void;
+  onPageChange: (pageIndex: number) => void;
   onSearch: (q: string) => void;
   onSelectOrganization: (key: string) => void;
   onSelectedAlmInstanceChange: (instance: AlmSettingsInstance) => void;

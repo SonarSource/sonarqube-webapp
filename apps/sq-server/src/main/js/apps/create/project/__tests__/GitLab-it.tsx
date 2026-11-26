@@ -154,7 +154,7 @@ it('should show search filter when PAT is already set', async () => {
   expect(getGitlabProjects).toHaveBeenLastCalledWith({
     almSetting: 'conf-final-2',
     page: 1,
-    pageSize: 50,
+    pageSize: 25,
     query: 'sea',
   });
 });
@@ -252,30 +252,26 @@ it('should import several projects', async () => {
   expect(await screen.findByText('/projects?sort=-creation_date')).toBeInTheDocument();
 });
 
-it('should have load more', async () => {
+it('should paginate projects', async () => {
   const user = userEvent.setup();
-  almIntegrationHandler.createRandomGitlabProjectsWithLoadMore(50, 75);
+  almIntegrationHandler.createRandomGitlabProjectsWithLoadMore(10, 90);
   renderCreateProject();
 
   await user.click(await ui.instanceSelector.find());
   await user.click(byRole('option', { name: /conf-final-2/ }).get());
 
-  const loadMore = await screen.findByRole('button', { name: 'show_more' });
-  expect(loadMore).toBeInTheDocument();
+  expect(await byRole('button', { name: 'pagination.page_x.2' }).find()).toBeInTheDocument();
+  expect(byRole('button', { name: 'show_more' }).query()).not.toBeInTheDocument();
 
-  /*
-   * Next api call response will simulate reaching the last page so we can test the
-   * loadmore button disapperance.
-   */
-  almIntegrationHandler.createRandomGitlabProjectsWithLoadMore(50, 50);
-  await user.click(loadMore);
+  almIntegrationHandler.createRandomGitlabProjectsWithLoadMore(10, 90);
+  await user.click(byRole('button', { name: 'pagination.page_x.2' }).get());
+
   expect(getGitlabProjects).toHaveBeenLastCalledWith({
     almSetting: 'conf-final-2',
     page: 2,
-    pageSize: 50,
+    pageSize: 25,
     query: '',
   });
-  expect(loadMore).not.toBeInTheDocument();
 });
 
 it('should show no result message when there are no projects', async () => {

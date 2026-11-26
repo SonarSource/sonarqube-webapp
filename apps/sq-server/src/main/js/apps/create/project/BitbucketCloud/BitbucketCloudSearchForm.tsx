@@ -29,6 +29,7 @@ import { BitbucketCloudRepository } from '~sq-server-commons/types/alm-integrati
 import { AlmKeys } from '~sq-server-commons/types/alm-settings';
 import { CreateProjectModes } from '~sq-server-commons/types/create-project';
 import AlmRepoItem from '../components/AlmRepoItem';
+import { ScrollableRepositoryBox } from '../components/ScrollableRepositoryBox';
 import { REPOSITORY_PAGE_SIZE } from '../constants';
 
 export interface BitbucketCloudSearchFormProps {
@@ -95,21 +96,24 @@ export default function BitbucketCloudSearchForm(props: BitbucketCloudSearchForm
           </Text>
         </div>
       ) : (
-        <ul className="sw:flex sw:flex-col sw:gap-3">
-          {repositories.map((r) => (
-            <AlmRepoItem
-              almIconSrc={iconUrl}
-              almKey={r.slug}
-              almUrl={getRepositoryUrl(r.workspace, r.slug)}
-              almUrlText={translate('onboarding.create_project.bitbucketcloud.link')}
-              key={r.uuid}
-              onImport={props.onImport}
-              primaryTextNode={<span title={r.name}>{r.name}</span>}
-              secondaryTextNode={<span title={r.projectKey}>{r.projectKey}</span>}
-              sqProjectKey={r.sqProjectKey}
-            />
-          ))}
-        </ul>
+        <ScrollableRepositoryBox>
+          <ul className="sw:flex sw:flex-col">
+            {repositories.map((r) => (
+              <AlmRepoItem
+                almIconSrc={iconUrl}
+                almKey={r.slug}
+                almUrl={getRepositoryUrl(r.workspace, r.slug)}
+                almUrlText={translate('onboarding.create_project.bitbucketcloud.link')}
+                hasBorder={false}
+                key={r.uuid}
+                onImport={props.onImport}
+                primaryTextNode={<span title={r.name}>{r.name}</span>}
+                secondaryTextNode={<span title={r.projectKey}>{r.projectKey}</span>}
+                sqProjectKey={r.sqProjectKey}
+              />
+            ))}
+          </ul>
+        </ScrollableRepositoryBox>
       )}
       <ListFooter
         className="sw:mb-10"

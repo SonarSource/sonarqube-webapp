@@ -30,7 +30,7 @@ import { GithubOrganization, GithubRepository } from '~sq-server-commons/types/a
 import { AlmInstanceBase, AlmKeys } from '~sq-server-commons/types/alm-settings';
 import { CreateProjectModes, ImportProjectParam } from '~sq-server-commons/types/create-project';
 import { DopSetting } from '~sq-server-commons/types/dop-translation';
-import { REPOSITORY_PAGE_SIZE } from '../constants';
+import { PAGINATED_REPOSITORY_PAGE_SIZE } from '../constants';
 import MonorepoProjectCreate from '../monorepo/MonorepoProjectCreate';
 import { useProjectCreate } from '../useProjectCreate';
 import { useRepositorySearch } from '../useRepositorySearch';
@@ -101,22 +101,20 @@ export default function GitHubProjectCreate(props: Readonly<Props>) {
       return getGithubRepositories({
         almSetting: selectedDopSetting.key,
         organization: orgKey,
-        pageSize: REPOSITORY_PAGE_SIZE,
+        pageSize: PAGINATED_REPOSITORY_PAGE_SIZE,
         page: pageIndex,
         query,
       })
         .then(({ paging, repositories }) => {
           setProjectsPaging(paging);
-          setRepositories((prevRepositories) =>
-            pageIndex === 1 ? repositories : [...(prevRepositories ?? []), ...repositories],
-          );
+          setRepositories(repositories);
           setIsInitialized(true);
         })
         .finally(() => {
           setIsLoadingRepositories(false);
         })
         .catch(() => {
-          setProjectsPaging({ pageIndex: 1, pageSize: REPOSITORY_PAGE_SIZE, total: 0 });
+          setProjectsPaging({ pageIndex: 1, pageSize: PAGINATED_REPOSITORY_PAGE_SIZE, total: 0 });
           setRepositories([]);
         });
     },
@@ -159,11 +157,14 @@ export default function GitHubProjectCreate(props: Readonly<Props>) {
     [onProjectSetupDone, selectedDopSetting, selectedOrganization],
   );
 
-  const handleLoadMore = useCallback(() => {
-    if (selectedOrganization) {
-      fetchRepositories(selectedOrganization.key, searchQuery, projectsPaging.pageIndex + 1);
-    }
-  }, [fetchRepositories, projectsPaging.pageIndex, searchQuery, selectedOrganization]);
+  const handlePageChange = useCallback(
+    (pageIndex: number) => {
+      if (selectedOrganization) {
+        void fetchRepositories(selectedOrganization.key, searchQuery, pageIndex);
+      }
+    },
+    [fetchRepositories, searchQuery, selectedOrganization],
+  );
 
   const handleSelectOrganization = useCallback(
     (organizationKey: string) => {
@@ -246,7 +247,7 @@ export default function GitHubProjectCreate(props: Readonly<Props>) {
       loadingOrganizations={isLoadingOrganizations}
       loadingRepositories={isLoadingRepositories}
       onImportRepository={handleImportRepository}
-      onLoadMore={handleLoadMore}
+      onPageChange={handlePageChange}
       onSearch={onSearch}
       onSelectOrganization={handleSelectOrganization}
       onSelectedAlmInstanceChange={onSelectAlmSettingReauthenticate}

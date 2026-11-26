@@ -24,17 +24,19 @@ import {
   ButtonVariety,
   Checkbox,
   Divider,
+  Pagination,
+  Spinner,
   Text,
 } from '@sonarsource/echoes-react';
 import { useCallback, useMemo } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { useAlmIconSrc } from '~adapters/helpers/almIcons';
 import { InputSearch } from '~design-system';
-import ListFooter from '~shared/components/controls/ListFooter';
 import { Paging } from '~shared/types/paging';
 import { GithubRepository, GitlabProject } from '~sq-server-commons/types/alm-integration';
 import { AlmKeys } from '~sq-server-commons/types/alm-settings';
 import AlmRepoItem from '../components/AlmRepoItem';
+import { ScrollableRepositoryBox } from './ScrollableRepositoryBox';
 
 interface RepositoryListProps {
   almKey: AlmKeys.GitHub | AlmKeys.GitLab;
@@ -42,7 +44,7 @@ interface RepositoryListProps {
   loadingRepositories: boolean;
   onCheck: (key: string) => void;
   onImport: () => void;
-  onLoadMore: () => void;
+  onPageChange: (pageIndex: number) => void;
   onSearch: (query: string) => void;
   repositories?: GithubRepository[] | GitlabProject[];
   repositoryPaging: Paging;
@@ -58,7 +60,7 @@ export default function RepositoryList(props: Readonly<RepositoryListProps>) {
     loadingRepositories,
     onCheck,
     onImport,
-    onLoadMore,
+    onPageChange,
     onSearch,
     repositories,
     repositoryPaging,
@@ -73,6 +75,8 @@ export default function RepositoryList(props: Readonly<RepositoryListProps>) {
     const nonImportedRepos = repositories?.filter((r) => r.sqProjectKey === undefined) ?? [];
     return nonImportedRepos.length > 0 && selected.size === nonImportedRepos.length;
   }, [repositories, selected.size]);
+
+  const totalPages = Math.ceil(repositoryPaging.total / repositoryPaging.pageSize);
 
   const onCheckAllRepositories = useCallback(() => {
     if (areAllRepositoriesChecked) {
@@ -106,43 +110,56 @@ export default function RepositoryList(props: Readonly<RepositoryListProps>) {
         />
       </div>
 
-      {repositories.length === 0 ? (
-        <div className="sw:py-6">
-          <Text isHighlighted>{formatMessage({ id: 'no_results' })}</Text>
-        </div>
-      ) : (
-        <ul className="sw:flex sw:flex-col sw:gap-3">
-          {repositories.map(({ id, name, sqProjectKey, url, ...repo }) => (
-            <AlmRepoItem
-              almIconSrc={iconUrl}
-              almKey={almKey === AlmKeys.GitHub ? (repo as GithubRepository).key : id}
-              almUrl={url}
-              almUrlText={formatMessage(
-                { id: 'onboarding.create_project.see_on' },
-                { almName: formatMessage({ id: `alm.${almKey}` }) },
-              )}
-              key={id}
-              multiple
-              onCheck={(key: string) => {
-                onCheck(key);
-              }}
-              primaryTextNode={<span title={name}>{name}</span>}
-              selected={selected.has(
-                almKey === AlmKeys.GitHub ? (repo as GithubRepository).key : id,
-              )}
-              sqProjectKey={sqProjectKey}
-            />
-          ))}
-        </ul>
-      )}
+      <div className="sw:relative">
+        <ScrollableRepositoryBox isBusy={loadingRepositories} key={repositoryPaging.pageIndex}>
+          {repositories.length === 0 ? (
+            <div className="sw:py-6">
+              <Text isHighlighted>{formatMessage({ id: 'no_results' })}</Text>
+            </div>
+          ) : (
+            <ul className="sw:flex sw:flex-col">
+              {repositories.map(({ id, name, sqProjectKey, url, ...repo }) => (
+                <AlmRepoItem
+                  almIconSrc={iconUrl}
+                  almKey={almKey === AlmKeys.GitHub ? (repo as GithubRepository).key : id}
+                  almUrl={url}
+                  almUrlText={formatMessage(
+                    { id: 'onboarding.create_project.see_on' },
+                    { almName: formatMessage({ id: `alm.${almKey}` }) },
+                  )}
+                  hasBorder={false}
+                  key={id}
+                  multiple
+                  onCheck={(key: string) => {
+                    onCheck(key);
+                  }}
+                  primaryTextNode={<span title={name}>{name}</span>}
+                  selected={selected.has(
+                    almKey === AlmKeys.GitHub ? (repo as GithubRepository).key : id,
+                  )}
+                  sqProjectKey={sqProjectKey}
+                />
+              ))}
+            </ul>
+          )}
+        </ScrollableRepositoryBox>
+        {loadingRepositories && (
+          <div className="sw:absolute sw:inset-0 sw:flex sw:items-center sw:justify-center">
+            <Spinner isLoading />
+          </div>
+        )}
+      </div>
 
-      <ListFooter
-        className="sw:mb-4"
-        count={repositories.length}
-        loadMore={onLoadMore}
-        loading={loadingRepositories}
-        total={repositoryPaging.total}
-      />
+      {totalPages > 1 && (
+        <div className="sw:flex sw:justify-center sw:my-4">
+          <Pagination
+            isDisabled={loadingRepositories}
+            onChange={onPageChange}
+            page={repositoryPaging.pageIndex}
+            totalPages={totalPages}
+          />
+        </div>
+      )}
 
       <div className="sw:mx-[-1.5rem]">
         <Divider />

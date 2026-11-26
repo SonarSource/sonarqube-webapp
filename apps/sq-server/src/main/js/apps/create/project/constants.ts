@@ -22,6 +22,9 @@ export const PROJECT_NAME_MAX_LEN = 255;
 
 export const REPOSITORY_PAGE_SIZE = 50;
 
+// Page size of the numbered pagination used when importing GitHub and GitLab repositories (same as SonarQube Cloud)
+export const PAGINATED_REPOSITORY_PAGE_SIZE = 25;
+
 export const REPOSITORY_SEARCH_DEBOUNCE_TIME = 250;
 
 export enum BBSSearchMode {

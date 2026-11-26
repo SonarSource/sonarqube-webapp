@@ -46,8 +46,9 @@ import GitlabPersonalAccessTokenForm from './GItlabPersonalAccessTokenForm';
 export interface GitlabProjectCreateRendererProps {
   almInstances?: AlmSettingsInstance[];
   loading: boolean;
+  loadingRepositories: boolean;
   onImport: (id: string[]) => void;
-  onLoadMore: () => void;
+  onPageChange: (pageIndex: number) => void;
   onPersonalAccessTokenCreated: () => void;
   onSearch: (searchQuery: string) => void;
   onSelectedAlmInstanceChange: (instance: AlmInstanceBase) => void;
@@ -69,7 +70,8 @@ export default function GitlabProjectCreateRenderer(
   const {
     almInstances,
     loading,
-    onLoadMore,
+    loadingRepositories,
+    onPageChange,
     onSearch,
     projects,
     projectsPaging,
@@ -174,10 +176,10 @@ export default function GitlabProjectCreateRenderer(
           <RepositoryList
             almKey={AlmKeys.GitLab}
             checkAll={handleCheckAll}
-            loadingRepositories={loading}
+            loadingRepositories={loadingRepositories}
             onCheck={handleCheck}
             onImport={handleImport}
-            onLoadMore={onLoadMore}
+            onPageChange={onPageChange}
             onSearch={onSearch}
             repositories={projects}
             repositoryPaging={projectsPaging}

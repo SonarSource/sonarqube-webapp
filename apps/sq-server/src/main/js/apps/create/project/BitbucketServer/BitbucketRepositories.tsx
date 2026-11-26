@@ -24,6 +24,7 @@ import ListFooter from '~shared/components/controls/ListFooter';
 import { BitbucketRepository } from '~sq-server-commons/types/alm-integration';
 import { AlmKeys } from '~sq-server-commons/types/alm-settings';
 import AlmRepoItem from '../components/AlmRepoItem';
+import { ScrollableRepositoryBox } from '../components/ScrollableRepositoryBox';
 
 export interface BitbucketRepositoriesProps {
   canFetchMore: boolean;
@@ -40,21 +41,24 @@ export default function BitbucketRepositories(props: Readonly<BitbucketRepositor
 
   return (
     <Spinner isLoading={isLoading && repositories.length === 0}>
-      <ul className="sw:flex sw:flex-col sw:gap-3">
-        {repositories.map((r) => (
-          <AlmRepoItem
-            almIconSrc={iconUrl}
-            almKey={r.name}
-            key={r.id}
-            onImport={() => {
-              onImportRepository(r);
-            }}
-            primaryTextNode={<span>{r.name}</span>}
-            secondaryTextNode={<span>{r.projectName}</span>}
-            sqProjectKey={r.sqProjectKey}
-          />
-        ))}
-      </ul>
+      <ScrollableRepositoryBox>
+        <ul className="sw:flex sw:flex-col">
+          {repositories.map((r) => (
+            <AlmRepoItem
+              almIconSrc={iconUrl}
+              almKey={r.name}
+              hasBorder={false}
+              key={r.id}
+              onImport={() => {
+                onImportRepository(r);
+              }}
+              primaryTextNode={<span>{r.name}</span>}
+              secondaryTextNode={<span>{r.projectName}</span>}
+              sqProjectKey={r.sqProjectKey}
+            />
+          ))}
+        </ul>
+      </ScrollableRepositoryBox>
 
       <ListFooter
         canFetchMore={canFetchMore}

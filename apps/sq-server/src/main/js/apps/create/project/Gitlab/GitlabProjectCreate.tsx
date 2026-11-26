@@ -26,7 +26,7 @@ import { GitlabProject } from '~sq-server-commons/types/alm-integration';
 import { AlmKeys } from '~sq-server-commons/types/alm-settings';
 import { CreateProjectModes, ImportProjectParam } from '~sq-server-commons/types/create-project';
 import { DopSetting } from '~sq-server-commons/types/dop-translation';
-import { REPOSITORY_PAGE_SIZE } from '../constants';
+import { PAGINATED_REPOSITORY_PAGE_SIZE } from '../constants';
 import MonorepoProjectCreate from '../monorepo/MonorepoProjectCreate';
 import { useProjectCreate } from '../useProjectCreate';
 import { useRepositorySearch } from '../useRepositorySearch';
@@ -75,7 +75,7 @@ export default function GitlabProjectCreate(props: Readonly<Props>) {
   }, [repositories]);
 
   const fetchRepositories = useCallback(
-    (_orgKey?: string, query = '', pageIndex = 1, more = false) => {
+    (_orgKey?: string, query = '', pageIndex = 1) => {
       if (showPersonalAccessTokenForm || !selectedDopSetting) {
         return Promise.resolve();
       }
@@ -86,17 +86,13 @@ export default function GitlabProjectCreate(props: Readonly<Props>) {
       return getGitlabProjects({
         almSetting: selectedDopSetting.key,
         page: pageIndex,
-        pageSize: REPOSITORY_PAGE_SIZE,
+        pageSize: PAGINATED_REPOSITORY_PAGE_SIZE,
         query,
       })
         .then((result) => {
           if (result?.projects) {
             setProjectsPaging(result.projectsPaging);
-            setRepositories(
-              more && repositories && repositories.length > 0
-                ? [...repositories, ...result.projects]
-                : result.projects,
-            );
+            setRepositories(result.projects);
             setIsInitialized(true);
           }
         })
@@ -110,7 +106,6 @@ export default function GitlabProjectCreate(props: Readonly<Props>) {
         });
     },
     [
-      repositories,
       selectedDopSetting,
       setIsInitialized,
       setIsLoadingRepositories,
@@ -136,9 +131,12 @@ export default function GitlabProjectCreate(props: Readonly<Props>) {
     [onProjectSetupDone, selectedDopSetting],
   );
 
-  const handleLoadMore = useCallback(() => {
-    fetchRepositories(undefined, searchQuery, projectsPaging.pageIndex + 1, true);
-  }, [fetchRepositories, projectsPaging, searchQuery]);
+  const handlePageChange = useCallback(
+    (pageIndex: number) => {
+      void fetchRepositories(undefined, searchQuery, pageIndex);
+    },
+    [fetchRepositories, searchQuery],
+  );
 
   const { onSearch } = useRepositorySearch(
     AlmKeys.GitLab,
@@ -180,9 +178,10 @@ export default function GitlabProjectCreate(props: Readonly<Props>) {
   ) : (
     <GitlabProjectCreateRenderer
       almInstances={almInstances}
-      loading={isLoadingRepositories || isLoadingBindings}
+      loading={isLoadingBindings || (isLoadingRepositories && repositories === undefined)}
+      loadingRepositories={isLoadingRepositories}
       onImport={handleImportRepository}
-      onLoadMore={handleLoadMore}
+      onPageChange={handlePageChange}
       onPersonalAccessTokenCreated={handlePersonalAccessTokenCreated}
       onSearch={onSearch}
       onSelectedAlmInstanceChange={onSelectedAlmInstanceChange}

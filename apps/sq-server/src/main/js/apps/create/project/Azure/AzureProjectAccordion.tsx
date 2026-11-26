@@ -23,13 +23,13 @@ import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { useAlmIconSrc } from '~adapters/helpers/almIcons';
 import { Accordion } from '~design-system';
-import ListFooter from '~shared/components/controls/ListFooter';
 import SearchHighlighter from '~shared/components/SearchHighlighter';
 import { queryToSearchString } from '~shared/helpers/query';
 import { AzureProject, AzureRepository } from '~sq-server-commons/types/alm-integration';
 import { AlmKeys } from '~sq-server-commons/types/alm-settings';
 import { CreateProjectModes } from '~sq-server-commons/types/create-project';
 import AlmRepoItem from '../components/AlmRepoItem';
+import { ScrollableRepositoryBox } from '../components/ScrollableRepositoryBox';
 
 export interface AzureProjectAccordionProps {
   loading: boolean;
@@ -41,8 +41,6 @@ export interface AzureProjectAccordionProps {
   startsOpen: boolean;
 }
 
-const PAGE_SIZE = 20;
-
 export default function AzureProjectAccordion(props: AzureProjectAccordionProps) {
   const { loading, startsOpen, project, repositories = [], searchQuery } = props;
 
@@ -53,9 +51,6 @@ export default function AzureProjectAccordion(props: AzureProjectAccordionProps)
     }
     setOpen(!open);
   };
-
-  const [page, setPage] = React.useState(1);
-  const limitedRepositories = repositories.slice(0, page * PAGE_SIZE);
 
   const iconUrl = useAlmIconSrc(AlmKeys.Azure);
 
@@ -94,12 +89,13 @@ export default function AzureProjectAccordion(props: AzureProjectAccordionProps)
               />
             </MessageCallout>
           ) : (
-            <>
-              <ul className="sw:flex sw:flex-col sw:gap-3">
-                {limitedRepositories.map((r) => (
+            <ScrollableRepositoryBox>
+              <ul className="sw:flex sw:flex-col">
+                {repositories.map((r) => (
                   <AlmRepoItem
                     almIconSrc={iconUrl}
                     almKey={r.name}
+                    hasBorder={false}
                     key={r.name}
                     onImport={() => {
                       props.onImportRepository(r);
@@ -113,14 +109,7 @@ export default function AzureProjectAccordion(props: AzureProjectAccordionProps)
                   />
                 ))}
               </ul>
-              <ListFooter
-                count={limitedRepositories.length}
-                loadMore={() => {
-                  setPage((p) => p + 1);
-                }}
-                total={repositories.length}
-              />
-            </>
+            </ScrollableRepositoryBox>
           )}
         </Spinner>
       )}

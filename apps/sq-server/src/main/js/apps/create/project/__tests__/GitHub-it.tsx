@@ -284,16 +284,16 @@ it('should show search filter when the authentication is successful', async () =
       almSetting: 'conf-github-2',
       organization: 'org-1',
       page: 1,
-      pageSize: 50,
+      pageSize: 25,
       query: 'search',
     });
   });
 });
 
-it('should have load more', async () => {
+it('should paginate repositories', async () => {
   Object.defineProperty(window, 'location', { configurable: true, value: original });
   const user = userEvent.setup();
-  almIntegrationHandler.createRandomGithubRepositoriessWithLoadMore(10, 20);
+  almIntegrationHandler.createRandomGithubRepositoriessWithLoadMore(10, 90);
 
   renderCreateProject('project/create?mode=github&dopSetting=conf-github-2&code=213321213');
 
@@ -302,23 +302,35 @@ it('should have load more', async () => {
   await user.click(await ui.organizationSelector.find());
   await user.click(byRole('option', { name: /org-1/ }).get());
 
-  const loadMore = await screen.findByRole('button', { name: 'show_more' });
-  expect(loadMore).toBeInTheDocument();
+  expect(await byRole('button', { name: 'pagination.page_x.2' }).find()).toBeInTheDocument();
+  expect(byRole('button', { name: 'show_more' }).query()).not.toBeInTheDocument();
 
-  /*
-   * Next api call response will simulate reaching the last page so we can test the
-   * loadmore button disapperance.
-   */
-  almIntegrationHandler.createRandomGithubRepositoriessWithLoadMore(20, 20);
-  await user.click(loadMore);
+  almIntegrationHandler.createRandomGithubRepositoriessWithLoadMore(10, 90);
+  await user.click(byRole('button', { name: 'pagination.page_x.2' }).get());
+
   expect(getGithubRepositories).toHaveBeenLastCalledWith({
     almSetting: 'conf-github-2',
     organization: 'org-1',
     page: 2,
-    pageSize: 50,
+    pageSize: 25,
     query: '',
   });
-  expect(loadMore).not.toBeInTheDocument();
+});
+
+it('should not show pagination when all repositories fit on one page', async () => {
+  Object.defineProperty(window, 'location', { configurable: true, value: original });
+  const user = userEvent.setup();
+  almIntegrationHandler.createRandomGithubRepositoriessWithLoadMore(10, 10);
+
+  renderCreateProject('project/create?mode=github&dopSetting=conf-github-2&code=213321213');
+
+  expect(await ui.instanceSelector.find()).toBeInTheDocument();
+
+  await user.click(await ui.organizationSelector.find());
+  await user.click(byRole('option', { name: /org-1/ }).get());
+
+  expect(await screen.findAllByRole('checkbox')).not.toHaveLength(0);
+  expect(byRole('button', { name: 'pagination.page_x.2' }).query()).not.toBeInTheDocument();
 });
 
 it('should show no result message when there are no projects', async () => {
