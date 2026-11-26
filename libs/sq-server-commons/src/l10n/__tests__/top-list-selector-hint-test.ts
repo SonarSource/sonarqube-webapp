@@ -19,7 +19,7 @@
  */
 
 import { createIntl } from 'react-intl';
-import { portfoliosMessages } from '../default/portfolios';
+import portfoliosMessages from '../default/portfolios.json' with { type: 'json' };
 
 jest.unmock('react-intl');
 

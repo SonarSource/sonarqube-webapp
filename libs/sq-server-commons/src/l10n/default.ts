@@ -18,16 +18,16 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { administrationMessages } from './default/administration.ts';
-import { billingMessages } from './default/billing.ts';
-import { dictionaryMessages } from './default/dictionary.ts';
-import { measuresMessages } from './default/measures.ts';
-import { onboardingMessages } from './default/onboarding.ts';
-import { portfoliosMessages } from './default/portfolios.ts';
-import { projectsMessages } from './default/projects.ts';
-import { qualityMessages } from './default/quality.ts';
-import { securityMessages } from './default/security.ts';
-import { sharedMessages } from './default/shared.ts';
+import administrationMessages from './default/administration.json' with { type: 'json' };
+import billingMessages from './default/billing.json' with { type: 'json' };
+import dictionaryMessages from './default/dictionary.json' with { type: 'json' };
+import measuresMessages from './default/measures.json' with { type: 'json' };
+import onboardingMessages from './default/onboarding.json' with { type: 'json' };
+import portfoliosMessages from './default/portfolios.json' with { type: 'json' };
+import projectsMessages from './default/projects.json' with { type: 'json' };
+import qualityMessages from './default/quality.json' with { type: 'json' };
+import securityMessages from './default/security.json' with { type: 'json' };
+import sharedMessages from './default/shared.json' with { type: 'json' };
 
 export const defaultMessages = {
   ...sharedMessages,

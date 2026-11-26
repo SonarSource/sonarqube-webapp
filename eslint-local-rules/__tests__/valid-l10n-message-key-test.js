@@ -41,10 +41,10 @@ ruleTester.run('valid-l10n-message-key', validL10nMessageKey, {
       'settings',
       'license.activate_offline',
       'overview.page',
-      'tutorials.onboarding',
-      'views',
+      'dashboard.delete_section_confirm',
+      'views.all',
       'branches',
-      'issue',
+      'issue.tags',
       'ai_capabilities.title',
       'about',
     ].map((key) => ({

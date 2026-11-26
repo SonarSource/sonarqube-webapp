@@ -19,7 +19,7 @@
  */
 
 import { createIntl } from 'react-intl';
-import { measuresMessages } from '../default/measures';
+import measuresMessages from '../default/measures.json' with { type: 'json' };
 
 jest.unmock('react-intl');
 

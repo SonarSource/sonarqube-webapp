@@ -30,14 +30,13 @@ let memoizedCloudKeys;
 /** @type {ReadonlySet<string> | undefined} */
 let memoizedServerKeys;
 
-function keysFromServerDefaultTs(tsSource) {
+function readL10nKeys(directory) {
   const keys = new Set();
-  const lineRe = /^\s*(?:'([^']+)'|"([^"]+)"|([a-zA-Z_$][\w$]*))\s*:/;
-  for (const line of tsSource.split('\n')) {
-    if (!line.trimStart().startsWith('//')) {
-      const match = line.match(lineRe);
-      if (match) {
-        keys.add(match[1] ?? match[2] ?? match[3]);
+  if (fs.existsSync(directory)) {
+    for (const file of fs.readdirSync(directory).filter((name) => name.endsWith('.json'))) {
+      const messages = JSON.parse(fs.readFileSync(path.join(directory, file), 'utf8'));
+      for (const key of Object.keys(messages)) {
+        keys.add(key);
       }
     }
   }
@@ -45,38 +44,12 @@ function keysFromServerDefaultTs(tsSource) {
 }
 
 function getCloudL10nKeysSet() {
-  if (memoizedCloudKeys !== undefined) {
-    return memoizedCloudKeys;
-  }
-  const keys = new Set();
-  if (fs.existsSync(CLOUD_MESSAGES_DIR)) {
-    for (const file of fs
-      .readdirSync(CLOUD_MESSAGES_DIR)
-      .filter((name) => name.endsWith('.json'))) {
-      const messages = JSON.parse(fs.readFileSync(path.join(CLOUD_MESSAGES_DIR, file), 'utf8'));
-      for (const key of Object.keys(messages)) {
-        keys.add(key);
-      }
-    }
-  }
-  memoizedCloudKeys = keys;
+  memoizedCloudKeys ??= readL10nKeys(CLOUD_MESSAGES_DIR);
   return memoizedCloudKeys;
 }
 
 function getServerL10nKeysSet() {
-  if (memoizedServerKeys !== undefined) {
-    return memoizedServerKeys;
-  }
-  const keys = new Set();
-  if (fs.existsSync(SERVER_DEFAULT_DIR)) {
-    for (const file of fs.readdirSync(SERVER_DEFAULT_DIR).filter((name) => name.endsWith('.ts'))) {
-      const source = fs.readFileSync(path.join(SERVER_DEFAULT_DIR, file), 'utf8');
-      for (const key of keysFromServerDefaultTs(source)) {
-        keys.add(key);
-      }
-    }
-  }
-  memoizedServerKeys = keys;
+  memoizedServerKeys ??= readL10nKeys(SERVER_DEFAULT_DIR);
   return memoizedServerKeys;
 }
 

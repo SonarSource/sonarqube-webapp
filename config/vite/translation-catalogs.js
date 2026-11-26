@@ -24,7 +24,7 @@ const path = require('node:path');
 const translationCatalogGroups = [
   {
     name: (id) => `messages-${path.basename(id, path.extname(id))}`,
-    test: /[/\\]l10n[/\\](?:messages|default)[/\\][^/\\]+\.(?:json|ts)$/,
+    test: /[/\\]l10n[/\\](?:messages|default)[/\\][^/\\]+\.json$/,
   },
 ];
 

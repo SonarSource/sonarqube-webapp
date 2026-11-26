@@ -162,7 +162,7 @@ You can then start the SonarQube server as usual using the `start.sh` script fro
 
 Default English translations live in feature catalogs:
 
-- Server: `libs/sq-server-commons/src/l10n/default/*.ts`, merged by `l10n/default.ts`.
+- Server: `libs/sq-server-commons/src/l10n/default/*.json`, merged by `l10n/default.ts`.
 - Cloud: `private/apps/sq-cloud/src/l10n/messages/*.json`, merged by `l10n/messages.ts`.
 
 Edit the relevant feature catalog (administration, billing, dictionary, measures, onboarding,

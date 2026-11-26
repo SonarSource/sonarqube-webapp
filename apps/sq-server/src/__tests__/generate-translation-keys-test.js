@@ -18,7 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-const { measuresMessages } = require('~sq-server-commons/l10n/default/measures');
+const measuresMessages = require('~sq-server-commons/l10n/default/measures.json');
 
 it('keeps the section question and widget warning in one properties entry', () => {
   const message = measuresMessages['dashboard.delete_section_confirm'];

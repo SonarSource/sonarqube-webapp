@@ -3,7 +3,7 @@
 Translations are maintained directly in source catalogs per product:
 
 - Cloud: `private/apps/sq-cloud/src/l10n/messages/<group>.json`.
-- Server: `libs/sq-server-commons/src/l10n/default/<group>.ts`.
+- Server: `libs/sq-server-commons/src/l10n/default/<group>.json`.
 
 | Group          | Contents                                                                     |
 | -------------- | ---------------------------------------------------------------------------- |
@@ -28,10 +28,8 @@ translation precedence remain unchanged. The same source modules are used in
 production, development, and localization tooling. Cloud tests continue using an
 empty catalog by default, with an explicit alias for tests needing real values.
 
-Server's aggregate uses explicit `.ts` imports so Node can load it directly for
-localization validation and `.properties` export. TypeScript's
-`rewriteRelativeImportExtensions` option allows those imports and rewrites them to
-JavaScript extensions when emitting code.
+Both aggregates use JSON import attributes so Node can load them directly for
+localization validation and Server's `.properties` export.
 
 Run `yarn nx run private-config:validate-l10n` to check the configured shared keys
 for missing entries or value differences between Cloud and Server. Both product
