@@ -18,31 +18,22 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { translate } from '../../../helpers/l10n';
+import { ReactNode } from 'react';
 import { withCLanguageFeature } from '../../hoc/withCLanguageFeature';
 import BuildConfigSelection from '../components/BuildConfigSelection';
 import GithubCFamilyExampleRepositories from '../components/GithubCFamilyExampleRepositories';
-import RenderOptions from '../components/RenderOptions';
-import { Arch, OSs, TutorialConfig, TutorialModes } from '../types';
-import {
-  shouldShowArchSelector,
-  shouldShowGithubCFamilyExampleRepositories,
-  shouldShowOsSelector,
-} from '../utils';
+import { TutorialConfig, TutorialModes } from '../types';
+import { shouldShowGithubCFamilyExampleRepositories } from '../utils';
 
 interface Props {
-  arch?: Arch;
+  children?: ReactNode;
   config: TutorialConfig;
   hasCLanguageFeature: boolean;
-  isLocal: boolean;
-  os?: OSs;
-  setArch: (arch: Arch) => void;
   setConfig: (config: TutorialConfig) => void;
-  setOs: (os: OSs) => void;
 }
 
 function BuildToolForm(props: Readonly<Props>) {
-  const { config, setConfig, os, setOs, arch, setArch, isLocal, hasCLanguageFeature } = props;
+  const { children, config, setConfig, hasCLanguageFeature } = props;
 
   function handleConfigChange(newConfig: TutorialConfig) {
     setConfig({
@@ -61,30 +52,7 @@ function BuildToolForm(props: Readonly<Props>) {
           supportCFamily={hasCLanguageFeature}
         />
       )}
-      {shouldShowOsSelector(config, isLocal) && (
-        <RenderOptions
-          checked={os}
-          label={translate('onboarding.build.other.os')}
-          onCheck={(value: OSs) => {
-            setOs(value);
-          }}
-          optionLabelKey="onboarding.build.other.os"
-          options={[OSs.Linux, OSs.Windows, OSs.MacOS]}
-          titleLabelKey="onboarding.build.other.os"
-        />
-      )}
-      {shouldShowArchSelector(os, config, !isLocal) && (
-        <RenderOptions
-          checked={arch}
-          label={translate('onboarding.build.other.architecture')}
-          onCheck={(value: Arch) => {
-            setArch(value);
-          }}
-          optionLabelKey="onboarding.build.other.architecture"
-          options={[Arch.X86_64, Arch.Arm64]}
-          titleLabelKey="onboarding.build.other.architecture"
-        />
-      )}
+      {children}
       {shouldShowGithubCFamilyExampleRepositories(config) && (
         <GithubCFamilyExampleRepositories
           ci={TutorialModes.OtherCI}

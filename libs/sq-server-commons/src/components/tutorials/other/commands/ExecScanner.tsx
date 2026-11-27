@@ -35,12 +35,13 @@ export interface ExecScannerProps {
   cfamily?: boolean;
   component: Component;
   isLocal: boolean;
+  isScannerAutoConfigEnabled?: boolean;
   os: OSs;
   token: string;
 }
 
 export default function ExecScanner(props: ExecScannerProps) {
-  const { baseUrl, os, isLocal, component, token, cfamily } = props;
+  const { baseUrl, os, isLocal, isScannerAutoConfigEnabled, component, token, cfamily } = props;
 
   const docUrl = useDocUrl(DocLink.SonarScanner);
 
@@ -48,7 +49,8 @@ export default function ExecScanner(props: ExecScannerProps) {
   const command = [
     os === OSs.Windows ? 'sonar-scanner.bat' : 'sonar-scanner',
     '-D' + q(`sonar.projectKey=${component.key}`),
-    '-D' + q('sonar.sources=.'),
+    // With automatic configuration the scanner detects the sources itself
+    isScannerAutoConfigEnabled ? undefined : '-D' + q('sonar.sources=.'),
     cfamily
       ? '-D' + q('sonar.cfamily.compile-commands=bw-output/compile_commands.json')
       : undefined,

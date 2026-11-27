@@ -36,15 +36,31 @@ export interface AnalysisCommandProps {
   component: Component;
   config: TutorialConfig;
   isLocal: boolean;
+  isScannerAutoConfigEnabled?: boolean;
   os: OSs;
   token?: string;
 }
 
 export default function AnalysisCommand(props: Readonly<AnalysisCommandProps>) {
-  const { config, os, arch, component, baseUrl, isLocal, token } = props;
+  const { config, os, arch, component, baseUrl, isLocal, isScannerAutoConfigEnabled, token } =
+    props;
 
   if (typeof token === 'undefined') {
     return null;
+  }
+
+  if (isScannerAutoConfigEnabled) {
+    return (
+      <Other
+        arch={arch}
+        baseUrl={baseUrl}
+        component={component}
+        isLocal={isLocal}
+        isScannerAutoConfigEnabled
+        os={os}
+        token={token}
+      />
+    );
   }
 
   switch (config.buildTool) {

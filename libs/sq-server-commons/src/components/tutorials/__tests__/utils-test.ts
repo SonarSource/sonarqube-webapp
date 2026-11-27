@@ -25,7 +25,14 @@ import {
 } from '../../../helpers/mocks/alm-settings';
 import { mockUserToken } from '../../../helpers/mocks/token';
 import { UserToken } from '../../../types/token';
-import { buildBitbucketCloudLink, buildGithubLink, getUniqueTokenName } from '../utils';
+import { BuildTools, OSs } from '../types';
+import {
+  buildBitbucketCloudLink,
+  buildGithubLink,
+  getUniqueTokenName,
+  shouldShowArchSelector,
+  shouldShowOsSelector,
+} from '../utils';
 
 describe('getUniqueTokenName', () => {
   const initialTokenName = 'Analyze "lightsaber"';
@@ -101,5 +108,29 @@ describe('buildBitbucketCloudLink', () => {
         mockProjectBitbucketCloudBindingResponse({ repository: undefined }),
       ),
     ).toBeNull();
+  });
+});
+
+describe('platform selectors with scanner automatic configuration', () => {
+  it('needs the platform of the scanner even when the build tool does not', () => {
+    expect(shouldShowOsSelector({ buildTool: BuildTools.Maven }, true)).toBe(false);
+    expect(shouldShowOsSelector({ buildTool: BuildTools.Maven }, true, true)).toBe(true);
+  });
+
+  it('only needs the architecture of the scanner when the CI downloads it', () => {
+    const config = { buildTool: BuildTools.Maven };
+
+    expect(shouldShowArchSelector(OSs.Linux, config, true)).toBe(false);
+    expect(shouldShowArchSelector(OSs.Linux, config, true, true)).toBe(true);
+    expect(shouldShowArchSelector(OSs.MacOS, config, true, true)).toBe(true);
+    expect(shouldShowArchSelector(OSs.Windows, config, true, true)).toBe(false);
+  });
+
+  it('does not need the architecture of the scanner on the local computer', () => {
+    const config = { buildTool: BuildTools.Maven };
+
+    expect(shouldShowArchSelector(OSs.Linux, config, false, true)).toBe(false);
+    expect(shouldShowArchSelector(OSs.MacOS, config, false, true)).toBe(false);
+    expect(shouldShowArchSelector(OSs.Windows, config, false, true)).toBe(false);
   });
 });

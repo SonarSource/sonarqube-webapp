@@ -132,8 +132,13 @@ export function shouldShowGithubCFamilyExampleRepositories(config: TutorialConfi
   return false;
 }
 
-export function shouldShowOsSelector(config: TutorialConfig, isLocal: boolean) {
+export function shouldShowOsSelector(
+  config: TutorialConfig,
+  isLocal: boolean,
+  isScannerAutoConfigEnabled = false,
+) {
   return (
+    isScannerAutoConfigEnabled ||
     config.buildTool === BuildTools.Cpp ||
     config.buildTool === BuildTools.ObjectiveC ||
     config.buildTool === BuildTools.Dart ||
@@ -148,8 +153,9 @@ export function shouldShowArchSelector(
   os: OSs | undefined,
   config: TutorialConfig,
   scannerDownloadExplicit = false,
+  isScannerAutoConfigEnabled = false,
 ) {
-  if (!shouldShowOsSelector(config, !scannerDownloadExplicit)) {
+  if (!shouldShowOsSelector(config, !scannerDownloadExplicit, isScannerAutoConfigEnabled)) {
     return false;
   }
   if (os !== OSs.Linux && os !== OSs.MacOS) {

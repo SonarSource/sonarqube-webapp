@@ -28,12 +28,13 @@ export interface OtherProps {
   baseUrl: string;
   component: Component;
   isLocal: boolean;
+  isScannerAutoConfigEnabled?: boolean;
   os: OSs;
   token: string;
 }
 
 export default function Other(props: Readonly<OtherProps>) {
-  const { arch, baseUrl, os, component, isLocal, token } = props;
+  const { arch, baseUrl, os, component, isLocal, isScannerAutoConfigEnabled, token } = props;
 
   return (
     <div>
@@ -42,6 +43,7 @@ export default function Other(props: Readonly<OtherProps>) {
         baseUrl={baseUrl}
         component={component}
         isLocal={isLocal}
+        isScannerAutoConfigEnabled={isScannerAutoConfigEnabled}
         os={os}
         token={token}
       />

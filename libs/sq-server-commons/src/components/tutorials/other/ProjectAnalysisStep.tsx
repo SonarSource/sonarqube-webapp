@@ -22,10 +22,13 @@ import { noop } from 'lodash';
 import * as React from 'react';
 import { translate } from '../../../helpers/l10n';
 import { Component } from '../../../types/types';
+import { ScannerAutoConfigStep } from '../components/ScannerAutoConfigStep';
 import Step from '../components/Step';
 import { Arch, OSs, TutorialConfig } from '../types';
+import { supportsScannerAutoConfig, useIsScannerAutoConfigEnabled } from '../useScannerAutoConfig';
 import BuildToolForm from './BuildToolForm';
 import AnalysisCommand from './commands/AnalysisCommand';
+import { PlatformSelectors } from './PlatformSelectors';
 
 interface Props {
   baseUrl: string;
@@ -42,21 +45,31 @@ export default function ProjectAnalysisStep(props: Readonly<Props>) {
   const [config, setConfig] = React.useState<TutorialConfig>({});
   const [os, setOs] = React.useState<OSs>(OSs.Linux);
   const [arch, setArch] = React.useState<Arch>(Arch.X86_64);
+  const { isEnabled: isScannerAutoConfigEnabled, isLoading: isScannerAutoConfigLoading } =
+    useIsScannerAutoConfigEnabled(component, config.buildTool);
 
   function renderForm() {
     return (
       <div className="sw:pb-4">
-        <BuildToolForm
-          arch={arch}
-          config={config}
-          isLocal={isLocal}
-          os={os}
-          setArch={setArch}
-          setConfig={setConfig}
-          setOs={setOs}
-        />
+        <BuildToolForm config={config} setConfig={setConfig}>
+          {supportsScannerAutoConfig(config.buildTool) && (
+            <div className="sw:mt-4">
+              <ScannerAutoConfigStep buildTool={config.buildTool} component={component} />
+            </div>
+          )}
 
-        {config && (
+          <PlatformSelectors
+            arch={arch}
+            config={config}
+            isLocal={isLocal}
+            isScannerAutoConfigEnabled={isScannerAutoConfigEnabled}
+            os={os}
+            setArch={setArch}
+            setOs={setOs}
+          />
+        </BuildToolForm>
+
+        {config && !isScannerAutoConfigLoading && (
           <div className="sw:mt-4">
             <AnalysisCommand
               arch={arch}
@@ -64,6 +77,7 @@ export default function ProjectAnalysisStep(props: Readonly<Props>) {
               component={component}
               config={config}
               isLocal={isLocal}
+              isScannerAutoConfigEnabled={isScannerAutoConfigEnabled}
               os={os}
               token={token}
             />
