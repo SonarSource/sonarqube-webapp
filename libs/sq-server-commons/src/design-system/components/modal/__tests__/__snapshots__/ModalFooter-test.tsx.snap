@@ -57,8 +57,6 @@ exports[`should render with primary and secondary buttons 1`] = `
 
 .emotion-6 {
   position: relative;
-  -webkit-animation: animation-0 1s infinite linear;
-  animation: animation-0 1s infinite linear;
   display: inline-block;
   box-sizing: border-box;
   height: var(--echoes-dimension-height-400);
@@ -67,12 +65,17 @@ exports[`should render with primary and secondary buttons 1`] = `
   vertical-align: text-bottom;
 }
 
+.emotion-6[data-loading='true'] {
+  -webkit-animation: animation-0 1s infinite linear;
+  animation: animation-0 1s infinite linear;
+}
+
 .emotion-6::before,
 .emotion-6::after {
   position: absolute;
   inset: 0;
   box-sizing: border-box;
-  border-radius: inherit;
+  border-radius: var(--echoes-border-radius-full);
   content: '';
 }
 
@@ -110,6 +113,7 @@ exports[`should render with primary and secondary buttons 1`] = `
       >
         <span
           class="emotion-6 emotion-7"
+          data-loading="false"
         />
       </output>
     </span>
@@ -195,8 +199,6 @@ exports[`should render with secondary button 1`] = `
 
 .emotion-6 {
   position: relative;
-  -webkit-animation: animation-0 1s infinite linear;
-  animation: animation-0 1s infinite linear;
   display: inline-block;
   box-sizing: border-box;
   height: var(--echoes-dimension-height-400);
@@ -205,12 +207,17 @@ exports[`should render with secondary button 1`] = `
   vertical-align: text-bottom;
 }
 
+.emotion-6[data-loading='true'] {
+  -webkit-animation: animation-0 1s infinite linear;
+  animation: animation-0 1s infinite linear;
+}
+
 .emotion-6::before,
 .emotion-6::after {
   position: absolute;
   inset: 0;
   box-sizing: border-box;
-  border-radius: inherit;
+  border-radius: var(--echoes-border-radius-full);
   content: '';
 }
 
@@ -248,6 +255,7 @@ exports[`should render with secondary button 1`] = `
       >
         <span
           class="emotion-6 emotion-7"
+          data-loading="false"
         />
       </output>
     </span>
