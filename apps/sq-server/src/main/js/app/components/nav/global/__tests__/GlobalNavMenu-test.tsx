@@ -29,11 +29,13 @@ import { GlobalNavMenu } from '../GlobalNavMenu';
 const originalSecurityAlertsAddon = addons.securityAlerts;
 const originalScaAddon = addons.sca;
 const originalVortexDashboardAddon = addons.vortexDashboard;
+const originalArchitectureAddon = addons.architecture;
 
 afterEach(() => {
   addons.securityAlerts = originalSecurityAlertsAddon;
   addons.sca = originalScaAddon;
   addons.vortexDashboard = originalVortexDashboardAddon;
+  addons.architecture = originalArchitectureAddon;
 });
 
 it('should work with extensions', () => {
@@ -204,6 +206,7 @@ it('should hide Vortex when the addon is unavailable', () => {
     screen.queryByRole('link', { name: /vortex_dashboard\.nav_item/ }),
   ).not.toBeInTheDocument();
 });
+
 
 function renderGlobalNavMenu({
   appState = mockAppState(),

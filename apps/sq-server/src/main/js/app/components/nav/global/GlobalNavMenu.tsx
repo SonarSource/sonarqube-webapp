@@ -53,6 +53,7 @@ export function GlobalNavMenu({ currentUser }: Readonly<Props>) {
   const securityAlertsAddon = addons.securityAlerts;
   const showSecurityAlerts = scaEnabled && isDefined(securityAlertsAddon);
   const { vortexDashboard } = addons;
+  const ArchitectureGlobalNavItem = addons.architecture?.ArchitectureGlobalNavItem;
 
   const isAdminActive = Boolean(useMatch('/admin/*'));
 
@@ -117,6 +118,8 @@ export function GlobalNavMenu({ currentUser }: Readonly<Props>) {
           </span>
         </Layout.GlobalNavigation.Item>
       )}
+
+      {ArchitectureGlobalNavItem && <ArchitectureGlobalNavItem />}
 
       {appState.canAdmin && (
         <Layout.GlobalNavigation.Item

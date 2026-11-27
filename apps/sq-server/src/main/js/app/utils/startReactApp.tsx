@@ -377,6 +377,9 @@ const router = ({
 
               {governanceInstalled && addons.portfolios?.globalRoutes()}
               {addons.vortexDashboard?.globalRoutes()}
+              {hasArchitectureCoreFeature &&
+                hasArchitectureEnterpriseFeature &&
+                addons.architecture?.globalRoutes?.()}
 
               {renderAdminRoutes({
                 hasPortfolioFeature: governanceInstalled,

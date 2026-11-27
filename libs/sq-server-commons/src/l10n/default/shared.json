@@ -442,7 +442,7 @@
   "navigation.view_all": "View all",
   "navigation.project.group.analysis": "Analysis",
   "navigation.project.group.architecture": "Architecture",
-  "navigation.project.group.enterprise_architecture": "Enterprise architecture",
+  "navigation.global.enterprise_architecture": "Enterprise architecture",
   "navigation.project.group.policies": "Policies",
   "navigation.project.group.project": "Project",
   "navigation.project.group.reporting": "Reporting",

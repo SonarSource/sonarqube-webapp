@@ -37,6 +37,8 @@ interface Props extends PropsWithChildren {
   hidePageHeader?: boolean;
   pageClassName?: string;
   scrollBehavior?: PageHeaderProps['scrollBehavior'];
+  /** Whether to skip wrapping the page content in a Layout.PageContent, for full-bleed pages */
+  skipPageContentWrapper?: boolean;
   title: string;
   width?: PageGridProps['width'];
 }
@@ -51,6 +53,7 @@ export const GlobalPageTemplate = forwardRef<HTMLDivElement, Props>(
       children,
       hidePageHeader = false,
       pageClassName,
+      skipPageContentWrapper = false,
       title,
       width = 'default',
       ...headerProps
@@ -72,7 +75,7 @@ export const GlobalPageTemplate = forwardRef<HTMLDivElement, Props>(
             />
           )}
 
-          <Layout.PageContent>{children}</Layout.PageContent>
+          {skipPageContentWrapper ? children : <Layout.PageContent>{children}</Layout.PageContent>}
 
           <GlobalFooter />
         </Layout.PageGrid>

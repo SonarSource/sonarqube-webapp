@@ -144,7 +144,7 @@ const ui = {
   reportingGroup: byText('navigation.project.group.reporting'),
   policiesGroup: byText('navigation.project.group.policies'),
   architectureGroup: byText('navigation.project.group.architecture'),
-  enterpriseArchitectureGroup: byText('navigation.project.group.enterprise_architecture'),
+  enterpriseArchitectureGroup: byText('navigation.global.enterprise_architecture'),
   administrationGroup: byText('layout.settings.VW'),
 };
 
