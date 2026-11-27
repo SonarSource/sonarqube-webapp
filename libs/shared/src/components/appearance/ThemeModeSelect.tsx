@@ -21,7 +21,7 @@
 import { SelectionCards } from '@sonarsource/echoes-react';
 import { useCallback } from 'react';
 import { useIntl } from 'react-intl';
-import { Image } from '~adapters/components/common/Image';
+import { Image } from '../common/Image';
 import { getBaseUrl } from '~adapters/helpers/system';
 import { useThemeMode } from '~adapters/helpers/useThemeMode';
 import { ThemeMode } from '../../types/themes';

@@ -19,7 +19,7 @@
  */
 
 import { BeforeHighlightContext, HighlightResult } from 'highlight.js';
-import { hljsIssueIndicatorPlugin, HljsIssueIndicatorPlugin } from '../HljsIssueIndicatorPlugin';
+import { hljsIssueIndicatorPlugin, HljsIssueIndicatorPlugin } from '../hljs-issue-indicator-plugin';
 
 describe('HljsIssueIndicatorPlugin', () => {
   it('should prepend to the line the issues that were found', () => {

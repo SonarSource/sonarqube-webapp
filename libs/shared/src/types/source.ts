@@ -39,3 +39,10 @@ export interface SourceLine {
 export interface SourceLineMap {
   [line: number]: SourceLine;
 }
+
+export interface TextRange {
+  endLine: number;
+  endOffset: number;
+  startLine: number;
+  startOffset: number;
+}

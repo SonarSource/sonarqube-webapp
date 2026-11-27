@@ -26,14 +26,14 @@ import {
   isStream,
 } from '@jupyterlab/nbformat';
 import classNames from 'classnames';
-import { isArray } from 'lodash';
+import { useIntl } from 'react-intl';
 import Markdown from 'react-markdown';
-import { Image } from '~adapters/components/common/Image';
-import { CodeSnippet } from '../../../design-system';
-import { translate } from '../../../helpers/l10n';
+import { HighlightedCodeSnippet } from '../code-snippet/HighlightedCodeSnippet';
+import { Image } from '../common/Image';
 
 export function JupyterMarkdownCell({ cell }: Readonly<{ cell: IMarkdownCell }>) {
-  const markdown = isArray(cell.source) ? cell.source.join('') : cell.source;
+  const markdown = Array.isArray(cell.source) ? cell.source.join('') : cell.source;
+
   return (
     <div className="sw:m-4 sw:ml-0">
       <Markdown>{markdown}</Markdown>
@@ -42,19 +42,21 @@ export function JupyterMarkdownCell({ cell }: Readonly<{ cell: IMarkdownCell }>)
 }
 
 function CellOutput({ output }: Readonly<{ output: IOutput }>) {
+  const { formatMessage } = useIntl();
+
   if (isExecuteResult(output) || isDisplayData(output)) {
     const components = Object.entries(output.data).map(([mimeType, dataValue], index) => {
-      if (mimeType === 'image/png') {
+      const bundle = Array.isArray(dataValue) ? dataValue.join('') : dataValue;
+
+      if (mimeType === 'image/png' && typeof bundle === 'string') {
         return (
           <Image
-            alt={translate('source_viewer.jupyter.output.image')}
+            alt={formatMessage({ id: 'source_viewer.jupyter.output.image' })}
             key={`${mimeType}_${index}`}
-            src={`data:image/png;base64,${dataValue}`}
+            src={`data:image/png;base64,${bundle}`}
           />
         );
       } else if (mimeType === 'text/plain') {
-        const bundle = isArray(dataValue) ? dataValue.join('') : dataValue;
-
         return (
           <pre key={`${mimeType}_${index}`}>
             {typeof bundle === 'string' ? bundle : JSON.stringify(bundle)}
@@ -65,25 +67,33 @@ function CellOutput({ output }: Readonly<{ output: IOutput }>) {
     });
     return <>{components}</>;
   } else if (isStream(output)) {
-    const text = isArray(output.text) ? output.text.join('') : output.text;
+    const text = Array.isArray(output.text) ? output.text.join('') : output.text;
+
     return <pre>{text}</pre>;
   }
   return null;
 }
 
-export function JupyterCodeCell(
-  props: Readonly<{
-    className?: string;
-    outputs?: IOutput[];
-    source: string[];
-  }>,
-) {
-  const { source, outputs, className } = props;
+export interface JupyterCodeCellProps {
+  className?: string;
+  htmlAsString: string;
+  outputs?: IOutput[];
+  source: string[];
+}
+
+export function JupyterCodeCell(props: Readonly<JupyterCodeCellProps>) {
+  const { className, htmlAsString, outputs, source } = props;
 
   return (
     <div className={classNames('sw:m-4 sw:ml-0', className)}>
       <div>
-        <CodeSnippet className="sw:p-4" language="python" noCopy snippet={source.join('')} wrap />
+        <HighlightedCodeSnippet
+          className="sw:p-4"
+          copyValue={source.join('')}
+          htmlAsString={htmlAsString}
+          noCopy
+          wrap
+        />
       </div>
       <div>
         {outputs?.map((output: IOutput, outputIndex: number) => (

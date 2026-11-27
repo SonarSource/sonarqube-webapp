@@ -18,7 +18,8 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Issue } from '../../types/types';
+import type { TextRange } from '../types/source';
+import { isDefined } from './types';
 
 type PathEntry =
   | {
@@ -34,7 +35,7 @@ type PathEntry =
       type: 'string';
     };
 
-export type PathToCursor = PathEntry[];
+type PathToCursor = PathEntry[];
 
 type ParseStepResult = {
   endIndex: number;
@@ -48,7 +49,8 @@ export class JsonIssueMapper {
    */
   static readonly TOKEN_LITERAL = 'tfnu'.split('');
 
-  static readonly TOKEN_SCOPE_ENTRY = `{["0123456789${JsonIssueMapper.TOKEN_LITERAL}`.split('');
+  static readonly TOKEN_SCOPE_ENTRY =
+    `{["0123456789${JsonIssueMapper.TOKEN_LITERAL.join(',')}`.split('');
 
   static readonly TOKEN_SCOPE_EXIT = ',}]'.split('');
 
@@ -141,7 +143,8 @@ export class JsonIssueMapper {
    */
   private parseObject(openBracketIndex: number): ParseStepResult {
     const keyResult = this.parseObjectKey(openBracketIndex);
-    if (typeof keyResult.key === 'undefined') {
+
+    if (!isDefined(keyResult.key)) {
       return keyResult;
     }
 
@@ -234,7 +237,7 @@ export class JsonIssueMapper {
     // Find the next key or end of object/array
     const separatorIndex = this.parseUntilToken(valueEnd + 1, JsonIssueMapper.TOKEN_SCOPE_EXIT);
 
-    // Cursor somewhere within the value?
+    // Check whether the cursor is within the value
     const found = this.cursorWithin(index, valueEnd);
     return {
       found,
@@ -365,22 +368,18 @@ function pathToCursorInCell(path: PathToCursor): {
   };
 }
 
-export function getOffsetsForIssue(issue: Issue, data: string) {
-  if (!issue.textRange) {
+export function getOffsetsForTextRange(textRange: TextRange | undefined, data: string) {
+  if (!textRange) {
     return { startOffset: null, endOffset: null };
   }
 
   const mapper = new JsonIssueMapper(data);
 
   const startOffset = pathToCursorInCell(
-    mapper.get(
-      mapper.lineOffsetToCursorPosition(issue.textRange.startLine, issue.textRange.startOffset),
-    ),
+    mapper.get(mapper.lineOffsetToCursorPosition(textRange.startLine, textRange.startOffset)),
   );
   const endOffset = pathToCursorInCell(
-    mapper.get(
-      mapper.lineOffsetToCursorPosition(issue.textRange.endLine, issue.textRange.endOffset),
-    ),
+    mapper.get(mapper.lineOffsetToCursorPosition(textRange.endLine, textRange.endOffset)),
   );
 
   return { startOffset, endOffset };

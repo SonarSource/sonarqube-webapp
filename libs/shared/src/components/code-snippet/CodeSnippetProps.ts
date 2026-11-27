@@ -18,9 +18,18 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-export interface CodeSnippetProps {
+export interface CodeSnippetPresentationProps {
   className?: string;
   copyAriaLabel?: string;
+  isOneLine?: boolean;
+  noCopy?: boolean;
+  wrap?: boolean | 'words';
+}
+
+export interface CodeSnippetProps extends CodeSnippetPresentationProps {
+  highlight?: boolean;
+  join?: string;
   language?: string;
-  snippet: string;
+  render?: string;
+  snippet: string | Array<string | undefined>;
 }

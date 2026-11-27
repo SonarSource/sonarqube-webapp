@@ -18,7 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { HighlightResult } from 'highlight.js';
+import type { HighlightResult } from 'highlight.js';
 
 export interface UnderlineRangePosition {
   cursorOffset: number;
@@ -33,11 +33,13 @@ interface UnderlineRange {
 /**
  * Plugin for HLJS to underline content.
  *
- * In order to underline code, the input source code must be preprocessed using the tokenize() method.
- * Then, the after hook will replace the tokens with the appropriate HTML markup to underline the content.
+ * In order to underline code, the input source code must be preprocessed using the tokenize()
+ * method.
+ * Then, the after hook will replace the tokens with the appropriate HTML markup to underline the
+ * content.
  */
 export class HljsUnderlinePlugin {
-  static readonly SPAN_REGEX = '<\\/?span[^>]*>';
+  static readonly SPAN_REGEX = String.raw`<\/?span[^>]*>`;
 
   static readonly TOKEN_PREFIX = 'SNR_TGXRJVF'; // Random string to avoid conflicts with real code
 
@@ -56,7 +58,8 @@ export class HljsUnderlinePlugin {
   static readonly CLOSE_TAG = '</span>';
 
   /**
-   * Add a pair of tokens to the source code to mark the start and end of the content to be underlined.
+   * Add a pair of tokens to the source code to mark the start and end of the content to be
+   * underlined.
    */
   tokenize(source: string[], ranges: UnderlineRange[]): string[] {
     // Order ranges by start position, ascending
@@ -67,7 +70,8 @@ export class HljsUnderlinePlugin {
       return a.start.line - b.start.line;
     });
 
-    // We want to merge overlapping ranges to ensure the underline markup doesn't intesect with itself in the after hook
+    // We want to merge overlapping ranges to ensure the underline markup doesn't intesect with
+    // itself in the after hook
     const simplifiedRanges: UnderlineRange[] = [];
     let currentRange = ranges[0];
     for (let i = 1; i < ranges.length; i++) {
@@ -171,7 +175,8 @@ export class HljsUnderlinePlugin {
   }
 
   /**
-   * Replace a pair of tokens and everything between with the appropriate HTML markup to underline the content.
+   * Replace a pair of tokens and everything between with the appropriate HTML markup to underline
+   * the content.
    */
   private replaceTokens(htmlMarkup: string, startTokenIndex: number) {
     const endTagIndex = htmlMarkup.indexOf(HljsUnderlinePlugin.TOKEN_END);

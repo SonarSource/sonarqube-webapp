@@ -21,7 +21,7 @@
 import { LogoSize } from '@sonarsource/echoes-react';
 import { useContext } from 'react';
 import { useIntl } from 'react-intl';
-import { Image } from '~adapters/components/common/Image';
+import { Image } from '~shared/components/common/Image';
 import { MainAppBar } from '~design-system';
 import { SonarQubeProductLogo } from '~sq-server-commons/components/branding/SonarQubeProductLogo';
 import { AppStateContext } from '~sq-server-commons/context/app-state/AppStateContext';

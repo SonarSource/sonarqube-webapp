@@ -20,7 +20,7 @@
 
 import { LinkHighlight, LinkStandalone, Text, TextSize } from '@sonarsource/echoes-react';
 import { useIntl } from 'react-intl';
-import { Image } from '~adapters/components/common/Image';
+import { Image } from '~shared/components/common/Image';
 import { useAlmIconSrc } from '~adapters/helpers/almIcons';
 import { getProjectOverviewUrl } from '~shared/helpers/urls';
 import { OnboardingAlm } from '~shared/types/onboarding';

@@ -20,7 +20,7 @@
 
 import { Button, ButtonVariety, IconDataUsage, TeachingBubble } from '@sonarsource/echoes-react';
 import { FormattedMessage, useIntl } from 'react-intl';
-import { Image } from '~adapters/components/common/Image';
+import { Image } from '~shared/components/common/Image';
 import { AnnouncementBubble } from '~shared/components/feature-communication/AnnouncementBubble';
 import { hasGlobalPermission } from '~sq-server-commons/helpers/users';
 import { Permissions } from '~sq-server-commons/types/permissions';

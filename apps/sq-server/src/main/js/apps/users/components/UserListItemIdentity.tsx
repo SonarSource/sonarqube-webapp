@@ -20,7 +20,7 @@
 
 import { Text } from '@sonarsource/echoes-react';
 import { FormattedMessage } from 'react-intl';
-import { Image } from '~adapters/components/common/Image';
+import { Image } from '~shared/components/common/Image';
 import { Badge, getTextColor } from '~design-system';
 import { useCurrentTheme } from '~shared/helpers/css';
 import { isDefined } from '~shared/helpers/types';

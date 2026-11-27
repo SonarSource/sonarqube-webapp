@@ -22,12 +22,13 @@ import { ICodeCell, INotebookContent, isCode } from '@jupyterlab/nbformat';
 import { Spinner } from '@sonarsource/echoes-react';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
-import { FlagMessage, hljsUnderlinePlugin, LineFinding } from '~design-system';
+import { FlagMessage, LineFinding } from '~design-system';
 import { IssueMessageHighlighting } from '~shared/components/issues/IssueMessageHighlighting';
 import { getBranchLikeQuery } from '~shared/helpers/branch-like';
+import { hljsUnderlinePlugin } from '~shared/helpers/hljs/hljs-underline-plugin';
 import { useRawSourceQuery } from '~sq-server-commons/queries/sources';
-import { JupyterCodeCell } from '~sq-server-commons/sonar-aligned/components/SourceViewer/JupyterNotebookViewer';
-import { getOffsetsForIssue } from '~sq-server-commons/sonar-aligned/helpers/json-issue-mapper';
+import { JupyterCodeCell } from '~adapters/components/source-viewer/JupyterNotebookViewer';
+import { getOffsetsForTextRange } from '~shared/helpers/json-issue-mapper';
 import { BranchLike } from '~sq-server-commons/types/branch-like';
 import { Issue } from '~sq-server-commons/types/types';
 
@@ -117,7 +118,7 @@ function processIssueForJupyterNotebook(
     return;
   }
 
-  const { startOffset, endOffset } = getOffsetsForIssue(issue, data);
+  const { startOffset, endOffset } = getOffsetsForTextRange(issue.textRange, data);
 
   if (!startOffset || !endOffset) {
     setRenderedCells(null);

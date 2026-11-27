@@ -25,22 +25,19 @@ import { createPortal } from 'react-dom';
 import { To } from 'react-router';
 import { useLocation, useRouter } from '~shared/components/hoc/withRouter';
 import { getBranchLikeQuery } from '~shared/helpers/branch-like';
-import { ComponentContext } from '../../context/componentContext/ComponentContext';
+import { hljsIssueIndicatorPlugin } from '~shared/helpers/hljs/hljs-issue-indicator-plugin';
 import {
-  Card,
-  FlagMessage,
-  hljsIssueIndicatorPlugin,
   hljsUnderlinePlugin,
-  UnderlineRangePosition,
-} from '../../design-system';
+  type UnderlineRangePosition,
+} from '~shared/helpers/hljs/hljs-underline-plugin';
+import { ComponentContext } from '../../context/componentContext/ComponentContext';
+import { Card, FlagMessage } from '../../design-system';
 import { translate } from '../../helpers/l10n';
 import { getIssuesUrl } from '../../helpers/urls';
 import { useRawSourceQuery } from '../../queries/sources';
-import {
-  JupyterCodeCell,
-  JupyterMarkdownCell,
-} from '../../sonar-aligned/components/SourceViewer/JupyterNotebookViewer';
-import { getOffsetsForIssue } from '../../sonar-aligned/helpers/json-issue-mapper';
+import { JupyterCodeCell } from '~adapters/components/source-viewer/JupyterNotebookViewer';
+import { JupyterMarkdownCell } from '~shared/components/source-viewer/JupyterNotebookViewer';
+import { getOffsetsForTextRange } from '~shared/helpers/json-issue-mapper';
 import { getComponentIssuesUrl } from '~shared/helpers/urls';
 import { BranchLike } from '../../types/branch-like';
 import { Component, Issue } from '../../types/types';
@@ -318,7 +315,7 @@ function processIssuesByCell(
       return;
     }
 
-    const { startOffset, endOffset } = getOffsetsForIssue(issue, data);
+    const { startOffset, endOffset } = getOffsetsForTextRange(issue.textRange, data);
 
     // failed to parse the issue offsets, skip the issue
     if (!startOffset || !endOffset) {

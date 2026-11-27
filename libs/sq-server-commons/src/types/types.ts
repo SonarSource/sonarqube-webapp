@@ -29,13 +29,13 @@ import { ComponentBase, ComponentConfiguration, ComponentQualifier } from '~shar
 import { IssueChangelogDiff } from '~shared/types/issue';
 import { Measure, MeasureEnhanced } from '~shared/types/measures';
 import { RuleDescriptionSection, RuleScope, RuleStatus, RuleType } from '~shared/types/rules';
-import type { SourceLine } from '~shared/types/source';
+import type { SourceLine, TextRange } from '~shared/types/source';
 import { DocTitleKey } from '../helpers/doc-links';
 import { MessageFormatting, RawIssue } from './issues';
 import { NewCodeDefinitionType } from './new-code-definition';
 import { UserActive, UserBase } from './users';
 
-export type { SourceLine, SourceLineCoverageStatus } from '~shared/types/source';
+export type { SourceLine, TextRange } from '~shared/types/source';
 
 export interface ApiError {
   message: string;
@@ -642,13 +642,6 @@ export interface TestCase {
   name: string;
   stacktrace?: string;
   status: string;
-}
-
-export interface TextRange {
-  endLine: number;
-  endOffset: number;
-  startLine: number;
-  startOffset: number;
 }
 
 export interface UserSelected extends UserActive {

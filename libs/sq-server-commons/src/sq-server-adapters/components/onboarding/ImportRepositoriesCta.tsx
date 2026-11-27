@@ -35,7 +35,7 @@ import { IMPORT_COMPATIBLE_ALMS } from '../../../helpers/constants';
 import { useAlmSettingsQuery } from '../../../queries/alm-settings';
 import { AlmKeys } from '../../../types/alm-settings';
 import { useAlmIconSrc } from '../../helpers/almIcons';
-import { Image } from '../common/Image';
+import { Image } from '~shared/components/common/Image';
 import { PermissionRequiredPopover } from './PermissionRequiredPopover';
 
 const ONBOARDING_DASHBOARD_PATH = '/admin/project-coverage';

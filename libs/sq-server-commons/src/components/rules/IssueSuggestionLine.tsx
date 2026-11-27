@@ -20,12 +20,9 @@
 
 import styled from '@emotion/styled';
 import { cssVar } from '@sonarsource/echoes-react';
-import {
-  CodeSyntaxHighlighter,
-  LineMeta,
-  LineStyled,
-  SuggestedLineWrapper,
-} from '../../design-system';
+import { HighlightedCode } from '~shared/components/code-snippet/HighlightedCode';
+import { LineMeta, LineStyled, SuggestedLineWrapper } from '../../design-system';
+import { highlightHtmlCode } from '../../helpers/highlightHtmlCode';
 import { LineTypeEnum } from '../../queries/fix-suggestions';
 
 type LineType = 'code' | 'added' | 'removed';
@@ -65,10 +62,11 @@ export function IssueSuggestionLine({
         {type === LineTypeEnum.CODE && (
           <LineCodeLayer className="sw:px-3">
             <LineCodePreFormatted>
-              <CodeSyntaxHighlighter
-                escapeDom={false}
-                htmlAsString={`<pre>${line}</pre>`}
-                language={language}
+              <HighlightedCode
+                htmlAsString={highlightHtmlCode(`<pre>${line}</pre>`, {
+                  escapeDom: false,
+                  language,
+                })}
               />
             </LineCodePreFormatted>
           </LineCodeLayer>
@@ -76,10 +74,11 @@ export function IssueSuggestionLine({
         {type === LineTypeEnum.REMOVED && (
           <RemovedLineLayer className="sw:px-3">
             <LineCodePreFormatted>
-              <CodeSyntaxHighlighter
-                escapeDom={false}
-                htmlAsString={`<pre>${line}</pre>`}
-                language={language}
+              <HighlightedCode
+                htmlAsString={highlightHtmlCode(`<pre>${line}</pre>`, {
+                  escapeDom: false,
+                  language,
+                })}
               />
             </LineCodePreFormatted>
           </RemovedLineLayer>
@@ -87,10 +86,11 @@ export function IssueSuggestionLine({
         {type === LineTypeEnum.ADDED && (
           <AddedLineLayer className="sw:px-3">
             <LineCodePreFormatted>
-              <CodeSyntaxHighlighter
-                escapeDom={false}
-                htmlAsString={`<pre>${line}</pre>`}
-                language={language}
+              <HighlightedCode
+                htmlAsString={highlightHtmlCode(`<pre>${line}</pre>`, {
+                  escapeDom: false,
+                  language,
+                })}
               />
             </LineCodePreFormatted>
           </AddedLineLayer>

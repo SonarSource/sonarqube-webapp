@@ -19,7 +19,7 @@
  */
 
 import * as React from 'react';
-import { Image } from '~adapters/components/common/Image';
+import { Image } from '~shared/components/common/Image';
 import { getTextColor } from '~design-system';
 import { useCurrentTheme } from '~shared/helpers/css';
 import { getIdentityProviders } from '~sq-server-commons/api/users';

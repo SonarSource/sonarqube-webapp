@@ -18,7 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { Image } from '~adapters/components/common/Image';
+import { Image } from '~shared/components/common/Image';
 import { useAlmIconSrc } from '~adapters/helpers/almIcons';
 import { translate, translateWithParameters } from '../../helpers/l10n';
 import { AlmKeys } from '../../types/alm-settings';

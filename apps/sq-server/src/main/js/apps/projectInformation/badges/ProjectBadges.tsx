@@ -33,7 +33,7 @@ import {
 import { isEmpty } from 'lodash';
 import { useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
-import { Image } from '~adapters/components/common/Image';
+import { Image } from '~shared/components/common/Image';
 import { CodeSnippet, FlagMessage } from '~design-system';
 import { getBranchLikeQuery } from '~shared/helpers/branch-like';
 import { isProject } from '~shared/helpers/component';

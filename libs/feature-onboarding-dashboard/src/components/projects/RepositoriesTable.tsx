@@ -33,7 +33,7 @@ import {
 } from '@sonarsource/echoes-react';
 import { ReactElement, ReactNode, useEffect, useMemo, useRef, useState } from 'react';
 import { useIntl } from 'react-intl';
-import { Image } from '~adapters/components/common/Image';
+import { Image } from '~shared/components/common/Image';
 import { useAlmIconSrc } from '~adapters/helpers/almIcons';
 import { useOnboardingRepositoriesQuery } from '~adapters/queries/onboarding';
 import {

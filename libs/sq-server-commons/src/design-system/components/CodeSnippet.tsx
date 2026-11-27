@@ -18,116 +18,40 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import styled from '@emotion/styled';
-import { cssVar } from '@sonarsource/echoes-react';
-import classNames from 'classnames';
 import { escape as lodashEscape } from 'lodash';
-import { ClipboardButton } from '~shared/components/clipboard';
-import { isDefined } from '~shared/helpers/types';
-import { CodeSyntaxHighlighter } from './CodeSyntaxHighlighter';
+import type { CodeSnippetProps } from '~shared/components/code-snippet/CodeSnippetProps';
+import { getCodeSnippetText } from '~shared/components/code-snippet/get-code-snippet-text';
+import { HighlightedCodeSnippet } from '~shared/components/code-snippet/HighlightedCodeSnippet';
+import { highlightHtmlCode } from '../../helpers/highlightHtmlCode';
 
-interface Props {
-  className?: string;
-  copyAriaLabel?: string;
-  isOneLine?: boolean;
-  join?: string;
-  language?: string;
-  noCopy?: boolean;
-  render?: string;
-  snippet: string | Array<string | undefined>;
-  wrap?: boolean | 'words';
-}
-
-// keep this "useless" concatenation for the readability reason
-// eslint-disable-next-line no-useless-concat
-const s = ' \\' + '\n  ';
-
-export function CodeSnippet(props: Readonly<Props>) {
+export function CodeSnippet(props: Readonly<CodeSnippetProps>) {
   const {
-    copyAriaLabel,
     className,
+    copyAriaLabel,
+    highlight,
     isOneLine,
-    join = s,
     language,
     noCopy,
     render,
-    snippet,
     wrap = false,
   } = props;
-  const snippetArray = Array.isArray(snippet) ? snippet.filter(isDefined) : [snippet];
-  const finalSnippet = isOneLine ? snippetArray.join(' ') : snippetArray.join(join);
 
-  const isSimpleOneLine = isOneLine && noCopy;
+  const finalSnippet = getCodeSnippetText(props);
 
-  const copyButton = isOneLine ? (
-    <StyledSingleLineClipboardButton ariaLabel={copyAriaLabel} copyValue={finalSnippet} />
-  ) : (
-    <StyledClipboardButton ariaLabel={copyAriaLabel} copyValue={finalSnippet} />
-  );
+  const snippetContent = render ?? lodashEscape(finalSnippet);
 
   const renderSnippet =
-    render ??
-    (wrap || isOneLine
-      ? `<code>${lodashEscape(finalSnippet)}</code>`
-      : `<pre>${lodashEscape(finalSnippet)}</pre>`);
+    wrap || isOneLine ? `<code>${snippetContent}</code>` : `<pre>${snippetContent}</pre>`;
 
   return (
-    <Wrapper
-      as={isSimpleOneLine ? 'span' : undefined}
-      className={classNames(
-        'sw:code',
-        {
-          'sw:py-6': isOneLine && !noCopy,
-          'code-snippet-highlighted-oneline': isOneLine,
-          'code-snippet-simple-oneline': isSimpleOneLine,
-        },
-        className,
-        'fs-mask',
-      )}
-    >
-      {!noCopy && copyButton}
-      <CodeSyntaxHighlighter
-        className={classNames('sw:overflow-auto', {
-          'sw:pr-24': !noCopy,
-          'sw:flex': !noCopy,
-        })}
-        htmlAsString={renderSnippet}
-        language={language}
-        wrap={wrap}
-      />
-    </Wrapper>
+    <HighlightedCodeSnippet
+      className={className}
+      copyAriaLabel={copyAriaLabel}
+      copyValue={finalSnippet}
+      htmlAsString={highlightHtmlCode(renderSnippet, { highlight, language })}
+      isOneLine={isOneLine}
+      noCopy={noCopy}
+      wrap={wrap}
+    />
   );
 }
-
-const Wrapper = styled.div`
-  background-color: ${cssVar('color-code-background-default')};
-  border: ${cssVar('border-width-default')} solid ${cssVar('color-code-border-default')};
-
-  border-radius: ${cssVar('border-radius-400', '0.5rem')};
-  position: relative;
-  margin-top: ${cssVar('dimension-space-100', '0.5rem')};
-  margin-bottom: ${cssVar('dimension-space-100', '0.5rem')};
-
-  &.code-snippet-simple-oneline {
-    margin-top: 0;
-    margin-bottom: 0;
-    border-radius: ${cssVar('border-radius-200', '0.25rem')};
-  }
-`;
-
-const StyledClipboardButton = styled(ClipboardButton)`
-  user-select: none;
-  font: ${cssVar('typography-text-default-regular')};
-  right: ${cssVar('dimension-space-300', '1.5rem')};
-  top: ${cssVar('dimension-space-300', '1.5rem')};
-  position: absolute;
-
-  .code-snippet-highlighted-oneline & {
-    bottom: ${cssVar('dimension-space-100', '0.5rem')};
-  }
-`;
-
-const StyledSingleLineClipboardButton = styled(StyledClipboardButton)`
-  bottom: ${cssVar('dimension-space-200', '1rem')};
-  top: ${cssVar('dimension-space-200', '1rem')};
-`;

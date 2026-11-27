@@ -30,7 +30,7 @@ import {
 import classNames from 'classnames';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
-import { Image } from '~adapters/components/common/Image';
+import { Image } from '~shared/components/common/Image';
 import { Checkbox, CheckIcon } from '~design-system';
 import { getProjectOverviewUrl } from '~shared/helpers/urls';
 

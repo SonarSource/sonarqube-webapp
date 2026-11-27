@@ -77,9 +77,12 @@ describe('JsonIssueMapper', () => {
         { type: 'string', index: 17 },
       ]);
 
-      const object = JSON.parse(fixtures['01-object-false-flags.json']);
-      const value = object['"{}}[]]].:-]\\\\'][0][0]['"{}}[]]].:-]\\\\'];
-      expect(value[17]).toEqual('u');
+      const object: unknown = JSON.parse(fixtures['01-object-false-flags.json']);
+
+      expect(object).toHaveProperty(
+        ['"{}}[]]].:-]\\\\', 0, 0, '"{}}[]]].:-]\\\\'],
+        expect.stringMatching(/^.{17}u/s),
+      );
     });
 
     it('detects cursor in empty strings', () => {

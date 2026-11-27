@@ -18,39 +18,28 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { screen } from '@testing-library/react';
-import { renderComponent } from '../../../../helpers/testReactTestingUtils';
-import { Image } from '../Image';
-
 import type { JSX } from 'react';
+import { getBaseUrl } from '~adapters/helpers/system';
+import { isDefined } from '../../helpers/types';
 
-describe('should render correctly', () => {
-  it('with a src', () => {
-    setupWithProps({
-      src: 'foo.png',
-    });
+export type ImageProps = JSX.IntrinsicElements['img'];
 
-    expect(screen.getByRole('img').outerHTML).toEqual('<img src="foo.png">');
-  });
+export function Image(props: Readonly<ImageProps>) {
+  const { alt, src: source, ...rest } = props;
 
-  it('with a src and alt', () => {
-    setupWithProps({
-      src: 'foo.png',
-      alt: 'bar',
-    });
+  const baseUrl = getBaseUrl();
 
-    expect(screen.getByRole('img').outerHTML).toEqual('<img alt="bar" src="foo.png">');
-  });
+  let src = source;
 
-  it('should strip beginning slashes', () => {
-    setupWithProps({
-      src: '/foo.png',
-    });
+  if (
+    isDefined(src) &&
+    !src.startsWith(baseUrl) &&
+    !src.startsWith('http') &&
+    !src.startsWith('data:')
+  ) {
+    src = `${baseUrl}/${src}`.replace(/(?<!:)\/+/g, '/');
+  }
 
-    expect(screen.getByRole('img').outerHTML).toEqual('<img src="/foo.png">');
-  });
-});
-
-function setupWithProps(props: Partial<Readonly<JSX.IntrinsicElements['img']>> = {}) {
-  return renderComponent(<Image {...props} />);
+  // eslint-disable-next-line react/forbid-elements
+  return <img alt={alt} src={src} {...rest} />;
 }

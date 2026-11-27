@@ -18,16 +18,21 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { BeforeHighlightContext, HighlightResult } from 'highlight.js';
+import type { BeforeHighlightContext, HighlightResult } from 'highlight.js';
 
 const BREAK_LINE_REGEXP = /\n/g;
 
 /**
  * Plugin for HLJS to add issue indicators to the code.
  *
- * In order to add issue indicators (sidebar with indicators to issue count on each line), the input source code must be preprocessed using the addIssuesToLines() method. This method will update the source code to prepend the list of issues key of this line.
- * Then, the `before` hook of the HLJS plugin will extract the issue keys from the source code, store them in memory for later use, and drop the issue keys token from the source code.
- * Finally, the `after` hook will add some HTML markup with a reference to the issue key in the transformed code source. The actual interactive issue indicators will be attached inside this HTML markup later on with a React Portal.
+ * In order to add issue indicators (sidebar with indicators to issue count on each line), the input
+ * source code must be preprocessed using the addIssuesToLines() method. This method will update the
+ * source code to prepend the list of issues key of this line.
+ * Then, the `before` hook of the HLJS plugin will extract the issue keys from the source code,
+ * store them in memory for later use, and drop the issue keys token from the source code.
+ * Finally, the `after` hook will add some HTML markup with a reference to the issue key in the
+ * transformed code source. The actual interactive issue indicators will be attached inside this
+ * HTML markup later on with a React Portal.
  *
  * Each line is wrapped with a div element that contains the issue indicators and the line content.
  */

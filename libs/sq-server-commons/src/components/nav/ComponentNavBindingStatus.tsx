@@ -21,7 +21,7 @@
 import { Button, IconLink, Spinner, Tooltip, TooltipSide } from '@sonarsource/echoes-react';
 import { ReactNode } from 'react';
 import { FormattedMessage } from 'react-intl';
-import { Image } from '~adapters/components/common/Image';
+import { Image } from '~shared/components/common/Image';
 import { useCurrentUser } from '~adapters/helpers/users';
 import { useCurrentBranchQuery } from '~adapters/queries/branch';
 import { isPullRequest } from '~shared/helpers/branch-like';

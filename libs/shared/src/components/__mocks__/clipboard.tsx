@@ -18,7 +18,14 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+import type { ComponentProps } from 'react';
 import { mockReactComponent } from '../../helpers/test-utils';
+import type { ClipboardButton as ClipboardButtonComponent } from '../clipboard';
 
 export const ClipboardIconButton = mockReactComponent('ClipboardIconButton', 'button');
-export const ClipboardButton = mockReactComponent('ClipboardButton', 'button');
+
+export const ClipboardButton = mockReactComponent<ComponentProps<typeof ClipboardButtonComponent>>(
+  'ClipboardButton',
+  'button',
+  ({ ariaLabel, ...props }) => ({ ...props, 'aria-label': ariaLabel }),
+);

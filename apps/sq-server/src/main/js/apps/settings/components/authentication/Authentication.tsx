@@ -23,7 +23,7 @@ import classNames from 'classnames';
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { useSearchParams } from 'react-router';
-import { Image } from '~adapters/components/common/Image';
+import { Image } from '~shared/components/common/Image';
 import { SubTitle, ToggleButton } from '~design-system';
 import { useCurrentTheme } from '~shared/helpers/css';
 import { searchParamsToQuery } from '~shared/helpers/router';

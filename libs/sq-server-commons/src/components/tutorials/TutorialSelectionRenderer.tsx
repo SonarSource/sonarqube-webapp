@@ -37,7 +37,7 @@ import { useCurrentTheme } from '~shared/helpers/css';
 import { GreyCard } from '../../design-system';
 import { almIconUrl } from '../../helpers/almIcons';
 import { getProjectTutorialLocation } from '../../helpers/urls';
-import { Image } from '../../sq-server-adapters/components/common/Image';
+import { Image } from '~shared/components/common/Image';
 import { AlmKeys, AlmSettingsInstance, ProjectAlmBindingResponse } from '../../types/alm-settings';
 import { MainBranch } from '../../types/branch-like';
 import { Component } from '../../types/types';

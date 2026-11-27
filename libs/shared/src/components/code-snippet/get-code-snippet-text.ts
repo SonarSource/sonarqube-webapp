@@ -18,6 +18,19 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-export { hljsIssueIndicatorPlugin } from './HljsIssueIndicatorPlugin';
-export { hljsUnderlinePlugin } from './HljsUnderlinePlugin';
-export type { UnderlineRangePosition } from './HljsUnderlinePlugin';
+import { isDefined } from '../../helpers/types';
+import type { CodeSnippetProps } from './CodeSnippetProps';
+
+// Keep this concatenation so the backslash and newline remain readable
+// eslint-disable-next-line no-useless-concat
+const DEFAULT_JOIN = ' \\' + '\n  ';
+
+export function getCodeSnippetText({
+  isOneLine,
+  join = DEFAULT_JOIN,
+  snippet,
+}: Readonly<Pick<CodeSnippetProps, 'isOneLine' | 'join' | 'snippet'>>) {
+  const snippetArray = Array.isArray(snippet) ? snippet.filter(isDefined) : [snippet];
+
+  return isOneLine ? snippetArray.join(' ') : snippetArray.join(join);
+}

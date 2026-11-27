@@ -20,7 +20,7 @@
 
 import styled from '@emotion/styled';
 import { cssVar } from '@sonarsource/echoes-react';
-import { Image } from '~adapters/components/common/Image';
+import { Image } from '~shared/components/common/Image';
 import { Button, ButtonProps } from './Button';
 
 interface ThirdPartyProps extends Omit<ButtonProps, 'Icon'> {

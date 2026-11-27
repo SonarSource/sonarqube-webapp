@@ -20,7 +20,7 @@
 
 import { Link, Text } from '@sonarsource/echoes-react';
 import { FormattedMessage } from 'react-intl';
-import { Image } from '~adapters/components/common/Image';
+import { Image } from '~shared/components/common/Image';
 import { getBranchLikeQuery } from '~shared/helpers/branch-like';
 import { getTabPanelId } from '~shared/helpers/tabs';
 import { ComponentQualifier } from '~shared/types/component';

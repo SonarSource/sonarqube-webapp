@@ -1,19 +1,51 @@
 // Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
-exports[`should highlight code content correctly 1`] = `
+exports[`copies a multiline snippet 1`] = `
 .emotion-0 {
   background-color: var(--echoes-color-code-background-default);
   border: var(--echoes-border-width-default) solid var(--echoes-color-code-border-default);
   border-radius: var(--echoes-border-radius-400, 0.5rem);
-  position: relative;
-  margin-top: var(--echoes-dimension-space-100, 0.5rem);
   margin-bottom: var(--echoes-dimension-space-100, 0.5rem);
+  margin-top: var(--echoes-dimension-space-100, 0.5rem);
+  padding-block: var(--echoes-dimension-space-300);
+  padding-left: var(--echoes-dimension-space-300);
+  position: relative;
+}
+
+.emotion-0.code-snippet-with-copy {
+  -webkit-align-items: start;
+  -webkit-box-align: start;
+  -ms-flex-align: start;
+  align-items: start;
+  -webkit-column-gap: var(--echoes-dimension-space-200);
+  column-gap: var(--echoes-dimension-space-200);
+  display: grid;
+  grid-template-columns: minmax(0,1fr) auto;
+  padding-right: var(--echoes-dimension-space-300);
+}
+
+.emotion-0.code-snippet-with-copy.code-snippet-highlighted-oneline {
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+
+.emotion-0.code-snippet-with-copy>.hljs {
+  grid-column: 1;
+  grid-row: 1;
+  min-width: 0;
+}
+
+.emotion-0.code-snippet-with-copy>.hljs:not(.code-wrap) {
+  white-space: pre;
 }
 
 .emotion-0.code-snippet-simple-oneline {
-  margin-top: 0;
-  margin-bottom: 0;
   border-radius: var(--echoes-border-radius-200, 0.25rem);
+  margin-bottom: 0;
+  margin-top: 0;
+  padding: 0;
 }
 
 .emotion-3 {
@@ -51,14 +83,13 @@ exports[`should highlight code content correctly 1`] = `
   --spinner-track-color-override: var(--echoes-color-border-bold);
   --button-padding: var(--echoes-dimension-space-150);
   --button-height: var(--echoes-sizes-buttons-large);
+  font: var(--echoes-typography-text-default-regular);
+  grid-column: 2;
+  grid-row: 1;
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
-  font: var(--echoes-typography-text-default-regular);
-  right: var(--echoes-dimension-space-300, 1.5rem);
-  top: var(--echoes-dimension-space-300, 1.5rem);
-  position: absolute;
 }
 
 .emotion-3:focus,
@@ -92,10 +123,6 @@ exports[`should highlight code content correctly 1`] = `
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
-}
-
-.code-snippet-highlighted-oneline .emotion-3 {
-  bottom: var(--echoes-dimension-space-100, 0.5rem);
 }
 
 .emotion-5 {
@@ -136,10 +163,35 @@ exports[`should highlight code content correctly 1`] = `
   text-wrap: nowrap;
 }
 
+.emotion-11.code-wrap {
+  display: block;
+  padding-block: var(--echoes-dimension-space-50, 0.25rem);
+  white-space: pre-wrap;
+  word-break: break-all;
+}
+
+.emotion-11.code-wrap.wrap-words {
+  overflow-wrap: break-word;
+  word-break: normal;
+}
+
+.emotion-11.code-wrap.simple-one-line,
+.code-snippet-simple-oneline .emotion-11.code-wrap {
+  display: inline;
+  padding-block: 0;
+}
+
+.emotion-11.simple-one-line,
+.code-snippet-simple-oneline .emotion-11 {
+  min-height: var(--echoes-dimension-height-500, 1.25rem);
+  padding-block: 0;
+  padding-inline: var(--echoes-dimension-space-50, 0.25rem);
+}
+
 .emotion-11 code {
-  font: var(--echoes-typography-code-default);
   background: var(--echoes-color-code-background-default);
   color: var(--echoes-color-code-text-default);
+  font: var(--echoes-typography-code-default);
 }
 
 .emotion-11 code.hljs {
@@ -159,14 +211,15 @@ exports[`should highlight code content correctly 1`] = `
 }
 
 .emotion-11 .hljs-comment {
-  font: var(--echoes-typography-code-comment);
   color: var(--echoes-color-code-text-comment);
+  font: var(--echoes-typography-code-comment);
 }
 
 .emotion-11 .hljs-keyword,
 .emotion-11 .hljs-tag,
 .emotion-11 .hljs-type {
   color: var(--echoes-color-code-text-keyword);
+  font: var(--echoes-typography-code-highlight);
 }
 
 .emotion-11 .hljs-literal,
@@ -183,287 +236,26 @@ exports[`should highlight code content correctly 1`] = `
 }
 
 .emotion-11 .sonar-underline {
-  -webkit-text-decoration: underline var(--code-viewer-issue-squiggle);
-  text-decoration: underline var(--code-viewer-issue-squiggle);
-  -webkit-text-decoration: underline var(--code-viewer-issue-squiggle) wavy;
-  text-decoration: underline var(--code-viewer-issue-squiggle) wavy;
-  text-decoration-thickness: 2px;
-  text-decoration-skip-ink: none;
-}
-
-.emotion-11.code-wrap {
-  white-space: pre-wrap;
-  word-break: break-all;
-}
-
-.emotion-11.code-wrap.wrap-words {
-  word-break: normal;
-  overflow-wrap: break-word;
-}
-
-.emotion-11 mark {
-  font-weight: var(--echoes-font-weight-regular);
-  padding: var(--echoes-dimension-space-50, 0.25rem);
-  border-radius: var(--echoes-border-radius-200, 0.25rem);
-  background-color: var(--echoes-color-code-background-highlight);
-  color: var(--echoes-color-code-text-highlight);
-}
-
-<div>
-  <div
-    class="sw:code fs-mask emotion-0 emotion-1"
-  >
-    <button
-      class="sw:select-none emotion-2 emotion-3 emotion-4"
-      data-state="closed"
-      type="button"
-    >
-      <span
-        class="emotion-5 emotion-6"
-      >
-        <span
-          aria-hidden="true"
-          class="emotion-7 emotion-8"
-        >
-          
-        </span>
-        <span
-          class="emotion-9 emotion-10"
-        >
-          copy
-        </span>
-      </span>
-    </button>
-    <span
-      class="hljs sw:overflow-auto sw:pr-24 sw:flex emotion-11 emotion-12"
-    >
-      <pre>
-        &lt;prop&gt;foobar&lt;prop&gt;
-      </pre>
-    </span>
-  </div>
-  <section
-    aria-atomic="false"
-    aria-label="toasts.keyboard_shortcut_aria_label alt+T"
-    aria-live="polite"
-    aria-relevant="additions text"
-    tabindex="-1"
-  />
-</div>
-`;
-
-exports[`should show full size when multiline with no editing 1`] = `
-.emotion-0 {
-  background-color: var(--echoes-color-code-background-default);
-  border: var(--echoes-border-width-default) solid var(--echoes-color-code-border-default);
-  border-radius: var(--echoes-border-radius-400, 0.5rem);
   position: relative;
-  margin-top: var(--echoes-dimension-space-100, 0.5rem);
-  margin-bottom: var(--echoes-dimension-space-100, 0.5rem);
-}
-
-.emotion-0.code-snippet-simple-oneline {
-  margin-top: 0;
-  margin-bottom: 0;
-  border-radius: var(--echoes-border-radius-200, 0.25rem);
-}
-
-.emotion-3 {
-  all: unset;
-  box-sizing: border-box;
-  display: -webkit-inline-box;
-  display: -webkit-inline-flex;
-  display: -ms-inline-flexbox;
-  display: inline-flex;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  padding: var(--echoes-dimension-space-0) var(--button-padding);
-  height: var(--button-height);
-  min-height: var(--button-height);
-  overflow: hidden;
-  font: var(--echoes-typography-others-label);
-  color: var(--button-color);
-  -webkit-text-decoration: none;
-  text-decoration: none;
-  background-color: var(--button-background);
-  border: var(--button-border);
-  border-radius: var(--echoes-border-radius-400);
-  outline: none;
-  cursor: pointer;
-  --button-color: var(--echoes-color-text-default);
-  --button-border: var(--echoes-color-border-bold) solid var(--echoes-border-width-default);
-  --button-background: var(--echoes-color-surface-default);
-  --button-background-hover: var(--echoes-color-surface-hover);
-  --button-background-active: var(--echoes-color-surface-active);
-  --button-background-focus: var(--echoes-color-surface-default);
-  --button-background-disabled: var(--echoes-color-surface-disabled);
-  --spinner-color-override: var(--echoes-color-icon-default);
-  --spinner-track-color-override: var(--echoes-color-border-bold);
-  --button-padding: var(--echoes-dimension-space-150);
-  --button-height: var(--echoes-sizes-buttons-large);
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-  font: var(--echoes-typography-text-default-regular);
-  right: var(--echoes-dimension-space-300, 1.5rem);
-  top: var(--echoes-dimension-space-300, 1.5rem);
-  position: absolute;
-}
-
-.emotion-3:focus,
-.emotion-3:focus-visible {
-  background-color: var(--button-background-focus);
-}
-
-.emotion-3:focus-visible {
-  outline: var(--echoes-color-focus-default) solid var(--echoes-focus-border-width-default);
-  outline-offset: var(--echoes-focus-border-offset-default);
-}
-
-.emotion-3:hover {
-  background-color: var(--button-background-hover);
-}
-
-.emotion-3:active {
-  background-color: var(--button-background-active);
-}
-
-.emotion-3:disabled,
-.emotion-3:disabled:has(:hover, :active, :focus, :focus-visible) {
-  color: var(--echoes-color-text-disabled);
-  background-color: var(--button-background-disabled);
-  --spinner-color-override: var(--echoes-color-icon-subtle);
-  --spinner-track-color-override: var(--echoes-color-border-weak);
-  border: none;
-  cursor: not-allowed;
-  pointer-events: none;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-}
-
-.code-snippet-highlighted-oneline .emotion-3 {
-  bottom: var(--echoes-dimension-space-100, 0.5rem);
-}
-
-.emotion-5 {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  gap: var(--echoes-dimension-space-75);
-  overflow: hidden;
-}
-
-.emotion-7 {
-  -moz-osx-font-smoothing: grayscale;
-  -webkit-font-smoothing: antialiased;
-  display: inline-block;
-  font-size: calc(1em + 4px);
-  font-style: normal;
-  font-weight: normal;
-  height: calc(2em - 16px);
-  line-height: calc(2em - 16px);
-  text-align: center;
-  vertical-align: bottom;
-  width: calc(2em - 16px);
-  font-family: 'Material Symbols Rounded';
-}
-
-.emotion-9 {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.emotion-9.emotion-9 * {
-  text-wrap: nowrap;
-}
-
-.emotion-11 code {
-  font: var(--echoes-typography-code-default);
-  background: var(--echoes-color-code-background-default);
-  color: var(--echoes-color-code-text-default);
-}
-
-.emotion-11 code.hljs {
-  padding: unset;
-}
-
-.emotion-11 .hljs-meta,
-.emotion-11 .hljs-variable {
-  color: var(--echoes-color-code-text-default);
-}
-
-.emotion-11 .hljs-doctag,
-.emotion-11 .hljs-title,
-.emotion-11 .hljs-title.class_,
-.emotion-11 .hljs-title.function_ {
-  color: var(--echoes-color-code-text-annotation);
-}
-
-.emotion-11 .hljs-comment {
-  font: var(--echoes-typography-code-comment);
-  color: var(--echoes-color-code-text-comment);
-}
-
-.emotion-11 .hljs-keyword,
-.emotion-11 .hljs-tag,
-.emotion-11 .hljs-type {
-  color: var(--echoes-color-code-text-keyword);
-}
-
-.emotion-11 .hljs-literal,
-.emotion-11 .hljs-number {
-  color: var(--echoes-color-code-text-constant);
-}
-
-.emotion-11 .hljs-string {
-  color: var(--echoes-color-code-text-string);
-}
-
-.emotion-11 .hljs-meta .hljs-keyword {
-  color: var(--echoes-color-code-text-preprocessing-directive);
-}
-
-.emotion-11 .sonar-underline {
   -webkit-text-decoration: underline var(--code-viewer-issue-squiggle);
   text-decoration: underline var(--code-viewer-issue-squiggle);
   -webkit-text-decoration: underline var(--code-viewer-issue-squiggle) wavy;
   text-decoration: underline var(--code-viewer-issue-squiggle) wavy;
-  text-decoration-thickness: 2px;
   text-decoration-skip-ink: none;
-}
-
-.emotion-11.code-wrap {
-  white-space: pre-wrap;
-  word-break: break-all;
-}
-
-.emotion-11.code-wrap.wrap-words {
-  word-break: normal;
-  overflow-wrap: break-word;
+  text-decoration-thickness: 2px;
 }
 
 .emotion-11 mark {
+  background-color: var(--echoes-color-code-background-highlight);
+  border-radius: var(--echoes-border-radius-200, 0.25rem);
+  color: var(--echoes-color-code-text-highlight);
   font-weight: var(--echoes-font-weight-regular);
   padding: var(--echoes-dimension-space-50, 0.25rem);
-  border-radius: var(--echoes-border-radius-200, 0.25rem);
-  background-color: var(--echoes-color-code-background-highlight);
-  color: var(--echoes-color-code-text-highlight);
 }
 
 <div>
   <div
-    class="sw:code fs-mask emotion-0 emotion-1"
+    class="sw:code code-snippet-with-copy fs-mask emotion-0 emotion-1"
   >
     <button
       class="sw:select-none emotion-2 emotion-3 emotion-4"
@@ -486,14 +278,14 @@ exports[`should show full size when multiline with no editing 1`] = `
         </span>
       </span>
     </button>
-    <span
-      class="hljs sw:overflow-auto sw:pr-24 sw:flex emotion-11 emotion-12"
+    <div
+      class="hljs sw:overflow-auto emotion-11 emotion-12"
     >
       <pre>
         foo
 bar
       </pre>
-    </span>
+    </div>
   </div>
   <section
     aria-atomic="false"
@@ -505,20 +297,52 @@ bar
 </div>
 `;
 
-exports[`should show reduced size when single line with no editing 1`] = `
+exports[`copies a single-line snippet 1`] = `
 .emotion-0 {
   background-color: var(--echoes-color-code-background-default);
   border: var(--echoes-border-width-default) solid var(--echoes-color-code-border-default);
   border-radius: var(--echoes-border-radius-400, 0.5rem);
-  position: relative;
-  margin-top: var(--echoes-dimension-space-100, 0.5rem);
   margin-bottom: var(--echoes-dimension-space-100, 0.5rem);
+  margin-top: var(--echoes-dimension-space-100, 0.5rem);
+  padding-block: var(--echoes-dimension-space-300);
+  padding-left: var(--echoes-dimension-space-300);
+  position: relative;
+}
+
+.emotion-0.code-snippet-with-copy {
+  -webkit-align-items: start;
+  -webkit-box-align: start;
+  -ms-flex-align: start;
+  align-items: start;
+  -webkit-column-gap: var(--echoes-dimension-space-200);
+  column-gap: var(--echoes-dimension-space-200);
+  display: grid;
+  grid-template-columns: minmax(0,1fr) auto;
+  padding-right: var(--echoes-dimension-space-300);
+}
+
+.emotion-0.code-snippet-with-copy.code-snippet-highlighted-oneline {
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+
+.emotion-0.code-snippet-with-copy>.hljs {
+  grid-column: 1;
+  grid-row: 1;
+  min-width: 0;
+}
+
+.emotion-0.code-snippet-with-copy>.hljs:not(.code-wrap) {
+  white-space: pre;
 }
 
 .emotion-0.code-snippet-simple-oneline {
-  margin-top: 0;
-  margin-bottom: 0;
   border-radius: var(--echoes-border-radius-200, 0.25rem);
+  margin-bottom: 0;
+  margin-top: 0;
+  padding: 0;
 }
 
 .emotion-3 {
@@ -556,16 +380,13 @@ exports[`should show reduced size when single line with no editing 1`] = `
   --spinner-track-color-override: var(--echoes-color-border-bold);
   --button-padding: var(--echoes-dimension-space-150);
   --button-height: var(--echoes-sizes-buttons-large);
+  font: var(--echoes-typography-text-default-regular);
+  grid-column: 2;
+  grid-row: 1;
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
-  font: var(--echoes-typography-text-default-regular);
-  right: var(--echoes-dimension-space-300, 1.5rem);
-  top: var(--echoes-dimension-space-300, 1.5rem);
-  position: absolute;
-  bottom: var(--echoes-dimension-space-200, 1rem);
-  top: var(--echoes-dimension-space-200, 1rem);
 }
 
 .emotion-3:focus,
@@ -599,10 +420,6 @@ exports[`should show reduced size when single line with no editing 1`] = `
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
-}
-
-.code-snippet-highlighted-oneline .emotion-3 {
-  bottom: var(--echoes-dimension-space-100, 0.5rem);
 }
 
 .emotion-5 {
@@ -643,10 +460,35 @@ exports[`should show reduced size when single line with no editing 1`] = `
   text-wrap: nowrap;
 }
 
+.emotion-11.code-wrap {
+  display: block;
+  padding-block: var(--echoes-dimension-space-50, 0.25rem);
+  white-space: pre-wrap;
+  word-break: break-all;
+}
+
+.emotion-11.code-wrap.wrap-words {
+  overflow-wrap: break-word;
+  word-break: normal;
+}
+
+.emotion-11.code-wrap.simple-one-line,
+.code-snippet-simple-oneline .emotion-11.code-wrap {
+  display: inline;
+  padding-block: 0;
+}
+
+.emotion-11.simple-one-line,
+.code-snippet-simple-oneline .emotion-11 {
+  min-height: var(--echoes-dimension-height-500, 1.25rem);
+  padding-block: 0;
+  padding-inline: var(--echoes-dimension-space-50, 0.25rem);
+}
+
 .emotion-11 code {
-  font: var(--echoes-typography-code-default);
   background: var(--echoes-color-code-background-default);
   color: var(--echoes-color-code-text-default);
+  font: var(--echoes-typography-code-default);
 }
 
 .emotion-11 code.hljs {
@@ -666,14 +508,15 @@ exports[`should show reduced size when single line with no editing 1`] = `
 }
 
 .emotion-11 .hljs-comment {
-  font: var(--echoes-typography-code-comment);
   color: var(--echoes-color-code-text-comment);
+  font: var(--echoes-typography-code-comment);
 }
 
 .emotion-11 .hljs-keyword,
 .emotion-11 .hljs-tag,
 .emotion-11 .hljs-type {
   color: var(--echoes-color-code-text-keyword);
+  font: var(--echoes-typography-code-highlight);
 }
 
 .emotion-11 .hljs-literal,
@@ -690,35 +533,26 @@ exports[`should show reduced size when single line with no editing 1`] = `
 }
 
 .emotion-11 .sonar-underline {
+  position: relative;
   -webkit-text-decoration: underline var(--code-viewer-issue-squiggle);
   text-decoration: underline var(--code-viewer-issue-squiggle);
   -webkit-text-decoration: underline var(--code-viewer-issue-squiggle) wavy;
   text-decoration: underline var(--code-viewer-issue-squiggle) wavy;
-  text-decoration-thickness: 2px;
   text-decoration-skip-ink: none;
-}
-
-.emotion-11.code-wrap {
-  white-space: pre-wrap;
-  word-break: break-all;
-}
-
-.emotion-11.code-wrap.wrap-words {
-  word-break: normal;
-  overflow-wrap: break-word;
+  text-decoration-thickness: 2px;
 }
 
 .emotion-11 mark {
+  background-color: var(--echoes-color-code-background-highlight);
+  border-radius: var(--echoes-border-radius-200, 0.25rem);
+  color: var(--echoes-color-code-text-highlight);
   font-weight: var(--echoes-font-weight-regular);
   padding: var(--echoes-dimension-space-50, 0.25rem);
-  border-radius: var(--echoes-border-radius-200, 0.25rem);
-  background-color: var(--echoes-color-code-background-highlight);
-  color: var(--echoes-color-code-text-highlight);
 }
 
 <div>
   <div
-    class="sw:code sw:py-6 code-snippet-highlighted-oneline fs-mask emotion-0 emotion-1"
+    class="sw:code code-snippet-highlighted-oneline code-snippet-with-copy fs-mask emotion-0 emotion-1"
   >
     <button
       class="sw:select-none emotion-2 emotion-3 emotion-4"
@@ -741,13 +575,309 @@ exports[`should show reduced size when single line with no editing 1`] = `
         </span>
       </span>
     </button>
-    <span
-      class="hljs sw:overflow-auto sw:pr-24 sw:flex emotion-11 emotion-12"
+    <div
+      class="hljs sw:overflow-auto emotion-11 emotion-12"
     >
       <code>
         foobar
       </code>
-    </span>
+    </div>
+  </div>
+  <section
+    aria-atomic="false"
+    aria-label="toasts.keyboard_shortcut_aria_label alt+T"
+    aria-live="polite"
+    aria-relevant="additions text"
+    tabindex="-1"
+  />
+</div>
+`;
+
+exports[`should highlight code content correctly 1`] = `
+.emotion-0 {
+  background-color: var(--echoes-color-code-background-default);
+  border: var(--echoes-border-width-default) solid var(--echoes-color-code-border-default);
+  border-radius: var(--echoes-border-radius-400, 0.5rem);
+  margin-bottom: var(--echoes-dimension-space-100, 0.5rem);
+  margin-top: var(--echoes-dimension-space-100, 0.5rem);
+  padding-block: var(--echoes-dimension-space-300);
+  padding-left: var(--echoes-dimension-space-300);
+  position: relative;
+}
+
+.emotion-0.code-snippet-with-copy {
+  -webkit-align-items: start;
+  -webkit-box-align: start;
+  -ms-flex-align: start;
+  align-items: start;
+  -webkit-column-gap: var(--echoes-dimension-space-200);
+  column-gap: var(--echoes-dimension-space-200);
+  display: grid;
+  grid-template-columns: minmax(0,1fr) auto;
+  padding-right: var(--echoes-dimension-space-300);
+}
+
+.emotion-0.code-snippet-with-copy.code-snippet-highlighted-oneline {
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+
+.emotion-0.code-snippet-with-copy>.hljs {
+  grid-column: 1;
+  grid-row: 1;
+  min-width: 0;
+}
+
+.emotion-0.code-snippet-with-copy>.hljs:not(.code-wrap) {
+  white-space: pre;
+}
+
+.emotion-0.code-snippet-simple-oneline {
+  border-radius: var(--echoes-border-radius-200, 0.25rem);
+  margin-bottom: 0;
+  margin-top: 0;
+  padding: 0;
+}
+
+.emotion-3 {
+  all: unset;
+  box-sizing: border-box;
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  padding: var(--echoes-dimension-space-0) var(--button-padding);
+  height: var(--button-height);
+  min-height: var(--button-height);
+  overflow: hidden;
+  font: var(--echoes-typography-others-label);
+  color: var(--button-color);
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  background-color: var(--button-background);
+  border: var(--button-border);
+  border-radius: var(--echoes-border-radius-400);
+  outline: none;
+  cursor: pointer;
+  --button-color: var(--echoes-color-text-default);
+  --button-border: var(--echoes-color-border-bold) solid var(--echoes-border-width-default);
+  --button-background: var(--echoes-color-surface-default);
+  --button-background-hover: var(--echoes-color-surface-hover);
+  --button-background-active: var(--echoes-color-surface-active);
+  --button-background-focus: var(--echoes-color-surface-default);
+  --button-background-disabled: var(--echoes-color-surface-disabled);
+  --spinner-color-override: var(--echoes-color-icon-default);
+  --spinner-track-color-override: var(--echoes-color-border-bold);
+  --button-padding: var(--echoes-dimension-space-150);
+  --button-height: var(--echoes-sizes-buttons-large);
+  font: var(--echoes-typography-text-default-regular);
+  grid-column: 2;
+  grid-row: 1;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.emotion-3:focus,
+.emotion-3:focus-visible {
+  background-color: var(--button-background-focus);
+}
+
+.emotion-3:focus-visible {
+  outline: var(--echoes-color-focus-default) solid var(--echoes-focus-border-width-default);
+  outline-offset: var(--echoes-focus-border-offset-default);
+}
+
+.emotion-3:hover {
+  background-color: var(--button-background-hover);
+}
+
+.emotion-3:active {
+  background-color: var(--button-background-active);
+}
+
+.emotion-3:disabled,
+.emotion-3:disabled:has(:hover, :active, :focus, :focus-visible) {
+  color: var(--echoes-color-text-disabled);
+  background-color: var(--button-background-disabled);
+  --spinner-color-override: var(--echoes-color-icon-subtle);
+  --spinner-track-color-override: var(--echoes-color-border-weak);
+  border: none;
+  cursor: not-allowed;
+  pointer-events: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.emotion-5 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  gap: var(--echoes-dimension-space-75);
+  overflow: hidden;
+}
+
+.emotion-7 {
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  display: inline-block;
+  font-size: calc(1em + 4px);
+  font-style: normal;
+  font-weight: normal;
+  height: calc(2em - 16px);
+  line-height: calc(2em - 16px);
+  text-align: center;
+  vertical-align: bottom;
+  width: calc(2em - 16px);
+  font-family: 'Material Symbols Rounded';
+}
+
+.emotion-9 {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.emotion-9.emotion-9 * {
+  text-wrap: nowrap;
+}
+
+.emotion-11.code-wrap {
+  display: block;
+  padding-block: var(--echoes-dimension-space-50, 0.25rem);
+  white-space: pre-wrap;
+  word-break: break-all;
+}
+
+.emotion-11.code-wrap.wrap-words {
+  overflow-wrap: break-word;
+  word-break: normal;
+}
+
+.emotion-11.code-wrap.simple-one-line,
+.code-snippet-simple-oneline .emotion-11.code-wrap {
+  display: inline;
+  padding-block: 0;
+}
+
+.emotion-11.simple-one-line,
+.code-snippet-simple-oneline .emotion-11 {
+  min-height: var(--echoes-dimension-height-500, 1.25rem);
+  padding-block: 0;
+  padding-inline: var(--echoes-dimension-space-50, 0.25rem);
+}
+
+.emotion-11 code {
+  background: var(--echoes-color-code-background-default);
+  color: var(--echoes-color-code-text-default);
+  font: var(--echoes-typography-code-default);
+}
+
+.emotion-11 code.hljs {
+  padding: unset;
+}
+
+.emotion-11 .hljs-meta,
+.emotion-11 .hljs-variable {
+  color: var(--echoes-color-code-text-default);
+}
+
+.emotion-11 .hljs-doctag,
+.emotion-11 .hljs-title,
+.emotion-11 .hljs-title.class_,
+.emotion-11 .hljs-title.function_ {
+  color: var(--echoes-color-code-text-annotation);
+}
+
+.emotion-11 .hljs-comment {
+  color: var(--echoes-color-code-text-comment);
+  font: var(--echoes-typography-code-comment);
+}
+
+.emotion-11 .hljs-keyword,
+.emotion-11 .hljs-tag,
+.emotion-11 .hljs-type {
+  color: var(--echoes-color-code-text-keyword);
+  font: var(--echoes-typography-code-highlight);
+}
+
+.emotion-11 .hljs-literal,
+.emotion-11 .hljs-number {
+  color: var(--echoes-color-code-text-constant);
+}
+
+.emotion-11 .hljs-string {
+  color: var(--echoes-color-code-text-string);
+}
+
+.emotion-11 .hljs-meta .hljs-keyword {
+  color: var(--echoes-color-code-text-preprocessing-directive);
+}
+
+.emotion-11 .sonar-underline {
+  position: relative;
+  -webkit-text-decoration: underline var(--code-viewer-issue-squiggle);
+  text-decoration: underline var(--code-viewer-issue-squiggle);
+  -webkit-text-decoration: underline var(--code-viewer-issue-squiggle) wavy;
+  text-decoration: underline var(--code-viewer-issue-squiggle) wavy;
+  text-decoration-skip-ink: none;
+  text-decoration-thickness: 2px;
+}
+
+.emotion-11 mark {
+  background-color: var(--echoes-color-code-background-highlight);
+  border-radius: var(--echoes-border-radius-200, 0.25rem);
+  color: var(--echoes-color-code-text-highlight);
+  font-weight: var(--echoes-font-weight-regular);
+  padding: var(--echoes-dimension-space-50, 0.25rem);
+}
+
+<div>
+  <div
+    class="sw:code code-snippet-with-copy fs-mask emotion-0 emotion-1"
+  >
+    <button
+      class="sw:select-none emotion-2 emotion-3 emotion-4"
+      data-state="closed"
+      type="button"
+    >
+      <span
+        class="emotion-5 emotion-6"
+      >
+        <span
+          aria-hidden="true"
+          class="emotion-7 emotion-8"
+        >
+          
+        </span>
+        <span
+          class="emotion-9 emotion-10"
+        >
+          copy
+        </span>
+      </span>
+    </button>
+    <div
+      class="hljs sw:overflow-auto emotion-11 emotion-12"
+    >
+      <pre>
+        &lt;prop&gt;foobar&lt;prop&gt;
+      </pre>
+    </div>
   </div>
   <section
     aria-atomic="false"

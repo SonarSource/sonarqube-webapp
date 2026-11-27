@@ -20,7 +20,7 @@
 
 import { LinkStandalone, Text } from '@sonarsource/echoes-react';
 import classNames from 'classnames';
-import { Image } from '~adapters/components/common/Image';
+import { Image } from '~shared/components/common/Image';
 import { useAlmIconSrc } from '~adapters/helpers/almIcons';
 import { Card } from '../../../design-system';
 import { translate } from '../../../helpers/l10n';

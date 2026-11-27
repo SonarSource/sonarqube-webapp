@@ -27,11 +27,12 @@ import {
   TextArea,
 } from '@sonarsource/echoes-react';
 import * as React from 'react';
-import { CodeSyntaxHighlighter } from '~design-system';
+import { HighlightedCode } from '~shared/components/code-snippet/HighlightedCode';
 import FormattingTips from '~shared/components/common/FormattingTips';
 import { SanitizeLevel } from '~shared/helpers/sanitize';
 import { RuleDetails } from '~shared/types/rules';
 import RuleTabViewer from '~sq-server-commons/components/rules/RuleTabViewer';
+import { highlightHtmlCode } from '~sq-server-commons/helpers/highlightHtmlCode';
 import { translate, translateWithParameters } from '~sq-server-commons/helpers/l10n';
 import { useUpdateRuleMutation } from '~sq-server-commons/queries/rules';
 import RemoveExtendedDescriptionModal from './RemoveExtendedDescriptionModal';
@@ -65,9 +66,8 @@ export default function RuleDetailsDescription(props: Readonly<Props>) {
     <div id="coding-rules-detail-description-extra">
       {ruleDetails.htmlNote !== undefined && (
         <HtmlFormatter className="sw:my-6">
-          <CodeSyntaxHighlighter
-            htmlAsString={ruleDetails.htmlNote}
-            language={ruleDetails.lang}
+          <HighlightedCode
+            htmlAsString={highlightHtmlCode(ruleDetails.htmlNote, { language: ruleDetails.lang })}
             sanitizeLevel={SanitizeLevel.USER_INPUT}
           />
         </HtmlFormatter>

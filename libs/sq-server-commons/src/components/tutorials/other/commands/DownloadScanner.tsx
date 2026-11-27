@@ -66,7 +66,6 @@ export default function DownloadScanner(props: Readonly<DownloadScannerProps>) {
           <CodeSnippet
             className="sw:p-4"
             language={os === OSs.Windows ? 'powershell' : 'bash'}
-            render={`<code>${getRemoteDownloadSnippet(os, arch)}</code>`}
             snippet={getRemoteDownloadSnippet(os, arch)}
             wrap
           />

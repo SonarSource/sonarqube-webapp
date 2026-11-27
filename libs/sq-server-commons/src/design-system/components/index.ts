@@ -37,7 +37,6 @@ export * from './code-line/LineStyles';
 export * from './code-line/LineToken';
 export * from './code-line/LineWrapper';
 export * from './CodeSnippet';
-export * from './CodeSyntaxHighlighter';
 export * from './ColorsLegend';
 export * from './CoverageIndicator';
 export * from './DonutChart';

@@ -18,26 +18,8 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-import { getBaseUrl } from '../../../helpers/system';
+export function decodeHtmlCode(escapedCode: string) {
+  const doc = new DOMParser().parseFromString(escapedCode, 'text/html');
 
-import type { JSX } from 'react';
-
-export function Image(props: Readonly<JSX.IntrinsicElements['img']>) {
-  const { alt, src: source, ...rest } = props;
-
-  const baseUrl = getBaseUrl();
-
-  let src = source;
-
-  if (
-    src !== undefined &&
-    !src.startsWith(baseUrl) &&
-    !src.startsWith('http') &&
-    !src.startsWith('data:')
-  ) {
-    src = `${baseUrl}/${src}`.replace(/(?<!:)\/+/g, '/');
-  }
-
-  // eslint-disable-next-line react/forbid-elements
-  return <img alt={alt} src={src} {...rest} />;
+  return doc.documentElement.textContent ?? '';
 }

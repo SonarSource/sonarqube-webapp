@@ -36,7 +36,7 @@ import {
 import { CSSProperties } from 'react';
 import { useIntl } from 'react-intl';
 import { Path } from 'react-router';
-import { Image } from '~adapters/components/common/Image';
+import { Image } from '~shared/components/common/Image';
 import { useAlmIconSrc } from '~adapters/helpers/almIcons';
 import { toDisplayPercent } from '~shared/helpers/onboarding/percent';
 import {

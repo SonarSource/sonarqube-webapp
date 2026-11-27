@@ -19,7 +19,7 @@
  */
 
 import { HighlightResult } from 'highlight.js';
-import { HljsUnderlinePlugin, hljsUnderlinePlugin } from '../HljsUnderlinePlugin';
+import { HljsUnderlinePlugin, hljsUnderlinePlugin } from '../hljs-underline-plugin';
 
 const START_TOKEN = HljsUnderlinePlugin.TOKEN_START;
 const END_TOKEN = HljsUnderlinePlugin.TOKEN_END;

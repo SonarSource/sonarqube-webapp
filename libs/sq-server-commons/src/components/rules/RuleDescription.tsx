@@ -21,13 +21,15 @@
 import styled from '@emotion/styled';
 import { cssVar } from '@sonarsource/echoes-react';
 import * as React from 'react';
+import { HighlightedCode } from '~shared/components/code-snippet/HighlightedCode';
 import { HtmlFormatter } from '~shared/components/typography/HtmlFormatter';
 import { enforceMinHeadingLevel } from '~shared/helpers/headings';
 import { SanitizeLevel } from '~shared/helpers/sanitize';
 import { isDefined } from '~shared/helpers/types';
 import { RuleDescriptionSection, RuleDescriptionSections } from '~shared/types/rules';
-import { CodeSyntaxHighlighter, FlagMessage, ToggleButton } from '../../design-system';
+import { FlagMessage, ToggleButton } from '../../design-system';
 import applyCodeDifferences from '../../helpers/code-difference';
+import { highlightHtmlCode } from '../../helpers/highlightHtmlCode';
 import { translate, translateWithParameters } from '../../helpers/l10n';
 import OtherContextOption from './OtherContextOption';
 
@@ -131,10 +133,9 @@ export default function RuleDescription({
           </h2>
         )}
         {isDefined(introductionSection) && (
-          <CodeSyntaxHighlighter
+          <HighlightedCode
             className="rule-desc"
-            htmlAsString={introductionSection}
-            language={language}
+            htmlAsString={highlightHtmlCode(introductionSection, { language })}
             sanitizeLevel={SanitizeLevel.FORBID_SVG_MATHML}
           />
         )}
@@ -170,9 +171,8 @@ export default function RuleDescription({
         {selectedContext.key === OTHERS_KEY ? (
           <OtherContextOption />
         ) : (
-          <CodeSyntaxHighlighter
-            htmlAsString={selectedContext.content}
-            language={language}
+          <HighlightedCode
+            htmlAsString={highlightHtmlCode(selectedContext.content, { language })}
             sanitizeLevel={SanitizeLevel.FORBID_SVG_MATHML}
           />
         )}
@@ -189,17 +189,15 @@ export default function RuleDescription({
       }}
     >
       {isDefined(introductionSection) && (
-        <CodeSyntaxHighlighter
+        <HighlightedCode
           className="rule-desc"
-          htmlAsString={introductionSection}
-          language={language}
+          htmlAsString={highlightHtmlCode(introductionSection, { language })}
           sanitizeLevel={SanitizeLevel.FORBID_SVG_MATHML}
         />
       )}
 
-      <CodeSyntaxHighlighter
-        htmlAsString={sections[0].content}
-        language={language}
+      <HighlightedCode
+        htmlAsString={highlightHtmlCode(sections[0].content, { language })}
         sanitizeLevel={SanitizeLevel.FORBID_SVG_MATHML}
       />
     </StyledHtmlFormatter>

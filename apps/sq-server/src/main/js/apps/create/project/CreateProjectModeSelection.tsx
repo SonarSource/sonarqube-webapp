@@ -31,7 +31,7 @@ import {
 } from '@sonarsource/echoes-react';
 import { useContext, useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
-import { Image } from '~adapters/components/common/Image';
+import { Image } from '~shared/components/common/Image';
 import { useCurrentTheme } from '~shared/helpers/css';
 import AlmSettingsInstanceSelector from '~sq-server-commons/components/devops-platform/AlmSettingsInstanceSelector';
 import withAppStateContext from '~sq-server-commons/context/app-state/withAppStateContext';

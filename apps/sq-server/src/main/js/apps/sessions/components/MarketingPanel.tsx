@@ -21,7 +21,7 @@
 import styled from '@emotion/styled';
 import { cssVar, Heading, Spinner } from '@sonarsource/echoes-react';
 import { FormattedMessage, useIntl } from 'react-intl';
-import { Image } from '~adapters/components/common/Image';
+import { Image } from '~shared/components/common/Image';
 import { SafeHTMLInjection, SanitizeLevel } from '~shared/helpers/sanitize';
 import { useLoginMessageQuery } from '~sq-server-commons/queries/settings';
 

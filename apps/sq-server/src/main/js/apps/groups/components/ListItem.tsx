@@ -27,7 +27,7 @@ import {
   Spinner,
 } from '@sonarsource/echoes-react';
 import { useState } from 'react';
-import { Image } from '~adapters/components/common/Image';
+import { Image } from '~shared/components/common/Image';
 import { ContentCell, NumericalCell, TableRow } from '~design-system';
 import { useGroupMembersCountQuery } from '~sq-server-commons/queries/group-memberships';
 import { Group, Provider } from '~sq-server-commons/types/types';
